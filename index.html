@@ -941,6 +941,30 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
 .bubble blockquote.chat{font-style:normal;font-size:clamp(18px,2.2vw,22px)}
 .bubble .gest{font-style:italic;color:color-mix(in srgb,var(--ink) 55%,var(--aura));font-size:15px;margin-top:2px}
 @media (prefers-reduced-motion:reduce){.bubble .wd{animation:none;opacity:1;filter:none;transform:none}.runes text,.runes circle,.bubglow,.famhalo{animation:none}}
+.casebtns .casetoggle[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.decorpanel{width:100%;max-width:1080px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--gold) 50%,var(--line));border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow),0 0 22px color-mix(in srgb,var(--gold) 14%,transparent)}
+.decorpanel[hidden]{display:none!important}
+.dhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}.dhead h3{font-family:var(--f-display);font-size:22px;font-style:italic}.dhead .note{margin:2px 0 0}
+.dacts2{display:flex;gap:6px;flex-wrap:wrap}
+.dcat .label{display:block;margin-bottom:6px}
+.dtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.dtile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px 6px;border-radius:12px;border:1px solid var(--line);background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--gold) 10%,transparent),transparent 70%),linear-gradient(180deg,var(--wood3,#2E1A0D),var(--night,#24170F));cursor:grab;color:#F3E6CC;font:inherit}
+.dtile small{font-size:11.5px;line-height:1.15;text-align:center;opacity:.9}
+.dtile[aria-pressed="true"]{border-color:var(--gold2);box-shadow:0 0 0 2px var(--gold2),0 0 18px color-mix(in srgb,var(--gold2) 50%,transparent)}
+.dprev{height:62px;display:flex;align-items:flex-end;justify-content:center;pointer-events:none}
+.dprev .trinket{transform:scale(.72);transform-origin:50% 100%;margin:0}
+#bookcase.decorating .trinket{pointer-events:auto;cursor:grab;outline:1px dashed color-mix(in srgb,var(--gold2) 55%,transparent);outline-offset:3px;border-radius:6px}
+#bookcase.decorating .trinket:hover{transform:translateY(-3px);transition:transform .2s}
+.tdel{position:absolute;top:-10px;right:-10px;z-index:5;width:22px;height:22px;border-radius:50%;border:1px solid #fff4;background:#8C2F2A;color:#fff;font-size:11px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.dslot{flex:0 0 auto;align-self:center;width:22px;height:22px;margin:0 1px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--gold2) 70%,transparent);background:rgba(255,220,150,.08);color:var(--gold2);font-size:14px;line-height:1;display:grid;place-items:center;cursor:pointer;opacity:.55;transition:transform .2s,opacity .2s}
+.dslot:hover,.dslot.hot{opacity:1;transform:scale(1.25);background:rgba(255,220,150,.25)}
+.dslot.ready,#bookcase.placing .dslot{opacity:.95;box-shadow:0 0 10px rgba(255,210,120,.6);animation:slotpulse 1.6s ease-in-out infinite}
+@keyframes slotpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.trinket::after{content:"";position:absolute;left:12%;right:12%;bottom:-2px;height:5px;border-radius:50%;background:rgba(0,0,0,.35);filter:blur(2px);z-index:0}
+.trinket .breath{transform-box:fill-box;transform-origin:50% 100%;animation:breathe 4s ease-in-out infinite}
+.trinket .zz{animation:zz 3s ease-in-out infinite}.trinket .z2{animation-delay:1.2s}
+@keyframes zz{0%{opacity:0;transform:translate(0,4px)}40%{opacity:1}100%{opacity:0;transform:translate(4px,-6px)}}
+@media (max-width:600px){.dtiles{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}.dslot{width:20px;height:20px}}
 </style>
 </head>
 <body>
@@ -986,8 +1010,9 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   </section>
   <div class="casebar">
     <div class="casehint">Tap a spine to open it · drag it along a shelf to rearrange · drag it to another shelf to move it</div>
-    <div class="casebtns"><button class="btn small casetoggle" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel">⚙ Customise bookcase</button><button class="btn small casetoggle" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel"><span class="lgdots" aria-hidden="true"><i></i><i></i><i></i></span> Genre colours</button></div>
+    <div class="casebtns"><button class="btn small casetoggle" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel">⚙ Customise bookcase</button><button class="btn small casetoggle" type="button" id="decor-toggle" aria-pressed="false">✎ Decorate shelves</button><button class="btn small casetoggle" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel"><span class="lgdots" aria-hidden="true"><i></i><i></i><i></i></span> Genre colours</button></div>
     <div class="legendpanel" id="legend-panel" hidden></div>
+    <div class="decorpanel" id="decor-panel" hidden></div>
     <div class="casepanel" id="case-panel" hidden>
       <section class="cp"><h3>Theme</h3><div class="themetiles" id="case-theme"><button type="button" class="ttile" data-case="library" style="--w:#6E4427;--n:#2E1A0D;--l:#FFD98A"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Enchanted library</span></button><button type="button" class="ttile" data-case="witch" style="--w:#3E2C4E;--n:#160E1F;--l:#CDB0FF"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Moonlit witch</span></button><button type="button" class="ttile" data-case="elven" style="--w:#A8936A;--n:#152219;--l:#DDFF9E"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Elven grove</span></button><button type="button" class="ttile" data-case="dragon" style="--w:#5E2618;--n:#190905;--l:#FF9B4A"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Dragon's hoard</span></button><button type="button" class="ttile" data-case="observatory" style="--w:#253556;--n:#09101E;--l:#B2D6FF"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Starlit observatory</span></button></div></section>
       <section class="cp"><h3>Arrange shelves by</h3><div class="chipset" id="arrange-chips"><button type="button" data-arr="custom">My own order</button><button type="button" data-arr="date">Date</button><button type="button" data-arr="title">Title</button><button type="button" data-arr="author">Author</button><button type="button" data-arr="genre">Genre</button><button type="button" data-arr="series">Series</button><button type="button" data-arr="color">Rainbow</button><button type="button" data-arr="size">Size</button><button type="button" data-arr="rating">Rating</button></div><p class="note">Dragging a book along a shelf switches to <i>My own order</i>.</p></section>
@@ -1078,6 +1103,32 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     if (!lsSet(KEY, books)) toast("Couldn't save. Your browser storage may be full or turned off.");
     lsSet(KEY_DEL, deleted);
     if (changed) window.__ledgerSync?.schedule();
+    mirrorSave();
+  }
+  // a second copy of the library in IndexedDB, and a request that the browser never clears this site's storage
+  const IDB = {
+    db: null,
+    open(){ if (this.db) return Promise.resolve(this.db); return new Promise((res, rej) => { try { const r = indexedDB.open("my-book-nook", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => { this.db = r.result; res(r.result); }; r.onerror = () => rej(r.error); } catch (e) { rej(e); } }); },
+    async get(k){ try { const db = await this.open(); return await new Promise(res => { const q = db.transaction("kv").objectStore("kv").get(k); q.onsuccess = () => res(q.result); q.onerror = () => res(null); }); } catch { return null; } },
+    async set(k, v){ try { const db = await this.open(); return await new Promise(res => { const t = db.transaction("kv", "readwrite"); t.objectStore("kv").put(v, k); t.oncomplete = () => res(true); t.onerror = () => res(false); }); } catch { return false; } },
+  };
+  let mirrorT = null, persistAsked = false;
+  function mirrorSave(){
+    clearTimeout(mirrorT);
+    mirrorT = setTimeout(() => { if (books.length || Object.keys(deleted).length) IDB.set("library", { books, deleted, t: Date.now() }); }, 600);
+    if (!persistAsked && books.length) { persistAsked = true; try { navigator.storage?.persist?.(); } catch {} }
+  }
+  async function rescueLibrary(){
+    if (books.length) return;
+    const copy = await IDB.get("library");
+    if (copy?.books?.length && !books.length) { books = copy.books; deleted = copy.deleted || {}; snap = null; save({ stamp: false }); render(); toast(`Brought back your ${books.length} books from this device's safety copy.`, 5000); }
+  }
+  function protectNudge(){
+    if (books.length < 5 || lsGet("reading-ledger-sync", null)) return;
+    const last = lsGet("reading-ledger-lastbackup", 0), nudged = lsGet("reading-ledger-nudged", 0);
+    if (Date.now() - last < 30 * 864e5 || Date.now() - nudged < 7 * 864e5) return;
+    lsSet("reading-ledger-nudged", Date.now());
+    setTimeout(() => toast("Your books live only on this device. Turn on ☁ sync or save a backup so they can never be lost.", 7000), 2500);
   }
   function upsert(b){ const i = books.findIndex(x => x.id === b.id); i >= 0 ? books[i] = b : books.push(b); save(); render(); }
   function removeBook(id){ books = books.filter(b => b.id !== id); save(); render(); }
@@ -1598,6 +1649,67 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   }
   $("#season-btn").addEventListener("click", openSeasonPicker);
   applySeason();
+  // ================= more trinkets =================
+  Object.assign(TRINKETS, {
+    teapot: () => `<div class="trinket" style="width:62px;height:50px" aria-hidden="true"><svg viewBox="0 0 62 50" width="62" height="50">
+      <g class="steam" fill="none" stroke="rgba(255,250,240,.7)" stroke-width="1.8" stroke-linecap="round"><path d="M50 10c-4-4 2-6-1-10"/><path d="M55 12c-4-4 2-6-1-10"/></g>
+      <path d="M44 24q10-6 12-14l3 2q-2 12-13 18z" fill="#2E5E6E"/><path d="M14 24q-12 0-10 10q2 7 12 6" fill="none" stroke="#2E5E6E" stroke-width="4"/>
+      <ellipse cx="30" cy="34" rx="18" ry="14" fill="#3E7A8C"/><ellipse cx="30" cy="22" rx="12" ry="3.5" fill="#2E5E6E"/><path d="M24 18q6-8 12 0z" fill="#2E5E6E"/><circle cx="30" cy="12" r="2.6" fill="#E9C36A"/>
+      <path d="M18 34q12 6 24 0" stroke="#F3E6C8" stroke-width="2" fill="none"/>${[22, 30, 38].map(x => `<circle cx="${x}" cy="31" r="1.6" fill="#F3E6C8"/>`).join("")}<ellipse cx="22" cy="28" rx="4" ry="2.2" fill="#fff" opacity=".3"/>
+      <ellipse cx="30" cy="48" rx="20" ry="2.5" fill="#1F3E48"/></svg></div>`,
+    sleepcat: () => `<div class="trinket" style="width:70px;height:40px" aria-hidden="true"><svg viewBox="0 0 70 40" width="70" height="40">
+      <g class="breath"><path d="M8 38q-4-16 14-20q12-3 22 0q16 4 16 20z" fill="#3A2E3E"/><path d="M50 36q16 2 14-10q-1-6-6-4" stroke="#3A2E3E" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="17" cy="26" r="10" fill="#3A2E3E"/><path d="M9 20l-1-9 7 5zM22 17l4-8 2 9z" fill="#3A2E3E"/><path d="M10 19l0-5 3 3zM23 16l2-4 1 5z" fill="#C88AA8"/>
+      <path d="M11 27q2 2 4 0M18 27q2 2 4 0" stroke="#F0D9A0" stroke-width="1.2" fill="none" stroke-linecap="round"/><circle cx="16.5" cy="30" r="1" fill="#E79AB4"/></g>
+      <text x="28" y="12" font-size="8" fill="#E9D9BE" class="zz">z</text><text x="34" y="7" font-size="6" fill="#E9D9BE" class="zz z2">z</text></svg></div>`,
+    fairyjar: () => `<div class="trinket" style="width:40px;height:66px" aria-hidden="true">${glowDiv(-16, 4, 72, "pulse")}<svg viewBox="0 0 40 66" width="40" height="66">
+      <path d="M12 6h16v6H12z" fill="#8A5A34"/><path d="M14 2q6-3 12 0" stroke="#C9A36A" stroke-width="1.5" fill="none"/><path d="M9 14h22q3 4 3 10v30a8 8 0 0 1-8 8H14a8 8 0 0 1-8-8V24q0-6 3-10z" fill="rgba(220,240,255,.16)" stroke="rgba(240,250,255,.6)" stroke-width="1.4"/>
+      ${[[16, 34], [24, 28], [20, 46], [27, 42], [13, 50]].map(([x, y], i) => `<circle class="ff" cx="${x}" cy="${y}" r="${i % 2 ? 1.6 : 2.2}" fill="#FFF3A0" style="animation-delay:${i * .45}s"/><circle class="ff" cx="${x}" cy="${y}" r="5" fill="#FFE97A" opacity=".25" style="animation-delay:${i * .45}s"/>`).join("")}
+      <path d="M11 20v28" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/></svg></div>`,
+    inkquill: () => `<div class="trinket" style="width:44px;height:70px" aria-hidden="true"><svg viewBox="0 0 44 70" width="44" height="70">
+      <path d="M30 4q12 10 4 34l-12 18q2-22 8-52z" fill="#F4EAD8"/><path d="M30 4q-4 24-8 52" stroke="#C9B48E" stroke-width="1" fill="none"/>${[14, 20, 26, 32].map(y => `<path d="M${29 - y / 10} ${y}l6-3" stroke="#D8C8A8" stroke-width=".8"/>`).join("")}
+      <path d="M8 50h24l-2 16H10z" fill="#24304A"/><ellipse cx="20" cy="50" rx="12" ry="3" fill="#3A4A6A"/><ellipse cx="20" cy="50" rx="7" ry="1.6" fill="#0E1220"/><path d="M12 56h16" stroke="#C9A36A" stroke-width="1.2"/></svg></div>`,
+    lavender: () => `<div class="trinket" style="width:44px;height:90px" aria-hidden="true"><svg viewBox="0 0 44 90" width="44" height="90"><g class="sway">
+      ${[[14, 8, -8], [22, 2, 0], [30, 8, 8], [18, 14, -4], [27, 16, 5]].map(([x, y, r]) => `<g transform="rotate(${r} 22 62)"><path d="M${x} ${y + 8}L22 62" stroke="#6E8B4A" stroke-width="1.2"/>${[0, 5, 10, 15, 20].map(d => `<ellipse cx="${x}" cy="${y + d}" rx="2.4" ry="3" fill="${d % 10 ? "#9C7AC8" : "#B49ADC"}"/>`).join("")}</g>`).join("")}</g>
+      <path d="M12 60h20l-2 28H14z" fill="#E9DFCF"/><path d="M12 60h20" stroke="#C9B48E" stroke-width="2.4"/><path d="M14 70h16" stroke="#9C7AC8" stroke-width="2"/></svg></div>`,
+    crystalball: () => { const id = "cb" + (++tUid); return `<div class="trinket" style="width:48px;height:62px" aria-hidden="true">${glowDiv(-12, -8, 72, "pulse")}<svg viewBox="0 0 48 62" width="48" height="62">
+      <defs><radialGradient id="${id}" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#E8DEFF"/><stop offset=".5" stop-color="#9C7AE0"/><stop offset="1" stop-color="#3A2A6E"/></radialGradient></defs>
+      <circle cx="24" cy="24" r="20" fill="url(#${id})"/><g class="swirl"><path d="M14 26q6-10 14-4q6 6-2 10" stroke="rgba(255,255,255,.55)" stroke-width="1.6" fill="none"/></g><ellipse cx="17" cy="15" rx="5" ry="3" fill="#fff" opacity=".55"/>
+      <path d="M10 44q14 6 28 0l3 12H7z" fill="#8A5A34"/><path d="M7 56h34v4H7z" fill="#6B4021"/><path d="M14 48h20" stroke="#C9A36A" stroke-width="1.2"/></svg></div>`; },
+    fern: () => `<div class="trinket" style="width:60px;height:80px" aria-hidden="true"><svg viewBox="0 0 60 80" width="60" height="80"><g class="sway">
+      ${[[-50, 30], [-25, 34], [0, 36], [25, 34], [50, 30]].map(([r, l]) => `<g transform="rotate(${r} 30 56)"><path d="M30 56V${56 - l}" stroke="#3E6B34" stroke-width="1.6"/>${Array.from({ length: 6 }, (_, i) => `<path d="M30 ${52 - i * l / 7}q-6-2-8-6q6 0 8 6zM30 ${52 - i * l / 7}q6-2 8-6q-6 0-8 6z" fill="${i % 2 ? "#5E8A44" : "#6E9E50"}"/>`).join("")}</g>`).join("")}</g>
+      <path d="M16 56h28l-4 22H20z" fill="#B5652A"/><rect x="14" y="54" width="32" height="5" rx="1.5" fill="#C9763A"/></svg></div>`,
+    mushlamp: () => `<div class="trinket" style="width:44px;height:58px" aria-hidden="true">${glowDiv(-16, -10, 76, "flick")}<svg viewBox="0 0 44 58" width="44" height="58">
+      <path d="M18 26h8v26h-8z" fill="#F1E4C8"/><path d="M4 28q18-34 36 0z" fill="#E8604A"/><path d="M4 28q18 6 36 0" fill="#C9483A"/>${[[14, 16, 2.4], [24, 11, 2], [31, 19, 1.8], [19, 22, 1.4]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFF3E6"/>`).join("")}
+      <ellipse cx="22" cy="54" rx="14" ry="3.5" fill="#5A3B2A"/><path d="M22 30v20" stroke="#FFE3A0" stroke-width="2" opacity=".5"/></svg></div>`,
+    apples: () => `<div class="trinket" style="width:62px;height:44px" aria-hidden="true"><svg viewBox="0 0 62 44" width="62" height="44">
+      ${[[18, 18, "#C8243F"], [32, 14, "#D9542B"], [44, 20, "#B8302A"], [26, 22, "#E0603A"]].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="8" fill="${c}"/><path d="M${x} ${y - 8}q1-3 3-4" stroke="#5A3B1A" stroke-width="1.4" fill="none"/><ellipse cx="${x - 3}" cy="${y - 3}" rx="2" ry="1.4" fill="#fff" opacity=".35"/>`).join("")}
+      <path d="M4 24h54l-6 18H10z" fill="#A87A44"/><path d="M6 30h50M8 36h46" stroke="#7A5428" stroke-width="1.2"/><path d="M4 24h54" stroke="#C99A5A" stroke-width="3"/></svg></div>`,
+    spicecandles: () => `<div class="trinket" style="width:54px;height:72px" aria-hidden="true">${glowDiv(-14, -10, 82, "flick")}<svg viewBox="0 0 54 72" width="54" height="72">
+      ${[[10, 30, 34, "#B5652A"], [24, 18, 46, "#E8D6B4"], [38, 34, 30, "#8C2F2A"]].map(([x, y, h, c]) => `<rect x="${x}" y="${y}" width="12" height="${h}" rx="2" fill="${c}"/><path d="M${x + 6} ${y}v-4" stroke="#2A1A10" stroke-width="1.2"/><path class="flame" d="M${x + 6} ${y - 14}q-4 6-3 9q1 3 3 3q2 0 3-3q1-3-3-9z" fill="#FFC250"/><path d="M${x + 2} ${y + 10}h8" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>`).join("")}
+      <path d="M4 66q23 8 46 0" stroke="#7A5428" stroke-width="3" fill="none"/><circle cx="8" cy="66" r="2.4" fill="#5A6B2E"/><circle cx="46" cy="66" r="2.4" fill="#5A6B2E"/></svg></div>`,
+    owlstatue: () => `<div class="trinket" style="width:40px;height:58px" aria-hidden="true"><svg viewBox="0 0 40 58" width="40" height="58">
+      <path d="M8 22q0-16 12-16t12 16v20q0 8-12 8T8 42z" fill="#B88A3A"/><path d="M8 10l4 6M32 10l-4 6" stroke="#B88A3A" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="15" cy="20" r="5" fill="#E9CF8A"/><circle cx="25" cy="20" r="5" fill="#E9CF8A"/><circle cx="15" cy="20" r="2" fill="#3A2A12"/><circle cx="25" cy="20" r="2" fill="#3A2A12"/><path d="M20 24l-2 3h4z" fill="#7A5420"/>
+      ${[[14, 34], [20, 32], [26, 34], [17, 39], [23, 39]].map(([x, y]) => `<path d="M${x - 3} ${y}q3 3 6 0" stroke="#8C6420" stroke-width="1" fill="none"/>`).join("")}<rect x="6" y="48" width="28" height="8" rx="1.5" fill="#5A3B2A"/></svg></div>`,
+    frame: () => `<div class="trinket" style="width:46px;height:58px" aria-hidden="true"><svg viewBox="0 0 46 58" width="46" height="58">
+      <rect x="4" y="4" width="38" height="48" rx="3" fill="#B88A3A"/><rect x="9" y="9" width="28" height="38" rx="14" fill="#1F2550"/><circle cx="27" cy="20" r="5" fill="#FFE3A3"/><circle cx="29.5" cy="18.5" r="4.5" fill="#1F2550"/>
+      <path d="M9 40q8-8 14-2q6-6 14 2v7H9z" fill="#2E4A3A"/><circle cx="15" cy="16" r=".9" fill="#fff"/><circle cx="20" cy="26" r=".7" fill="#fff"/><path d="M14 52l-4 6M32 52l4 6" stroke="#8A5A34" stroke-width="2.4"/></svg></div>`,
+  });
+  const TRINKET_DRAWER = [
+    ["Magic", ["candle", "potion", "crystal", "crystalball", "moon", "hourglass", "globe", "lantern", "egg", "coins", "fairyjar", "inkquill"]],
+    ["Cozy", ["stack", "teacup", "teapot", "cocoa", "sleepcat", "owlstatue", "frame", "jar"]],
+    ["Garden", ["plant", "fern", "lavender", "blossom", "sunflower", "mushrooms", "mushlamp"]],
+    ["Seasonal", ["pumpkin", "pumpkin2", "acorns", "leafjar", "apples", "spicecandles", "pinecone", "snowglobe", "lemonade"]],
+  ];
+  const TRINKET_NAMES = { candle: "Candle", potion: "Potion", crystal: "Crystal", crystalball: "Crystal ball", moon: "Moon", hourglass: "Hourglass", globe: "Globe", lantern: "Lantern", egg: "Dragon egg", coins: "Gold coins", fairyjar: "Firefly jar", inkquill: "Quill & ink",
+    stack: "Book stack", teacup: "Teacup", teapot: "Teapot", cocoa: "Hot cocoa", sleepcat: "Sleeping cat", owlstatue: "Owl statue", frame: "Moon painting", jar: "Jar", plant: "Plant", fern: "Fern", lavender: "Lavender", blossom: "Blossom", sunflower: "Sunflower",
+    mushrooms: "Mushrooms", mushlamp: "Mushroom lamp", pumpkin: "Pumpkin", pumpkin2: "White pumpkin", acorns: "Acorns", leafjar: "Jar of leaves", apples: "Apple basket", spicecandles: "Spiced candles", pinecone: "Pinecone", snowglobe: "Snow globe", lemonade: "Lemonade" };
+  // ---- your own decorations: where each trinket sits ----
+  const KEY_DECOR = "reading-ledger-decor";
+  let decor = lsGet(KEY_DECOR, null), decorating = false, decorPick = null;
+  const saveDecor = () => lsSet(KEY_DECOR, decor);
+  const decorId = () => "t" + Math.random().toString(36).slice(2, 8);
 
   function vineSVG(side, len){
     let stem = "", leaves = "", x = 10, y = 0;
@@ -1687,26 +1799,72 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     spineBusy = false;
     if (todo.length) { save(); if (changed) renderShelf(); if (books.some(b => b.cover && !b.spineColor && b.spineTried !== b.cover)) setTimeout(fillSpineColors, 500); }
   }
-  function renderShelf(){
+  function autoLayout(lists){
+    const base = CASES[caseTheme].trinkets, extra = SEASON_TRINKETS[season()] || [];
+    const set = extra.length ? base.flatMap((t, i) => [extra[i % extra.length], t]) : base, out = {};
+    ["reading", "read", "want"].forEach((k, si) => {
+      let tk = si * 2; const next = () => set[tk++ % set.length], list = lists[k], arr = [];
+      if (!list.length) { arr.push({ id: `a${k}s`, k: next(), after: "^" }, { id: `a${k}e`, k: next(), after: "$" }); }
+      else { let since = 0; list.forEach((b, i) => { since++; if (since >= 4 && i < list.length - 2 && hashNum(k + i + b.id, 5) === 0) { arr.push({ id: `a${k}${i}`, k: next(), after: b.id }); since = 0; } });
+        arr.push({ id: `a${k}e`, k: next(), after: "$" }); if (list.length < 10) arr.push({ id: `a${k}e2`, k: next(), after: "$" }); }
+      out[k] = arr;
+    });
+    return out;
+  }
+  function shelfLists(){
     const by = { reading: [], read: [], want: [] };
     books.forEach(b => by[b.shelf]?.push(b));
+    return { by, lists: Object.fromEntries(["reading", "read", "want"].map(k => [k, arrangeList(by[k], k).slice(0, 90)])) };
+  }
+  function trinketHTML(t, k){
+    const f = TRINKETS[t.k]; if (!f) return "";
+    let h = f().replace('<div class="trinket"', `<div class="trinket" data-tid="${t.id}" data-tshelf="${k}"${decorating ? ` draggable="true" title="${esc(TRINKET_NAMES[t.k] || t.k)}: drag to move"` : ""}`);
+    if (decorating) { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<button class="tdel" type="button" data-tdel="${t.id}" data-tshelf="${k}" aria-label="Remove ${esc(TRINKET_NAMES[t.k] || "trinket")}">✕</button>` + h.slice(i); }
+    return h;
+  }
+  function renderShelf(){
+    const { by, lists } = shelfLists();
     const words = { reading: "Drag a book here when you start it.", read: "Finished books rest here.", want: "Books you dream of reading wait here." };
-    const base = CASES[caseTheme].trinkets, extra = SEASON_TRINKETS[season()] || [];
-    const set = extra.length ? base.flatMap((t, i) => [extra[i % extra.length], t]) : base; let tk = 0;
-    const trinket = () => TRINKETS[set[tk++ % set.length]]();
-    ["reading","read","want"].forEach((k, si) => {
-      const el = $("#shelf-" + k), list = arrangeList(by[k], k).slice(0, 90);
-      tk = si * 2;
+    const lay = decor || autoLayout(lists);
+    $("#bookcase").classList.toggle("decorating", decorating);
+    ["reading", "read", "want"].forEach(k => {
+      const el = $("#shelf-" + k), list = lists[k], mine = lay[k] || [], ids = new Set(list.map(b => b.id));
       $("#plaque-" + k).textContent = `${k === "reading" ? "Currently reading" : SHELVES[k]} · ${by[k].length}`;
-      if (!list.length) { el.innerHTML = trinket() + `<div class="emptyshelf">${words[k]}</div>` + trinket(); return; }
-      const items = []; let since = 0;
-      list.forEach((b, i) => { items.push(spine(b, i)); since++;
-        if (since >= 4 && i < list.length - 2 && hashNum(k + i + b.id, 5) === 0) { items.push(trinket()); since = 0; } });
-      items.push(trinket()); if (list.length < 10) items.push(trinket());
+      const slot = a => decorating ? `<button class="dslot${decorPick ? " ready" : ""}" type="button" data-slot="${k}|${a}" title="Put a trinket here" aria-label="Put a trinket here">+</button>` : "";
+      const at = a => mine.filter(t => t.after === a).map(t => trinketHTML(t, k)).join("");
+      const items = [slot("^"), at("^")];
+      if (!list.length) items.push(`<div class="emptyshelf">${words[k]}</div>`);
+      list.forEach((b, i) => { items.push(spine(b, i), at(b.id), slot(b.id)); });
+      items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(t => trinketHTML(t, k)).join(""));
+      if (decorating && !list.length) items.push(slot("$"));
       el.innerHTML = items.join("");
     });
     const c = { read: by.read.length, reading: by.reading.length, want: by.want.length };
     $("#subline").textContent = books.length ? `${c.read} read · ${c.reading} in progress · ${c.want} waiting` : "Every book you've read, are reading, and dream of reading.";
+  }
+  function renderDrawer(){
+    const el = $("#decor-panel"); if (!el) return;
+    el.hidden = !decorating; if (!decorating) { el.innerHTML = ""; return; }
+    const cs = getComputedStyle($("#bookcase")); ["wood1", "wood2", "wood3", "night", "light", "leaf", "leaf2", "glass", "flame", "metal", "bloom", "mote"].forEach(v => el.style.setProperty("--" + v, cs.getPropertyValue("--" + v)));
+    el.innerHTML = `<div class="dhead"><div><h3>Trinket drawer</h3><p class="note">${decorPick ? `<b>${esc(TRINKET_NAMES[decorPick])}</b> chosen: tap any glowing <b>+</b> on the shelves to place it. Tap it again to put it away.` : "Pick a trinket, then tap a <b>+</b> on the shelves to place it, or drag it there. Drag trinkets on the shelves to move them; ✕ removes one."}</p></div>
+      <div class="dacts2"><button class="btn small" type="button" data-dclear>Clear all trinkets</button><button class="btn small" type="button" data-dauto>Back to automatic</button><button class="btn primary small" type="button" data-ddone>Done</button></div></div>
+      ${TRINKET_DRAWER.map(([cat, list]) => `<div class="dcat"><span class="label">${cat}</span><div class="dtiles">${list.filter(k => TRINKETS[k]).map(k => `<button type="button" class="dtile" data-pick="${k}" draggable="true" aria-pressed="${decorPick === k}" title="${esc(TRINKET_NAMES[k])}"><span class="dprev">${TRINKETS[k]()}</span><small>${esc(TRINKET_NAMES[k])}</small></button>`).join("")}</div></div>`).join("")}`;
+  }
+  function setDecorating(on){
+    decorating = on; decorPick = null;
+    if (on && !decor) { decor = autoLayout(shelfLists().lists); Object.values(decor).forEach(a => a.forEach(t => t.id = decorId())); saveDecor(); }
+    $("#decor-toggle").textContent = on ? "✓ Done decorating" : "✎ Decorate shelves";
+    $("#decor-toggle").setAttribute("aria-pressed", on);
+    renderShelf(); renderDrawer();
+    if (on) $("#bookcase").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function placeTrinket(k, slot, moveId){
+    const [shelf, after] = slot.split("|");
+    if (!decor) decor = autoLayout(shelfLists().lists);
+    let item;
+    if (moveId) { for (const sh of Object.keys(decor)) { const i = decor[sh].findIndex(t => t.id === moveId); if (i >= 0) { item = decor[sh].splice(i, 1)[0]; break; } } }
+    item = item ? { ...item, after } : { id: decorId(), k, after };
+    (decor[shelf] = decor[shelf] || []).push(item); saveDecor(); renderShelf();
   }
   function startMotes(){
     const cv = $("#motes"); if (!cv || reduceMotion) return;
@@ -2079,6 +2237,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name;
     document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   }
+  $("#exp-btn").addEventListener("click", () => lsSet("reading-ledger-lastbackup", Date.now()));
   $("#exp-btn").addEventListener("click", () => download(`my-book-nook-backup-${todayISO()}.json`, JSON.stringify({ app: "reading-ledger", version: 2, books, recs }, null, 1), "application/json"));
   $("#imp-gr").addEventListener("change", async e => { const f = e.target.files[0]; if (f) importGoodreads(await f.text()); e.target.value = ""; });
   $("#imp-json").addEventListener("change", async e => {
@@ -2580,6 +2739,29 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     body.innerHTML = rows.filter(r => r.items.length || r.id === "wish").map(r => `<section class="rrow${r.big ? " bigrow" : ""}"><div class="rhead"><h3>${esc(r.title)}</h3><span class="note">${esc(r.sub)}</span></div>
       <div class="${r.big ? "rgrid" : "rstrip"}">${r.items.map((c, i) => rcard(c, i, r.big)).join("")}</div></section>`).join("") || `<div class="empty"><h3>Nothing new to suggest</h3><div>You've read or dismissed everything the familiar knows about. Try a wish above.</div></div>`;
     paintRecCovers(body);
+    if (!recWish) moreByAuthors(body);
+  }
+  // live: other books by the authors you rate highest, from Open Library (refreshed weekly)
+  async function moreByAuthors(body){
+    const loved = new Map();
+    for (const b of readBooks()) { const w = bookWeight(b); if (w > .6 && b.author) loved.set(b.author, (loved.get(b.author) || 0) + w); }
+    const authors = [...loved].sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => x[0]);
+    if (!authors.length) return;
+    const items = [], seen = new Set();
+    for (const a of authors) { let n = 0;
+      const ck = "reading-ledger-byauthor:" + norm(a); let docs = lsGet(ck, null);
+      if (!docs || Date.now() - docs.t > 7 * 864e5) {
+        try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ author: a, sort: "readinglog", fields: FIELDS, limit: "20", lang: "en" })}`); docs = { t: Date.now(), r: (d.docs || []).filter(x => x.title && x.cover_i).map(x => { const r = fromDoc(x); return { title: r.title, author: r.author, year: r.year, coverId: r.coverId, olKey: r.olKey, pages: r.pages, olRating: r.olRating, genres: r.genres }; }) }; try { lsSet(ck, docs); } catch {} }
+        catch { continue; }
+      }
+      for (const r of docs.r) { const k = ckey(r.title, r.author); if (seen.has(tnorm(r.title)) || inLibrary(r.title, r.author) || dismissed.includes(k) || /collection|box set|boxed set|omnibus|books \d|\bset\b|coloring|journal|calendar/i.test(r.title)) continue; seen.add(tnorm(r.title));
+        const c = recItems.get(k) || { key: k, title: r.title, author: a, cover: coverById(r.coverId, "M"), coverId: r.coverId, olKey: r.olKey, year: r.year, pages: r.pages, genres: new Set(r.genres || []), tropes: new Set(), alike: [] };
+        c.why = [`More from ${a}, whose books you love`]; recItems.set(k, c); items.push(c); if (++n >= 5) break; }
+    }
+    if (items.length < 2 || !body.isConnected || recMode !== "foryou" || recWish) return;
+    body.querySelector("#more-authors")?.remove();
+    const html = `<section class="rrow" id="more-authors"><div class="rhead"><h3>More from authors you love</h3><span class="note">Fresh from Open Library, refreshed every week.</span></div><div class="rstrip">${items.slice(0, 12).map(c => rcard(c, 0, false)).join("")}</div></section>`;
+    const top = body.querySelector(".rrow.bigrow"); if (top) top.insertAdjacentHTML("afterend", html); else body.insertAdjacentHTML("afterbegin", html);
   }
   // ---- Readers' favourites: Goodreads data ----
   function renderGR(body){
@@ -2913,6 +3095,29 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   })();
 
 
+  // ================= decorating the shelves =================
+  (() => {
+    const cs = $("#bookcase"), panel = $("#decor-panel");
+    let dragKind = null, dragTid = null;
+    $("#decor-toggle").addEventListener("click", () => setDecorating(!decorating));
+    panel.addEventListener("click", e => {
+      const p = e.target.closest("[data-pick]"); if (p) { decorPick = decorPick === p.dataset.pick ? null : p.dataset.pick; renderDrawer(); renderShelf(); return; }
+      if (e.target.closest("[data-ddone]")) return setDecorating(false);
+      if (e.target.closest("[data-dclear]")) { decor = { reading: [], read: [], want: [] }; saveDecor(); renderShelf(); toast("All trinkets put away. Add the ones you love."); return; }
+      if (e.target.closest("[data-dauto]")) { decor = null; saveDecor(); setDecorating(false); toast("Trinkets are automatic again: they follow your bookcase theme and the season."); }
+    });
+    panel.addEventListener("dragstart", e => { const p = e.target.closest("[data-pick]"); if (!p) return; dragKind = p.dataset.pick; dragTid = null; try { e.dataTransfer.setData("text/plain", "trinket"); } catch {} cs.classList.add("placing"); });
+    cs.addEventListener("dragstart", e => { if (!decorating) return; const t = e.target.closest(".trinket[data-tid]"); if (!t) return; dragTid = t.dataset.tid; dragKind = null; try { e.dataTransfer.setData("text/plain", "trinket"); } catch {} cs.classList.add("placing"); });
+    cs.addEventListener("dragover", e => { if (!decorating || !(dragKind || dragTid)) return; const sl = e.target.closest("[data-slot]"); if (!sl) return; e.preventDefault(); cs.querySelectorAll(".dslot.hot").forEach(x => x !== sl && x.classList.remove("hot")); sl.classList.add("hot"); });
+    cs.addEventListener("drop", e => { if (!decorating || !(dragKind || dragTid)) return; const sl = e.target.closest("[data-slot]"); cs.classList.remove("placing"); if (sl) { e.preventDefault(); placeTrinket(dragKind, sl.dataset.slot, dragTid); } dragKind = dragTid = null; });
+    document.addEventListener("dragend", () => { cs.classList.remove("placing"); dragKind = dragTid = null; });
+    cs.addEventListener("click", e => {
+      if (!decorating) return;
+      const d = e.target.closest("[data-tdel]"); if (d) { e.stopPropagation(); const sh = d.dataset.tshelf; decor[sh] = (decor[sh] || []).filter(t => t.id !== d.dataset.tdel); saveDecor(); renderShelf(); return; }
+      const sl = e.target.closest("[data-slot]"); if (sl) { e.stopPropagation(); if (!decorPick) { toast("Pick a trinket from the drawer first."); return; } placeTrinket(decorPick, sl.dataset.slot); }
+    }, true);
+  })();
+
   // ================= now reading =================
   const dayMs = 864e5;
   const startDate = s => { const p = dParts(s); return p ? new Date(p.y, (p.m || 1) - 1, p.d || 1) : null; };
@@ -3016,7 +3221,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   function paintSpineNote(){ const n = $("#spine-note"); if (!n) return; const custom = books.filter(b => b.spineCustom).length;
     n.innerHTML = spineMode === "genre" ? "Every book wears its genre's colour, so the shelves read like a map. Tap <b>Genre colours</b> under the bookcase to see which is which."
       : `Each book wears its own colour: the one you picked in its details${custom ? ` (${custom} so far)` : ""}, otherwise a colour taken from its cover. The emblem on each spine still shows its genre.`; }
-  $("#case-theme").addEventListener("click", e => { const c = e.target.closest("[data-case]"); if (!c) return; caseTheme = c.dataset.case; lsSet(KEY_CASE, caseTheme); decorateCase(); renderShelf(); });
+  $("#case-theme").addEventListener("click", e => { const c = e.target.closest("[data-case]"); if (!c) return; caseTheme = c.dataset.case; lsSet(KEY_CASE, caseTheme); decorateCase(); renderShelf(); renderDrawer(); });
   decorateCase();
   function renderGuide(){
     const el = $("#legend-panel"); if (!el || el.hidden) return;
@@ -3965,6 +4170,7 @@ alter publication supabase_realtime add table public.library;`;
   try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { applyTheme(lsGet(KEY_THEME, null)); if (tab === "stats") renderStats(); }); } catch {}
 
   save();
+  rescueLibrary(); protectNudge();
   renderResultsArea("idle");
   setTimeout(welcomeFamiliar, 400);
   render();
