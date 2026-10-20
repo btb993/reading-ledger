@@ -7,11 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Ledger">
+<meta name="apple-mobile-web-app-title" content="Book Nook">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>Reading Ledger</title>
+<title>My Book Nook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600&display=swap">
@@ -299,6 +299,120 @@ body{padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(6
 .day.today{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
 .day .dn{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .day .stack{display:flex;flex-wrap:wrap;gap:3px}
+.day .lanes{margin-top:auto;display:flex;flex-direction:column;gap:3px;margin-inline:-7px;padding-bottom:1px}
+.day .ln{display:block;height:5px;background:var(--c);cursor:pointer;box-shadow:0 0 6px color-mix(in srgb,var(--c) 45%,transparent)}
+.day .ln.none{background:none;box-shadow:none;cursor:default}
+.day .ln.st{margin-left:11px;border-radius:5px 0 0 5px}
+.day .ln.en{margin-right:11px;border-radius:0 5px 5px 0}
+.day .ln.st.en{border-radius:5px}
+.day .ln.live{margin-right:11px;background:linear-gradient(90deg,var(--c) 55%,transparent)}
+.day .ln.wrapl{margin-left:7px;border-radius:2px 0 0 2px;opacity:.85}
+.day .ln.wrapr{margin-right:7px;border-radius:0 2px 2px 0;opacity:.85}
+.famempty .egg{display:grid;place-items:center;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--gold) 35%,var(--paper)),color-mix(in srgb,var(--gold) 8%,var(--paper)));border:1.5px dashed color-mix(in srgb,var(--gold) 60%,transparent);animation:eggwob 3s ease-in-out infinite;cursor:default}
+.famempty .egg span{font-family:var(--f-display);font-size:42px;color:var(--gold)}
+@keyframes eggwob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.modal.welcome{max-width:880px}.modal.welcome h2{margin:4px 0 6px}
+.modal.welcome .fampicker{margin-top:12px}
+.casepanel[hidden],.legendpanel[hidden]{display:none!important}
+.casebtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.lgdots{display:inline-flex;gap:2px;vertical-align:middle;margin-right:2px}.lgdots i{width:5px;height:12px;border-radius:1px;background:#3B2A63}.lgdots i:nth-child(2){background:#8C3B54}.lgdots i:nth-child(3){background:#1F6E73}
+.legendpanel{width:100%;max-width:1080px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.legendpanel .note{margin:0}
+.lgacts .linkbtn{font-size:14px}
+.lghead{display:flex;justify-content:space-between;align-items:center;gap:8px}.lgacts{display:flex;gap:10px;align-items:center}
+.legendpanel .guide{grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr))}
+.legendpanel .gchip{padding:4px 9px;font-size:14px}
+.dnahead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.zbadge{display:inline-flex;align-items:center;gap:7px;border:1px solid color-mix(in srgb,var(--zc) 55%,var(--line));background:color-mix(in srgb,var(--zc) 12%,var(--paper));color:var(--ink);border-radius:999px;padding:3px 12px 3px 4px;font:inherit;font-size:14px;cursor:pointer}
+.zbadge .zg{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--zc);color:#fff;font-size:17px;box-shadow:0 0 10px color-mix(in srgb,var(--zc) 55%,transparent)}
+.zadd{font-size:14px}
+.zpicker{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin:4px 0}
+.zpicker button[data-zod]:not(.linkbtn){display:flex;flex-direction:column;align-items:center;gap:1px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:6px 4px;font:inherit;color:var(--ink);cursor:pointer}
+.zpicker .zg{font-size:22px;color:var(--zc);line-height:1.1}.zpicker b{font-size:13.5px}.zpicker small{font-size:10.5px;color:var(--muted)}
+.zpicker button[aria-pressed="true"]{border-color:var(--zc);box-shadow:0 0 0 1px var(--zc) inset;background:color-mix(in srgb,var(--zc) 12%,var(--paper))}
+.zline{margin:0;font-size:15px;font-style:italic;color:var(--muted)}.zline .zg{font-style:normal;color:var(--zc);font-size:17px}
+.hall{display:flex;flex-direction:column;align-items:center;gap:4px;margin:34px 0 4px;text-align:center}
+.hrule{width:min(680px,90%);height:14px;background:radial-gradient(circle,var(--gold) 0 3px,transparent 3.5px) center/14px 14px no-repeat,linear-gradient(90deg,transparent,color-mix(in srgb,var(--gold) 70%,transparent) 20%,color-mix(in srgb,var(--gold) 70%,transparent) 80%,transparent) center/100% 1px no-repeat;margin-bottom:8px}
+.hallt{font-family:var(--f-display);font-size:30px;font-style:italic;font-weight:600;color:var(--ink)}
+.hallt .hfl{color:var(--gold);font-style:normal;font-size:22px;vertical-align:middle}
+.hallsub{font-size:14.5px;color:var(--muted);font-style:italic}
+.tabs.roomtabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:6px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--gold) 45%,var(--line));border-radius:18px;box-shadow:var(--shadow),0 0 0 4px color-mix(in srgb,var(--gold) 7%,transparent);overflow:visible;position:sticky;top:6px;z-index:20;margin-bottom:6px}
+.roomtabs .tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 6px 8px;border:0;border-radius:13px;font-size:12.5px;letter-spacing:.08em;white-space:normal;line-height:1.15;text-align:center;transition:background .2s,color .2s}
+.roomtabs .tab .ti{font-size:21px;letter-spacing:0;color:var(--gold);line-height:1;font-family:var(--f-body)}
+.roomtabs .tab:hover{background:color-mix(in srgb,var(--gold) 10%,transparent);color:var(--ink)}
+.roomtabs .tab[aria-selected="true"]{background:var(--ink);color:var(--paper);border:0;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+.roomtabs .tab[aria-selected="true"] .ti{color:var(--gold)}
+@media (max-width:700px){.tabs.roomtabs{grid-template-columns:repeat(3,minmax(0,1fr));position:static}.roomtabs .tab{font-size:11px;letter-spacing:.05em;padding:7px 4px}.roomtabs .tab .ti{font-size:18px}.hallt{font-size:24px}}
+.book .bgr{display:flex;flex-wrap:wrap;gap:0 8px;white-space:normal;font-size:13.5px;line-height:1.3;min-width:0;max-width:100%}
+.book .bgr > span{white-space:nowrap}.book .bgr .cnt{color:var(--muted);font-size:12.5px}
+.book .facts{min-width:0;font-size:13.5px}
+.book .vtags{max-width:100%}
+.recmodes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding:5px;background:color-mix(in srgb,var(--paper) 70%,transparent);border:1px solid var(--line);border-radius:999px;width:fit-content;max-width:100%}
+.recmodes button{border:0;background:none;font:inherit;font-size:15px;color:var(--muted);padding:8px 16px;border-radius:999px;cursor:pointer}
+.recmodes button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.discpanel{margin-bottom:14px}.discchips{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.discchips .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.dcard{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.dcard .rank{position:absolute;top:-8px;left:-8px;z-index:2;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:var(--f-display);font-size:14px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.dcard .dcov{border:0;padding:0;background:none;cursor:pointer;margin-bottom:6px}
+.dcard .dcov .cover{--fs:11px;width:100%}
+.dcard .dt{font-family:var(--f-display);font-weight:600;font-size:16px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dcard .da{font-size:13px;color:var(--muted);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dcard .dr{font-size:13px;color:var(--v4,#b8892c)}.dcard .dr span{color:var(--muted)}
+.dcard .dacts{margin-top:auto;padding-top:6px;display:flex;gap:6px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+@media (max-width:600px){.dgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.recmodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;border-radius:16px}.recmodes button{font-size:12.5px;padding:7px 6px;border-radius:12px;line-height:1.2}}
+.verdicts{display:flex;flex-direction:column;gap:8px}
+.vrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.vrow .vk{font-size:13px;color:var(--muted);min-width:96px}
+.seg.small{display:flex;flex-wrap:wrap;gap:4px;border:1px solid var(--line);border-radius:12px;padding:3px;background:color-mix(in srgb,var(--paper) 60%,transparent)}
+.seg.small button{border:0;background:none;font:inherit;font-size:13px;color:var(--ink);padding:5px 10px;border-radius:9px;cursor:pointer}
+.seg.small button i{font-style:normal;color:var(--gold)}
+.seg.small button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg.small button[aria-pressed="true"] i{color:var(--paper)}
+.vtoggle{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 13px;font:inherit;font-size:13.5px;cursor:pointer}
+.vtoggle i{font-style:normal;color:var(--gold)}.vtoggle small{color:var(--muted);font-size:11.5px}
+.vtoggle[aria-pressed="true"]{background:color-mix(in srgb,var(--gold) 22%,var(--paper));border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.recto{flex:1;min-width:200px;padding:6px 12px;border-radius:999px;font-size:13.5px}
+.vtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.vtag{font-size:11px;line-height:1.2;padding:2px 7px;border-radius:999px;background:color-mix(in srgb,var(--gold) 16%,transparent);border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);color:var(--ink);white-space:nowrap}
+.vtag.bad{background:color-mix(in srgb,#B8312F 12%,transparent);border-color:color-mix(in srgb,#B8312F 40%,transparent)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px}
+.vbox{border:1px solid var(--line);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--paper) 70%,transparent)}
+.vh{font-family:var(--f-display);font-size:18px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.vh i{font-style:normal;color:var(--gold)}.vh b{margin-left:auto;font-size:15px;color:var(--muted)}
+.vlist{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.vlist li{display:flex;flex-direction:column;font-size:14px}
+.vlist button{border:0;background:none;padding:0;font:inherit;color:var(--ink);text-align:left;cursor:pointer;font-weight:600}
+.vlist button:hover{text-decoration:underline}.vlist .muted{font-size:12.5px}
+.meter{display:grid;gap:6px}
+.vmrow{display:grid;grid-template-columns:minmax(0,1fr) 70px 18px;gap:8px;align-items:center;font-size:13px}
+.mbar{height:7px;border-radius:5px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
+.mbar span{display:block;height:100%;border-radius:5px;background:var(--gold)}
+.vmrow.short .mbar span{background:#C2702B}.vmrow.disappoint .mbar span{background:#B8312F}
+.vmrow b{text-align:right}
+.feelpick{display:flex;flex-wrap:wrap;gap:6px}
+.feelpick button[data-feel]{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 11px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,background .15s}
+.feelpick button[data-feel] i{font-style:normal;color:var(--fc);font-size:14px;line-height:1}
+.feelpick button[data-feel]:hover{transform:translateY(-1px);border-color:var(--fc)}
+.feelpick button[aria-pressed="true"]{background:color-mix(in srgb,var(--fc) 22%,var(--paper));border-color:var(--fc);box-shadow:0 0 0 1px var(--fc) inset}
+.feeladd{display:inline-flex;gap:6px;align-items:center}
+.feeladd input{width:140px;padding:5px 10px;border-radius:999px;font-size:13px}
+.fchip{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:13px;color:var(--ink);border-radius:999px;padding:3px 10px;background:color-mix(in srgb,var(--fc) 14%,transparent);border:1px solid color-mix(in srgb,var(--fc) 50%,transparent)}
+.fchip i{font-style:normal;color:var(--fc)}
+.fchip b{font-weight:600;color:var(--muted)}
+.feelhero{display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--paper) 70%,transparent)}
+.feelhero .g{font-size:30px;line-height:1}
+.feelhero b{font-family:var(--f-display);font-size:22px}
+.feelrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.feelrow span{font-size:12px;border-radius:999px;padding:2px 9px;background:color-mix(in srgb,var(--fc) 18%,transparent);border:1px solid color-mix(in srgb,var(--fc) 50%,transparent)}
+.spanleg{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.spanleg .label{width:100%}
+.spanleg .sl{display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer;max-width:100%}
+.spanleg .sl i{width:22px;height:6px;border-radius:4px;background:var(--c);flex:none}
+.spanleg .sl b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+.spanleg .sl span{color:var(--muted);white-space:nowrap}
+@media (max-width:600px){.day .ln{height:4px}.day .lanes{gap:2px}.spanleg .sl b{max-width:140px}}
 .mini{border:0;padding:0;background:none;cursor:pointer;width:calc(50% - 2px);min-width:22px}
 .mini .cover{--fs:6px;border-radius:1px 3px 3px 1px}
 .mini .cover .ca,.mini .cover .orn{display:none}
@@ -620,6 +734,88 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
 [data-fam="raven"] .glint{transform-box:fill-box;transform-origin:center;animation:twk 3s ease-in-out infinite}
 .fambody:hover > svg{animation:happy .7s ease-in-out}
 @keyframes happy{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-8px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
+
+.nowtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tracksw button{font-size:13.5px;padding:0 10px}
+.upd input[data-f="tot"]{width:5em}
+
+.bubble{padding-right:96px}
+.bubtools{position:absolute;top:10px;right:10px;display:flex;gap:6px}
+.iconbtn{border:1px solid color-mix(in srgb,var(--aura) 50%,var(--line));background:color-mix(in srgb,var(--aura) 10%,var(--paper));color:var(--ink);border-radius:999px;min-width:30px;height:30px;padding:0 8px;cursor:pointer;font-size:15px;line-height:1}
+.iconbtn.wide{font-family:var(--f-cap);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.iconbtn:hover{border-color:var(--aura)}
+.bubble blockquote.petline{font-style:italic}
+.fambody{cursor:grab}
+.fambody:active{cursor:grabbing}
+.pburst{position:absolute;left:50%;top:45%;z-index:4;font-style:normal;font-size:15px;pointer-events:none;opacity:0;text-shadow:0 0 6px currentColor;animation:pburst 1.1s ease-out forwards}
+@keyframes pburst{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}70%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1)}}
+.fambody.pet-melt > svg{animation:pmelt 1.4s ease-in-out!important}
+@keyframes pmelt{0%,100%{transform:scale(1)}25%{transform:scale(1.1,.86)}50%{transform:scale(.94,1.06) rotate(-4deg)}75%{transform:scale(1.04,.96) rotate(3deg)}}
+.fambody.pet-ruffle > svg{animation:pruffle .9s ease-in-out!important}
+@keyframes pruffle{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg) scale(1.05)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.fambody.pet-proud > svg{animation:pproud 1.2s ease-in-out!important}
+@keyframes pproud{0%,100%{transform:scale(1)}30%{transform:scale(1.14) translateY(-6px)}55%{transform:scale(1.1) rotate(-5deg)}}
+.fambody.pet-wiggle > svg{animation:pwiggle 1s ease-in-out!important}
+@keyframes pwiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-10deg)}40%{transform:rotate(9deg)}60%{transform:rotate(-6deg)}80%{transform:rotate(4deg)}}
+.fambody.pet-hop > svg{animation:phop 1.1s ease-out!important}
+@keyframes phop{0%,100%{transform:translateY(0) scale(1)}15%{transform:scale(1.08,.9)}35%{transform:translateY(-28px) scale(.95,1.06)}55%{transform:translateY(0) scale(1.06,.92)}70%{transform:translateY(-12px)}85%{transform:translateY(0)}}
+.fambody.pet-blush > svg{animation:pblush 1.6s ease-in-out!important}
+@keyframes pblush{0%,100%{transform:scale(1);filter:none}30%,70%{transform:scale(.86) rotate(-6deg);filter:drop-shadow(0 0 10px #FF8FB1) saturate(1.2)}}
+.fambody.pet-roll > svg{animation:proll 1.1s ease-in-out!important}
+@keyframes proll{0%{transform:rotate(0) scale(1)}30%{transform:rotate(180deg) scale(.8)}60%{transform:rotate(360deg) scale(.85)}100%{transform:rotate(360deg) scale(1)}}
+@media (max-width:560px){.bubble{padding-right:18px;padding-top:44px}}
+
+/* bookcase settings */
+.casebar{gap:8px}
+.casetoggle{align-self:center}
+.casepanel{width:100%;max-width:1080px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;margin-top:4px}
+.cp{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.cp.wide{grid-column:1/-1}
+.cp h3{font-family:var(--f-cap);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.cphead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cp .note{margin:0}
+.themetiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.ttile{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:4px 4px 6px;cursor:pointer;display:flex;flex-direction:column;gap:4px;align-items:stretch;font-size:12px;line-height:1.15;text-align:center;color:var(--ink)}
+.ttile[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 14px color-mix(in srgb,var(--gold) 30%,transparent)}
+.tprev{position:relative;height:34px;border-radius:24px 24px 4px 4px / 12px 12px 4px 4px;background:var(--n);box-shadow:inset 0 0 0 4px var(--w),inset 0 -6px 0 0 var(--w);display:flex;align-items:flex-end;gap:2px;padding:8px 10px 6px;overflow:hidden}
+.tprev i{width:8px;border-radius:1px;background:#8C3B54}
+.tprev i{width:6px}.tprev i:nth-child(1){height:16px;background:#3B2A63}.tprev i:nth-child(2){height:20px;background:#2D5A3D}.tprev i:nth-child(3){height:14px;background:#1C3A5E}.tprev i:nth-child(4){height:18px}
+.tprev b{position:absolute;top:7px;right:8px;width:5px;height:5px;border-radius:50%;background:var(--l);box-shadow:0 0 8px 3px var(--l)}
+.chipset{display:flex;flex-wrap:wrap;gap:6px}
+.chipset button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 13px;cursor:pointer;font-size:15.5px}
+.chipset button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.gsw i{width:16px;height:24px}
+.swatches{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.swatches button[data-sw]:not(.linkbtn){width:22px;height:30px;border-radius:2px 4px 4px 2px;border:2px solid transparent;cursor:pointer;box-shadow:inset 3px 0 0 rgba(0,0,0,.25)}
+.swatches button.sel{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 40%,transparent)}
+.swcustom{width:26px;height:30px;border-radius:4px;overflow:hidden;border:1px dashed var(--muted);display:inline-grid;place-items:center;cursor:pointer;background:conic-gradient(#d23a6e,#c8901a,#12936b,#2563d9,#7a3fc4,#d23a6e)}
+.swcustom input{opacity:0;width:100%;height:100%;cursor:pointer;border:0;padding:0}
+@media (max-width:720px){.casepanel{grid-template-columns:minmax(0,1fr)}}
+
+/* Reader DNA */
+.dna{display:flex;flex-direction:column;gap:8px;padding:18px 22px}
+.dnatitle{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;position:relative}
+.dnaglyph{font-size:30px;line-height:1;text-shadow:0 0 12px currentColor}
+.dnatitle h2{font-size:clamp(26px,4vw,34px);font-style:italic}
+.dnawith{color:var(--muted);font-style:italic;font-size:17px}
+.dnadesc{margin:0;font-size:17px;max-width:70ch;position:relative}
+.strand{display:flex;height:12px;border-radius:99px;overflow:hidden;gap:2px;position:relative;margin-top:4px}
+.strand span{background:linear-gradient(90deg,color-mix(in srgb,var(--c) 70%,#fff),var(--c));min-width:6px;background-size:12px 100%;background-image:repeating-linear-gradient(90deg,var(--c) 0 8px,color-mix(in srgb,var(--c) 75%,#fff) 8px 12px)}
+.dnalegend{display:flex;flex-wrap:wrap;gap:6px 14px;position:relative}
+.dnachip{display:inline-flex;gap:6px;align-items:baseline;font-size:15px}
+.dnachip i{font-style:normal;color:var(--c)}
+.dnachip b{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;font-size:14px}
+
+/* finder */
+.finder{border:1.5px solid color-mix(in srgb,var(--gold) 55%,var(--line));box-shadow:var(--shadow),0 0 0 4px color-mix(in srgb,var(--gold) 9%,transparent),0 0 30px color-mix(in srgb,var(--gold) 12%,transparent);padding:18px 20px}
+.finderhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.finderhead h2{font-size:28px}
+.fglyph{color:var(--gold);font-style:normal;font-size:22px;text-shadow:0 0 10px color-mix(in srgb,var(--gold) 60%,transparent)}
+.finderacts{display:flex;gap:8px;flex-wrap:wrap}
+.finderacts .btn{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
+.finder input[type=search]{font-size:19px;padding:13px 16px;border-width:1.5px}
+.finder #search-btn{padding:10px 22px;font-size:17.5px}
+@media (max-width:600px){.finder #search-form{display:flex;flex-wrap:nowrap;gap:8px}.finder #search-form input{min-width:0;flex:1;font-size:17px;padding:11px 13px}.finder #search-btn{padding:10px 16px;flex:none}.finder .chips .chip:nth-of-type(n+4){display:none}.finderhead h2{font-size:24px}}
 .why{display:grid;gap:3px;font-size:15px}
 .why div{display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:8px}
 .why span:first-child{font-family:var(--f-cap);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
@@ -635,7 +831,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       <path d="M8 31c7-3 15-3 22 0 7-3 15-3 22 0" stroke="currentColor" stroke-width="1.2"/>
     </svg>
     <div class="label">Ex libris · a private library</div>
-    <h1><span class="first">R</span>eading Ledger</h1>
+    <h1><span class="first">M</span>y Book Nook</h1>
     <div class="sub" id="subline">Every book you've read, are reading, and dream of reading.</div>
     <div class="menu">
       <label class="btn small">Import Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
@@ -644,6 +840,16 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       <label class="btn small">Restore a backup<input id="imp-json" type="file" accept=".json,application/json" hidden></label>
     </div>
   </header>
+
+  <section class="desk finder" aria-label="Find a book">
+    <div class="finderhead"><h2><span class="fglyph">✦</span> Find a book</h2>
+      <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> Add by hand</button><button class="btn small" id="series-add-btn" type="button"><span aria-hidden="true">❧</span> Add a whole series</button></div></div>
+    <form id="search-form" autocomplete="off">
+      <input id="q" type="search" placeholder="Title, author or both…" aria-label="Search for a book by title or author">
+      <button class="btn primary" id="search-btn" type="submit">Search</button>
+    </form>
+    <div id="results-wrap"></div>
+  </section>
 
   <section class="now" id="now" aria-label="Currently reading"></section>
   <section class="familiar" id="familiar" aria-label="Your familiar"></section>
@@ -658,35 +864,29 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     <div class="plank"><span class="plaque" id="plaque-want">Want to read</span></div>
   </section>
   <div class="casebar">
-    <div class="casegroup"><span class="label">Bookcase</span><div class="seg" id="case-theme">
-      <button type="button" data-case="library">Enchanted library</button><button type="button" data-case="witch">Moonlit witch</button><button type="button" data-case="elven">Elven grove</button><button type="button" data-case="dragon">Dragon's hoard</button><button type="button" data-case="observatory">Starlit observatory</button></div></div>
-    <div class="casegroup"><label class="label" for="arrange">Arrange shelves by</label><select class="sort" id="arrange">
-      <option value="custom">My own order</option><option value="date">Date</option><option value="title">Title</option><option value="author">Author</option><option value="genre">Genre</option><option value="series">Series</option><option value="color">Colour (rainbow)</option><option value="size">Size</option><option value="rating">Rating</option></select>
-      <span class="label" style="margin-left:8px">Spine colours</span><div class="seg" id="spine-mode"><button type="button" data-sm="cover">from covers</button><button type="button" data-sm="genre">by genre</button></div>
-      <button class="btn small" type="button" id="guide-btn" aria-expanded="false">Genre colour guide</button></div>
-    <div id="genre-guide" hidden></div>
-    <div class="casehint">Click a spine to open it. Drag it along its shelf to rearrange, or onto another shelf to move it.</div>
+    <div class="casehint">Tap a spine to open it · drag it along a shelf to rearrange · drag it to another shelf to move it</div>
+    <div class="casebtns"><button class="btn small casetoggle" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel">⚙ Customise bookcase</button><button class="btn small casetoggle" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel"><span class="lgdots" aria-hidden="true"><i></i><i></i><i></i></span> Genre colours</button></div>
+    <div class="legendpanel" id="legend-panel" hidden></div>
+    <div class="casepanel" id="case-panel" hidden>
+      <section class="cp"><h3>Theme</h3><div class="themetiles" id="case-theme"><button type="button" class="ttile" data-case="library" style="--w:#6E4427;--n:#2E1A0D;--l:#FFD98A"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Enchanted library</span></button><button type="button" class="ttile" data-case="witch" style="--w:#3E2C4E;--n:#160E1F;--l:#CDB0FF"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Moonlit witch</span></button><button type="button" class="ttile" data-case="elven" style="--w:#A8936A;--n:#152219;--l:#DDFF9E"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Elven grove</span></button><button type="button" class="ttile" data-case="dragon" style="--w:#5E2618;--n:#190905;--l:#FF9B4A"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Dragon's hoard</span></button><button type="button" class="ttile" data-case="observatory" style="--w:#253556;--n:#09101E;--l:#B2D6FF"><span class="tprev"><i></i><i></i><i></i><i></i><b></b></span><span>Starlit observatory</span></button></div></section>
+      <section class="cp"><h3>Arrange shelves by</h3><div class="chipset" id="arrange-chips"><button type="button" data-arr="custom">My own order</button><button type="button" data-arr="date">Date</button><button type="button" data-arr="title">Title</button><button type="button" data-arr="author">Author</button><button type="button" data-arr="genre">Genre</button><button type="button" data-arr="series">Series</button><button type="button" data-arr="color">Rainbow</button><button type="button" data-arr="size">Size</button><button type="button" data-arr="rating">Rating</button></div><p class="note">Dragging a book along a shelf switches to <i>My own order</i>.</p></section>
+      <section class="cp wide"><div class="cphead"><h3>Spine colours</h3><div class="seg" id="spine-mode"><button type="button" data-sm="genre">Per genre</button><button type="button" data-sm="individual">Individual colours</button></div></div>
+        <p class="note" id="spine-note"></p></section>
+    </div>
   </div>
 
-  <section class="portrait" aria-label="Your reader's portrait" id="portrait"></section>
+  <section class="portrait dna" aria-label="Your Reader DNA" id="portrait"></section>
 
-  <section class="desk" aria-label="Find a book">
-    <form id="search-form" autocomplete="off">
-      <input id="q" type="search" placeholder="Summon a book by title or author…" aria-label="Search for a book">
-      <button class="btn primary" id="search-btn" type="submit">Find book</button>
-    </form>
-    <div id="results-wrap"></div>
-    <div class="note">Books, covers and ratings come from Open Library. Every field can be corrected. <button class="linkbtn" id="manual-btn" type="button">Add a book by hand</button> · <button class="linkbtn" id="series-add-btn" type="button">Add a whole series</button></div>
-  </section>
-
-  <nav class="tabs" role="tablist">
-    <button class="tab" id="tab-library" role="tab" aria-selected="true">Library</button>
-    <button class="tab" id="tab-calendar" role="tab" aria-selected="false">Calendar</button>
-    <button class="tab" id="tab-covers" role="tab" aria-selected="false">Year in books</button>
-    <button class="tab" id="tab-series" role="tab" aria-selected="false">Series</button>
-    <button class="tab" id="tab-stats" role="tab" aria-selected="false">Statistics</button>
-    <button class="tab" id="tab-recs" role="tab" aria-selected="false">Recommendations</button>
+  <div class="hall" aria-hidden="true"><span class="hrule"></span><div class="hallt"><span class="hfl">❦</span> Explore your nook <span class="hfl">❦</span></div><div class="hallsub">Browse, track, look back and discover: pick a room below</div></div>
+  <nav class="tabs roomtabs" role="tablist">
+    <button class="tab" id="tab-library" role="tab" aria-selected="true"><span class="ti" aria-hidden="true">▥</span><span class="tl">Library</span></button>
+    <button class="tab" id="tab-calendar" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">▦</span><span class="tl">Calendar</span></button>
+    <button class="tab" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year in books</span></button>
+    <button class="tab" id="tab-series" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❧</span><span class="tl">Series</span></button>
+    <button class="tab" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Statistics</span></button>
+    <button class="tab" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">Recommendations</span></button>
   </nav>
+
 
   <main id="view-library">
     <div class="shelfbar">
@@ -960,73 +1160,123 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     const low = (m) => [...m].filter(x => x[1] < -0.9).sort((a, b) => a[1] - b[1]).map(x => x[0]);
     return { feats, best, top, low };
   }
+  // ================= Reader DNA =================
+  const TXT = b => [...(b.themes || []), ...(b.subjects || []), b.summary || ""].join(" | ").toLowerCase();
+  const hasG = (b, ...g) => (b.genres || []).some(x => g.includes(x));
+  const hasT = (b, ...t) => (b.tropes || []).some(x => t.includes(x));
+  const hasF = (b, ...f) => (b.feelings || []).some(x => f.includes(x));
+  const ARCHETYPES = [
+    { name: "The Fantasy Wanderer", g: "✦", c: "#7A3FC4", d: "You wander through invented worlds, maps and magic systems; the further from home, the better.", s: "magic and far-off worlds",
+      t: b => hasG(b, "Fantasy") ? 1 : hasG(b, "Adventure") ? .4 : 0 },
+    { name: "The Court Intriguer", g: "♛", c: "#9E3348", d: "Crowns, assassins and dangerous courts: you love power games played behind palace doors.", s: "crowns, schemes and assassins",
+      t: b => /\b(court|courts|royal|royalty|queen|queens|king|kings|prince|princess|princes|assassin|assassins|throne)\b/.test(TXT(b)) ? 1 : 0 },
+    { name: "The Romantic Dreamer", g: "♥", c: "#D23A6E", d: "You read for the ache and the payoff of love, the slow burn and the long-awaited kiss.", s: "slow-burning love",
+      t: b => hasG(b, "Romance") ? 1 : hasT(b, "Enemies to lovers", "Slow burn", "Second chance", "Fake relationship", "Forbidden love", "Love triangle") ? .8 : hasF(b, "Swooning") ? .7 : /\blove\b/.test(TXT(b)) ? .4 : 0 },
+    { name: "The Rainbow Romantic", g: "✿", c: "#E2559B", d: "Queer love stories and found courage are close to your heart.", s: "queer love and courage",
+      t: b => /\b(gay|gays|lesbian|lesbians|queer|lgbt\w*|homosexuality|bisexual|transgender|sapphic)\b/.test(TXT(b)) ? 1 : 0 },
+    { name: "The Emotional Explorer", g: "❦", c: "#2563D9", d: "You want books that leave a mark: grief, growing up, memory and the people we lose and find.", s: "stories that leave a mark",
+      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic") ? 1 : hasT(b, "Grief & healing", "Coming of age") ? .7 : /\b(grief|loss|identity|memory|family|families|friendship|loneliness)\b/.test(TXT(b)) ? .5 : 0 },
+    { name: "The Coming-of-Age Kindred", g: "☼", c: "#1F8F95", d: "You keep returning to the turning points of youth: first loves, first losses, first freedom.", s: "growing up",
+      t: b => hasT(b, "Coming of age") ? 1 : hasG(b, "Young Adult") ? .7 : 0 },
+    { name: "The Saga Devotee", g: "❧", c: "#5A7A2E", d: "Once a series has you, it has you for every last book.", s: "long series",
+      t: b => b.seriesName ? 1 : 0 },
+    { name: "The Tome Conqueror", g: "❖", c: "#9C6A12", d: "Doorstoppers don't scare you; you like a story with room to breathe.", s: "big, immersive books",
+      t: b => (b.pages || 0) >= 550 ? 1 : (b.pages || 0) >= 450 ? .5 : 0 },
+    { name: "The Quick-Sip Reader", g: "✱", c: "#C2702B", d: "You love a book you can finish in a sitting or two.", s: "short, sharp reads",
+      t: b => b.pages && b.pages <= 230 ? 1 : 0 },
+    { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story, from classics to quiet literary gems.", s: "beautiful writing",
+      t: b => hasG(b, "Literary Fiction") ? 1 : hasG(b, "Classics", "Poetry") ? .8 : 0 },
+    { name: "The Myth Weaver", g: "✧", c: "#9A62E0", d: "Gods, legends and fairy tales retold are your favourite kind of magic.", s: "myths retold",
+      t: b => hasT(b, "Myth retelling", "Fairy tale") ? 1 : /\b(mytholog\w*|gods|legends?|achilles|troy|trojan)\b/.test(TXT(b)) ? .7 : 0 },
+    { name: "The Mystery Hunter", g: "◆", c: "#B8860B", d: "You can't resist a puzzle, a body in the library or a twist you didn't see coming.", s: "puzzles and twists",
+      t: b => hasG(b, "Mystery", "Thriller") ? 1 : hasT(b, "Whodunit") ? .8 : 0 },
+    { name: "The Shadow Seeker", g: "☾", c: "#8E2A3A", d: "You're drawn to the dark: gothic houses, monsters and the thrill of fear.", s: "dark, gothic shadows",
+      t: b => hasG(b, "Horror") ? 1 : hasT(b, "Gothic", "Vampires & monsters") ? .8 : 0 },
+    { name: "The Stargazer", g: "◈", c: "#0F98AE", d: "You look up and ahead: other planets, strange futures and big what-ifs.", s: "the stars and the future",
+      t: b => hasG(b, "Science Fiction") ? 1 : hasG(b, "Dystopian") ? .7 : hasT(b, "Artificial intelligence", "Time travel") ? .6 : 0 },
+    { name: "The Time Traveller", g: "⚜", c: "#8A6A3A", d: "You love to live for a while in other centuries.", s: "other centuries",
+      t: b => hasG(b, "Historical Fiction") ? 1 : hasG(b, "History") ? .7 : b.year && b.year < 1900 ? .5 : 0 },
+    { name: "The Curious Scholar", g: "☉", c: "#3C5A8A", d: "You read to understand how the world and people actually work.", s: "real-world ideas",
+      t: b => b.category === "Nonfiction" ? 1 : hasG(b, "Science", "Philosophy", "Psychology", "Biography & Memoir") ? .8 : 0 },
+    { name: "The Found-Family Seeker", g: "✶", c: "#C25A7A", d: "Your favourite stories are about the people who choose each other.", s: "chosen families",
+      t: b => hasT(b, "Found family") ? 1 : /\bfriendship\b/.test(TXT(b)) ? .5 : 0 },
+  ];
+  function readerDNA(){
+    const read = readBooks(); if (!read.length) return [];
+    const w = b => b.rating ? .3 + b.rating / 5 : .8, W = read.reduce((s, b) => s + w(b), 0);
+    return ARCHETYPES.map(a => ({ ...a, score: read.reduce((s, b) => s + w(b) * a.t(b), 0) / W })).filter(a => a.score > .08).sort((x, y) => y.score - x.score);
+  }
+  const ZODIAC = [["aries","Aries","♈","21 Mar – 19 Apr","Fire","you devour books in one fierce sitting and want the plot to start on page one"],
+    ["taurus","Taurus","♉","20 Apr – 20 May","Earth","you savour every sentence, love a beautiful edition and reread your comfort books without shame"],
+    ["gemini","Gemini","♊","21 May – 20 Jun","Air","you read three books at once, adore witty banter and never say no to a twist"],
+    ["cancer","Cancer","♋","21 Jun – 22 Jul","Water","you read with your whole heart, cry at found family and keep your favourites close"],
+    ["leo","Leo","♌","23 Jul – 22 Aug","Fire","you love a dramatic hero, a grand romance and a cover worth showing off"],
+    ["virgo","Virgo","♍","23 Aug – 22 Sep","Earth","you notice every plot hole, love a clever mystery and keep the most beautiful reading log"],
+    ["libra","Libra","♎","23 Sep – 22 Oct","Air","you swoon for gorgeous prose, perfect couples and morally balanced endings"],
+    ["scorpio","Scorpio","♏","23 Oct – 21 Nov","Water","you crave intensity: dark secrets, obsession, betrayal and love that burns"],
+    ["sagittarius","Sagittarius","♐","22 Nov – 21 Dec","Fire","you read to travel, chase epic quests and fall for big ideas and far-off worlds"],
+    ["capricorn","Capricorn","♑","22 Dec – 19 Jan","Earth","you finish what you start, respect a slow build and love an ambitious, scheming lead"],
+    ["aquarius","Aquarius","♒","20 Jan – 18 Feb","Air","you love strange, original books, speculative ideas and characters who break the rules"],
+    ["pisces","Pisces","♓","19 Feb – 20 Mar","Water","you sink into dreamy, magical stories and feel every character's heartbreak as your own"]];
+  const KEY_ZOD = "reading-ledger-zodiac";
+  let zodiac = lsGet(KEY_ZOD, null), zodPicking = false;
+  const ZEL = { Fire: "#E2643A", Earth: "#6E9B4A", Air: "#6E9BC2", Water: "#7B5EA7" };
+  const zodHead = () => { const z = ZODIAC.find(x => x[0] === zodiac);
+    return `${z ? `<button type="button" class="zbadge" data-zodpick style="--zc:${ZEL[z[4]]}" title="Change your sign"><span class="zg">${z[2]}\uFE0E</span><span>${z[1]}</span></button>` : `<button type="button" class="linkbtn zadd" data-zodpick>✧ Add your zodiac sign</button>`}`; };
+  const zodPicker = () => zodPicking ? `<div class="zpicker">${ZODIAC.map(([k, n, g, d, e]) => `<button type="button" data-zod="${k}" aria-pressed="${zodiac === k}" style="--zc:${ZEL[e]}"><span class="zg">${g}\uFE0E</span><b>${n}</b><small>${d}</small></button>`).join("")}${zodiac ? `<button type="button" class="linkbtn" data-zod="">Remove sign</button>` : ""}</div>` : "";
+  const zodLine = () => { const z = ZODIAC.find(x => x[0] === zodiac); return z ? `<p class="zline" style="--zc:${ZEL[z[4]]}"><span class="zg">${z[2]}\uFE0E</span> As a ${z[1]} reader, ${z[5]}.</p>` : ""; };
+  $("#portrait").addEventListener("click", e => {
+    if (e.target.closest("[data-zodpick]")) { zodPicking = !zodPicking; renderPortrait(); return; }
+    const z = e.target.closest("[data-zod]"); if (z) { zodiac = z.dataset.zod || null; lsSet(KEY_ZOD, zodiac); zodPicking = false; renderPortrait(); if (zodiac) toast(`${ZODIAC.find(x => x[0] === zodiac)[1]} added to your Reader DNA`); }
+  });
   function renderPortrait(){
     const el = $("#portrait"), read = readBooks();
-    if (read.length < 2) {
-      el.innerHTML = `<div class="label">Your reader's portrait</div><p class="ptext">Once you've shelved a couple of books as Read, a portrait of you as a reader appears here, and it changes a little with every book you add.</p>`;
-      return;
-    }
-    const { feats, top, low } = tasteProfile();
-    const g = top(feats.genres, 2), t = top(feats.themes, 3), tr = top(feats.tropes, 3);
-    const P = b => Number(b.pages) || 0;
-    const paged = read.filter(P), avg = paged.length ? paged.reduce((s, b) => s + P(b), 0) / paged.length : 0;
-    const yrs = read.filter(b => b.year).map(b => b.year).sort((a, b) => a - b), med = yrs.length ? yrs[Math.floor(yrs.length / 2)] : null;
-    const fic = read.filter(b => b.category === "Fiction").length, non = read.filter(b => b.category === "Nonfiction").length;
-    const rated = read.filter(b => b.rating && community(b));
-    const diff = rated.length >= 3 ? rated.reduce((s, b) => s + b.rating - community(b).v, 0) / rated.length : null;
-    const recent = [...read].filter(b => b.finished).sort((a, b) => b.finished.localeCompare(a.finished)).slice(0, 5);
-    const recentG = (() => { const m = new Map(); recent.forEach(b => (b.genres || []).forEach(x => m.set(x, (m.get(x) || 0) + 1))); return [...m].sort((a, b) => b[1] - a[1])[0]; })();
-    const s = [];
-    // sentence 1: who you are
-    const kind = g.length ? `${listJoin(g)}` : (non > fic ? "nonfiction" : "fiction");
-    s.push(`You are a reader of ${kind}${t.length ? `, drawn again and again to stories of ${listJoin(t)}` : ""}.`);
-    // sentence 2: why you read, and the story shapes you love
-    const motives = g.map(x => MOTIVE[x]).filter(Boolean);
-    const mot = motives.length ? `You seem to read ${listJoin(motives.slice(0, 2))}` : "You read for stories that stay with you";
-    s.push(`${mot}${tr.length ? `, and your favourite books tend to share the same bones: ${listJoin(tr.map(x => x.toLowerCase()))}` : ""}.`);
-    // sentence 3: habits and taste
-    const len = avg > 450 ? "long, immersive books" : avg && avg < 250 ? "short, sharp books" : "books of a comfortable middle length";
-    const era = med ? (med < 1900 ? ", often classics" : med < 1980 ? ", often from the twentieth century" : med >= 2005 ? ", mostly contemporary" : "") : "";
-    const strict = diff === null ? "" : diff > .25 ? `, and you rate more generously than most readers` : diff < -.25 ? `, and you're a tougher critic than most readers` : `, and your ratings run close to the crowd's`;
-    s.push(`You lean toward ${len}${era}${strict}.`);
-    if (recentG && g[0] && recentG[0] !== g[0] && recentG[1] >= 2) s.push(`Lately, though, you've been turning toward ${recentG[0]}.`);
-    else if (low(feats.genres).length) s.push(`${low(feats.genres)[0]} rarely wins you over.`);
-    el.innerHTML = `<div class="label">Your reader's portrait · drawn from ${read.length} book${read.length > 1 ? "s" : ""}</div>
-      <p class="ptext">${esc(s.join(" "))}</p>
-      <div class="pfoot">${g.map(x => `<span class="tag">${esc(x)}</span>`).join("")}${tr.map(x => `<span class="trope">${esc(x)}</span>`).join("")}</div>`;
+    if (read.length < 2) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Shelve a couple of books as Read and your Reader DNA appears here: the mix of reader types that makes you you. It shifts a little with every book.</p>`; return; }
+    const dna = readerDNA().slice(0, 5);
+    if (!dna.length) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Fetch details for your books (Library → Fetch missing covers, details & tropes) so your Reader DNA can be read.</p>`; return; }
+    const total = dna.reduce((s, a) => s + a.score, 0), pct = dna.map(a => Math.round(a.score / total * 100));
+    const [top, second, third] = dna;
+    const mix = second ? `Your favourite stories also mix in ${second.s}${third ? ` and ${third.s}` : ""}.` : "";
+    el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA · from ${read.length} book${read.length > 1 ? "s" : ""}</div>${zodHead()}</div>${zodPicker()}
+      <div class="dnatitle"><span class="dnaglyph" style="color:${top.c}">${top.g}</span><h2>${top.name}</h2>${second ? `<span class="dnawith">with a dash of <b style="color:${second.c}">${second.name.replace(/^The /, "")}</b></span>` : ""}</div>
+      <p class="dnadesc">${esc(top.d)} ${esc(mix)}</p>${zodLine()}
+      <div class="strand" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div>
+      <div class="dnalegend">${dna.map((a, i) => `<span class="dnachip" style="--c:${a.c}"><i>${a.g}</i>${esc(a.name.replace(/^The /, ""))}<b>${pct[i]}%</b></span>`).join("")}</div>`;
   }
 
   // ================= bookcase =================
   // genre → binding, palette, emblem and aura
   const GENRE_LOOK = {
-    "Fantasy":            { hues: ["#26473A","#3A2A5C","#1D3B52","#4A2440"], motif: "✦", aura: "#B48CFF", kinds: ["cloth","gilt","foil"] },
-    "Science Fiction":    { hues: ["#14243F","#1E2E3A","#2A2F4F","#0F3440"], motif: "◈", aura: "#4FDCEB", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
-    "Mystery":            { hues: ["#3A1D1F","#22262B","#2C2A23","#40221A"], motif: "◆", aura: "#E2A458", kinds: ["cloth","foil","paper"] },
-    "Thriller":           { hues: ["#1E1E22","#3A1416","#23282E"], motif: "◆", aura: "#FF5D5D", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
-    "Horror":             { hues: ["#160F12","#2B0D10","#1C1A1F"], motif: "☾", aura: "#E0313A", kinds: ["cloth","foil"] },
-    "Romance":            { hues: ["#8C3B54","#A0485F","#6E2F4E","#B0646E"], motif: "♥", aura: "#FF8FB1", kinds: ["paper","gilt","cloth"] },
-    "Historical Fiction": { hues: ["#5A3B22","#6B4A2B","#4A3626"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","gilt"] },
-    "Classics":           { hues: ["#5C1E24","#2E3D2A","#1F2D46","#4A2A1C"], motif: "❧", aura: "#F2D58E", kinds: ["leather","leather","gilt"] },
-    "Literary Fiction":   { hues: ["#4C5A57","#5B4B5E","#6A5A48","#3F4E5E"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper"] },
-    "Poetry":             { hues: ["#6D5A86","#7C5C74","#4F6A73"], motif: "✿", aura: "#D7B4FF", kinds: ["cloth","gilt"] },
-    "Young Adult":        { hues: ["#1F6E73","#6B3FA0","#B0583A"], motif: "✧", aura: "#7FF0E0", kinds: ["paper","foil"] },
-    "Children's":         { hues: ["#D9822B","#3C8D5A","#2F6FB0","#C2463C"], motif: "☼", aura: "#FFD36E", kinds: ["paper","cloth"] },
-    "Dystopian":          { hues: ["#3A403C","#4A3F35","#2E3A3F"], motif: "✕", aura: "#C8D66B", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
-    "Adventure":          { hues: ["#1F4A5C","#5A4022","#2D5A3D"], motif: "⚓", aura: "#7CC6FF", kinds: ["cloth","leather"] },
-    "Humor":              { hues: ["#C08A1F","#3E7B6E","#B5523A"], motif: "☺", aura: "#FFE07A", kinds: ["paper"] },
-    "Biography & Memoir": { hues: ["#2E3F58","#5A4632","#3D4F43"], motif: "✒", aura: "#E8D7B0", kinds: ["cloth","paper"] },
-    "History":            { hues: ["#4A3622","#2F3F33","#3D2A2A"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","cloth"] },
-    "Science":            { hues: ["#123B4A","#1F3060","#2B4A3A"], motif: "✶", aura: "#6FD3FF", kinds: ["paper","cloth"], font: "var(--f-cap)", fs: "11px" },
-    "Philosophy":         { hues: ["#2B2B3F","#3D3326","#24343A"], motif: "☉", aura: "#C9B6FF", kinds: ["cloth","leather"] },
-    "Psychology":         { hues: ["#3E2E4F","#2D4A4A"], motif: "✶", aura: "#B9A3FF", kinds: ["paper","cloth"] },
-    "Self-help":          { hues: ["#C9772E","#2F7A6B","#B84A3A"], motif: "✶", aura: "#FFD36E", kinds: ["paper"] },
-    "Religion":           { hues: ["#3D2A1A","#24324A"], motif: "✝", aura: "#F2D58E", kinds: ["leather","gilt"] },
-    "Graphic Novel":      { hues: ["#B8312F","#1F5FA8","#E0A526"], motif: "✸", aura: "#FFE07A", kinds: ["paper"] },
+    "Fantasy":            { color: "#3B2A63", hues: ["#26473A","#3A2A5C","#1D3B52","#4A2440"], motif: "✦", aura: "#B48CFF", kinds: ["cloth","gilt","foil"] },
+    "Science Fiction":    { color: "#1C3A5E", hues: ["#14243F","#1E2E3A","#2A2F4F","#0F3440"], motif: "◈", aura: "#4FDCEB", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "Mystery":            { color: "#4A2A20", hues: ["#3A1D1F","#22262B","#2C2A23","#40221A"], motif: "◆", aura: "#E2A458", kinds: ["cloth","foil","paper"] },
+    "Thriller":           { color: "#2A2D33", hues: ["#1E1E22","#3A1416","#23282E"], motif: "◆", aura: "#FF5D5D", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Horror":             { color: "#3A0F14", hues: ["#160F12","#2B0D10","#1C1A1F"], motif: "☾", aura: "#E0313A", kinds: ["cloth","foil"] },
+    "Romance":            { color: "#8C3B54", hues: ["#8C3B54","#A0485F","#6E2F4E","#B0646E"], motif: "♥", aura: "#FF8FB1", kinds: ["paper","gilt","cloth"] },
+    "Historical Fiction": { color: "#6B4A2B", hues: ["#5A3B22","#6B4A2B","#4A3626"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","gilt"] },
+    "Classics":           { color: "#5C1E24", hues: ["#5C1E24","#2E3D2A","#1F2D46","#4A2A1C"], motif: "❧", aura: "#F2D58E", kinds: ["leather","leather","gilt"] },
+    "Literary Fiction":   { color: "#3F5550", hues: ["#4C5A57","#5B4B5E","#6A5A48","#3F4E5E"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper"] },
+    "Poetry":             { color: "#6D5A86", hues: ["#6D5A86","#7C5C74","#4F6A73"], motif: "✿", aura: "#D7B4FF", kinds: ["cloth","gilt"] },
+    "Young Adult":        { color: "#1F6E73", hues: ["#1F6E73","#6B3FA0","#B0583A"], motif: "✧", aura: "#7FF0E0", kinds: ["paper","foil"] },
+    "Children's":         { color: "#C2702B", hues: ["#D9822B","#3C8D5A","#2F6FB0","#C2463C"], motif: "☼", aura: "#FFD36E", kinds: ["paper","cloth"] },
+    "Dystopian":          { color: "#4A4F3A", hues: ["#3A403C","#4A3F35","#2E3A3F"], motif: "✕", aura: "#C8D66B", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Adventure":          { color: "#2D5A3D", hues: ["#1F4A5C","#5A4022","#2D5A3D"], motif: "⚓", aura: "#7CC6FF", kinds: ["cloth","leather"] },
+    "Humor":              { color: "#B08A1F", hues: ["#C08A1F","#3E7B6E","#B5523A"], motif: "☺", aura: "#FFE07A", kinds: ["paper"] },
+    "Biography & Memoir": { color: "#2E3F58", hues: ["#2E3F58","#5A4632","#3D4F43"], motif: "✒", aura: "#E8D7B0", kinds: ["cloth","paper"] },
+    "History":            { color: "#5A4632", hues: ["#4A3622","#2F3F33","#3D2A2A"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","cloth"] },
+    "Science":            { color: "#12506A", hues: ["#123B4A","#1F3060","#2B4A3A"], motif: "✶", aura: "#6FD3FF", kinds: ["paper","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "Philosophy":         { color: "#2B2B4F", hues: ["#2B2B3F","#3D3326","#24343A"], motif: "☉", aura: "#C9B6FF", kinds: ["cloth","leather"] },
+    "Psychology":         { color: "#4E3866", hues: ["#3E2E4F","#2D4A4A"], motif: "✶", aura: "#B9A3FF", kinds: ["paper","cloth"] },
+    "Self-help":          { color: "#B85A3A", hues: ["#C9772E","#2F7A6B","#B84A3A"], motif: "✶", aura: "#FFD36E", kinds: ["paper"] },
+    "Religion":           { color: "#3D2A1A", hues: ["#3D2A1A","#24324A"], motif: "✝", aura: "#F2D58E", kinds: ["leather","gilt"] },
+    "Graphic Novel":      { color: "#B8312F", hues: ["#B8312F","#1F5FA8","#E0A526"], motif: "✸", aura: "#FFE07A", kinds: ["paper"] },
   };
-  const DEFAULT_LOOK = { hues: ["#4C3A5E","#2F4A44","#5A3A2E","#2E3E5A"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper","gilt"] };
+  const DEFAULT_LOOK = { color: "#4C3A5E", hues: ["#4C3A5E","#2F4A44","#5A3A2E","#2E3E5A"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper","gilt"] };
   const lookOf = b => { for (const g of b.genres || []) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; return b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK; };
   const KEY_SPINE = "reading-ledger-spines";
-  let spineMode = lsGet(KEY_SPINE, "cover");
+  let spineMode = lsGet(KEY_SPINE, "genre");
+  if (!lsGet("reading-ledger-spines-v2", false)) { spineMode = "genre"; lsSet(KEY_SPINE, spineMode); lsSet("reading-ledger-spines-v2", true); }
+  if (spineMode !== "genre" && spineMode !== "individual") { spineMode = lsGet("reading-ledger-spines-v2", false) && books.some(b => b.spineCustom) ? "individual" : "genre"; lsSet(KEY_SPINE, spineMode); }
   const lum = c => { const [r, g, b] = rgbOf(c).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * r + .7152 * g + .0722 * b; };
   // ================= colour helpers for spines =================
   function hexToHsl(hex){ let [r, g, b] = rgbOf(hex).map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, s = 0; const l = (mx + mn) / 2;
@@ -1035,7 +1285,14 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   function hslToHex(h, s, l){ const f = n => { const k = (n + h * 12) % 12, a = s * Math.min(l, 1 - l); return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, "0"); }; return "#" + f(0) + f(8) + f(4); }
   // every spine lands in the same rich, bookbinder's range so the shelf looks like one collection
   const harmonize = hex => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, Math.min(.58, Math.max(s < .06 ? .08 : .24, s)), Math.min(.36, Math.max(.2, l * .9))); };
-  const spineColorOf = b => { const L = lookOf(b), hsh = hashNum((b.title || "") + (b.author || ""), 997); return harmonize((spineMode === "cover" && b.spineColor) || L.hues[hsh % L.hues.length]); };
+  const REREAD = [["no", "Once was enough"], ["maybe", "Maybe someday"], ["yes", "I'd reread it"], ["comfort", "Comfort reread"]];
+  const HYPE = [["lives", "Lived up to the hype", "✓"], ["short", "Didn't live up to the hype", "≈"], ["disappoint", "Biggest disappointment", "✗"]];
+  const FEELINGS = [["Joyful","☀","#E0A526"],["Cozy","☕","#B87A4B"],["Swooning","♥","#C94F7C"],["Thrilled","⚡","#E2643A"],["Obsessed","✺","#B8312F"],["Heartbroken","♡","#8C3B54"],["Devastated","☂","#4A4F7A"],["Moved","❀","#7B5EA7"],["Hopeful","✧","#3E9C8F"],["Comforted","☁","#6E9BC2"],["Nostalgic","⌛","#A07855"],["Inspired","✦","#D8B23A"],["Empowered","♛","#9C4DCC"],["Amused","☺","#E08E2E"],["Thoughtful","☾","#4F6D8C"],["Shocked","!","#D3473B"],["Scared","☠","#3A3346"],["Angry","♨","#A8322D"],["Cathartic","❂","#4C8A6A"],["Bored","…","#8C8577"]];
+  const FEEL = Object.fromEntries(FEELINGS.map(([n, g, c]) => [n, { g, c }]));
+  const feelLook = n => FEEL[n] || { g: "✧", c: `hsl(${hashNum(n, 360)} 45% 50%)` };
+  const SPINE_SWATCHES = ["#7A2E3A","#B8312F","#C2702B","#B08A1F","#5A6B2E","#2D5A3D","#1F6E73","#1C3A5E","#3B2A63","#6D5A86","#8C3B54","#5A4632","#2A2D33"];
+  const customTone = hex => { const [h, sat, l] = hexToHsl(hex); return hslToHex(h, sat, Math.min(.46, Math.max(.14, l))); };
+  const spineColorOf = b => spineMode === "individual" ? (b.spineCustom ? customTone(b.spineCustom) : harmonize(b.spineColor || lookOf(b).color)) : harmonize(lookOf(b).color);
 
   // ================= bookcase themes, trinkets & vines =================
   const CASES = {
@@ -1244,7 +1501,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   let lastResults = [], lastQuery = "", searchCtl = null;
   function renderResultsArea(state){
     const w = $("#results-wrap");
-    if (state === "idle") { w.innerHTML = `<div class="chips"><span class="label">Try</span>${SUGGEST.map(s => `<button class="chip" type="button" data-q="${esc(s)}">${esc(s)}</button>`).join("")}</div>`; return; }
+    if (state === "idle") { w.innerHTML = ""; return; }
     if (state === "loading") { w.innerHTML = `<div class="status"><span class="dots">Searching the stacks for “${esc(lastQuery)}”</span></div>`; return; }
     if (state !== "list") { w.innerHTML = `<div class="reshead"><span class="status">${esc(state)}</span><button class="btn small" type="button" data-close>Close</button></div>`; return; }
     const list = lastResults;
@@ -1298,7 +1555,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       else if (b.shelf === "reading") under = `<div class="bar"><span style="width:${pct}%"></span></div><span class="facts">${b.pages ? `page ${b.currentPage || 0} of ${b.pages} · ${pct}%` : "In progress"}</span>`;
       else under = `<span class="facts">Want to read</span>`;
       const cm = community(b);
-      return `<button class="book" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, b.shelf === "reading" ? `<i class="ribbon"></i>` : "")}<span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author)}${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</span>${under}${cm ? `<span class="gr">★ <b>${cm.v.toFixed(2)}</b> ${cm.src}${cm.src === "Goodreads" && b.goodreadsCount ? ` · ${shortCount(b.goodreadsCount)}` : ""}</span>` : ""}</button>`;
+      return `<button class="book" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, b.shelf === "reading" ? `<i class="ribbon"></i>` : "")}<span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author)}${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</span>${under}${cm ? `<span class="gr bgr" title="${cm.src} rating"><span>★ <b>${cm.v.toFixed(2)}</b> ${cm.src === "Goodreads" ? "GR" : "OL"}</span>${cm.src === "Goodreads" && b.goodreadsCount ? `<span class="cnt">${shortCount(b.goodreadsCount)}</span>` : ""}</span>` : ""}${vtags(b)}</button>`;
     }).join("")}</div>`;
   }
   let fetching = false;
@@ -1357,16 +1614,39 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     const monthOnly = inMonth.filter(b => !isExact(b.finished));
     const t = new Date(), isThisMonth = t.getFullYear() === calY && t.getMonth() + 1 === calM;
     const pages = inMonth.reduce((s, b) => s + (Number(b.pages) || 0), 0);
+    // reading spans: a coloured line from the start date to the finish date (or today, while still reading)
+    const pad2 = n => String(n).padStart(2, "0");
+    const mStart = `${calY}-${pad2(calM)}-01`, mEnd = `${calY}-${pad2(calM)}-${pad2(days)}`, today = todayISO();
+    const spans = books.filter(b => isExact(b.started) && ((b.shelf === "read" && isExact(b.finished) && b.finished >= b.started) || b.shelf === "reading"))
+      .map(b => ({ b, s: b.started, e: b.shelf === "reading" ? (today >= b.started ? today : b.started) : b.finished, live: b.shelf === "reading" }))
+      .filter(x => x.s <= mEnd && x.e >= mStart)
+      .sort((x, y) => x.s.localeCompare(y.s) || y.e.localeCompare(x.e));
+    const laneEnd = [];
+    spans.forEach(x => { let l = laneEnd.findIndex(e => e < x.s); if (l < 0) l = laneEnd.length; laneEnd[l] = x.e; x.lane = l; x.col = spineColorOf(x.b); x.days = Math.round((new Date(x.e) - new Date(x.s)) / 864e5) + 1; });
+    const LANES = Math.min(laneEnd.length, 5);
+    const lanesFor = d => {
+      if (!LANES) return "";
+      const iso = `${calY}-${pad2(calM)}-${pad2(d)}`, dow = (lead + d - 1) % 7;
+      const slots = Array.from({ length: LANES }, () => `<i class="ln none"></i>`);
+      spans.forEach(x => { if (x.lane >= LANES || iso < x.s || iso > x.e) return;
+        const st = iso === x.s, en = iso === x.e;
+        const cls = `ln${st ? " st" : ""}${en ? (x.live ? " live" : " en") : ""}${!st && dow === 0 ? " wrapl" : ""}${!en && dow === 6 ? " wrapr" : ""}`;
+        slots[x.lane] = `<i class="${cls}" style="--c:${x.col}" data-open="${esc(x.b.id)}" title="${esc(x.b.title)} · ${st ? "started" : en ? (x.live ? "still reading" : "finished") : "reading"} · day ${Math.round((new Date(iso) - new Date(x.s)) / 864e5) + 1} of ${x.days}${x.live ? "+" : ""}"></i>`; });
+      return `<div class="lanes">${slots.join("")}</div>`;
+    };
     const cells = [];
     for (let i = 0; i < lead; i++) cells.push(`<div class="day out"></div>`);
     for (let d = 1; d <= days; d++) {
       const list = byDay.get(d) || [];
-      cells.push(`<div class="day${isThisMonth && t.getDate() === d ? " today" : ""}${list.length === 1 ? " one" : ""}"><span class="dn">${d}</span><div class="stack">${list.slice(0, 4).map(b => `<button class="mini" type="button" data-open="${esc(b.id)}" title="${esc(b.title)}${b.rating ? " · " + b.rating + "★" : ""}">${coverHTML(b)}</button>`).join("")}${list.length > 4 ? `<span class="more">+${list.length - 4}</span>` : ""}</div></div>`);
+      cells.push(`<div class="day${isThisMonth && t.getDate() === d ? " today" : ""}${list.length === 1 ? " one" : ""}"><span class="dn">${d}</span><div class="stack">${list.slice(0, 4).map(b => `<button class="mini" type="button" data-open="${esc(b.id)}" title="${esc(b.title)}${b.rating ? " · " + b.rating + "★" : ""}">${coverHTML(b)}</button>`).join("")}${list.length > 4 ? `<span class="more">+${list.length - 4}</span>` : ""}</div>${lanesFor(d)}</div>`);
     }
+    const fmtD = iso => { const p = dParts(iso); return `${p.d} ${MONTHS_LONG[p.m - 1].slice(0, 3)}`; };
+    const spanLegend = spans.length ? `<div class="spanleg"><div class="label">Reading spans</div>${spans.map(x => `<button type="button" class="sl" data-open="${esc(x.b.id)}"><i style="--c:${x.col}"></i><b>${esc(x.b.title)}</b><span>${fmtD(x.s)} → ${x.live ? "still reading" : fmtD(x.e)} · ${x.days} day${x.days > 1 ? "s" : ""}${x.live ? " so far" : ""}</span></button>`).join("")}${laneEnd.length > LANES ? `<span class="note">Showing the first ${LANES} lines per day.</span>` : ""}</div>` : "";
     while (cells.length % 7) cells.push(`<div class="day out"></div>`);
     el.innerHTML = `<div class="calhead"><div class="calnav"><button class="btn small" type="button" data-cal="-1" aria-label="Previous month">‹</button><h2>${MONTHS_LONG[calM - 1]} ${calY}</h2><button class="btn small" type="button" data-cal="1" aria-label="Next month">›</button></div>
       <div class="calnav"><span class="note">${inMonth.length ? `${inMonth.length} book${inMonth.length > 1 ? "s" : ""} finished · ${pages.toLocaleString()} pages` : "No books finished this month"}</span><button class="btn small" type="button" data-cal="now">This month</button></div></div>
       <div class="cal">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => `<div class="dow">${d}</div>`).join("")}${cells.join("")}</div>
+      ${spanLegend}
       ${monthOnly.length ? `<div class="calsum"><div class="label">Finished sometime in ${MONTHS_LONG[calM - 1]}</div><div class="wall">${monthOnly.map(b => `<button class="wb" type="button" data-open="${esc(b.id)}" title="${esc(b.title)}">${coverHTML(b)}</button>`).join("")}</div></div>` : ""}`;
   }
 
@@ -1544,7 +1824,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name;
     document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   }
-  $("#exp-btn").addEventListener("click", () => download(`reading-ledger-backup-${todayISO()}.json`, JSON.stringify({ app: "reading-ledger", version: 2, books, recs }, null, 1), "application/json"));
+  $("#exp-btn").addEventListener("click", () => download(`my-book-nook-backup-${todayISO()}.json`, JSON.stringify({ app: "reading-ledger", version: 2, books, recs }, null, 1), "application/json"));
   $("#imp-gr").addEventListener("change", async e => { const f = e.target.files[0]; if (f) importGoodreads(await f.text()); e.target.value = ""; });
   $("#imp-json").addEventListener("change", async e => {
     const f = e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -1557,7 +1837,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
         const same = books.find(x => x.id === b.id) || findSame(b); if (same) Object.assign(same, b); else { books.push({ id: b.id || newId(), ...b }); n++; } }
       if (data.recs) { recs = data.recs; lsSet(KEY_RECS, recs); }
       save(); render(); toast(`Restored. ${n} book${n === 1 ? "" : "s"} added.`);
-    } catch { toast("That file isn't a Reading Ledger backup."); }
+    } catch { toast("That file isn't a My Book Nook backup."); }
   });
 
   // ================= cover helpers =================
@@ -1619,6 +1899,13 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     const tropeCounts = topN(read.flatMap(b => b.tropes || []), 10);
     const loved = read.filter(b => b.rating >= 4);
     const tropeLoved = topN(loved.flatMap(b => b.tropes || []), 5);
+    const vSurprise = read.filter(b => b.surpriseFav), vRec = read.filter(b => b.recommend), vReread = read.filter(b => b.reread), vHype = read.filter(b => b.hype);
+    const vList = (list, extra = () => "") => list.length ? `<ul class="vlist">${list.slice(0, 6).map(b => `<li><button type="button" data-open="${esc(b.id)}">${esc(b.title)}</button><span class="muted">${extra(b)}</span></li>`).join("")}${list.length > 6 ? `<li class="muted">and ${list.length - 6} more</li>` : ""}</ul>` : `<div class="muted" style="font-size:13px">None yet</div>`;
+    const felt = read.filter(b => (b.feelings || []).length);
+    const feelCounts = topN(felt.flatMap(b => b.feelings), 12);
+    const feelLoved = topN(loved.flatMap(b => b.feelings || []), 5);
+    const feelAvg = feelCounts.map(([f]) => { const r = felt.filter(b => b.feelings.includes(f) && b.rating); return [f, r.length ? r.reduce((s, b) => s + b.rating, 0) / r.length : null, r.length]; }).filter(x => x[1] !== null).sort((a, b) => b[1] - a[1]);
+    const feelChip = (f, n) => { const L = feelLook(f); return `<span class="fchip" style="--fc:${L.c}"><i>${L.g}</i>${esc(f)}${n != null ? ` <b>${n}</b>` : ""}</span>`; };
     const tropeAvg = tropeCounts.map(([t]) => { const r = read.filter(b => (b.tropes || []).includes(t) && b.rating); return [t, r.length ? r.reduce((s, b) => s + b.rating, 0) / r.length : null, r.length]; }).filter(x => x[1] !== null && x[2] >= 2).sort((a, b) => b[1] - a[1]);
 
     el.innerHTML = `<div style="display:flex;flex-direction:column;gap:14px">
@@ -1643,6 +1930,21 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
             <div class="label" style="margin-bottom:6px">In the books you loved (4–5★)</div><div class="pfoot" style="margin:0 0 12px">${tropeLoved.map(([t, n]) => `<span class="trope">${esc(t)} · ${n}</span>`).join("") || `<span class="muted">Rate a few books 4 or 5 stars</span>`}</div>
             <div class="label" style="margin-bottom:6px">Your average rating by trope</div><ul class="vs">${tropeAvg.slice(0, 6).map(([t, a, n]) => `<li><span>${esc(t)}</span><span class="muted num">${a.toFixed(1)}★ · ${n} books</span></li>`).join("") || `<li class="muted">Needs at least two rated books per trope</li>`}</ul>
           </div></div>` : `<div class="note">No tropes found yet. Use “Fetch missing covers, details & tropes” in the Library, or add tropes in a book's details.</div>`}</div>
+        <div class="panel wide"><div class="phead"><h3>How your books made you feel</h3><span class="note">${felt.length ? `From ${felt.length} of ${read.length} book${read.length === 1 ? "" : "s"} · add feelings when you rate a book` : "Pick feelings when you rate a book"}</span></div>
+          ${feelCounts.length ? `<div class="panels" style="gap:18px"><div class="chartbox"><canvas id="ch-feel"></canvas></div><div>
+            <div class="feelhero"><span class="g" style="color:${feelLook(feelCounts[0][0]).c}">${feelLook(feelCounts[0][0]).g}</span><div><div class="label">You felt most often</div><b>${esc(feelCounts[0][0])}</b> <span class="muted">· ${feelCounts[0][1]} book${feelCounts[0][1] > 1 ? "s" : ""}</span></div></div>
+            <div class="label" style="margin:10px 0 6px">In the books you loved (4–5★)</div><div class="pfoot" style="margin:0 0 12px">${feelLoved.map(([f, n]) => feelChip(f, n)).join("") || `<span class="muted">Rate a few books 4 or 5 stars</span>`}</div>
+            <div class="label" style="margin-bottom:6px">Your average rating by feeling</div><ul class="vs">${feelAvg.slice(0, 5).map(([f, a, n]) => `<li><span>${feelLook(f).g} ${esc(f)}</span><span class="muted num">${a.toFixed(1)}★ · ${n} book${n > 1 ? "s" : ""}</span></li>`).join("") || `<li class="muted">Rate the books you've tagged</li>`}</ul>
+          </div></div>` : `<div class="note">No feelings yet. Open a book you've read and choose how it made you feel under its rating: joyful, heartbroken, cozy, swooning, and more.</div>`}</div>
+        <div class="panel wide"><div class="phead"><h3>Your verdicts</h3><span class="note">Set them under the rating of any book you've read</span></div>
+          ${vSurprise.length + vRec.length + vReread.length + vHype.length ? `<div class="vgrid">
+            <div class="vbox"><div class="vh"><i>✷</i> Surprise favourites <b>${vSurprise.length}</b></div>${vList(vSurprise, b => b.rating ? stars(b.rating) : "")}</div>
+            <div class="vbox"><div class="vh"><i>✉</i> Would recommend <b>${vRec.length}</b></div>${vList(vRec, b => b.recommendTo ? `to ${esc(b.recommendTo)}` : "")}</div>
+            <div class="vbox"><div class="vh"><i>↻</i> Rereadability</div><div class="meter">${REREAD.map(([k, l]) => { const n = vReread.filter(b => b.reread === k).length; return `<div class="vmrow"><span>${l}</span><span class="mbar"><span style="width:${vReread.length ? n / vReread.length * 100 : 0}%"></span></span><b>${n}</b></div>`; }).join("")}</div>
+              ${vReread.some(b => b.reread === "comfort") ? `<div class="label" style="margin-top:8px">Comfort rereads</div>${vList(vReread.filter(b => b.reread === "comfort"))}` : ""}</div>
+            <div class="vbox"><div class="vh"><i>✦</i> The hype</div><div class="meter">${HYPE.map(([k, l]) => { const n = vHype.filter(b => b.hype === k).length; return `<div class="vmrow ${k}"><span>${l}</span><span class="mbar"><span style="width:${vHype.length ? n / vHype.length * 100 : 0}%"></span></span><b>${n}</b></div>`; }).join("")}</div>
+              ${vHype.some(b => b.hype === "disappoint") ? `<div class="label" style="margin-top:8px">Biggest disappointments</div>${vList(vHype.filter(b => b.hype === "disappoint"))}` : ""}</div>
+          </div>` : `<div class="note">No verdicts yet. Open a book you've read and mark whether you'd reread it, whether it was a surprise favourite, who you'd recommend it to, and whether it lived up to the hype.</div>`}</div>
         <div class="panel wide"><div class="phead"><h3>You versus ${srcName}</h3><span class="note">Each dot is a book you rated</span></div>
           ${both.length ? `<div class="panels" style="gap:18px"><div class="chartbox"><canvas id="ch-vs"></canvas></div><div>
             <div class="label" style="margin-bottom:6px">You loved more than most</div><ul class="vs">${diffs.filter(x => x.d > .3).slice(0, 4).map(x => `<li><span>${esc(x.b.title)}</span><span class="muted num">you ${x.b.rating}★ · ${community(x.b).v.toFixed(2)}</span></li>`).join("") || `<li class="muted">None yet</li>`}</ul>
@@ -1719,6 +2021,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
         plugins: { legend: { labels: { color: ink, usePointStyle: true, boxWidth: 10 } }, tooltip: { callbacks: { afterTitle: items => `${mb[items[0].dataIndex]} book${mb[items[0].dataIndex] === 1 ? "" : "s"} finished` } } },
         scales: { x: { grid: noGrid, border: { display: false } }, y: { grid, border: { display: false }, beginAtZero: true, title: { display: true, text: "pages" } }, y2: { position: "right", grid: noGrid, border: { display: false }, beginAtZero: true } } } }));
     hbar("#ch-tropes", tropeCounts, 3);
+    if ($("#ch-feel")) charts.push(new Chart($("#ch-feel"), { type: "bar", data: { labels: feelCounts.map(([f]) => `${feelLook(f).g}  ${f}`), datasets: [{ data: feelCounts.map(r => r[1]), backgroundColor: c => fill(feelLook(feelCounts[c.dataIndex]?.[0] || "").c, true)(c), borderRadius: 20, borderSkipped: false, maxBarThickness: 18, glow: true }] },
+      options: { indexAxis: "y", maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.raw} book${c.raw > 1 ? "s" : ""}` } } }, scales: { x: { grid, border: { display: false }, ticks: { precision: 0 }, beginAtZero: true }, y: { grid: noGrid, border: { display: false }, ticks: { color: ink } } } } }));
     if ($("#ch-vs")) charts.push(new Chart($("#ch-vs"), { type: "scatter", data: { datasets: [
         { label: "Books", data: both.map(b => ({ x: community(b).v, y: b.rating + (hashNum(b.title, 7) - 3) * .04, t: b.title, r: b.rating })),
           backgroundColor: c => { const r = c.raw; if (!r) return pal[0]; return r.r - r.x > .3 ? pal[2] : r.r - r.x < -.3 ? pal[4] : gold; }, borderColor: paper, borderWidth: 1.5, pointRadius: 7, pointHoverRadius: 10, pointStyle: "circle", glow: true },
@@ -1799,9 +2103,70 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     recsRunning = false;
     renderRecs();
   }
+  // ================= discover: bestselling by genre & most popular =================
+  let recMode = lsGet("reading-ledger-recmode", "foryou"), discGenre = null, discPeriod = "monthly", discItems = [];
+  const DISC_GENRES = [["Fantasy", 'subject:fantasy'], ["Romantasy", 'subject:fantasy subject:romance'], ["Romance", 'subject:romance'], ["Thriller", 'subject:thriller'], ["Mystery", 'subject:mystery'],
+    ["Science Fiction", 'subject:"science fiction"'], ["Horror", 'subject:horror'], ["Historical Fiction", 'subject:"historical fiction"'], ["Young Adult", 'subject:"young adult fiction"'],
+    ["Literary Fiction", 'subject:"literary fiction"'], ["Contemporary", 'subject:"contemporary"'], ["LGBTQ+", 'subject:lgbtq'], ["Graphic Novels", 'subject:"graphic novels"'], ["Poetry", 'subject:poetry'],
+    ["Biography & Memoir", 'subject:biography'], ["History", 'subject:history -subject:fiction'], ["Science", 'subject:science -subject:fiction'], ["Self-help", 'subject:"self-help"'], ["True Crime", 'subject:"true crime"']];
+  const PERIODS = [["weekly", "This week"], ["monthly", "This month"], ["yearly", "This year"], ["forever", "All time"]];
+  const discCache = new Map();
+  const cacheGet = k => { if (discCache.has(k)) return discCache.get(k); const c = lsGet("reading-ledger-disc", {}); const x = c[k]; return x && Date.now() - x.t < 12 * 36e5 ? x.items : null; };
+  const cachePut = (k, items) => { discCache.set(k, items); const c = lsGet("reading-ledger-disc", {}); c[k] = { t: Date.now(), items }; Object.keys(c).filter(x => Date.now() - c[x].t > 864e5).forEach(x => delete c[x]); try { lsSet("reading-ledger-disc", c); } catch {} };
+  const slimDoc = d => { const r = fromDoc(d); return { title: r.title, author: r.author, year: r.year, pages: r.pages, olKey: r.olKey, coverId: r.coverId, cover: r.cover, olRating: r.olRating, olCount: r.olCount, isbn: r.isbn, genres: r.genres, category: r.category, subjects: (r.subjects || []).slice(0, 15) }; };
+  const notKids = r => !/juvenile|children's|picture book/i.test((r.subjects || []).join(" "));
+  async function fetchGenre(g){
+    const key = "g:" + g, hit = cacheGet(key); if (hit) return hit;
+    const q = DISC_GENRES.find(x => x[0] === g)[1], Y = new Date().getFullYear();
+    let docs = [];
+    const tries = [{ q: `${q} first_publish_year:[${Y - 2} TO ${Y}]`, sort: "trending" }, { q: `${q} first_publish_year:[${Y - 4} TO ${Y}]`, sort: "readinglog" }, { q, sort: "trending" }];
+    for (const t of tries) { try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ ...t, fields: FIELDS, limit: "40", lang: "en" })}`); docs = (d.docs || []).filter(x => x.title && x.cover_i); } catch {} if (docs.length >= 8) break; }
+    const items = docs.map(slimDoc).filter(r => g === "Young Adult" || notKids(r)).slice(0, 24);
+    if (items.length) cachePut(key, items);
+    return items;
+  }
+  async function fetchPopular(period){
+    const key = "p:" + period, hit = cacheGet(key); if (hit) return hit;
+    let docs = [];
+    try { const d = await olJSON(`${OL}/trending/${period}.json?limit=40`); docs = (d.works || []).filter(x => x.title && x.cover_i); } catch {}
+    if (docs.length < 8) try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ q: "language:eng", sort: period === "forever" ? "readinglog" : "trending", fields: FIELDS, limit: "40" })}`); docs = (d.docs || []).filter(x => x.title && x.cover_i); } catch {}
+    const items = docs.map(slimDoc).slice(0, 30);
+    if (items.length) cachePut(key, items);
+    return items;
+  }
+  const discCard = (r, i) => { const have = findSame(r);
+    return `<div class="dcard"><span class="rank">${i + 1}</span><button type="button" class="dcov" data-dopen="${i}" title="Look closer">${coverHTML(r)}</button>
+      <div class="dt">${esc(r.title)}</div><div class="da">${esc(r.author)}${r.year ? ` · ${r.year}` : ""}</div>
+      ${r.olRating ? `<div class="dr">★ ${r.olRating.toFixed(1)}${r.olCount ? ` <span>· ${shortCount(r.olCount)}</span>` : ""}</div>` : ""}
+      <div class="dacts">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-dwant="${i}">+ Want to read</button>`}<a class="gr" href="${grURL(r)}" target="_blank" rel="noopener" title="Open on Goodreads">GR ↗</a></div></div>`; };
+  async function renderDiscover(){
+    const out = $("#disc-out"); if (!out) return;
+    const isG = recMode === "genre";
+    if (isG && !discGenre) { const top = topN(readBooks().flatMap(b => b.genres || []), 5).map(x => x[0]); discGenre = (top.map(g => DISC_GENRES.find(d => d[0] === g)).find(Boolean) || DISC_GENRES[0])[0]; }
+    const want = isG ? "g:" + discGenre : "p:" + discPeriod;
+    out.dataset.req = want;
+    out.innerHTML = `<div class="status"><span class="dots">${isG ? `Gathering the hottest ${esc(discGenre.toLowerCase())}` : "Counting what everyone is reading"}</span></div>`;
+    const items = isG ? await fetchGenre(discGenre) : await fetchPopular(discPeriod);
+    if (out.dataset.req !== want || !$("#disc-out")) return;
+    discItems = items;
+    out.innerHTML = items.length ? `<div class="dgrid">${items.map(discCard).join("")}</div>` : `<div class="status">Couldn't reach Open Library just now. Check your connection and try again.</div>`;
+  }
   function renderRecs(){
     const el = $("#view-recs");
-    if (!$("#rec-form")) el.innerHTML = `<div class="panel" style="margin-bottom:14px">
+    if (!$("#rec-modes")) el.innerHTML = `<div class="recmodes" id="rec-modes" role="tablist"></div><div id="rec-body"></div>`;
+    $("#rec-modes").innerHTML = [["foryou", "✦ Chosen for you"], ["genre", "❦ Bestselling by genre"], ["popular", "♛ Most popular"]].map(([k, l]) => `<button type="button" role="tab" data-recmode="${k}" aria-selected="${recMode === k}">${l}</button>`).join("");
+    const body = $("#rec-body");
+    if (recMode !== "foryou") {
+      const isG = recMode === "genre";
+      body.innerHTML = `<div class="panel discpanel"><div class="phead"><h2>${isG ? "Bestselling by genre" : "Most popular right now"}</h2></div>
+        <div class="note">${isG ? "The hottest books of the last few years in each genre, ranked by what readers on Open Library are reading and saving right now." : "The books the most readers on Open Library are reading and adding to their shelves."} New picks appear as the rankings change.</div>
+        <div class="chips discchips">${isG ? DISC_GENRES.map(([g]) => `<button class="chip" type="button" data-dgenre="${esc(g)}" aria-pressed="${g === discGenre}">${esc(g)}</button>`).join("") : PERIODS.map(([k, l]) => `<button class="chip" type="button" data-dperiod="${k}" aria-pressed="${k === discPeriod}">${l}</button>`).join("")}</div></div>
+        <div id="disc-out"></div>`;
+      if (isG && !discGenre) { renderDiscover().then(() => body.querySelectorAll("[data-dgenre]").forEach(b => b.setAttribute("aria-pressed", b.dataset.dgenre === discGenre))); }
+      else renderDiscover();
+      return;
+    }
+    if (!$("#rec-form")) body.innerHTML = `<div class="panel" style="margin-bottom:14px">
       <h2>Your next enchantment</h2>
       <div class="note">Picked automatically from the genres, story elements and tropes of the books you rated highest, and refreshed as your library changes. Type a wish to search for something specific instead.</div>
       <form class="recform" id="rec-form" autocomplete="off">
@@ -1834,7 +2199,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     }
     if (b.series && !b.seriesName) { const p = parseSeries(b.series); b.seriesName = p.name; b.seriesNum = p.num; }
     if (!b.seriesName && b.seriesHint) b.seriesName = b.seriesHint;
-    let newCover = null, tropesEdited = false;
+    let newCover = null, tropesEdited = false, spinePick = b.spineCustom || null, feelPick = [...(b.feelings || [])], verdict = { reread: b.reread || null, surpriseFav: !!b.surpriseFav, recommend: !!b.recommend, recommendTo: b.recommendTo || "", hype: b.hype || null };
     const root = $("#modal-root");
     root.onclick = null;
     root.innerHTML = `<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
@@ -1846,6 +2211,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
             <div class="covers-alt" id="m-alts"></div>
             <div class="links"><button class="linkbtn" type="button" id="m-findcov">Choose a different cover</button><a href="${imgURL(b)}" target="_blank" rel="noopener">Image search ↗</a>${b.cover ? `<button class="linkbtn" type="button" id="m-rmcover">Remove cover</button>` : ""}</div>
             <div class="drop" id="m-drop">Or paste a copied image here (Ctrl+V / ⌘V), drop one, or <label class="linkbtn" style="font-style:normal">choose a file<input id="m-file" type="file" accept="image/*" hidden></label></div>
+            <span class="label" style="margin-top:6px">Its own spine colour · shows with “Individual colours”</span>
+            <div class="swatches" id="m-swatches">${SPINE_SWATCHES.map(c => `<button type="button" data-sw="${c}" class="${b.spineCustom === c ? "sel" : ""}" style="background:${customTone(c)}" aria-label="Use this spine colour"></button>`).join("")}<label class="swcustom" title="Pick any colour"><input type="color" id="m-swc" value="${b.spineCustom || "#5a3a6e"}" aria-label="Pick any spine colour"></label><button class="linkbtn" type="button" data-sw="">${b.spineCustom ? "Back to automatic" : "Automatic"}</button></div>
           </div></div></div>
       <div id="m-gallery" hidden></div>
       ${famBubble(b)}
@@ -1876,6 +2243,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     </div></div>`;
     wirePickers($("#scrim"));
     $("#m-tr").addEventListener("input", () => { tropesEdited = true; });
+    $("#scrim").addEventListener("keydown", e => { if (e.target.id === "m-feelx" && e.key === "Enter") { e.preventDefault(); addFeel(); } });
+    $("#m-swc").addEventListener("input", e => { spinePick = e.target.value; $("#m-swatches").querySelectorAll("[data-sw]").forEach(z => z.classList.remove("sel")); });
     $("#m-grpaste").addEventListener("input", e => {
       const t = e.target.value.replace(/\u00a0/g, " ");
       const av = t.match(/(?:^|[^\d.])([0-5][.,]\d{1,2})(?!\d)/), ct = t.match(/(\d[\d,.\s]*)\s*ratings?/i);
@@ -1887,10 +2256,21 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       if (!d) return; b.summary = d; const s = $("#m-sum"); if (s) s.textContent = d;
       if (!tropesEdited && $("#m-tr")) { const t = [...new Set([...(b.tropes || []), ...detectTropes(b.subjects || [], d)])].slice(0, 6); b.tropes = t; $("#m-tr").value = t.join(", "); }
     });
+    const verdictHTML = () => `<span class="label">Your verdict</span>
+      <div class="vrow"><span class="vk">Rereadability</span><div class="seg small">${REREAD.map(([k, l]) => `<button type="button" data-vreread="${k}" aria-pressed="${verdict.reread === k}">${l}</button>`).join("")}</div></div>
+      <div class="vrow"><span class="vk">The hype</span><div class="seg small">${HYPE.map(([k, l, g]) => `<button type="button" data-vhype="${k}" aria-pressed="${verdict.hype === k}"><i>${g}</i> ${l}</button>`).join("")}</div></div>
+      <div class="vrow"><button type="button" class="vtoggle" data-vsurprise aria-pressed="${verdict.surpriseFav}"><i>✷</i> Surprise favourite <small>didn't expect to love it</small></button>
+        <button type="button" class="vtoggle" data-vrec aria-pressed="${verdict.recommend}"><i>✉</i> Would recommend</button>
+        ${verdict.recommend ? `<input id="m-recto" class="recto" placeholder="To whom? e.g. my sister, anyone who loved Circe" value="${esc(verdict.recommendTo)}" maxlength="80">` : ""}</div>`;
+    const paintVerdict = () => { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim(); $("#m-verdict").innerHTML = verdictHTML(); };
+    const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
+    const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
     let shelfFields = () => {
       const f = $("#m-shelf-fields");
       if (b.shelf === "read") f.innerHTML = `<div class="fields">
         <div class="field full"><span class="label">Your rating · click the left half of a star for a half star</span><div class="starpick halfstars" id="m-stars">${[1,2,3,4,5].map(n => `<span class="sp" data-n="${n}"><span class="glyph">★</span><button type="button" data-star="${n - .5}" aria-label="${n - .5} stars"></button><button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? "s" : ""}"></button></span>`).join("")}<span class="rv" id="m-rv"></span></div></div>
+        <div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelpick" id="m-feel">${feelChips()}</div></div>
+        <div class="field full verdicts" id="m-verdict">${verdictHTML()}</div>
         ${datePicker("fin", b.finished, "Finished", { ask: "When did you finish it?", allowUnknown: true, unknown: b.finishedUnknown && !b.finished })}
         ${datePicker("st", b.started, "Started", { ask: "And when did you start?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}
         <div class="field full" id="m-err" class="note"></div></div>`;
@@ -1940,6 +2320,11 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       const g = parseFloat(v("#m-gr")); b.goodreads = g > 0 && g <= 5 ? Math.round(g * 100) / 100 : null;
       b.goodreadsCount = parseInt(v("#m-grc")) || null;
       b.category = v("#m-cat") || null;
+      if (spinePick && spinePick !== b.spineCustom && spineMode === "genre") { spineMode = "individual"; lsSet(KEY_SPINE, spineMode); paintSpineMode(); paintSpineNote(); setTimeout(() => toast("Spine colours switched to Individual colours so your pick shows. Change it back under Customise bookcase."), 600); }
+      b.spineCustom = spinePick;
+      if ($("#m-feel")) b.feelings = feelPick.length ? [...feelPick] : [];
+      if ($("#m-verdict")) { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim();
+        b.reread = verdict.reread; b.surpriseFav = verdict.surpriseFav || undefined; b.recommend = verdict.recommend || undefined; b.recommendTo = verdict.recommend && verdict.recommendTo ? verdict.recommendTo : undefined; b.hype = verdict.hype; }
       b.genres = list(v("#m-g")); b.themes = list(v("#m-th")); b.tropes = list(v("#m-tr")).map(cap);
       b.seriesName = v("#m-se") || null; const sn = parseFloat(v("#m-sn")); b.seriesNum = b.seriesName && !isNaN(sn) ? sn : null;
       if ($("#m-cp")) b.currentPage = parseInt(v("#m-cp")) || 0;
@@ -1964,6 +2349,13 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       if (e.target.closest("[data-galclose]")) { $("#m-gallery").hidden = true; return; }
       if (id === "m-rmcover") { setCover(""); e.target.remove(); return; }
       if (id === "m-addseries") { readFields(); const seed = { name: b.seriesName, author: b.author }; close(); openSeriesAdder(seed); return; }
+      const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; fe.setAttribute("aria-pressed", feelPick.includes(n)); return; }
+      if (id === "m-feelgo") return addFeel();
+      const vr = e.target.closest("[data-vreread]"); if (vr) { verdict.reread = verdict.reread === vr.dataset.vreread ? null : vr.dataset.vreread; return paintVerdict(); }
+      const vh = e.target.closest("[data-vhype]"); if (vh) { verdict.hype = verdict.hype === vh.dataset.vhype ? null : vh.dataset.vhype; return paintVerdict(); }
+      if (e.target.closest("[data-vsurprise]")) { verdict.surpriseFav = !verdict.surpriseFav; return paintVerdict(); }
+      if (e.target.closest("[data-vrec]")) { verdict.recommend = !verdict.recommend; paintVerdict(); if (verdict.recommend) $("#m-recto")?.focus(); return; }
+      const sw = e.target.closest("[data-sw]"); if (sw) { spinePick = sw.dataset.sw || null; $("#m-swatches").querySelectorAll("[data-sw]").forEach(z => z.classList.toggle("sel", z === sw && !!spinePick)); toast(spinePick ? "Spine colour chosen. Press Save to keep it." : "Spine colour set back to automatic."); return; }
       const alt = e.target.closest("[data-alt]"); if (alt) { setCover(coverById(alt.dataset.alt)); $("#m-gallery").querySelectorAll("[data-alt]").forEach(x => x.classList.toggle("sel", x === alt)); toast("Cover chosen. Press Save to keep it."); return; }
       const s = e.target.closest("[data-shelf]");
       if (s) { readFields(); if ($("#fin") || $("#st")) { const f = readPicker("fin"), st = readPicker("st"); if (f.ok && f.value !== undefined) b.finished = f.value; if (st.ok && st.value !== undefined) b.started = st.value; }
@@ -2033,7 +2425,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       const b = books.find(x => x.id === id); if (!b) return;
       if (t.dataset.tier !== b.shelf) { openEditor(b, false, { moveTo: t.dataset.tier }); return; }
       // rearrange within the shelf: freeze every shelf's current order, then move this book
-      if (arrangeBy !== "custom") { ["reading","read","want"].forEach(k => arrangeList(books.filter(x => x.shelf === k), k).forEach((x, i) => { x.order = i; })); arrangeBy = "custom"; lsSet(KEY_ARR, arrangeBy); $("#arrange").value = "custom"; }
+      if (arrangeBy !== "custom") { ["reading","read","want"].forEach(k => arrangeList(books.filter(x => x.shelf === k), k).forEach((x, i) => { x.order = i; })); arrangeBy = "custom"; lsSet(KEY_ARR, arrangeBy); paintArrange(); }
       const ids = info.ids; ids.splice(info.idx, 0, id);
       ids.forEach((bid, i) => { const x = books.find(y => y.id === bid); if (x) x.order = i; });
       save(); renderShelf(); toast("Shelf rearranged");
@@ -2046,105 +2438,150 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   const dayMs = 864e5;
   const startDate = s => { const p = dParts(s); return p ? new Date(p.y, (p.m || 1) - 1, p.d || 1) : null; };
   const midnight = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  function logProgress(b, page){
+  function logProgress(b, page, chapter){
     const t = todayISO(); b.progressLog = (b.progressLog || []).filter(x => x.d !== t);
-    b.progressLog.push({ d: t, p: page }); b.progressLog = b.progressLog.slice(-60);
+    const entry = { d: t, p: page }; if (chapter != null) entry.c = chapter;
+    b.progressLog.push(entry); b.progressLog = b.progressLog.slice(-60);
   }
   function overallPace(){
     const cutoff = new Date(Date.now() - 365 * dayMs), cs = `${cutoff.getFullYear()}-${pad(cutoff.getMonth() + 1)}`;
     const pages = readBooks().filter(b => b.finished && dParts(b.finished)?.m && b.finished.slice(0, 7) >= cs).reduce((s, b) => s + (Number(b.pages) || 0), 0);
     return pages ? pages / 365 : 0;
   }
+  const byChapters = b => b.trackBy === "chapters";
   function estimate(b){
-    const total = Number(b.pages) || 0, cur = Math.min(Number(b.currentPage) || 0, total || Infinity);
+    const ch = byChapters(b) && Number(b.chapters) > 0;
+    const total = ch ? Number(b.chapters) : (Number(b.pages) || 0);
+    const cur = Math.min(ch ? (Number(b.currentChapter) || 0) : (Number(b.currentPage) || 0), total || Infinity);
+    const key = ch ? "c" : "p", unit = ch ? "chapter" : "page";
     const today = midnight(new Date());
     let pace = 0, basis = "";
-    const log = (b.progressLog || []).filter(x => (today - startDate(x.d)) / dayMs <= 21);
-    if (log.length >= 2) { const a = log[0], z = log[log.length - 1]; const days = Math.max(1, (startDate(z.d) - startDate(a.d)) / dayMs); if (z.p > a.p) { pace = (z.p - a.p) / days; basis = "your last few updates"; } }
+    const log = (b.progressLog || []).filter(x => x[key] != null && (today - startDate(x.d)) / dayMs <= 21);
+    if (log.length >= 2) { const a = log[0], z = log[log.length - 1]; const days = Math.max(1, (startDate(z.d) - startDate(a.d)) / dayMs); if (z[key] > a[key]) { pace = (z[key] - a[key]) / days; basis = "your last few updates"; } }
     const st = startDate(b.started);
     const daysIn = st ? Math.max(1, Math.round((today - st) / dayMs) + 1) : null;
     if (!pace && st && cur > 0) { pace = cur / daysIn; basis = "since you started"; }
-    if (!pace) { pace = overallPace(); basis = pace ? "your usual pace" : ""; }
-    if (!total || !pace) return { total, cur, pace, daysIn, basis, daysLeft: null };
+    if (!pace) { const pp = overallPace(); pace = ch ? (pp && b.pages ? pp * total / b.pages : 0) : pp; basis = pace ? "your usual pace" : ""; }
+    const exact = total ? cur / total : 0;
+    if (!total || !pace) return { total, cur, pace, daysIn, basis, daysLeft: null, unit, ch, exact };
     const daysLeft = Math.max(0, Math.ceil((total - cur) / pace));
-    return { total, cur, pace, daysIn, basis, daysLeft, finish: new Date(today.getTime() + daysLeft * dayMs) };
+    return { total, cur, pace, daysIn, basis, daysLeft, unit, ch, exact, finish: new Date(today.getTime() + daysLeft * dayMs) };
   }
   function renderNow(){
     const el = $("#now"), list = books.filter(b => b.shelf === "reading").sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""));
     if (!list.length) { el.innerHTML = books.length ? `<div class="nowempty">Not reading anything right now. Drag a book onto the Currently reading shelf to start.</div>` : ""; return; }
     el.innerHTML = list.map(b => {
-      const e = estimate(b), pct = e.total ? Math.min(100, Math.round(e.cur / e.total * 100)) : 0;
+      const e = estimate(b), pct = Math.min(100, Math.round(e.exact * 1000) / 10), pctTxt = pct % 1 ? pct.toFixed(1) : String(pct);
       const fmtD = d => `${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
+      const chMode = byChapters(b), u = e.unit, us = n => n === 1 ? u : u + "s";
       let eta;
-      if (!e.total) eta = `Add the page count (open the book) to see how far you've come.`;
-      else if (e.cur >= e.total) eta = `You've reached the last page. <button class="linkbtn" type="button" data-finish="${esc(b.id)}">Mark it as read</button>`;
-      else if (e.daysLeft === null) eta = `Update your page as you go and an estimate will appear.`;
-      else eta = `At about <b>${e.pace >= 10 ? Math.round(e.pace) : e.pace.toFixed(1)} pages a day</b> (${e.basis}), you'll finish ${e.daysLeft <= 1 ? (e.daysLeft === 0 ? "<b>today</b>" : "<b>tomorrow</b>") : `around <b>${fmtD(e.finish)}</b>, in ${e.daysLeft} days`}.`;
+      if (!e.total) eta = chMode ? `Type how many chapters the book has to see how far you've come.` : `Add the page count (open the book) to see how far you've come.`;
+      else if (e.cur >= e.total) eta = `You've reached the end. <button class="linkbtn" type="button" data-finish="${esc(b.id)}">Mark it as read</button>`;
+      else if (e.daysLeft === null) eta = `Update your ${u} as you go and an estimate will appear.`;
+      else { const pv = e.pace >= 10 ? Math.round(e.pace) : e.pace.toFixed(1); eta = `At about <b>${pv} ${Number(pv) === 1 ? u : u + "s"} a day</b> (${e.basis}), you'll finish ${e.daysLeft <= 1 ? (e.daysLeft === 0 ? "<b>today</b>" : "<b>tomorrow</b>") : `around <b>${fmtD(e.finish)}</b>, in ${e.daysLeft} days`}.`; }
+      const facts = e.total ? `<span>${u} ${e.cur} of ${e.total}</span><span>${Math.max(0, e.total - e.cur)} ${us(Math.max(0, e.total - e.cur))} to go</span>${chMode && b.pages ? `<span>≈ page ${Math.round(e.exact * b.pages)}</span>` : ""}` : `<span>${u} ${e.cur}</span>`;
+      const form = chMode
+        ? `<label class="label" for="ch-${esc(b.id)}">I just finished chapter</label><input id="ch-${esc(b.id)}" data-f="ch" type="number" min="0" inputmode="numeric" value="${e.cur}"><span class="label">of</span><input data-f="tot" type="number" min="1" inputmode="numeric" value="${esc(b.chapters || "")}" placeholder="total" aria-label="Chapters in the book">`
+        : `<label class="label" for="pg-${esc(b.id)}">I'm on page</label><input id="pg-${esc(b.id)}" data-f="pg" type="number" min="0" ${e.total ? `max="${e.total}"` : ""} inputmode="numeric" value="${e.cur}">`;
       return `<article class="nowcard">
         <button class="coverbtn" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, `<i class="ribbon"></i>`)}</button>
-        <div class="nowmeta"><div class="label">Now reading${e.daysIn ? ` · day ${e.daysIn}` : ""}</div><h2>${esc(b.title)}</h2><div class="muted" style="font-style:italic">${esc(b.author)}</div>
+        <div class="nowmeta"><div class="nowtop"><div class="label">Now reading${e.daysIn ? ` · day ${e.daysIn}` : ""}</div>
+            <div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div></div>
+          <h2>${esc(b.title)}</h2><div class="muted" style="font-style:italic">${esc(b.author)}</div>
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
-          <div class="facts">${e.total ? `<span>page ${e.cur} of ${e.total}</span><span>${Math.max(0, e.total - e.cur)} pages to go</span>` : `<span>page ${e.cur}</span>`}</div>
+          <div class="facts">${facts}</div>
           <div class="eta">${eta}</div>
-          <form class="upd" data-upd="${esc(b.id)}" autocomplete="off"><label class="label" for="pg-${esc(b.id)}">I'm on page</label><input id="pg-${esc(b.id)}" type="number" min="0" ${e.total ? `max="${e.total}"` : ""} inputmode="numeric" value="${e.cur}"><button class="btn small primary" type="submit">Update</button><button class="btn small" type="button" data-finish="${esc(b.id)}">I finished it</button></form>
+          <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form}<button class="btn small primary" type="submit">Update</button><button class="btn small" type="button" data-finish="${esc(b.id)}">I finished it</button></form>
         </div>
-        <div class="ringwrap"><div class="ring" style="--p:${pct}"></div><div class="pct"><span>${pct}%<small>read</small></span></div></div>
+        <div class="ringwrap"><div class="ring" style="--p:${pct}"></div><div class="pct"><span>${pctTxt}%<small>read</small></span></div></div>
       </article>`;
     }).join("");
   }
   $("#now").addEventListener("submit", e => {
     const f = e.target.closest("[data-upd]"); if (!f) return; e.preventDefault();
     const b = books.find(x => x.id === f.dataset.upd); if (!b) return;
-    let page = parseInt(f.querySelector("input").value); if (isNaN(page) || page < 0) return toast("Type the page you're on.");
-    if (b.pages && page > b.pages) page = b.pages;
     if (!b.started) b.started = todayISO();
+    if (byChapters(b)) {
+      let ch = parseInt(f.querySelector('[data-f="ch"]').value), tot = parseInt(f.querySelector('[data-f="tot"]').value);
+      if (isNaN(tot) || tot < 1) return toast("How many chapters does the book have? Type it in the second box.");
+      if (isNaN(ch) || ch < 0) return toast("Type the chapter you just finished.");
+      ch = Math.min(ch, tot);
+      if (!(b.progressLog || []).some(x => x.c != null) && b.currentChapter) logProgress(b, b.currentPage || 0, b.currentChapter);
+      b.chapters = tot; b.currentChapter = ch;
+      if (b.pages) b.currentPage = Math.round(b.pages * ch / tot);
+      logProgress(b, b.currentPage || 0, ch); save(); render();
+      toast(ch >= tot ? "That was the last chapter! Press “I finished it” to shelve it." : `Chapter ${ch} of ${tot} done: ${Math.round(ch / tot * 1000) / 10}% read.`);
+      return;
+    }
+    let page = parseInt(f.querySelector('[data-f="pg"]').value); if (isNaN(page) || page < 0) return toast("Type the page you're on.");
+    if (b.pages && page > b.pages) page = b.pages;
     if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage);
     b.currentPage = page; logProgress(b, page); save(); render();
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
+  $("#now").addEventListener("click", e => {
+    const t = e.target.closest("[data-track]"); if (!t) return;
+    const b = books.find(x => x.id === t.dataset.id); if (!b) return;
+    b.trackBy = t.dataset.track; save(); renderNow();
+    if (b.trackBy === "chapters" && !b.chapters) setTimeout(() => $(`#ch-${CSS.escape(b.id)}`)?.closest("form")?.querySelector('[data-f="tot"]')?.focus(), 50);
+  });
   $("#now").addEventListener("click", e => { const f = e.target.closest("[data-finish]"); if (f) { const b = books.find(x => x.id === f.dataset.finish); if (b) openEditor(b, false, { moveTo: "read" }); } });
 
-  $("#arrange").value = arrangeBy;
-  $("#arrange").addEventListener("change", e => { arrangeBy = e.target.value; lsSet(KEY_ARR, arrangeBy); renderShelf(); });
+  function paintArrange(){ document.querySelectorAll("#arrange-chips [data-arr]").forEach(x => x.setAttribute("aria-pressed", x.dataset.arr === arrangeBy)); }
+  paintArrange();
+  $("#arrange-chips").addEventListener("click", e => { const c = e.target.closest("[data-arr]"); if (!c) return; arrangeBy = c.dataset.arr; lsSet(KEY_ARR, arrangeBy); paintArrange(); renderShelf(); });
+  $("#case-toggle").addEventListener("click", e => { const p = $("#case-panel"); p.hidden = !p.hidden; e.currentTarget.setAttribute("aria-expanded", !p.hidden); e.currentTarget.textContent = p.hidden ? "⚙ Customise bookcase" : "✕ Close settings"; paintSpineNote(); });
+  let legendAll = false;
+  $("#legend-toggle").addEventListener("click", e => { const p = $("#legend-panel"); p.hidden = !p.hidden; e.currentTarget.setAttribute("aria-expanded", !p.hidden); renderGuide(); });
+  $("#legend-panel").addEventListener("click", e => { if (e.target.closest("[data-legall]")) { legendAll = !legendAll; renderGuide(); } if (e.target.closest("[data-legclose]")) $("#legend-toggle").click(); });
+  function paintSpineNote(){ const n = $("#spine-note"); if (!n) return; const custom = books.filter(b => b.spineCustom).length;
+    n.innerHTML = spineMode === "genre" ? "Every book wears its genre's colour, so the shelves read like a map. Tap <b>Genre colours</b> under the bookcase to see which is which."
+      : `Each book wears its own colour: the one you picked in its details${custom ? ` (${custom} so far)` : ""}, otherwise a colour taken from its cover. The emblem on each spine still shows its genre.`; }
   $("#case-theme").addEventListener("click", e => { const c = e.target.closest("[data-case]"); if (!c) return; caseTheme = c.dataset.case; lsSet(KEY_CASE, caseTheme); decorateCase(); renderShelf(); });
   decorateCase();
   function renderGuide(){
-    const el = $("#genre-guide"); if (el.hidden) return;
+    const el = $("#legend-panel"); if (!el || el.hidden) return;
     const counts = new Map(); books.forEach(b => { const g = (b.genres || []).find(x => GENRE_LOOK[x]) || (b.category === "Nonfiction" ? "History" : "Other"); counts.set(g, (counts.get(g) || 0) + 1); });
     const entries = [...Object.entries(GENRE_LOOK), ["Other", DEFAULT_LOOK]].sort((a, b) => (counts.get(b[0]) || 0) - (counts.get(a[0]) || 0));
-    el.innerHTML = `<div class="note" style="text-align:center;margin-bottom:8px">${spineMode === "cover" ? "Spines are coloured from their covers right now, so the <b>emblem at the top of each spine</b> tells you its genre. Switch Spine colours to “by genre” to colour the shelves like this guide." : "Each genre has its own family of colours and an emblem at the top of the spine. Books on your shelves are counted on the right."}</div>
-      <div class="guide">${entries.map(([g, L]) => `<div class="gchip${counts.get(g) ? "" : " dim"}" style="--aura:${L.aura}"><span class="gsw">${L.hues.map(h => `<i style="background:${harmonize(h)}"></i>`).join("")}</span><span class="gem">${L.motif}</span><span class="gname">${g === "Other" ? "Other / unknown" : esc(g)}</span><span class="gct">${counts.get(g) || ""}</span></div>`).join("")}</div>`;
+    const custom = books.filter(b => b.spineCustom).length;
+    const shown = legendAll ? entries : entries.filter(([g]) => counts.get(g));
+    el.innerHTML = `<div class="lghead"><span class="label">Genre colours${spineMode === "individual" ? " · emblems" : ""}</span><span class="lgacts"><button class="linkbtn" type="button" data-legall>${legendAll ? "Only my genres" : "All genres"}</button><button class="iconbtn" type="button" data-legclose aria-label="Close">✕</button></span></div>
+      ${spineMode === "individual" ? `<p class="note">Your spines use individual colours, so read this by the emblem at the top of each spine.</p>` : ""}
+      <div class="guide">${shown.map(([g, L]) => `<div class="gchip${counts.get(g) ? "" : " dim"}" style="--aura:${L.aura}"><span class="gsw"><i style="background:${harmonize(L.color)}"></i></span><span class="gem">${L.motif}</span><span class="gname">${g === "Other" ? "Other / unknown" : esc(g)}</span><span class="gct">${counts.get(g) || ""}</span></div>`).join("")}</div>`;
   }
-  $("#guide-btn").addEventListener("click", e => { const el = $("#genre-guide"); el.hidden = !el.hidden; e.target.setAttribute("aria-expanded", !el.hidden); e.target.textContent = el.hidden ? "Genre colour guide" : "Hide colour guide"; renderGuide(); });
   function paintSpineMode(){ document.querySelectorAll("#spine-mode [data-sm]").forEach(x => x.setAttribute("aria-pressed", x.dataset.sm === spineMode)); }
   paintSpineMode();
-  $("#spine-mode").addEventListener("click", e => { const m = e.target.closest("[data-sm]"); if (!m) return; spineMode = m.dataset.sm; lsSet(KEY_SPINE, spineMode); paintSpineMode(); renderShelf(); renderGuide(); });
+  $("#spine-mode").addEventListener("click", e => { const m = e.target.closest("[data-sm]"); if (!m) return; spineMode = m.dataset.sm; lsSet(KEY_SPINE, spineMode); paintSpineMode(); paintSpineNote(); renderShelf(); renderGuide(); });
   // ================= the familiars: each with a look, a voice and a temper =================
   const pick = a => a[Math.floor(Math.random() * a.length)];
   const FAMILIARS = {
-    cat: { spark: "♥", name: "Midnight", kind: "Black cat", verb: "purrs", aura: "#C9A0FF",
-      blurb: "A glamorous, velvet-voiced lady in a pink bow and pearls who flirts shamelessly with you and your bookshelf.",
-      gets: "Sultry compliments, teasing nudges and quotes read just for you.",
+    cat: { spark: "♥", name: "Midnight", kind: "Black cat", verb: "purrs", aura: "#E58BC0",
+      blurb: "A sultry femme fatale with smoky eyes, a red rose and pearls, who flirts outrageously with you and your bookshelf.",
+      gets: "Velvet-voiced compliments, smouldering teasing and quotes purred just for you.",
       sample: "Mmm, darling, you have exquisite taste. In books, I mean… mostly.",
-      intros: ["Come closer, darling. Listen to this…", "Purr… a line I'd whisper only to you:", "Read this one slowly. For me.", "Mmm, this one makes my tail curl:"],
-      svg: `<svg viewBox="0 0 96 96" aria-hidden="true">
-      <g class="tail"><path d="M66 86q30 0 24-26q-4-14-14-10q-6 4-2 9" stroke="#221B2C" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="74" cy="59" r="3" fill="#FF7AB0"/></g>
-      <g class="body"><ellipse cx="48" cy="72" rx="22" ry="19" fill="#221B2C"/><ellipse cx="48" cy="79" rx="11" ry="9" fill="#2E2639"/>
-        <ellipse cx="42" cy="89" rx="6.5" ry="3.5" fill="#2E2639"/><ellipse cx="53" cy="88" rx="6.5" ry="3.5" fill="#2E2639" transform="rotate(-12 53 88)"/></g>
-      <g class="head"><circle cx="48" cy="42" r="19" fill="#221B2C"/>
-        <path d="M31 33l-4-20 16 11zM65 33l4-20-16 11z" fill="#221B2C"/><path d="M32 29l-2-11 8 6zM64 29l2-11-8 6z" fill="#E9A0C8"/>
-        <g class="bow"><path d="M27 17q-10-7-11 2q1 8 11 1z" fill="#FF7AB0"/><path d="M27 17q10-8 12 0q-1 8-12 2z" fill="#FF7AB0"/><path d="M20 15q2 2 2 5M34 14q-1 2 0 5" stroke="#E0508A" stroke-width=".8" fill="none"/><circle cx="27" cy="18" r="2.8" fill="#E0508A"/></g>
-        <path d="M35 41q6-8 12-1M49 40q6-7 12 1" stroke="#B07BEA" stroke-width="4" opacity=".45" fill="none" stroke-linecap="round"/>
-        <g class="eyes"><path d="M35.5 43q5.5-6.5 11 0q-5.5 4.5-11 0z" fill="#7CF0C0"/><ellipse cx="41" cy="42" rx="1.2" ry="3.4" fill="#0E0B12"/><circle cx="42.5" cy="40.6" r=".9" fill="#fff"/>
-          <path d="M35 41.5q6-5.5 12-1" stroke="#0E0B12" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M35 41.5q-3-1-4-4M36 40q-2-2-2-5M38 38.6q-1-2 0-5" stroke="#0E0B12" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>
-        <g class="wink"><path d="M49.5 43q5.5-6.5 11 0q-5.5 4.5-11 0z" fill="#7CF0C0"/><ellipse cx="55" cy="42" rx="1.2" ry="3.4" fill="#0E0B12"/><circle cx="56.5" cy="40.6" r=".9" fill="#fff"/>
-          <path d="M49 40.5q6-4.5 12 1" stroke="#0E0B12" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M61 41.5q3-1 4-4M60 40q2-2 2-5M58 38.6q1-2 0-5" stroke="#0E0B12" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>
-        <ellipse cx="36" cy="49" rx="4.2" ry="2.3" fill="#FF7AB0" opacity=".45"/><ellipse cx="60" cy="49" rx="4.2" ry="2.3" fill="#FF7AB0" opacity=".45"/>
-        <path d="M48 51c-2.5-1.6-3.4-3.2-2.2-4.2.9-.7 1.8-.3 2.2.4.4-.7 1.3-1.1 2.2-.4 1.2 1-.3 2.6-2.2 4.2z" fill="#FF7AB0"/>
-        <path d="M44.8 53q1.6 1.9 3.2 0q1.6 1.9 3.2 0" stroke="#E0508A" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        <path d="M34 50l-12-2M34 52l-11 3M62 50l12-2M62 52l11 3" stroke="#8C8299" stroke-width=".8"/></g>
-      <path d="M33 58q15 7 30 0" stroke="#E0508A" stroke-width="3.2" fill="none" stroke-linecap="round"/>${[36,41,46,51,56,61].map((x, i) => `<circle cx="${x}" cy="${59.5 + Math.sin((i + .5) / 6 * Math.PI) * 3.2}" r="1.3" fill="#FFF3F8"/>`).join("")}
-      <g class="charm"><path d="M48 61a5.5 5.5 0 1 0 4 9a4.5 4.5 0 1 1-4-9z" fill="#F5D57A"/></g></svg>` },
+      intros: ["Come closer, darling. Listen to this…", "Purr… a line I'd whisper only to you:", "Read this one slowly. For me.", "Mmm, this one makes my tail curl:", "Lean in, gorgeous. This one's wicked:"],
+      svg: `<svg viewBox="0 0 96 96" aria-hidden="true"><defs><radialGradient id="catsheen" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#3A2E48"/><stop offset="1" stop-color="#17111F"/></radialGradient>
+        <linearGradient id="catshadow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C24FA0" stop-opacity=".85"/><stop offset="1" stop-color="#7A3FC0" stop-opacity="0"/></linearGradient></defs>
+      <g class="tail"><path d="M64 86q28 3 25-21q-3-14-13-11q-5 3-1 8" stroke="#1B1424" stroke-width="5.5" fill="none" stroke-linecap="round"/><circle cx="76" cy="59.5" r="2.4" fill="#F5D57A"/></g>
+      <g class="body"><path d="M29 93q-6-16 3-28q1-11 16-11q15 0 16 11q9 12 3 28z" fill="url(#catsheen)"/><path d="M41 64q7-4 14 0q-2 11-7 13q-5-2-7-13z" fill="#2B2236" opacity=".9"/>
+        <ellipse cx="42" cy="91" rx="7" ry="3.2" fill="#2B2236"/><ellipse cx="53" cy="90" rx="7" ry="3.2" fill="#2B2236" transform="rotate(-14 53 90)"/>
+        <path d="M37.5 92.2l1-1.6M40.5 92.8l.6-1.7M50.5 92l1.2-1.4M53.6 91.2l1.2-1.4" stroke="#E0508A" stroke-width="1.2" stroke-linecap="round"/></g>
+      <g class="head"><path d="M29 36q0-17 19-18q19 1 19 18q0 14-19 18q-19-4-19-18z" fill="url(#catsheen)"/>
+        <path d="M31.5 31l-5.5-23 17 13zM64.5 31l5.5-23-17 13z" fill="#1B1424"/><path d="M32.5 27l-3-13 9 7.5zM63.5 27l3-13-9 7.5z" fill="#B85C92"/>
+        <g class="bow"><circle cx="66" cy="20" r="6" fill="#C8183F"/><path d="M63 19q3-3.4 6 0q-3 2.4-5-0.4M61.8 21.6q4.2 3 8.4 0" stroke="#7E0B26" stroke-width="1" fill="none" stroke-linecap="round"/><circle cx="66" cy="19.6" r="1.6" fill="#E8395F"/>
+          <path d="M60.5 24.5q-4 2-6 .5q2.6-3.2 6-.5z" fill="#3E7A4A"/><path d="M71 25q3.6 2.4 6.4 1.4q-2-3.6-6.4-1.4z" fill="#3E7A4A"/></g>
+        <path d="M33 41.6q7.5-9.5 15-1.2M48 40.4q7.5-8.3 15 1.2" stroke="url(#catshadow)" stroke-width="5.5" fill="none" stroke-linecap="round" opacity=".75"/>
+        <g class="eyes"><path d="M34.5 42.4q6.5-6.6 13 0q-6.5 4.2-13 0z" fill="#8CF5C8"/><ellipse cx="41.4" cy="42" rx="1" ry="3" fill="#0B080F"/><circle cx="42.8" cy="42.6" r=".7" fill="#fff"/>
+          <path d="M34.2 42.4q6.8-7.4 13.6 0q-6.8-2.4-13.6 0z" fill="#1B1424"/><path d="M34.3 42.4q6.8-2.6 13.4-.3" stroke="#0B080F" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M34.6 42.2q-3.4-.6-5.2-3.6M35.2 40.9q-2.6-1.6-3.4-4.6M36.6 39.8q-1.6-2.2-1.4-5" stroke="#0B080F" stroke-width="1.15" fill="none" stroke-linecap="round"/></g>
+        <g class="wink"><path d="M48.5 42.4q6.5-6.6 13 0q-6.5 4.2-13 0z" fill="#8CF5C8"/><ellipse cx="54.6" cy="42" rx="1" ry="3" fill="#0B080F"/><circle cx="56" cy="42.6" r=".7" fill="#fff"/>
+          <path d="M48.2 42.4q6.8-7.4 13.6 0q-6.8-2.4-13.6 0z" fill="#1B1424"/><path d="M48.3 42.1q6.6-2.3 13.4.3" stroke="#0B080F" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M61.4 42.2q3.4-.6 5.2-3.6M60.8 40.9q2.6-1.6 3.4-4.6M59.4 39.8q1.6-2.2 1.4-5" stroke="#0B080F" stroke-width="1.15" fill="none" stroke-linecap="round"/></g>
+        <ellipse cx="36.5" cy="48.6" rx="3.6" ry="1.8" fill="#FF7AB0" opacity=".28"/><ellipse cx="59.5" cy="48.6" rx="3.6" ry="1.8" fill="#FF7AB0" opacity=".28"/>
+        <path d="M46.3 47.2h3.4l-1.7 2z" fill="#E8789F"/>
+        <path d="M44.6 51.6q1.8 1.5 3.4.2q2 1.3 4.6-1.6" stroke="#D3245A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="57.6" cy="50.4" r=".75" fill="#F5D57A"/>
+        <path d="M35 49.5l-12-2.4M35 51.4l-11 2.6M61 49.5l12-2.4M61 51.4l11 2.6" stroke="#9C90AA" stroke-width=".6"/></g>
+      <path d="M34 57.5q14 8 28 0" stroke="none" fill="none"/>${[35.5,39.6,43.8,48,52.2,56.4,60.5].map((x, i) => `<circle cx="${x}" cy="${57.8 + Math.sin(i / 6 * Math.PI) * 4}" r="1.55" fill="#FFF6EE" stroke="#E9D7C6" stroke-width=".3"/>`).join("")}
+      <g class="charm"><path d="M48 63a5 5 0 1 0 3.6 8.2a4 4 0 1 1-3.6-8.2z" fill="#F5D57A"/></g></svg>` },
     owl: { spark: "✦", name: "Professor Hoot", kind: "Owl", verb: "lectures", aura: "#F2D58E",
       blurb: "A distinguished old scholar with spectacles, a mortarboard and impeccable manners.",
       gets: "Proper, educational remarks: publication years, context and a lesson in every quote.",
@@ -2283,30 +2720,72 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     hedgehog: () => pick(["Isn't that the BEST?", "Let's remember it forever!", "Adventure awaits!", ""]),
   };
   const KEY_FAM = "reading-ledger-familiar";
+  let famChosen = (() => { try { return !!localStorage.getItem(KEY_FAM); } catch { return true; } })();
   let familiar = lsGet(KEY_FAM, "cat"); if (!FAMILIARS[familiar]) familiar = "cat";
   let quoteIdx = Math.floor(Math.random() * QUOTES.length), famPicking = false, quoteIntro = "", quoteTail = "";
   const famName = k => FAMILIARS[k].short || FAMILIARS[k].name;
   function newQuote(){ let n; do { n = Math.floor(Math.random() * QUOTES.length); } while (n === quoteIdx && QUOTES.length > 1); quoteIdx = n; quoteIntro = pick(FAMILIARS[familiar].intros); quoteTail = QUOTE_TAIL[familiar](QUOTES[quoteIdx]); }
   quoteIntro = pick(FAMILIARS[familiar].intros); quoteTail = QUOTE_TAIL[familiar](QUOTES[quoteIdx]);
   const sparkles = (n, color, g = "✦") => Array.from({ length: n }, (_, i) => `<i class="fsp" style="left:${[8, 82, 18, 70, 46, 92][i % 6]}%;top:${[18, 12, 64, 58, 2, 40][i % 6]}%;color:${color};animation-delay:${i * .7}s;font-size:${[9, 12, 8, 11, 10, 7][i % 6]}px">${g}</i>`).join("");
+  const PET = {
+    cat: { anim: "melt", burst: "♥", lines: ["Mmm… just there. You know exactly what you're doing, don't you?", "Purrrr… careful, darling. I bite. Gently.", "Oh, those hands. Are you this good with every page you turn?", "*arches her back and gives you a slow, smouldering blink*", "Again. And don't you dare stop.", "You pet me like that and expect me to read? Wicked thing.", "*stretches across your lap, entirely on purpose*", "Mmm. I'll let you do that all night, gorgeous."] },
+    owl: { anim: "ruffle", burst: "✦", lines: ["Hoo! Most improper… though not unpleasant.", "Ahem. A scholar is not a cushion. …Very well, once more.", "Mind the spectacles, please.", "*ruffles his feathers with quiet dignity*", "This is not on the syllabus. Carry on."] },
+    raven: { anim: "proud", burst: "✶", lines: ["Unhand me, peasant! …Fine. Once more.", "A warrior needs no pats. …That was adequate.", "CAW! Careful, the helm is ceremonial!", "*pretends not to enjoy it, clearly enjoys it*", "Tell no one of this."] },
+    fox: { anim: "wiggle", burst: "✧", lines: ["Heh. Sneaky pats? I respect that.", "Psst… a little to the left. Perfect.", "You didn't pet me. I wasn't even here. *grins*", "*swishes her tail and pockets your bookmark*", "Our little secret, yes?"] },
+    toad: { anim: "hop", burst: "✿", lines: ["Ribbit! That tickles!", "*happy croak* Again! Again!", "Ooh, warm hands! Like a sunny lily pad!", "Hop hop hooray!", "Field note: toad enjoys pats. Very much."] },
+    bat: { anim: "blush", burst: "♥", lines: ["Oh! H-hi… *happy squeak*", "Y-you petted me… I'll remember this forever.", "*wraps his wings around himself and blushes*", "Um… could you… do that again? Only if you want.", "Nobody's ever… thank you."] },
+    hedgehog: { anim: "roll", burst: "★", lines: ["Hehe! That tickles my spikes!", "Careful, I'm pointy! …But that was nice!", "*rolls into a happy little ball*", "WOOHOO! Best. Pat. EVER!", "Can we go on an adventure now? Please?"] },
+  };
+  let petTimer = null, petLine = null;
+  const famOptions = () => Object.entries(FAMILIARS).map(([k, f]) => `<button type="button" data-fam="${k}" aria-pressed="${famChosen && k === familiar}" style="--aura:${f.aura}">
+        <span class="famthumb">${f.svg}</span><span class="fpinfo"><b>${esc(f.name)}</b><small>${esc(f.kind)}${famChosen && k === familiar ? " · your familiar" : ""}</small>
+        <span class="fpblurb">${esc(f.blurb)}</span><span class="fpgets"><em>You get:</em> ${esc(f.gets)}</span><span class="fpsample">“${esc(f.sample)}”</span></span></button>`).join("");
   function renderFamiliar(){
+    if (!famChosen) { $("#familiar").innerHTML = `<div class="famcard famempty"><div class="fambody egg" aria-hidden="true"><span>?</span></div>
+        <div class="bubble"><div class="label">A familiar is waiting</div><blockquote class="petline">Choose a companion to keep you company while you read. Each one has its own voice, its own quotes and its own way of reacting when you pet it.</blockquote></div></div>
+        <div class="fampicker">${famOptions()}</div>`; return; }
     const F = FAMILIARS[familiar], [q, who, work] = QUOTES[quoteIdx];
     $("#familiar").innerHTML = `<div class="famcard" data-fam="${familiar}" style="--aura:${F.aura}">
-      <button class="fambody" type="button" data-famnext title="${esc(F.name)}: click for another quote">${sparkles(6, F.aura, F.spark)}${F.svg}</button>
-      <div class="bubble"><div class="label">${esc(famName(familiar))} the ${esc(F.kind.toLowerCase())} ${F.verb}</div>
-        <div class="intro">${esc(quoteIntro)}</div>
-        <blockquote>“${esc(q.replace(/^“|”$/g, ""))}”</blockquote><div class="qsrc">— ${esc(who)}, <i>${esc(work)}</i></div>
-        ${quoteTail ? `<div class="aside">${esc(quoteTail)}</div>` : ""}
-        <div class="famtools"><button class="linkbtn" type="button" data-famnext>Another quote</button><button class="linkbtn" type="button" data-fampick>${famPicking ? "Close" : "Choose your familiar"}</button></div></div>
-    </div>${famPicking ? `<div class="fampicker">${Object.entries(FAMILIARS).map(([k, f]) => `<button type="button" data-fam="${k}" aria-pressed="${k === familiar}" style="--aura:${f.aura}">
-        <span class="famthumb">${f.svg}</span><span class="fpinfo"><b>${esc(f.name)}</b><small>${esc(f.kind)}${k === familiar ? " · your familiar" : ""}</small>
-        <span class="fpblurb">${esc(f.blurb)}</span><span class="fpgets"><em>You get:</em> ${esc(f.gets)}</span><span class="fpsample">“${esc(f.sample)}”</span></span></button>`).join("")}</div>` : ""}`;
+      <button class="fambody" type="button" data-pet title="Pet ${esc(famName(familiar))}" aria-label="Pet ${esc(famName(familiar))}">${sparkles(6, F.aura, F.spark)}${F.svg}</button>
+      <div class="bubble" aria-live="polite">
+        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="Another quote" aria-label="Another quote">↻</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button></div>
+        <div class="label">${esc(famName(familiar))} ${F.verb}</div>
+        ${petLine ? `<blockquote class="petline">${esc(petLine)}</blockquote>` : `<blockquote>“${esc(q.replace(/^“|”$/g, ""))}”</blockquote><div class="qsrc">— ${esc(who)}, <i>${esc(work)}</i></div>`}
+      </div>
+    </div>${famPicking ? `<div class="fampicker">${famOptions()}</div>` : ""}`;
+  }
+  function petFamiliar(){
+    const P = PET[familiar]; let line; do { line = pick(P.lines); } while (line === petLine && P.lines.length > 1);
+    petLine = line; renderFamiliar();
+    const body = $("#familiar .fambody");
+    body.classList.add("pet-" + P.anim);
+    for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + Math.random() * .4, r = 46 + Math.random() * 30; body.insertAdjacentHTML("beforeend", `<i class="pburst" style="--dx:${(Math.cos(a) * r).toFixed(0)}px;--dy:${(Math.sin(a) * r - 20).toFixed(0)}px;color:${FAMILIARS[familiar].aura};animation-delay:${(i * .03).toFixed(2)}s">${P.burst}</i>`); }
+    clearTimeout(petTimer); petTimer = setTimeout(() => { petLine = null; renderFamiliar(); }, 5000);
   }
   $("#familiar").addEventListener("click", e => {
-    if (e.target.closest("[data-famnext]")) { newQuote(); renderFamiliar(); return; }
+    if (e.target.closest("[data-pet]")) { petFamiliar(); return; }
+    if (e.target.closest("[data-famnext]")) { petLine = null; clearTimeout(petTimer); newQuote(); renderFamiliar(); return; }
     if (e.target.closest("[data-fampick]")) { famPicking = !famPicking; renderFamiliar(); return; }
-    const f = e.target.closest("[data-fam]"); if (f && f.tagName === "BUTTON") { familiar = f.dataset.fam; lsSet(KEY_FAM, familiar); famPicking = false; newQuote(); renderFamiliar(); toast(`${FAMILIARS[familiar].name} is now your familiar.`); }
+    const f = e.target.closest("[data-fam]"); if (f && f.tagName === "BUTTON") chooseFamiliar(f.dataset.fam);
   });
+  function chooseFamiliar(k){
+    const first = !famChosen;
+    familiar = k; famChosen = true; lsSet(KEY_FAM, familiar); famPicking = false; petLine = null; newQuote(); renderFamiliar();
+    toast(`${FAMILIARS[familiar].name} is now your familiar. Tap to pet!`);
+    if (first) setTimeout(() => { $("#familiar").scrollIntoView({ block: "center", behavior: "smooth" }); petFamiliar(); }, 250);
+  }
+  function welcomeFamiliar(){
+    if (famChosen || $("#modal-root").innerHTML.trim()) return;
+    $("#modal-root").innerHTML = `<div class="scrim" id="welcome-scrim"><div class="modal welcome" role="dialog" aria-modal="true" aria-labelledby="w-title">
+      <div class="label">Welcome to My Book Nook</div><h2 id="w-title">First, choose your familiar</h2>
+      <p class="note">Every reader's nook needs a companion. Yours will greet you with quotes, react to the books you add, suggest what to read next and love being petted. You can switch any time.</p>
+      <div class="fampicker">${famOptions()}</div>
+      <div class="mfoot"><button class="linkbtn" type="button" id="w-later">I'll choose later</button></div></div></div>`;
+    $("#welcome-scrim").addEventListener("click", e => {
+      if (e.target.id === "w-later") { $("#modal-root").innerHTML = ""; return; }
+      const f = e.target.closest("[data-fam]"); if (f) { $("#modal-root").innerHTML = ""; chooseFamiliar(f.dataset.fam); }
+    });
+  }
 
   // what the familiar notices about a book, before it puts it in its own words
   function bookFacts(b){
@@ -2327,8 +2806,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   const maybe = (arr, p = .55) => Math.random() < p ? " " + pick(arr) : "";
   const VOICE = {
     cat: {
-      gest: ["*slow blink*", "*flicks her tail*", "*purrs*", "*stretches luxuriously*", "*winks*", "*bats her lashes*"],
-      open: ["Mrrr, darling.", "Well, hello again, gorgeous.", "Come here, sweetheart.", "Mmm, you have that look in your eyes.", "Oh, you do spoil me.", "Hello, lovely.", "There you are, my favourite reader."],
+      gest: ["*slow, smouldering blink*", "*flicks her tail*", "*purrs low*", "*stretches luxuriously*", "*winks*", "*bats her lashes*", "*drapes herself across your book*", "*traces a paw down your arm*"],
+      open: ["Mrrr, darling.", "Well, hello again, gorgeous.", "Hello, trouble.", "Oh, it's you. Lucky me.", "Come here, sweetheart.", "Mmm, you have that look in your eyes.", "Oh, you do spoil me.", "Hello, lovely.", "There you are, my favourite reader."],
       because: ["You'll adore it because", "I picked it just for you because", "Read it because", "It's simply irresistible, because", "Mmm, trust me,"],
       bits: f => { const p = [];
         if (f.prev) p.push(pick([`this is what happens after ${f.prev.title}`, `you left ${f.prev.title} with a racing heart, and this is the sequel`]));
@@ -2456,6 +2935,12 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   };
   // ================= what a familiar can notice about a book =================
   const fmtCount = n => n >= 1e6 ? `${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, "")} million` : Number(n).toLocaleString();
+  function vtags(b){ if (b.shelf !== "read") return ""; const t = [];
+    if (b.surpriseFav) t.push(`<span class="vtag" title="Surprise favourite">✷ Surprise fav</span>`);
+    if (b.reread === "comfort") t.push(`<span class="vtag" title="Comfort reread">↻ Comfort</span>`); else if (b.reread === "yes") t.push(`<span class="vtag" title="Would reread">↻ Reread</span>`);
+    if (b.recommend) t.push(`<span class="vtag" title="Would recommend${b.recommendTo ? " to " + esc(b.recommendTo) : ""}">✉ Recommend</span>`);
+    if (b.hype === "lives") t.push(`<span class="vtag" title="Lived up to the hype">✓ Hype</span>`); else if (b.hype === "disappoint") t.push(`<span class="vtag bad" title="Biggest disappointment">✗ Letdown</span>`); else if (b.hype === "short") t.push(`<span class="vtag bad" title="Didn't live up to the hype">≈ Overhyped</span>`);
+    return t.length ? `<span class="vtags">${t.slice(0, 3).join("")}</span>` : ""; }
   const shortCount = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M ratings" : n >= 1e3 ? Math.round(n / 1e3) + "K ratings" : n + " ratings";
   const an = w => /^[aeiou]/i.test(w) ? "an" : "a";
   const MOOD_OF = { Horror: "dark", Thriller: "dark", Mystery: "dark", Dystopian: "dark", Romance: "romantic", Fantasy: "adventurous", Adventure: "adventurous", "Science Fiction": "adventurous", "Young Adult": "adventurous",
@@ -2657,7 +3142,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     if (readBooks().length < 2) return { cat: "Show me a few books you've loved first, darling. Then I'll whisper what to read next.", owl: "Kindly shelve a few completed books first; I cannot advise without evidence.", raven: "Show me your past victories first, then I shall choose your next battle!", fox: "Tell me what you've read first. A fox needs a trail to follow.", toad: "Ribbit! Log a few books you've read so I can study your habitat!", bat: "Um… if you add some books you've read, I could… maybe… help?", hedgehog: "Add some books you've finished so I can draw the map!" }[familiar];
     return familiarRecommend(b);
   }
-  const famBubble = b => { const r = familiarReason(b); const F = FAMILIARS[familiar]; return r ? `<div class="famsay" data-fam="${familiar}" style="--aura:${F.aura}"><span class="famthumb">${F.svg}</span><p><b>${esc(famName(familiar))}:</b> ${esc(r)}</p></div>` : ""; };
+  const famBubble = b => { if (!famChosen) return ""; const r = familiarReason(b); const F = FAMILIARS[familiar]; return r ? `<div class="famsay" data-fam="${familiar}" style="--aura:${F.aura}"><span class="famthumb">${F.svg}</span><p><b>${esc(famName(familiar))}:</b> ${esc(r)}</p></div>` : ""; };
 
   renderFamiliar();
   // ================= cloud sync (your own free Supabase project) =================
@@ -2809,7 +3294,7 @@ alter publication supabase_realtime add table public.library;`;
             <li>Scan this code with your phone's camera, or <button class="linkbtn" type="button" data-copylink>copy the link</button> and send it to yourself.</li>
             <li>Sign in with the same email and password.</li>
             <li>Add it to your home screen. <b>iPhone:</b> Safari's Share button → <b>Add to Home Screen</b>. <b>Android:</b> Chrome's ⋮ menu → <b>Install app</b>.</li></ol></div>`
-          : `<p class="note">You're using the file version on this computer. To connect your phone, open your hosted Reading Ledger web address (see the setup guide) and use this panel there.</p>`}
+          : `<p class="note">You're using the file version on this computer. To connect your phone, open your hosted My Book Nook web address (see the setup guide) and use this panel there.</p>`}
         <div class="mfoot"><button class="linkbtn" type="button" data-signout>Sign out on this device</button><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
       if (isHosted()) loadQR().then(() => { const q = $("#qr"); if (q && !q.firstChild) new QRCode(q, { text: phoneLink(), width: 168, height: 168, colorDark: "#1D1824", colorLight: "#ffffff" }); }).catch(() => { const q = $("#qr"); if (q) q.textContent = "QR code needs internet."; });
     }
@@ -2887,12 +3372,20 @@ alter publication supabase_realtime add table public.library;`;
     if (w) { const { why, ...rest } = recs.items[+w.dataset.want];
       upsert({ ...rest, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() });
       toast("Added to Want to read"); return; }
-    const o = e.target.closest("[data-recopen]"); if (o) { const { why, ...rest } = recs.items[+o.dataset.recopen]; openEditor({ ...rest, shelf: "want" }, true); }
+    const o = e.target.closest("[data-recopen]"); if (o) { const { why, ...rest } = recs.items[+o.dataset.recopen]; openEditor({ ...rest, shelf: "want" }, true); return; }
+    const rm = e.target.closest("[data-recmode]"); if (rm) { recMode = rm.dataset.recmode; lsSet("reading-ledger-recmode", recMode); $("#rec-body").innerHTML = ""; renderRecs(); return; }
+    const dg = e.target.closest("[data-dgenre]"); if (dg) { discGenre = dg.dataset.dgenre; e.currentTarget.querySelectorAll("[data-dgenre]").forEach(b => b.setAttribute("aria-pressed", b === dg)); renderDiscover(); return; }
+    const dp = e.target.closest("[data-dperiod]"); if (dp) { discPeriod = dp.dataset.dperiod; e.currentTarget.querySelectorAll("[data-dperiod]").forEach(b => b.setAttribute("aria-pressed", b === dp)); renderDiscover(); return; }
+    const dw = e.target.closest("[data-dwant]"); if (dw) { const r = discItems[+dw.dataset.dwant]; if (!r) return;
+      upsert({ ...r, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() });
+      dw.outerHTML = `<span class="onshelf">On your shelf</span>`; toast(`${r.title} added to Want to read`); return; }
+    const dop = e.target.closest("[data-dopen]"); if (dop) { const r = discItems[+dop.dataset.dopen]; if (!r) return; const have = findSame(r); if (have) openEditor(have, false); else openEditor({ ...r, shelf: "want" }, true); }
   });
   try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { applyTheme(lsGet(KEY_THEME, null)); if (tab === "stats") renderStats(); }); } catch {}
 
   save();
   renderResultsArea("idle");
+  setTimeout(welcomeFamiliar, 400);
   render();
   startMotes();
   $("#sync-pill").addEventListener("click", () => Sync.openPanel());

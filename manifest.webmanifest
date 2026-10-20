@@ -1,6 +1,6 @@
 {
-  "name": "Reading Ledger",
-  "short_name": "Ledger",
+  "name": "My Book Nook",
+  "short_name": "Book Nook",
   "description": "Your enchanted personal library: shelves, covers, statistics and a familiar.",
   "start_url": "./",
   "scope": "./",
