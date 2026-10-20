@@ -1,6 +1,6 @@
-// Reading Ledger: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v1", COVERS = "ledger-covers-v1";
-const FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
+// My Book Nook: keeps the app opening offline and remembers book covers.
+const SHELL = "ledger-shell-v2", COVERS = "ledger-covers-v1";
+const FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "icons/favicon-64.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => ![SHELL, COVERS].includes(k)).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", e => {

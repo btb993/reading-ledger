@@ -29,7 +29,7 @@ What's in this folder
 3) BRING YOUR EXISTING LIBRARY ACROSS
   The new web address starts empty, because browsers keep each address's
   data separately.
-  a. Open your old Reading Ledger.html file > "Save a backup".
+  a. Open your old My Book Nook.html file > "Save a backup".
   b. Open the new web address > "Restore a backup" > choose that file.
   It uploads to sync automatically.
 

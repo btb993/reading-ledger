@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Book Nook">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <title>My Book Nook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -347,6 +348,101 @@ body{padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(6
 .book .bgr > span{white-space:nowrap}.book .bgr .cnt{color:var(--muted);font-size:12.5px}
 .book .facts{min-width:0;font-size:13.5px}
 .book .vtags{max-width:100%}
+.rectop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.authindex{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 4px}
+.authindex a{font-size:13.5px;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:3px 11px}
+.authindex a b{color:var(--muted);font-weight:500;margin-left:2px}.authindex a:hover{border-color:var(--gold)}
+.authgroup{margin-top:26px;scroll-margin-top:110px}
+.authhead{display:flex;gap:14px;align-items:center;padding-bottom:10px;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,var(--line))}
+.authhead h3{font-family:var(--f-display);font-size:26px;font-style:italic;font-weight:600}
+.authmono{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--c);color:#fff;font-family:var(--f-display);font-size:18px;font-weight:600;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25),0 2px 8px rgba(0,0,0,.18)}
+.authgroup .gridbooks{margin-top:14px}
+.crest.logo{width:132px;height:auto;aspect-ratio:380/324;filter:drop-shadow(0 6px 14px rgba(90,50,20,.25));animation:logofloat 6s ease-in-out infinite}
+@keyframes logofloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (max-width:600px){.crest.logo{width:104px}}
+:root[data-season="autumn"]{--bg:#F2E3CB;--paper:#FCF2E1;--ink:#2E1C12;--muted:#7C5A40;--line:#E4C9A2;--accent:#9C3C1C;--accent-ink:#FFF5E6;--accent-soft:#F4D9C4;--gold:#B06A22;--gold2:#E3A04A;--green:#5B6B2E;--wood1:#7A4524;--wood2:#57301A;--wood3:#32190C;--c1:#A4421F;--c2:#5B6B2E;--c3:#C0862A;--c4:#6B3E5A;--c5:#8C2F2A;--c6:#3E5E3A;--c7:#D06A2A;--c8:#7A5A2E;--sky:radial-gradient(ellipse at 50% -10%,rgba(232,140,60,.30),transparent 62%),radial-gradient(ellipse at 100% 30%,rgba(190,90,40,.10),transparent 50%)}
+@media (prefers-color-scheme:dark){:root[data-season="autumn"]:not([data-theme="light"]){--bg:#16100C;--paper:#221810;--ink:#F3E4CE;--muted:#BFA083;--line:#3E2C1E;--accent:#E8804A;--accent-ink:#1E120A;--accent-soft:#3E2416;--gold:#EAA24C;--gold2:#F6C47A;--green:#A3B46A;--wood1:#56301A;--wood2:#3C2010;--wood3:#200F07;--c1:#C8582C;--c2:#7E8E44;--c3:#D99A38;--c4:#8C5A7A;--c5:#B0443A;--c6:#5E8A56;--c7:#E07E3A;--c8:#A07A44;--sky:radial-gradient(ellipse at 50% -10%,rgba(234,140,60,.20),transparent 60%),radial-gradient(1px 1px at 18% 14%,rgba(255,220,170,.7),transparent),radial-gradient(1px 1px at 76% 8%,rgba(255,220,170,.6),transparent),radial-gradient(1.5px 1.5px at 88% 26%,rgba(255,220,170,.5),transparent);color-scheme:dark}}
+:root[data-season="autumn"][data-theme="dark"]{--bg:#16100C;--paper:#221810;--ink:#F3E4CE;--muted:#BFA083;--line:#3E2C1E;--accent:#E8804A;--accent-ink:#1E120A;--accent-soft:#3E2416;--gold:#EAA24C;--gold2:#F6C47A;--green:#A3B46A;--wood1:#56301A;--wood2:#3C2010;--wood3:#200F07;--c1:#C8582C;--c2:#7E8E44;--c3:#D99A38;--c4:#8C5A7A;--c5:#B0443A;--c6:#5E8A56;--c7:#E07E3A;--c8:#A07A44;--sky:radial-gradient(ellipse at 50% -10%,rgba(234,140,60,.20),transparent 60%),radial-gradient(1px 1px at 18% 14%,rgba(255,220,170,.7),transparent),radial-gradient(1px 1px at 76% 8%,rgba(255,220,170,.6),transparent),radial-gradient(1.5px 1.5px at 88% 26%,rgba(255,220,170,.5),transparent);color-scheme:dark}
+:root[data-season="winter"]{--bg:#E7EDF2;--paper:#F7FAFC;--ink:#1D2A36;--muted:#5B6F80;--line:#CCD8E2;--accent:#9A2438;--accent-ink:#FFF7F8;--accent-soft:#F1D6DB;--gold:#9C7A36;--gold2:#C9A85E;--green:#2F5A48;--wood1:#5E4636;--wood2:#433024;--wood3:#2A1D15;--c1:#9A2438;--c2:#2F5A48;--c3:#9C7A36;--c4:#3A5A86;--c5:#5A4A7A;--c6:#2E6E78;--c7:#7A4A3A;--c8:#4E6A5A;--sky:radial-gradient(ellipse at 50% -10%,rgba(160,200,240,.40),transparent 62%)}
+@media (prefers-color-scheme:dark){:root[data-season="winter"]:not([data-theme="light"]){--bg:#0D141E;--paper:#16202E;--ink:#E6EEF6;--muted:#9AAEC0;--line:#27364A;--accent:#E06A7E;--accent-ink:#140C10;--accent-soft:#3A1E28;--gold:#D9BC7A;--gold2:#EED9A6;--green:#7FB89A;--wood1:#3E2E24;--wood2:#2C2018;--wood3:#18110C;--c1:#C0405A;--c2:#4C8A6E;--c3:#C9A85E;--c4:#5A82B8;--c5:#7E6AAE;--c6:#3E96A0;--c7:#A06A56;--c8:#6E9A84;--sky:radial-gradient(ellipse at 50% -10%,rgba(120,170,230,.18),transparent 60%),radial-gradient(1px 1px at 12% 18%,rgba(230,240,255,.8),transparent),radial-gradient(1px 1px at 72% 9%,rgba(230,240,255,.7),transparent),radial-gradient(1.5px 1.5px at 88% 30%,rgba(230,240,255,.6),transparent);color-scheme:dark}}
+:root[data-season="winter"][data-theme="dark"]{--bg:#0D141E;--paper:#16202E;--ink:#E6EEF6;--muted:#9AAEC0;--line:#27364A;--accent:#E06A7E;--accent-ink:#140C10;--accent-soft:#3A1E28;--gold:#D9BC7A;--gold2:#EED9A6;--green:#7FB89A;--wood1:#3E2E24;--wood2:#2C2018;--wood3:#18110C;--c1:#C0405A;--c2:#4C8A6E;--c3:#C9A85E;--c4:#5A82B8;--c5:#7E6AAE;--c6:#3E96A0;--c7:#A06A56;--c8:#6E9A84;--sky:radial-gradient(ellipse at 50% -10%,rgba(120,170,230,.18),transparent 60%),radial-gradient(1px 1px at 12% 18%,rgba(230,240,255,.8),transparent),radial-gradient(1px 1px at 72% 9%,rgba(230,240,255,.7),transparent),radial-gradient(1.5px 1.5px at 88% 30%,rgba(230,240,255,.6),transparent);color-scheme:dark}
+:root[data-season="spring"]{--bg:#F3EEE7;--paper:#FDF9F3;--ink:#2B2430;--muted:#7A6A78;--line:#E6D8DC;--accent:#A8466E;--accent-ink:#FFF6FA;--accent-soft:#F4D9E4;--gold:#9C7E34;--gold2:#D4B45E;--green:#4E7E44;--c1:#B3507A;--c2:#4E7E44;--c3:#C0962E;--c4:#5A7AB0;--c5:#8A5AA0;--c6:#3E8A80;--c7:#D0785A;--c8:#7A8E3E;--sky:radial-gradient(ellipse at 50% -10%,rgba(246,184,204,.38),transparent 62%),radial-gradient(ellipse at 0% 30%,rgba(150,200,140,.14),transparent 50%)}
+@media (prefers-color-scheme:dark){:root[data-season="spring"]:not([data-theme="light"]){--bg:#15121A;--paper:#201B26;--ink:#F1E8EE;--muted:#B6A4B4;--line:#382E40;--accent:#F08DB2;--accent-ink:#1A1016;--accent-soft:#3E2232;--gold:#E2C47A;--gold2:#F2DCA6;--green:#9AC888;--c1:#D06A92;--c2:#6E9E5E;--c3:#D2A84A;--c4:#7A9AD0;--c5:#A47AC0;--c6:#5AA89E;--c7:#E0906E;--c8:#9AAE5A;--sky:radial-gradient(ellipse at 50% -10%,rgba(240,141,178,.16),transparent 60%),radial-gradient(1px 1px at 22% 16%,rgba(255,230,240,.7),transparent),radial-gradient(1px 1px at 70% 10%,rgba(255,230,240,.6),transparent);color-scheme:dark}}
+:root[data-season="spring"][data-theme="dark"]{--bg:#15121A;--paper:#201B26;--ink:#F1E8EE;--muted:#B6A4B4;--line:#382E40;--accent:#F08DB2;--accent-ink:#1A1016;--accent-soft:#3E2232;--gold:#E2C47A;--gold2:#F2DCA6;--green:#9AC888;--c1:#D06A92;--c2:#6E9E5E;--c3:#D2A84A;--c4:#7A9AD0;--c5:#A47AC0;--c6:#5AA89E;--c7:#E0906E;--c8:#9AAE5A;--sky:radial-gradient(ellipse at 50% -10%,rgba(240,141,178,.16),transparent 60%),radial-gradient(1px 1px at 22% 16%,rgba(255,230,240,.7),transparent),radial-gradient(1px 1px at 70% 10%,rgba(255,230,240,.6),transparent);color-scheme:dark}
+:root[data-season="summer"]{--bg:#F6EDD6;--paper:#FFF9E9;--ink:#2A2414;--muted:#7A6842;--line:#EADAAE;--accent:#B44A22;--accent-ink:#FFF8EC;--accent-soft:#F7DCC6;--gold:#B8801A;--gold2:#E8B640;--green:#3E7A4A;--c1:#C2572A;--c2:#3E7A4A;--c3:#D4A01E;--c4:#2E6E9A;--c5:#8A4A7A;--c6:#1E8A8A;--c7:#E0782A;--c8:#7A8E2E;--sky:radial-gradient(ellipse at 50% -10%,rgba(250,200,80,.40),transparent 62%)}
+@media (prefers-color-scheme:dark){:root[data-season="summer"]:not([data-theme="light"]){--bg:#0F1522;--paper:#18202F;--ink:#F1EBDB;--muted:#AEB4BE;--line:#2A3446;--accent:#F0945E;--accent-ink:#140E08;--accent-soft:#3E2A1E;--gold:#F2C45A;--gold2:#FADD8E;--green:#86C08E;--c1:#E06A3A;--c2:#4E9A5E;--c3:#E8B640;--c4:#4E8EC0;--c5:#A86AA0;--c6:#3EAAAA;--c7:#F0904A;--c8:#9AAE4A;--sky:radial-gradient(ellipse at 50% -10%,rgba(80,120,200,.22),transparent 60%),radial-gradient(1px 1px at 12% 18%,rgba(255,250,210,.8),transparent),radial-gradient(1px 1px at 62% 9%,rgba(255,250,210,.7),transparent),radial-gradient(1.5px 1.5px at 88% 30%,rgba(255,250,210,.6),transparent);color-scheme:dark}}
+:root[data-season="summer"][data-theme="dark"]{--bg:#0F1522;--paper:#18202F;--ink:#F1EBDB;--muted:#AEB4BE;--line:#2A3446;--accent:#F0945E;--accent-ink:#140E08;--accent-soft:#3E2A1E;--gold:#F2C45A;--gold2:#FADD8E;--green:#86C08E;--c1:#E06A3A;--c2:#4E9A5E;--c3:#E8B640;--c4:#4E8EC0;--c5:#A86AA0;--c6:#3EAAAA;--c7:#F0904A;--c8:#9AAE4A;--sky:radial-gradient(ellipse at 50% -10%,rgba(80,120,200,.22),transparent 60%),radial-gradient(1px 1px at 12% 18%,rgba(255,250,210,.8),transparent),radial-gradient(1px 1px at 62% 9%,rgba(255,250,210,.7),transparent),radial-gradient(1.5px 1.5px at 88% 30%,rgba(255,250,210,.6),transparent);color-scheme:dark}
+.seasonbtn{right:calc(62px + env(safe-area-inset-right,0px))}
+.themebtn{position:absolute}
+.seasongarland{width:min(420px,86vw);height:46px;margin:-2px auto 0}.seasongarland:empty{display:none}.seasongarland svg{width:100%;height:100%;overflow:visible}
+.seasongarland .ffly,.snowdot{animation:ff 2.6s ease-in-out infinite}
+.trinket .steam path{animation:steam 3s ease-in-out infinite}.trinket .steam path+path{animation-delay:1.2s}
+@keyframes steam{0%{opacity:0;transform:translateY(4px)}40%{opacity:.9}100%{opacity:0;transform:translateY(-6px)}}
+.drift{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.wrap{position:relative;z-index:1}
+.drift i{position:absolute;top:-40px;display:block;will-change:transform}
+.drift.leaves i{animation:leaffall linear infinite;opacity:.75}
+.drift.petals i{animation:leaffall linear infinite;opacity:.8}
+.drift.snow i{border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.8);animation:snowfall linear infinite;opacity:.85}
+:root:not([data-theme="dark"]) .drift.snow i{background:#CFE0EE;box-shadow:0 0 4px rgba(120,160,200,.6)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .drift.snow i{background:#fff}}
+.drift.fireflies i{top:auto;width:6px;height:6px;border-radius:50%;background:#FFE97A;box-shadow:0 0 10px 4px rgba(255,220,90,.55);animation:firefly ease-in-out infinite alternate}
+@keyframes leaffall{0%{transform:translate(0,-40px) rotate(0)}25%{transform:translate(40px,25vh) rotate(90deg)}50%{transform:translate(-20px,50vh) rotate(200deg)}75%{transform:translate(50px,75vh) rotate(280deg)}100%{transform:translate(0,110vh) rotate(360deg)}}
+@keyframes snowfall{0%{transform:translate(0,-20px)}50%{transform:translate(18px,55vh)}100%{transform:translate(-10px,110vh)}}
+@keyframes firefly{0%{transform:translate(0,0);opacity:.1}50%{opacity:1}100%{transform:translate(30px,-40px);opacity:.2}}
+.seasonmodal{max-width:760px}
+.seasongrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:14px 0}
+.seasontile{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:8px 10px 12px;cursor:pointer;font:inherit;color:var(--ink)}
+.seasontile[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 18px color-mix(in srgb,var(--gold) 28%,transparent)}
+.seasontile b{font-family:var(--f-display);font-size:19px}.seasontile small{font-size:12.5px;color:var(--muted);line-height:1.3}
+.sprev{width:100%;height:54px;border-radius:10px;display:grid;place-items:center;font-size:26px;margin-bottom:4px}
+.seasontile[data-prev="autumn"] .sprev{background:linear-gradient(135deg,#F2E3CB,#E8A060 60%,#9C3C1C)}
+.seasontile[data-prev="winter"] .sprev{background:linear-gradient(135deg,#F7FAFC,#B8CDE0 60%,#2F5A48)}
+.seasontile[data-prev="spring"] .sprev{background:linear-gradient(135deg,#FDF9F3,#F6B8CC 60%,#4E7E44)}
+.seasontile[data-prev="summer"] .sprev{background:linear-gradient(135deg,#FFF9E9,#F2C45A 60%,#2E6E9A)}
+.seasontile[data-prev="classic"] .sprev{background:linear-gradient(135deg,#F8F0DF,#D9B262 60%,#6E2632)}
+.sprev .sg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.drifttoggle{display:flex;gap:8px;align-items:center;font-size:15px}
+/* autumn touches */
+:root[data-season="autumn"] .hrule{background:radial-gradient(circle,var(--gold) 0 3px,transparent 3.5px) center/14px 14px no-repeat,linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 60%,transparent) 20%,color-mix(in srgb,var(--gold) 70%,transparent) 50%,color-mix(in srgb,var(--accent) 60%,transparent) 80%,transparent) center/100% 1.5px no-repeat}
+:root[data-season="autumn"] .panel,:root[data-season="autumn"] .kpi{background-image:radial-gradient(ellipse at 100% 0%,color-mix(in srgb,var(--c7) 8%,transparent),transparent 55%)}
+.rectop .recmodes{margin-bottom:0}
+.wishform{display:flex;gap:8px;align-items:center;flex:1;min-width:260px;max-width:520px;background:var(--paper);border:1.5px solid color-mix(in srgb,var(--gold) 45%,var(--line));border-radius:999px;padding:4px 4px 4px 14px;box-shadow:0 0 18px color-mix(in srgb,var(--gold) 12%,transparent)}
+.wishform[hidden]{display:none}
+.wishform input{flex:1;min-width:0;border:0;background:none;padding:6px 2px;font-size:15.5px;box-shadow:none}
+.wishform input:focus{outline:none}.wishform .btn{border-radius:999px}
+.wishglyph{color:var(--gold);font-size:18px;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+.rrow{margin:0 0 26px}.rhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:10px}
+.rhead h3{font-family:var(--f-display);font-size:24px;font-style:italic;font-weight:600}
+.rstrip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,170px);gap:14px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x proximity}
+.rstrip > *{scroll-snap-align:start}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.rcard{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0;transition:transform .25s,opacity .25s}
+.rcard.big{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
+.rcard.gone,.dcard.gone{opacity:0;transform:scale(.9)}
+.rcard .rank{position:absolute;top:-8px;left:-8px;z-index:2;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:var(--f-display);font-size:14px;font-weight:600}
+.rcov{border:0;padding:0;background:none;cursor:pointer;display:block;width:100%}.rcov .cover{--fs:11px;width:100%}
+.rbody{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rt{font-family:var(--f-display);font-weight:600;font-size:16.5px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rcard.big .rt{font-size:19px}
+.ra{font-size:13.5px;color:var(--muted);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rr{font-size:13px;color:var(--muted)}.rr b{color:var(--gold)}
+.rwhy{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:3px}
+.rwhy li{font-size:13px;line-height:1.35;padding-left:16px;position:relative;color:var(--ink)}
+.rwhy li::before{content:"✦";position:absolute;left:0;top:0;color:var(--gold);font-size:11px}
+.rstrip .rwhy li{font-size:12px;color:var(--muted)}
+.raward{font-size:12px;color:var(--muted)}
+.racts{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.racts .iconbtn{width:30px;height:30px}
+.dmatch{font-size:12px;color:var(--gold);font-weight:600}
+.nytsetup .steps{margin:6px 0 12px 20px;display:grid;gap:6px;font-size:15px}
+.nytsetup .recform{display:flex;gap:8px;flex-wrap:wrap}.nytsetup input{flex:1;min-width:220px}
+.nytlist{display:grid;gap:12px}
+.nytrow{position:relative;display:grid;grid-template-columns:90px minmax(0,1fr);gap:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
+.nytrow .rank{position:absolute;top:-8px;left:-8px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accent,#7A2E3A);color:#fff;font-family:var(--f-display);font-weight:600}
+.nbody{display:flex;flex-direction:column;gap:4px;min-width:0}.nmeta{font-size:12.5px;color:var(--muted)}.ndesc{margin:2px 0 0;font-size:14.5px;line-height:1.45}
+@media (max-width:600px){.rcard.big{grid-template-columns:80px minmax(0,1fr)}.rstrip{grid-auto-columns:140px}.nytrow{grid-template-columns:70px minmax(0,1fr)}.wishform{min-width:100%}}
 .recmodes{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding:5px;background:color-mix(in srgb,var(--paper) 70%,transparent);border:1px solid var(--line);border-radius:999px;width:fit-content;max-width:100%}
 .recmodes button{border:0;background:none;font:inherit;font-size:15px;color:var(--muted);padding:8px 16px;border-radius:999px;cursor:pointer}
 .recmodes button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
@@ -819,19 +915,44 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
 .why{display:grid;gap:3px;font-size:15px}
 .why div{display:grid;grid-template-columns:7.2em minmax(0,1fr);gap:8px}
 .why span:first-child{font-family:var(--f-cap);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+/* the familiar's hearth: a glowing rune circle, a velvet cushion and a seasonal trinket */
+.fambody{overflow:visible}
+.fambody > svg:not(.runes){position:relative;z-index:2}
+.famhalo{position:absolute;left:50%;top:56%;width:150%;height:150%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--aura) 38%,transparent) 0%,color-mix(in srgb,var(--aura) 12%,transparent) 40%,transparent 68%);animation:halo 5s ease-in-out infinite;pointer-events:none;z-index:0}
+@keyframes halo{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(.94)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}}
+.runes{position:absolute;left:50%;bottom:-6%;width:128%;height:128%;transform:translateX(-50%) scaleY(.32);transform-origin:50% 100%;color:var(--aura);z-index:1;pointer-events:none;overflow:visible;filter:drop-shadow(0 0 4px var(--aura))}
+.runes text,.runes circle{transform-origin:100px 100px;animation:runespin 40s linear infinite}
+.runes circle:nth-of-type(2){animation-direction:reverse;animation-duration:25s}
+@keyframes runespin{to{transform:rotate(360deg)}}
+.cushion{position:absolute;left:50%;bottom:-2%;width:86%;height:17%;transform:translateX(-50%);border-radius:50%;z-index:1;background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--accent) 70%,#fff 12%),var(--accent) 55%,color-mix(in srgb,var(--accent) 70%,#000) 100%);box-shadow:0 6px 12px rgba(0,0,0,.25),inset 0 -3px 6px rgba(0,0,0,.25)}
+.cushion::before,.cushion::after{content:"";position:absolute;bottom:-5px;width:6px;height:10px;border-radius:0 0 3px 3px;background:var(--gold2)}
+.cushion::before{left:6%}.cushion::after{right:6%}
+.famprop{position:absolute;z-index:3;bottom:-4%;right:-6%;width:34%;height:34%;background-size:contain;background-repeat:no-repeat;background-position:bottom;pointer-events:none}
+.prop-autumn{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 46'%3E%3Cpath d='M30 12q2-8 9-10' stroke='%235A6B2E' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M34 9q10-7 16 0q-8 5-16 0z' fill='%236E8B3A'/%3E%3Cellipse cx='28' cy='30' rx='25' ry='15' fill='%23D9682B'/%3E%3Cellipse cx='16' cy='30' rx='11' ry='14' fill='%23C9581F'/%3E%3Cellipse cx='40' cy='30' rx='11' ry='14' fill='%23C9581F'/%3E%3Cellipse cx='28' cy='30' rx='10' ry='15' fill='%23EE8636'/%3E%3Cellipse cx='24' cy='23' rx='4' ry='2' fill='%23FFC27A' opacity='.55'/%3E%3C/svg%3E")}
+.prop-winter{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 50'%3E%3Cpath d='M6 18h30v20a10 10 0 0 1-10 10h-10a10 10 0 0 1-10-10z' fill='%23B23A3A'/%3E%3Cpath d='M36 22h4a7 7 0 0 1 0 14h-4' fill='none' stroke='%238E2A2A' stroke-width='4'/%3E%3Cellipse cx='21' cy='18' rx='15' ry='3.5' fill='%235A2F1B'/%3E%3Crect x='13' y='14' width='6' height='5' rx='1.5' fill='%23FFF6F0'/%3E%3Crect x='21' y='15' width='6' height='4.5' rx='1.5' fill='%23FFE6EE'/%3E%3C/svg%3E")}
+.prop-spring{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 36'%3E%3Cellipse cx='27' cy='32' rx='25' ry='3.5' fill='%23F3EBDD'/%3E%3Cpath d='M10 12h34q0 16-17 18q-17-2-17-18z' fill='%23FBF6EC'/%3E%3Cellipse cx='27' cy='12' rx='17' ry='2.6' fill='%23A9743A'/%3E%3Cpath d='M14 19q13 5 26 0' stroke='%23E79AB4' stroke-width='2' fill='none'/%3E%3C/svg%3E")}
+.prop-summer{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 62'%3E%3Cpath d='M22 2l-4 20' stroke='%23E0708F' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M7.5 18h21l-2.3 40a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z' fill='%23F7D45C'/%3E%3Ccircle cx='27' cy='20' r='6' fill='%23F7E07A' stroke='%23E0B92A' stroke-width='1.5'/%3E%3C/svg%3E")}
+.bubble{background:radial-gradient(ellipse at 0% 0%,color-mix(in srgb,var(--aura) 14%,transparent),transparent 55%),radial-gradient(ellipse at 100% 100%,color-mix(in srgb,var(--gold) 10%,transparent),transparent 50%),var(--paper);border:1.5px solid color-mix(in srgb,var(--aura) 55%,var(--line));box-shadow:var(--shadow),0 0 0 4px color-mix(in srgb,var(--aura) 9%,transparent),0 0 28px color-mix(in srgb,var(--aura) 18%,transparent)}
+.bubble::after{content:"✦";position:absolute;left:14px;bottom:-11px;font-size:14px;color:var(--aura);text-shadow:0 0 8px var(--aura);animation:twinkle 3s ease-in-out infinite}
+.bubglow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(110deg,transparent 30%,color-mix(in srgb,var(--aura) 16%,transparent) 50%,transparent 70%) -200% 0/250% 100% no-repeat;animation:shimmer 7s ease-in-out infinite}
+@keyframes shimmer{0%,60%{background-position:-200% 0}100%{background-position:200% 0}}
+.bubble .wd{display:inline-block;opacity:0;filter:blur(3px);transform:translateY(3px);animation:wordin .45s ease-out forwards}
+@keyframes wordin{to{opacity:1;filter:none;transform:none}}
+.bubble blockquote.chat{font-style:normal;font-size:clamp(18px,2.2vw,22px)}
+.bubble .gest{font-style:italic;color:color-mix(in srgb,var(--ink) 55%,var(--aura));font-size:15px;margin-top:2px}
+@media (prefers-reduced-motion:reduce){.bubble .wd{animation:none;opacity:1;filter:none;transform:none}.runes text,.runes circle,.bubglow,.famhalo{animation:none}}
 </style>
 </head>
 <body>
+<div class="drift" id="drift" aria-hidden="true"></div>
+<button class="themebtn seasonbtn" id="season-btn" type="button" title="Seasons and themes" aria-label="Choose a seasonal theme">🍂</button>
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <div class="wrap">
   <header>
-    <svg class="crest" viewBox="0 0 60 36" fill="none" aria-hidden="true">
-      <path d="M30 6c-6 0-11 4.5-11 10.5S24 27 30 27c-3.8-1.6-6.4-5.6-6.4-10.5S26.2 7.6 30 6z" fill="currentColor"/>
-      <path d="M41 9l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1zM12 14l.7 1.6 1.6.7-1.6.7L12 18.6l-.7-1.6-1.6-.7 1.6-.7zM48 22l.6 1.3 1.3.6-1.3.6-.6 1.3-.6-1.3-1.3-.6 1.3-.6z" fill="currentColor"/>
-      <path d="M8 31c7-3 15-3 22 0 7-3 15-3 22 0" stroke="currentColor" stroke-width="1.2"/>
-    </svg>
+    <svg class="crest logo" viewBox="70 64 380 324" aria-hidden="true"><defs><radialGradient id="lg-bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#4A2C1E"/><stop offset=".6" stop-color="#2C1A13"/><stop offset="1" stop-color="#1A0F0C"/></radialGradient><linearGradient id="lg-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F2550"/><stop offset=".65" stop-color="#4B3B78"/><stop offset="1" stop-color="#C77A4E"/></linearGradient><radialGradient id="lg-glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC56B" stop-opacity=".55"/><stop offset="1" stop-color="#FFC56B" stop-opacity="0"/></radialGradient><linearGradient id="lg-mug" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9542F"/><stop offset="1" stop-color="#9C3A20"/></linearGradient><linearGradient id="lg-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A86B3C"/><stop offset="1" stop-color="#6E4021"/></linearGradient></defs><ellipse cx="256" cy="330" rx="230" ry="170" fill="url(#lg-glow)"/><path d="M138 352V196a118 118 0 0 1 236 0v156z" fill="url(#lg-sky)"/><mask id="lg-moonm"><rect width="512" height="512" fill="#fff"/><circle cx="327" cy="160" r="27" fill="#000"/></mask><circle cx="312" cy="170" r="30" fill="#FFE3A3" mask="url(#lg-moonm)"/><circle cx="312" cy="170" r="44" fill="#FFE3A3" opacity=".12" mask="url(#lg-moonm)"/><g fill="#FFE9B8"><circle cx="190" cy="150" r="3.5"/><circle cx="228" cy="118" r="2.5"/><circle cx="262" cy="196" r="2.5"/><circle cx="176" cy="226" r="2"/><path d="M216 176l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></g><path d="M138 300q20-30 40-6q14-26 36-4q18-24 40 2q20-22 42 2q20-26 40-2q20-20 38 4v56H138z" fill="#5A2E2A" opacity=".85"/><path d="M138 316q30-18 60 0q30-16 60 0q30-16 60 0q28-14 56 0v36H138z" fill="#3B1F1E"/><path d="M138 352V196a118 118 0 0 1 236 0v156" fill="none" stroke="#E8B86A" stroke-width="12"/><path d="M256 82v270M138 250h236" stroke="#E8B86A" stroke-width="7" opacity=".9"/><rect x="104" y="348" width="304" height="26" rx="8" fill="url(#lg-wood)"/><rect x="104" y="348" width="304" height="6" rx="3" fill="#C88A55"/><g><rect x="118" y="322" width="150" height="26" rx="4" fill="#3F6B57"/><rect x="124" y="326" width="138" height="5" fill="#F3E3C3" opacity=".9"/><rect x="118" y="322" width="10" height="26" fill="#2D4E3F"/><rect x="128" y="296" width="132" height="26" rx="4" fill="#B5543C"/><rect x="134" y="300" width="120" height="5" fill="#F3E3C3" opacity=".9"/><rect x="250" y="296" width="10" height="26" fill="#8C3E2B"/><rect x="122" y="272" width="122" height="24" rx="4" fill="#D9A441"/><rect x="128" y="276" width="110" height="4" fill="#FFF3D6" opacity=".9"/><rect x="122" y="272" width="10" height="24" fill="#B78428"/><path d="M150 288h60" stroke="#8C5E14" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(150 246)"><ellipse cx="0" cy="14" rx="20" ry="13" fill="#E07A2E"/><ellipse cx="-9" cy="14" rx="9" ry="12" fill="#C9631F"/><ellipse cx="9" cy="14" rx="9" ry="12" fill="#C9631F"/><ellipse cx="0" cy="14" rx="8" ry="13" fill="#EE8A38"/><path d="M0 2q1-8 6-10" stroke="#5A6B2E" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M4 0q8-6 12 0q-6 4-12 0z" fill="#6E8B3A"/></g><g><path d="M300 276h72v52a20 20 0 0 1-20 20h-32a20 20 0 0 1-20-20z" fill="url(#lg-mug)"/><path d="M372 288h10a18 18 0 0 1 0 36h-10" fill="none" stroke="#9C3A20" stroke-width="9"/><ellipse cx="336" cy="277" rx="36" ry="7" fill="#5A2A14"/><path d="M336 306c-7-5-10-9-6-12c3-2 5-1 6 1c1-2 3-3 6-1c4 3-1 7-6 12z" fill="#FFE3C2"/><g fill="none" stroke="#FFF3E0" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M322 262c-10-12 8-18-2-32"/><path d="M342 258c-10-12 8-18-2-32"/></g></g><path d="M410 140c14-4 26 4 28 18c-14 4-26-4-28-18z" fill="#D9682B"/><path d="M412 142l24 14" stroke="#8C3A16" stroke-width="2"/><path d="M84 196c10-10 24-8 30 4c-10 10-24 8-30-4z" fill="#E3A23A"/><path d="M86 198l26 2" stroke="#9A6614" stroke-width="2"/></svg>
     <div class="label">Ex libris · a private library</div>
     <h1><span class="first">M</span>y Book Nook</h1>
+    <div class="seasongarland" id="season-garland"></div>
     <div class="sub" id="subline">Every book you've read, are reading, and dream of reading.</div>
     <div class="menu">
       <label class="btn small">Import Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
@@ -902,6 +1023,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
           <option value="pages">Length</option>
         </select>
       </label>
+      <div class="seg small" id="group-by" role="group" aria-label="Group books"><button type="button" data-group="none">▦ All books</button><button type="button" data-group="author">✒ By author</button></div>
     </div>
     <div class="tools" id="tools"></div>
     <div id="list"></div>
@@ -938,7 +1060,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
   let books = lsGet(KEY, []), recs = lsGet(KEY_RECS, null);
-  let filter = "all", sortBy = "added", tab = "library", statYear = new Date().getFullYear(), statScope = "all";
+  let groupBy = lsGet("reading-ledger-groupby", "none"), filter = "all", sortBy = "added", tab = "library", statYear = new Date().getFullYear(), statScope = "all";
   const KEY_DEL = "reading-ledger-deleted";
   let deleted = lsGet(KEY_DEL, {});
   let snap = null;
@@ -1360,7 +1482,123 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     moon: () => `<div class="trinket" style="width:40px;height:68px" aria-hidden="true">${glowDiv(-18, -8, 76, "pulse")}<svg viewBox="0 0 40 68" width="40" height="68">
       <path d="M8 66l4-10h16l4 10z" style="fill:var(--metal)"/><rect x="18.5" y="40" width="3" height="16" style="fill:var(--metal)"/>
       <path d="M22 6a17 17 0 1 0 12 28A14 14 0 1 1 22 6z" style="fill:var(--glass)"/><circle cx="30" cy="10" r="1.4" fill="#fff"/><circle cx="34" cy="18" r="1" fill="#fff"/></svg></div>`,
+  };  // ================= seasons: palette, garlands, drifting leaves & seasonal trinkets =================
+  const KEY_SEASON = "reading-ledger-season", KEY_DRIFT = "reading-ledger-drift";
+  const SEASONS = {
+    autumn: { name: "Autumn", glyph: "🍂", blurb: "Pumpkins, falling leaves, acorns and spiced tea", drift: "leaves" },
+    winter: { name: "Winter", glyph: "❄", blurb: "Snowfall, pine, cocoa and candlelight", drift: "snow" },
+    spring: { name: "Spring", glyph: "✿", blurb: "Blossoms, rain-washed greens and teacups", drift: "petals" },
+    summer: { name: "Summer", glyph: "☀", blurb: "Sunflowers, lemonade and fireflies", drift: "fireflies" },
+    classic: { name: "Classic", glyph: "❦", blurb: "The original enchanted library", drift: "" },
   };
+  const seasonNow = () => { const m = new Date().getMonth(); return m >= 8 && m <= 10 ? "autumn" : m === 11 || m <= 1 ? "winter" : m <= 4 ? "spring" : "summer"; };
+  let seasonPick = lsGet(KEY_SEASON, "auto"), driftOn = lsGet(KEY_DRIFT, true);
+  const season = () => seasonPick === "auto" ? seasonNow() : (SEASONS[seasonPick] ? seasonPick : "autumn");
+  const SEASON_TRINKETS = { autumn: ["pumpkin", "acorns", "leafjar", "pumpkin2", "mushrooms", "pinecone"], winter: ["snowglobe", "cocoa", "pinecone"], spring: ["blossom", "teacup"], summer: ["sunflower", "lemonade"], classic: [] };
+  Object.assign(TRINKETS, {
+    pumpkin: () => `<div class="trinket" style="width:56px;height:46px" aria-hidden="true"><svg viewBox="0 0 56 46" width="56" height="46">
+      <path d="M30 12q2-8 9-10" stroke="#5A6B2E" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M34 9q10-7 16 0q-8 5-16 0z" fill="#6E8B3A"/><path d="M38 6q8 2 9 9" stroke="#6E8B3A" stroke-width="1.2" fill="none"/>
+      <ellipse cx="28" cy="30" rx="25" ry="15" fill="#D9682B"/><ellipse cx="16" cy="30" rx="11" ry="14" fill="#C9581F"/><ellipse cx="40" cy="30" rx="11" ry="14" fill="#C9581F"/><ellipse cx="28" cy="30" rx="10" ry="15" fill="#EE8636"/>
+      <path d="M22 19q-3 11 0 22M34 19q3 11 0 22" stroke="#B04C18" stroke-width="1" fill="none" opacity=".7"/><ellipse cx="24" cy="23" rx="4" ry="2" fill="#FFC27A" opacity=".55"/><rect x="26" y="12" width="5" height="7" rx="2" fill="#6B5226"/></svg></div>`,
+    pumpkin2: () => `<div class="trinket" style="width:40px;height:34px" aria-hidden="true"><svg viewBox="0 0 40 34" width="40" height="34">
+      <ellipse cx="20" cy="23" rx="18" ry="10.5" fill="#E6D6B4"/><ellipse cx="11" cy="23" rx="8" ry="10" fill="#D8C49C"/><ellipse cx="29" cy="23" rx="8" ry="10" fill="#D8C49C"/><ellipse cx="20" cy="23" rx="7" ry="10.5" fill="#F1E4C8"/>
+      <path d="M20 13q1-6 5-8" stroke="#6B5A33" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg></div>`,
+    acorns: () => `<div class="trinket" style="width:52px;height:34px" aria-hidden="true"><svg viewBox="0 0 52 34" width="52" height="34">
+      <path d="M2 30q8-20 26-24q-4 10-12 16q6-1 10-6q-2 12-24 14z" fill="#B5652A"/><path d="M4 29q10-10 22-21" stroke="#7A3F15" stroke-width="1" fill="none"/>
+      <ellipse cx="30" cy="25" rx="7" ry="8" fill="#A8743A"/><path d="M22 20q8-8 16 0z" fill="#6B4A26"/><path d="M30 13v-3" stroke="#4A3018" stroke-width="2" stroke-linecap="round"/><ellipse cx="28" cy="25" rx="2" ry="4" fill="#C99456" opacity=".6"/>
+      <ellipse cx="43" cy="27" rx="6" ry="6.5" fill="#B88446" transform="rotate(20 43 27)"/><path d="M37 23q7-7 13 1z" fill="#6B4A26"/></svg></div>`,
+    leafjar: () => `<div class="trinket" style="width:40px;height:68px" aria-hidden="true">${glowDiv(-14, 6, 68, "pulse")}<svg viewBox="0 0 40 68" width="40" height="68">
+      <rect x="11" y="4" width="18" height="8" rx="2" fill="#9C6B3C"/><path d="M8 14h24l2 6v40a6 6 0 0 1-6 6H12a6 6 0 0 1-6-6V20z" fill="rgba(240,230,210,.18)" stroke="rgba(255,240,215,.55)" stroke-width="1.5"/>
+      <path d="M14 46l4-6 1 4 3-5 1 5 3-3-1 6 4 0-4 3 1 3-5-2v5h-2v-5l-5 2 1-3-4-3h4z" fill="#D9542B"/><path d="M20 30l3-5 1 3 3-3 0 4 3-1-2 4 3 1-4 2 1 3-4-2v4h-2v-4l-4 2 1-3-4-2 3-1-2-4 3 1z" fill="#E8A13A"/>
+      <path d="M12 58q3-6 8-5q-1 6-8 5zM24 56q6-4 9 1q-5 4-9-1z" fill="#B3341F"/><path d="M11 22h3v32" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/></svg></div>`,
+    pinecone: () => `<div class="trinket" style="width:30px;height:38px" aria-hidden="true"><svg viewBox="0 0 30 38" width="30" height="38">
+      <path d="M15 4q-11 10-9 22q2 9 9 10q7-1 9-10q2-12-9-22z" fill="#7A4B26"/>${[[15,10],[10,16],[20,16],[8,23],[15,22],[22,23],[11,29],[19,29]].map(([x, y]) => `<path d="M${x - 4} ${y}q4 4 8 0q-4-3-8 0z" fill="#5A3518"/>`).join("")}<path d="M15 4v-3" stroke="#4A2C14" stroke-width="2"/></svg></div>`,
+    snowglobe: () => `<div class="trinket" style="width:46px;height:58px" aria-hidden="true">${glowDiv(-12, -6, 70, "pulse")}<svg viewBox="0 0 46 58" width="46" height="58">
+      <circle cx="23" cy="24" r="19" fill="rgba(200,225,255,.22)" stroke="rgba(235,245,255,.7)" stroke-width="1.5"/><path d="M23 10l-8 14h4l-6 10h20l-6-10h4z" fill="#2F6B4A"/><rect x="21" y="34" width="4" height="4" fill="#6B4A26"/>
+      <ellipse cx="23" cy="39" rx="15" ry="3" fill="#F4F8FF"/>${[[14,16],[30,14],[33,26],[12,28],[22,8],[27,20]].map(([x, y], i) => `<circle class="snowdot" cx="${x}" cy="${y}" r="1.2" fill="#fff" style="animation-delay:${i * .5}s"/>`).join("")}
+      <path d="M8 40h30l3 12H5z" fill="#8A5A34"/><rect x="5" y="50" width="36" height="4" rx="1" fill="#6B4021"/><path d="M14 16q4-6 10-7" stroke="rgba(255,255,255,.6)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>`,
+    cocoa: () => `<div class="trinket" style="width:48px;height:50px" aria-hidden="true"><svg viewBox="0 0 48 50" width="48" height="50">
+      <g class="steam" fill="none" stroke="rgba(255,250,240,.7)" stroke-width="2" stroke-linecap="round"><path d="M16 14c-4-5 3-7-1-12"/><path d="M26 14c-4-5 3-7-1-12"/></g>
+      <path d="M6 18h30v20a10 10 0 0 1-10 10h-10a10 10 0 0 1-10-10z" fill="#B23A3A"/><path d="M36 22h4a7 7 0 0 1 0 14h-4" fill="none" stroke="#8E2A2A" stroke-width="4"/><ellipse cx="21" cy="18" rx="15" ry="3.5" fill="#5A2F1B"/>
+      <rect x="13" y="14" width="6" height="5" rx="1.5" fill="#FFF6F0"/><rect x="21" y="15" width="6" height="4.5" rx="1.5" fill="#FFE6EE"/><path d="M8 30h26" stroke="#F4E6D8" stroke-width="2.5" stroke-dasharray="3 3"/></svg></div>`,
+    blossom: () => `<div class="trinket" style="width:54px;height:86px" aria-hidden="true"><svg viewBox="0 0 54 86" width="54" height="86">
+      <g class="sway"><path d="M27 58q-2-20 6-36q4-10 12-14M28 40q-8-8-18-10M31 28q-4-10-2-20" stroke="#5A3B2A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      ${[[45,8],[33,20],[12,30],[29,8],[20,26],[40,16],[36,30],[8,24]].map(([x, y]) => `<g transform="translate(${x} ${y})">${[0, 72, 144, 216, 288].map(r => `<ellipse cx="0" cy="-3" rx="2.4" ry="3.4" fill="#F6B8CC" transform="rotate(${r})"/>`).join("")}<circle r="1.4" fill="#E0708F"/></g>`).join("")}</g>
+      <path d="M16 58h22l-3 26H19z" fill="#6E9BC2"/><path d="M16 58h22" stroke="#4E7BA2" stroke-width="3"/></svg></div>`,
+    teacup: () => `<div class="trinket" style="width:54px;height:36px" aria-hidden="true"><svg viewBox="0 0 54 36" width="54" height="36">
+      <g class="steam" fill="none" stroke="rgba(255,250,240,.7)" stroke-width="1.6" stroke-linecap="round"><path d="M22 8c-3-4 2-5-1-8"/><path d="M30 8c-3-4 2-5-1-8"/></g>
+      <ellipse cx="27" cy="32" rx="25" ry="3.5" fill="#F3EBDD"/><path d="M10 12h34q0 16-17 18q-17-2-17-18z" fill="#FBF6EC"/><path d="M44 15q7 0 6 6q-1 5-8 4" fill="none" stroke="#E8DCC6" stroke-width="2.5"/>
+      <ellipse cx="27" cy="12" rx="17" ry="2.6" fill="#A9743A"/><path d="M14 19q13 5 26 0" stroke="#E79AB4" stroke-width="2" fill="none"/></svg></div>`,
+    sunflower: () => `<div class="trinket" style="width:48px;height:88px" aria-hidden="true"><svg viewBox="0 0 48 88" width="48" height="88">
+      <g class="sway"><path d="M24 64V26" stroke="#4E7A34" stroke-width="3"/><path d="M24 50q-12-2-14-10q10 0 14 10zM24 44q12-2 14-10q-10 0-14 10z" fill="#5E8A3C"/>
+      <g transform="translate(24 20)">${Array.from({ length: 14 }, (_, i) => `<ellipse cx="0" cy="-12" rx="3.4" ry="7" fill="#F2B51E" transform="rotate(${i * 360 / 14})"/>`).join("")}<circle r="8" fill="#6B3E14"/><circle r="5" fill="#4A2A0E"/></g></g>
+      <path d="M12 64h24l-3 22H15z" fill="#B5652A"/><rect x="10" y="62" width="28" height="5" rx="1.5" fill="#C9763A"/></svg></div>`,
+    lemonade: () => `<div class="trinket" style="width:36px;height:62px" aria-hidden="true"><svg viewBox="0 0 36 62" width="36" height="62">
+      <path d="M22 2l-4 20" stroke="#E0708F" stroke-width="2.4" stroke-linecap="round"/><path d="M6 18h24l-3 40a4 4 0 0 1-4 4H13a4 4 0 0 1-4-4z" fill="rgba(255,240,200,.25)" stroke="rgba(255,250,235,.7)" stroke-width="1.3"/>
+      <path d="M7.5 28h21l-2.3 30a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#F7D45C" opacity=".85"/><circle cx="27" cy="20" r="6" fill="#F7E07A" stroke="#E0B92A" stroke-width="1.5"/><path d="M27 14v12M21 20h12M23 16l8 8M31 16l-8 8" stroke="#E0B92A" stroke-width=".7"/>
+      <rect x="12" y="36" width="6" height="6" rx="1" fill="rgba(255,255,255,.55)"/><rect x="18" y="46" width="5" height="5" rx="1" fill="rgba(255,255,255,.45)"/></svg></div>`,
+  });
+  // a little garland under the title, different for each season
+  const leafSVG = (c, r = 0, s = 1) => `<path transform="rotate(${r}) scale(${s})" d="M0-10l2.5 4 3.5-2-1 4.5 4.5.5-3 3 2.5 2-4 1 .5 4-3.5-2L0 9l-2-4-3.5 2 .5-4-4-1 2.5-2-3-3 4.5-.5-1-4.5 3.5 2z" fill="${c}"/>`;
+  const GARLAND = {
+    autumn: () => { let out = `<path d="M0 14Q60 30 120 14T240 14T360 14" stroke="#7A5A2E" stroke-width="1.4" fill="none"/>`;
+      const items = [["leaf", 14, "#D9542B", -20], ["acorn", 40], ["leaf", 66, "#E8A13A", 25], ["pumpkin", 96], ["leaf", 124, "#B3341F", -10], ["mush", 152], ["leaf", 180, "#D9682B", 30], ["leaf", 206, "#E3B23C", -30], ["pumpkin", 236], ["acorn", 266], ["leaf", 292, "#C2451F", 15], ["mush", 318], ["leaf", 346, "#E8A13A", -15]];
+      for (const [k, x, c, r] of items) { const y = 14 + 8 * Math.sin(x / 120 * Math.PI * 2 + Math.PI / 2) * -1 + 8;
+        if (k === "leaf") out += `<g transform="translate(${x} ${y + 4})">${leafSVG(c, r, .9)}</g>`;
+        if (k === "acorn") out += `<g transform="translate(${x} ${y + 6})"><ellipse cx="0" cy="3" rx="4.5" ry="5.5" fill="#A8743A"/><path d="M-5.5 0q5.5-6 11 0z" fill="#6B4A26"/><path d="M0-4v-3" stroke="#4A3018" stroke-width="1.5"/></g>`;
+        if (k === "pumpkin") out += `<g transform="translate(${x} ${y + 7})"><ellipse cx="0" cy="3" rx="9" ry="6.5" fill="#D9682B"/><ellipse cx="0" cy="3" rx="4" ry="6.5" fill="#EE8636"/><path d="M0-3q1-4 4-5" stroke="#5A6B2E" stroke-width="1.8" fill="none"/></g>`;
+        if (k === "mush") out += `<g transform="translate(${x} ${y + 6})"><path d="M-2 0h4v7h-4z" fill="#F1E4C8"/><path d="M-7 1q7-12 14 0z" fill="#B3341F"/><circle cx="-2" cy="-3" r="1.2" fill="#fff"/><circle cx="3" cy="-1.5" r="1" fill="#fff"/></g>`; }
+      return out; },
+    winter: () => { let out = `<path d="M0 14Q60 30 120 14T240 14T360 14" stroke="#2F5A48" stroke-width="3" fill="none" stroke-dasharray="2 3"/>`;
+      for (let x = 10; x < 360; x += 26) { const y = 22 + 8 * Math.cos(x / 120 * Math.PI * 2) * -1; out += x % 52 < 26 ? `<g transform="translate(${x} ${y})"><circle r="3" fill="#C8243F"/><circle cx="4" cy="2" r="2.6" fill="#E0394F"/><path d="M-6-3l5 2-4 4z" fill="#2F6B4A"/></g>` : `<g transform="translate(${x} ${y})" stroke="#9FC3E0" stroke-width="1.3">${[0, 60, 120].map(r => `<path d="M0-6v12" transform="rotate(${r})"/>`).join("")}</g>`; }
+      return out; },
+    spring: () => { let out = `<path d="M0 14Q60 30 120 14T240 14T360 14" stroke="#6E8B4A" stroke-width="1.4" fill="none"/>`;
+      for (let x = 12; x < 360; x += 24) { const y = 22 + 8 * Math.cos(x / 120 * Math.PI * 2) * -1; out += `<g transform="translate(${x} ${y})">${x % 48 < 24 ? [0, 72, 144, 216, 288].map(r => `<ellipse cy="-3.4" rx="2.6" ry="3.6" fill="#F6B8CC" transform="rotate(${r})"/>`).join("") + `<circle r="1.6" fill="#E0708F"/>` : `<path d="M0 0q-6-6-2-10q4 2 2 10zM0 0q6-6 10-2q-4 4-10 2z" fill="#7FA65A"/>`}</g>`; }
+      return out; },
+    summer: () => { let out = `<path d="M0 14Q60 30 120 14T240 14T360 14" stroke="#B5852A" stroke-width="1.2" fill="none"/>`;
+      for (let x = 16; x < 360; x += 30) { const y = 22 + 8 * Math.cos(x / 120 * Math.PI * 2) * -1; out += x % 60 < 30 ? `<g transform="translate(${x} ${y + 2})">${Array.from({ length: 10 }, (_, i) => `<ellipse cy="-6" rx="1.8" ry="3.6" fill="#F2B51E" transform="rotate(${i * 36})"/>`).join("")}<circle r="3.6" fill="#6B3E14"/></g>` : `<g transform="translate(${x} ${y})"><circle r="2.4" fill="#FFF3A0" class="ffly"/><circle r="6" fill="#FFE97A" opacity=".25" class="ffly"/></g>`; }
+      return out; },
+    classic: () => "",
+  };
+  function applySeason(){
+    const s = season(); document.documentElement.dataset.season = s;
+    const g = $("#season-garland"); if (g) g.innerHTML = GARLAND[s] ? `<svg viewBox="0 0 360 44" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${GARLAND[s]()}</svg>` : "";
+    $("#season-btn").textContent = SEASONS[s].glyph;
+    renderDrift();
+  }
+  function renderDrift(){
+    const layer = $("#drift"); if (!layer) return;
+    const s = season(), kind = SEASONS[s].drift;
+    if (!driftOn || !kind || matchMedia("(prefers-reduced-motion: reduce)").matches) { layer.innerHTML = ""; return; }
+    const n = kind === "snow" ? 26 : kind === "fireflies" ? 14 : 12, out = [];
+    const leafCols = ["#D9542B", "#E8A13A", "#B3341F", "#D9682B", "#E3B23C", "#9C4A1E"];
+    for (let i = 0; i < n; i++) {
+      const left = (i * 97 + 13) % 100, dur = kind === "snow" ? 14 + (i % 7) * 2 : kind === "fireflies" ? 6 + (i % 5) : 18 + (i % 6) * 3, delay = -((i * 3.7) % dur), size = kind === "snow" ? 3 + (i % 4) : 12 + (i % 4) * 4;
+      let inner = "";
+      if (kind === "leaves") inner = `<svg viewBox="-11 -11 22 22" width="${size}" height="${size}">${leafSVG(leafCols[i % leafCols.length], i * 40)}</svg>`;
+      else if (kind === "petals") inner = `<svg viewBox="-6 -6 12 12" width="${size * .7}" height="${size * .7}"><ellipse rx="3" ry="5" fill="${i % 2 ? "#F6B8CC" : "#FBD3DF"}"/></svg>`;
+      out.push(`<i class="d-${kind}" style="left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s;${kind === "snow" ? `width:${size}px;height:${size}px;` : ""}${kind === "fireflies" ? `top:${(i * 53) % 90 + 5}%;` : ""}">${inner}</i>`);
+    }
+    layer.className = "drift " + kind; layer.innerHTML = out.join("");
+  }
+  function openSeasonPicker(){
+    const root = $("#modal-root");
+    root.innerHTML = `<div class="scrim" id="season-scrim"><div class="modal seasonmodal" role="dialog" aria-modal="true" aria-labelledby="sz-title">
+      <div class="label">Make it yours</div><h2 id="sz-title">Seasons of the nook</h2>
+      <p class="note">Each season repaints the whole nook: colours, the garland under the title, the trinkets on your shelves and what drifts past the window. Light and dark mode still work with every one.</p>
+      <div class="seasongrid">${[["auto", "Follow the season", "✧", `Changes by itself. Right now: ${SEASONS[seasonNow()].name}`], ...Object.entries(SEASONS).map(([k, v]) => [k, v.name, v.glyph, v.blurb])].map(([k, n, g, d]) =>
+        `<button type="button" class="seasontile" data-season="${k}" data-prev="${k === "auto" ? seasonNow() : k}" aria-pressed="${seasonPick === k}"><span class="sprev"><span class="sg">${g}</span></span><b>${n}</b><small>${d}</small></button>`).join("")}</div>
+      <label class="drifttoggle"><input type="checkbox" id="drift-on" ${driftOn ? "checked" : ""}> Drifting leaves, snow, petals and fireflies</label>
+      <div class="mfoot"><button class="btn primary" type="button" id="sz-done">Done</button></div></div></div>`;
+    $("#season-scrim").addEventListener("click", e => {
+      if (e.target.id === "season-scrim" || e.target.id === "sz-done") { root.innerHTML = ""; return; }
+      const t = e.target.closest("[data-season]"); if (t) { seasonPick = t.dataset.season; lsSet(KEY_SEASON, seasonPick); root.querySelectorAll("[data-season]").forEach(x => x.setAttribute("aria-pressed", x === t)); applySeason(); renderShelf(); }
+    });
+    $("#drift-on").addEventListener("change", e => { driftOn = e.target.checked; lsSet(KEY_DRIFT, driftOn); renderDrift(); });
+  }
+  $("#season-btn").addEventListener("click", openSeasonPicker);
+  applySeason();
+
   function vineSVG(side, len){
     let stem = "", leaves = "", x = 10, y = 0;
     const pts = [];
@@ -1453,7 +1691,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     const by = { reading: [], read: [], want: [] };
     books.forEach(b => by[b.shelf]?.push(b));
     const words = { reading: "Drag a book here when you start it.", read: "Finished books rest here.", want: "Books you dream of reading wait here." };
-    const set = CASES[caseTheme].trinkets; let tk = 0;
+    const base = CASES[caseTheme].trinkets, extra = SEASON_TRINKETS[season()] || [];
+    const set = extra.length ? base.flatMap((t, i) => [extra[i % extra.length], t]) : base; let tk = 0;
     const trinket = () => TRINKETS[set[tk++ % set.length]]();
     ["reading","read","want"].forEach((k, si) => {
       const el = $("#shelf-" + k), list = arrangeList(by[k], k).slice(0, 90);
@@ -1548,7 +1787,8 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     const el = $("#list");
     if (!books.length) { el.innerHTML = `<div class="empty" style="margin-top:18px"><span class="fleuron">❦</span><h3>The shelves are waiting</h3><div>Search for a book above, or import your Goodreads library with the button at the top: My Books → Import and export → Export library on Goodreads.</div></div>`; return; }
     if (!shown.length) { el.innerHTML = `<div class="empty" style="margin-top:18px"><div>Nothing on this shelf yet.</div></div>`; return; }
-    el.innerHTML = `<div class="gridbooks">${shown.map(b => {
+    $("#group-by").querySelectorAll("[data-group]").forEach(x => x.setAttribute("aria-pressed", x.dataset.group === groupBy));
+    const cardOf = b => {
       const pct = b.pages ? Math.min(100, Math.round((b.currentPage || 0) / b.pages * 100)) : 0;
       let under = "";
       if (b.shelf === "read") under = `${b.rating ? `<span class="stars" aria-label="Your rating: ${b.rating} stars">${stars(b.rating)}</span>` : ""}<span class="facts">${b.finished ? esc(fmtDate(b.finished)) : "Read"}</span>`;
@@ -1556,7 +1796,22 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
       else under = `<span class="facts">Want to read</span>`;
       const cm = community(b);
       return `<button class="book" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, b.shelf === "reading" ? `<i class="ribbon"></i>` : "")}<span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author)}${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</span>${under}${cm ? `<span class="gr bgr" title="${cm.src} rating"><span>★ <b>${cm.v.toFixed(2)}</b> ${cm.src === "Goodreads" ? "GR" : "OL"}</span>${cm.src === "Goodreads" && b.goodreadsCount ? `<span class="cnt">${shortCount(b.goodreadsCount)}</span>` : ""}</span>` : ""}${vtags(b)}</button>`;
-    }).join("")}</div>`;
+    };
+    if (groupBy === "author") {
+      const groups = new Map();
+      for (const b of shown) { const a = (b.author || "Unknown author").split(/\s*(?:,|&| and )\s*/)[0].trim() || "Unknown author"; const k = a.toLowerCase(); if (!groups.has(k)) groups.set(k, { name: a, list: [] }); groups.get(k).list.push(b); }
+      const gs = [...groups.values()].sort((x, y) => y.list.length - x.list.length || lastName(x.name).localeCompare(lastName(y.name)));
+      gs.forEach(g => g.list.sort((a, b) => (a.seriesName || "").localeCompare(b.seriesName || "") || (a.seriesNum || 0) - (b.seriesNum || 0) || (a.year || 0) - (b.year || 0)));
+      const slug = n => "au-" + n.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      el.innerHTML = `<div class="authindex">${gs.map(g => `<a href="#${slug(g.name)}" data-jump="${slug(g.name)}">${esc(g.name)} <b>${g.list.length}</b></a>`).join("")}</div>
+        ${gs.map(g => { const rd = g.list.filter(b => b.shelf === "read"), rated = rd.filter(b => b.rating), avg = rated.length ? rated.reduce((s, b) => s + b.rating, 0) / rated.length : 0;
+          const pages = rd.reduce((s, b) => s + (Number(b.pages) || 0), 0);
+          return `<section class="authgroup" id="${slug(g.name)}"><div class="authhead"><span class="authmono" style="--c:${hashColor(g.name)}">${esc(g.name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>
+            <div><h3>${esc(g.name)}</h3><div class="note">${g.list.length} book${g.list.length > 1 ? "s" : ""}${rd.length ? ` · ${rd.length} read` : ""}${pages ? ` · ${pages.toLocaleString()} pages` : ""}${avg ? ` · you average ${avg.toFixed(1)}★` : ""}</div></div></div>
+            <div class="gridbooks">${g.list.map(cardOf).join("")}</div></section>`; }).join("")}`;
+      return;
+    }
+    el.innerHTML = `<div class="gridbooks">${shown.map(cardOf).join("")}</div>`;
   }
   let fetching = false;
   async function fetchMissing(){
@@ -1960,8 +2215,7 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
         <div class="panel"><h3>When the books were written</h3><div class="chartbox"><canvas id="ch-dec"></canvas></div></div>
         ${years.length > 1 && !scoped ? `<div class="panel"><h3>Books per year</h3><div class="chartbox"><canvas id="ch-years"></canvas></div></div>` : ""}
         <div class="panel"><h3>Recurring themes</h3>${themes.length ? `<div class="cloud">${themes.map(([t, n], i) => `<span style="font-size:${16 + (n / maxTheme) * 18}px;color:var(--v${i % 8 + 1});text-shadow:0 0 5px color-mix(in srgb,var(--v${i % 8 + 1}) 20%,transparent)" title="${n} book${n > 1 ? "s" : ""}">${esc(t)}</span>`).join("")}</div>` : `<div class="note">Themes come from Open Library.</div>`}</div>
-        <div class="panel"><h3>Currently reading</h3>${reading.length ? `<div class="hbars">${reading.map(b => { const pct = b.pages ? Math.min(100, Math.round((b.currentPage || 0) / b.pages * 100)) : 0; return `<div class="hbar"><span class="nm">${esc(b.title)}</span><span class="ct">${pct}%</span><div class="bar"><span style="width:${pct}%"></span></div></div>`; }).join("")}</div>` : `<div class="note">Nothing bookmarked right now.</div>`}
-          <h3 style="margin-top:8px">The to-read pile</h3><div><b class="num">${want.length}</b> book${want.length === 1 ? "" : "s"}, about <b class="num">${wantPages.toLocaleString()}</b> pages. <span class="muted">${perDay ? `Roughly ${Math.round(wantPages / perDay).toLocaleString()} days at your pace.` : ""}</span></div></div>
+        <div class="panel"><h3>The to-read pile</h3><div><b class="num">${want.length}</b> book${want.length === 1 ? "" : "s"}, about <b class="num">${wantPages.toLocaleString()}</b> pages. <span class="muted">${perDay ? `Roughly ${Math.round(wantPages / perDay).toLocaleString()} days at your pace.` : ""}</span></div></div>
         <div class="panel"><h3>Highlights</h3><ul class="facts-list">
           ${fav ? `<li><span class="label">Your favourite</span><span><b>${esc(fav.title)}</b> ${stars(fav.rating)}</span></li>` : ""}
           ${cmTop ? `<li><span class="label">Readers' favourite</span><span><b>${esc(cmTop.title)}</b>, ${community(cmTop).v.toFixed(2)}</span></li>` : ""}
@@ -2053,138 +2307,363 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   }
 
   // ================= recommendations =================
-  const recSig = () => { const r = readBooks(); return r.length + ":" + r.reduce((s, b) => s + (b.rating || 0), 0) + ":" + r.reduce((s, b) => s + (b.tropes || []).length + (b.themes || []).length, 0) + ":" + Math.min(books.length, 3); };
-  let recsRunning = false;
-  async function runRecs(wish){
-    if (recsRunning) return; recsRunning = true;
-    const el = $("#recs-out");
-    if (el) el.innerHTML = `<div class="status"><span class="dots">Wandering the stacks for you</span></div>`;
+  // ================= reading knowledge: readalikes, trope shelves, awards =================
+  // m: matches a book you've read (title, series or author); g: genres of the circle; b: [title, author]
+  const READALIKES = [
+    { m: /throne of glass|assassin.?s blade|crown of midnight|heir of fire|queen of shadows|empire of storms|tower of dawn|kingdom of ash/, n: "Throne of Glass", g: ["Fantasy", "Romantasy", "Young Adult"], b: [["A Court of Thorns and Roses","Sarah J. Maas"],["The Cruel Prince","Holly Black"],["Six of Crows","Leigh Bardugo"],["Red Queen","Victoria Aveyard"],["An Ember in the Ashes","Sabaa Tahir"],["Kingdom of the Wicked","Kerri Maniscalco"],["Serpent & Dove","Shelby Mahurin"],["Fourth Wing","Rebecca Yarros"],["From Blood and Ash","Jennifer L. Armentrout"],["The Bridge Kingdom","Danielle L. Jensen"],["Daughter of Smoke & Bone","Laini Taylor"],["Graceling","Kristin Cashore"],["Poison Study","Maria V. Snyder"],["Powerless","Lauren Roberts"]] },
+    { m: /court of (thorns|mist|wings|frost|silver)|acotar/, n: "A Court of Thorns and Roses", g: ["Romantasy", "Fantasy"], b: [["Fourth Wing","Rebecca Yarros"],["From Blood and Ash","Jennifer L. Armentrout"],["The Serpent and the Wings of Night","Carissa Broadbent"],["Quicksilver","Callie Hart"],["Kingdom of the Wicked","Kerri Maniscalco"],["The Cruel Prince","Holly Black"],["House of Earth and Blood","Sarah J. Maas"],["Uprooted","Naomi Novik"],["Gild","Raven Kennedy"],["The Bridge Kingdom","Danielle L. Jensen"],["When the Moon Hatched","Sarah A. Parker"],["Throne of Glass","Sarah J. Maas"]] },
+    { m: /fourth wing|iron flame|onyx storm|empyrean/, n: "Fourth Wing", g: ["Romantasy", "Fantasy"], b: [["Powerless","Lauren Roberts"],["The Serpent and the Wings of Night","Carissa Broadbent"],["Quicksilver","Callie Hart"],["Shield of Sparrows","Devney Perry"],["Red Rising","Pierce Brown"],["When the Moon Hatched","Sarah A. Parker"],["A Fate Inked in Blood","Danielle L. Jensen"],["Divine Rivals","Rebecca Ross"],["Heartless Hunter","Kristen Ciccarelli"],["Eragon","Christopher Paolini"],["A Court of Thorns and Roses","Sarah J. Maas"],["Spark of the Everflame","Penn Cole"]] },
+    { m: /crescent city|house of (earth|sky|flame)/, n: "Crescent City", g: ["Romantasy", "Fantasy"], b: [["A Court of Thorns and Roses","Sarah J. Maas"],["Fourth Wing","Rebecca Yarros"],["From Blood and Ash","Jennifer L. Armentrout"],["Kingdom of the Wicked","Kerri Maniscalco"],["Ninth House","Leigh Bardugo"],["Daughter of Smoke & Bone","Laini Taylor"],["The Atlas Six","Olivie Blake"],["The Book of Azrael","Amber V. Nicole"]] },
+    { m: /six of crows|crooked kingdom|shadow and bone|grisha|bardugo/, n: "Six of Crows", g: ["Fantasy", "Young Adult"], b: [["The Lies of Locke Lamora","Scott Lynch"],["The Gilded Wolves","Roshani Chokshi"],["The Cruel Prince","Holly Black"],["Mistborn: The Final Empire","Brandon Sanderson"],["The Inheritance Games","Jennifer Lynn Barnes"],["Caraval","Stephanie Garber"],["The Atlas Six","Olivie Blake"],["Red Rising","Pierce Brown"],["Gideon the Ninth","Tamsyn Muir"],["Scythe","Neal Shusterman"],["Ninth House","Leigh Bardugo"]] },
+    { m: /cruel prince|wicked king|queen of nothing|folk of the air|holly black/, n: "The Cruel Prince", g: ["Fantasy", "Romantasy", "Young Adult"], b: [["Caraval","Stephanie Garber"],["Once Upon a Broken Heart","Stephanie Garber"],["A Court of Thorns and Roses","Sarah J. Maas"],["Kingdom of the Wicked","Kerri Maniscalco"],["Throne of Glass","Sarah J. Maas"],["Uprooted","Naomi Novik"],["Wicked Saints","Emily A. Duncan"],["Serpent & Dove","Shelby Mahurin"],["An Enchantment of Ravens","Margaret Rogerson"],["Sorcery of Thorns","Margaret Rogerson"]] },
+    { m: /hunger games|catching fire|mockingjay|songbirds and snakes|sunrise on the reaping/, n: "The Hunger Games", g: ["Young Adult", "Science Fiction"], b: [["Divergent","Veronica Roth"],["Red Queen","Victoria Aveyard"],["The Maze Runner","James Dashner"],["Legend","Marie Lu"],["Scythe","Neal Shusterman"],["Red Rising","Pierce Brown"],["Battle Royale","Koushun Takami"],["Shatter Me","Tahereh Mafi"],["The 5th Wave","Rick Yancey"],["Powerless","Lauren Roberts"]] },
+    { m: /harry potter|hogwarts/, n: "Harry Potter", g: ["Fantasy", "Young Adult"], b: [["The Lightning Thief","Rick Riordan"],["Nevermoor","Jessica Townsend"],["A Deadly Education","Naomi Novik"],["The Magicians","Lev Grossman"],["Eragon","Christopher Paolini"],["The Golden Compass","Philip Pullman"],["Howl's Moving Castle","Diana Wynne Jones"],["The Name of the Wind","Patrick Rothfuss"],["Carry On","Rainbow Rowell"],["Ninth House","Leigh Bardugo"]] },
+    { m: /name of the wind|wise man.?s fear|kingkiller|rothfuss/, n: "The Name of the Wind", g: ["Fantasy"], b: [["Mistborn: The Final Empire","Brandon Sanderson"],["The Lies of Locke Lamora","Scott Lynch"],["The Way of Kings","Brandon Sanderson"],["The Blade Itself","Joe Abercrombie"],["Assassin's Apprentice","Robin Hobb"],["A Wizard of Earthsea","Ursula K. Le Guin"],["The Poppy War","R.F. Kuang"],["The Will of the Many","James Islington"]] },
+    { m: /mistborn|stormlight|way of kings|sanderson|elantris|warbreaker/, n: "Brandon Sanderson", g: ["Fantasy"], b: [["The Name of the Wind","Patrick Rothfuss"],["Red Rising","Pierce Brown"],["The Lies of Locke Lamora","Scott Lynch"],["The Poppy War","R.F. Kuang"],["The Eye of the World","Robert Jordan"],["The Will of the Many","James Islington"],["Dungeon Crawler Carl","Matt Dinniman"],["The Blade Itself","Joe Abercrombie"],["Assassin's Apprentice","Robin Hobb"]] },
+    { m: /tress of the emerald sea|yumi and the nightmare|sunlit man/, n: "Tress of the Emerald Sea", g: ["Fantasy"], b: [["The Princess Bride","William Goldman"],["Legends & Lattes","Travis Baldree"],["Howl's Moving Castle","Diana Wynne Jones"],["Stardust","Neil Gaiman"],["Yumi and the Nightmare Painter","Brandon Sanderson"],["The House in the Cerulean Sea","TJ Klune"],["The Spellshop","Sarah Beth Durst"],["Mistborn: The Final Empire","Brandon Sanderson"],["The Starless Sea","Erin Morgenstern"]] },
+    { m: /song of achilles|circe|madeline miller/, n: "The Song of Achilles", g: ["Historical Fiction", "Fantasy", "Literary Fiction"], b: [["Circe","Madeline Miller"],["A Thousand Ships","Natalie Haynes"],["Ariadne","Jennifer Saint"],["Elektra","Jennifer Saint"],["The Silence of the Girls","Pat Barker"],["Stone Blind","Natalie Haynes"],["The Witch's Heart","Genevieve Gornichec"],["The Secret History","Donna Tartt"],["Call Me by Your Name","André Aciman"],["Hamnet","Maggie O'Farrell"],["A Little Life","Hanya Yanagihara"]] },
+    { m: /aristotle and dante|benjamin alire s/, n: "Aristotle and Dante", g: ["Young Adult", "Contemporary"], b: [["Simon vs. the Homo Sapiens Agenda","Becky Albertalli"],["They Both Die at the End","Adam Silvera"],["Red, White & Royal Blue","Casey McQuiston"],["Heartstopper: Volume One","Alice Oseman"],["I'll Give You the Sun","Jandy Nelson"],["Call Me by Your Name","André Aciman"],["Last Night at the Telegraph Club","Malinda Lo"],["Felix Ever After","Kacen Callender"],["Cemetery Boys","Aiden Thomas"],["We Are Okay","Nina LaCour"],["The Perks of Being a Wallflower","Stephen Chbosky"]] },
+    { m: /what if it.?s us|here.?s to us|adam silvera|albertalli/, n: "What If It's Us", g: ["Young Adult", "Contemporary", "Romance"], b: [["They Both Die at the End","Adam Silvera"],["Simon vs. the Homo Sapiens Agenda","Becky Albertalli"],["Red, White & Royal Blue","Casey McQuiston"],["Heartstopper: Volume One","Alice Oseman"],["I Wish You All the Best","Mason Deaver"],["Boyfriend Material","Alexis Hall"],["The Upside of Unrequited","Becky Albertalli"],["Cemetery Boys","Aiden Thomas"],["Felix Ever After","Kacen Callender"],["Darius the Great Is Not Okay","Adib Khorram"]] },
+    { m: /red, white|royal blue|casey mcquiston|boyfriend material/, n: "Red, White & Royal Blue", g: ["Romance", "Contemporary"], b: [["Boyfriend Material","Alexis Hall"],["One Last Stop","Casey McQuiston"],["Heartstopper: Volume One","Alice Oseman"],["Book Lovers","Emily Henry"],["The Love Hypothesis","Ali Hazelwood"],["Simon vs. the Homo Sapiens Agenda","Becky Albertalli"],["Delilah Green Doesn't Care","Ashley Herring Blake"],["Beach Read","Emily Henry"]] },
+    { m: /emily henry|beach read|book lovers|people we meet|happy place|funny story|great big beautiful/, n: "Emily Henry", g: ["Romance", "Contemporary"], b: [["The Love Hypothesis","Ali Hazelwood"],["The Unhoneymooners","Christina Lauren"],["The Hating Game","Sally Thorne"],["Part of Your World","Abby Jimenez"],["Just for the Summer","Abby Jimenez"],["The Seven Year Slip","Ashley Poston"],["Better Than the Movies","Lynn Painter"],["The Kiss Quotient","Helen Hoang"],["Get a Life, Chloe Brown","Talia Hibbert"],["The Flatshare","Beth O'Leary"]] },
+    { m: /love hypothesis|ali hazelwood|love, theoretically|love on the brain/, n: "Ali Hazelwood", g: ["Romance"], b: [["Book Lovers","Emily Henry"],["Beach Read","Emily Henry"],["The Spanish Love Deception","Elena Armas"],["The Unhoneymooners","Christina Lauren"],["The Kiss Quotient","Helen Hoang"],["The Hating Game","Sally Thorne"],["Part of Your World","Abby Jimenez"],["Icebreaker","Hannah Grace"],["Check & Mate","Ali Hazelwood"]] },
+    { m: /colleen hoover|it ends with us|it starts with us|ugly love|reminders of him|verity/, n: "Colleen Hoover", g: ["Romance", "Contemporary"], b: [["Me Before You","Jojo Moyes"],["The Fault in Our Stars","John Green"],["Things We Never Got Over","Lucy Score"],["The Deal","Elle Kennedy"],["Twisted Love","Ana Huang"],["November 9","Colleen Hoover"],["Regretting You","Colleen Hoover"],["The Housemaid","Freida McFadden"]] },
+    { m: /seven husbands|evelyn hugo|daisy jones|malibu rising|taylor jenkins reid|atmosphere/, n: "Taylor Jenkins Reid", g: ["Historical Fiction", "Contemporary"], b: [["Daisy Jones & The Six","Taylor Jenkins Reid"],["Malibu Rising","Taylor Jenkins Reid"],["Carrie Soto Is Back","Taylor Jenkins Reid"],["Lessons in Chemistry","Bonnie Garmus"],["The Invisible Life of Addie LaRue","V.E. Schwab"],["Where the Crawdads Sing","Delia Owens"],["Little Fires Everywhere","Celeste Ng"],["Tomorrow, and Tomorrow, and Tomorrow","Gabrielle Zevin"],["Remarkably Bright Creatures","Shelby Van Pelt"]] },
+    { m: /addie larue|v\.?e\.? schwab|darker shade of magic|vicious/, n: "V.E. Schwab", g: ["Fantasy", "Literary Fiction"], b: [["The Starless Sea","Erin Morgenstern"],["The Night Circus","Erin Morgenstern"],["The Midnight Library","Matt Haig"],["Piranesi","Susanna Clarke"],["The Ten Thousand Doors of January","Alix E. Harrow"],["The Book of Doors","Gareth Brown"],["Bury Our Bones in the Midnight Soil","V.E. Schwab"],["The Atlas Six","Olivie Blake"]] },
+    { m: /night circus|starless sea|morgenstern|piranesi/, n: "The Night Circus", g: ["Fantasy", "Literary Fiction"], b: [["The Invisible Life of Addie LaRue","V.E. Schwab"],["The Starless Sea","Erin Morgenstern"],["Caraval","Stephanie Garber"],["Practical Magic","Alice Hoffman"],["Jonathan Strange & Mr Norrell","Susanna Clarke"],["The Ten Thousand Doors of January","Alix E. Harrow"],["The Golem and the Jinni","Helene Wecker"],["Spinning Silver","Naomi Novik"]] },
+    { m: /gone girl|sharp objects|gillian flynn|silent patient|girl on the train|alex michaelides/, n: "Gone Girl", g: ["Thriller", "Mystery"], b: [["The Silent Patient","Alex Michaelides"],["Verity","Colleen Hoover"],["The Housemaid","Freida McFadden"],["Rock Paper Scissors","Alice Feeney"],["Behind Closed Doors","B.A. Paris"],["Big Little Lies","Liane Moriarty"],["The Wife Between Us","Greer Hendricks"],["First Lie Wins","Ashley Elston"],["The Maidens","Alex Michaelides"],["Sharp Objects","Gillian Flynn"]] },
+    { m: /freida mcfadden|housemaid|never lie|the inmate|the teacher|the coworker/, n: "Freida McFadden", g: ["Thriller"], b: [["Verity","Colleen Hoover"],["The Silent Patient","Alex Michaelides"],["None of This Is True","Lisa Jewell"],["The Perfect Marriage","Jeneva Rose"],["Behind Closed Doors","B.A. Paris"],["The Wife Upstairs","Rachel Hawkins"],["The Couple Next Door","Shari Lapena"],["Rock Paper Scissors","Alice Feeney"],["Never Lie","Freida McFadden"],["The Inmate","Freida McFadden"]] },
+    { m: /good girl.?s guide|holly jackson|inheritance games|hawthorne|one of us is lying/, n: "A Good Girl's Guide to Murder", g: ["Mystery", "Young Adult", "Thriller"], b: [["One of Us Is Lying","Karen M. McManus"],["The Inheritance Games","Jennifer Lynn Barnes"],["Truly Devious","Maureen Johnson"],["We Were Liars","E. Lockhart"],["Five Survive","Holly Jackson"],["Sadie","Courtney Summers"],["Ace of Spades","Faridah Àbíké-Íyímídé"],["The Agathas","Kathleen Glasgow"],["The Naturals","Jennifer Lynn Barnes"],["The Westing Game","Ellen Raskin"]] },
+    { m: /agatha christie|poirot|thursday murder club|magpie murders/, n: "Agatha Christie", g: ["Mystery"], b: [["The Thursday Murder Club","Richard Osman"],["Magpie Murders","Anthony Horowitz"],["The 7½ Deaths of Evelyn Hardcastle","Stuart Turton"],["The Maid","Nita Prose"],["The Word Is Murder","Anthony Horowitz"],["The Cuckoo's Calling","Robert Galbraith"],["Still Life","Louise Penny"],["The Appeal","Janice Hallett"],["Murder on the Orient Express","Agatha Christie"],["The Sweetness at the Bottom of the Pie","Alan Bradley"]] },
+    { m: /secret history|donna tartt|if we were villains|ninth house|hell bent/, n: "The Secret History", g: ["Literary Fiction", "Mystery"], b: [["If We Were Villains","M.L. Rio"],["The Likeness","Tana French"],["Bunny","Mona Awad"],["The Atlas Six","Olivie Blake"],["Never Let Me Go","Kazuo Ishiguro"],["Babel","R.F. Kuang"],["Ninth House","Leigh Bardugo"],["Brideshead Revisited","Evelyn Waugh"],["Catherine House","Elisabeth Thomas"],["The Goldfinch","Donna Tartt"]] },
+    { m: /normal people|sally rooney|conversations with friends|intermezzo/, n: "Sally Rooney", g: ["Literary Fiction", "Contemporary"], b: [["My Year of Rest and Relaxation","Ottessa Moshfegh"],["The Idiot","Elif Batuman"],["Sorrow and Bliss","Meg Mason"],["Exciting Times","Naoise Dolan"],["Everything I Know About Love","Dolly Alderton"],["Writers & Lovers","Lily King"],["Tomorrow, and Tomorrow, and Tomorrow","Gabrielle Zevin"],["Intermezzo","Sally Rooney"]] },
+    { m: /a little life|yanagihara|goldfinch|demon copperhead/, n: "A Little Life", g: ["Literary Fiction"], b: [["The Goldfinch","Donna Tartt"],["The Secret History","Donna Tartt"],["Shuggie Bain","Douglas Stuart"],["Demon Copperhead","Barbara Kingsolver"],["The Heart's Invisible Furies","John Boyne"],["On Earth We're Briefly Gorgeous","Ocean Vuong"],["Never Let Me Go","Kazuo Ishiguro"],["A Thousand Splendid Suns","Khaled Hosseini"]] },
+    { m: /project hail mary|the martian|andy weir|dark matter|blake crouch/, n: "Andy Weir", g: ["Science Fiction"], b: [["Dark Matter","Blake Crouch"],["Recursion","Blake Crouch"],["We Are Legion (We Are Bob)","Dennis E. Taylor"],["Children of Time","Adrian Tchaikovsky"],["All Systems Red","Martha Wells"],["Leviathan Wakes","James S.A. Corey"],["The Three-Body Problem","Liu Cixin"],["Seveneves","Neal Stephenson"],["Project Hail Mary","Andy Weir"]] },
+    { m: /^dune|frank herbert|foundation|hyperion|red rising/, n: "Dune", g: ["Science Fiction"], b: [["Hyperion","Dan Simmons"],["The Left Hand of Darkness","Ursula K. Le Guin"],["Red Rising","Pierce Brown"],["The Three-Body Problem","Liu Cixin"],["Children of Time","Adrian Tchaikovsky"],["A Memory Called Empire","Arkady Martine"],["Ender's Game","Orson Scott Card"],["Empire of Silence","Christopher Ruocchio"],["Gideon the Ninth","Tamsyn Muir"],["Foundation","Isaac Asimov"]] },
+    { m: /dungeon crawler carl|dinniman|primal hunter|he who fights/, n: "Dungeon Crawler Carl", g: ["Science Fiction", "Fantasy"], b: [["He Who Fights with Monsters","Shirtaloon"],["Mother of Learning","nobody103"],["The Primal Hunter","Zogarth"],["Project Hail Mary","Andy Weir"],["Red Rising","Pierce Brown"],["All Systems Red","Martha Wells"],["Cradle: Unsouled","Will Wight"]] },
+    { m: /book thief|all the light we cannot see|nightingale|kristin hannah|the women|four winds/, n: "The Book Thief", g: ["Historical Fiction"], b: [["All the Light We Cannot See","Anthony Doerr"],["The Nightingale","Kristin Hannah"],["Salt to the Sea","Ruta Sepetys"],["The Alice Network","Kate Quinn"],["The Rose Code","Kate Quinn"],["Lilac Girls","Martha Hall Kelly"],["The Women","Kristin Hannah"],["Code Name Verity","Elizabeth Wein"],["The Frozen River","Ariel Lawhon"],["Before We Were Yours","Lisa Wingate"],["The Book of Lost Things","John Connolly"]] },
+    { m: /lessons in chemistry|remarkably bright|eleanor oliphant|backman|a man called ove|anxious people|beartown|midnight library/, n: "Lessons in Chemistry", g: ["Literary Fiction", "Contemporary"], b: [["Remarkably Bright Creatures","Shelby Van Pelt"],["Eleanor Oliphant Is Completely Fine","Gail Honeyman"],["A Man Called Ove","Fredrik Backman"],["The Midnight Library","Matt Haig"],["The House in the Cerulean Sea","TJ Klune"],["Anxious People","Fredrik Backman"],["The Rosie Project","Graeme Simsion"],["The Correspondent","Virginia Evans"],["My Friends","Fredrik Backman"],["Before the Coffee Gets Cold","Toshikazu Kawaguchi"]] },
+    { m: /cerulean sea|whispering door|tj klune|legends (&|and) lattes|spellshop|irregular witches/, n: "The House in the Cerulean Sea", g: ["Fantasy"], b: [["Under the Whispering Door","TJ Klune"],["Legends & Lattes","Travis Baldree"],["The Very Secret Society of Irregular Witches","Sangu Mandanna"],["A Psalm for the Wild-Built","Becky Chambers"],["The Spellshop","Sarah Beth Durst"],["Emily Wilde's Encyclopaedia of Faeries","Heather Fawcett"],["Howl's Moving Castle","Diana Wynne Jones"],["Bookshops & Bonedust","Travis Baldree"],["Can't Spell Treason Without Tea","Rebecca Thorne"]] },
+    { m: /percy jackson|lightning thief|riordan/, n: "Percy Jackson", g: ["Fantasy", "Young Adult"], b: [["The Red Pyramid","Rick Riordan"],["Nevermoor","Jessica Townsend"],["Artemis Fowl","Eoin Colfer"],["Keeper of the Lost Cities","Shannon Messenger"],["Aru Shah and the End of Time","Roshani Chokshi"],["Harry Potter and the Philosopher's Stone","J.K. Rowling"],["The Hobbit","J.R.R. Tolkien"]] },
+    { m: /once upon a broken heart|caraval|stephanie garber|ballad of never after|curse for true love/, n: "Stephanie Garber", g: ["Romantasy", "Fantasy", "Young Adult"], b: [["Divine Rivals","Rebecca Ross"],["The Cruel Prince","Holly Black"],["An Enchantment of Ravens","Margaret Rogerson"],["Heartless Hunter","Kristen Ciccarelli"],["One Dark Window","Rachel Gillig"],["The Night Circus","Erin Morgenstern"],["Stardust","Neil Gaiman"],["A Curse So Dark and Lonely","Brigid Kemmerer"],["Serpent & Dove","Shelby Mahurin"]] },
+    { m: /one dark window|two twisted crowns|rachel gillig|knight and the moth/, n: "Rachel Gillig", g: ["Romantasy", "Fantasy"], b: [["Uprooted","Naomi Novik"],["Spinning Silver","Naomi Novik"],["The Bear and the Nightingale","Katherine Arden"],["Divine Rivals","Rebecca Ross"],["Once Upon a Broken Heart","Stephanie Garber"],["Sorcery of Thorns","Margaret Rogerson"],["Belladonna","Adalyn Grace"],["Heartless Hunter","Kristen Ciccarelli"]] },
+    { m: /divine rivals|ruthless vows|rebecca ross/, n: "Divine Rivals", g: ["Romantasy", "Fantasy"], b: [["Heartless Hunter","Kristen Ciccarelli"],["One Dark Window","Rachel Gillig"],["Once Upon a Broken Heart","Stephanie Garber"],["Sorcery of Thorns","Margaret Rogerson"],["A Far Wilder Magic","Allison Saft"],["Belladonna","Adalyn Grace"],["These Violent Delights","Chloe Gong"],["The Atlas Six","Olivie Blake"]] },
+    { m: /powerless|reckless|lauren roberts/, n: "Powerless", g: ["Romantasy", "Young Adult"], b: [["Fourth Wing","Rebecca Yarros"],["Red Queen","Victoria Aveyard"],["The Selection","Kiera Cass"],["Shield of Sparrows","Devney Perry"],["Heartless Hunter","Kristen Ciccarelli"],["The Serpent and the Wings of Night","Carissa Broadbent"],["An Ember in the Ashes","Sabaa Tahir"]] },
+    { m: /quicksilver|callie hart|serpent and the wings|crowns of nyaxia|blood and ash/, n: "Quicksilver", g: ["Romantasy"], b: [["A Court of Thorns and Roses","Sarah J. Maas"],["Fourth Wing","Rebecca Yarros"],["From Blood and Ash","Jennifer L. Armentrout"],["When the Moon Hatched","Sarah A. Parker"],["Gild","Raven Kennedy"],["Kingdom of the Wicked","Kerri Maniscalco"],["The Bridge Kingdom","Danielle L. Jensen"],["The Book of Azrael","Amber V. Nicole"],["Phantasma","Kaylie Smith"]] },
+    { m: /twilight|new moon|eclipse|breaking dawn|vampire/, n: "Twilight", g: ["Romance", "Fantasy", "Young Adult"], b: [["Interview with the Vampire","Anne Rice"],["A Discovery of Witches","Deborah Harkness"],["Vampire Academy","Richelle Mead"],["Shiver","Maggie Stiefvater"],["City of Bones","Cassandra Clare"],["Beautiful Creatures","Kami Garcia"],["Empire of the Vampire","Jay Kristoff"],["From Blood and Ash","Jennifer L. Armentrout"]] },
+    { m: /stephen king|the shining|pet sematary|salem.?s lot|misery/, n: "Stephen King", g: ["Horror"], b: [["The Haunting of Hill House","Shirley Jackson"],["Mexican Gothic","Silvia Moreno-Garcia"],["NOS4A2","Joe Hill"],["Bird Box","Josh Malerman"],["The Only Good Indians","Stephen Graham Jones"],["A Head Full of Ghosts","Paul Tremblay"],["The Exorcist","William Peter Blatty"],["Rosemary's Baby","Ira Levin"]] },
+    { m: /pride and prejudice|jane austen|persuasion|emma|jane eyre/, n: "Jane Austen", g: ["Classics", "Romance"], b: [["Persuasion","Jane Austen"],["North and South","Elizabeth Gaskell"],["Jane Eyre","Charlotte Brontë"],["Little Women","Louisa May Alcott"],["Anne of Green Gables","L.M. Montgomery"],["Rebecca","Daphne du Maurier"],["A Room with a View","E.M. Forster"],["The Duke and I","Julia Quinn"]] },
+    { m: /atomic habits|power of habit|deep work|essentialism/, n: "Atomic Habits", g: ["Self-help", "Nonfiction"], b: [["Tiny Habits","BJ Fogg"],["Four Thousand Weeks","Oliver Burkeman"],["Essentialism","Greg McKeown"],["Deep Work","Cal Newport"],["Mindset: The New Psychology of Success","Carol S. Dweck"],["The Psychology of Money","Morgan Housel"],["Make Time","Jake Knapp"]] },
+    { m: /educated|glass castle|glad my mom died|crying in h mart|born a crime/, n: "Educated", g: ["Memoir", "Nonfiction"], b: [["The Glass Castle","Jeannette Walls"],["I'm Glad My Mom Died","Jennette McCurdy"],["Crying in H Mart","Michelle Zauner"],["Know My Name","Chanel Miller"],["Born a Crime","Trevor Noah"],["Heavy","Kiese Laymon"],["Stay True","Hua Hsu"],["The Year of Magical Thinking","Joan Didion"]] },
+    { m: /heartstopper|alice oseman|simon vs|leah on the offbeat|they both die/, n: "Heartstopper", g: ["Young Adult", "Contemporary"], b: [["Loveless","Alice Oseman"],["Simon vs. the Homo Sapiens Agenda","Becky Albertalli"],["Red, White & Royal Blue","Casey McQuiston"],["Aristotle and Dante Discover the Secrets of the Universe","Benjamin Alire Sáenz"],["Felix Ever After","Kacen Callender"],["I Wish You All the Best","Mason Deaver"],["Cemetery Boys","Aiden Thomas"],["Boyfriend Material","Alexis Hall"]] },
+    { m: /arr[eê]te avec tes mensonges|philippe besson|call me by your name/, n: "Lie With Me", g: ["Literary Fiction", "Romance"], b: [["Call Me by Your Name","André Aciman"],["Giovanni's Room","James Baldwin"],["A Single Man","Christopher Isherwood"],["On Earth We're Briefly Gorgeous","Ocean Vuong"],["Brokeback Mountain","Annie Proulx"],["Aristotle and Dante Discover the Secrets of the Universe","Benjamin Alire Sáenz"],["The Song of Achilles","Madeline Miller"],["Maurice","E.M. Forster"]] },
+  ];
+  // trope → hand-picked books that are famous for it
+  const TROPE_SHELVES = {
+    "Enemies to lovers": [["The Cruel Prince","Holly Black"],["Fourth Wing","Rebecca Yarros"],["The Hating Game","Sally Thorne"],["Red, White & Royal Blue","Casey McQuiston"],["Serpent & Dove","Shelby Mahurin"],["From Blood and Ash","Jennifer L. Armentrout"],["Pride and Prejudice","Jane Austen"],["The Spanish Love Deception","Elena Armas"],["Divine Rivals","Rebecca Ross"],["Kingdom of the Wicked","Kerri Maniscalco"]],
+    "Found family": [["The House in the Cerulean Sea","TJ Klune"],["Six of Crows","Leigh Bardugo"],["The Long Way to a Small, Angry Planet","Becky Chambers"],["Legends & Lattes","Travis Baldree"],["The Lies of Locke Lamora","Scott Lynch"],["Gideon the Ninth","Tamsyn Muir"],["Under the Whispering Door","TJ Klune"],["Heartstopper: Volume One","Alice Oseman"],["A Psalm for the Wild-Built","Becky Chambers"]],
+    "Slow burn": [["The Name of the Wind","Patrick Rothfuss"],["Uprooted","Naomi Novik"],["Emily Wilde's Encyclopaedia of Faeries","Heather Fawcett"],["People We Meet on Vacation","Emily Henry"],["One Dark Window","Rachel Gillig"],["Divine Rivals","Rebecca Ross"],["The Bear and the Nightingale","Katherine Arden"],["Outlander","Diana Gabaldon"]],
+    "Chosen one": [["Mistborn: The Final Empire","Brandon Sanderson"],["Eragon","Christopher Paolini"],["The Eye of the World","Robert Jordan"],["Shadow and Bone","Leigh Bardugo"],["Red Queen","Victoria Aveyard"],["The Lightning Thief","Rick Riordan"],["Dune","Frank Herbert"]],
+    "Heist": [["Six of Crows","Leigh Bardugo"],["The Lies of Locke Lamora","Scott Lynch"],["The Gilded Wolves","Roshani Chokshi"],["Mistborn: The Final Empire","Brandon Sanderson"],["The Thief","Megan Whalen Turner"]],
+    "Magic school": [["A Deadly Education","Naomi Novik"],["The Magicians","Lev Grossman"],["Ninth House","Leigh Bardugo"],["The Atlas Six","Olivie Blake"],["Babel","R.F. Kuang"],["Fourth Wing","Rebecca Yarros"],["Nevermoor","Jessica Townsend"],["A Wizard of Earthsea","Ursula K. Le Guin"]],
+    "Fake relationship": [["The Love Hypothesis","Ali Hazelwood"],["The Spanish Love Deception","Elena Armas"],["To All the Boys I've Loved Before","Jenny Han"],["Boyfriend Material","Alexis Hall"],["The Unhoneymooners","Christina Lauren"],["The Kiss Quotient","Helen Hoang"],["Bride","Ali Hazelwood"]],
+    "Morally grey": [["Vicious","V.E. Schwab"],["Six of Crows","Leigh Bardugo"],["The Poppy War","R.F. Kuang"],["The Blade Itself","Joe Abercrombie"],["The Cruel Prince","Holly Black"],["Gone Girl","Gillian Flynn"],["The Atlas Six","Olivie Blake"],["Red Rising","Pierce Brown"]],
+    "Dark academia": [["The Secret History","Donna Tartt"],["If We Were Villains","M.L. Rio"],["Babel","R.F. Kuang"],["Ninth House","Leigh Bardugo"],["Bunny","Mona Awad"],["The Atlas Six","Olivie Blake"],["Catherine House","Elisabeth Thomas"],["A Deadly Education","Naomi Novik"]],
+    "Myth retelling": [["Circe","Madeline Miller"],["The Song of Achilles","Madeline Miller"],["A Thousand Ships","Natalie Haynes"],["Ariadne","Jennifer Saint"],["Stone Blind","Natalie Haynes"],["The Witch's Heart","Genevieve Gornichec"],["Lore","Alexandra Bracken"],["Spinning Silver","Naomi Novik"]],
+    "Grief & healing": [["A Man Called Ove","Fredrik Backman"],["The Midnight Library","Matt Haig"],["Remarkably Bright Creatures","Shelby Van Pelt"],["Crying in H Mart","Michelle Zauner"],["Hamnet","Maggie O'Farrell"],["The Year of Magical Thinking","Joan Didion"],["We Are Okay","Nina LaCour"],["Under the Whispering Door","TJ Klune"]],
+    "Coming of age": [["The Perks of Being a Wallflower","Stephen Chbosky"],["Aristotle and Dante Discover the Secrets of the Universe","Benjamin Alire Sáenz"],["Little Women","Louisa May Alcott"],["The Outsiders","S.E. Hinton"],["Anne of Green Gables","L.M. Montgomery"],["I'll Give You the Sun","Jandy Nelson"],["Normal People","Sally Rooney"],["Demon Copperhead","Barbara Kingsolver"]],
+    "Small town": [["Remarkably Bright Creatures","Shelby Van Pelt"],["Beartown","Fredrik Backman"],["Things We Never Got Over","Lucy Score"],["Still Life","Louise Penny"],["Small Things Like These","Claire Keegan"],["Where the Crawdads Sing","Delia Owens"],["The Very Secret Society of Irregular Witches","Sangu Mandanna"]],
+    "Time travel": [["Outlander","Diana Gabaldon"],["The Seven Year Slip","Ashley Poston"],["Kindred","Octavia E. Butler"],["Recursion","Blake Crouch"],["Before the Coffee Gets Cold","Toshikazu Kawaguchi"],["This Is How You Lose the Time War","Amal El-Mohtar"],["11/22/63","Stephen King"],["Sea of Tranquility","Emily St. John Mandel"]],
+    "Gothic": [["Rebecca","Daphne du Maurier"],["Mexican Gothic","Silvia Moreno-Garcia"],["The Haunting of Hill House","Shirley Jackson"],["Jane Eyre","Charlotte Brontë"],["The Thirteenth Tale","Diane Setterfield"],["Belladonna","Adalyn Grace"],["What Moves the Dead","T. Kingfisher"],["We Have Always Lived in the Castle","Shirley Jackson"]],
+    "Whodunit": [["And Then There Were None","Agatha Christie"],["The Thursday Murder Club","Richard Osman"],["Magpie Murders","Anthony Horowitz"],["The 7½ Deaths of Evelyn Hardcastle","Stuart Turton"],["A Good Girl's Guide to Murder","Holly Jackson"],["The Maid","Nita Prose"],["The Appeal","Janice Hallett"]],
+    "Dragons": [["Fourth Wing","Rebecca Yarros"],["Eragon","Christopher Paolini"],["The Priory of the Orange Tree","Samantha Shannon"],["Temeraire: His Majesty's Dragon","Naomi Novik"],["When the Moon Hatched","Sarah A. Parker"],["A Natural History of Dragons","Marie Brennan"],["The Hobbit","J.R.R. Tolkien"]],
+    "Fairy tale": [["Uprooted","Naomi Novik"],["Spinning Silver","Naomi Novik"],["Cinder","Marissa Meyer"],["Stardust","Neil Gaiman"],["Once Upon a Broken Heart","Stephanie Garber"],["A Curse So Dark and Lonely","Brigid Kemmerer"],["The Bear and the Nightingale","Katherine Arden"]],
+  };
+  // Goodreads Choice Awards 2025 winners (voted by Goodreads members, announced December 2025)
+  const GCA_2025 = [["Fiction","My Friends","Fredrik Backman"],["Historical Fiction","Atmosphere","Taylor Jenkins Reid"],["Mystery & Thriller","Not Quite Dead Yet","Holly Jackson"],["Romance","Great Big Beautiful Life","Emily Henry"],["Romantasy","Onyx Storm","Rebecca Yarros"],["Fantasy","Bury Our Bones in the Midnight Soil","V.E. Schwab"],["Science Fiction","The Compound","Aisling Rawle"],["Horror","Witchcraft for Wayward Girls","Grady Hendrix"],["Debut Novel","Alchemised","SenLinYu"],["Young Adult Fantasy","Sunrise on the Reaping","Suzanne Collins"],["Young Adult Fiction","Fake Skating","Lynn Painter"],["Nonfiction","Everything Is Tuberculosis","John Green"],["Memoir","The House of My Mother","Shari Franke"],["History & Biography","How to Kill a Witch","Zoe Venditozzi"]];
+  // Goodreads all-time favourites: the most-shelved books in each genre on Goodreads (title, author, Goodreads rating, number of ratings, series), October 2026
+  const GR_POP = {"Fantasy":[["Harry Potter and the Philosopher's Stone","J.K. Rowling",4.47,11875877,"Harry Potter, #1"],["Harry Potter and the Chamber of Secrets","J.K. Rowling",4.43,4694304,"Harry Potter, #2"],["The Hobbit, or There and Back Again","J.R.R. Tolkien",4.3,4653747,""],["Harry Potter and the Prisoner of Azkaban","J.K. Rowling",4.58,5075085,"Harry Potter, #3"],["A Game of Thrones","George R.R. Martin",4.45,2828110,"A Song of Ice and Fire, #1"],["The Fellowship of the Ring","J.R.R. Tolkien",4.41,3248106,"The Lord of the Rings, #1"],["A Court of Thorns and Roses","Sarah J. Maas",4.14,4647011,"A Court of Thorns and Roses, #1"],["Fourth Wing","Rebecca Yarros",4.56,4017143,"The Empyrean, #1"],["Mistborn: The Final Empire","Brandon Sanderson",4.48,1093623,"Mistborn, #1"],["Throne of Glass","Sarah J. Maas",4.18,2731151,"Throne of Glass, #1"],["Six of Crows","Leigh Bardugo",4.45,1221791,"Six of Crows, #1"],["A Court of Mist and Fury","Sarah J. Maas",4.63,3523186,"A Court of Thorns and Roses, #2"],["The Two Towers","J.R.R. Tolkien",4.51,1187313,"The Lord of the Rings, #2"],["The Name of the Wind","Patrick Rothfuss",4.52,1124043,"The Kingkiller Chronicle, #1"],["A Clash of Kings","George R.R. Martin",4.42,1055906,"A Song of Ice and Fire, #2"],["The Cruel Prince","Holly Black",4.0,1887551,"The Folk of the Air, #1"],["The Lightning Thief","Rick Riordan",4.31,3576136,"Percy Jackson and the Olympians, #1"],["Shadow and Bone","Leigh Bardugo",3.91,1158512,"Shadow and Bone, #1"],["The Lion, the Witch and the Wardrobe","C.S. Lewis",4.24,3238382,"Chronicles of Narnia, #1"],["Eragon","Christopher Paolini",3.97,1992705,"The Inheritance Cycle #1"],["The Golden Compass","Philip Pullman",4.04,1650325,"His Dark Materials, #1"],["Crown of Midnight","Sarah J. Maas",4.36,2018756,"Throne of Glass, #2"]],"Romantasy":[["Fourth Wing","Rebecca Yarros",4.56,3998030,"The Empyrean, #1"],["A Court of Thorns and Roses","Sarah J. Maas",4.14,4629896,"A Court of Thorns and Roses, #1"],["A Court of Mist and Fury","Sarah J. Maas",4.63,3510201,"A Court of Thorns and Roses, #2"],["Iron Flame","Rebecca Yarros",4.36,2917818,"The Empyrean, #2"],["Quicksilver","Callie Hart",4.3,1022129,"Fae & Alchemy, #1"],["The Serpent and the Wings of Night","Carissa Broadbent",4.25,825234,"Crowns of Nyaxia, #1"],["Powerless","Lauren Roberts",4.12,1108621,"The Powerless Trilogy, #1"],["Throne of Glass","Sarah J. Maas",4.18,2720429,"Throne of Glass, #1"],["From Blood and Ash","Jennifer L. Armentrout",4.21,910786,"Blood and Ash, #1"],["House of Earth and Blood","Sarah J. Maas",4.45,1353273,"Crescent City, #1"],["Once Upon a Broken Heart","Stephanie Garber",4.06,781431,"Once Upon a Broken Heart, #1"],["One Dark Window","Rachel Gillig",4.25,778724,"The Shepherd King, #1"],["The Cruel Prince","Holly Black",4.0,1882745,"The Folk of the Air, #1"],["When the Moon Hatched","Sarah A. Parker",4.01,375645,"Moonfall, #1"],["Divine Rivals","Rebecca Ross",4.14,805718,"Letters of Enchantment, #1"],["Heartless Hunter","Kristen Ciccarelli",4.16,464519,"The Crimson Moth, #1"],["Shield of Sparrows","Devney Perry",4.36,434243,"Shield of Sparrows, #1"],["Bride","Ali Hazelwood",3.99,786901,"Bride, #1"],["Spark of the Everflame","Penn Cole",4.17,335925,"Kindred's Curse, #1"],["The Knight and the Moth","Rachel Gillig",4.22,305989,"The Stonewater Kingdom, #1"],["The Book of Azrael","Amber V. Nicole",4.12,240400,"Gods & Monsters, #1"],["Gild","Raven Kennedy",3.62,429290,"The Plated Prisoner, #1"],["Phantasma","Kaylie Smith",4.04,373623,"Wicked Games, #1"],["Daughter of No Worlds","Carissa Broadbent",4.02,248622,"The War of Lost Hearts, #1"],["Caraval","Stephanie Garber",3.97,987007,"Caraval, #1"],["The Bridge Kingdom","Danielle L. Jensen",4.04,255281,"The Bridge Kingdom, #1"],["The Awakening","Caroline Peckham",3.82,491827,"Zodiac Academy, #1"],["A Fate Inked in Blood","Danielle L. Jensen",3.89,208657,"Saga of the Unfated, #1"]],"Romance":[["The Love Hypothesis","Ali Hazelwood",4.09,2111168,""],["Beach Read","Emily Henry",3.95,1787183,""],["Book Lovers","Emily Henry",4.08,1688103,""],["Pride and Prejudice","Jane Austen",4.3,5005403,""],["People We Meet on Vacation","Emily Henry",3.84,1966666,""],["Red, White & Royal Blue","Casey McQuiston",4.04,1280373,""],["It Ends with Us","Colleen Hoover",4.06,4829311,""],["The Fault in Our Stars","John Green",4.12,5880070,""],["Happy Place","Emily Henry",3.93,1547538,""],["Twilight","Stephenie Meyer",3.68,7507491,""],["The Hating Game","Sally Thorne",3.85,858984,""],["The Unhoneymooners","Christina Lauren",3.89,1189767,""],["Funny Story","Emily Henry",4.18,1443840,""],["The Seven Husbands of Evelyn Hugo","Taylor Jenkins Reid",4.39,4427115,""],["The Kiss Quotient","Helen Hoang",3.86,513427,""],["The Deal","Elle Kennedy",4.18,1435276,""],["Twisted Love","Ana Huang",3.7,1780767,""],["Icebreaker","Hannah Grace",3.72,1393416,""],["Ugly Love","Colleen Hoover",3.98,2408063,""],["Love, Theoretically","Ali Hazelwood",4.08,737814,""],["The Spanish Love Deception","Elena Armas",3.78,846773,""],["The Duke and I","Julia Quinn",3.79,740307,""],["Better Than the Movies","Lynn Painter",4.25,903457,""],["Me Before You","Jojo Moyes",4.26,1846343,""],["It Happened One Summer","Tessa Bailey",3.88,761426,""],["Love and Other Words","Christina Lauren",4.19,867857,""],["Part of Your World","Abby Jimenez",4.25,991303,""],["Just for the Summer","Abby Jimenez",4.33,1230721,""],["The Seven Year Slip","Ashley Poston",4.14,703585,""],["Outlander","Diana Gabaldon",4.27,1185374,""]],"Thriller":[["The Silent Patient","Alex Michaelides",4.16,3589836,""],["The Housemaid","Freida McFadden",4.26,3947556,""],["Gone Girl","Gillian Flynn",4.15,3549748,""],["The Girl on the Train","Paula Hawkins",3.96,3383186,""],["Verity","Colleen Hoover",4.29,4133899,""],["The Girl With the Dragon Tattoo","Stieg Larsson",4.18,3522186,"Millennium, #1"],["The Da Vinci Code","Dan Brown",3.94,2580058,"Robert Langdon, #2"],["Angels & Demons","Dan Brown",3.96,3456110,"Robert Langdon, #1"],["A Good Girl's Guide to Murder","Holly Jackson",4.28,1916111,"A Good Girl's Guide to Murder, #1"],["Sharp Objects","Gillian Flynn",4.0,1277412,""],["The Guest List","Lucy Foley",3.79,1356162,""],["Never Lie","Freida McFadden",4.08,1740720,""],["None of This Is True","Lisa Jewell",4.06,1206298,""],["The Housemaid's Secret","Freida McFadden",4.15,1979998,"The Housemaid, #2"],["The Woman in the Window","A.J. Finn",3.93,913489,""],["The Only One Left","Riley Sager",4.12,725461,""],["Rock Paper Scissors","Alice Feeney",3.86,820738,""],["Dark Places","Gillian Flynn",3.94,866473,""],["Pretty Girls","Karin Slaughter",4.0,789869,""],["Dark Matter","Blake Crouch",4.13,803925,""],["Then She Was Gone","Lisa Jewell",4.03,1087839,""],["Behind Closed Doors","B.A. Paris",3.96,797821,""],["The Woman in Cabin 10","Ruth Ware",3.71,815022,"Lo Blacklock #1"],["Lock Every Door","Riley Sager",3.88,327624,""],["A Flicker in the Dark","Stacy Willingham",3.96,645315,""],["First Lie Wins","Ashley Elston",3.99,868616,""],["The Inmate","Freida McFadden",3.99,1202869,""],["Hidden Pictures","Jason Rekulak",4.14,685664,""],["Local Woman Missing","Mary Kubica",4.11,842558,""],["The Perfect Marriage","Jeneva Rose",3.97,1291425,""]],"Mystery":[["And Then There Were None","Agatha Christie",4.27,1694769,""],["Murder on the Orient Express","Agatha Christie",4.2,763223,""],["Gone Girl","Gillian Flynn",4.15,3539058,""],["A Good Girl's Guide to Murder","Holly Jackson",4.28,1902154,""],["The Girl With the Dragon Tattoo","Stieg Larsson",4.18,3514297,""],["The Silent Patient","Alex Michaelides",4.16,3555872,""],["The Da Vinci Code","Dan Brown",3.94,2574379,""],["The Thursday Murder Club","Richard Osman",3.85,850914,""],["The Mysterious Affair at Styles","Agatha Christie",4.0,531521,""],["The Inheritance Games","Jennifer Lynn Barnes",4.12,1143680,""],["One of Us Is Lying","Karen M. McManus",3.9,1104426,""],["The Murder of Roger Ackroyd","Agatha Christie",4.26,369279,""],["The 7½ Deaths of Evelyn Hardcastle","Stuart Turton",3.77,508409,""],["The Guest List","Lucy Foley",3.79,1349607,""],["The Cuckoo's Calling","Robert Galbraith",3.89,638243,""],["Death on the Nile","Agatha Christie",4.12,320761,""],["A Study in Scarlet","Arthur Conan Doyle",4.13,508231,""],["In the Woods","Tana French",3.78,450849,""],["The Hound of the Baskervilles","Arthur Conan Doyle",4.13,401068,""],["Still Life","Louise Penny",3.89,294808,""],["The Maid","Nita Prose",3.74,736029,""],["Where the Crawdads Sing","Delia Owens",4.37,3768258,""],["The God of the Woods","Liz Moore",4.09,1000671,""],["We Were Liars","E. Lockhart",3.66,1471419,""],["Truly, Devious","Maureen Johnson",3.87,188895,""],["The Secret History","Donna Tartt",4.15,1107689,""],["Rebecca","Daphne du Maurier",4.25,757490,""],["If We Were Villains","M.L. Rio",4.08,437921,""],["Magpie Murders","Anthony Horowitz",3.94,177189,""]],"Science Fiction":[["Dune","Frank Herbert",4.29,1710917,"Dune, #1"],["The Hitchhiker's Guide to the Galaxy","Douglas Adams",4.22,2078213,"Hitchhiker's Guide to the Galaxy, #1"],["Ender's Game","Orson Scott Card",4.31,1504667,"Ender's Saga, #1"],["The Martian","Andy Weir",4.42,1381874,""],["Project Hail Mary","Andy Weir",4.51,1877024,""],["Fahrenheit 451","Ray Bradbury",3.97,2994191,""],["1984","George Orwell",4.21,5770599,""],["Ready Player One","Ernest Cline",4.22,1346119,"Ready Player One, #1"],["The Hunger Games","Suzanne Collins",4.36,10286525,"The Hunger Games, #1"],["Brave New World","Aldous Huxley",3.98,2155754,""],["Foundation","Isaac Asimov",4.17,616107,"Foundation, #1"],["Do Androids Dream of Electric Sheep?","Philip K. Dick",4.09,535353,""],["The Three-Body Problem","Liu Cixin",4.08,538303,"Remembrance of Earth's Past, #1"],["All Systems Red","Martha Wells",4.1,410895,"The Murderbot Diaries, #1"],["Neuromancer","William Gibson",3.89,380292,"Sprawl, #1"],["Red Rising","Pierce Brown",4.27,985923,"Red Rising Saga, #1"],["Leviathan Wakes","James S.A. Corey",4.31,339310,""],["Dark Matter","Blake Crouch",4.13,812846,""],["The Left Hand of Darkness","Ursula K. Le Guin",4.09,237899,""],["Jurassic Park","Michael Crichton",4.14,1101384,"Jurassic Park, #1"],["Hyperion","Dan Simmons",4.28,319392,"Hyperion Cantos, #1"],["Frankenstein","Mary Wollstonecraft Shelley",3.92,2005121,""],["2001: A Space Odyssey","Arthur C. Clarke",4.18,344271,"Space Odyssey, #1"],["The Handmaid's Tale","Margaret Atwood",4.16,2563775,""],["Divergent","Veronica Roth",4.13,4491365,"Divergent, #1"],["Slaughterhouse-Five","Kurt Vonnegut Jr.",4.1,1528897,""],["The Long Way to a Small, Angry Planet","Becky Chambers",4.16,197842,"Wayfarers, #1"],["Cinder","Marissa Meyer",4.12,1036268,"The Lunar Chronicles, #1"],["Old Man's War","John Scalzi",4.23,234451,"Old Man's War, #1"],["This Is How You Lose the Time War","Amal El-Mohtar",3.82,374856,""]],"Horror":[["The Shining","Stephen King",4.29,1779512,""],["It","Stephen King",4.23,1328803,""],["Dracula","Bram Stoker",4.03,1559384,""],["The Haunting of Hill House","Shirley Jackson",3.8,434286,""],["Frankenstein","Mary Wollstonecraft Shelley",3.93,2021961,""],["Carrie","Stephen King",3.99,893184,""],["Pet Sematary","Stephen King",4.09,736613,""],["'Salem's Lot","Stephen King",4.1,690280,""],["Misery","Stephen King",4.22,867329,""],["The Stand","Stephen King",4.35,867049,""],["Mexican Gothic","Silvia Moreno-Garcia",3.66,472837,""],["House of Leaves","Mark Z. Danielewski",4.09,215438,""],["We Have Always Lived in the Castle","Shirley Jackson",3.9,325829,""],["Tender Is the Flesh","Agustina Bazterrica",3.77,491006,""],["Interview with the Vampire","Anne Rice",4.02,674240,""],["The Southern Book Club's Guide to Slaying Vampires","Grady Hendrix",3.78,345686,""],["The Only Good Indians","Stephen Graham Jones",3.68,128547,""],["The Exorcist","William Peter Blatty",4.21,286794,""],["Doctor Sleep","Stephen King",4.13,310083,""],["What Moves the Dead","T. Kingfisher",3.83,164360,""],["World War Z","Max Brooks",4.02,583471,""],["Coraline","Neil Gaiman",4.13,809350,""],["Carmilla","J. Sheridan Le Fanu",3.86,235597,""],["NOS4A2","Joe Hill",4.07,152204,""],["The Troop","Nick Cutter",3.82,144625,""],["Bunny","Mona Awad",3.44,377197,""],["My Best Friend's Exorcism","Grady Hendrix",3.92,165215,""],["Bird Box","Josh Malerman",4.05,218520,""],["A Head Full of Ghosts","Paul Tremblay",3.77,114423,""],["We Used to Live Here","Marcus Kliewer",3.58,345890,""]],"Historical Fiction":[["The Book Thief","Markus Zusak",4.39,2986317,""],["All the Light We Cannot See","Anthony Doerr",4.3,2076056,""],["The Nightingale","Kristin Hannah",4.65,2401141,""],["The Help","Kathryn Stockett",4.47,3103786,""],["Outlander","Diana Gabaldon",4.27,1188522,"Outlander, #1"],["The Pillars of the Earth","Ken Follett",4.35,861060,"Kingsbridge, #1"],["The Seven Husbands of Evelyn Hugo","Taylor Jenkins Reid",4.39,4459585,""],["The Song of Achilles","Madeline Miller",4.3,2195169,""],["The Women","Kristin Hannah",4.58,1840269,""],["Memoirs of a Geisha","Arthur Golden",4.16,2147904,""],["Pachinko","Min Jin Lee",4.34,698279,""],["The Guernsey Literary and Potato Peel Pie Society","Mary Ann Shaffer",4.2,832766,""],["A Gentleman in Moscow","Amor Towles",4.31,710865,""],["The Alice Network","Kate Quinn",4.32,680894,""],["The Kite Runner","Khaled Hosseini",4.36,3620041,""],["The Four Winds","Kristin Hannah",4.3,1103034,""],["To Kill a Mockingbird","Harper Lee",4.26,7139364,""],["The Tattooist of Auschwitz","Heather Morris",4.32,1222694,"The Tattooist of Auschwitz, #1"],["Daisy Jones & The Six","Taylor Jenkins Reid",4.19,1957286,""],["Salt to the Sea","Ruta Sepetys",4.35,271829,""],["Wolf Hall","Hilary Mantel",3.92,241422,"Thomas Cromwell, #1"],["Hamnet","Maggie O'Farrell",4.2,520442,""],["The Underground Railroad","Colson Whitehead",4.06,461246,""],["The Frozen River","Ariel Lawhon",4.37,709598,""],["A Thousand Splendid Suns","Khaled Hosseini",4.46,1825790,""],["Homegoing","Yaa Gyasi",4.46,430675,""],["Lessons in Chemistry","Bonnie Garmus",4.28,1911673,""],["The Rose Code","Kate Quinn",4.44,410535,""],["Circe","Madeline Miller",4.22,1487031,""],["The Shadow of the Wind","Carlos Ruiz Zafón",4.31,755498,"The Cemetery of Forgotten Books, #1"]],"Young Adult":[["The Hunger Games","Suzanne Collins",4.35,10237815,"The Hunger Games, #1"],["Catching Fire","Suzanne Collins",4.36,4313447,"The Hunger Games, #2"],["The Fault in Our Stars","John Green",4.12,5865397,""],["Divergent","Veronica Roth",4.13,4477320,"Divergent, #1"],["Twilight","Stephenie Meyer",3.68,7488874,"The Twilight Saga, #1"],["Harry Potter and the Philosopher's Stone","J.K. Rowling",4.47,11762676,"Harry Potter, #1"],["City of Bones","Cassandra Clare",4.06,2210659,"The Mortal Instruments, #1"],["The Perks of Being a Wallflower","Stephen Chbosky",4.24,2064623,""],["Looking for Alaska","John Green",3.96,1782638,""],["Eleanor & Park","Rainbow Rowell",3.92,1279507,""],["The Giver","Lois Lowry",4.12,2893445,"Giver, #1"],["Cinder","Marissa Meyer",4.12,1033293,"The Lunar Chronicles, #1"],["The Lightning Thief","Rick Riordan",4.31,3548782,"Percy Jackson and the Olympians, #1"],["The Maze Runner","James Dashner",4.06,1741520,"The Maze Runner, #1"],["The Book Thief","Markus Zusak",4.39,2967950,""],["Six of Crows","Leigh Bardugo",4.45,1206961,"Six of Crows, #1"],["The Hate U Give","Angie Thomas",4.45,1040327,""],["Thirteen Reasons Why","Jay Asher",3.83,1036305,""],["The Selection","Kiera Cass",4.07,1812004,"The Selection, #1"],["Miss Peregrine's Home for Peculiar Children","Ransom Riggs",3.92,1378441,"Miss Peregrine's Peculiar Children, #1"],["Fangirl","Rainbow Rowell",3.93,789978,""],["Throne of Glass","Sarah J. Maas",4.18,2656063,"Throne of Glass, #1"],["We Were Liars","E. Lockhart",3.66,1475215,""],["The Cruel Prince","Holly Black",4.0,1855795,"The Folk of the Air, #1"],["Red Queen","Victoria Aveyard",3.97,1217017,"Red Queen, #1"],["The Outsiders","S.E. Hinton",4.15,1680801,""],["If I Stay","Gayle Forman",3.91,978997,"If I Stay, #1"],["Clockwork Angel","Cassandra Clare",4.3,888311,"The Infernal Devices, #1"]],"Literary Fiction":[["Normal People","Sally Rooney",3.81,1984727,""],["The Secret History","Donna Tartt",4.15,1113252,""],["Yellowface","R.F. Kuang",3.72,1153694,""],["The Goldfinch","Donna Tartt",3.97,1078929,""],["Tomorrow, and Tomorrow, and Tomorrow","Gabrielle Zevin",4.11,1455816,""],["A Little Life","Hanya Yanagihara",4.27,1001458,""],["Never Let Me Go","Kazuo Ishiguro",3.85,907321,""],["The Great Gatsby","F. Scott Fitzgerald",3.93,6119184,""],["My Year of Rest and Relaxation","Ottessa Moshfegh",3.59,614887,""],["On Earth We're Briefly Gorgeous","Ocean Vuong",3.99,440055,""],["The Bell Jar","Sylvia Plath",4.04,1304133,""],["The Vanishing Half","Brit Bennett",4.11,881289,""],["Little Fires Everywhere","Celeste Ng",4.06,1349273,""],["Remarkably Bright Creatures","Shelby Van Pelt",4.36,1555762,""],["Demon Copperhead","Barbara Kingsolver",4.46,892486,""],["Small Things Like These","Claire Keegan",4.07,508101,""],["A Man Called Ove","Fredrik Backman",4.38,1273621,""],["My Dark Vanessa","Kate Elizabeth Russell",4.09,449114,""],["Convenience Store Woman","Sayaka Murata",3.66,405631,""],["The Remains of the Day","Kazuo Ishiguro",4.14,383035,""],["The Vegetarian","Han Kang",3.65,448621,""],["The Correspondent","Virginia Evans",4.44,827231,""],["Anxious People","Fredrik Backman",4.16,874447,""],["My Brilliant Friend","Elena Ferrante",4.06,508472,""],["I Who Have Never Known Men","Jacqueline Harpman",4.04,677604,""],["Beartown","Fredrik Backman",4.28,651740,""],["Station Eleven","Emily St. John Mandel",4.06,644350,""],["One Hundred Years of Solitude","Gabriel García Márquez",4.12,1144563,""],["Eleanor Oliphant Is Completely Fine","Gail Honeyman",4.22,1487064,""],["James","Percival Everett",4.41,593434,""]],"Contemporary":[["The Perks of Being a Wallflower","Stephen Chbosky",4.24,2078476,""],["The Seven Husbands of Evelyn Hugo","Taylor Jenkins Reid",4.39,4459585,""],["Red, White & Royal Blue","Casey McQuiston",4.04,1285481,""],["Normal People","Sally Rooney",3.81,2008860,""],["The Hate U Give","Angie Thomas",4.44,1045739,""],["Beach Read","Emily Henry",3.95,1799513,""],["The Love Hypothesis","Ali Hazelwood",4.09,2181181,""],["To All the Boys I've Loved Before","Jenny Han",4.04,1105064,""],["It Ends with Us","Colleen Hoover",4.06,4847421,""],["Eleanor Oliphant Is Completely Fine","Gail Honeyman",4.22,1499896,""],["Simon vs. the Homo Sapiens Agenda","Becky Albertalli",4.12,474419,""],["Book Lovers","Emily Henry",4.08,1698657,""],["Aristotle and Dante Discover the Secrets of the Universe","Benjamin Alire Sáenz",4.28,695779,""],["People We Meet on Vacation","Emily Henry",3.84,1981438,""],["Little Fires Everywhere","Celeste Ng",4.06,1356990,""],["The Midnight Library","Matt Haig",3.97,2693398,""],["A Man Called Ove","Fredrik Backman",4.38,1286663,""],["Me Before You","Jojo Moyes",4.26,1850620,""],["Anna and the French Kiss","Stephanie Perkins",3.95,467645,""],["Everything, Everything","Nicola Yoon",3.95,692299,""],["Tomorrow, and Tomorrow, and Tomorrow","Gabrielle Zevin",4.1,1476084,""],["A Little Life","Hanya Yanagihara",4.26,1017137,""],["Anxious People","Fredrik Backman",4.16,888492,""],["All the Bright Places","Jennifer Niven",4.11,644942,""],["I'll Give You the Sun","Jandy Nelson",4.15,363410,""],["They Both Die at the End","Adam Silvera",3.75,910987,""],["Heartstopper: Volume One","Alice Oseman",4.4,934496,""],["Beartown","Fredrik Backman",4.28,661076,""]],"Classics":[["Pride and Prejudice","Jane Austen",4.3,5034970,""],["The Great Gatsby","F. Scott Fitzgerald",3.93,6168696,""],["To Kill a Mockingbird","Harper Lee",4.26,7150228,""],["Jane Eyre","Charlotte Brontë",4.16,2426588,""],["1984","George Orwell",4.21,5802022,""],["Wuthering Heights","Emily Brontë",3.89,2308321,""],["Animal Farm","George Orwell",4.03,4841549,""],["The Picture of Dorian Gray","Oscar Wilde",4.13,2021349,""],["Frankenstein","Mary Wollstonecraft Shelley",3.93,2021339,""],["Little Women","Louisa May Alcott",4.18,2552921,"Little Women, #1"],["The Catcher in the Rye","J.D. Salinger",3.8,4026968,""],["Lord of the Flies","William Golding",3.71,3329998,""],["Of Mice and Men","John Steinbeck",3.9,2967231,""],["Emma","Jane Austen",4.05,1028010,""],["Sense and Sensibility","Jane Austen",4.09,1350676,""],["Fahrenheit 451","Ray Bradbury",3.97,3010247,""],["Dracula","Bram Stoker",4.03,1558804,""],["Crime and Punishment","Fyodor Dostoevsky",4.29,1169002,""],["The Count of Monte Cristo","Alexandre Dumas",4.34,1091802,""],["Persuasion","Jane Austen",4.15,814274,""],["Anna Karenina","Leo Tolstoy",4.11,973062,""],["A Tale of Two Cities","Charles Dickens",3.88,1037342,""],["Great Expectations","Charles Dickens",3.8,898173,""],["The Metamorphosis","Franz Kafka",3.91,1576945,""],["The Secret Garden","Frances Hodgson Burnett",4.17,1343883,""],["The Little Prince","Antoine de Saint-Exupéry",4.34,2623713,""],["Les Misérables","Victor Hugo",4.22,868251,""],["The Stranger","Albert Camus",4.03,1544243,""],["Anne of Green Gables","L.M. Montgomery",4.33,1161753,"Anne of Green Gables, #1"],["Rebecca","Daphne du Maurier",4.25,774269,""]],"Nonfiction":[["Sapiens: A Brief History of Humankind","Yuval Noah Harari",4.32,1328994,""],["The Diary of a Young Girl","Anne Frank",4.2,4331014,""],["Educated","Tara Westover",4.46,1973829,""],["Atomic Habits","James Clear",4.31,1421944,""],["Quiet: The Power of Introverts in a World That Can't Stop Talking","Susan Cain",4.07,485675,""],["I'm Glad My Mom Died","Jennette McCurdy",4.42,1622770,""],["The Immortal Life of Henrietta Lacks","Rebecca Skloot",4.13,828626,""],["Outliers: The Story of Success","Malcolm Gladwell",4.19,890561,""],["Freakonomics","Steven D. Levitt",4.01,911425,""],["The Devil in the White City","Erik Larson",4.0,782800,""],["Becoming","Michelle Obama",4.43,1243341,""],["Man's Search for Meaning","Viktor E. Frankl",4.37,938414,""],["A Short History of Nearly Everything","Bill Bryson",4.21,435809,""],["Thinking, Fast and Slow","Daniel Kahneman",4.16,616681,""],["Born a Crime","Trevor Noah",4.48,847712,""],["Into the Wild","Jon Krakauer",4.02,1225329,""],["Night","Elie Wiesel",4.38,1402694,""],["When Breath Becomes Air","Paul Kalanithi",4.41,853110,""],["Invisible Women","Caroline Criado Pérez",4.33,182216,""],["Guns, Germs, and Steel","Jared Diamond",4.04,472932,""],["In Cold Blood","Truman Capote",4.09,755839,""],["Killers of the Flower Moon","David Grann",4.14,470729,""],["Into Thin Air","Jon Krakauer",4.27,590718,""],["A Brief History of Time","Stephen W. Hawking",4.21,493648,""],["The Glass Castle","Jeannette Walls",4.33,1410683,""],["Crying in H Mart","Michelle Zauner",4.22,647134,""],["Unbroken","Laura Hillenbrand",4.39,1018007,""],["The Body Keeps the Score","Bessel van der Kolk",4.33,309547,""],["Why We Sleep","Matthew Walker",4.36,238544,""],["A Walk in the Woods","Bill Bryson",4.07,458699,""]],"Memoir":[["Educated","Tara Westover",4.46,1974263,""],["I'm Glad My Mom Died","Jennette McCurdy",4.42,1623260,""],["The Glass Castle","Jeannette Walls",4.33,1410843,""],["Crying in H Mart","Michelle Zauner",4.22,647282,""],["Born a Crime","Trevor Noah",4.48,847896,""],["Becoming","Michelle Obama",4.43,1243591,""],["When Breath Becomes Air","Paul Kalanithi",4.41,853248,""],["Wild","Cheryl Strayed",4.07,888687,""],["Bossypants","Tina Fey",3.96,1073604,""],["The Diary of a Young Girl","Anne Frank",4.2,4331514,""],["Night","Elie Wiesel",4.38,1402844,""],["The Year of Magical Thinking","Joan Didion",3.93,322483,""],["Know My Name","Chanel Miller",4.67,274794,""],["Eat, Pray, Love","Elizabeth Gilbert",3.65,1870429,""],["Yes Please","Amy Poehler",3.85,565044,""],["In the Dream House","Carmen Maria Machado",4.37,170656,""],["I Know Why the Caged Bird Sings","Maya Angelou",4.3,598252,""],["The Woman in Me","Britney Spears",3.83,597016,""],["Angela's Ashes","Frank McCourt",4.16,669306,""],["Just Kids","Patti Smith",4.21,382146,""],["Me Talk Pretty One Day","David Sedaris",4.01,730475,""],["Kitchen Confidential","Anthony Bourdain",4.2,406728,""],["Spare","Prince Harry",3.83,444706,""],["Tuesdays with Morrie","Mitch Albom",4.22,1274356,""],["Untamed","Glennon Doyle",3.97,528086,""],["Brain on Fire","Susannah Cahalan",4.09,243325,""],["Maybe You Should Talk to Someone","Lori Gottlieb",4.36,425378,""],["Greenlights","Matthew McConaughey",4.19,491410,""],["Everything I Know About Love","Dolly Alderton",3.92,549513,""],["Friends, Lovers, and the Big Terrible Thing","Matthew Perry",3.95,424367,""]],"Self-help":[["Atomic Habits","James Clear",4.3,1436866,""],["The Subtle Art of Not Giving a F*ck","Mark Manson",3.86,1496857,""],["How to Win Friends & Influence People","Dale Carnegie",4.21,1200531,""],["The 7 Habits of Highly Effective People","Stephen R. Covey",4.16,847258,""],["The Power of Habit","Charles Duhigg",4.13,579177,""],["The Four Agreements","Miguel Ruiz",4.19,554253,""],["The Power of Now","Eckhart Tolle",4.15,477435,""],["The Life-Changing Magic of Tidying Up","Marie Kondō",3.88,400936,""],["You Are a Badass","Jen Sincero",3.95,297704,""],["Deep Work","Cal Newport",4.15,200410,""],["The Gifts of Imperfection","Brené Brown",4.24,231586,""],["The Body Keeps the Score","Bessel van der Kolk",4.33,313130,""],["Daring Greatly","Brené Brown",4.29,250500,""],["The Mountain Is You","Brianna Wiest",4.03,136747,""],["The Courage to Be Disliked","Ichiro Kishimi",3.9,164417,""],["Man's Search for Meaning","Viktor E. Frankl",4.36,946530,""],["Think and Grow Rich","Napoleon Hill",4.16,397203,""],["Rich Dad Poor Dad","Robert T. Kiyosaki",4.08,767043,""],["The 5 Love Languages","Gary Chapman",4.27,494111,""],["Mindset: The New Psychology of Success","Carol S. Dweck",4.09,183412,""],["The Let Them Theory","Mel Robbins",3.98,361358,""],["The 48 Laws of Power","Robert Greene",4.07,247283,""],["Can't Hurt Me","David Goggins",4.3,336885,""],["Essentialism","Greg McKeown",4.05,137520,""],["Four Thousand Weeks","Oliver Burkeman",4.16,142890,""],["Big Magic","Elizabeth Gilbert",3.96,242293,""],["The Psychology of Money","Morgan Housel",4.27,370634,""],["Adult Children of Emotionally Immature Parents","Lindsay C. Gibson",4.34,105002,""],["The Untethered Soul","Michael A. Singer",4.2,155781,""],["Attached","Amir Levine",4.12,134654,""]]};
+  // ================= recommendations: taste engine =================
+  const KEY_DISMISS = "reading-ledger-dismissed", KEY_NYT = "reading-ledger-nytkey", KEY_OLC = "reading-ledger-olcache";
+  let dismissed = lsGet(KEY_DISMISS, []), recMode = lsGet("reading-ledger-recmode", "foryou");
+  if (!["foryou", "gr", "nyt"].includes(recMode)) recMode = "foryou";
+  let grStrong = 99, recWish = "", grGenre = null, grSort = "popular", nytCat = "fiction";
+  const recItems = new Map();
+  const tnorm = t => norm(String(t || "").split(/[:(]/)[0]);
+  const lastName = a => norm(String(a || "").split(/\s+(?:and|&)\s+/i)[0].trim().split(/\s+/).pop());
+  const ckey = (t, a) => tnorm(t) + "|" + lastName(a);
+  const inLibrary = (t, a) => books.some(b => tnorm(b.title) === tnorm(t) && (!a || !b.author || lastName(b.author) === lastName(a)));
+  const titleCase = s => String(s || "").toLowerCase().replace(/(^|[\s\-:(“"/])([a-z])/g, (m, p, c) => p + c.toUpperCase()).replace(/\b(Of|The|And|A|An|In|On|At|To|For|By|With)\b(?!$)/g, (m, w, i) => i ? w.toLowerCase() : w).replace(/^./, c => c.toUpperCase());
+  const GMAP = { "Biography & Memoir": ["Memoir", "Nonfiction"], "History": ["Nonfiction"], "Science": ["Nonfiction"], "Philosophy": ["Nonfiction"], "Psychology": ["Nonfiction", "Self-help"],
+    "Business": ["Nonfiction", "Self-help"], "Politics": ["Nonfiction"], "Religion": ["Nonfiction"], "Dystopian": ["Science Fiction", "Young Adult"], "Children's": ["Young Adult"],
+    "Humor": ["Contemporary"], "Adventure": ["Fantasy"], "Poetry": ["Literary Fiction"] };
+  const POP_GENRES = Object.keys(GR_POP);
+  const bookText = b => `${b.title || ""} ${b.seriesName || ""} ${b.author || ""}`.toLowerCase();
+  function bookGenres(b){
+    const s = new Set();
+    for (const g of b.genres || []) { if (POP_GENRES.includes(g)) s.add(g); (GMAP[g] || []).forEach(x => s.add(x)); }
+    const txt = bookText(b);
+    for (const R of READALIKES) if (R.m.test(txt)) R.g.forEach(x => s.add(x));
+    for (const [g, list] of Object.entries(GR_POP)) if (list.some(x => tnorm(x[0]) === tnorm(b.title))) s.add(g);
+    if (s.has("Fantasy") && (s.has("Romance") || (b.tropes || []).some(t => /lovers|slow burn|forbidden love|love triangle/i.test(t)))) s.add("Romantasy");
+    return s;
+  }
+  function bookWeight(b){
+    let w = b.shelf === "read" ? (b.rating ? b.rating - 3 : 0.6) : b.shelf === "reading" ? 0.7 : 0.25;
+    if (b.surpriseFav) w += .5;
+    if (b.reread === "comfort") w += 1; else if (b.reread === "yes") w += .5; else if (b.reread === "no") w -= .3;
+    if (b.recommend) w += .4;
+    if (b.hype === "disappoint") w -= 1.5; else if (b.hype === "short") w -= .6;
+    if (hasF(b, "Obsessed", "Swooning", "Joyful", "Moved", "Thrilled", "Cozy", "Inspired", "Comforted")) w += .25;
+    if (hasF(b, "Bored", "Angry")) w -= .5;
+    if (b.finished && Date.now() - new Date(b.finished) < 180 * 864e5) w *= 1.25;
+    return w;
+  }
+  function buildProfile(){
+    const G = new Map(), T = new Map(), A = new Map(), seeds = new Map(), series = new Map();
+    const add = (m, k, v) => m.set(k, (m.get(k) || 0) + v);
+    for (const b of books) {
+      const w = bookWeight(b);
+      if (b.seriesName && b.seriesNum && b.shelf === "read") { const k = tnorm(b.seriesName); series.set(k, Math.max(series.get(k) || 0, b.seriesNum)); }
+      if (!w) continue;
+      for (const g of bookGenres(b)) add(G, g, w);
+      for (const t of b.tropes || []) add(T, t, w);
+      if (b.author) add(A, lastName(b.author), w);
+      const txt = bookText(b);
+      READALIKES.forEach((R, i) => { if (R.m.test(txt)) { const s = seeds.get(i) || { i, R, w: 0, books: [] }; s.w += w; s.books.push(b); seeds.set(i, s); } });
+    }
+    const scale = m => { const mx = Math.max(1, ...[...m.values()].map(Math.abs)); return new Map([...m].map(([k, v]) => [k, v / mx])); };
+    return { G: scale(G), T: scale(T), A, series, seeds, seedList: [...seeds.values()].filter(s => s.w > 0).sort((a, b) => b.w - a.w) };
+  }
+  // ---- Open Library look-ups for covers (cached on this device) ----
+  let olCache = lsGet(KEY_OLC, {}), olSaveT = null;
+  const saveOlCache = () => { clearTimeout(olSaveT); olSaveT = setTimeout(() => { const keys = Object.keys(olCache); if (keys.length > 900) keys.slice(0, keys.length - 900).forEach(k => delete olCache[k]); try { lsSet(KEY_OLC, olCache); } catch {} }, 800); };
+  const olQueue = [], olPending = new Map(); let olActive = 0;
+  function olLookup(t, a){
+    const k = ckey(t, a);
+    if (olCache[k]) return Promise.resolve(olCache[k]);
+    if (olPending.has(k)) return olPending.get(k);
+    const p = new Promise(res => { olQueue.push({ t, a, k, res }); pumpOl(); });
+    olPending.set(k, p); return p;
+  }
+  function pumpOl(){
+    while (olActive < 4 && olQueue.length) {
+      const { t, a, k, res } = olQueue.shift(); olActive++;
+      (async () => {
+        try {
+          const clean = String(t).split(/[:(]/)[0].trim();
+          let r = await olSearch({ title: clean, author: a || "" }, 5);
+          if (!r.length) r = await olSearch({ q: `${clean} ${a || ""}` }, 5);
+          const best = r.find(x => x.coverId && (!a || lastName(x.author) === lastName(a))) || r.find(x => x.coverId) || r[0];
+          olCache[k] = best ? { coverId: best.coverId || null, olKey: best.olKey, year: best.year, pages: best.pages, subjects: (best.subjects || []).slice(0, 25), olRating: best.olRating, olCount: best.olCount } : { none: 1 };
+          saveOlCache(); res(olCache[k]);
+        } catch { res(null); }
+        finally { olPending.delete(k); olActive--; pumpOl(); }
+      })();
+    }
+  }
+  function paintRecCovers(root){
+    root?.querySelectorAll("[data-ck]").forEach(el => {
+      const it = recItems.get(el.dataset.ck); if (!it || it.cover) return;
+      olLookup(it.title, it.author).then(v => {
+        if (!v || !v.coverId) return;
+        it.cover = coverById(v.coverId, "M"); it.coverId = v.coverId; it.olKey = it.olKey || v.olKey; it.year = it.year || v.year; it.pages = it.pages || v.pages;
+        const c = el.querySelector(".cover"); if (c) c.outerHTML = coverHTML(it);
+      });
+    });
+  }
+  // ---- the candidate pool: Goodreads favourites, readalike circles, trope shelves, award winners ----
+  const grSeries = s => { const m = /^(.*?),?\s*#(\d+(?:\.\d+)?)/.exec(s || ""); return m ? { name: m[1].trim(), num: +m[2] } : null; };
+  function candidatePool(P){
+    const pool = new Map();
+    const add = (t, a, f) => { const k = ckey(t, a); let c = pool.get(k);
+      if (!c) { c = { key: k, title: t, author: a, genres: new Set(), tropes: new Set(), alike: [], award: null, gr: null, cnt: 0, series: "" }; pool.set(k, c); }
+      f(c); };
+    for (const [g, list] of Object.entries(GR_POP)) list.forEach(([t, a, r, n, s]) => add(t, a, c => { c.genres.add(g); c.gr = r; c.cnt = Math.max(c.cnt, n); c.series = c.series || s; }));
+    READALIKES.forEach((R, ri) => R.b.forEach(([t, a]) => add(t, a, c => { R.g.forEach(g => c.genres.add(g)); c.alike.push(ri); })));
+    for (const [tr, list] of Object.entries(TROPE_SHELVES)) list.forEach(([t, a]) => add(t, a, c => c.tropes.add(tr)));
+    GCA_2025.forEach(([cat, t, a]) => add(t, a, c => { c.award = cat; }));
+    for (const c of pool.values()) {
+      const oc = olCache[c.key]; if (oc?.coverId) { c.cover = coverById(oc.coverId, "M"); c.coverId = oc.coverId; c.olKey = oc.olKey; }
+      const ps = grSeries(c.series);
+      if (ps && ps.num > 1) { const have = P.series.get(tnorm(ps.name)) || 0; if (have >= ps.num - 1 && have < ps.num) c.next = `${ps.name} #${ps.num}`; else c.skip = true; }
+      if (inLibrary(c.title, c.author) || dismissed.includes(c.key)) c.skip = true;
+    }
+    return pool;
+  }
+  const topBook = list => [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0))[0];
+  function scoreItem(c, P){
+    const why = []; let s = 0;
+    let bestSeed = null;
+    for (const ri of c.alike) { const sd = P.seeds.get(ri); if (sd && sd.w > 0 && (!bestSeed || sd.w > bestSeed.w)) bestSeed = sd; }
+    if (bestSeed) { s += 1.2 + Math.min(2.4, bestSeed.w * .7); const bk = topBook(bestSeed.books); why.push(`Readers who loved ${bk.title}${bk.rating ? ` (${bk.rating}★)` : ""} adore this`); c.seed = bestSeed.i; }
+    const gs = [...c.genres].map(g => [g, P.G.get(g) || 0]).sort((a, b) => b[1] - a[1]);
+    const gp = gs.filter(x => x[1] > 0);
+    if (gp.length) { s += gp[0][1] * 1.6 + (gp[1]?.[1] || 0) * .4; if (gp[0][1] > .3 && !why.length) why.push(gp[0][1] > .75 ? `${gp[0][0]}, your favourite genre` : `${gp[0][0]}, a genre you enjoy`); }
+    else s -= .5;
+    gs.filter(x => x[1] < 0).forEach(([, v]) => s += v * 1.3);
+    const ts = [...c.tropes].map(t => [t, P.T.get(t) || 0]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+    if (ts.length) { s += ts[0][1] * 1.3; why.push(`${ts[0][0]}, a trope you love`); }
+    const av = P.A.get(lastName(c.author)) || 0;
+    if (av > .5) { s += Math.min(1.5, av * .5); why.unshift(`More from ${c.author}, an author you rate highly`); } else if (av < -.5) s -= 1.5;
+    if (c.gr) { const bayes = (c.gr * c.cnt + 3.95 * 20000) / (c.cnt + 20000); s += (bayes - 3.95) * 2.2 + Math.log10(Math.max(10, c.cnt)) * .12; }
+    if (c.award) s += .35;
+    if (c.next) { s += 3; why.unshift(`The next book in ${c.next.replace(/ #\d.*$/, "")}`); }
+    if (why.length < 2 && c.gr >= 4.2 && c.cnt > 50000) why.push(`Rated ${c.gr.toFixed(2)} by ${shortCount(c.cnt).replace(" ratings", "")} Goodreads readers`);
+    else if (why.length < 2 && gp.length && gp[0][1] > .3 && !why.some(w => w.includes(gp[0][0]))) why.push(`${gp[0][0]}, ${gp[0][1] > .75 ? "your favourite genre" : "a genre you enjoy"}`);
+    c.score = s; c.why = why.slice(0, 2);
+    return c;
+  }
+  const WISH = [[/witch|magic|fae|fairy|dragon|wizard|spell/, { g: ["Fantasy", "Romantasy"], t: ["Dragons", "Magic school", "Fairy tale"] }], [/spicy|steamy|romanc|love|kiss|swoon/, { g: ["Romance", "Romantasy"], t: ["Enemies to lovers", "Slow burn", "Fake relationship"] }],
+    [/cozy|cosy|comfort|wholesome|warm|gentle|soft/, { t: ["Found family", "Small town"], r: /cerulean|lessons in chemistry|tress/ }], [/scary|horror|creepy|ghost|haunt|spooky/, { g: ["Horror"], t: ["Gothic"] }],
+    [/murder|mystery|detective|whodunit|crime/, { g: ["Mystery"], t: ["Whodunit"] }], [/thrill|twist|suspense|psycholog/, { g: ["Thriller"] }], [/space|alien|robot|future|sci/, { g: ["Science Fiction"] }],
+    [/cry|sad|grief|emotional|heartbreak|tear/, { t: ["Grief & healing"], r: /a little life|song of achilles/ }], [/funny|laugh|humou?r|light/, { g: ["Contemporary", "Romance"] }], [/histor|war|period|regency|victorian/, { g: ["Historical Fiction", "Classics"] }],
+    [/myth|greek|gods|goddess/, { t: ["Myth retelling"] }], [/enem/, { t: ["Enemies to lovers"] }], [/academ|school|college|universit/, { t: ["Magic school", "Dark academia"] }], [/true|memoir|real life|biograph/, { g: ["Memoir", "Nonfiction"] }],
+    [/self|habit|productiv|grow|mindset/, { g: ["Self-help"] }], [/classic/, { g: ["Classics"] }], [/teen|\bya\b|young adult/, { g: ["Young Adult"] }], [/queer|gay|lgbt|sapphic|mlm|wlw/, { r: /aristotle|heartstopper|red, white|what if it|lie with me/ }],
+    [/heist|thie|crew|con\b/, { t: ["Heist"] }], [/time travel/, { t: ["Time travel"] }], [/dark|villain|morally/, { t: ["Morally grey"] }], [/epic|long|series|world/, { g: ["Fantasy"], t: ["Chosen one"] }]];
+  function wishMatch(c, wish){
+    const w = wish.toLowerCase(); let hit = 0;
+    for (const [re, m] of WISH) if (re.test(w)) {
+      if ((m.g || []).some(g => c.genres.has(g))) hit += 1;
+      if ((m.t || []).some(t => c.tropes.has(t))) hit += 1.5;
+      if (m.r && c.alike.some(i => m.r.test(READALIKES[i].n.toLowerCase()))) hit += 1.5;
+    }
+    if (w.length > 3 && (c.title + " " + c.author).toLowerCase().includes(w)) hit += 3;
+    return hit;
+  }
+  function recommend(){
+    const P = buildProfile(), pool = candidatePool(P);
+    const live = [...pool.values()].filter(c => !c.skip).map(c => scoreItem(c, P)).sort((a, b) => b.score - a.score);
+    recItems.clear(); live.forEach(c => recItems.set(c.key, c));
+    const used = new Set(), rows = [];
+    const take = (list, n, opts = {}) => { const out = [], au = new Map(), gc = new Map();
+      for (const c of list) { if (out.length >= n) break; if (used.has(c.key) && !opts.allowUsed) continue;
+        if ((au.get(c.author) || 0) >= (opts.perAuthor || 1)) continue;
+        const g = [...c.genres][0]; if (opts.diverse && (gc.get(g) || 0) >= 4) continue;
+        if (opts.diverse && c.seed != null && (gc.get("seed" + c.seed) || 0) >= 3) continue;
+        out.push(c); au.set(c.author, (au.get(c.author) || 0) + 1); gc.set(g, (gc.get(g) || 0) + 1); if (c.seed != null) gc.set("seed" + c.seed, (gc.get("seed" + c.seed) || 0) + 1); }
+      out.forEach(c => used.add(c.key)); return out; };
+    if (recWish) {
+      const m = live.map(c => [c, wishMatch(c, recWish)]).filter(x => x[1] > 0).sort((a, b) => (b[1] * 2 + b[0].score) - (a[1] * 2 + a[0].score)).map(x => x[0]);
+      rows.push({ id: "wish", title: `For your wish: “${recWish}”`, sub: m.length ? "Matched against genres, tropes and the books readers pair together, then sorted by your taste." : "Nothing in the familiar's library matches that yet. Try another word, like cozy, spicy, scary, heist or myth.", items: take(m, 12, { perAuthor: 2 }), big: true });
+      return { rows, P };
+    }
+    const nexts = live.filter(c => c.next);
+    if (nexts.length) rows.push({ id: "next", title: "Continue your series", sub: "You finished the book before these.", items: take(nexts, 8, { perAuthor: 8 }) });
+    rows.push({ id: "top", title: "Top picks for you", sub: "Weighed from your ratings, feelings, verdicts, favourite genres, tropes and authors.", items: take(live, 10, { diverse: true }), big: true });
+    for (const sd of P.seedList.slice(0, 4)) {
+      const bk = topBook(sd.books), items = take(live.filter(c => c.alike.includes(sd.i)), 10);
+      if (items.length >= 3) rows.push({ id: "seed" + sd.i, title: `Because you loved ${bk.title}`, sub: `Books readers of ${sd.R.n} pick up next.`, items });
+      if (rows.length >= 5) break;
+    }
+    const topTropes = [...P.T].filter(([t, v]) => v > .3 && TROPE_SHELVES[t]).sort((a, b) => b[1] - a[1]).slice(0, 2);
+    for (const [t] of topTropes) { const items = take(live.filter(c => c.tropes.has(t)), 8); if (items.length >= 3) rows.push({ id: "trope-" + t, title: `More ${t.toLowerCase()}`, sub: `A trope you keep coming back to.`, items }); }
+    const gems = take(live.filter(c => c.gr >= 4.15 && c.cnt && c.cnt < 450000 && [...c.genres].some(g => (P.G.get(g) || 0) > .4)), 8);
+    if (gems.length >= 3) rows.push({ id: "gems", title: "Hidden gems", sub: "Loved by readers but less hyped. Under half a million ratings on Goodreads.", items: gems });
+    const awards = take(live.filter(c => c.award), 8, { perAuthor: 2 });
+    if (awards.length >= 3) rows.push({ id: "awards", title: "Goodreads Choice Award winners 2025", sub: "Voted best of the year by Goodreads members.", items: awards });
+    const out = take(live.filter(c => c.gr >= 4.25 && c.cnt > 400000 && [...c.genres].every(g => Math.abs(P.G.get(g) || 0) < .15)).sort((a, b) => b.gr - a.gr), 8);
+    if (out.length >= 3) rows.push({ id: "outside", title: "Step outside your shelf", sub: "Beloved books from genres you haven't explored much yet.", items: out });
+    return { rows, P };
+  }
+  const rcard = (c, i, big) => { const have = inLibrary(c.title, c.author);
+    return `<div class="rcard${big ? " big" : ""}" data-ck="${esc(c.key)}">${big ? `<span class="rank">${i + 1}</span>` : ""}<button class="rcov" type="button" data-ropen="${esc(c.key)}" title="Look closer">${coverHTML(c)}</button>
+      <div class="rbody"><div class="rt">${esc(c.title)}</div><div class="ra">${esc(c.author)}</div>
+      ${c.gr ? `<div class="rr">★ <b>${c.gr.toFixed(2)}</b> <span>Goodreads${c.cnt ? ` · ${shortCount(c.cnt)}` : ""}</span></div>` : ""}
+      ${(c.why || []).length ? `<ul class="rwhy">${(big ? c.why : c.why.slice(0, 1)).map(w => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
+      ${c.award ? `<div class="raward">🏆 Goodreads Choice 2025 · ${esc(c.award)}</div>` : ""}
+      <div class="racts">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-rwant="${esc(c.key)}">+ Want to read</button><button class="iconbtn" type="button" data-rread="${esc(c.key)}" title="I've read it">✓</button><button class="iconbtn" type="button" data-rno="${esc(c.key)}" title="Not for me">✕</button>`}</div></div></div>`; };
+  function renderForYou(body){
+    const n = readBooks().length;
+    if (n < 2 && !recWish) { body.innerHTML = `<div class="empty"><span class="fleuron">❦</span><h3>Rate ${2 - n} more book${2 - n > 1 ? "s" : ""}</h3><div>Recommendations learn from the books you've read and how you rated them. Meanwhile, browse <b>Readers' favourites</b>.</div></div>`; return; }
+    const { rows } = recommend();
+    body.innerHTML = rows.filter(r => r.items.length || r.id === "wish").map(r => `<section class="rrow${r.big ? " bigrow" : ""}"><div class="rhead"><h3>${esc(r.title)}</h3><span class="note">${esc(r.sub)}</span></div>
+      <div class="${r.big ? "rgrid" : "rstrip"}">${r.items.map((c, i) => rcard(c, i, r.big)).join("")}</div></section>`).join("") || `<div class="empty"><h3>Nothing new to suggest</h3><div>You've read or dismissed everything the familiar knows about. Try a wish above.</div></div>`;
+    paintRecCovers(body);
+  }
+  // ---- Readers' favourites: Goodreads data ----
+  function renderGR(body){
+    if (!grGenre) { const P = buildProfile(); grGenre = [...P.G].filter(([g]) => GR_POP[g]).sort((a, b) => b[1] - a[1])[0]?.[0] || "Fantasy"; }
+    const P = buildProfile(), pool = candidatePool(P), perSeries = new Map();
+    let list = GR_POP[grGenre].map(([t, a]) => pool.get(ckey(t, a))).filter(Boolean)
+      .filter(c => { const s = grSeries(c.series); if (!s) return true; const k = norm(s.name); const n = perSeries.get(k) || 0; if (n >= 2) return false; perSeries.set(k, n + 1); return true; });
+    if (grSort === "rating") list = [...list].sort((a, b) => b.gr - a.gr); else list = [...list].sort((a, b) => b.cnt - a.cnt);
+    list.forEach(c => { scoreItem(c, P); recItems.set(c.key, c); });
+    const sc = list.map(c => c.score).sort((a, b) => b - a); grStrong = Math.max(3.6, sc[Math.floor(sc.length * .2)] ?? 99);
+    const awards = GCA_2025.map(([cat, t, a]) => pool.get(ckey(t, a))).filter(Boolean); awards.forEach(c => recItems.set(c.key, c));
+    body.innerHTML = `<div class="panel discpanel"><div class="phead"><h2>Readers' favourites</h2><div class="seg small"><button type="button" data-grsort="popular" aria-pressed="${grSort === "popular"}">Most read</button><button type="button" data-grsort="rating" aria-pressed="${grSort === "rating"}">Highest rated</button></div></div>
+        <div class="note">The most-read books in each genre on Goodreads, with their Goodreads rating and how many readers rated them (gathered October 2026). Long series show only their first books.</div>
+        <div class="chips discchips">${POP_GENRES.map(g => `<button class="chip" type="button" data-grg="${esc(g)}" aria-pressed="${g === grGenre}">${esc(g)}</button>`).join("")}</div></div>
+      <div class="dgrid">${list.map((c, i) => dcard(c, i)).join("")}</div>
+      <section class="rrow"><div class="rhead"><h3>🏆 Goodreads Choice Awards 2025 winners</h3><span class="note">The year's best, voted by Goodreads members.</span></div>
+        <div class="rstrip">${awards.map(c => rcard({ ...c, why: [] }, 0, false)).join("")}</div></section>`;
+    paintRecCovers(body);
+  }
+  const dcard = (c, i) => { const have = inLibrary(c.title, c.author);
+    return `<div class="dcard" data-ck="${esc(c.key)}"><span class="rank">${i + 1}</span><button type="button" class="dcov" data-ropen="${esc(c.key)}" title="Look closer">${coverHTML(c)}</button>
+      <div class="dt">${esc(c.title)}</div><div class="da">${esc(c.author)}${c.series ? ` · <i>${esc(c.series)}</i>` : ""}</div>
+      ${c.gr ? `<div class="dr">★ ${c.gr.toFixed(2)} <span>· ${shortCount(c.cnt)}</span></div>` : ""}
+      ${c.score >= grStrong && !have ? `<div class="dmatch">✦ A strong match for you</div>` : ""}
+      <div class="dacts">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-rwant="${esc(c.key)}">+ Want to read</button>`}<a class="gr" href="${grURL(c)}" target="_blank" rel="noopener" title="Open on Goodreads">GR ↗</a></div></div>`; };
+  // ---- New York Times Best Sellers (live, needs a free key) ----
+  const NYT_CATS = [["fiction", "Fiction", ["combined-print-and-e-book-fiction", "hardcover-fiction", "trade-fiction-paperback"]], ["nonfiction", "Nonfiction", ["combined-print-and-e-book-nonfiction", "hardcover-nonfiction", "paperback-nonfiction"]],
+    ["advice", "Advice & self-help", ["advice-how-to-and-miscellaneous"]], ["ya", "Young adult", ["young-adult-hardcover"]], ["middle", "Middle grade", ["childrens-middle-grade-hardcover"]], ["series", "Series", ["series-books"]]];
+  async function nytList(name){
+    const ck = "reading-ledger-nyt:" + name, hit = lsGet(ck, null);
+    if (hit && Date.now() - hit.t < 12 * 36e5) return hit.r;
+    const r = await fetch(`https://api.nytimes.com/svc/books/v3/lists/current/${name}.json?api-key=${encodeURIComponent(lsGet(KEY_NYT, ""))}`);
+    if (r.status === 401 || r.status === 403) throw new Error("key");
+    if (r.status === 429) throw new Error("rate");
+    if (!r.ok) throw new Error("http");
+    const d = (await r.json()).results; try { lsSet(ck, { t: Date.now(), r: d }); } catch {}
+    return d;
+  }
+  async function renderNYT(body){
+    const key = lsGet(KEY_NYT, "");
+    if (!key) { body.innerHTML = `<div class="panel discpanel nytsetup"><h2>New York Times Best Sellers</h2>
+        <p class="note">The official weekly bestseller lists, live. The New York Times gives these out free, but asks each reader for a personal key. It takes about two minutes, once:</p>
+        <ol class="steps"><li>Open <a href="https://developer.nytimes.com/accounts/create" target="_blank" rel="noopener">developer.nytimes.com ↗</a> and create a free account.</li><li>Go to <b>Apps → New App</b>, give it any name, switch on <b>Books API</b> and save.</li><li>Copy the <b>API key</b> it shows and paste it here.</li></ol>
+        <form class="recform" id="nyt-form" autocomplete="off"><input id="nyt-key" placeholder="Paste your NYT API key"><button class="btn primary" type="submit">Save key</button></form>
+        <p class="note small">The key stays on this device. Until then, <b>Readers' favourites</b> shows Goodreads data with no setup.</p></div>`; return; }
+    const cat = NYT_CATS.find(c => c[0] === nytCat) || NYT_CATS[0];
+    body.innerHTML = `<div class="panel discpanel"><div class="phead"><h2>New York Times Best Sellers</h2><button class="linkbtn" type="button" data-nytforget>Change key</button></div>
+      <div class="note" id="nyt-note">${cat[2].length > 1 ? "Hardcover, paperback and e-book lists combined, ranked by best position this week." : "This week's official list."}</div>
+      <div class="chips discchips">${NYT_CATS.map(([k, l]) => `<button class="chip" type="button" data-nyt="${k}" aria-pressed="${k === nytCat}">${l}</button>`).join("")}</div></div><div id="nyt-out"><div class="status"><span class="dots">Fetching this week's lists</span></div></div>`;
+    const want = nytCat;
     try {
-      const { feats, best, top } = tasteProfile();
-      const likedG = new Map([...feats.genres].filter(x => x[1] > 0)), likedT = new Map([...feats.themes].filter(x => x[1] > 0)), likedTr = new Map([...feats.tropes].filter(x => x[1] > 0));
-      let pool = [];
-      const addWorks = (works, src) => { for (const w of works || []) pool.push({ title: w.title, author: (w.authors || [])[0]?.name || "", year: w.first_publish_year || null, coverId: w.cover_id || null, cover: coverById(w.cover_id), olKey: w.key, subjects: w.subject || [], src }); };
-      if (wish) {
-        pool = (await olSearch({ q: wish }, 40)).map(r => ({ ...r, src: "wish" }));
-      } else {
-        const subjects = [...top(feats.genres, 3), ...top(feats.themes, 3)];
-        for (const s of subjects) {
-          const slug = s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
-          try { addWorks((await olJSON(`${OL}/subjects/${slug}.json?limit=40`)).works, s); } catch {}
-          await sleep(120);
-        }
-        for (const tr of top(feats.tropes, 2)) { try { pool.push(...(await olSearch({ q: tr }, 20)).map(r => ({ ...r, src: tr }))); } catch {} await sleep(120); }
+      const lists = [];
+      for (const n of cat[2]) { lists.push(await nytList(n)); }
+      if (nytCat !== want || !$("#nyt-out")) return;
+      const merged = new Map();
+      for (const L of lists) for (const x of L.books || []) {
+        const k = ckey(x.title, x.author); const m = merged.get(k);
+        if (!m) merged.set(k, { key: k, title: titleCase(x.title), author: x.author, cover: x.book_image || "", desc: x.description, best: x.rank, weeks: x.weeks_on_list, lists: [L.display_name], isbn: x.primary_isbn13, genres: new Set(), tropes: new Set(), alike: [] });
+        else { m.best = Math.min(m.best, x.rank); m.weeks = Math.max(m.weeks, x.weeks_on_list); m.lists.push(L.display_name); }
       }
-      if (!pool.length) throw new Error("empty");
-      const cand = new Map();
-      for (const p of pool) {
-        const k = norm(p.title) + "|" + norm(p.author);
-        if (findSame(p) || books.some(b => norm(b.title) === norm(p.title))) continue;
-        if (!cand.has(k)) cand.set(k, { ...p, ...deriveFromSubjects(p.subjects || []), hits: 0 });
-        cand.get(k).hits++;
-      }
-      const scored = [...cand.values()].map(c => {
-        const g = c.genres.filter(x => likedG.has(x)), t = c.themes.filter(x => likedT.has(x)), tr = c.tropes.filter(x => likedTr.has(x));
-        const score = g.reduce((s, x) => s + likedG.get(x), 0) * 1.2 + t.reduce((s, x) => s + likedT.get(x), 0) + tr.reduce((s, x) => s + likedTr.get(x), 0) * 1.4 + c.hits * .6 + (c.coverId ? .3 : 0) + (wish ? 2 : 0);
-        const ref = k => { const b = best.get(k); return b ? `${b.title}${b.rating ? ` (${b.rating}★)` : ""}` : null; };
-        const why = [];
-        if (g.length) why.push(["Genre", `${listJoin(g)}, like ${ref("genres:" + g[0]) || "books you've read"}`]);
-        if (t.length) why.push(["Story elements", `${listJoin(t.slice(0, 3))}${ref("themes:" + t[0]) ? `, which run through ${ref("themes:" + t[0])}` : ""}`]);
-        if (tr.length) why.push(["Tropes", `${listJoin(tr.map(x => x.toLowerCase()))}${ref("tropes:" + tr[0]) ? `, as in ${ref("tropes:" + tr[0])}` : ""}`]);
-        if (wish) why.unshift(["Your wish", `matches “${wish}”`]);
-        if (!why.length) why.push(["Why", `popular in ${c.src}, a subject you read a lot`]);
-        return { ...c, score, why };
-      }).filter(c => c.why.length).sort((a, b) => b.score - a.score);
-      const out = [], authors = new Map();
-      for (const c of scored) { const n = authors.get(c.author) || 0; if (n >= 2) continue; authors.set(c.author, n + 1); out.push(c); if (out.length >= 12) break; }
-      recs = { items: out.map(({ subjects, hits, score, src, ...r }) => r), wish: wish || "", date: todayISO(), sig: wish ? "wish" : recSig() };
-      lsSet(KEY_RECS, recs);
-    } catch { if ($("#recs-out")) $("#recs-out").innerHTML = `<div class="status">Couldn't reach Open Library. Check your connection and press Recommend books again.</div>`; recsRunning = false; return; }
-    recsRunning = false;
-    renderRecs();
-  }
-  // ================= discover: bestselling by genre & most popular =================
-  let recMode = lsGet("reading-ledger-recmode", "foryou"), discGenre = null, discPeriod = "monthly", discItems = [];
-  const DISC_GENRES = [["Fantasy", 'subject:fantasy'], ["Romantasy", 'subject:fantasy subject:romance'], ["Romance", 'subject:romance'], ["Thriller", 'subject:thriller'], ["Mystery", 'subject:mystery'],
-    ["Science Fiction", 'subject:"science fiction"'], ["Horror", 'subject:horror'], ["Historical Fiction", 'subject:"historical fiction"'], ["Young Adult", 'subject:"young adult fiction"'],
-    ["Literary Fiction", 'subject:"literary fiction"'], ["Contemporary", 'subject:"contemporary"'], ["LGBTQ+", 'subject:lgbtq'], ["Graphic Novels", 'subject:"graphic novels"'], ["Poetry", 'subject:poetry'],
-    ["Biography & Memoir", 'subject:biography'], ["History", 'subject:history -subject:fiction'], ["Science", 'subject:science -subject:fiction'], ["Self-help", 'subject:"self-help"'], ["True Crime", 'subject:"true crime"']];
-  const PERIODS = [["weekly", "This week"], ["monthly", "This month"], ["yearly", "This year"], ["forever", "All time"]];
-  const discCache = new Map();
-  const cacheGet = k => { if (discCache.has(k)) return discCache.get(k); const c = lsGet("reading-ledger-disc", {}); const x = c[k]; return x && Date.now() - x.t < 12 * 36e5 ? x.items : null; };
-  const cachePut = (k, items) => { discCache.set(k, items); const c = lsGet("reading-ledger-disc", {}); c[k] = { t: Date.now(), items }; Object.keys(c).filter(x => Date.now() - c[x].t > 864e5).forEach(x => delete c[x]); try { lsSet("reading-ledger-disc", c); } catch {} };
-  const slimDoc = d => { const r = fromDoc(d); return { title: r.title, author: r.author, year: r.year, pages: r.pages, olKey: r.olKey, coverId: r.coverId, cover: r.cover, olRating: r.olRating, olCount: r.olCount, isbn: r.isbn, genres: r.genres, category: r.category, subjects: (r.subjects || []).slice(0, 15) }; };
-  const notKids = r => !/juvenile|children's|picture book/i.test((r.subjects || []).join(" "));
-  async function fetchGenre(g){
-    const key = "g:" + g, hit = cacheGet(key); if (hit) return hit;
-    const q = DISC_GENRES.find(x => x[0] === g)[1], Y = new Date().getFullYear();
-    let docs = [];
-    const tries = [{ q: `${q} first_publish_year:[${Y - 2} TO ${Y}]`, sort: "trending" }, { q: `${q} first_publish_year:[${Y - 4} TO ${Y}]`, sort: "readinglog" }, { q, sort: "trending" }];
-    for (const t of tries) { try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ ...t, fields: FIELDS, limit: "40", lang: "en" })}`); docs = (d.docs || []).filter(x => x.title && x.cover_i); } catch {} if (docs.length >= 8) break; }
-    const items = docs.map(slimDoc).filter(r => g === "Young Adult" || notKids(r)).slice(0, 24);
-    if (items.length) cachePut(key, items);
-    return items;
-  }
-  async function fetchPopular(period){
-    const key = "p:" + period, hit = cacheGet(key); if (hit) return hit;
-    let docs = [];
-    try { const d = await olJSON(`${OL}/trending/${period}.json?limit=40`); docs = (d.works || []).filter(x => x.title && x.cover_i); } catch {}
-    if (docs.length < 8) try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ q: "language:eng", sort: period === "forever" ? "readinglog" : "trending", fields: FIELDS, limit: "40" })}`); docs = (d.docs || []).filter(x => x.title && x.cover_i); } catch {}
-    const items = docs.map(slimDoc).slice(0, 30);
-    if (items.length) cachePut(key, items);
-    return items;
-  }
-  const discCard = (r, i) => { const have = findSame(r);
-    return `<div class="dcard"><span class="rank">${i + 1}</span><button type="button" class="dcov" data-dopen="${i}" title="Look closer">${coverHTML(r)}</button>
-      <div class="dt">${esc(r.title)}</div><div class="da">${esc(r.author)}${r.year ? ` · ${r.year}` : ""}</div>
-      ${r.olRating ? `<div class="dr">★ ${r.olRating.toFixed(1)}${r.olCount ? ` <span>· ${shortCount(r.olCount)}</span>` : ""}</div>` : ""}
-      <div class="dacts">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-dwant="${i}">+ Want to read</button>`}<a class="gr" href="${grURL(r)}" target="_blank" rel="noopener" title="Open on Goodreads">GR ↗</a></div></div>`; };
-  async function renderDiscover(){
-    const out = $("#disc-out"); if (!out) return;
-    const isG = recMode === "genre";
-    if (isG && !discGenre) { const top = topN(readBooks().flatMap(b => b.genres || []), 5).map(x => x[0]); discGenre = (top.map(g => DISC_GENRES.find(d => d[0] === g)).find(Boolean) || DISC_GENRES[0])[0]; }
-    const want = isG ? "g:" + discGenre : "p:" + discPeriod;
-    out.dataset.req = want;
-    out.innerHTML = `<div class="status"><span class="dots">${isG ? `Gathering the hottest ${esc(discGenre.toLowerCase())}` : "Counting what everyone is reading"}</span></div>`;
-    const items = isG ? await fetchGenre(discGenre) : await fetchPopular(discPeriod);
-    if (out.dataset.req !== want || !$("#disc-out")) return;
-    discItems = items;
-    out.innerHTML = items.length ? `<div class="dgrid">${items.map(discCard).join("")}</div>` : `<div class="status">Couldn't reach Open Library just now. Check your connection and try again.</div>`;
+      const items = [...merged.values()].sort((a, b) => a.best - b.best || b.weeks - a.weeks);
+      items.forEach(c => recItems.set(c.key, c));
+      const date = lists[0]?.published_date;
+      $("#nyt-note").textContent = `${date ? `Week of ${fmtDate(date)}. ` : ""}${cat[2].length > 1 ? "Hardcover, paperback and e-book lists combined, ranked by best position." : "This week's official list."} ${items.length} books.`;
+      $("#nyt-out").innerHTML = `<div class="nytlist">${items.map((c, i) => { const have = inLibrary(c.title, c.author);
+        return `<div class="nytrow" data-ck="${esc(c.key)}"><span class="rank">${i + 1}</span><button class="rcov" type="button" data-ropen="${esc(c.key)}">${coverHTML(c)}</button>
+          <div class="nbody"><div class="rt">${esc(c.title)}</div><div class="ra">${esc(c.author)}</div><div class="nmeta">${c.weeks > 1 ? `${c.weeks} weeks on the list` : "New this week"} · best #${c.best} · ${esc([...new Set(c.lists)].join(", "))}</div>
+          ${c.desc ? `<p class="ndesc">${esc(c.desc)}</p>` : ""}<div class="racts">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-rwant="${esc(c.key)}">+ Want to read</button>`}<a class="gr" href="${grURL(c)}" target="_blank" rel="noopener">Goodreads ↗</a></div></div></div>`; }).join("")}</div>`;
+    } catch (e) {
+      const o = $("#nyt-out"); if (!o) return;
+      o.innerHTML = `<div class="status">${e.message === "key" ? "The New York Times didn't accept that key. Check you switched on the Books API for your app, or press Change key." : e.message === "rate" ? "The New York Times allows a few requests a minute. Wait a moment and tap the category again." : "Couldn't reach the New York Times. Check your connection."}</div>`;
+    }
   }
   function renderRecs(){
     const el = $("#view-recs");
-    if (!$("#rec-modes")) el.innerHTML = `<div class="recmodes" id="rec-modes" role="tablist"></div><div id="rec-body"></div>`;
-    $("#rec-modes").innerHTML = [["foryou", "✦ Chosen for you"], ["genre", "❦ Bestselling by genre"], ["popular", "♛ Most popular"]].map(([k, l]) => `<button type="button" role="tab" data-recmode="${k}" aria-selected="${recMode === k}">${l}</button>`).join("");
+    if (!$("#rec-modes")) el.innerHTML = `<div class="rectop"><div class="recmodes" id="rec-modes" role="tablist"></div>
+      <form class="recform wishform" id="rec-form" autocomplete="off"><span class="wishglyph" aria-hidden="true">✧</span><input id="rec-mood" type="text" placeholder="Make a wish: cozy, spicy, scary, heist, Greek myths…"><button class="btn primary" type="submit">Wish</button></form></div><div id="rec-body"></div>`;
+    $("#rec-modes").innerHTML = [["foryou", "✦ Chosen for you"], ["gr", "❦ Readers' favourites"], ["nyt", "♛ NYT Best Sellers"]].map(([k, l]) => `<button type="button" role="tab" data-recmode="${k}" aria-selected="${recMode === k}">${l}</button>`).join("");
+    $("#rec-form").hidden = recMode !== "foryou";
+    if (document.activeElement?.id !== "rec-mood") $("#rec-mood").value = recWish;
     const body = $("#rec-body");
-    if (recMode !== "foryou") {
-      const isG = recMode === "genre";
-      body.innerHTML = `<div class="panel discpanel"><div class="phead"><h2>${isG ? "Bestselling by genre" : "Most popular right now"}</h2></div>
-        <div class="note">${isG ? "The hottest books of the last few years in each genre, ranked by what readers on Open Library are reading and saving right now." : "The books the most readers on Open Library are reading and adding to their shelves."} New picks appear as the rankings change.</div>
-        <div class="chips discchips">${isG ? DISC_GENRES.map(([g]) => `<button class="chip" type="button" data-dgenre="${esc(g)}" aria-pressed="${g === discGenre}">${esc(g)}</button>`).join("") : PERIODS.map(([k, l]) => `<button class="chip" type="button" data-dperiod="${k}" aria-pressed="${k === discPeriod}">${l}</button>`).join("")}</div></div>
-        <div id="disc-out"></div>`;
-      if (isG && !discGenre) { renderDiscover().then(() => body.querySelectorAll("[data-dgenre]").forEach(b => b.setAttribute("aria-pressed", b.dataset.dgenre === discGenre))); }
-      else renderDiscover();
-      return;
-    }
-    if (!$("#rec-form")) body.innerHTML = `<div class="panel" style="margin-bottom:14px">
-      <h2>Your next enchantment</h2>
-      <div class="note">Picked automatically from the genres, story elements and tropes of the books you rated highest, and refreshed as your library changes. Type a wish to search for something specific instead.</div>
-      <form class="recform" id="rec-form" autocomplete="off">
-        <input id="rec-mood" type="text" placeholder="Optional wish: witches, cozy mystery, sea voyages…" value="${esc(recs?.wish || "")}">
-        <button class="btn primary" type="submit">Recommend books</button>
-      </form></div><div id="recs-out"></div>`;
-    const out = $("#recs-out");
-    if (recsRunning) return;
-    if (books.length < 3) { out.innerHTML = `<div class="empty"><span class="fleuron">❦</span><h3>Add ${3 - books.length} more book${3 - books.length > 1 ? "s" : ""}</h3><div>Once you have three books on your shelves (rated Read books work best), recommendations appear here by themselves.</div></div>`; return; }
-    if (!recs?.items?.length || (recs.sig !== "wish" && recs.sig !== recSig())) { runRecs(""); return; }
-    out.innerHTML = `<div class="label" style="margin-bottom:8px">${recs.wish ? `For your wish “${esc(recs.wish)}”` : "Chosen for you"} · ${fmtDate(recs.date)}</div><div class="recs">${recs.items.map((r, i) => {
-      const have = findSame(r);
-      return `<div class="rec">${coverHTML(r)}<div class="meta">
-        <div class="t">${esc(r.title)}</div><div class="a">${esc(r.author)}</div>
-        <div class="facts">${r.year ? `<span>${esc(r.year)}</span>` : ""}${(r.genres||[]).length ? `<span>${esc(r.genres.join(" / "))}</span>` : ""}</div>
-        <div class="why">${(r.why || []).map(([k, v]) => `<div><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("")}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center">${have ? `<span class="onshelf">On your shelf</span>` : `<button class="btn primary small" type="button" data-want="${i}">Want to read</button><button class="btn small" type="button" data-recopen="${i}">Add…</button>`}<a class="gr" href="${grURL(r)}" target="_blank" rel="noopener">Goodreads ↗</a></div>
-      </div></div>`; }).join("")}</div>`;
+    if (recMode === "gr") return renderGR(body);
+    if (recMode === "nyt") return renderNYT(body);
+    renderForYou(body);
   }
 
   // ================= editor =================
@@ -2736,21 +3215,115 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
     bat: { anim: "blush", burst: "♥", lines: ["Oh! H-hi… *happy squeak*", "Y-you petted me… I'll remember this forever.", "*wraps his wings around himself and blushes*", "Um… could you… do that again? Only if you want.", "Nobody's ever… thank you."] },
     hedgehog: { anim: "roll", burst: "★", lines: ["Hehe! That tickles my spikes!", "Careful, I'm pointy! …But that was nice!", "*rolls into a happy little ball*", "WOOHOO! Best. Pat. EVER!", "Can we go on an adventure now? Please?"] },
   };
-  let petTimer = null, petLine = null;
+  let petTimer = null, petLine = null, famMode = "chat";
   const famOptions = () => Object.entries(FAMILIARS).map(([k, f]) => `<button type="button" data-fam="${k}" aria-pressed="${famChosen && k === familiar}" style="--aura:${f.aura}">
         <span class="famthumb">${f.svg}</span><span class="fpinfo"><b>${esc(f.name)}</b><small>${esc(f.kind)}${famChosen && k === familiar ? " · your familiar" : ""}</small>
         <span class="fpblurb">${esc(f.blurb)}</span><span class="fpgets"><em>You get:</em> ${esc(f.gets)}</span><span class="fpsample">“${esc(f.sample)}”</span></span></button>`).join("");
+  // ================= the familiar's chatter: time of day, season and what you're reading =================
+  const CHAT = {
+    cat: {
+      g: { morning: ["Mmm, morning, darling. You look delicious in that sleepy face.", "Up already? Come back to bed… with a book, of course."], afternoon: ["Afternoon, gorgeous. The sunbeam's warm and so am I.", "There you are. I was getting bored of my own reflection."], evening: ["Evening, darling. Candles lit, blanket ready… what are we reading?", "The night is young and so are my intentions. Bookish ones. Mostly."], night: ["Still up, you wicked thing? One more chapter… for me.", "Midnight suits you, darling. Everything does."] },
+      s: { autumn: ["Crisp leaves, spiced tea and you. My favourite season.", "Pumpkin spice and a dangerous book? You know how to treat a lady."], winter: ["It's cold, darling. Come keep me warm. Bring the book.", "Snow outside, velvet blankets inside. Perfection."], spring: ["Spring makes everyone a little reckless. I approve.", "Flowers everywhere, and still you're the prettiest thing here."], summer: ["Too hot to move. Read to me, darling.", "Summer nights were made for scandalous books."] },
+      reading: [(t, p) => `${p}% into ${t}? Don't stop now, it's just getting good.`, (t, p) => `Mmm, ${t}. ${p}% in and I can see you blushing.`, t => `I stole your bookmark from ${t}. Come and get it back.`],
+      near: [(t, d) => `Only ${d} more night${s_(d)} with ${t}. Savour it, darling.`, t => `You're nearly done with ${t}. Endings are the best part… or the worst.`],
+      done: [(t, r) => r >= 4 ? `${t}, ${r}★… you're still glowing, darling.` : `You finished ${t}. Tell me everything. Slowly.`],
+      pile: [n => `${n} books waiting for you, darling. Such a popular reader.`, n => `${n} suitors on your to-read shelf. Choose wisely.`],
+      idle: [d => `${d} days without reading? Darling, I'm wounded.`, () => "You've been neglecting me. And the books. Mostly me."],
+    },
+    owl: {
+      g: { morning: ["Good morning. The early reader catches the footnote.", "Ah, punctual. Splendid. Shall we begin?"], afternoon: ["Good afternoon. An ideal hour for a chapter and a biscuit.", "The afternoon lecture is in session. Kindly open your book."], evening: ["Good evening. The lamp is trimmed; the mind is keen.", "Evening study is the most rewarding, I've always said so."], night: ["Hoo. Nocturnal reading, a habit I heartily endorse.", "It is late, but knowledge keeps no curfew."] },
+      s: { autumn: ["Autumn: the academic year begins. How appropriate.", "Note the falling leaves. Pages, in a sense, of the year."], winter: ["Winter: the season of long nights and longer books.", "One reads more in winter. It is a matter of record."], spring: ["Spring: a fine time to begin a new course of study.", "The garden revives; so should one's reading list."], summer: ["Summer reading is not a holiday from thought, merely a change of chair.", "Even in summer, one should keep a book within wing's reach."] },
+      reading: [(t, p) => `You are ${p}% through ${t}. A respectable proportion.`, (t, p) => `${t}: ${p}% complete. Do take notes in the margins. In pencil.`, t => `I have reviewed your progress on ${t}. Satisfactory. Proceed.`],
+      near: [(t, d) => `At your established pace, ${t} will be concluded in approximately ${d} day${s_(d)}.`, t => `The final chapters of ${t} await. Read them attentively.`],
+      done: [(t, r) => `${t} completed${r ? ` and assessed at ${r}★` : ""}. Most commendable.`],
+      pile: [n => `Your reading list stands at ${n} volumes. A worthy syllabus.`, n => `${n} books outstanding. I suggest we prioritise.`],
+      idle: [d => `It has been ${d} days since your last recorded reading. Hm.`, () => "The library misses you. As, frankly, do I."],
+    },
+    raven: {
+      g: { morning: ["Dawn breaks, warrior! Arm yourself with a book!", "Rise! The pages will not conquer themselves!"], afternoon: ["The sun is high and so is my opinion of myself.", "Afternoon, comrade. A fine hour for battle. Or reading."], evening: ["Dusk falls. The finest heroes read by firelight. Like me.", "Evening! Gather round, and I shall tell of my victories."], night: ["The night belongs to ravens and readers. We are allies.", "Midnight! The hour of legends. Read on, brave one!"] },
+      s: { autumn: ["Autumn, season of harvest and of WAR. Bookish war.", "The leaves fall like my enemies."], winter: ["Winter! A raven fears no frost. Nor sequels.", "Snow upon the battlements. Fetch the epics!"], spring: ["Spring, the season for new campaigns.", "The world awakens. As do my ambitions."], summer: ["Summer! The campaigning season! March on, to the next book!", "Hot sun, cold steel, good books."] },
+      reading: [(t, p) => `${p}% through ${t}! Advance! Do not retreat!`, (t, p) => `${t}: ${p}% conquered. I would have done it faster. Probably.`, t => `I have inspected ${t}. It is worthy of you. Barely.`],
+      near: [(t, d) => `${d} more day${s_(d)} and ${t} falls! VICTORY approaches!`, t => `The final stand of ${t} is near. Charge!`],
+      done: [(t, r) => `${t} is DEFEATED${r ? `, ${r}★` : ""}! Another trophy for the hall!`],
+      pile: [n => `${n} foes await on your to-read shelf. We shall face them all!`, n => `${n} books. An army. I'll take the left flank.`],
+      idle: [d => `${d} days without battle! Your sword grows rusty!`, () => "Has the warrior laid down arms? Unacceptable!"],
+    },
+    fox: {
+      g: { morning: ["Psst. Morning. I hid a good book somewhere. Want a hint?", "Shh, it's early. Perfect time to sneak in a chapter."], afternoon: ["Afternoon, partner. Got any secrets? I trade in secrets.", "Heh, there you are. I've been plotting."], evening: ["Evening. The shadows are long and the twists are longer.", "Sunset's the best time for mischief. And mysteries."], night: ["Midnight snack and a mystery? I like your style.", "Night, friend. Shall we find out whodunit?"] },
+      s: { autumn: ["Autumn's my season. Copper fur, copper leaves. Coincidence?", "Leaves to hide in, secrets to keep. Lovely."], winter: ["Snow keeps tracks. Lucky I'm clever.", "Winter's quiet. Perfect for listening to plot twists."], spring: ["Spring's full of surprises. So am I.", "New season, new schemes."], summer: ["Long days, long cons. Summer's fun.", "Too hot to scheme. Almost."] },
+      reading: [(t, p) => `${p}% into ${t}. I know how it ends. My lips are sealed. Mostly.`, t => `Heh. Watch the quiet character in ${t}. Trust me.`, (t, p) => `${t}, ${p}%. The good bit's coming.`],
+      near: [(t, d) => `${d} more day${s_(d)} till you finish ${t}. Then we talk theories.`, t => `Almost done with ${t}. Brace yourself.`],
+      done: [(t, r) => `Finished ${t}${r ? `, ${r}★` : ""}? Did you see it coming? I did.`],
+      pile: [n => `${n} books on the pile. I've already peeked at the endings.`, n => `${n} mysteries waiting. Pick one and I'll pick the next.`],
+      idle: [d => `${d} days? Your bookmark's gathering dust. I checked.`, () => "Psst. The books are getting suspicious of your absence."],
+    },
+    toad: {
+      g: { morning: ["Good morning! The dew is out and so are the snails!", "Ribbit! Morning! Did you know frogs drink through their skin?"], afternoon: ["Afternoon! Perfect lily-pad reading weather!", "Hello hello! I counted 14 beetles today. Science!"], evening: ["Evening! The crickets are tuning up for reading hour!", "Ribbit, good evening! Shall we read by glow-worm light?"], night: ["Night-time! The best time for moths and books!", "Croak… sleepy… one more page…"] },
+      s: { autumn: ["Mushrooms everywhere! Did you know a fungus can be bigger than a whale?", "Autumn! Leaves change colour when chlorophyll breaks down. Fun!"], winter: ["Brr! Some frogs freeze solid in winter and thaw in spring!", "Winter! Snowflakes always have six sides. Science!"], spring: ["Spring! Tadpole season! Everyone's growing!", "Rain! Glorious rain! Perfect reading weather!"], summer: ["Summer! Fireflies glow with a chemical called luciferin!", "So sunny! I'll read in the shade of a fern."] },
+      reading: [(t, p) => `${p}% of ${t}! That's like ${Math.max(1, Math.round(p / 10))} hops out of ten!`, t => `I'm taking notes on ${t}. Very scientific notes. With doodles.`, (t, p) => `Ribbit! ${p}% done with ${t}!`],
+      near: [(t, d) => `${d} more day${s_(d)} till ${t} is finished! Croak-tastic!`, t => `Nearly through ${t}! Hop hop!`],
+      done: [(t, r) => `You finished ${t}${r ? ` and gave it ${r}★` : ""}! Hooray! Field note recorded!`],
+      pile: [n => `${n} books to read! That's more than my cousins! (I have many cousins.)`, n => `${n} books! Let's sort them by colour! Or by smell!`],
+      idle: [d => `${d} days of no reading? Even hibernating frogs read in their dreams!`, () => "Ribbit? Books? Hello? Anyone?"],
+    },
+    bat: {
+      g: { morning: ["Oh! G-good morning… I'm usually asleep now… but I waited for you.", "M-morning… I hung upside down all night thinking about your books."], afternoon: ["H-hi… sorry, I'm a bit sleepy… is it nice out?", "Oh, you're here… that's… really nice."], evening: ["Evening… this is my favourite time… because you're here.", "H-hello… I saved you the cosiest corner."], night: ["Night-time… I feel braver at night… want to read together?", "The moon's out… and you're reading… this is perfect."] },
+      s: { autumn: ["Autumn's so cosy… everyone wears scarves… even me, sort of.", "I l-like autumn… the nights get longer… more time with you."], winter: ["It's cold… could we… share the blanket?", "Winter nights are long… that means more reading… right?"], spring: ["Spring's nice… the flowers smell happy.", "Moths are back… um, not that I'll eat them… while you're watching."], summer: ["Summer nights are short… so let's not waste them.", "It's warm… I'll fan you with my wings… if you want."], },
+      reading: [(t, p) => `You're ${p}% into ${t}… is it good? I hope it's good.`, t => `I… I peeked at ${t}. Just one page. Sorry.`, (t, p) => `${p}%… you're doing so well with ${t}.`],
+      near: [(t, d) => `Only ${d} more day${s_(d)} with ${t}… I'll miss it too.`, t => `You're almost done with ${t}… will you tell me about it?`],
+      done: [(t, r) => `You finished ${t}${r ? `… ${r}★` : ""}! I'm so proud of you… um.`],
+      pile: [n => `${n} books waiting… they all look nice… like you.`, n => `${n} books… I hope there's room for me on the shelf.`],
+      idle: [d => `It's been ${d} days… did I do something wrong?`, () => "I… I kept your page warm… just in case."],
+    },
+    hedgehog: {
+      g: { morning: ["GOOD MORNING! Adventure starts NOW!", "I've been up for HOURS. Well, minutes. Let's GO!"], afternoon: ["Afternoon! I found a shiny acorn! And a book idea!", "Is it snack time? It's always snack time. And book time!"], evening: ["Evening! Campfire stories time! Let's read something EPIC!", "Woohoo, evening! Blanket fort?"], night: ["It's so late! This is the BEST. Don't tell my mum.", "Night adventure! Torch under the covers, go!"] },
+      s: { autumn: ["LEAF PILES! I'm gonna jump in ALL of them!", "Autumn! Acorns! Apples! Adventures! A-everything!"], winter: ["Snow! Can we build a snow-hedgehog? With a book?", "It's cold but I'm spiky AND cosy!"], spring: ["Spring! Everything's growing, even me! I'm taller! (I'm not.)", "Puddles! Let's jump in puddles then read!"], summer: ["Summer holidays! No school, ALL BOOKS!", "Picnic reading! Bring sandwiches! And dragons!"] },
+      reading: [(t, p) => `${p}% through ${t}! That's like halfway to the top of a mountain! (Sort of!)`, t => `What happens next in ${t}?! Tell me tell me tell me!`, (t, p) => `${t}! ${p}%! You're a reading HERO!`],
+      near: [(t, d) => `Only ${d} more day${s_(d)} till you beat ${t}! WOOHOO!`, t => `The END of ${t} is coming! I can't take it!`],
+      done: [(t, r) => `YOU FINISHED ${t.toUpperCase()}${r ? `! ${r}★` : ""}! High five! *spiky high five*`],
+      pile: [n => `${n} books on the to-read pile! That's ${n} ADVENTURES!`, n => `${n} quests to go! Which one's first? Pick pick pick!`],
+      idle: [d => `${d} days with no reading?! The adventure's waiting!`, () => "Come ON, let's GO! The books are getting bored!"],
+    },
+  };
+  const partOfDay = () => { const h = new Date().getHours(); return h < 5 ? "night" : h < 12 ? "morning" : h < 17 ? "afternoon" : h < 22 ? "evening" : "night"; };
+  let chatLine = null, chatIdx = 0;
+  function makeChat(){
+    const C = CHAT[familiar] || CHAT.cat, V = VOICE[familiar] || {};
+    const opts = [];
+    const reading = books.filter(b => b.shelf === "reading");
+    const cur = reading.sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""))[0];
+    if (cur) { const e = estimate(cur), p = Math.round(e.exact * 100); if (e.daysLeft != null && e.daysLeft <= 4 && p > 0) opts.push(pick(C.near)(cur.title, Math.max(1, e.daysLeft))); else opts.push(pick(C.reading)(cur.title, p)); }
+    const recent = readBooks().filter(b => isExact(b.finished) && Date.now() - new Date(b.finished) < 8 * 864e5).sort((a, b) => b.finished.localeCompare(a.finished))[0];
+    if (recent) opts.push(pick(C.done)(recent.title, recent.rating));
+    const last = [...books.map(b => b.progressLog?.slice(-1)[0]?.d), ...readBooks().map(b => b.finished)].filter(isExact).sort().pop();
+    const idle = last ? Math.floor((Date.now() - new Date(last)) / 864e5) : 0;
+    if (idle >= 10) opts.push(pick(C.idle)(idle));
+    opts.push(pick(C.g[partOfDay()]), pick(C.s[season() === "classic" ? seasonNow() : season()]));
+    const want = books.filter(b => b.shelf === "want").length; if (want >= 3) opts.push(pick(C.pile)(want));
+    const line = opts[chatIdx++ % opts.length];
+    const gest = V.gest ? pick(V.gest) : "";
+    return { line, gest };
+  }
   function renderFamiliar(){
     if (!famChosen) { $("#familiar").innerHTML = `<div class="famcard famempty"><div class="fambody egg" aria-hidden="true"><span>?</span></div>
         <div class="bubble"><div class="label">A familiar is waiting</div><blockquote class="petline">Choose a companion to keep you company while you read. Each one has its own voice, its own quotes and its own way of reacting when you pet it.</blockquote></div></div>
         <div class="fampicker">${famOptions()}</div>`; return; }
     const F = FAMILIARS[familiar], [q, who, work] = QUOTES[quoteIdx];
+    if (famMode === "chat" && !chatLine) chatLine = makeChat();
+    const words = t => esc(t).split(/(\s+)/).map((w, i) => /\s/.test(w) ? w : `<span class="wd" style="animation-delay:${(i * .028).toFixed(2)}s">${w}</span>`).join("");
+    const content = petLine ? `<blockquote class="petline">${words(petLine)}</blockquote>`
+      : famMode === "chat" ? `<blockquote class="chat">${words(chatLine.line)}</blockquote>${chatLine.gest ? `<div class="gest">${esc(chatLine.gest)}</div>` : ""}`
+      : `<blockquote>${words("“" + q.replace(/^“|”$/g, "") + "”")}</blockquote><div class="qsrc">— ${esc(who)}, <i>${esc(work)}</i></div>`;
+    const S = season() === "classic" ? "" : season();
     $("#familiar").innerHTML = `<div class="famcard" data-fam="${familiar}" style="--aura:${F.aura}">
-      <button class="fambody" type="button" data-pet title="Pet ${esc(famName(familiar))}" aria-label="Pet ${esc(famName(familiar))}">${sparkles(6, F.aura, F.spark)}${F.svg}</button>
-      <div class="bubble" aria-live="polite">
-        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="Another quote" aria-label="Another quote">↻</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button></div>
-        <div class="label">${esc(famName(familiar))} ${F.verb}</div>
-        ${petLine ? `<blockquote class="petline">${esc(petLine)}</blockquote>` : `<blockquote>“${esc(q.replace(/^“|”$/g, ""))}”</blockquote><div class="qsrc">— ${esc(who)}, <i>${esc(work)}</i></div>`}
+      <button class="fambody" type="button" data-pet title="Pet ${esc(famName(familiar))}" aria-label="Pet ${esc(famName(familiar))}">
+        <span class="famhalo"></span><svg class="runes" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="runepath" d="M100 22a78 78 0 1 1 0 156a78 78 0 1 1 0-156"/></defs><circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"/><circle cx="100" cy="100" r="68" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 5" opacity=".6"/><text font-size="11" fill="currentColor" letter-spacing="3"><textPath href="#runepath">ᚠ ✦ ᚱ ᛟ ☾ ᚨ ᛉ ✧ ᛞ ᚹ ✦ ᛗ ᚷ ☽ ᛇ ᚾ ✧ ᛒ ᛚ ✦ ᚦ ᛃ ☾ ᛋ ✧</textPath></text></svg>
+        <span class="cushion"></span>${sparkles(6, F.aura, F.spark)}${F.svg}${S ? `<span class="famprop prop-${S}" aria-hidden="true"></span>` : ""}</button>
+      <div class="bubble ${famMode}" aria-live="polite">
+        <span class="bubglow" aria-hidden="true"></span>
+        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Say something else"}" aria-label="Next">↻</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button></div>
+        <div class="label">${esc(famName(familiar))} ${famMode === "chat" && !petLine ? "says" : F.verb}</div>
+        ${content}
       </div>
     </div>${famPicking ? `<div class="fampicker">${famOptions()}</div>` : ""}`;
   }
@@ -2764,13 +3337,13 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
   }
   $("#familiar").addEventListener("click", e => {
     if (e.target.closest("[data-pet]")) { petFamiliar(); return; }
-    if (e.target.closest("[data-famnext]")) { petLine = null; clearTimeout(petTimer); newQuote(); renderFamiliar(); return; }
+    if (e.target.closest("[data-famnext]")) { petLine = null; clearTimeout(petTimer); if (famMode === "chat") { famMode = "quote"; newQuote(); } else { famMode = "chat"; chatLine = makeChat(); } renderFamiliar(); return; }
     if (e.target.closest("[data-fampick]")) { famPicking = !famPicking; renderFamiliar(); return; }
     const f = e.target.closest("[data-fam]"); if (f && f.tagName === "BUTTON") chooseFamiliar(f.dataset.fam);
   });
   function chooseFamiliar(k){
     const first = !famChosen;
-    familiar = k; famChosen = true; lsSet(KEY_FAM, familiar); famPicking = false; petLine = null; newQuote(); renderFamiliar();
+    familiar = k; famChosen = true; lsSet(KEY_FAM, familiar); famPicking = false; petLine = null; newQuote(); famMode = "chat"; chatLine = makeChat(); renderFamiliar();
     toast(`${FAMILIARS[familiar].name} is now your familiar. Tap to pet!`);
     if (first) setTimeout(() => { $("#familiar").scrollIntoView({ block: "center", behavior: "smooth" }); petFamiliar(); }, 250);
   }
@@ -3340,6 +3913,8 @@ alter publication supabase_realtime add table public.library;`;
   $("#tools").addEventListener("click", e => { if (e.target.id === "fetch-btn") fetchMissing(); });
   $("#shelf-filter").addEventListener("click", e => { const f = e.target.closest("[data-filter]"); if (f) { filter = f.dataset.filter; renderLibrary(); } });
   $("#sort").addEventListener("change", e => { sortBy = e.target.value; renderLibrary(); });
+  $("#group-by").addEventListener("click", e => { const g = e.target.closest("[data-group]"); if (!g) return; groupBy = g.dataset.group; lsSet("reading-ledger-groupby", groupBy); renderLibrary(); });
+  $("#list").addEventListener("click", e => { const j = e.target.closest("[data-jump]"); if (j) { e.preventDefault(); document.getElementById(j.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" }); } });
   for (const k of TABS) $("#tab-" + k).addEventListener("click", () => showTab(k));
   $("#view-calendar").addEventListener("click", e => {
     const c = e.target.closest("[data-cal]"); if (!c) return;
@@ -3366,20 +3941,26 @@ alter publication supabase_realtime add table public.library;`;
     if (e.target.closest("[data-seriesnew]")) return openSeriesAdder();
     const m = e.target.closest("[data-seriesmore]"); if (m) openSeriesAdder({ name: m.dataset.seriesmore, author: m.dataset.author });
   });
-  $("#view-recs").addEventListener("submit", e => { if (e.target.id === "rec-form") { e.preventDefault(); recsRunning = false; runRecs($("#rec-mood").value.trim()); } });
+  $("#view-recs").addEventListener("submit", e => {
+    if (e.target.id === "rec-form") { e.preventDefault(); recWish = $("#rec-mood").value.trim(); renderRecs(); return; }
+    if (e.target.id === "nyt-form") { e.preventDefault(); const k = $("#nyt-key").value.trim(); if (!k) return; lsSet(KEY_NYT, k); toast("Key saved. Fetching this week's bestsellers…"); renderRecs(); }
+  });
+  const recToBook = c => ({ title: c.title, author: c.author, cover: c.cover || "", coverId: c.coverId || null, olKey: c.olKey || null, isbn: c.isbn || "", year: c.year || null, pages: c.pages || null,
+    goodreads: c.gr || null, goodreadsCount: c.cnt || null, genres: [...(c.genres || [])].filter(g => GENRE_LOOK[g]), tropes: [...(c.tropes || [])], summary: c.desc || "" });
   $("#view-recs").addEventListener("click", e => {
-    const w = e.target.closest("[data-want]");
-    if (w) { const { why, ...rest } = recs.items[+w.dataset.want];
-      upsert({ ...rest, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() });
-      toast("Added to Want to read"); return; }
-    const o = e.target.closest("[data-recopen]"); if (o) { const { why, ...rest } = recs.items[+o.dataset.recopen]; openEditor({ ...rest, shelf: "want" }, true); return; }
     const rm = e.target.closest("[data-recmode]"); if (rm) { recMode = rm.dataset.recmode; lsSet("reading-ledger-recmode", recMode); $("#rec-body").innerHTML = ""; renderRecs(); return; }
-    const dg = e.target.closest("[data-dgenre]"); if (dg) { discGenre = dg.dataset.dgenre; e.currentTarget.querySelectorAll("[data-dgenre]").forEach(b => b.setAttribute("aria-pressed", b === dg)); renderDiscover(); return; }
-    const dp = e.target.closest("[data-dperiod]"); if (dp) { discPeriod = dp.dataset.dperiod; e.currentTarget.querySelectorAll("[data-dperiod]").forEach(b => b.setAttribute("aria-pressed", b === dp)); renderDiscover(); return; }
-    const dw = e.target.closest("[data-dwant]"); if (dw) { const r = discItems[+dw.dataset.dwant]; if (!r) return;
-      upsert({ ...r, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() });
-      dw.outerHTML = `<span class="onshelf">On your shelf</span>`; toast(`${r.title} added to Want to read`); return; }
-    const dop = e.target.closest("[data-dopen]"); if (dop) { const r = discItems[+dop.dataset.dopen]; if (!r) return; const have = findSame(r); if (have) openEditor(have, false); else openEditor({ ...r, shelf: "want" }, true); }
+    const gg = e.target.closest("[data-grg]"); if (gg) { grGenre = gg.dataset.grg; renderRecs(); return; }
+    const gs = e.target.closest("[data-grsort]"); if (gs) { grSort = gs.dataset.grsort; renderRecs(); return; }
+    const ny = e.target.closest("[data-nyt]"); if (ny) { nytCat = ny.dataset.nyt; renderRecs(); return; }
+    if (e.target.closest("[data-nytforget]")) { lsSet(KEY_NYT, ""); renderRecs(); return; }
+    const k = el => recItems.get(el.dataset.rwant || el.dataset.rno || el.dataset.rread || el.dataset.ropen);
+    const w = e.target.closest("[data-rwant]"); if (w) { const c = k(w); if (!c) return;
+      upsert({ ...recToBook(c), id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() });
+      toast(`${c.title} added to Want to read`); return; }
+    const no = e.target.closest("[data-rno]"); if (no) { const c = k(no); if (!c) return; dismissed = [...dismissed, c.key].slice(-500); lsSet(KEY_DISMISS, dismissed);
+      const card = no.closest(".rcard, .dcard"); card?.classList.add("gone"); setTimeout(() => renderRecs(), 260); toast(`Got it, no more ${c.title}. Your picks will adjust.`); return; }
+    const rd = e.target.closest("[data-rread]"); if (rd) { const c = k(rd); if (c) openEditor({ ...recToBook(c), shelf: "read" }, true); return; }
+    const op = e.target.closest("[data-ropen]"); if (op) { const c = k(op); if (!c) return; const have = books.find(b => tnorm(b.title) === tnorm(c.title)); if (have) openEditor(have, false); else openEditor({ ...recToBook(c), shelf: "want" }, true); }
   });
   try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { applyTheme(lsGet(KEY_THEME, null)); if (tab === "stats") renderStats(); }); } catch {}
 
