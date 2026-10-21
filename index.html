@@ -1223,6 +1223,106 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
 .mateform{display:flex;gap:6px;margin-top:8px}.mateform input{flex:1}
 .materes{display:flex;gap:14px;align-items:center;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:14px}.matepct{font-family:var(--f-display);font-size:44px;font-style:italic;color:var(--accent)}.materes small{display:block;color:var(--muted)}.materes p{margin:4px 0 0}
 @media (max-width:640px){.soulch{grid-template-columns:1fr;padding:18px 16px}.soulnum{font-size:24px}.flagcols{grid-template-columns:1fr}.soulhead{padding:20px 16px 8px}.eramonths{height:70px}.soulhero h4{font-size:24px}}
+
+/* Reader's Soul as its own room: one chapter at a time */
+.soulpage{max-width:980px;margin:0 auto;border:1px solid color-mix(in srgb,var(--gold) 35%,var(--line));border-radius:22px;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,color-mix(in srgb,var(--c5) 16%,transparent),transparent 60%),var(--paper);box-shadow:var(--shadow,0 10px 30px rgba(0,0,0,.08))}
+.soulpage .soulhead{padding:16px 20px 10px;text-align:left}
+.soultop{display:flex;align-items:center;gap:14px 22px;flex-wrap:wrap}
+.soultitle{flex:1 1 220px}
+.soulpage .soulhead h2{font-size:clamp(22px,3vw,30px);margin:2px 0 0}
+.soulpage .soullevel{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;flex:1 1 260px}
+.soulpage .soullevel b{font-size:19px}
+.soulpage .soullevel .lvlbar{flex:1 1 100%;max-width:260px}
+.soulpage .soullevel small{flex-basis:100%;font-size:12.5px}
+.soulshare{white-space:nowrap}
+.soulpage .soulnav{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin-top:12px;padding-bottom:4px;scrollbar-width:thin;position:static}
+.soulpage .soulnav button{flex:0 0 auto}
+.soulpage .soulnav button[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.soulpage .soulnav button[aria-current="true"] i{color:var(--gold-soft,#F2D58A)}
+.soulpage .soulch{padding:16px 20px 8px;grid-template-columns:44px minmax(0,1fr);animation:soulin .35s ease}
+.soulpage .soulch[hidden]{display:none}
+.soulpage .soulnum{font-size:28px}
+.soulpage .soulbody h3{font-size:24px}
+.soulpage .soulsub{margin:0 0 10px}
+.soulfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 20px 16px;border-top:1px dashed var(--line)}
+.soulpg{font-family:var(--f-cap);font-size:12px;letter-spacing:.12em;color:var(--muted)}
+@keyframes soulin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:640px){.soulpage{border-radius:16px}.soulpage .soulch{grid-template-columns:1fr;padding:14px 14px 6px}.soulpage .soulnum{display:none}.soulpage .soulhead{padding:14px 14px 8px}.soulfoot{padding:10px 14px 14px}}
+
+/* ===== Reading mode ===== */
+body.rm-open{overflow:hidden}
+.rmode{position:fixed;inset:0;z-index:300;display:grid;grid-template-rows:auto 1fr auto;color:#F6E7C8;background:radial-gradient(ellipse 60% 50% at 50% 34%,#4A2A14 0%,#24140C 45%,#0C0705 100%);font-family:var(--f-body);animation:rmin .8s ease both;overflow:auto}
+@keyframes rmin{from{opacity:0}to{opacity:1}}
+.rmglow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 30%,rgba(255,170,60,.22),transparent 45%);animation:rmflick 3.2s ease-in-out infinite}
+@keyframes rmflick{0%,100%{opacity:.85}22%{opacity:1}40%{opacity:.75}63%{opacity:.95}80%{opacity:.8}}
+.rmmotes{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.rmmotes i{position:absolute;left:var(--x);bottom:-10px;width:3px;height:3px;border-radius:50%;background:#FFC870;box-shadow:0 0 6px #FFB040;opacity:0;animation:rmmote var(--d) linear var(--t) infinite}
+@keyframes rmmote{0%{transform:translateY(0);opacity:0}15%{opacity:.8}100%{transform:translateY(-95vh) translateX(20px);opacity:0}}
+.rmtop{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;position:relative}
+.rmtop .label{color:#C9A26A;letter-spacing:.2em}
+.rmghost{background:none;border:1px solid rgba(246,231,200,.25);color:#E9D6B0;border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.rmghost:hover{border-color:rgba(246,231,200,.6)}
+.rmcenter{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 16px 10px;position:relative}
+.rmcandle{width:66px;height:124px;overflow:visible;filter:drop-shadow(0 0 22px rgba(255,160,50,.45))}
+.rmcandle .flame{transform-box:fill-box;transform-origin:50% 100%;animation:rmflame 1.6s ease-in-out infinite}
+.rmcandle .halo{transform-box:fill-box;transform-origin:center;animation:rmhalo 2.4s ease-in-out infinite}
+@keyframes rmflame{0%,100%{transform:scale(1,1) rotate(-1deg)}25%{transform:scale(.94,1.08) rotate(2deg)}50%{transform:scale(1.05,.95) rotate(-2deg)}75%{transform:scale(.97,1.05) rotate(1deg)}}
+@keyframes rmhalo{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.12);opacity:1}}
+.rmode.paused .flame{animation-play-state:paused;opacity:.45}.rmode.paused .halo{opacity:.35;animation:none}
+.rmbook{width:64px;margin:6px 0 10px;box-shadow:0 8px 24px rgba(0,0,0,.5);border-radius:3px;opacity:.95}.rmbook .cover{--fs:6px}
+.rmtitle{font-family:var(--f-display);font-style:italic;font-size:clamp(22px,4vw,32px);color:#FFF1D2;line-height:1.15}
+.rmauthor{color:#C9A26A;font-style:italic;margin-top:2px}
+.rmtime{font-family:var(--f-display);font-size:clamp(54px,12vw,92px);font-variant-numeric:tabular-nums;letter-spacing:.02em;color:#FFE3A6;text-shadow:0 0 30px rgba(255,170,60,.45);margin:10px 0 0;line-height:1}
+.rmsub{color:#BFA27A;font-size:14px;margin-top:6px}
+.rmbtns,.rmendbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.rmbtn{border:1px solid rgba(255,214,150,.4);background:rgba(255,214,150,.08);color:#FFEBC4;border-radius:999px;padding:10px 20px;font:inherit;font-size:15px;cursor:pointer;transition:background .2s}
+.rmbtn:hover{background:rgba(255,214,150,.18)}
+.rmbtn.primary{background:linear-gradient(120deg,#E8983A,#B5541E);border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(232,152,58,.35)}
+.rmfam{position:fixed;left:14px;bottom:62px;display:flex;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(380px,80vw)}
+.rmfamart{width:92px;height:92px;flex:0 0 auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5)) brightness(.92) sepia(.15)}
+.rmfamart svg{width:100%;height:100%}
+.rmwhisper{font-family:var(--f-display);font-style:italic;color:#F3DDB3;font-size:15px;background:rgba(20,10,5,.55);border:1px solid rgba(255,214,150,.18);padding:8px 12px;border-radius:14px 14px 14px 4px;opacity:0;transform:translateY(6px);margin-bottom:40px}
+.rmwhisper.show{animation:rmwh 9s ease forwards}
+@keyframes rmwh{0%{opacity:0;transform:translateY(6px)}8%,80%{opacity:1;transform:none}100%{opacity:0}}
+.rmamb{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;padding:12px 16px 18px;position:relative}
+.rmamb .label{color:#C9A26A;margin-right:4px}
+.rmamb button{background:rgba(255,214,150,.06);border:1px solid rgba(255,214,150,.22);color:#EBD7B2;border-radius:999px;padding:5px 12px;font:inherit;font-size:13.5px;cursor:pointer}
+.rmamb button[aria-pressed="true"]{background:rgba(255,190,100,.25);border-color:#FFC27A;color:#fff}
+.rmamb input{width:110px;accent-color:#E8983A}
+.rmend{position:fixed;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,5,3,.78);backdrop-filter:blur(4px);text-align:center;padding:20px}
+.rmend[hidden]{display:none}
+.rmend h3{font-family:var(--f-display);font-style:italic;font-size:30px;color:#FFE9C0;margin:0}
+.rmend .field{display:flex;flex-direction:column;gap:6px;align-items:center}.rmend .label{color:#C9A26A}
+.rmend input{font:inherit;font-size:30px;width:150px;text-align:center;padding:8px;border-radius:12px;border:1px solid rgba(255,214,150,.4);background:rgba(255,240,210,.08);color:#FFF1D2}
+.rmstart{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn.candle{background:linear-gradient(120deg,#3A2416,#5A3418);color:#FFE3A6;border-color:#8A5A2A;box-shadow:0 0 14px rgba(255,170,60,.25)}
+.btn.candle.on{animation:candlepulse 2s ease-in-out infinite}
+@keyframes candlepulse{0%,100%{box-shadow:0 0 10px rgba(255,170,60,.25)}50%{box-shadow:0 0 22px rgba(255,170,60,.6)}}
+.rmline{font-size:13.5px;color:var(--muted)}.rmline b{color:var(--ink);font-weight:600}
+.rmpanel .kpis.rmk{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:12px}
+.rmslots{display:grid;gap:6px}.rmslot{display:grid;grid-template-columns:110px 1fr 70px;align-items:center;gap:10px;font-size:14px}.rmslot i{height:10px;border-radius:99px;background:color-mix(in srgb,var(--gold) 15%,transparent);overflow:hidden}.rmslot i b{display:block;height:100%;background:linear-gradient(90deg,#E8983A,#B5541E);border-radius:99px}.rmslot small{color:var(--muted);text-align:right}
+@media (max-width:640px){.rmfam{bottom:auto;top:52px;left:8px}.rmfamart{width:64px;height:64px}.rmwhisper{margin-bottom:0;font-size:13.5px}.rmcandle{width:50px;height:96px}}
+@media (prefers-reduced-motion:reduce){.rmcandle .flame,.rmcandle .halo,.rmglow,.rmmotes i{animation:none}}
+
+.soulpage{overflow:hidden;max-width:100%}
+.soulpage .soulnav{max-width:100%}
+@media (max-width:640px){.achgrid{grid-template-columns:1fr 1fr;gap:6px}.ach{grid-template-columns:1fr;gap:4px;padding:8px;text-align:center;justify-items:center;position:relative}.ach .aic{width:34px;height:34px;font-size:17px}.ach b{font-size:13.5px}.ach small{font-size:11.5px}.arar{position:absolute;top:6px;right:8px;font-size:8.5px}.ach .aprog{width:100%}
+.stamps{grid-template-columns:repeat(3,1fr)!important}.soulpage .soultop{gap:8px}.soulpage .soulhead h2{font-size:22px}}
+.rmfamart{width:120px;height:120px}
+@media (max-width:640px){.rmfamart{width:64px;height:64px}}
+
+/* share cards */
+.shareov{position:fixed;inset:0;z-index:400;background:rgba(10,5,8,.72);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;animation:rmin .3s ease both}
+.sharebox{background:var(--paper);color:var(--ink);border-radius:20px;padding:14px;max-width:420px;width:100%;max-height:96vh;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.sharehead{display:flex;justify-content:space-between;align-items:center}.sharehead b{font-family:var(--f-display);font-style:italic;font-size:22px}
+.sharepre{flex:1;min-height:0;display:grid;place-items:center}.sharepre img{max-width:100%;max-height:68vh;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.sharepre .progress{padding:80px 0}
+.sharebtns{display:flex;gap:8px;justify-content:center}.sharebtns[hidden]{display:none}.sharenote{text-align:center;margin:0;font-size:12.5px}
+.sharefl{float:right;margin:-44px 0 0}
+@media (max-width:640px){.sharefl{float:none;margin:0 0 10px}}
+.mfoot{flex-wrap:wrap;gap:8px}
+
+@media (max-width:640px){.soulchips .dnachip{font-size:13.5px;padding:2px 9px}.soulchips{gap:5px}.soulhero{padding:10px 12px}.soulhero .dnaglyph{font-size:32px}}
 </style>
 </head>
 <body>
@@ -1288,6 +1388,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
     <button class="tab" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year in books</span></button>
     <button class="tab" id="tab-series" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❧</span><span class="tl">Series</span></button>
     <button class="tab" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Statistics</span></button>
+    <button class="tab" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Reader's Soul</span></button>
     <button class="tab" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">Recommendations</span></button>
     <button class="tab" id="tab-keep" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">♥</span><span class="tl">Keepsakes</span></button>
   </nav>
@@ -1316,6 +1417,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
   <main id="view-covers" hidden></main>
   <main id="view-series" hidden></main>
   <main id="view-stats" hidden></main>
+  <main id="view-soul" hidden></main>
   <main id="view-recs" hidden></main>
   <main id="view-keep" hidden></main>
 
@@ -2462,7 +2564,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
     const years = [...new Set(read.map(b => yearOf(b.finished)).filter(Boolean))].sort((a, b) => b - a);
     if (wallYear === null) wallYear = years[0] || new Date().getFullYear();
     const wb = b => `<button class="wb" type="button" data-open="${esc(b.id)}" title="${esc(b.title)} — ${esc(b.author)}${b.rating ? " · " + b.rating + "★" : ""}">${coverHTML(b)}</button>`;
-    const bar = `<div class="wallbar"><div class="seg"><button type="button" data-wmode="month" aria-pressed="${wallMode === "month"}">By month</button><button type="button" data-wmode="all" aria-pressed="${wallMode === "all"}">All covers</button></div>
+    const bar = `<div class="wallbar">${typeof wallYear === "number" && read.some(b => yearOf(b.finished) === wallYear) ? `<button class="btn small" type="button" data-share="year" data-year="${wallYear}">⤴ Share ${wallYear}</button>` : ""}<div class="seg"><button type="button" data-wmode="month" aria-pressed="${wallMode === "month"}">By month</button><button type="button" data-wmode="all" aria-pressed="${wallMode === "all"}">All covers</button></div>
       <label class="label" style="display:flex;gap:6px;align-items:center">${wallMode === "all" ? "Show" : "Year"} <select class="sort" id="wall-year">${wallMode === "all" ? `<option value="all" ${wallYear === "all" ? "selected" : ""}>All years</option>` : ""}${years.map(y => `<option ${y === wallYear ? "selected" : ""}>${y}</option>`).join("")}</select></label></div>`;
     if (!read.length) { el.innerHTML = bar + `<div class="empty"><span class="fleuron">❦</span><h3>No finished books yet</h3><div>Books you mark as Read, with the date you finished them, gather here.</div></div>`; return; }
     if (wallMode === "all") {
@@ -2726,6 +2828,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
         <div class="kpi"><span class="label">Your average</span><span class="v">${avgRating ? avgRating.toFixed(2) : "—"}</span><span class="s">${both.length ? `${srcName} give the same books ${cmAvg.toFixed(2)}` : `${rated.length} rated`}</span></div>
       </div>
       <div class="panels">
+        ${sessionsPanel()}
         <div class="panel wide"><div class="phead"><h3>Pages finished each month</h3>
           <label class="label" style="display:${scoped ? "none" : "flex"};gap:6px;align-items:center">Year <select class="sort" id="stat-year">${years.map(y => `<option ${y === statYear ? "selected" : ""}>${y}</option>`).join("")}</select></label></div>
           <div class="note">${yearBooks.length} book${yearBooks.length === 1 ? "" : "s"} and ${yearBooks.reduce((s, b) => s + P(b), 0).toLocaleString()} pages in ${statYear}${yearBooks.some(b => !monthOf(b.finished)) ? ` (${yearBooks.filter(b => !monthOf(b.finished)).length} without a month aren't in the bars)` : ""}. The gold line is your running total.</div>
@@ -3290,7 +3393,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
           ${b.seriesName ? `<div class="field full"><button class="btn small" type="button" id="m-addseries">Add the rest of the ${esc(b.seriesName)} series…</button></div>` : ""}
         </div></details>
       <div id="m-confirm"></div>
-      <div class="mfoot">${isNew ? "" : `<button class="btn danger" type="button" id="m-del">Remove book</button>`}
+      <div class="mfoot">${isNew ? "" : `<button class="btn danger" type="button" id="m-del">Remove book</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Share card</button>`}
         <div class="r"><button class="btn" type="button" id="m-cancel">Cancel</button><button class="btn primary" type="button" id="m-save">${isNew ? "Add to shelf" : moveTo ? `Move to ${SHELVES[moveTo]}` : "Save"}</button></div></div>
     </div></div>`;
     wirePickers($("#scrim"));
@@ -3572,6 +3675,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
           <div class="facts">${facts}</div>
           <div class="eta">${eta}</div>
           <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form}<button class="btn small primary" type="submit">Update</button><button class="btn small" type="button" data-finish="${esc(b.id)}">I finished it</button></form>
+          ${(() => { const s = lsGet("reading-ledger-session", null), on = s && s.id === b.id; return `<div class="rmstart"><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}">🕯 ${on ? "Back to reading" : "Start reading"}</button>${nowSessionLine(b)}${todayMins(b) ? `<button class="linkbtn" type="button" data-share="session">⤴ Share</button>` : ""}<button class="linkbtn" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button></div>`; })()}
           ${wordPanel(b)}
         </div>
         <div class="ringwrap"><div class="ring" style="--p:${pct}"></div><div class="pct"><span>${pctTxt}%<small>read</small></span></div></div>
@@ -3601,6 +3705,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
     b.currentPage = page; logProgress(b, page); save(); render();
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
+  $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode); });
   $("#now").addEventListener("click", e => {
     const t = e.target.closest("[data-track]"); if (!t) return;
     const b = books.find(x => x.id === t.dataset.id); if (!b) return;
@@ -3756,7 +3861,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
         <path d="M42 52q8 8 18 6q10 2 18-6q-4 10-18 12q-14-2-18-12z" fill="#262A3A"/>${[46, 52, 58, 64, 70].map(x => `<path d="M${x} 56l2 5" stroke="#3E4660" stroke-width="1"/>`).join("")}
       </g>${EXTRAS(60, 6, { heart: "#FF8A6A" })}`, "raven"); },
 
-    // ---- Ember: a fox spy in a dark cloak, amber forelock and bookmark daggers ----
+    // ---- Ember: a fox spy in a dark hooded cloak (ears poking through), amber forelock and bookmark daggers ----
     fox(){ const u = ++artUid;
       return svgWrap(`<defs><linearGradient id="fc${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E3A3A"/><stop offset="1" stop-color="#141C1E"/></linearGradient><linearGradient id="ff${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F08A3A"/><stop offset="1" stop-color="#C85A1E"/></linearGradient></defs>
       <g class="tail"><path d="M74 104q30 4 32-20q1-14-12-14q-10 2-8 12q4 10-10 14z" fill="url(#ff${u})"/><path d="M98 72q8 2 8 12q-2 6-8 4q4-8 0-16z" fill="#FFF3E4"/></g>
@@ -3768,10 +3873,17 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
       <path d="M46 112l-3 4h7zM70 112l3 4h-7z" fill="#3A2418"/>
       <g class="arm dagger"><path d="M80 74q8 6 6 16l-6-1q0-6-4-10z" fill="url(#fc${u})"/><g class="twirl" style="transform-origin:84px 88px"><path d="M84 88l1.6-14 1.6 14z" fill="#E6EBF0"/><rect x="82.6" y="87.6" width="5.6" height="2.2" rx=".6" fill="#C9A24E"/><path d="M85.4 90v8" stroke="#9C1F2A" stroke-width="2.2"/></g></g>
       <g class="head">
-        <path d="M40 34l-6-22 18 12zM80 34l6-22-18 12z" fill="url(#ff${u})"/><path d="M41 30l-3-13 9 7zM79 30l3-13-9 7z" fill="#3A2418"/>
+        <path class="hood" d="M33 56Q27 30 42 17Q60 6 78 17Q93 30 87 56Q78 63 60 63Q42 63 33 56z" fill="url(#fc${u})"/>
         <path d="M38 38q0-18 22-18t22 18q-2 10-12 14q-4 6-10 6t-10-6q-10-4-12-14z" fill="url(#ff${u})"/>
         <path d="M44 42q8 2 16 12q8-10 16-12q-4 10-16 14q-12-4-16-14z" fill="#FFF3E4"/>
-        <path class="forelock fringe" d="M50 23q12-8 26 0q-8-1-12 3q5 0 8 3q-9-1-13 3q0-5-4-6q-3 0-5-3z" fill="#B8481A"/><path d="M54 22q9-4 18 1" stroke="#F2A050" stroke-width="1" fill="none"/>
+        <path class="forelock fringe" d="M49 26q12-8 27 0q-8-1-12 3q5 0 8 3q-9-1-13 3q0-5-4-6q-3 0-6-3z" fill="#B8481A"/><path d="M54 25q9-4 18 1" stroke="#F2A050" stroke-width="1" fill="none"/>
+        <path class="hoodrim" d="M34 55Q29 30 43 18Q60 8 77 18Q91 30 86 55Q84 50 83 44Q81 28 60 25Q39 28 37 44Q36 50 34 55z" fill="url(#fc${u})"/>
+        <path d="M36.6 46Q38 28 60 25.4Q82 28 83.4 46" stroke="#8C2232" stroke-width="1.6" fill="none"/><path d="M38.4 44Q40 30 60 27.4" stroke="#C04A3A" stroke-width=".6" fill="none" opacity=".7"/>
+        <path d="M47 14Q60 8 73 14M40 30Q37 40 37 52M80 30Q83 40 83 52" stroke="#3E4C4C" stroke-width=".9" fill="none" opacity=".8"/>
+        <g class="ears">
+          <path d="M40 21.5l-9-19 19 10z" fill="url(#ff${u})"/><path d="M40.4 17.4l-5.2-11 10.2 5.8z" fill="#3A2418"/><path d="M33.6 7.2q2 4.6 4.6 8" stroke="#FFD3A8" stroke-width=".8" fill="none" opacity=".7"/>
+          <path d="M80 21.5l9-19-19 10z" fill="url(#ff${u})"/><path d="M79.6 17.4l5.2-11-10.2 5.8z" fill="#3A2418"/><path d="M86.4 7.2q-2 4.6-4.6 8" stroke="#FFD3A8" stroke-width=".8" fill="none" opacity=".7"/>
+          <path d="M38.6 22.4q5.6-6.6 13-10.2q-6 5.6-13 10.2zM81.4 22.4q-5.6-6.6-13-10.2q6 5.6 13 10.2z" fill="#0E1618" opacity=".9"/></g>
         ${EYE("L", 51, 38, { rx: 5.6, ry: 4.4, almond: 1, iris: "#2E8C5A", iris2: "#7FCC8E", slit: 1, lid: "#D86E2C", lidDrop: .24, tilt: 1.6, wing: 1 })}
         ${EYE("R", 69, 38, { rx: 5.6, ry: 4.4, almond: 1, iris: "#2E8C5A", iris2: "#7FCC8E", slit: 1, lid: "#D86E2C", lidDrop: .24, tilt: -1.6, wing: 1 })}
         ${BROWS([50, 31], [70, 31], 4, "#7A3212", 1.6, { arch: .4 })}
@@ -4027,7 +4139,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
     gets: "Erudite remarks, a little history behind every quote, and recommendations from the great library: classics, philosophy and the workings of the mind." });
   Object.assign(FAMILIARS.raven, { blurb: "A battle-scarred warrior in a horned helm and crimson cape, sword in one wing and shield in the other. Undefeated, as he will tell you. Repeatedly.",
     gets: "Battle cries for every chapter, your reading treated as glorious conquest, and a warrior at your side cheering you on." });
-  Object.assign(FAMILIARS.fox, { blurb: "A spy in a dark cloak with an amber forelock and a belt of bookmark daggers. She steals secrets, never hearts… well, rarely. There's a sad story behind those green eyes, but she'll never tell it.",
+  Object.assign(FAMILIARS.fox, { blurb: "A spy in a dark hooded cloak, ears poking through, with an amber forelock and a belt of bookmark daggers. She steals secrets, never hearts… well, rarely. There's a sad story behind those green eyes, but she'll never tell it.",
     gets: "Whispered tips, sly winks, mysteries and secrets passed under the table." });
   Object.assign(FAMILIARS.toad, { name: "Sir Wartsworth", kind: "Toad", verb: "croaks", blurb: "A delighted scientist in a lab coat with goggles on his head and a bubbling flask in hand. Everything is fascinating to him, especially facts.",
     gets: "A true science fact with every visit, experiments, and recommendations that make you cleverer." });
@@ -4971,7 +5083,7 @@ alter publication supabase_realtime add table public.library;`;
   })();
   window.__ledgerSync = Sync;
   // ================= wiring =================
-  const TABS = ["library","calendar","covers","series","stats","recs","keep"];
+  const TABS = ["library","calendar","covers","series","stats","soul","recs","keep"];
   // ================= words you learned while reading =================
   const WORD_LANGS = [["en", "English"], ["fr", "French"], ["es", "Spanish"], ["de", "German"], ["it", "Italian"], ["pt", "Portuguese"], ["hu", "Hungarian"], ["sr", "Serbian"], ["hr", "Croatian"], ["nl", "Dutch"], ["la", "Latin"]];
   let wordOpen = null, wordRes = null, wordBusy = false, wordLang = lsGet("reading-ledger-wordlang", "en");
@@ -5327,7 +5439,11 @@ alter publication supabase_realtime add table public.library;`;
     ach("☕", "Comfort Keeper", "Mark a book as a comfort reread.", "common", read.filter(b => b.reread === "comfort").length, 1, true);
     ach("🎭", "Hype Survivor", "Survive your biggest disappointment.", "rare", read.filter(b => b.hype === "disappoint").length, 1, true);
     ach("🐾", "Familiar's Favourite", "Pet your familiar 25 times.", "epic", lsGet("reading-ledger-pets", 0), 25, true);
-    ach("🌙", "Midnight Oil", "Update your reading progress after midnight.", "rare", lsGet("reading-ledger-midnight", 0), 1, true);
+    ach("🌙", "Midnight Oil", "Read or update your progress after midnight.", "rare", lsGet("reading-ledger-midnight", 0), 1, true);
+    const SS = allSessions();
+    ach("🕯", "Candlelight Ritual", "Read in 10 reading-mode sessions.", "rare", SS.length, 10);
+    ach("⌛", "Lost in the Pages", "Read for 2 hours in a single session.", "epic", Math.max(0, ...SS.map(x => x.m)), 120);
+    ach("🔥", "Keeper of the Flame", "Read by candlelight 7 days in a row.", "legendary", (() => { const ds = [...new Set(SS.map(x => (x.s || "").slice(0, 10)))].sort(); let best = 0, run = 0, prev = null; for (const d of ds) { run = prev && (new Date(d) - new Date(prev)) / 864e5 === 1 ? run + 1 : 1; best = Math.max(best, run); prev = d; } return best; })(), 7);
     return A;
   }
   // ---- 07 the literary horoscope (for fun) ----
@@ -5356,9 +5472,28 @@ alter publication supabase_realtime add table public.library;`;
   // ---- the page itself ----
   let soulSel = null, soulCmp = null;
   const RCOL = { common: "#8A8A7A", rare: "#3A7BD5", epic: "#9C5AD0", legendary: "#D9A43A" };
+  const SOUL_PAGES = [["dna", "DNA"], ["align", "Alignment"], ["flags", "Flags"], ["era", "Era"], ["pass", "Passport"], ["ach", "Achievements"], ["horo", "Horoscope"], ["mate", "Soulmate"]];
+  let soulPage = "dna";
   function openSoul(focus){
+    if (focus) soulPage = focus;
+    showTab("soul");
+    setTimeout(() => $("#view-soul")?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
+  }
+  function soulGo(k){
+    if (!SOUL_PAGES.some(p => p[0] === k)) return;
+    soulPage = k;
+    const v = $("#view-soul");
+    v.querySelectorAll(".soulch").forEach(x => x.hidden = x.id !== "soul-" + k);
+    v.querySelectorAll("[data-soulgo]").forEach(x => x.setAttribute("aria-current", x.dataset.soulgo === k ? "true" : "false"));
+    const i = SOUL_PAGES.findIndex(p => p[0] === k), prev = SOUL_PAGES[i - 1], next = SOUL_PAGES[i + 1];
+    const f = v.querySelector(".soulfoot");
+    if (f) f.innerHTML = `${prev ? `<button type="button" class="btn small" data-soulgo="${prev[0]}">← ${prev[1]}</button>` : "<span></span>"}<span class="soulpg">${i + 1} / ${SOUL_PAGES.length}</span>${next ? `<button type="button" class="btn small primary" data-soulgo="${next[0]}">${next[1]} →</button>` : `<button type="button" class="btn small" data-soulgo="dna">Back to the start ↺</button>`}`;
+    const bar = v.querySelector(".soulnav"), cur = bar?.querySelector("[aria-current='true']"); if (bar && cur) bar.scrollLeft = cur.offsetLeft - bar.offsetLeft - (bar.clientWidth - cur.offsetWidth) / 2;
+  }
+  function renderSoul(){
+    const view = $("#view-soul"); if (!view) return;
     const D = soulData(), L = readerLevel(), [tier, tierTxt] = dnaTier(D.read.length);
-    if (!D.dna.length) { toast("Add a couple of books you've read first."); return; }
+    if (!D.dna.length) { view.innerHTML = `<div class="empty"><p>Your Reader's Soul awakens once you've rated a couple of books you've read.</p></div>`; return; }
     const [a, b] = D.dna, H = hiddenTrait(D), AL = alignment(D), F = flags(D), E = era(D), P = passport(D), ACH = achievements(D), HS = horoscope(D);
     const rare = D.dna.slice(0, 3).reduce((s, x) => s + (RARITY[short(x)] || 1), 0), rareLabel = rare >= 8 ? ["Legendary combination", "legendary"] : rare >= 6 ? ["Rare combination", "rare"] : null;
     const sel = soulSel && D.dna.find(x => x.name === soulSel) || a;
@@ -5366,12 +5501,11 @@ alter publication supabase_realtime add table public.library;`;
     const timeline = (() => { const ys = [...new Set(D.read.map(x => yearOf(x.finished)).filter(Boolean))].sort(); return ys.map(y => { const list = D.read.filter(x => yearOf(x.finished) === y); if (list.length < 2) return null; const w = W8; const top = ARCHETYPES.map(A => [A, list.reduce((s, x) => s + w(x) * A.t(x), 0)]).sort((p, q) => q[1] - p[1])[0]; return top[1] > 0 ? { y, A: top[0], n: list.length } : null; }).filter(Boolean); })();
     const unlocked = ACH.filter(x => x.done).length;
     const ch = (n, id, title, sub, body) => `<section class="soulch" id="soul-${id}"><div class="soulnum">${n}</div><div class="soulbody"><h3>${title}</h3><div class="soulsub">${sub}</div>${body}</div></section>`;
-    const root = $("#modal-root");
-    root.innerHTML = `<div class="scrim soulscrim" id="soul-scrim"><div class="modal soul" role="dialog" aria-modal="true" aria-labelledby="soul-title">
-      <button class="iconbtn soulclose" type="button" id="soul-close" aria-label="Close">✕</button>
-      <header class="soulhead"><div class="label">The Reader's Soul</div><h2 id="soul-title">Your personal literary universe</h2>
+    view.innerHTML = `<div class="soul soulpage">
+      <header class="soulhead"><div class="soultop"><div class="soultitle"><div class="label">The Reader's Soul</div><h2 id="soul-title">Your literary universe</h2></div>
         <div class="soullevel"><span class="lvl">Level ${L.level}</span><b>${esc(L.title)}</b>${L.next ? `<span class="lvlbar"><span style="width:${L.next.pct}%"></span></span><small>${L.n} / ${L.next.at} books to become ${esc(L.next.title)}</small>` : `<small>${L.n} books. The highest rank.</small>`}</div>
-        <nav class="soulnav">${[["dna", "DNA"], ["align", "Alignment"], ["flags", "Flags"], ["era", "Era"], ["pass", "Passport"], ["ach", "Achievements"], ["horo", "Horoscope"], ["mate", "Soulmate"]].map(([k, l], i) => `<button type="button" data-soulgo="${k}"><i>0${i + 1}</i>${l}</button>`).join("")}</nav></header>
+        <button type="button" class="btn small soulshare" data-share="soul">⤴ Share my soul</button></div>
+        <nav class="soulnav">${SOUL_PAGES.map(([k, l], i) => `<button type="button" data-soulgo="${k}"><i>0${i + 1}</i>${l}</button>`).join("")}</nav></header>
       ${ch("01", "dna", "Your Reader DNA", `${tier} DNA · ${esc(tierTxt)}`, `<div class="soulhero" style="--c:${a.c}"><span class="dnaglyph" style="color:${a.c}">${a.g}</span><div><div class="label">Your hybrid soul</div><h4>${esc(hybridName(a, b))}</h4><p>${esc(a.name)}${b ? ` × ${esc(b.name)}` : ""}${rareLabel ? ` <span class="rarity r-${rareLabel[1]}">${rareLabel[0]}</span>` : ""}</p></div></div>
         <div class="strand big">${D.dna.slice(0, 6).map(x => `<span style="flex:${x.pct};--c:${x.c}" title="${esc(x.name)} · ${x.pct}%"></span>`).join("")}</div>
         <div class="soulchips">${D.dna.slice(0, 8).map(x => `<button type="button" class="dnachip${x === sel ? " on" : ""}" data-soulsel="${esc(x.name)}" style="--c:${x.c}"><i>${x.g}</i>${esc(short(x))}<b>${x.pct}%</b></button>`).join("")}</div>
@@ -5381,7 +5515,7 @@ alter publication supabase_realtime add table public.library;`;
       ${ch("02", "align", "Your Literary Alignment", "Do you read with your heart, your mind or your appetite for chaos?", `<div class="aligngrid"><div class="alabels"><span>Heart</span><span>Mind</span></div><div class="agrid">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<div class="acell${r === AL.row && c === AL.col ? " on" : ""}">${["The Devoted Romantic", "The Open Heart", "The Beautiful Chaos Reader", "The Loyal Keeper", "The Wandering Lantern", "The Wild Card", "The Scholarly Archivist", "The Curious Philosopher", "The Mad Scholar"][r * 3 + c].replace(/^The /, "")}</div>`).join("")).join("")}
         <span class="adot" style="left:${((AL.x + 1) / 2 * 100).toFixed(1)}%;top:${((AL.y + 1) / 2 * 100).toFixed(1)}%"></span></div><div class="axlabels"><span>Order</span><span>Chaos</span></div></div>
         <div class="alignres"><h4>${esc(AL.name)}</h4><p>${esc(AL.desc)}</p>${AL.why.length ? `<div class="label">Why</div><ul>${AL.why.map(w => `<li>${esc(cap(w))}</li>`).join("")}</ul>` : ""}</div>`)}
-      ${ch("03", "flags", "Your Red & Green Flags", "We analysed your bookshelf. We have concerns. And compliments.", `<div class="flagcols"><div><div class="label">🚩 Red flags</div>${F.red.length ? F.red.map(([t, e]) => `<div class="flag red"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Suspiciously clean. For now.</div>`}</div>
+      ${ch("03", "flags", "Your Red & Green Flags", "We analysed your bookshelf. We have concerns. And compliments.", `<button type="button" class="btn small sharefl" data-share="flags">⤴ Share my flags</button><div class="flagcols"><div><div class="label">🚩 Red flags</div>${F.red.length ? F.red.map(([t, e]) => `<div class="flag red"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Suspiciously clean. For now.</div>`}</div>
         <div><div class="label">💚 Green flags</div>${F.green.length ? F.green.map(([t, e]) => `<div class="flag green"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Read, rate and save words to earn some.</div>`}</div></div>`)}
       ${ch("04", "era", "Your Reading Era", "Where your taste is right now, and where it's heading", `<div class="erahero">${E.nowG ? `You are in your <b>${esc(E.nowG)} era</b>.` : "Your era is still being written."} ${E.allG && E.nowG && E.allG !== E.nowG ? `Your all-time home is ${esc(E.allG)}, so this is a new chapter.` : E.allG ? "A long, faithful era." : ""}</div>
         <div class="eramonths">${E.months.map(m => `<span class="em${m.n ? " on" : ""}" title="${m.n} book${m.n === 1 ? "" : "s"}${m.g ? " · " + esc(m.g) : ""}" style="--c:${m.g ? spineColorOf({ genres: [m.g] }) : "transparent"}"><i style="height:${Math.min(100, m.n * 22)}%"></i><small>${m.label}</small></span>`).join("")}</div>
@@ -5390,7 +5524,7 @@ alter publication supabase_realtime add table public.library;`;
           <div class="mini2"><div class="label">Your literary nemesis</div>${E.nemesis ? `<b>${esc(E.nemesis[0])}</b><p>You rate it ${E.nemesis[1].toFixed(1)}★ on average. It knows what it did.</p>` : `<p class="note">No nemesis yet. Everyone is on probation.</p>`}</div></div>`)}
       ${ch("05", "pass", "Your Literary Passport", `Traveller level ${P.level} · ${P.level} of ${LANDS.length} worlds visited`, `<div class="stamps">${P.visits.map(v => `<div class="stamp${v.n ? " on" : ""}"><span class="sic">${v.ic}</span><b>${esc(v.name)}</b><small>${v.n ? `${v.n} visit${v.n > 1 ? "s" : ""}` : "Not yet visited"}</small></div>`).join("")}</div>
         ${P.worlds.length ? `<div class="label" style="margin-top:12px">The worlds you return to most</div><div class="worlds">${P.worlds.map(w => `<div class="world"><b>${esc(w.name)}</b><small>${w.n} of ${w.of} books · ${w.pages.toLocaleString()} pages${w.days ? ` · ${w.days} days spent there` : ""}</small></div>`).join("")}</div>` : ""}`)}
-      ${ch("06", "ach", "Achievements & Secrets", `${unlocked} of ${ACH.length} unlocked`, `<div class="achgrid">${ACH.map(x => { const hidden = x.secret && !x.done; return `<div class="ach${x.done ? " done" : ""}" style="--rc:${RCOL[x.rarity]}"><span class="aic">${hidden ? "?" : x.icon}</span><div><b>${hidden ? "Secret achievement" : esc(x.name)}</b><small>${hidden ? "Keep reading to discover it." : esc(x.desc)}</small>
+      ${ch("06", "ach", "Achievements & Secrets", `${unlocked} of ${ACH.length} unlocked`, `<div class="achgrid">${ACH.slice().sort((p, q) => (q.done - p.done) || ((p.secret && !p.done) - (q.secret && !q.done))).map(x => { const hidden = x.secret && !x.done; return `<div class="ach${x.done ? " done" : ""}" style="--rc:${RCOL[x.rarity]}"><span class="aic">${hidden ? "?" : x.icon}</span><div><b>${hidden ? "Secret achievement" : esc(x.name)}</b><small>${hidden ? "Keep reading to discover it." : esc(x.desc)}</small>
         ${!x.done && !hidden && x.need > 1 ? `<span class="aprog"><span style="width:${Math.round(x.have / x.need * 100)}%"></span></span><small>${x.have.toLocaleString()} / ${x.need.toLocaleString()}</small>` : ""}</div><span class="arar">${x.rarity}</span></div>`; }).join("")}</div>`)}
       ${ch("07", "horo", "Your Literary Horoscope", "For fun, not science", HS ? `<div class="horo" style="--zc:${ZEL[HS.z[4]]}"><span class="hz">${HS.z[2]}︎</span><div><div class="label">${esc(HS.z[1])} · literary horoscope</div><p>“${esc(HS.line)}”</p><p class="dest">${esc(HS.destiny)}</p>${HS.book ? `<button type="button" class="hbook" data-ropen="${esc(HS.book.key)}">The stars point to <b>${esc(HS.book.title)}</b> by ${esc(HS.book.author)}</button>` : ""}</div></div>` : `<p class="note">Add your zodiac sign on your Reader DNA card to receive your literary horoscope.</p>`)}
       ${ch("08", "mate", "Your Literary Soulmate", "Compare your DNA with a friend's", `<div class="mate"><label class="field"><span class="label">Your name on your DNA code</span><input id="soul-name" value="${esc(lsGet("reading-ledger-readername", ""))}" placeholder="e.g. Bojana"></label>
@@ -5398,19 +5532,405 @@ alter publication supabase_realtime add table public.library;`;
         <p class="note">Send it to a friend. When they paste it into their nook, you both see how well your reading souls match.</p>
         <form class="mateform" id="soul-cmp"><input name="c" placeholder="Paste a friend's DNA code"><button class="btn primary small" type="submit">Compare</button></form>
         ${soulCmp ? `<div class="materes"><span class="matepct">${soulCmp.match}%</span><div><b>You and ${esc(soulCmp.name)}</b>${soulCmp.title ? `<small>They are ${esc(soulCmp.title)}</small>` : ""}<p>${soulCmp.match >= 85 ? "Literary soulmates. Start a two-person book club immediately." : soulCmp.match >= 65 ? "Kindred spirits with just enough difference to recommend each other books." : soulCmp.match >= 40 ? "Different shelves, overlapping hearts." : "Opposites. You will expand each other's worlds."}${soulCmp.shared.length ? ` You share ${listJoin(soulCmp.shared)}.` : ""}</p></div></div>` : ""}</div>`)}
-    </div></div>`;
-    const scrim = $("#soul-scrim");
-    scrim.addEventListener("click", e => {
-      if (e.target.id === "soul-scrim" || e.target.closest("#soul-close")) { root.innerHTML = ""; return; }
-      const g = e.target.closest("[data-soulgo]"); if (g) { document.getElementById("soul-" + g.dataset.soulgo)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
-      const s = e.target.closest("[data-soulsel]"); if (s) { soulSel = s.dataset.soulsel; const y = $(".soul").scrollTop; openSoul(); $(".soul").scrollTop = y; return; }
-      if (e.target.id === "soul-copy") { navigator.clipboard?.writeText($("#soul-code").textContent).then(() => toast("DNA code copied. Send it to a friend!"), () => toast("Select the code and copy it.")); return; }
-      const op = e.target.closest("[data-open],[data-ropen]"); if (op) { root.innerHTML = ""; if (op.dataset.open) openById(op.dataset.open); else { const c = recItems.get(op.dataset.ropen); if (c) openEditor({ ...recToBook(c), shelf: "want" }, true); } }
-    });
-    $("#soul-name").addEventListener("change", e => { lsSet("reading-ledger-readername", e.target.value.trim()); $("#soul-code").textContent = myCode(D); });
-    $("#soul-cmp").addEventListener("submit", e => { e.preventDefault(); const r = compareCode(D, e.target.c.value); if (!r) { toast("That doesn't look like a DNA code."); return; } soulCmp = r; const y = $(".soul").scrollTop; openSoul(); $(".soul").scrollTop = y; document.getElementById("soul-mate")?.scrollIntoView({ block: "nearest" }); });
-    if (focus) setTimeout(() => document.getElementById("soul-" + focus)?.scrollIntoView({ block: "start" }), 30);
+    <div class="soulfoot"></div></div>`;
+    soulGo(soulPage);
   }
+  function soulRefresh(){ const y = window.scrollY; renderSoul(); window.scrollTo(0, y); }
+  function bindSoul(){
+    const view = $("#view-soul"); if (!view || view.dataset.bound) return; view.dataset.bound = 1;
+    view.addEventListener("click", e => {
+      const g = e.target.closest("[data-soulgo]"); if (g) { const inFoot = !!g.closest(".soulfoot"); soulGo(g.dataset.soulgo); if (inFoot) view.querySelector(".soulnav")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); return; }
+      const s = e.target.closest("[data-soulsel]"); if (s) { soulSel = s.dataset.soulsel; soulRefresh(); return; }
+      if (e.target.id === "soul-copy") { navigator.clipboard?.writeText($("#soul-code").textContent).then(() => toast("DNA code copied. Send it to a friend!"), () => toast("Select the code and copy it.")); return; }
+      const op = e.target.closest("[data-ropen]"); if (op) { const c = recItems.get(op.dataset.ropen); if (c) openEditor({ ...recToBook(c), shelf: "want" }, true); }
+    });
+    view.addEventListener("change", e => { if (e.target.id === "soul-name") { lsSet("reading-ledger-readername", e.target.value.trim()); $("#soul-code").textContent = myCode(soulData()); } });
+    view.addEventListener("submit", e => { if (e.target.id !== "soul-cmp") return; e.preventDefault(); const r = compareCode(soulData(), e.target.c.value); if (!r) { toast("That doesn't look like a DNA code."); return; } soulCmp = r; soulRefresh(); });
+  }
+  bindSoul();
+  // ================= Reading mode: candlelight sessions =================
+  const KEY_SESS = "reading-ledger-session", KEY_AMB = "reading-ledger-ambience";
+  const allSessions = () => books.flatMap(b => (b.sessions || []).map(s => ({ ...s, b })));
+  function readingSpeed(){ // pages per hour, from sessions that moved pages
+    const ss = allSessions().filter(s => s.m >= 3 && s.p > 0 && s.p < s.m * 6);
+    const m = ss.reduce((t, s) => t + s.m, 0), p = ss.reduce((t, s) => t + s.p, 0);
+    return m >= 20 ? p / m * 60 : 0;
+  }
+  const fmtMins = m => m < 60 ? `${Math.round(m)} min` : `${Math.floor(m / 60)} h${Math.round(m % 60) ? ` ${Math.round(m % 60)} min` : ""}`;
+  const todayMins = b => (b ? b.sessions || [] : allSessions()).filter(s => (s.s || "").slice(0, 10) === todayISO()).reduce((t, s) => t + s.m, 0);
+  function nowSessionLine(b){
+    const sp = readingSpeed(), e = estimate(b), left = e.total && !byChapters(b) ? Math.max(0, e.total - e.cur) : 0, td = todayMins(b);
+    const bits = [];
+    if (td) bits.push(`<b>${fmtMins(td)}</b> with it today`);
+    if (sp) bits.push(`you read about <b>${Math.round(sp)} pages an hour</b>`);
+    if (sp && left) bits.push(`roughly <b>${fmtMins(left / sp * 60)}</b> of reading left`);
+    return bits.length ? `<div class="rmline">${cap(bits.join(" · "))}.</div>` : "";
+  }
+
+  // ---- ambient sounds, made in the browser (no files to download) ----
+  const Ambience = (() => {
+    let ctx = null, master = null, live = [], timers = [], kind = "off", vol = .6;
+    const buf = type => { const len = ctx.sampleRate * 3, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0); let last = 0;
+      for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; if (type === "brown") { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; } return b; };
+    let WHITE, BROWN;
+    const loopSrc = b => { const s = ctx.createBufferSource(); s.buffer = b; s.loop = true; s.start(); live.push(s); return s; };
+    const filt = (type, f, q) => { const n = ctx.createBiquadFilter(); n.type = type; n.frequency.value = f; if (q) n.Q.value = q; live.push(n); return n; };
+    const gain = v => { const g = ctx.createGain(); g.gain.value = v; live.push(g); return g; };
+    function burst(f0, f1, amp, dur, type = "bandpass"){
+      const s = ctx.createBufferSource(); s.buffer = WHITE; const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = f0 + Math.random() * (f1 - f0); f.Q.value = 1.2;
+      const g = ctx.createGain(), t = ctx.currentTime; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(amp, t + .003); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      s.connect(f).connect(g).connect(master); s.start(t, Math.random() * 2, dur + .05); s.onended = () => { s.disconnect(); f.disconnect(); g.disconnect(); };
+    }
+    const every = (min, max, fn) => { const go = () => { fn(); timers.push(setTimeout(go, min + Math.random() * (max - min))); }; timers.push(setTimeout(go, min)); };
+    function rain(level = 1){
+      loopSrc(WHITE).connect(filt("highpass", 600)).connect(filt("lowpass", 5200)).connect(gain(.13 * level)).connect(master);
+      const lfoG = gain(.06 * level); const sh = loopSrc(BROWN); sh.connect(filt("lowpass", 900)).connect(lfoG).connect(master);
+      every(25, 120, () => burst(2500, 7000, .05 * level * Math.random(), .02 + Math.random() * .03));
+      every(400, 1600, () => burst(900, 1800, .07 * level, .06)); // heavier drops on the sill
+    }
+    function fire(level = 1){
+      loopSrc(BROWN).connect(filt("lowpass", 420)).connect(gain(.55 * level)).connect(master);
+      loopSrc(WHITE).connect(filt("bandpass", 260, .7)).connect(gain(.025 * level)).connect(master);
+      every(40, 420, () => burst(1800, 5200, (.06 + Math.random() * .3) * level, .015 + Math.random() * .05, "highpass"));
+      every(1800, 5200, () => { burst(500, 900, .35 * level, .09); setTimeout(() => burst(2400, 4000, .2 * level, .03, "highpass"), 40); }); // a pop of a log
+    }
+    function stop(){ timers.forEach(clearTimeout); timers = []; live.forEach(n => { try { n.stop?.(); } catch {} try { n.disconnect(); } catch {} }); live = []; }
+    function set(k){
+      kind = k; stop();
+      if (k === "off") { if (ctx && ctx.state === "running") ctx.suspend().catch(() => {}); return; }
+      try {
+        if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); master = ctx.createGain(); master.connect(ctx.destination); WHITE = buf("white"); BROWN = buf("brown"); }
+        ctx.resume().catch(() => {}); master.gain.value = vol;
+        if (k === "rain") rain(); if (k === "fire") fire(); if (k === "both") { rain(.8); fire(.7); }
+      } catch { kind = "off"; }
+    }
+    return { set, get kind(){ return kind; }, volume(v){ vol = v; if (master) master.gain.value = v; }, get vol(){ return vol; } };
+  })();
+
+  // ---- what your familiar murmurs while you read ----
+  const RM_LINES = {
+    cat: ["*curls up on the arm of your chair*", "Don't mind me, darling. Turn the page.", "Mmm. Candlelight suits you.", "*purrs, very softly*", "If you stop now I'll be terribly bored."],
+    owl: ["*adjusts spectacles and reads over your shoulder*", "Splendid concentration. Do carry on.", "Ahem. Mind the candle, young scholar.", "*makes a quiet note in the margin*", "Deep reading. The finest kind."],
+    raven: ["*stands guard by the door*", "No foe shall interrupt this reading. None!", "Victory, one page at a time.", "*polishes his sword. Quietly. Mostly.*", "Corvin approves of this campaign."],
+    fox: ["*keeps watch from the shadows*", "Shh. Nobody knows we're here.", "I'll take first watch. You read.", "*twirls a bookmark dagger, silently*", "The best secrets are found in silence."],
+    toad: ["*observes the candle flame with great interest*", "Fascinating. Your page rate is remarkably steady.", "Hypothesis: one more chapter. Testing now.", "*scribbles an observation*", "Ideal reading conditions: confirmed."],
+    bat: ["*hangs nearby, very quietly*", "I… I like reading with you.", "Is it okay if I stay? I'll be quiet.", "*peeks at your page, then hides*", "This is nice. Really nice."],
+    hedgehog: ["*curls into a little ball beside you*", "Is it exciting yet?? Okay okay, I'll be quiet.", "*whispers* what happens next?", "*snuffles happily*", "This is the best adventure. Sitting. With you."],
+    lion: ["*lounges dramatically by the fire*", "Ay, the candlelight and you… pure poetry.", "Read, mi amor. Roberto guards your heart.", "*sighs, romantically*", "Every page you turn, a little love song."],
+    wolf: ["*sits in the dark corner, vibing*", "Candles. Silence. Finally, a decent evening.", "Night is the only honest hour.", "*stares into the flame, brooding*", "Don't stop. The quiet's good."]
+  };
+  const RM_END = {
+    cat: (m, p) => `${fmtMins(m)}${p ? ` and ${p} pages` : ""}. Such stamina, darling.`,
+    owl: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}. A most productive study session.`,
+    raven: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages conquered` : ""}! A glorious battle!`,
+    fox: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}. I'll keep it off the record.`,
+    toad: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages: ${Math.round(p / m * 60)} per hour` : ""}. Data logged.`,
+    bat: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}… that was really nice. Thank you for letting me stay.`,
+    hedgehog: (m, p) => `${fmtMins(m)}${p ? ` and ${p} WHOLE pages` : ""}! Best adventure ever!`,
+    lion: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}… Ay, what passion!`,
+    wolf: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}. Not bad. For a human.`
+  };
+
+  let rmTick = null, rmWhisper = null, wakeLock = null;
+  const sessGet = () => lsGet(KEY_SESS, null), sessSet = s => s ? lsSet(KEY_SESS, s) : localStorage.removeItem(KEY_SESS);
+  const sessElapsed = s => Math.max(0, Date.now() - s.t0 - (s.paused || 0) - (s.pauseAt ? Date.now() - s.pauseAt : 0));
+  const clock = ms => { const t = Math.floor(ms / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = t % 60; return (h ? h + ":" + pad(m) : String(m).padStart(2, "0")) + ":" + pad(s); };
+  async function keepAwake(on){
+    try { if (on && "wakeLock" in navigator && document.visibilityState === "visible") wakeLock = await navigator.wakeLock.request("screen"); else if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch {}
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && $("#rmode")) keepAwake(true); });
+
+  function startReading(id){
+    const b = books.find(x => x.id === id); if (!b) return;
+    let s = sessGet();
+    if (!s || s.id !== id) { s = { id, t0: Date.now(), paused: 0, pauseAt: null, p0: Number(b.currentPage) || 0, c0: Number(b.currentChapter) || 0 }; sessSet(s); }
+    openReadMode();
+  }
+  function openReadMode(){
+    const s = sessGet(); if (!s) return; const b = books.find(x => x.id === s.id); if (!b) { sessSet(null); return; }
+    document.getElementById("rmode")?.remove();
+    const ch = byChapters(b), amb = lsGet(KEY_AMB, "off");
+    const el = document.createElement("div"); el.id = "rmode"; el.className = "rmode"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Reading mode");
+    el.innerHTML = `<div class="rmglow"></div><div class="rmmotes">${Array.from({ length: 14 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${6 + (i * 7) % 9}s;--t:${(i * 1.3) % 7}s"></i>`).join("")}</div>
+      <div class="rmtop"><span class="label">Reading mode</span><button type="button" class="rmghost" data-rm="hide" title="Leave it running and look around the nook">Minimise</button></div>
+      <div class="rmcenter">
+        <svg class="rmcandle" viewBox="0 0 80 150" aria-hidden="true"><defs><radialGradient id="rmh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE7A8" stop-opacity=".9"/><stop offset=".4" stop-color="#FFB347" stop-opacity=".35"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient><linearGradient id="rmw" x1="0" x2="1"><stop offset="0" stop-color="#E9DCC0"/><stop offset=".5" stop-color="#FFF7E6"/><stop offset="1" stop-color="#D9C8A6"/></linearGradient></defs>
+          <circle class="halo" cx="40" cy="36" r="34" fill="url(#rmh)"/>
+          <g class="flame"><path d="M40 14q10 14 6 26q-2 6-6 6t-6-6q-4-12 6-26z" fill="#FFB43C"/><path d="M40 24q5 9 3 16q-1 3-3 3t-3-3q-2-7 3-16z" fill="#FFF3C4"/></g>
+          <path d="M40 46v6" stroke="#3A2A1A" stroke-width="1.6"/>
+          <path d="M28 52h24v74H28z" fill="url(#rmw)"/><path d="M28 52q4 6 2 14q4-4 6 0q2-6 6-2q4-6 10-12z" fill="#FFF8EA"/>
+          <path d="M14 128h52q4 0 4 4v2q0 4-4 4H14q-4 0-4-4v-2q0-4 4-4z" fill="#8A6A3A"/><path d="M14 128h52" stroke="#C9A24E" stroke-width="1.4"/></svg>
+        <div class="rmbook">${coverHTML(b)}</div>
+        <div class="rmtitle">${esc(b.title)}</div><div class="rmauthor">${esc(b.author || "")}</div>
+        <div class="rmtime" id="rm-time" aria-live="off">00:00</div>
+        <div class="rmsub" id="rm-sub"></div>
+        <div class="rmbtns"><button type="button" class="rmbtn" data-rm="pause" id="rm-pause">Pause</button><button type="button" class="rmbtn primary" data-rm="end">I'm done for now</button></div>
+      </div>
+      <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart">${FAMILIARS[familiar].svg}</div><div class="rmwhisper" id="rm-whisper"></div></div>
+      <div class="rmamb"><span class="label">Sounds</span>${[["off", "Silence"], ["rain", "🌧 Rain"], ["fire", "🔥 Fireplace"], ["both", "Rain & fire"]].map(([k, l]) => `<button type="button" data-amb="${k}" aria-pressed="${k === amb}">${l}</button>`).join("")}<input type="range" min="0" max="1" step=".05" value="${Ambience.vol}" id="rm-vol" aria-label="Volume"></div>
+      <form class="rmend" id="rm-end" hidden autocomplete="off"><h3>Where did you stop?</h3>
+        <label class="field"><span class="label">${ch ? "I just finished chapter" : "I'm on page"}</span><input type="number" min="0" inputmode="numeric" id="rm-to" value="${ch ? (b.currentChapter || 0) : (b.currentPage || 0)}" ${!ch && b.pages ? `max="${b.pages}"` : ""}></label>
+        <div class="rmendbtns"><button type="submit" class="rmbtn primary">Save this session</button><button type="button" class="rmbtn" data-rm="back">Keep reading</button><button type="button" class="rmghost" data-rm="discard">Discard</button></div></form>`;
+    document.body.append(el); document.body.classList.add("rm-open");
+    el.addEventListener("click", rmClick);
+    el.querySelector("#rm-vol").addEventListener("input", e => Ambience.volume(+e.target.value));
+    el.querySelector("#rm-end").addEventListener("submit", e => { e.preventDefault(); finishSession(+el.querySelector("#rm-to").value); });
+    if (amb !== "off" && Ambience.kind !== amb) Ambience.set(amb);
+    keepAwake(true);
+    const paint = () => { const s2 = sessGet(); if (!s2) return; $("#rm-time").textContent = clock(sessElapsed(s2)); const st = new Date(s2.t0);
+      $("#rm-sub").textContent = `${s2.pauseAt ? "Paused · " : ""}Started at ${pad(st.getHours())}:${pad(st.getMinutes())}${ch ? (s2.c0 ? ` after chapter ${s2.c0}` : "") : ` on page ${s2.p0}`}`;
+      $("#rm-pause").textContent = s2.pauseAt ? "Resume" : "Pause"; el.classList.toggle("paused", !!s2.pauseAt); };
+    paint(); clearInterval(rmTick); rmTick = setInterval(paint, 1000);
+    const whisper = () => { const w = $("#rm-whisper"); if (!w) return; w.textContent = pick(RM_LINES[familiar] || RM_LINES.cat); w.classList.remove("show"); void w.offsetWidth; w.classList.add("show");
+      const card = el.querySelector(".rmfam"); card.dataset.expr = pick(["idle", "idle", "sleepy", "happy", "love"].concat(familiar === "bat" ? ["shy"] : familiar === "wolf" ? ["sad"] : ["wink"])); setTimeout(() => card.isConnected && (card.dataset.expr = "idle"), 3200); };
+    clearInterval(rmWhisper); setTimeout(whisper, 2500); rmWhisper = setInterval(whisper, 150000);
+  }
+  function closeReadMode(){ clearInterval(rmTick); clearInterval(rmWhisper); Ambience.set("off"); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); }
+  function rmClick(e){
+    const amb = e.target.closest("[data-amb]");
+    if (amb) { const k = amb.dataset.amb; lsSet(KEY_AMB, k); Ambience.set(k); this.querySelectorAll("[data-amb]").forEach(x => x.setAttribute("aria-pressed", x === amb)); return; }
+    const a = e.target.closest("[data-rm]"); if (!a) return;
+    const s = sessGet(); if (!s) return closeReadMode();
+    const act = a.dataset.rm;
+    if (act === "pause") { if (s.pauseAt) { s.paused += Date.now() - s.pauseAt; s.pauseAt = null; } else s.pauseAt = Date.now(); sessSet(s); return; }
+    if (act === "hide") { clearInterval(rmTick); clearInterval(rmWhisper); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); toast("Your session keeps running. Tap “Back to reading” on your book to return."); return; }
+    if (act === "end") { this.querySelector("#rm-end").hidden = false; this.classList.add("ending"); this.querySelector("#rm-to").focus(); this.querySelector("#rm-to").select?.(); return; }
+    if (act === "back") { this.querySelector("#rm-end").hidden = true; this.classList.remove("ending"); return; }
+    if (act === "discard") { sessSet(null); closeReadMode(); toast("Session discarded."); return; }
+  }
+  function finishSession(to){
+    const s = sessGet(); if (!s) return closeReadMode();
+    const b = books.find(x => x.id === s.id); if (!b) { sessSet(null); return closeReadMode(); }
+    const mins = Math.round(sessElapsed(s) / 60000), ch = byChapters(b);
+    if (isNaN(to) || to < 0) return toast(ch ? "Type the chapter you just finished." : "Type the page you're on.");
+    if (!b.started) b.started = todayISO();
+    let pages = 0;
+    if (ch) {
+      const tot = Number(b.chapters) || 0; to = tot ? Math.min(to, tot) : to;
+      const before = b.currentPage || 0; b.currentChapter = to;
+      if (b.pages && tot) b.currentPage = Math.round(b.pages * to / tot);
+      pages = Math.max(0, (b.currentPage || 0) - before);
+      logProgress(b, b.currentPage || 0, to);
+    } else {
+      if (b.pages && to > b.pages) to = b.pages;
+      pages = Math.max(0, to - (s.p0 || 0)); b.currentPage = to; logProgress(b, to);
+    }
+    const end = new Date();
+    if (end.getHours() < 4 || new Date(s.t0).getHours() < 4) lsSet("reading-ledger-midnight", 1);
+    if (mins >= 1) b.sessions = [...(b.sessions || []), { s: new Date(s.t0).toISOString(), m: mins, p: pages, ...(ch ? { c: to } : {}) }].slice(-300);
+    sessSet(null); save(); closeReadMode(); render();
+    const line = mins >= 1 ? (RM_END[familiar] || RM_END.cat)(mins, pages) : "Too short to log as a session, but your page is saved.";
+    toast(`${FAMILIARS[familiar].name}: ${line}`);
+    const done = b.pages && b.currentPage >= b.pages || ch && b.chapters && to >= b.chapters;
+    if (done) setTimeout(() => toast("That was the end of the book! Press “I finished it” to shelve it."), 2600);
+  }
+  // reading-mode stats for the Statistics room
+  function sessionsPanel(){
+    const ss = allSessions(); if (!ss.length) return `<div class="panel wide rmpanel"><div class="phead"><h3>🕯 Reading sessions</h3></div><p class="note">Press <b>Start reading</b> on the book you're reading to light the candle. Your reading time, speed and favourite hour will appear here.</p></div>`;
+    const total = ss.reduce((t, s) => t + s.m, 0), sp = readingSpeed(), longest = ss.reduce((a, s) => s.m > a.m ? s : a, ss[0]);
+    const slots = [["Early morning", 4, 9], ["Daytime", 9, 17], ["Evening", 17, 22], ["Late night", 22, 28]];
+    const bySlot = slots.map(([n, a, z]) => [n, ss.filter(s => { let h = new Date(s.s).getHours(); if (h < 4) h += 24; return h >= a && h < z; }).reduce((t, s) => t + s.m, 0)]);
+    const fav = bySlot.slice().sort((a, b) => b[1] - a[1])[0];
+    const month = todayISO().slice(0, 7), monthM = ss.filter(s => (s.s || "").slice(0, 7) === month).reduce((t, s) => t + s.m, 0);
+    const days = [...new Set(ss.map(s => (s.s || "").slice(0, 10)))].sort(); let streak = 0; { let d = new Date(); if (!days.includes(todayISO())) d.setDate(d.getDate() - 1); while (days.includes(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`)) { streak++; d.setDate(d.getDate() - 1); } }
+    const max = Math.max(1, ...bySlot.map(x => x[1]));
+    return `<div class="panel wide rmpanel"><div class="phead"><h3>🕯 Reading sessions</h3><button class="btn small" type="button" data-share="session">⤴ Share</button><span class="note">${ss.length} session${ss.length > 1 ? "s" : ""} by candlelight</span></div>
+      <div class="kpis rmk">
+        <div class="kpi"><span class="label">Time reading</span><span class="v">${fmtMins(total)}</span><span class="s">${fmtMins(monthM)} this month</span></div>
+        <div class="kpi"><span class="label">Reading speed</span><span class="v">${sp ? Math.round(sp) : "—"}</span><span class="s">${sp ? "pages an hour" : "needs 20+ minutes of page sessions"}</span></div>
+        <div class="kpi"><span class="label">Average session</span><span class="v">${fmtMins(total / ss.length)}</span><span class="s">longest ${fmtMins(longest.m)}, ${esc(longest.b.title)}</span></div>
+        <div class="kpi"><span class="label">Streak</span><span class="v">${streak}</span><span class="s">day${streak === 1 ? "" : "s"} in a row</span></div>
+      </div>
+      <div class="rmslots"><div class="label">When you read · your favourite hour is <b>${fav[0].toLowerCase()}</b></div>${bySlot.map(([n, m]) => `<div class="rmslot"><span>${n}</span><i><b style="width:${Math.round(m / max * 100)}%"></b></i><small>${fmtMins(m)}</small></div>`).join("")}</div></div>`;
+  }
+  // a session left running (the page was closed or minimised) comes back
+  setTimeout(() => { const s = sessGet(); if (s && books.some(b => b.id === s.id && b.shelf === "reading")) { if (Date.now() - s.t0 < 12 * 3600e3) openReadMode(); else { openReadMode(); $("#rm-end").hidden = false; $("#rmode").classList.add("ending"); } } else if (s) sessSet(null); }, 600);
+  // ================= Shareable cards (story-sized images) =================
+  const SC = { W: 1080, H: 1920, gold: "#E9C77E", cream: "#FBEFD8", muted: "#C8B193", ink: "#170C14" };
+  const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const scCtx = document.createElement("canvas").getContext("2d");
+  const hexOf = c => { c = String(c || ""); const m = c.match(/^var\((--[\w-]+)\)$/); if (m) c = cssVar(m[1]); scCtx.fillStyle = "#8A4FBF"; scCtx.fillStyle = c || "#8A4FBF"; const v = scCtx.fillStyle; return /^#[0-9a-f]{6}$/i.test(v) ? v : "#8A4FBF"; };
+  function scFonts(){ const d = cssVar("--f-display") || "Georgia, serif", b = cssVar("--f-body") || "Georgia, serif", c = cssVar("--f-cap") || b; return { d, b, c }; }
+  function loadImg(src, ms = 5000){
+    return new Promise(res => { if (!src) return res(null); const im = new Image(); im.crossOrigin = "anonymous"; im.referrerPolicy = "no-referrer";
+      const t = setTimeout(() => res(null), ms); im.onload = () => { clearTimeout(t); res(im.naturalWidth > 8 ? im : null); }; im.onerror = () => { clearTimeout(t); res(null); }; im.src = src; });
+  }
+  async function coverImg(b){ // a cover we are allowed to draw (needs CORS); otherwise null and we paint one
+    if (!b.cover) return null;
+    if (b.cover.startsWith("data:")) return loadImg(b.cover);
+    const src = coverMap[b.cover] || b.cover;
+    return await loadImg(src) || (src !== b.cover ? await loadImg(b.cover, 3000) : null);
+  }
+  function wrap(x, text, maxW){ const words = String(text).split(/\s+/), lines = []; let line = "";
+    for (const w of words) { const t = line ? line + " " + w : w; if (x.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
+    if (line) lines.push(line); return lines; }
+  function textBlock(x, text, cx, y, maxW, lh, maxLines = 9, align = "center"){
+    let lines = wrap(x, text, maxW); if (lines.length > maxLines) { lines = lines.slice(0, maxLines); lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, "…"); }
+    x.textAlign = align; lines.forEach((l, i) => x.fillText(l, cx, y + i * lh)); return y + lines.length * lh;
+  }
+  function fitFont(x, text, family, max, min, maxW, style = "italic "){ let s = max; do { x.font = `${style}${s}px ${family}`; if (x.measureText(text).width <= maxW) break; s -= 2; } while (s > min); return s; }
+  function rr(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+  function scBackground(x, accent = "#8A4FBF", H = SC.H){
+    accent = hexOf(accent);
+    const W = SC.W, g = x.createLinearGradient(0, 0, W * .3, H); g.addColorStop(0, "#2B1530"); g.addColorStop(.55, "#1A0D1C"); g.addColorStop(1, "#0D0710"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+    const r = x.createRadialGradient(W / 2, H * .28, 10, W / 2, H * .28, W * .9); r.addColorStop(0, accent + "55"); r.addColorStop(1, accent + "00"); x.fillStyle = r; x.fillRect(0, 0, W, H);
+    let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    for (let i = 0; i < 140; i++) { const sx = rnd() * W, sy = rnd() * H, s = rnd() * 2.4 + .4; x.fillStyle = `rgba(255,236,190,${.15 + rnd() * .6})`; x.beginPath(); x.arc(sx, sy, s, 0, 7); x.fill(); }
+    for (let i = 0; i < 7; i++) { const sx = rnd() * W, sy = rnd() * H * .9, s = 8 + rnd() * 10; x.save(); x.translate(sx, sy); x.fillStyle = "rgba(255,226,160,.55)"; x.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4, rr2 = k % 2 ? s * .22 : s; x.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } x.fill(); x.restore(); }
+    x.strokeStyle = "rgba(233,199,126,.55)"; x.lineWidth = 2; rr(x, 38, 38, W - 76, H - 76, 28); x.stroke();
+    x.strokeStyle = "rgba(233,199,126,.25)"; x.lineWidth = 1; rr(x, 52, 52, W - 104, H - 104, 22); x.stroke();
+  }
+  function scHeader(x, F, label, y = 150){ x.fillStyle = SC.gold; x.font = `600 30px ${F.c}`; x.textAlign = "center"; if ("letterSpacing" in x) x.letterSpacing = "8px"; x.fillText(label.toUpperCase(), SC.W / 2, y); if ("letterSpacing" in x) x.letterSpacing = "0px";
+    x.strokeStyle = "rgba(233,199,126,.6)"; x.lineWidth = 2; x.beginPath(); x.moveTo(SC.W / 2 - 120, y + 30); x.lineTo(SC.W / 2 - 22, y + 30); x.moveTo(SC.W / 2 + 22, y + 30); x.lineTo(SC.W / 2 + 120, y + 30); x.stroke();
+    x.fillStyle = SC.gold; x.font = `26px ${F.d}`; x.fillText("❦", SC.W / 2, y + 40); }
+  function scFooter(x, F, H = SC.H){ x.fillStyle = SC.muted; x.font = `italic 30px ${F.d}`; x.textAlign = "center"; x.fillText("✦ My Book Nook ✦", SC.W / 2, H - 96); }
+  function paintedCover(x, b, X, Y, w, h){
+    const c = hexOf(hashColor((b.title || "") + (b.author || ""))); const g = x.createLinearGradient(X, Y, X + w, Y + h); g.addColorStop(0, c); g.addColorStop(1, "#1A0E0A");
+    x.fillStyle = g; rr(x, X, Y, w, h, Math.max(3, w * .03)); x.fill(); x.strokeStyle = "rgba(233,199,126,.7)"; x.lineWidth = Math.max(1, w * .008); rr(x, X + w * .07, Y + w * .07, w * .86, h - w * .14, 2); x.stroke();
+    const F = scFonts(); x.fillStyle = "#FBEFD8"; x.font = `italic ${Math.round(w * .11)}px ${F.d}`; textBlock(x, b.title || "", X + w / 2, Y + h * .28, w * .76, w * .13, 4);
+    x.font = `${Math.round(w * .055)}px ${F.c}`; x.fillStyle = "rgba(251,239,216,.75)"; x.textAlign = "center"; x.fillText((b.author || "").toUpperCase(), X + w / 2, Y + h * .9);
+  }
+  async function drawCover(x, b, X, Y, w, h){
+    x.save(); x.shadowColor = "rgba(0,0,0,.55)"; x.shadowBlur = w * .12; x.shadowOffsetY = w * .05; x.fillStyle = "#000"; rr(x, X, Y, w, h, 4); x.fill(); x.restore();
+    const im = await coverImg(b);
+    if (im) { x.save(); rr(x, X, Y, w, h, Math.max(3, w * .02)); x.clip(); x.drawImage(im, X, Y, w, h); x.restore(); } else paintedCover(x, b, X, Y, w, h);
+  }
+  function scStars(x, F, n, cx, y, size = 56){ if (!n) return; const full = Math.floor(n), half = n % 1 >= .5;
+    x.font = `${size}px ${F.d}`; x.fillStyle = SC.gold; x.textAlign = "center"; x.fillText("★".repeat(full) + (half ? "½" : "") + "☆".repeat(Math.max(0, 5 - full - (half ? 1 : 0))), cx, y); }
+  function chipRow(x, F, items, cy, colorOf = () => "rgba(233,199,126,.18)"){
+    x.font = `30px ${F.b}`; const pad = 22, gap = 14, rows = [[]]; let w = 0; const maxW = SC.W - 200;
+    for (const t of items) { const tw = x.measureText(t).width + pad * 2; if (w + tw > maxW && rows.at(-1).length) { rows.push([]); w = 0; } rows.at(-1).push([t, tw]); w += tw + gap; }
+    rows.forEach((r, ri) => { const total = r.reduce((s, [, tw]) => s + tw, 0) + gap * (r.length - 1); let X = (SC.W - total) / 2; const Y = cy + ri * 66;
+      r.forEach(([t, tw], i) => { x.fillStyle = colorOf(t, i); rr(x, X, Y - 40, tw, 56, 28); x.fill(); x.strokeStyle = "rgba(233,199,126,.45)"; x.lineWidth = 1.5; x.stroke(); x.fillStyle = SC.cream; x.textAlign = "center"; x.fillText(t, X + tw / 2, Y - 2); X += tw + gap; }); });
+    return cy + rows.length * 66;
+  }
+
+  // ---- the cards ----
+  async function cardSoul(x, F){
+    const D = soulData(); if (!D.dna.length) throw new Error("Rate a couple of books you've read first.");
+    const [a, b] = D.dna, L = readerLevel(), H = hiddenTrait(D), AL = alignment(D), FL = flags(D), who = lsGet("reading-ledger-readername", "");
+    scBackground(x, a.c); scHeader(x, F, who ? `${who}'s Reader's Soul` : "The Reader's Soul");
+    x.font = `150px ${F.d}`; x.fillStyle = a.c; x.textAlign = "center"; x.save(); x.shadowColor = a.c; x.shadowBlur = 50; x.fillText(a.g, SC.W / 2, 400); x.restore();
+    x.fillStyle = SC.cream; const hn = hybridName(a, b); fitFont(x, hn, F.d, 92, 56, SC.W - 180); let y = textBlock(x, hn, SC.W / 2, 530, SC.W - 180, 100, 2);
+    x.fillStyle = SC.muted; x.font = `italic 38px ${F.d}`; y = textBlock(x, `${a.name}${b ? ` × ${b.name}` : ""}`, SC.W / 2, y + 6, SC.W - 200, 48, 2);
+    x.font = `600 28px ${F.c}`; const pill = `LEVEL ${L.level} · ${L.title.toUpperCase()}`, pw = x.measureText(pill).width + 60;
+    x.fillStyle = "rgba(233,199,126,.16)"; rr(x, (SC.W - pw) / 2, y + 26, pw, 60, 30); x.fill(); x.strokeStyle = SC.gold; x.lineWidth = 2; x.stroke(); x.fillStyle = SC.gold; x.textAlign = "center"; x.fillText(pill, SC.W / 2, y + 66); y += 140;
+    // the DNA strand
+    const top = D.dna.slice(0, 5), sum = top.reduce((s, z) => s + z.pct, 0); let X = 120; const bw = SC.W - 240;
+    top.forEach(z => { const w = bw * z.pct / sum; x.fillStyle = z.c; rr(x, X, y, Math.max(6, w - 6), 30, 10); x.fill(); X += w; }); y += 80;
+    x.font = `34px ${F.b}`; top.forEach((z, i) => { const col = i % 2, row = Math.floor(i / 2), cx = col ? 600 : 140, cy = y + row * 58; x.fillStyle = z.c; x.textAlign = "left"; x.fillText(z.g, cx, cy); x.fillStyle = SC.cream; x.fillText(`${short(z)} ${z.pct}%`, cx + 50, cy); });
+    y += Math.ceil(top.length / 2) * 58 + 40;
+    // hidden trait
+    x.fillStyle = "rgba(255,240,210,.07)"; rr(x, 100, y, SC.W - 200, 250, 24); x.fill(); x.strokeStyle = "rgba(233,199,126,.35)"; x.lineWidth = 1.5; x.stroke();
+    x.fillStyle = SC.gold; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("MY HIDDEN READING TRAIT", SC.W / 2, y + 52);
+    x.fillStyle = SC.cream; x.font = `italic 40px ${F.d}`; textBlock(x, `“${H[0]}”`, SC.W / 2, y + 112, SC.W - 280, 50, 3); y += 300;
+    x.fillStyle = SC.gold; x.font = `600 24px ${F.c}`; x.fillText("LITERARY ALIGNMENT", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 50px ${F.d}`; x.fillText(AL.name, SC.W / 2, y + 62); y += 130;
+    if (FL.red.length) { x.fillStyle = "#FF8A8A"; x.font = `600 24px ${F.c}`; x.fillText("🚩 MY RED FLAG", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `36px ${F.b}`; textBlock(x, FL.red[0][0], SC.W / 2, y + 54, SC.W - 240, 46, 2); }
+    scFooter(x, F);
+  }
+  async function cardFlags(x, F){
+    const D = soulData(), FL = flags(D); if (!FL.red.length && !FL.green.length) throw new Error("Read and rate a few more books to earn some flags.");
+    scBackground(x, "#B8323C"); scHeader(x, F, "My Literary Flags");
+    x.fillStyle = SC.cream; x.font = `italic 64px ${F.d}`; x.textAlign = "center"; x.fillText("We analysed my bookshelf.", SC.W / 2, 330); x.fillStyle = SC.muted; x.font = `italic 44px ${F.d}`; x.fillText("We have concerns.", SC.W / 2, 395);
+    let y = 470;
+    const box = (t, e, col, bg) => { x.font = `600 38px ${F.b}`; const tl = wrap(x, t, SC.W - 300).slice(0, 2); x.font = `28px ${F.b}`; const el = e ? wrap(x, e, SC.W - 300).slice(0, 1) : []; const h = 44 + tl.length * 46 + el.length * 38;
+      if (y + h > SC.H - 200) return false;
+      x.fillStyle = bg; rr(x, 110, y, SC.W - 220, h, 22); x.fill(); x.strokeStyle = col; x.lineWidth = 2; x.stroke();
+      x.fillStyle = SC.cream; x.font = `600 38px ${F.b}`; x.textAlign = "left"; tl.forEach((l, i) => x.fillText(l, 150, y + 58 + i * 46)); x.fillStyle = SC.muted; x.font = `28px ${F.b}`; el.forEach((l, i) => x.fillText(l, 150, y + 58 + tl.length * 46 + i * 38 - 6)); y += h + 18; return true; };
+    for (const [t, e] of FL.red.slice(0, 5)) { if (!box("🚩 " + t, e, "rgba(255,120,120,.7)", "rgba(184,50,60,.18)")) break; }
+    y += 16;
+    for (const [t, e] of FL.green.slice(0, 2)) { if (!box("💚 " + t, e, "rgba(130,220,150,.6)", "rgba(60,150,90,.16)")) break; }
+    scFooter(x, F);
+  }
+  async function cardBook(x, F, id){
+    const b = books.find(z => z.id === id); if (!b) throw new Error("Book not found.");
+    scBackground(x, hashColor((b.title || "") + (b.author || ""))); scHeader(x, F, b.shelf === "read" ? "Just finished" : b.shelf === "reading" ? "Currently reading" : "On my wishlist");
+    const cw = 470, ch = 705; await drawCover(x, b, (SC.W - cw) / 2, 250, cw, ch);
+    let y = 250 + ch + 100; x.fillStyle = SC.cream; fitFont(x, b.title, F.d, 72, 44, SC.W - 180); y = textBlock(x, b.title, SC.W / 2, y, SC.W - 180, 80, 2);
+    x.fillStyle = SC.muted; x.font = `italic 40px ${F.d}`; x.textAlign = "center"; x.fillText(b.author || "", SC.W / 2, y + 4); y += 80;
+    if (b.rating) { scStars(x, F, b.rating, SC.W / 2, y + 10, 66); y += 80; }
+    const chips = [...(b.feelings || []).slice(0, 4)]; if (chips.length) y = chipRow(x, F, chips, y + 30) + 10;
+    const lines = [];
+    if (b.surpriseFav) lines.push("✷ A surprise favourite");
+    const rr2 = REREAD.find(r => r[0] === b.reread); if (rr2) lines.push("↻ " + rr2[1]);
+    const hy = HYPE.find(h => h[0] === b.hype); if (hy) lines.push(`${hy[2]} ${hy[1]}`);
+    if (b.recommend) lines.push(`♥ I'd recommend it${b.recommendTo ? ` to ${b.recommendTo}` : ""}`);
+    if (b.shelf === "reading" && b.pages) lines.push(`${Math.round((b.currentPage || 0) / b.pages * 100)}% read · page ${b.currentPage || 0} of ${b.pages}`);
+    x.fillStyle = SC.cream; x.font = `36px ${F.b}`; x.textAlign = "center"; for (const l of lines.slice(0, 4)) { if (y > SC.H - 220) break; x.fillText(l, SC.W / 2, y + 30); y += 56; }
+    scFooter(x, F);
+  }
+  async function cardYear(x, F, year){
+    const list = readBooks().filter(b => yearOf(b.finished) === year).sort((a, b) => (a.finished || "").localeCompare(b.finished || ""));
+    if (!list.length) throw new Error(`No finished books with dates in ${year} yet.`);
+    const pages = list.reduce((s, b) => s + (Number(b.pages) || 0), 0), rated = list.filter(b => b.rating), avg = rated.length ? rated.reduce((s, b) => s + b.rating, 0) / rated.length : 0;
+    const gc = new Map(); list.forEach(b => [...bookGenres(b)].forEach(g => gc.set(g, (gc.get(g) || 0) + 1))); const topG = [...gc].sort((a, b) => b[1] - a[1])[0];
+    const fav = rated.slice().sort((a, b) => b.rating - a.rating || (b.surpriseFav ? 1 : 0) - (a.surpriseFav ? 1 : 0))[0];
+    scBackground(x, "#C9822E"); scHeader(x, F, "My year in books");
+    x.fillStyle = SC.gold; x.font = `italic 200px ${F.d}`; x.textAlign = "center"; x.save(); x.shadowColor = "rgba(233,199,126,.6)"; x.shadowBlur = 40; x.fillText(String(year), SC.W / 2, 420); x.restore();
+    const stats = [[list.length, list.length === 1 ? "book" : "books"], [pages.toLocaleString(), "pages"], [avg ? avg.toFixed(1) + "★" : "—", "average"]];
+    stats.forEach(([v, l], i) => { const cx = 220 + i * 320; x.fillStyle = SC.cream; x.font = `64px ${F.d}`; x.fillText(String(v), cx, 560); x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText(l.toUpperCase(), cx, 604); });
+    // a mosaic of covers
+    const show = list.slice(-12), cols = show.length <= 4 ? show.length : show.length <= 9 ? 3 : 4, rows = Math.ceil(show.length / cols);
+    const cw = Math.min(220, (SC.W - 240 - (cols - 1) * 24) / cols), chh = cw * 1.5, gridW = cols * cw + (cols - 1) * 24, maxH = 760, scale = Math.min(1, maxH / (rows * chh + (rows - 1) * 24));
+    const w = cw * scale, h = chh * scale, gx = (SC.W - (cols * w + (cols - 1) * 20)) / 2;
+    await Promise.all(show.map((b, i) => drawCover(x, b, gx + (i % cols) * (w + 20), 680 + Math.floor(i / cols) * (h + 20), w, h)));
+    let y = 680 + rows * (h + 20) + 70;
+    if (topG) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("MY GENRE OF THE YEAR", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 50px ${F.d}`; x.fillText(topG[0], SC.W / 2, y + 60); y += 120; }
+    if (fav && y < SC.H - 260) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText("MY FAVOURITE", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; textBlock(x, `${fav.title} · ${fav.rating}★`, SC.W / 2, y + 58, SC.W - 200, 54, 2); }
+    scFooter(x, F);
+  }
+  async function cardSession(x, F){
+    const ss = allSessions(); if (!ss.length) throw new Error("Light the candle with Start reading first.");
+    const last = ss.sort((a, b) => (a.s || "").localeCompare(b.s || "")).at(-1), b = last.b, today = (last.s || "").slice(0, 10), todayM = ss.filter(s => (s.s || "").slice(0, 10) === today).reduce((t, s) => t + s.m, 0);
+    scBackground(x, "#E8983A"); scHeader(x, F, "Read by candlelight");
+    x.save(); x.translate(SC.W / 2, 380); const hal = x.createRadialGradient(0, -40, 5, 0, -40, 220); hal.addColorStop(0, "rgba(255,200,110,.75)"); hal.addColorStop(1, "rgba(255,140,0,0)"); x.fillStyle = hal; x.fillRect(-260, -280, 520, 520);
+    x.fillStyle = "#FFB43C"; x.beginPath(); x.moveTo(0, -150); x.quadraticCurveTo(46, -80, 26, -40); x.quadraticCurveTo(0, -10, -26, -40); x.quadraticCurveTo(-46, -80, 0, -150); x.fill();
+    x.fillStyle = "#FFF3C4"; x.beginPath(); x.moveTo(0, -112); x.quadraticCurveTo(22, -72, 12, -50); x.quadraticCurveTo(0, -36, -12, -50); x.quadraticCurveTo(-22, -72, 0, -112); x.fill();
+    const wg = x.createLinearGradient(-54, 0, 54, 0); wg.addColorStop(0, "#E2D2B2"); wg.addColorStop(.5, "#FFF7E6"); wg.addColorStop(1, "#CDB88F"); x.fillStyle = wg; x.fillRect(-54, -26, 108, 210); x.restore();
+    x.fillStyle = SC.gold; x.font = `italic 150px ${F.d}`; x.textAlign = "center"; x.fillText(fmtMins(todayM), SC.W / 2, 800);
+    x.fillStyle = SC.muted; x.font = `600 26px ${F.c}`; x.fillText(today === todayISO() ? "OF READING TODAY" : "OF READING", SC.W / 2, 860);
+    await drawCover(x, b, (SC.W - 300) / 2, 940, 300, 450);
+    x.fillStyle = SC.cream; fitFont(x, b.title, F.d, 60, 40, SC.W - 200); let y = textBlock(x, b.title, SC.W / 2, 1480, SC.W - 200, 66, 2);
+    x.fillStyle = SC.muted; x.font = `italic 38px ${F.d}`; x.fillText(b.author || "", SC.W / 2, y + 4);
+    const sp = readingSpeed(); if (sp) { x.fillStyle = SC.cream; x.font = `34px ${F.b}`; x.fillText(`${Math.round(sp)} pages an hour${b.pages ? ` · ${Math.round((b.currentPage || 0) / b.pages * 100)}% through` : ""}`, SC.W / 2, y + 80); }
+    scFooter(x, F);
+  }
+  const CARDS = { soul: ["My Reader's Soul", cardSoul], flags: ["My Literary Flags", cardFlags], book: ["Book card", cardBook], year: ["My year in books", cardYear], session: ["Read by candlelight", cardSession] };
+
+  async function makeCard(kind, arg){
+    const c = document.createElement("canvas"); c.width = SC.W; c.height = SC.H; const x = c.getContext("2d");
+    try { await document.fonts?.ready; } catch {}
+    await CARDS[kind][1](x, scFonts(), arg);
+    return c;
+  }
+  async function shareCard(kind, arg){
+    if (!CARDS[kind]) return;
+    document.getElementById("share-ov")?.remove();
+    const ov = document.createElement("div"); ov.id = "share-ov"; ov.className = "shareov";
+    ov.innerHTML = `<div class="sharebox" role="dialog" aria-modal="true" aria-label="Share card"><div class="sharehead"><b>${esc(CARDS[kind][0])}</b><button class="iconbtn" type="button" data-sh="close" aria-label="Close">✕</button></div><div class="sharepre"><div class="progress dots">Painting your card</div></div><div class="sharebtns" hidden><button class="btn primary" type="button" data-sh="share">⤴ Share</button><button class="btn" type="button" data-sh="save">⤓ Save image</button></div><p class="note sharenote">Sized for Instagram and WhatsApp stories.</p></div>`;
+    document.body.append(ov);
+    let canvas, blob, url;
+    const close = () => { ov.remove(); if (url) URL.revokeObjectURL(url); };
+    ov.addEventListener("click", async e => {
+      if (e.target === ov || e.target.closest('[data-sh="close"]')) return close();
+      const a = e.target.closest("[data-sh]"); if (!a || !blob) return;
+      const name = `my-book-nook-${kind}${arg && kind === "year" ? "-" + arg : ""}.png`;
+      if (a.dataset.sh === "share") {
+        const file = new File([blob], name, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) { try { await navigator.share({ files: [file], title: CARDS[kind][0] }); } catch {} return; }
+        toast("Your browser can't share images directly, so it's been saved instead.");
+      }
+      const l = document.createElement("a"); l.href = url; l.download = name; document.body.append(l); l.click(); l.remove();
+    });
+    try {
+      canvas = await makeCard(kind, arg);
+      blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+      url = URL.createObjectURL(blob);
+      ov.querySelector(".sharepre").innerHTML = `<img src="${url}" alt="Your share card">`;
+      ov.querySelector(".sharebtns").hidden = false;
+    } catch (err) { ov.querySelector(".sharepre").innerHTML = `<p class="note">${esc(err && err.message || "Couldn't paint the card.")}</p>`; }
+  }
+  document.addEventListener("click", e => { const s = e.target.closest("[data-share]"); if (!s) return; e.preventDefault(); shareCard(s.dataset.share, s.dataset.share === "year" ? +s.dataset.year : s.dataset.id); });
   function render(){
     renderNow(); renderShelf(); renderPortrait(); renderLibrary(); if (typeof renderGuide === "function") renderGuide();
     setTimeout(fillSpineColors, 300);
@@ -5418,6 +5938,7 @@ alter publication supabase_realtime add table public.library;`;
     if (tab === "covers") renderCovers();
     if (tab === "series") renderSeries();
     if (tab === "stats") renderStats();
+    if (tab === "soul" && !document.activeElement?.closest?.("#view-soul input")) renderSoul();
     if (tab === "keep" && !$("#modal-root").innerHTML.trim()) renderKeep();
     if (tab === "recs" && document.activeElement?.id !== "rec-mood") renderRecs();
     if (lastResults.length && $("#results-wrap .results")) renderResultsArea("list");
@@ -5426,7 +5947,7 @@ alter publication supabase_realtime add table public.library;`;
     tab = t;
     for (const k of TABS) { $("#tab-" + k).setAttribute("aria-selected", k === t); $("#view-" + k).hidden = k !== t; }
     if (t !== "stats") destroyCharts();
-    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, recs: renderRecs, keep: renderKeep })[t]?.();
+    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep })[t]?.();
   }
   const openById = id => { const b = books.find(x => x.id === id); if (b) openEditor(b, false); };
   document.addEventListener("keydown", e => { if (e.key === "Escape") ($("#m-cancel") || $("#s-cancel"))?.click(); });
