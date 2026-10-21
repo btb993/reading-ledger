@@ -1188,7 +1188,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
 .aligngrid{display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr auto;gap:6px;max-width:460px;margin:0 auto}
 .alabels{display:flex;flex-direction:column;justify-content:space-between;padding:6px 0;font-family:var(--f-cap);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .agrid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);aspect-ratio:1;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:linear-gradient(135deg,color-mix(in srgb,#D23A6E 10%,transparent),transparent 50%,color-mix(in srgb,#3C5A8A 12%,transparent))}
-.acell{display:grid;place-items:center;text-align:center;font-size:12.5px;padding:6px;border:1px dashed color-mix(in srgb,var(--line) 70%,transparent);color:var(--muted);font-family:var(--f-display);font-style:italic}
+.acell{display:grid;place-items:end center;padding-bottom:12px!important;text-align:center;font-size:12.5px;padding:6px;border:1px dashed color-mix(in srgb,var(--line) 70%,transparent);color:var(--muted);font-family:var(--f-display);font-style:italic}
 .acell.on{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--ink);font-weight:600}
 .adot{position:absolute;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:var(--gold2);box-shadow:0 0 0 3px var(--paper),0 0 16px 4px color-mix(in srgb,var(--gold2) 70%,transparent);animation:adot 2.4s ease-in-out infinite}
 @keyframes adot{0%,100%{box-shadow:0 0 0 3px var(--paper),0 0 10px 2px color-mix(in srgb,var(--gold2) 60%,transparent)}50%{box-shadow:0 0 0 3px var(--paper),0 0 22px 8px color-mix(in srgb,var(--gold2) 80%,transparent)}}
@@ -1323,6 +1323,112 @@ body.rm-open{overflow:hidden}
 .mfoot{flex-wrap:wrap;gap:8px}
 
 @media (max-width:640px){.soulchips .dnachip{font-size:13.5px;padding:2px 9px}.soulchips{gap:5px}.soulhero{padding:10px 12px}.soulhero .dnaglyph{font-size:32px}}
+
+/* tidier book editor */
+.modal .summary.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.sumtog{font-size:13.5px;margin-top:2px}
+.mtabs{display:flex;flex-shrink:0;gap:4px;border-bottom:1px solid var(--line);margin:14px 0 12px;overflow-x:auto;scrollbar-width:none}
+.mtabs::-webkit-scrollbar{display:none}
+.mtabs button{flex:0 0 auto;border:0;background:none;font:inherit;font-size:15px;color:var(--muted);padding:8px 12px 9px;border-bottom:2.5px solid transparent;margin-bottom:-1px;cursor:pointer;white-space:nowrap}
+.mtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.mpane{animation:soulin .25s ease}
+.mpane[hidden]{display:none}
+.merr{color:var(--danger,#B3261E);font-size:14px;margin:-6px 0 8px}.merr:empty{display:none}
+#m-rate{margin-top:10px}
+#m-pane-cover .coverctl{display:flex;flex-direction:column;gap:8px}
+.modal .mhead .covpick{cursor:pointer}
+
+.famfloor{position:absolute;left:50%;bottom:-7%;width:118%;height:22%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--aura) 34%,transparent) 0%,color-mix(in srgb,var(--aura) 10%,transparent) 50%,transparent 72%);z-index:0;pointer-events:none;animation:floorglow 5s ease-in-out infinite}
+@keyframes floorglow{0%,100%{opacity:.7}50%{opacity:1}}
+
+/* ===== scanner ===== */
+.scanov,.jarov{position:fixed;inset:0;z-index:350;background:rgba(12,6,10,.7);backdrop-filter:blur(4px);display:grid;place-items:center;padding:14px;animation:rmin .25s ease both}
+.scanbox{background:var(--paper);color:var(--ink);border-radius:20px;padding:14px;width:100%;max-width:440px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.scanhead,.jarhead{display:flex;justify-content:space-between;align-items:center}.scanhead b{font-family:var(--f-display);font-style:italic;font-size:22px}
+.scanview{position:relative;border-radius:14px;overflow:hidden;background:#111;aspect-ratio:4/3}.scanview[hidden]{display:none}
+.scanview video{width:100%;height:100%;object-fit:cover;display:block}
+.scanframe{position:absolute;inset:22% 12%;border:2px solid rgba(255,230,170,.9);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.scanframe i{position:absolute;left:6%;right:6%;top:50%;height:2px;background:#FF5A4A;box-shadow:0 0 10px #FF5A4A;animation:scanline 1.8s ease-in-out infinite}
+@keyframes scanline{0%,100%{transform:translateY(-34px)}50%{transform:translateY(34px)}}
+.scanmsg{position:absolute;left:0;right:0;bottom:8px;text-align:center;color:#FFEBC4;font-size:13.5px;text-shadow:0 1px 3px #000;padding:0 10px}
+.scanform{display:flex;gap:8px}.scanform input{flex:1;min-width:0;font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card,#fff8ee);color:var(--ink)}
+.scannote{margin:0;font-size:12.5px}
+.scanres[hidden]{display:none}.scanbook{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:start}.scanbook .cover{width:96px}
+.sbt{font-family:var(--f-display);font-style:italic;font-size:22px;line-height:1.15}.sba{color:var(--muted);font-size:14px;margin-top:2px}
+.scanacts{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+/* ===== TBR jar ===== */
+.jarbox{background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--aura) 16%,transparent),transparent 60%),var(--paper);color:var(--ink);border-radius:22px;padding:16px 18px;width:100%;max-width:560px;max-height:94vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.jarhead h2{font-family:var(--f-display);font-style:italic;font-size:28px;margin:0}
+.jarmoods{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.jarmoods button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 11px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.jarmoods button b{font-size:11px;color:var(--muted);margin-left:5px;font-weight:600}
+.jarmoods button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}.jarmoods button[aria-pressed="true"] b{color:var(--gold)}
+.jarmoods button:disabled{opacity:.4;cursor:default}
+.jarstage{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.jarwrap{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:0;height:200px}
+.jarsvg{width:130px;height:195px;overflow:visible}
+.jarfam{width:110px;height:110px;margin-left:-14px}.jarfam svg{width:100%;height:100%}
+.jarstage.shaking .jarsvg{animation:jarshake .5s ease-in-out 3}
+.jarstage.shaking .jarsvg .lid{animation:lidpop 1.5s ease forwards;transform-box:fill-box;transform-origin:0 100%}
+.jarstage.shaking .jarsvg .slips rect{animation:slipswirl .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes jarshake{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg) translateX(-3px)}75%{transform:rotate(7deg) translateX(3px)}}
+@keyframes lidpop{0%,60%{transform:none}100%{transform:translate(-8px,-16px) rotate(-24deg)}}
+@keyframes slipswirl{to{transform:translateY(-6px) rotate(25deg)}}
+.jarstage.drawn .jarsvg{opacity:.85}
+.jarcta p{margin:4px 0 10px;color:var(--muted)}
+.jarslip{width:100%;animation:slipin .7s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes slipin{from{opacity:0;transform:translateY(40px) scale(.6) rotate(-6deg)}to{opacity:1;transform:none}}
+.jarline{font-family:var(--f-display);font-style:italic;font-size:19px;margin-bottom:10px}.jarline small{display:block;font-family:var(--f-cap);font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.jarbook{display:grid;grid-template-columns:96px 1fr;gap:14px;text-align:left;background:#FFF9EC;color:#2A1A10;border:1px solid #E2CFA6;border-radius:6px;padding:14px;box-shadow:0 10px 26px rgba(0,0,0,.18);position:relative}
+.jarbook::before{content:"";position:absolute;inset:6px;border:1px dashed #E2CFA6;border-radius:4px;pointer-events:none}
+.jarbook .cover{width:96px}.jbt{font-family:var(--f-display);font-style:italic;font-size:22px;line-height:1.15}.jba{color:#7A6046;font-size:14px}.jarbook .note{color:#7A6046}
+.jaracts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+/* ===== releases ===== */
+.relbtn{position:relative}.relbtn.hasnew::after{content:attr(data-n);position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;border-radius:99px;background:var(--accent);color:#fff;font-size:10px;line-height:16px;text-align:center;padding:0 3px;box-shadow:0 0 0 2px var(--paper)}
+.relbtn:not(.hasnew){opacity:.8}
+.relmodal{max-width:620px}.rellist{display:grid;gap:10px;margin-top:10px}
+.relitem{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:12px}.relitem .cover{width:64px}.relitem b{display:block;font-family:var(--f-display);font-style:italic;font-size:19px}.relitem .muted{font-size:14px}
+.relacts{display:flex;gap:8px;align-items:center;margin-top:6px}
+.relauthors{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.relauthors button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:3px 10px;font:inherit;font-size:13.5px;cursor:pointer;color:var(--ink)}.relauthors button.off{opacity:.5;text-decoration:line-through}
+/* ===== bond ===== */
+.famlabel{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bondpill{border:0;background:color-mix(in srgb,var(--aura) 16%,transparent);color:color-mix(in srgb,var(--aura) 60%,var(--ink));border-radius:999px;padding:1px 8px;font-size:11px;letter-spacing:.06em;cursor:pointer;font-family:var(--f-cap)}
+.bondpill span{margin-left:5px;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;color:var(--muted)}
+.bondmodal{max-width:600px}
+.bondtop{display:grid;grid-template-columns:140px 1fr;gap:16px;align-items:center;margin:8px 0 14px}
+.bondart{width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--aura) 30%,transparent),transparent 70%)}.bondart svg{width:100%;height:100%}
+.bondhearts{color:#E05A7A;font-size:20px;letter-spacing:3px}.bondname{font-family:var(--f-display);font-style:italic;font-size:26px;display:block}
+.bondtop .lvlbar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--gold) 18%,transparent);overflow:hidden;margin:6px 0 2px;max-width:260px}.bondtop .lvlbar span{display:block;height:100%;background:linear-gradient(90deg,#E05A7A,#F2A65A)}
+.outfits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.outfit{border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:3px;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.outfit svg{width:84px;height:56px}.outfit b{font-size:14px}.outfit small{font-size:11.5px;color:var(--muted);line-height:1.25}
+.outfit.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:color-mix(in srgb,var(--accent) 7%,var(--paper))}
+.outfit:disabled{opacity:.45;cursor:default}.outfit:disabled svg{filter:grayscale(1) blur(1.5px)}
+.bondsteps{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--muted);display:grid;gap:3px}.bondsteps li.done{color:var(--ink)}.bondsteps li.done b{color:#E05A7A}
+.famcard.kindred .fambody{filter:drop-shadow(0 0 10px rgba(255,214,120,.75))}
+.famcard.kindred .famfloor{background:radial-gradient(ellipse,rgba(255,214,120,.55),transparent 70%)}
+.outfit.starcrown .twinkle,.famart .starcrown .twinkle{transform-box:fill-box;transform-origin:center;animation:twk 2.4s ease-in-out infinite}
+.trinket.figurine{position:relative}.trinket.figurine > svg{position:absolute;left:0;top:0}.figart{position:absolute;left:4px;top:-2px;width:54px;height:62px}.figart svg{width:100%;height:100%;filter:sepia(.2) saturate(.9)}
+@media (max-width:640px){.bondtop{grid-template-columns:96px 1fr}.bondart{width:96px;height:96px}.outfits{grid-template-columns:1fr 1fr 1fr}.outfit svg{width:60px;height:40px}.jarwrap{height:170px}.jarsvg{width:108px;height:162px}.jarfam{width:90px;height:90px}}
+
+.modal .mhead .gr,.modal .mhead .olr{white-space:normal}
+@media (max-width:640px){.mtabs button{padding:8px 9px 9px;font-size:14px}.mtabs{gap:0}}
+
+@media (max-width:640px){.bubtools{gap:4px}.bubtools .iconbtn{width:32px;height:32px;font-size:14px}.bubtools .iconbtn.wide{width:auto;padding:0 8px;font-size:10px;letter-spacing:.06em}}
+
+.soulwho{margin:12px 0 10px;font-size:17px;line-height:1.5}
+.soulhint{margin:6px 0 0;font-size:13px}.soulhint:empty{display:none}
+.soulsel{position:relative;animation:soulin .25s ease}.soulselx{position:absolute;top:6px;right:6px;width:28px;height:28px;font-size:12px}
+
+.rmamb{flex-direction:column;gap:8px}
+.rmambtog{background:rgba(255,214,150,.08)!important;border:1px solid rgba(255,214,150,.3)!important;color:#FFEBC4!important;padding:7px 16px!important;font-size:14.5px!important}
+.rmambtog span{color:#C9A26A}
+.rmambpanel{background:rgba(20,10,5,.72);border:1px solid rgba(255,214,150,.2);border-radius:16px;padding:12px 14px;max-width:min(560px,94vw);display:flex;flex-direction:column;gap:6px;backdrop-filter:blur(6px);animation:soulin .25s ease}
+.rmambpanel[hidden]{display:none}
+.rmpresets,.rmlayers{display:flex;flex-wrap:wrap;gap:6px}
+.rmlayers button i{font-style:normal;margin-right:5px}
+.rmpresets button{font-style:italic;font-family:var(--f-display)!important}
+.rmvol{display:flex;align-items:center;gap:10px;margin-top:4px}.rmvol input{flex:1;accent-color:#E8983A}
 </style>
 </head>
 <body>
@@ -1346,7 +1452,7 @@ body.rm-open{overflow:hidden}
 
   <section class="desk finder" aria-label="Find a book">
     <div class="finderhead"><h2><span class="fglyph">✦</span> Find a book</h2>
-      <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> Add by hand</button><button class="btn small" id="series-add-btn" type="button"><span aria-hidden="true">❧</span> Add a whole series</button></div></div>
+      <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> Add by hand</button><button class="btn small" id="scan-btn" type="button"><span aria-hidden="true">▥</span> Scan a barcode</button><button class="btn small" id="series-add-btn" type="button"><span aria-hidden="true">❧</span> Add a whole series</button></div></div>
     <form id="search-form" autocomplete="off">
       <input id="q" type="search" placeholder="Title, author or both…" aria-label="Search for a book by title or author">
       <button class="btn primary" id="search-btn" type="submit">Search</button>
@@ -3361,21 +3467,24 @@ body.rm-open{overflow:hidden}
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
         <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic">${esc(b.author)}${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
-          <div class="summary" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>
-          <div class="coverctl"><span class="label">Cover</span>
+          <div class="summary clamp" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>${b.summary && b.summary.length > 220 ? `<button type="button" class="linkbtn sumtog" id="m-sumtog">Read more</button>` : `<button type="button" class="linkbtn sumtog" id="m-sumtog" hidden>Read more</button>`}
+        </div></div>
+      ${famBubble(b)}
+      ${moveTo ? `<div class="moving">${moveTo === "read" ? "Finished it? Check the dates and give it a rating, then press Move." : moveTo === "reading" ? "Started it? Set the day you began and your current page, then press Move." : "Press Move to put it back on the Want to read shelf."} Cancel leaves it where it was.</div>` : ""}
+      <div class="field"><span class="label">Shelf</span><div class="shelfpick" id="m-shelf">${Object.entries(SHELVES).map(([k, l]) => `<button type="button" data-shelf="${k}" aria-pressed="${b.shelf === k}">${l}</button>`).join("")}</div></div>
+      <div id="m-rate"></div>
+      <div class="mtabs" id="m-tabs" role="tablist"></div>
+      <div class="mpane" id="m-pane-thoughts" hidden></div>
+      <div class="mpane" id="m-pane-dates" hidden></div>
+      <div class="mpane" id="m-pane-cover" hidden><div class="coverctl"><span class="label">Cover</span>
             <div class="covers-alt" id="m-alts"></div>
             <div class="links"><button class="linkbtn" type="button" id="m-findcov">Choose a different cover</button><a href="${imgURL(b)}" target="_blank" rel="noopener">Image search ↗</a>${b.cover ? `<button class="linkbtn" type="button" id="m-rmcover">Remove cover</button>` : ""}</div>
             <div class="drop" id="m-drop">Or paste a copied image here (Ctrl+V / ⌘V), drop one, or <label class="linkbtn" style="font-style:normal">choose a file<input id="m-file" type="file" accept="image/*" hidden></label></div>
             <span class="label" style="margin-top:6px">Its own spine colour · shows with “Individual colours”</span>
             <div class="swatches" id="m-swatches">${SPINE_SWATCHES.map(c => `<button type="button" data-sw="${c}" class="${b.spineCustom === c ? "sel" : ""}" style="background:${customTone(c)}" aria-label="Use this spine colour"></button>`).join("")}<label class="swcustom" title="Pick any colour"><input type="color" id="m-swc" value="${b.spineCustom || "#5a3a6e"}" aria-label="Pick any spine colour"></label><button class="linkbtn" type="button" data-sw="">${b.spineCustom ? "Back to automatic" : "Automatic"}</button></div>
-          </div></div></div>
-      <div id="m-gallery" hidden></div>
-      ${famBubble(b)}
-      ${moveTo ? `<div class="moving">${moveTo === "read" ? "Finished it? Check the dates and give it a rating, then press Move." : moveTo === "reading" ? "Started it? Set the day you began and your current page, then press Move." : "Press Move to put it back on the Want to read shelf."} Cancel leaves it where it was.</div>` : ""}
-      <div class="field"><span class="label">Shelf</span><div class="shelfpick" id="m-shelf">${Object.entries(SHELVES).map(([k, l]) => `<button type="button" data-shelf="${k}" aria-pressed="${b.shelf === k}">${l}</button>`).join("")}</div></div>
-      <div id="m-shelf-fields"></div>
-      <details ${!b.title ? "open" : ""}><summary class="label">Book details, series & tropes</summary>
-        <div class="fields" style="margin-top:10px">
+</div><div id="m-gallery" hidden></div></div>
+      <div class="mpane" id="m-pane-details" hidden>
+        <div class="fields">
           <label class="field full"><span class="label">Title</span><input id="m-t" value="${esc(b.title)}"></label>
           <label class="field full"><span class="label">Author</span><input id="m-a" value="${esc(b.author)}"></label>
           <label class="field"><span class="label">Series</span><input id="m-se" value="${esc(b.seriesName ?? "")}" placeholder="e.g. Discworld"></label>
@@ -3391,7 +3500,7 @@ body.rm-open{overflow:hidden}
           <label class="field full"><span class="label">Tropes (comma separated)</span><input id="m-tr" value="${esc((b.tropes||[]).join(", "))}" list="trope-list" placeholder="e.g. Found family, Slow burn"></label>
           <datalist id="trope-list">${TROPES.map(([n]) => `<option>${n}</option>`).join("")}</datalist>
           ${b.seriesName ? `<div class="field full"><button class="btn small" type="button" id="m-addseries">Add the rest of the ${esc(b.seriesName)} series…</button></div>` : ""}
-        </div></details>
+        </div></div>
       <div id="m-confirm"></div>
       <div class="mfoot">${isNew ? "" : `<button class="btn danger" type="button" id="m-del">Remove book</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Share card</button>`}
         <div class="r"><button class="btn" type="button" id="m-cancel">Cancel</button><button class="btn primary" type="button" id="m-save">${isNew ? "Add to shelf" : moveTo ? `Move to ${SHELVES[moveTo]}` : "Save"}</button></div></div>
@@ -3408,7 +3517,7 @@ body.rm-open{overflow:hidden}
       if (av || ct) toast(`Got it${av ? `: ${av[1]}` : ""}${ct ? `${av ? "," : ":"} ${Number(ct[1].replace(/[^\d]/g, "")).toLocaleString()} ratings` : ""}. Press Save to keep it.`);
     });
     if (b.olKey && !b.summary) olDescription(b.olKey).then(d => {
-      if (!d) return; b.summary = d; const s = $("#m-sum"); if (s) s.textContent = d;
+      if (!d) return; b.summary = d; const s = $("#m-sum"); if (s) s.textContent = d; if (d.length > 220) $("#m-sumtog")?.removeAttribute("hidden");
       if (!tropesEdited && $("#m-tr")) { const t = [...new Set([...(b.tropes || []), ...detectTropes(b.subjects || [], d)])].slice(0, 6); b.tropes = t; $("#m-tr").value = t.join(", "); }
     });
     const verdictHTML = () => `<span class="label">Your verdict</span>
@@ -3420,21 +3529,28 @@ body.rm-open{overflow:hidden}
     const paintVerdict = () => { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim(); $("#m-verdict").innerHTML = verdictHTML(); };
     const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
     const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
+    let mTab = !b.title ? "details" : null;
+    const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["dates", "▦ Dates"], ["cover", "❦ Cover"], ["details", "✎ Details"]], reading: [["dates", "⌛ Progress"], ["cover", "❦ Cover"], ["details", "✎ Details"]], want: [["cover", "❦ Cover"], ["details", "✎ Details"]] };
+    const showMTab = k => { const set = TAB_SETS[b.shelf] || TAB_SETS.want; if (!set.some(t => t[0] === k)) k = set[0][0]; mTab = k;
+      $("#m-tabs").innerHTML = set.map(([id, l]) => `<button type="button" role="tab" data-mtab="${id}" aria-selected="${id === k}">${l}</button>`).join("");
+      ["thoughts", "dates", "cover", "details"].forEach(id => { const p = $("#m-pane-" + id); if (p) p.hidden = id !== k; }); };
     let shelfFields = () => {
-      const f = $("#m-shelf-fields");
-      if (b.shelf === "read") f.innerHTML = `<div class="fields">
-        <div class="field full"><span class="label">Your rating · click the left half of a star for a half star</span><div class="starpick halfstars" id="m-stars">${[1,2,3,4,5].map(n => `<span class="sp" data-n="${n}"><span class="glyph">★</span><button type="button" data-star="${n - .5}" aria-label="${n - .5} stars"></button><button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? "s" : ""}"></button></span>`).join("")}<span class="rv" id="m-rv"></span></div></div>
-        <div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelpick" id="m-feel">${feelChips()}</div></div>
-        <div class="field full verdicts" id="m-verdict">${verdictHTML()}</div>
-        ${datePicker("fin", b.finished, "Finished", { ask: "When did you finish it?", allowUnknown: true, unknown: b.finishedUnknown && !b.finished })}
-        ${datePicker("st", b.started, "Started", { ask: "And when did you start?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}
-        <div class="field full" id="m-err" class="note"></div></div>`;
-      else if (b.shelf === "reading") f.innerHTML = `<div class="fields">
+      const rate = $("#m-rate"), th = $("#m-pane-thoughts"), dt = $("#m-pane-dates");
+      if (b.shelf === "read") {
+        rate.innerHTML = `<div class="field full"><span class="label">Your rating · tap the left half of a star for a half star</span><div class="starpick halfstars" id="m-stars">${[1,2,3,4,5].map(n => `<span class="sp" data-n="${n}"><span class="glyph">★</span><button type="button" data-star="${n - .5}" aria-label="${n - .5} stars"></button><button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? "s" : ""}"></button></span>`).join("")}<span class="rv" id="m-rv"></span></div></div>`;
+        th.innerHTML = `<div class="fields"><div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelpick" id="m-feel">${feelChips()}</div></div>
+        <div class="field full verdicts" id="m-verdict">${verdictHTML()}</div></div>`;
+        dt.innerHTML = `<div class="fields">${datePicker("fin", b.finished, "Finished", { ask: "When did you finish it?", allowUnknown: true, unknown: b.finishedUnknown && !b.finished })}
+        ${datePicker("st", b.started, "Started", { ask: "And when did you start?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}</div>`;
+      } else if (b.shelf === "reading") {
+        rate.innerHTML = ""; th.innerHTML = "";
+        dt.innerHTML = `<div class="fields">
         <label class="field"><span class="label">Current page</span><input id="m-cp" type="number" min="0" inputmode="numeric" value="${esc(b.currentPage || 0)}"></label>
-        <div class="field note" style="align-self:end">${b.pages ? `Out of ${b.pages} pages.` : "Set the page count under Book details to track progress."}</div>
-        ${datePicker("st", b.started || (isNew ? todayISO() : null), "Started", { ask: "When did you start reading it?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}
-        <div class="field full" id="m-err"></div></div>`;
-      else f.innerHTML = "";
+        <div class="field note" style="align-self:end">${b.pages ? `Out of ${b.pages} pages.` : "Set the page count under Details to track progress."}</div>
+        ${datePicker("st", b.started || (isNew ? todayISO() : null), "Started", { ask: "When did you start reading it?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}</div>`;
+      } else { rate.innerHTML = ""; th.innerHTML = ""; dt.innerHTML = ""; }
+      if (!$("#m-err")) $("#m-tabs").insertAdjacentHTML("afterend", `<div class="merr" id="m-err" role="alert"></div>`);
+      showMTab(mTab || (b.shelf === "read" ? (moveTo ? "dates" : "thoughts") : b.shelf === "reading" ? "dates" : "cover"));
     };
     const paintStars = v => { const box = $("#m-stars"); if (!box) return; box.querySelectorAll(".sp").forEach(sp => { const n = +sp.dataset.n; sp.style.setProperty("--f", v >= n ? "100%" : v >= n - .5 ? "50%" : "0%"); }); const rv = $("#m-rv"); if (rv) rv.textContent = v ? `${v} ★` : "Not rated"; };
     const _sf = shelfFields;
@@ -3494,18 +3610,21 @@ body.rm-open{overflow:hidden}
         if (!$("#" + id)) continue;
         const r = readPicker(id);
         $(`#${id}-f`).classList.toggle("err", !r.ok);
-        if (!r.ok) { $("#m-err").textContent = r.msg; return false; }
+        if (!r.ok) { showMTab("dates"); $("#m-err").textContent = r.msg; return false; }
         b[key] = r.value; b[key + "Unknown"] = !!r.unknown;
       }
-      if (b.shelf === "read" && !b.finished && !b.finishedUnknown) { $("#fin-f").classList.add("err"); $("#m-err").textContent = "When did you finish it? Pick at least the year, or tick “I don't remember”."; return false; }
-      if (b.started && b.finished && b.started.slice(0, b.finished.length) > b.finished) { $("#st-f").classList.add("err"); $("#m-err").textContent = "The start date is after the finish date."; return false; }
+      if (b.shelf === "read" && !b.finished && !b.finishedUnknown) { showMTab("dates"); $("#fin-f").classList.add("err"); $("#m-err").textContent = "When did you finish it? Pick at least the year, or tick “I don't remember”."; return false; }
+      if (b.started && b.finished && b.started.slice(0, b.finished.length) > b.finished) { showMTab("dates"); $("#st-f").classList.add("err"); $("#m-err").textContent = "The start date is after the finish date."; return false; }
       $("#m-err") && ($("#m-err").textContent = "");
       return true;
     };
     $("#scrim").addEventListener("click", e => {
       const id = e.target.id;
       if (id === "scrim" || id === "m-cancel") return close();
-      if (id === "m-findcov" || e.target.closest("#m-coverbtn")) return findCovers();
+      const mt = e.target.closest("[data-mtab]"); if (mt) { showMTab(mt.dataset.mtab); return; }
+      if (id === "m-sumtog") { const sm = $("#m-sum"); sm.classList.toggle("clamp"); e.target.textContent = sm.classList.contains("clamp") ? "Read more" : "Show less"; return; }
+      if (e.target.closest("#m-coverbtn")) { showMTab("cover"); $("#m-pane-cover").scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
+      if (id === "m-findcov") return findCovers();
       if (e.target.closest("[data-galclose]")) { $("#m-gallery").hidden = true; return; }
       if (id === "m-rmcover") { setCover(""); e.target.remove(); return; }
       if (id === "m-addseries") { readFields(); const seed = { name: b.seriesName, author: b.author }; close(); openSeriesAdder(seed); return; }
@@ -3528,7 +3647,7 @@ body.rm-open{overflow:hidden}
       if (id === "m-del-yes") { close(); removeBook(b.id); toast("Removed from your shelves"); return; }
       if (id === "m-save") {
         readFields();
-        if (!b.title) { $("#m-t").closest("details").open = true; $("#m-t").focus(); toast("Give the book a title first."); return; }
+        if (!b.title) { showMTab("details"); $("#m-t").focus(); toast("Give the book a title first."); return; }
         if (!readDates()) return;
         if (!tropesEdited && !(b.tropes || []).length) b.tropes = detectTropes(b.subjects || [], b.summary || "");
         const { because, why, score, seriesHint, series, ...rest } = b;
@@ -3544,6 +3663,7 @@ body.rm-open{overflow:hidden}
         close();
         if (isNew && lastResults.length) closeResults();
         upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
+        { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
       }
     });
     setTimeout(() => (moveTo === "read" ? $("#fin-d") : moveTo === "reading" ? $("#m-cp") : b.title ? $("#m-save") : $("#m-t"))?.focus(), 30);
@@ -3702,7 +3822,7 @@ body.rm-open{overflow:hidden}
     let page = parseInt(f.querySelector('[data-f="pg"]').value); if (isNaN(page) || page < 0) return toast("Type the page you're on.");
     if (b.pages && page > b.pages) page = b.pages;
     if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage);
-    b.currentPage = page; logProgress(b, page); save(); render();
+    b.currentPage = page; logProgress(b, page); save(); render(); bondAdd(2, "progress");
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode); });
@@ -4289,7 +4409,7 @@ body.rm-open{overflow:hidden}
     },
   };
   const partOfDay = () => { const h = new Date().getHours(); return h < 5 ? "night" : h < 12 ? "morning" : h < 17 ? "afternoon" : h < 22 ? "evening" : "night"; };
-  let chatLine = null, chatIdx = 0;
+  let chatLine = null, chatIdx = 0, relShown = false;
   function makeChat(){
     const C = CHAT[familiar] || CHAT.cat, V = VOICE[familiar] || {};
     const opts = [];
@@ -4304,7 +4424,9 @@ body.rm-open{overflow:hidden}
     opts.push([pick(C.g[partOfDay()]), partOfDay() === "night" && familiar !== "wolf" && familiar !== "owl" ? "sleepy" : "happy"], [pick(C.s[season() === "classic" ? seasonNow() : season()]), "idle"]);
     const want = books.filter(b => b.shelf === "want").length; if (want >= 3) opts.push([pick(C.pile)(want), "idle"]);
     const ws = books.flatMap(b => (b.words || []).map(w => ({ w, b }))); if (ws.length) { const x = pick(ws); opts.push([{ cat: `Remember “${x.w.w}”, darling? ${cap(x.w.def)} Say it to me slowly.`, lion: `Ay, “${x.w.w}”! ${cap(x.w.def)} Even your words are beautiful, mi amor.`, owl: `A word from your ledger: “${x.w.w}”. ${cap(x.w.def)} Use it thrice this week.`, raven: `A new word conquered: “${x.w.w}”! ${cap(x.w.def)}`, fox: `Psst. “${x.w.w}”. ${cap(x.w.def)} A password, perhaps.`, toad: `Vocabulary specimen: “${x.w.w}”! ${cap(x.w.def)}`, bat: `I… I remembered your word, “${x.w.w}”… ${cap(x.w.def)}`, hedgehog: `WORD TREASURE: “${x.w.w}”! ${cap(x.w.def)}`, wolf: `“${x.w.w}”. ${cap(x.w.def)} …That's a cool word. Whatever.` }[familiar] || `“${x.w.w}”: ${x.w.def}`, "happy"]); }
-    let [line, mood] = opts[chatIdx++ % opts.length];
+    try { bondChat(opts); } catch {}
+    const rel = !relShown && Math.random() < .5 ? relChat() : null;
+    let [line, mood] = rel ? (relShown = true, rel) : opts[chatIdx++ % opts.length];
     if (familiar === "wolf" && mood === "happy") mood = "idle";
     if (mood === "sleepy") mood = "idle";
     const gest = V.gest ? pick(V.gest) : "";
@@ -4316,6 +4438,176 @@ body.rm-open{overflow:hidden}
   function setExpr(e, ms, then){ const card = famCard(); if (!card) return; card.dataset.expr = e; clearTimeout(exprT); if (ms) exprT = setTimeout(() => setExpr(then || saidMood), ms); }
   function speak(text, mood = "idle"){ saidMood = mood; const ms = Math.min(5200, 700 + String(text).split(/\s+/).length * 150); setExpr("talk", ms, mood); }
   function famAct(){ const card = famCard(); if (!card) return; card.classList.remove("act"); void card.offsetWidth; card.classList.add("act"); clearTimeout(actT); actT = setTimeout(() => card.classList.remove("act"), 2800); }
+  // ================= Gentle new-release alerts =================
+  const KEY_REL = "reading-ledger-releases", KEY_FOLLOW = "reading-ledger-follow";
+  const relState = () => lsGet(KEY_REL, { items: [], checked: {} });
+  const followPrefs = () => lsGet(KEY_FOLLOW, { muted: [], added: [] });
+  function followedAuthors(){
+    const P = followPrefs(), score = new Map();
+    for (const b of books) { if (!b.author) continue; const a = b.author; let w = 0;
+      if (b.shelf === "read") w += (b.rating || 0) >= 4 ? 2 : b.rating && b.rating < 3 ? -1 : .8;
+      else if (b.shelf === "reading") w += 1.5; else w += .4;
+      if (b.seriesName && b.shelf !== "want") w += .6;
+      score.set(a, (score.get(a) || 0) + w); }
+    const list = [...score].filter(([a, w]) => w >= 2.4 && !P.muted.includes(norm(a))).sort((x, y) => y[1] - x[1]).map(x => x[0]);
+    for (const a of P.added) if (!list.some(x => norm(x) === norm(a)) && !P.muted.includes(norm(a))) list.push(a);
+    return list.slice(0, 12);
+  }
+  const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+  function parsePub(s){ s = String(s || "").trim().toLowerCase(); let m;
+    if ((m = s.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?$/))) return new Date(+m[1], +m[2] - 1, +(m[3] || 1));
+    if ((m = s.match(/([a-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/))) return MON[m[1]] != null ? new Date(+m[3], MON[m[1]], +m[2]) : null;
+    if ((m = s.match(/(\d{1,2})\s+([a-z]{3})[a-z]*\.?\s+(\d{4})/))) return MON[m[2]] != null ? new Date(+m[3], MON[m[2]], +m[1]) : null;
+    if ((m = s.match(/([a-z]{3})[a-z]*\.?\s+(\d{4})/))) return MON[m[1]] != null ? new Date(+m[2], MON[m[1]], 1) : null;
+    if ((m = s.match(/^(\d{4})$/))) return new Date(+m[1], 0, 1); return null; }
+  const whenLabel = d => { const now = new Date(), diff = (d - now) / 864e5; const mm = MONTHS_LONG[d.getMonth()] + (d.getFullYear() !== now.getFullYear() ? " " + d.getFullYear() : "");
+    return diff > 0 ? `coming in ${mm}` : diff > -45 ? "just out" : `out since ${mm}`; };
+  // check a couple of authors per visit, each at most once a week: polite to Open Library, invisible to you
+  async function checkReleases(){
+    const S = relState(), authors = followedAuthors(); if (!authors.length) return;
+    const due = authors.filter(a => Date.now() - (S.checked[norm(a)] || 0) > 7 * 864e5).slice(0, 2);
+    if (!due.length) return;
+    const year = new Date().getFullYear(); let changed = false;
+    for (const a of due) {
+      try {
+        const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ author: a, sort: "new", fields: "key,title,author_name,first_publish_year,publish_date,cover_i,number_of_pages_median,language", limit: "15" })}`);
+        S.checked[norm(a)] = Date.now(); changed = true;
+        for (const x of d.docs || []) {
+          if (!x.title || (x.first_publish_year && x.first_publish_year < year - 1)) continue;
+          if (!(x.author_name || []).some(n => norm(n) === norm(a))) continue;
+          if (/collection|box set|boxed set|omnibus|books \d|\bset\b|coloring|journal|calendar|summary|study guide|workbook/i.test(x.title)) continue;
+          if (x.language && x.language.length && !x.language.includes("eng")) continue;
+          if (inLibrary(x.title, a)) continue;
+          const dates = (x.publish_date || []).map(parsePub).filter(Boolean).filter(t => t.getFullYear() >= year - 1).sort((p, q) => p - q);
+          const first = dates[0] || (x.first_publish_year ? new Date(x.first_publish_year, 0, 1) : null);
+          if (!first || (Date.now() - first) / 864e5 > 120 || (first - Date.now()) / 864e5 > 540) continue;
+          const key = ckey(x.title, a);
+          if (S.items.some(i => i.key === key)) continue;
+          S.items.push({ key, title: x.title, author: a, date: first.toISOString().slice(0, 10), coverId: x.cover_i || null, olKey: x.key, pages: x.number_of_pages_median || null, found: Date.now(), seen: false });
+        }
+      } catch { /* offline or Open Library unreachable: try again another day */ }
+    }
+    S.items = S.items.filter(i => (Date.now() - new Date(i.date)) / 864e5 < 150 && !inLibrary(i.title, i.author)).slice(-40);
+    if (changed) { lsSet(KEY_REL, S); paintReleaseDot(); }
+  }
+  const releases = () => relState().items.filter(i => !inLibrary(i.title, i.author) && !followPrefs().muted.includes(norm(i.author))).sort((a, b) => a.date.localeCompare(b.date));
+  function paintReleaseDot(){ const n = releases().filter(i => !i.seen).length; document.querySelectorAll("[data-releases]").forEach(b => { b.classList.toggle("hasnew", n > 0); b.dataset.n = n || ""; }); }
+  function relChat(){
+    const fresh = releases().filter(i => !i.seen); if (!fresh.length) return null;
+    const r = fresh[0], w = whenLabel(new Date(r.date));
+    const L = { cat: `Psst, darling: ${r.author} has a new one ${w}. “${r.title}”. I already want it.`, owl: `A notice for the bulletin board: ${r.author}'s “${r.title}”, ${w}.`, raven: `News from the front! ${r.author} returns with “${r.title}”, ${w}!`, fox: `Intel acquired: ${r.author}, “${r.title}”, ${w}. You didn't hear it from me.`, toad: `New data: ${r.author}, “${r.title}”, ${w}. Fascinating.`, bat: `Um… ${r.author} has a new book ${w}? “${r.title}”. I thought you'd want to know.`, hedgehog: `Guess what guess what! ${r.author} has a NEW book ${w}! “${r.title}”!`, lion: `Ay, mi amor! ${r.author} has a new love letter ${w}: “${r.title}”!`, wolf: `${r.author} has something new ${w}. “${r.title}”. Could be worth staying up for.` };
+    return [L[familiar] || L.cat, "surprised"];
+  }
+  function openReleases(){
+    const S = relState(); S.items.forEach(i => i.seen = true); lsSet(KEY_REL, S); paintReleaseDot();
+    const list = releases(), authors = followedAuthors(), P = followPrefs();
+    const root = $("#modal-root");
+    root.innerHTML = `<div class="scrim" id="rel-scrim"><div class="modal relmodal" role="dialog" aria-modal="true" aria-labelledby="rel-t">
+      <div class="phead"><div><div class="label">From authors you follow</div><h2 id="rel-t">New & upcoming</h2></div><button class="btn small" type="button" data-relx>Close</button></div>
+      ${list.length ? `<div class="rellist">${list.map(i => `<div class="relitem">${coverHTML({ title: i.title, author: i.author, cover: i.coverId ? coverById(i.coverId, "M") : "" })}<div><b>${esc(i.title)}</b><span class="muted">${esc(i.author)} · ${esc(whenLabel(new Date(i.date)))}</span>
+        <div class="relacts"><button class="btn small primary" type="button" data-relwant="${esc(i.key)}">+ Want to read</button><button class="linkbtn" type="button" data-relno="${esc(i.key)}">Not interested</button></div></div></div>`).join("")}</div>`
+        : `<p class="note">Nothing new yet. I check a couple of your authors each time you visit, at most once a week each, and your familiar will mention it quietly when something turns up.</p>`}
+      <div class="label" style="margin-top:14px">Authors you follow</div><p class="note" style="margin-top:2px">Picked from what you read and love. Tap to stop following.</p>
+      <div class="relauthors">${authors.map(a => `<button type="button" data-relmute="${esc(a)}">✓ ${esc(a)}</button>`).join("")}${P.muted.length ? P.muted.map(a => `<button type="button" class="off" data-relunmute="${esc(a)}">${esc(cap(a))}</button>`).join("") : ""}</div>
+    </div></div>`;
+    paintRecCovers(root);
+    $("#rel-scrim").addEventListener("click", e => {
+      if (e.target.id === "rel-scrim" || e.target.closest("[data-relx]")) { root.innerHTML = ""; return; }
+      const w = e.target.closest("[data-relwant]"); if (w) { const i = relState().items.find(x => x.key === w.dataset.relwant); if (i) { upsert({ title: i.title, author: i.author, cover: i.coverId ? coverById(i.coverId) : "", coverId: i.coverId, olKey: i.olKey, pages: i.pages, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [] }); toast(`${i.title} added to Want to read`); openReleases(); } return; }
+      const n = e.target.closest("[data-relno]"); if (n) { const S2 = relState(); S2.items = S2.items.filter(x => x.key !== n.dataset.relno); lsSet(KEY_REL, S2); openReleases(); return; }
+      const m = e.target.closest("[data-relmute]"); if (m) { const P2 = followPrefs(); P2.muted = [...new Set([...P2.muted, norm(m.dataset.relmute)])]; P2.added = P2.added.filter(a => norm(a) !== norm(m.dataset.relmute)); lsSet(KEY_FOLLOW, P2); openReleases(); return; }
+      const u = e.target.closest("[data-relunmute]"); if (u) { const P2 = followPrefs(); P2.muted = P2.muted.filter(a => a !== u.dataset.relunmute); lsSet(KEY_FOLLOW, P2); openReleases(); return; }
+    });
+  }
+  setTimeout(() => { checkReleases().finally(paintReleaseDot); }, 9000);
+  // ================= Familiar bond =================
+  const KEY_BOND = "reading-ledger-bond";
+  const BOND_LEVELS = [[0, "Stranger"], [25, "Acquaintance"], [80, "Companion"], [180, "Confidant"], [350, "Kindred spirit"]];
+  const bondAll = () => lsGet(KEY_BOND, {});
+  const bondOf = k => { const B = bondAll()[k] || {}; return { pts: B.pts || 0, wear: B.wear || [], day: B.day || "", pets: B.pets || 0 }; };
+  function bondLevel(pts){ let i = 0; BOND_LEVELS.forEach(([p], j) => { if (pts >= p) i = j; }); const next = BOND_LEVELS[i + 1]; return { lvl: i + 1, name: BOND_LEVELS[i][1], next: next ? { at: next[0], name: next[1], pct: Math.round((pts - BOND_LEVELS[i][0]) / (next[0] - BOND_LEVELS[i][0]) * 100) } : null }; }
+  const OUTFITS = [
+    { id: "scarf", lvl: 3, name: "Knitted scarf", desc: "Hand-knitted, slightly too long." },
+    { id: "flowers", lvl: 4, name: "Flower crown", desc: "Wildflowers picked between chapters." },
+    { id: "starcrown", lvl: 5, name: "Starlit crown", desc: "Only kindred spirits wear this. Comes with a golden glow." }
+  ];
+  const BOND_UNLOCKS = { 2: "Warmer words: they start saying more personal things", 3: "A knitted scarf, and a little figurine of them for your shelves", 4: "A flower crown, and secrets they only tell close friends", 5: "The starlit crown and a golden glow" };
+  // neck (scarf) and head-top (crowns) for each familiar, in the 120×120 art
+  const ANCH = { cat: [56, 17], owl: [63, 20], raven: [60, 14], fox: [62, 12], toad: [64, 14], bat: [60, 22], hedgehog: [64, 22], lion: [57, 15], wolf: [60, 16] };
+  const SCARF_COL = { cat: ["#C2185B", "#F8BBD0"], owl: ["#2E5E3A", "#E8D9A8"], raven: ["#8E1B26", "#E9C77E"], fox: ["#E07A2E", "#2E3A3A"], toad: ["#4A7A9C", "#F2E6C8"], bat: ["#8A6ACB", "#F3D9FF"], hedgehog: ["#D8434A", "#FFF1C9"], lion: ["#B8283A", "#F2C14E"], wolf: ["#2A2230", "#8A2E5A"] };
+  function outfitSVG(k, wear){
+    const [ny, ty] = ANCH[k] || [60, 16], [c1, c2] = SCARF_COL[k] || ["#C2185B", "#FCE4EC"];
+    const neck = wear.includes("scarf") ? `<g class="outfit scarf"><path d="M43 ${ny - 2}q17 7 34 0l1 6q-18 8-36 0z" fill="${c1}"/><path d="M47 ${ny + .5}l2 4M53 ${ny + 2}l1.5 4M59 ${ny + 2.6}l.5 4M65 ${ny + 2}l-.6 4M71 ${ny + .6}l-1.6 4" stroke="${c2}" stroke-width="1.6"/><path d="M68 ${ny + 3}q3 10 1 19l6 1q2-10-1-20z" fill="${c1}"/><path d="M69.4 ${ny + 9}h5.6M69.6 ${ny + 15}h5.8" stroke="${c2}" stroke-width="1.6"/><path d="M69 ${ny + 22}l.6 3M71.4 ${ny + 22.4}l.2 3M73.8 ${ny + 22.6}l-.2 3" stroke="${c1}" stroke-width="1.2"/></g>` : "";
+    let top = "";
+    if (wear.includes("flowers")) top += `<g class="outfit flowers"><path d="M46 ${ty + 3}q14-6 28 0" stroke="#5E8A3A" stroke-width="1.6" fill="none"/>${[[47, 3.6, "#F7A8C4"], [53, .8, "#FFF3A8"], [60, -.4, "#F2F2FF"], [67, .8, "#C9A6F2"], [73, 3.6, "#F7A8C4"]].map(([x, dy, c]) => `<g transform="translate(${x} ${ty + dy})">${[0, 72, 144, 216, 288].map(r => `<ellipse rx="1.6" ry="2.6" cy="-2" fill="${c}" transform="rotate(${r})"/>`).join("")}<circle r="1.2" fill="#F2B233"/></g>`).join("")}<path d="M50 ${ty + 2}l-2.4-2.6M57 ${ty}l-1-3M64 ${ty}l1-3M70 ${ty + 2}l2.4-2.6" stroke="#6E9A44" stroke-width="1.2"/></g>`;
+    if (wear.includes("starcrown")) top += `<g class="outfit starcrown"><path d="M50 ${ty + 2}l2-9 4 5 4-8 4 8 4-5 2 9z" fill="#F2C94C" stroke="#B8862A" stroke-width=".8"/><circle cx="60" cy="${ty - 7}" r="1.6" fill="#BFE8FF"/><circle cx="54" cy="${ty - 2}" r="1" fill="#F7A8C4"/><circle cx="66" cy="${ty - 2}" r="1" fill="#A8E6C4"/><path class="twinkle" d="M60 ${ty - 14}l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="#FFF6C4"/></g>`;
+    return { neck, top };
+  }
+  // dress the familiar: the scarf sits under the head, crowns ride along with it
+  function dressSVG(svg, k){
+    const B = bondOf(k), lv = bondLevel(B.pts).lvl, wear = B.wear.filter(id => (OUTFITS.find(o => o.id === id)?.lvl || 9) <= lv);
+    if (!wear.length) return svg;
+    const { neck, top } = outfitSVG(k, wear);
+    const hi = svg.indexOf('<g class="head">'); if (hi < 0) return svg;
+    let depth = 0, i = hi, end = -1; const re = /<g\b|<\/g>/g; re.lastIndex = hi;
+    for (let m; (m = re.exec(svg));) { depth += m[0] === "</g>" ? -1 : 1; if (depth === 0) { end = m.index; break; } }
+    if (end < 0) return svg;
+    return svg.slice(0, hi) + neck + svg.slice(hi, end) + top + svg.slice(end);
+  }
+  const famArt = k => dressSVG(FAMILIARS[k].svg, k);
+  const isKindred = k => bondLevel(bondOf(k).pts).lvl >= 5 && bondOf(k).wear.includes("starcrown");
+  function bondAdd(n, why){
+    const all = bondAll(), k = familiar, B = { pts: 0, wear: [], ...(all[k] || {}) };
+    const before = bondLevel(B.pts).lvl; B.pts = Math.round((B.pts + n) * 10) / 10; all[k] = B; lsSet(KEY_BOND, all);
+    const after = bondLevel(B.pts);
+    if (after.lvl > before) {
+      const o = OUTFITS.find(x => x.lvl === after.lvl); if (o && !B.wear.includes(o.id)) { B.wear = [...B.wear, o.id]; all[k] = B; lsSet(KEY_BOND, all); }
+      refreshFigurines();
+      setTimeout(() => { toast(`♥ ${famName(k)} is now your ${after.name.toLowerCase()}! Unlocked: ${BOND_UNLOCKS[after.lvl]}.`); renderFamiliar(); setExpr("love", 2600); }, 900);
+    }
+  }
+  function bondVisit(){ const all = bondAll(), k = familiar, B = { pts: 0, wear: [], ...(all[k] || {}) }; const t = todayISO(); if (B.day === t) return; B.day = t; B.pets = 0; all[k] = B; lsSet(KEY_BOND, all); bondAdd(2, "visit"); }
+  function bondPet(){ const all = bondAll(), k = familiar, B = { pts: 0, wear: [], ...(all[k] || {}) }; if (B.day !== todayISO()) { B.day = todayISO(); B.pets = 0; } if (B.pets >= 5) return; B.pets++; all[k] = B; lsSet(KEY_BOND, all); bondAdd(1, "pet"); }
+  // a figurine of every familiar you've grown close to, for the shelves
+  FAM_ORDER.forEach(k => {
+    TRINKETS["fig-" + k] = () => `<div class="trinket figurine" style="width:62px;height:78px" aria-hidden="true"><svg viewBox="0 0 62 78" width="62" height="78"><ellipse cx="31" cy="74" rx="24" ry="3.6" fill="#000" opacity=".25"/><rect x="9" y="64" width="44" height="10" rx="3" fill="#6A4424"/><rect x="9" y="64" width="44" height="3" rx="1.5" fill="#8A5A30"/><text x="31" y="72.6" text-anchor="middle" font-family="Georgia,serif" font-size="5.4" fill="#E9C77E" letter-spacing=".6">${esc(famName(k).split(" ").pop().toUpperCase())}</text></svg><div class="figart">${famArt(k)}</div></div>`;
+    TRINKET_NAMES["fig-" + k] = `${famName(k)} figurine`;
+  });
+  function refreshFigurines(){
+    const figs = FAM_ORDER.filter(k => bondLevel(bondOf(k).pts).lvl >= 3).map(k => "fig-" + k);
+    const cat = TRINKET_DRAWER.find(c => c[0] === "Familiars");
+    if (figs.length) { if (cat) cat[1] = figs; else TRINKET_DRAWER.push(["Familiars", figs]); } else if (cat) TRINKET_DRAWER.splice(TRINKET_DRAWER.indexOf(cat), 1);
+  }
+  refreshFigurines();
+  const BOND_LINES = {
+    cat: [["You know, darling, I don't purr for just anyone.", "love"], ["I kept your spot warm. I always do.", "wink"]],
+    owl: [["I must confess, our study sessions have become the highlight of my week.", "happy"], ["Between us, I once fell asleep in a lecture. My own.", "wink"]],
+    raven: [["You have fought bravely at my side, reader. I name you shield-friend.", "proud"], ["I… have been defeated. Once. By a doorknob. Tell no one.", "shy"]],
+    fox: [["I don't trust many people. You're on a very short list.", "wink"], ["My real name isn't Ember. Maybe one day I'll tell you.", "sad"]],
+    toad: [["Our reading data shows a clear trend: I like you. Statistically significant.", "happy"], ["I named a bacterial culture after you. It's thriving.", "proud"]],
+    bat: [["I… I think you're my best friend. Is that okay?", "shy"], ["I'm not scared of the dark when you're reading nearby.", "love"]],
+    hedgehog: [["You're my favourite adventure buddy EVER.", "happy"], ["I drew you a map. It leads to… you. Because you're the treasure!", "love"]],
+    lion: [["Ay, mi corazón… my mane shines brighter when you read to me.", "love"], ["I wrote you a sonnet. It's mostly about your bookmarks.", "wink"]],
+    wolf: [["You're… alright. Actually you're the only one who gets me.", "shy"], ["I saved you the last chapter of my diary. Don't read it out loud.", "sad"]]
+  };
+  function bondChat(opts){ const lv = bondLevel(bondOf(familiar).pts).lvl, L = BOND_LINES[familiar] || BOND_LINES.cat; if (lv >= 2 && Math.random() < .5) opts.push(L[0]); if (lv >= 4 && Math.random() < .5) opts.push(L[1]); }
+  function bondPill(){ const B = bondOf(familiar), L = bondLevel(B.pts); return `<button type="button" class="bondpill" data-bond title="Your bond with ${esc(famName(familiar))}">${"♥".repeat(L.lvl)}${"♡".repeat(5 - L.lvl)}<span>${esc(L.name)}</span></button>`; }
+  function openBond(){
+    const k = familiar, B = bondOf(k), L = bondLevel(B.pts), F = FAMILIARS[k], root = $("#modal-root");
+    root.innerHTML = `<div class="scrim" id="bond-scrim"><div class="modal bondmodal" role="dialog" aria-modal="true" aria-labelledby="bond-t" style="--aura:${F.aura}">
+      <div class="phead"><div><div class="label">Your bond with</div><h2 id="bond-t">${esc(famName(k))}</h2></div><button class="btn small" type="button" data-bondx>Close</button></div>
+      <div class="bondtop"><div class="bondart famcard${isKindred(k) ? " kindred" : ""}" data-fam="${k}" data-expr="love">${famArt(k)}</div>
+        <div><div class="bondhearts">${"♥".repeat(L.lvl)}${"♡".repeat(5 - L.lvl)}</div><b class="bondname">${esc(L.name)}</b>
+          ${L.next ? `<div class="lvlbar"><span style="width:${L.next.pct}%"></span></div><small class="muted">${Math.round(B.pts)} / ${L.next.at} bond · next: ${esc(L.next.name)}</small>` : `<small class="muted">The deepest bond there is.</small>`}
+          <p class="note">Your bond grows when you read together: updating your page, reading sessions, finishing books, rating them, visiting each day and the occasional pat.</p></div></div>
+      <div class="label">Outfits</div><div class="outfits">${OUTFITS.map(o => { const open = L.lvl >= o.lvl, on = B.wear.includes(o.id); return `<button type="button" class="outfit${on ? " on" : ""}" ${open ? `data-wear="${o.id}"` : "disabled"} aria-pressed="${on}"><svg viewBox="30 ${o.id === "scarf" ? 40 : 0} 60 40" aria-hidden="true">${o.id === "scarf" ? outfitSVG(k, ["scarf"]).neck.replace(/<g class="outfit scarf">/, `<g transform="translate(0 ${48 - (ANCH[k] || [60])[0]})">`) : outfitSVG(k, [o.id]).top.replace(/<g class="outfit [a-z]+">/, `<g transform="translate(0 ${22 - (ANCH[k] || [0, 16])[1]})">`)}</svg><b>${esc(o.name)}</b><small>${open ? (on ? "Wearing it · tap to take off" : esc(o.desc)) : `Unlocks at ${BOND_LEVELS[o.lvl - 1][1]}`}</small></button>`; }).join("")}</div>
+      <div class="label" style="margin-top:12px">What you unlock</div><ol class="bondsteps">${BOND_LEVELS.map(([p, n], i) => `<li class="${L.lvl > i ? "done" : ""}"><b>${esc(n)}</b>${i ? ` · ${BOND_UNLOCKS[i + 1]}` : " · where every friendship starts"}</li>`).join("")}</ol>
+    </div></div>`;
+    $("#bond-scrim").addEventListener("click", e => {
+      if (e.target.id === "bond-scrim" || e.target.closest("[data-bondx]")) { root.innerHTML = ""; return; }
+      const w = e.target.closest("[data-wear]"); if (w) { const all = bondAll(), Bk = { pts: 0, wear: [], ...(all[k] || {}) }; Bk.wear = Bk.wear.includes(w.dataset.wear) ? Bk.wear.filter(x => x !== w.dataset.wear) : [...Bk.wear, w.dataset.wear]; all[k] = Bk; lsSet(KEY_BOND, all); openBond(); renderFamiliar(); }
+    });
+  }
   function renderFamiliar(){
     if (!famChosen) { $("#familiar").innerHTML = `<div class="famcard famempty"><div class="fambody egg" aria-hidden="true"><span>?</span></div>
         <div class="bubble"><div class="label">A familiar is waiting</div><blockquote class="petline">Choose a companion to keep you company while you read. Each one has its own voice, its own quotes, its own book picks and its own way of reacting when you pet it.</blockquote></div></div>
@@ -4338,22 +4630,23 @@ body.rm-open{overflow:hidden}
     } else if (famMode === "chat") { said = chatLine.line; mood = chatLine.mood || "idle"; content = `<blockquote class="chat">${words(chatLine.line)}</blockquote>${chatLine.gest ? `<div class="gest">${esc(chatLine.gest)}</div>` : ""}`; }
     else { said = q; mood = "idle"; content = `<blockquote>${words("“" + q.replace(/^“|”$/g, "") + "”")}</blockquote><div class="qsrc">— ${esc(who)}, <i>${esc(work)}</i></div>`; }
     const S = season() === "classic" ? "" : season();
-    $("#familiar").innerHTML = `<div class="famcard" data-fam="${familiar}" data-expr="idle" style="--aura:${F.aura}">
+    $("#familiar").innerHTML = `<div class="famcard${isKindred(familiar) ? " kindred" : ""}" data-fam="${familiar}" data-expr="idle" style="--aura:${F.aura}">
       <button class="fambody" type="button" data-pet title="Pet ${esc(famName(familiar))}" aria-label="Pet ${esc(famName(familiar))}">
-        <span class="famhalo"></span><svg class="runes" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="runepath" d="M100 22a78 78 0 1 1 0 156a78 78 0 1 1 0-156"/></defs><circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5"/><circle cx="100" cy="100" r="68" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 5" opacity=".6"/><text font-size="11" fill="currentColor" letter-spacing="3"><textPath href="#runepath">ᚠ ✦ ᚱ ᛟ ☾ ᚨ ᛉ ✧ ᛞ ᚹ ✦ ᛗ ᚷ ☽ ᛇ ᚾ ✧ ᛒ ᛚ ✦ ᚦ ᛃ ☾ ᛋ ✧</textPath></text></svg>
-        <span class="cushion"></span>${sparkles(6, F.aura, F.spark)}${F.svg}${S ? `<span class="famprop prop-${S}" aria-hidden="true"></span>` : ""}</button>
+        <span class="famhalo"></span><span class="famfloor" aria-hidden="true"></span>
+        <span class="cushion"></span>${sparkles(6, F.aura, F.spark)}${famArt(familiar)}${S ? `<span class="famprop prop-${S}" aria-hidden="true"></span>` : ""}</button>
       <div class="bubble m-${famMode}" aria-live="polite">
         <span class="bubglow" aria-hidden="true"></span>
-        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Chat with me"}" aria-label="Something else">↻</button><button class="iconbtn" type="button" data-famrec title="Recommend me a book" aria-label="Recommend me a book" aria-pressed="${famMode === "rec"}">📖</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button></div>
-        <div class="label">${esc(famName(familiar))} ${petLine ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}</div>
+        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Chat with me"}" aria-label="Something else">↻</button><button class="iconbtn" type="button" data-famrec title="Recommend me a book" aria-label="Recommend me a book" aria-pressed="${famMode === "rec"}">📖</button><button class="iconbtn" type="button" data-famjar title="The TBR jar: let me pick your next read" aria-label="TBR jar">🫙</button><button class="iconbtn relbtn" type="button" data-releases title="New and upcoming books from your authors" aria-label="New releases">🔔</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button></div>
+        <div class="label famlabel">${esc(famName(familiar))} ${petLine ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}${bondPill()}</div>
         ${content}
       </div>
     </div>${famPicking ? `<div class="fampicker">${famOptions()}</div>` : ""}`;
     if (famMode === "rec" && famRec) paintRecCovers($("#familiar"));
+    paintReleaseDot();
     if (said && said !== lastSaid) { lastSaid = said; speak(said, mood); } else setExpr(mood);
   }
   function petFamiliar(){
-    lastPoke = Date.now(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1);
+    lastPoke = Date.now(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1); bondPet();
     const P = PET[familiar]; let line; do { line = pick(P.lines); } while (line === petLine && P.lines.length > 1);
     petLine = line; lastSaid = ""; renderFamiliar();
     const body = $("#familiar .fambody");
@@ -5327,6 +5620,8 @@ alter publication supabase_realtime add table public.library;`;
     out.sort((a, b) => b[0] - a[0]); return [out[0][1], out[0][2]];
   }
   // ---- 02 literary alignment ----
+  // place the glowing dot inside the cell that was chosen: each third of the axis maps onto its own cell, with a margin
+  function cellPos(v, cell, vert){ const lo = [-1, -.2, .2][cell], hi = [-.2, .2, 1][cell], t = Math.min(1, Math.max(0, (v - lo) / (hi - lo))); return (cell + (vert ? .16 + t * .36 : .2 + t * .6)) / 3 * 100; }
   function alignment(D){
     let heart = 0, mind = 0, order = 0, chaos = 0; const why = { heart: [], mind: [], order: [], chaos: [] };
     const add = (k, v, label) => { if (!v) return; ({ heart: () => heart += v, mind: () => mind += v, order: () => order += v, chaos: () => chaos += v })[k](); if (label && !why[k].includes(label)) why[k].push(label); };
@@ -5496,8 +5791,9 @@ alter publication supabase_realtime add table public.library;`;
     if (!D.dna.length) { view.innerHTML = `<div class="empty"><p>Your Reader's Soul awakens once you've rated a couple of books you've read.</p></div>`; return; }
     const [a, b] = D.dna, H = hiddenTrait(D), AL = alignment(D), F = flags(D), E = era(D), P = passport(D), ACH = achievements(D), HS = horoscope(D);
     const rare = D.dna.slice(0, 3).reduce((s, x) => s + (RARITY[short(x)] || 1), 0), rareLabel = rare >= 8 ? ["Legendary combination", "legendary"] : rare >= 6 ? ["Rare combination", "rare"] : null;
-    const sel = soulSel && D.dna.find(x => x.name === soulSel) || a;
-    const evidence = D.read.filter(x => sel.t(x) > 0).sort((p, q) => (q.rating || 0) - (p.rating || 0)).slice(0, 4);
+    const sel = soulSel && D.dna.find(x => x.name === soulSel) || null;
+    const who = `${a.d} ${b ? `Your favourite stories also mix in ${b.s}${D.dna[2] ? ` and ${D.dna[2].s}` : ""}.` : ""}`;
+    const evidence = !sel ? [] : D.read.filter(x => sel.t(x) > 0).sort((p, q) => (q.rating || 0) - (p.rating || 0)).slice(0, 4);
     const timeline = (() => { const ys = [...new Set(D.read.map(x => yearOf(x.finished)).filter(Boolean))].sort(); return ys.map(y => { const list = D.read.filter(x => yearOf(x.finished) === y); if (list.length < 2) return null; const w = W8; const top = ARCHETYPES.map(A => [A, list.reduce((s, x) => s + w(x) * A.t(x), 0)]).sort((p, q) => q[1] - p[1])[0]; return top[1] > 0 ? { y, A: top[0], n: list.length } : null; }).filter(Boolean); })();
     const unlocked = ACH.filter(x => x.done).length;
     const ch = (n, id, title, sub, body) => `<section class="soulch" id="soul-${id}"><div class="soulnum">${n}</div><div class="soulbody"><h3>${title}</h3><div class="soulsub">${sub}</div>${body}</div></section>`;
@@ -5508,12 +5804,14 @@ alter publication supabase_realtime add table public.library;`;
         <nav class="soulnav">${SOUL_PAGES.map(([k, l], i) => `<button type="button" data-soulgo="${k}"><i>0${i + 1}</i>${l}</button>`).join("")}</nav></header>
       ${ch("01", "dna", "Your Reader DNA", `${tier} DNA · ${esc(tierTxt)}`, `<div class="soulhero" style="--c:${a.c}"><span class="dnaglyph" style="color:${a.c}">${a.g}</span><div><div class="label">Your hybrid soul</div><h4>${esc(hybridName(a, b))}</h4><p>${esc(a.name)}${b ? ` × ${esc(b.name)}` : ""}${rareLabel ? ` <span class="rarity r-${rareLabel[1]}">${rareLabel[0]}</span>` : ""}</p></div></div>
         <div class="strand big">${D.dna.slice(0, 6).map(x => `<span style="flex:${x.pct};--c:${x.c}" title="${esc(x.name)} · ${x.pct}%"></span>`).join("")}</div>
-        <div class="soulchips">${D.dna.slice(0, 8).map(x => `<button type="button" class="dnachip${x === sel ? " on" : ""}" data-soulsel="${esc(x.name)}" style="--c:${x.c}"><i>${x.g}</i>${esc(short(x))}<b>${x.pct}%</b></button>`).join("")}</div>
-        <div class="soulsel" style="--c:${sel.c}"><b>${esc(sel.name)}</b><p>${esc(sel.d)}</p>${evidence.length ? `<div class="label">What makes you this</div><div class="evid">${evidence.map(x => `<button type="button" class="evb" data-open="${esc(x.id)}">${coverHTML(x)}<span>${esc(x.title)}${x.rating ? ` · ${x.rating}★` : ""}</span></button>`).join("")}</div>` : ""}</div>
+        <p class="dnadesc soulwho">${esc(who)}</p>
+        <div class="soulchips">${D.dna.slice(0, 8).map(x => `<button type="button" class="dnachip${x === sel ? " on" : ""}" data-soulsel="${esc(x.name)}" style="--c:${x.c}" aria-expanded="${x === sel}" title="${x === sel ? "Close" : "What makes you this?"}"><i>${x.g}</i>${esc(short(x))}<b>${x.pct}%</b></button>`).join("")}</div>
+        <p class="note soulhint">${sel ? "" : "Tap any of them to see what makes you that kind of reader."}</p>
+        ${!sel ? "" : `<div class="soulsel" style="--c:${sel.c}"><button type="button" class="iconbtn soulselx" data-soulsel="${esc(sel.name)}" aria-label="Close">✕</button><b>${esc(sel.name)}</b><p>${esc(sel.d)}</p>${evidence.length ? `<div class="label">What makes you this</div><div class="evid">${evidence.map(x => `<button type="button" class="evb" data-open="${esc(x.id)}">${coverHTML(x)}<span>${esc(x.title)}${x.rating ? ` · ${x.rating}★` : ""}</span></button>`).join("")}</div>` : ""}</div>`}
         <blockquote class="hidden-trait"><div class="label">Your hidden reading trait</div>“${esc(H[0])}”<small>${esc(H[1])}</small></blockquote>
         ${timeline.length > 1 ? `<div class="label" style="margin-top:12px">Your DNA through time</div><div class="timeline">${timeline.map(t => `<span style="--c:${t.A.c}"><i>${t.A.g}</i><b>${t.y}</b>${esc(short(t.A))}<small>${t.n} books</small></span>`).join("")}</div>` : ""}`)}
       ${ch("02", "align", "Your Literary Alignment", "Do you read with your heart, your mind or your appetite for chaos?", `<div class="aligngrid"><div class="alabels"><span>Heart</span><span>Mind</span></div><div class="agrid">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<div class="acell${r === AL.row && c === AL.col ? " on" : ""}">${["The Devoted Romantic", "The Open Heart", "The Beautiful Chaos Reader", "The Loyal Keeper", "The Wandering Lantern", "The Wild Card", "The Scholarly Archivist", "The Curious Philosopher", "The Mad Scholar"][r * 3 + c].replace(/^The /, "")}</div>`).join("")).join("")}
-        <span class="adot" style="left:${((AL.x + 1) / 2 * 100).toFixed(1)}%;top:${((AL.y + 1) / 2 * 100).toFixed(1)}%"></span></div><div class="axlabels"><span>Order</span><span>Chaos</span></div></div>
+        <span class="adot" style="left:${cellPos(AL.x, AL.col).toFixed(1)}%;top:${cellPos(AL.y, AL.row, 1).toFixed(1)}%"></span></div><div class="axlabels"><span>Order</span><span>Chaos</span></div></div>
         <div class="alignres"><h4>${esc(AL.name)}</h4><p>${esc(AL.desc)}</p>${AL.why.length ? `<div class="label">Why</div><ul>${AL.why.map(w => `<li>${esc(cap(w))}</li>`).join("")}</ul>` : ""}</div>`)}
       ${ch("03", "flags", "Your Red & Green Flags", "We analysed your bookshelf. We have concerns. And compliments.", `<button type="button" class="btn small sharefl" data-share="flags">⤴ Share my flags</button><div class="flagcols"><div><div class="label">🚩 Red flags</div>${F.red.length ? F.red.map(([t, e]) => `<div class="flag red"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Suspiciously clean. For now.</div>`}</div>
         <div><div class="label">💚 Green flags</div>${F.green.length ? F.green.map(([t, e]) => `<div class="flag green"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Read, rate and save words to earn some.</div>`}</div></div>`)}
@@ -5540,7 +5838,7 @@ alter publication supabase_realtime add table public.library;`;
     const view = $("#view-soul"); if (!view || view.dataset.bound) return; view.dataset.bound = 1;
     view.addEventListener("click", e => {
       const g = e.target.closest("[data-soulgo]"); if (g) { const inFoot = !!g.closest(".soulfoot"); soulGo(g.dataset.soulgo); if (inFoot) view.querySelector(".soulnav")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); return; }
-      const s = e.target.closest("[data-soulsel]"); if (s) { soulSel = s.dataset.soulsel; soulRefresh(); return; }
+      const s = e.target.closest("[data-soulsel]"); if (s) { soulSel = soulSel === s.dataset.soulsel ? null : s.dataset.soulsel; soulRefresh(); return; }
       if (e.target.id === "soul-copy") { navigator.clipboard?.writeText($("#soul-code").textContent).then(() => toast("DNA code copied. Send it to a friend!"), () => toast("Select the code and copy it.")); return; }
       const op = e.target.closest("[data-ropen]"); if (op) { const c = recItems.get(op.dataset.ropen); if (c) openEditor({ ...recToBook(c), shelf: "want" }, true); }
     });
@@ -5567,45 +5865,150 @@ alter publication supabase_realtime add table public.library;`;
     return bits.length ? `<div class="rmline">${cap(bits.join(" · "))}.</div>` : "";
   }
 
-  // ---- ambient sounds, made in the browser (no files to download) ----
+  // ---- ambient soundscapes, synthesised live in the browser (no files to download) ----
+  const AMB_LAYERS = [["rain", "🌧", "Rain"], ["thunder", "⛈", "Thunder"], ["fire", "🔥", "Fireplace"], ["wind", "🌬", "Wind"], ["ocean", "🌊", "Waves"], ["night", "🦗", "Night crickets"], ["birds", "🐦", "Birdsong"], ["clock", "🕰", "Old clock"], ["cafe", "☕", "Café"]];
+  const AMB_PRESETS = [["Rainy library", ["rain", "clock"]], ["Cabin by the fire", ["fire", "wind"]], ["Midnight storm", ["rain", "thunder", "wind"]], ["Summer night", ["night", "wind"]], ["Seaside", ["ocean", "birds"]], ["Rainy café", ["cafe", "rain"]]];
   const Ambience = (() => {
-    let ctx = null, master = null, live = [], timers = [], kind = "off", vol = .6;
-    const buf = type => { const len = ctx.sampleRate * 3, b = ctx.createBuffer(1, len, ctx.sampleRate), d = b.getChannelData(0); let last = 0;
-      for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; if (type === "brown") { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; } return b; };
-    let WHITE, BROWN;
-    const loopSrc = b => { const s = ctx.createBufferSource(); s.buffer = b; s.loop = true; s.start(); live.push(s); return s; };
-    const filt = (type, f, q) => { const n = ctx.createBiquadFilter(); n.type = type; n.frequency.value = f; if (q) n.Q.value = q; live.push(n); return n; };
-    const gain = v => { const g = ctx.createGain(); g.gain.value = v; live.push(g); return g; };
-    function burst(f0, f1, amp, dur, type = "bandpass"){
-      const s = ctx.createBufferSource(); s.buffer = WHITE; const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = f0 + Math.random() * (f1 - f0); f.Q.value = 1.2;
-      const g = ctx.createGain(), t = ctx.currentTime; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(amp, t + .003); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-      s.connect(f).connect(g).connect(master); s.start(t, Math.random() * 2, dur + .05); s.onended = () => { s.disconnect(); f.disconnect(); g.disconnect(); };
+    let ctx = null, master = null, comp = null, vol = .7; const live = {};
+    let WHITE, PINK, BROWN;
+    function mkbuf(type){ const len = ctx.sampleRate * 4, b = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let ch = 0; ch < 2; ch++) { const d = b.getChannelData(ch); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0, last = 0;
+        for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1;
+          if (type === "pink") { b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926; }
+          else if (type === "brown") { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; }
+        // crossfade the loop seam
+        const f = 2048; for (let i = 0; i < f; i++) { const t = i / f; d[len - f + i] = d[len - f + i] * (1 - t) + d[i] * t; } }
+      return b; }
+    function init(){
+      if (ctx) return;
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3; comp.connect(ctx.destination);
+      master = ctx.createGain(); master.gain.value = vol; master.connect(comp);
+      WHITE = mkbuf("white"); PINK = mkbuf("pink"); BROWN = mkbuf("brown");
     }
-    const every = (min, max, fn) => { const go = () => { fn(); timers.push(setTimeout(go, min + Math.random() * (max - min))); }; timers.push(setTimeout(go, min)); };
-    function rain(level = 1){
-      loopSrc(WHITE).connect(filt("highpass", 600)).connect(filt("lowpass", 5200)).connect(gain(.13 * level)).connect(master);
-      const lfoG = gain(.06 * level); const sh = loopSrc(BROWN); sh.connect(filt("lowpass", 900)).connect(lfoG).connect(master);
-      every(25, 120, () => burst(2500, 7000, .05 * level * Math.random(), .02 + Math.random() * .03));
-      every(400, 1600, () => burst(900, 1800, .07 * level, .06)); // heavier drops on the sill
+    // ---- building blocks ----
+    const now = () => ctx.currentTime;
+    function noise(L, buf, rate = 1){ const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.playbackRate.value = rate; s.start(now(), Math.random() * 3); L.nodes.push(s); return s; }
+    function f(L, type, freq, Q){ const n = ctx.createBiquadFilter(); n.type = type; n.frequency.value = freq; if (Q != null) n.Q.value = Q; L.nodes.push(n); return n; }
+    function g(L, v){ const n = ctx.createGain(); n.gain.value = v; L.nodes.push(n); return n; }
+    function pan(L, p){ if (!ctx.createStereoPanner) return g(L, 1); const n = ctx.createStereoPanner(); n.pan.value = p; L.nodes.push(n); return n; }
+    function chain(...ns){ for (let i = 0; i < ns.length - 1; i++) ns[i].connect(ns[i + 1]); return ns[ns.length - 1]; }
+    function drift(L, param, lo, hi, minT, maxT, tc = .8){ const step = () => { if (L.dead) return; param.setTargetAtTime(lo + Math.random() * (hi - lo), now(), tc + Math.random() * tc); L.timers.push(setTimeout(step, (minT + Math.random() * (maxT - minT)) * 1000)); }; step(); }
+    function every(L, min, max, fn){ const go = () => { if (L.dead) return; try { fn(); } catch {} L.timers.push(setTimeout(go, min + Math.random() * (max - min))); }; L.timers.push(setTimeout(go, Math.random() * min)); }
+    // a one-shot sound that cleans up after itself
+    function shot(L, { buf = WHITE, type = "bandpass", freq = 3000, Q = 1, amp = .2, att = .002, dec = .03, p = 0, rate = 1, t = 0 }){
+      const s = ctx.createBufferSource(); s.buffer = buf; s.playbackRate.value = rate; const fl = ctx.createBiquadFilter(); fl.type = type; fl.frequency.value = freq; fl.Q.value = Q;
+      const gn = ctx.createGain(), T = now() + t; gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(amp, T + att); gn.gain.exponentialRampToValueAtTime(.0001, T + att + dec);
+      let out = gn; if (ctx.createStereoPanner) { const pn = ctx.createStereoPanner(); pn.pan.value = p; gn.connect(pn); out = pn; }
+      s.connect(fl).connect(gn); out.connect(L.out); s.start(T, Math.random() * 3, att + dec + .05); s.onended = () => { try { s.disconnect(); fl.disconnect(); gn.disconnect(); out.disconnect(); } catch {} };
     }
-    function fire(level = 1){
-      loopSrc(BROWN).connect(filt("lowpass", 420)).connect(gain(.55 * level)).connect(master);
-      loopSrc(WHITE).connect(filt("bandpass", 260, .7)).connect(gain(.025 * level)).connect(master);
-      every(40, 420, () => burst(1800, 5200, (.06 + Math.random() * .3) * level, .015 + Math.random() * .05, "highpass"));
-      every(1800, 5200, () => { burst(500, 900, .35 * level, .09); setTimeout(() => burst(2400, 4000, .2 * level, .03, "highpass"), 40); }); // a pop of a log
+    function tone(L, { freq = 1000, to = null, type = "sine", amp = .1, att = .003, dec = .2, p = 0, t = 0 }){
+      const o = ctx.createOscillator(); o.type = type; const T = now() + t; o.frequency.setValueAtTime(freq, T); if (to) o.frequency.exponentialRampToValueAtTime(to, T + att + dec);
+      const gn = ctx.createGain(); gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(amp, T + att); gn.gain.exponentialRampToValueAtTime(.0001, T + att + dec);
+      let out = gn; if (ctx.createStereoPanner) { const pn = ctx.createStereoPanner(); pn.pan.value = p; gn.connect(pn); out = pn; }
+      o.connect(gn); out.connect(L.out); o.start(T); o.stop(T + att + dec + .05); o.onended = () => { try { o.disconnect(); gn.disconnect(); out.disconnect(); } catch {} };
     }
-    function stop(){ timers.forEach(clearTimeout); timers = []; live.forEach(n => { try { n.stop?.(); } catch {} try { n.disconnect(); } catch {} }); live = []; }
-    function set(k){
-      kind = k; stop();
-      if (k === "off") { if (ctx && ctx.state === "running") ctx.suspend().catch(() => {}); return; }
-      try {
-        if (!ctx) { ctx = new (window.AudioContext || window.webkitAudioContext)(); master = ctx.createGain(); master.connect(ctx.destination); WHITE = buf("white"); BROWN = buf("brown"); }
-        ctx.resume().catch(() => {}); master.gain.value = vol;
-        if (k === "rain") rain(); if (k === "fire") fire(); if (k === "both") { rain(.8); fire(.7); }
-      } catch { kind = "off"; }
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    // ---- the layers ----
+    const BUILD = {
+      rain(L){
+        // the wash of rain: pink noise, shaped bright and soft, breathing slowly
+        const wash = chain(noise(L, PINK), f(L, "highpass", 380), f(L, "lowpass", 7200), f(L, "peaking", 2600, .7), g(L, .55)); wash.connect(L.out);
+        drift(L, wash.gain, .38, .62, 3, 7, 1.5);
+        // the low patter on roofs and leaves
+        const low = chain(noise(L, BROWN), f(L, "lowpass", 900), g(L, .35)); low.connect(L.out);
+        // countless individual drops, scattered left to right
+        every(L, 12, 45, () => shot(L, { freq: rnd(2200, 7500), Q: rnd(.8, 2.5), amp: rnd(.015, .08), dec: rnd(.006, .025), p: rnd(-.9, .9) }));
+        // fat drops on the window sill
+        every(L, 300, 1400, () => shot(L, { freq: rnd(700, 1400), Q: 3, amp: rnd(.05, .12), dec: .05, p: rnd(-.6, .6) }));
+        // a gutter dripping now and then
+        every(L, 2500, 7000, () => tone(L, { freq: rnd(900, 1400), to: rnd(380, 600), amp: .035, dec: .07, p: rnd(-.4, .4) }));
+      },
+      thunder(L){
+        const strike = () => {
+          const far = Math.random() < .55, a = far ? rnd(.25, .45) : rnd(.55, .9);
+          if (!far) shot(L, { buf: WHITE, type: "highpass", freq: 1800, amp: a * .5, att: .005, dec: .25, p: rnd(-.5, .5) }); // the crack
+          const s = ctx.createBufferSource(); s.buffer = BROWN; const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = far ? 160 : 320; const gn = ctx.createGain(), T = now() + (far ? .2 : .05), len = rnd(4, 8);
+          gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(a, T + rnd(.15, .6));
+          for (let k = 1; k < 7; k++) gn.gain.linearRampToValueAtTime(a * rnd(.35, 1) * (1 - k / 8), T + k * len / 8);
+          gn.gain.exponentialRampToValueAtTime(.0001, T + len);
+          s.connect(lp).connect(gn).connect(L.out); s.start(T, Math.random() * 3, len + .2); s.onended = () => { try { s.disconnect(); lp.disconnect(); gn.disconnect(); } catch {} };
+        };
+        L.timers.push(setTimeout(strike, 2200)); every(L, 16000, 40000, strike);
+      },
+      fire(L){
+        // the roar of the flames: deep brown noise, gently surging
+        const roar = chain(noise(L, BROWN), f(L, "lowpass", 260), g(L, .8)); roar.connect(L.out); drift(L, roar.gain, .5, .95, .6, 1.8, .3);
+        const breath = chain(noise(L, PINK), f(L, "bandpass", 700, .6), g(L, .05)); breath.connect(L.out); drift(L, breath.gain, .02, .09, .4, 1.4, .2);
+        // crackles come in little clusters, like real wood
+        every(L, 90, 600, () => { const n = 1 + Math.floor(Math.random() * 5), p = rnd(-.5, .5);
+          for (let i = 0; i < n; i++) shot(L, { type: "highpass", freq: rnd(1800, 6000), amp: rnd(.05, .4), att: .0007, dec: rnd(.003, .02), p: p + rnd(-.1, .1), t: i * rnd(.008, .05) }); });
+        // a log settles or pops
+        every(L, 3500, 9000, () => { const p = rnd(-.4, .4); shot(L, { freq: rnd(350, 700), Q: 2, amp: .5, att: .002, dec: .09, p }); for (let i = 0; i < 6; i++) shot(L, { type: "highpass", freq: rnd(2500, 6000), amp: rnd(.1, .3), att: .0007, dec: .012, p, t: .03 + i * rnd(.02, .08) }); });
+      },
+      wind(L){
+        const bp = f(L, "bandpass", 500, .8), out = chain(noise(L, PINK), bp, g(L, .8)); out.connect(L.out);
+        drift(L, bp.frequency, 260, 900, 2, 5, 1.6); drift(L, out.gain, .3, 1.1, 2.5, 6, 1.8);
+        const wh = f(L, "bandpass", 900, 9), whg = g(L, 0); chain(noise(L, WHITE), wh, whg).connect(L.out); // a faint whistle through the window frame
+        drift(L, wh.frequency, 600, 1300, 3, 7, 2); drift(L, whg.gain, 0, .06, 4, 9, 2.2);
+      },
+      ocean(L){
+        const mk = (period, delay, p) => { const lp = f(L, "lowpass", 400), gn = g(L, 0), pn = pan(L, p); chain(noise(L, PINK), lp, gn, pn).connect(L.out);
+          const wave = () => { if (L.dead) return; const T = now(), up = period * rnd(.35, .5), down = period - up;
+            lp.frequency.cancelScheduledValues(T); gn.gain.cancelScheduledValues(T);
+            lp.frequency.setValueAtTime(lp.frequency.value, T); lp.frequency.linearRampToValueAtTime(rnd(1600, 2600), T + up); lp.frequency.linearRampToValueAtTime(350, T + period);
+            gn.gain.setValueAtTime(gn.gain.value, T); gn.gain.linearRampToValueAtTime(rnd(.55, .85), T + up); gn.gain.linearRampToValueAtTime(.08, T + period);
+            L.timers.push(setTimeout(wave, period * 1000 * rnd(.95, 1.15))); };
+          L.timers.push(setTimeout(wave, delay)); };
+        mk(rnd(8, 11), 0, -.3); mk(rnd(9, 13), 4200, .35);
+        chain(noise(L, BROWN), f(L, "lowpass", 140), g(L, .5)).connect(L.out);
+      },
+      night(L){
+        const cricket = (freq, p, rest) => every(L, rest, rest * 1.6, () => { const pulses = 3 + Math.floor(Math.random() * 2); for (let i = 0; i < pulses; i++) tone(L, { freq, amp: .075, att: .004, dec: .018, p, t: i * .034 }); });
+        cricket(4300, -.6, 650); cricket(4650, .5, 820); cricket(3900, .1, 1100);
+        every(L, 2600, 6000, () => { for (let i = 0; i < 14; i++) tone(L, { freq: 5100, amp: .012, att: .003, dec: .012, p: rnd(-.9, .9), t: i * .022 }); }); // a distant chorus
+        chain(noise(L, BROWN), f(L, "lowpass", 300), g(L, .12)).connect(L.out); // the quiet of the night air
+        every(L, 9000, 22000, () => { const p = rnd(-.7, .7); tone(L, { freq: 420, to: 380, type: "sine", amp: .05, att: .05, dec: .45, p }); tone(L, { freq: 400, to: 360, amp: .045, att: .05, dec: .6, p, t: .7 }); }); // a far-off owl
+      },
+      birds(L){
+        const song = () => { const p = rnd(-.8, .8), base = rnd(2200, 4200), n = 2 + Math.floor(Math.random() * 6); let t = 0;
+          for (let i = 0; i < n; i++) { const up = Math.random() < .5; tone(L, { freq: base * rnd(.85, 1.2), to: base * (up ? rnd(1.2, 1.6) : rnd(.6, .85)), amp: rnd(.08, .17), att: .01, dec: rnd(.05, .14), p, t }); t += rnd(.08, .2); } };
+        every(L, 900, 3200, song);
+        every(L, 5000, 11000, () => { const p = rnd(-.6, .6); for (let i = 0; i < 3; i++) tone(L, { freq: 1900, to: 1500, amp: .07, att: .02, dec: .25, p, t: i * .45 }); }); // a dove-ish call
+        const leaves = chain(noise(L, PINK), f(L, "highpass", 1500), g(L, .04)); leaves.connect(L.out); drift(L, leaves.gain, .01, .07, 2, 5, 1.2);
+      },
+      clock(L){
+        let tick = true;
+        every(L, 1000, 1000, () => { const fq = tick ? 2900 : 2400; tick = !tick;
+          shot(L, { type: "bandpass", freq: fq, Q: 6, amp: .42, att: .0008, dec: .03, p: -.2 }); tone(L, { freq: fq / 2, amp: .05, att: .001, dec: .05, p: -.2 }); });
+        every(L, 25000, 60000, () => { const T = rnd(.3, .6); shot(L, { buf: PINK, type: "bandpass", freq: 2200, Q: .6, amp: .07, att: T, dec: .25, p: .4 }); shot(L, { buf: PINK, type: "highpass", freq: 3000, amp: .05, att: .01, dec: .12, p: .4, t: T + .1 }); }); // a page turned somewhere
+        chain(noise(L, BROWN), f(L, "lowpass", 180), g(L, .08)).connect(L.out); // the hush of a big room
+      },
+      cafe(L){
+        // a murmur of voices: noise through moving vowel formants
+        [[520, -.5], [1250, .2], [2400, .55]].forEach(([fq, p]) => { const bp = f(L, "bandpass", fq, 4), gn = g(L, .18); chain(noise(L, PINK), bp, gn, pan(L, p)).connect(L.out); drift(L, bp.frequency, fq * .7, fq * 1.35, .12, .4, .05); drift(L, gn.gain, .04, .26, .15, .5, .06); });
+        chain(noise(L, BROWN), f(L, "lowpass", 400), g(L, .3)).connect(L.out);
+        every(L, 2500, 7000, () => { const p = rnd(-.8, .8), b = rnd(2400, 3400); tone(L, { freq: b, amp: .03, dec: .5, p }); tone(L, { freq: b * 1.51, amp: .02, dec: .35, p }); }); // cups and spoons
+        every(L, 30000, 70000, () => { const p = rnd(-.6, .6); shot(L, { buf: WHITE, type: "bandpass", freq: 4500, Q: .8, amp: .08, att: .3, dec: 2.5, p }); }); // the espresso machine sighs
+      }
+    };
+    function start(k){
+      if (live[k] || !BUILD[k]) return; init();
+      const L = { nodes: [], timers: [], dead: false, out: ctx.createGain() };
+      L.out.gain.value = 0; L.out.connect(master); L.out.gain.setTargetAtTime(1, now(), .6);
+      live[k] = L; BUILD[k](L);
     }
-    return { set, get kind(){ return kind; }, volume(v){ vol = v; if (master) master.gain.value = v; }, get vol(){ return vol; } };
+    function stop(k){ const L = live[k]; if (!L) return; L.dead = true; delete live[k]; L.timers.forEach(clearTimeout);
+      L.out.gain.setTargetAtTime(0, now(), .35); setTimeout(() => { L.nodes.forEach(n => { try { n.stop?.(); } catch {} try { n.disconnect(); } catch {} }); try { L.out.disconnect(); } catch {} }, 1800); }
+    return {
+      set(list){ list = (list || []).filter(k => BUILD[k]);
+        try { if (list.length) { init(); ctx.resume().catch(() => {}); } Object.keys(live).forEach(k => { if (!list.includes(k)) stop(k); }); list.forEach(start);
+          if (!list.length && ctx) setTimeout(() => { if (!Object.keys(live).length && ctx.state === "running") ctx.suspend().catch(() => {}); }, 2000); } catch {} },
+      get layers(){ return Object.keys(live); },
+      volume(v){ vol = v; if (master) master.gain.setTargetAtTime(v, now(), .1); }, get vol(){ return vol; }
+    };
   })();
+  const ambSaved = () => { const v = lsGet(KEY_AMB, []); if (Array.isArray(v)) return v; return v === "both" ? ["rain", "fire"] : v === "off" || !v ? [] : [v]; };
 
   // ---- what your familiar murmurs while you read ----
   const RM_LINES = {
@@ -5649,7 +6052,7 @@ alter publication supabase_realtime add table public.library;`;
   function openReadMode(){
     const s = sessGet(); if (!s) return; const b = books.find(x => x.id === s.id); if (!b) { sessSet(null); return; }
     document.getElementById("rmode")?.remove();
-    const ch = byChapters(b), amb = lsGet(KEY_AMB, "off");
+    const ch = byChapters(b), amb = ambSaved();
     const el = document.createElement("div"); el.id = "rmode"; el.className = "rmode"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Reading mode");
     el.innerHTML = `<div class="rmglow"></div><div class="rmmotes">${Array.from({ length: 14 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${6 + (i * 7) % 9}s;--t:${(i * 1.3) % 7}s"></i>`).join("")}</div>
       <div class="rmtop"><span class="label">Reading mode</span><button type="button" class="rmghost" data-rm="hide" title="Leave it running and look around the nook">Minimise</button></div>
@@ -5666,8 +6069,11 @@ alter publication supabase_realtime add table public.library;`;
         <div class="rmsub" id="rm-sub"></div>
         <div class="rmbtns"><button type="button" class="rmbtn" data-rm="pause" id="rm-pause">Pause</button><button type="button" class="rmbtn primary" data-rm="end">I'm done for now</button></div>
       </div>
-      <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart">${FAMILIARS[familiar].svg}</div><div class="rmwhisper" id="rm-whisper"></div></div>
-      <div class="rmamb"><span class="label">Sounds</span>${[["off", "Silence"], ["rain", "🌧 Rain"], ["fire", "🔥 Fireplace"], ["both", "Rain & fire"]].map(([k, l]) => `<button type="button" data-amb="${k}" aria-pressed="${k === amb}">${l}</button>`).join("")}<input type="range" min="0" max="1" step=".05" value="${Ambience.vol}" id="rm-vol" aria-label="Volume"></div>
+      <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart">${famArt(familiar)}</div><div class="rmwhisper" id="rm-whisper"></div></div>
+      <div class="rmamb"><button type="button" class="rmambtog" data-ambopen aria-expanded="false">♪ Sounds<span id="rm-ambnow">${amb.length ? " · " + amb.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off"}</span></button>
+        <div class="rmambpanel" id="rm-ambpanel" hidden><div class="label">Moods</div><div class="rmpresets">${AMB_PRESETS.map(([n, ks]) => `<button type="button" data-ambset="${ks.join(",")}">${n}</button>`).join("")}<button type="button" data-ambset="">Silence</button></div>
+        <div class="label">Mix your own</div><div class="rmlayers">${AMB_LAYERS.map(([k, ic, n]) => `<button type="button" data-amb="${k}" aria-pressed="${amb.includes(k)}"><i>${ic}</i>${n}</button>`).join("")}</div>
+        <label class="rmvol"><span class="label">Volume</span><input type="range" min="0" max="1" step=".05" value="${Ambience.vol}" id="rm-vol" aria-label="Volume"></label></div></div>
       <form class="rmend" id="rm-end" hidden autocomplete="off"><h3>Where did you stop?</h3>
         <label class="field"><span class="label">${ch ? "I just finished chapter" : "I'm on page"}</span><input type="number" min="0" inputmode="numeric" id="rm-to" value="${ch ? (b.currentChapter || 0) : (b.currentPage || 0)}" ${!ch && b.pages ? `max="${b.pages}"` : ""}></label>
         <div class="rmendbtns"><button type="submit" class="rmbtn primary">Save this session</button><button type="button" class="rmbtn" data-rm="back">Keep reading</button><button type="button" class="rmghost" data-rm="discard">Discard</button></div></form>`;
@@ -5675,7 +6081,7 @@ alter publication supabase_realtime add table public.library;`;
     el.addEventListener("click", rmClick);
     el.querySelector("#rm-vol").addEventListener("input", e => Ambience.volume(+e.target.value));
     el.querySelector("#rm-end").addEventListener("submit", e => { e.preventDefault(); finishSession(+el.querySelector("#rm-to").value); });
-    if (amb !== "off" && Ambience.kind !== amb) Ambience.set(amb);
+    if (amb.length) Ambience.set(amb);
     keepAwake(true);
     const paint = () => { const s2 = sessGet(); if (!s2) return; $("#rm-time").textContent = clock(sessElapsed(s2)); const st = new Date(s2.t0);
       $("#rm-sub").textContent = `${s2.pauseAt ? "Paused · " : ""}Started at ${pad(st.getHours())}:${pad(st.getMinutes())}${ch ? (s2.c0 ? ` after chapter ${s2.c0}` : "") : ` on page ${s2.p0}`}`;
@@ -5685,10 +6091,13 @@ alter publication supabase_realtime add table public.library;`;
       const card = el.querySelector(".rmfam"); card.dataset.expr = pick(["idle", "idle", "sleepy", "happy", "love"].concat(familiar === "bat" ? ["shy"] : familiar === "wolf" ? ["sad"] : ["wink"])); setTimeout(() => card.isConnected && (card.dataset.expr = "idle"), 3200); };
     clearInterval(rmWhisper); setTimeout(whisper, 2500); rmWhisper = setInterval(whisper, 150000);
   }
-  function closeReadMode(){ clearInterval(rmTick); clearInterval(rmWhisper); Ambience.set("off"); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); }
+  function closeReadMode(){ clearInterval(rmTick); clearInterval(rmWhisper); Ambience.set([]); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); }
   function rmClick(e){
     const amb = e.target.closest("[data-amb]");
-    if (amb) { const k = amb.dataset.amb; lsSet(KEY_AMB, k); Ambience.set(k); this.querySelectorAll("[data-amb]").forEach(x => x.setAttribute("aria-pressed", x === amb)); return; }
+    const paintAmb = list => { lsSet(KEY_AMB, list); Ambience.set(list); this.querySelectorAll("[data-amb]").forEach(x => x.setAttribute("aria-pressed", list.includes(x.dataset.amb))); const n = this.querySelector("#rm-ambnow"); if (n) n.textContent = list.length ? " · " + list.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off"; };
+    if (amb) { const k = amb.dataset.amb, cur = ambSaved(); paintAmb(cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]); return; }
+    const set = e.target.closest("[data-ambset]"); if (set) { paintAmb(set.dataset.ambset ? set.dataset.ambset.split(",") : []); return; }
+    if (e.target.closest("[data-ambopen]")) { const pnl = this.querySelector("#rm-ambpanel"), btn = e.target.closest("[data-ambopen]"); pnl.hidden = !pnl.hidden; btn.setAttribute("aria-expanded", !pnl.hidden); return; }
     const a = e.target.closest("[data-rm]"); if (!a) return;
     const s = sessGet(); if (!s) return closeReadMode();
     const act = a.dataset.rm;
@@ -5718,7 +6127,7 @@ alter publication supabase_realtime add table public.library;`;
     const end = new Date();
     if (end.getHours() < 4 || new Date(s.t0).getHours() < 4) lsSet("reading-ledger-midnight", 1);
     if (mins >= 1) b.sessions = [...(b.sessions || []), { s: new Date(s.t0).toISOString(), m: mins, p: pages, ...(ch ? { c: to } : {}) }].slice(-300);
-    sessSet(null); save(); closeReadMode(); render();
+    sessSet(null); save(); closeReadMode(); render(); if (mins >= 1) bondAdd(2 + Math.min(24, mins / 5), "session");
     const line = mins >= 1 ? (RM_END[familiar] || RM_END.cat)(mins, pages) : "Too short to log as a session, but your page is saved.";
     toast(`${FAMILIARS[familiar].name}: ${line}`);
     const done = b.pages && b.currentPage >= b.pages || ch && b.chapters && to >= b.chapters;
@@ -5931,6 +6340,166 @@ alter publication supabase_realtime add table public.library;`;
     } catch (err) { ov.querySelector(".sharepre").innerHTML = `<p class="note">${esc(err && err.message || "Couldn't paint the card.")}</p>`; }
   }
   document.addEventListener("click", e => { const s = e.target.closest("[data-share]"); if (!s) return; e.preventDefault(); shareCard(s.dataset.share, s.dataset.share === "year" ? +s.dataset.year : s.dataset.id); });
+  // ================= Scan a barcode to add a book =================
+  const ZXING_URL = "https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js";
+  let scanStream = null, scanStop = null, zxLoad = null;
+  const loadZX = () => zxLoad || (zxLoad = new Promise((res, rej) => { if (window.ZXing) return res(window.ZXing); const s = document.createElement("script"); s.src = ZXING_URL; s.onload = () => res(window.ZXing); s.onerror = () => { zxLoad = null; rej(new Error("zxing")); }; document.head.append(s); }));
+  const isbnOk = c => { c = String(c || "").replace(/[^0-9X]/gi, ""); if (c.length === 13 && /^97[89]/.test(c)) { let s = 0; for (let i = 0; i < 12; i++) s += +c[i] * (i % 2 ? 3 : 1); return (10 - s % 10) % 10 === +c[12] ? c : ""; } if (c.length === 10) { let s = 0; for (let i = 0; i < 10; i++) s += (c[i].toUpperCase() === "X" ? 10 : +c[i]) * (10 - i); return s % 11 === 0 ? c.toUpperCase() : ""; } return ""; };
+  function stopCamera(){ try { scanStop && scanStop(); } catch {} scanStop = null; if (scanStream) { scanStream.getTracks().forEach(t => t.stop()); scanStream = null; } }
+  function closeScanner(){ stopCamera(); document.getElementById("scan-ov")?.remove(); }
+  function openScanner(){
+    closeScanner();
+    const ov = document.createElement("div"); ov.id = "scan-ov"; ov.className = "scanov";
+    ov.innerHTML = `<div class="scanbox" role="dialog" aria-modal="true" aria-label="Scan a book's barcode">
+      <div class="scanhead"><b>Scan a barcode</b><button class="iconbtn" type="button" data-sc="close" aria-label="Close">✕</button></div>
+      <div class="scanview" id="scan-view"><video id="scan-video" playsinline muted autoplay></video><div class="scanframe"><i></i></div><div class="scanmsg" id="scan-msg">Starting the camera…</div></div>
+      <div class="scanres" id="scan-res" hidden></div>
+      <form class="scanform" id="scan-form" autocomplete="off"><input id="scan-isbn" inputmode="numeric" placeholder="Or type the ISBN from the back cover" maxlength="17"><button class="btn small" type="submit">Look up</button></form>
+      <p class="note scannote">Point at the barcode on the back of the book (the one starting with 978). Hold steady, a hand's width away.</p></div>`;
+    document.body.append(ov);
+    ov.addEventListener("click", scanClick);
+    ov.querySelector("#scan-form").addEventListener("submit", e => { e.preventDefault(); const c = isbnOk($("#scan-isbn").value); if (!c) return toast("That doesn't look like a valid ISBN. Check the digits?"); foundISBN(c); });
+    startCamera();
+  }
+  async function startCamera(){
+    const msg = t => { const m = $("#scan-msg"); if (m) m.textContent = t; };
+    if (!navigator.mediaDevices?.getUserMedia) { msg("This browser can't open the camera. Type the ISBN below instead."); return; }
+    try { scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false }); }
+    catch (e) { msg(e && e.name === "NotAllowedError" ? "Camera access was blocked. Allow it in your browser settings, or type the ISBN below." : "No camera found. Type the ISBN below instead."); return; }
+    const v = $("#scan-video"); if (!v) { stopCamera(); return; }
+    v.srcObject = scanStream; try { await v.play(); } catch {}
+    msg("Looking for a barcode…");
+    let done = false; const hit = raw => { if (done) return; const c = isbnOk(raw); if (!c) return; done = true; try { navigator.vibrate?.(60); } catch {} stopCamera(); foundISBN(c); };
+    if ("BarcodeDetector" in window) {
+      try {
+        const det = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a"] }); let alive = true; scanStop = () => { alive = false; };
+        const tick = async () => { if (!alive || done) return; try { if (v.readyState >= 2) { const r = await det.detect(v); r.forEach(x => hit(x.rawValue)); } } catch {} if (alive && !done) setTimeout(tick, 180); };
+        tick(); return;
+      } catch {}
+    }
+    try {
+      const ZX = await loadZX(); if (!scanStream) return;
+      const hints = new Map(); hints.set(ZX.DecodeHintType.POSSIBLE_FORMATS, [ZX.BarcodeFormat.EAN_13, ZX.BarcodeFormat.EAN_8]); hints.set(ZX.DecodeHintType.TRY_HARDER, true);
+      const reader = new ZX.MultiFormatReader(); reader.setHints(hints);
+      const c = document.createElement("canvas"), x = c.getContext("2d", { willReadFrequently: true }); let alive = true; scanStop = () => { alive = false; };
+      const tick = () => { if (!alive || done) return;
+        if (v.readyState >= 2 && v.videoWidth) { const w = Math.min(960, v.videoWidth), h = Math.round(w * v.videoHeight / v.videoWidth); c.width = w; c.height = h; x.drawImage(v, 0, 0, w, h);
+          try { const img = x.getImageData(0, 0, w, h).data, lum = new Uint8ClampedArray(w * h); for (let i = 0, j = 0; j < lum.length; i += 4, j++) lum[j] = (img[i] * 306 + img[i + 1] * 601 + img[i + 2] * 117) >> 10;
+            const src = new ZX.RGBLuminanceSource(lum, w, h), bmp = new ZX.BinaryBitmap(new ZX.HybridBinarizer(src)); const r = reader.decode(bmp); if (r) hit(r.getText()); } catch {} }
+        if (alive && !done) setTimeout(tick, 220); };
+      tick();
+    } catch { msg("The barcode reader couldn't load. Type the ISBN below instead."); }
+  }
+  async function foundISBN(isbn){
+    const res = $("#scan-res"), view = $("#scan-view"); if (!res) return;
+    if (view) view.hidden = true; res.hidden = false;
+    res.innerHTML = `<div class="progress dots">Looking up ${esc(isbn)}</div>`;
+    let r = null;
+    try { r = (await olSearch({ isbn }, 1))[0] || null; } catch {}
+    if (!r) { try { const d = await olJSON(`${OL}/isbn/${isbn}.json`); if (d && d.title) { let author = ""; try { const ak = d.authors?.[0]?.key; if (ak) author = (await olJSON(`${OL}${ak}.json`)).name || ""; } catch {} r = { title: d.title, author, pages: d.number_of_pages || null, olKey: d.works?.[0]?.key || null, coverId: d.covers?.[0] || null, cover: d.covers?.[0] ? coverById(d.covers[0]) : "", year: +(String(d.publish_date || "").match(/\d{4}/) || [0])[0] || null, genres: [], subjects: [] }; } } catch {} }
+    if (!r) {
+      res.innerHTML = `<div class="scanmiss"><p>I couldn't find <b>${esc(isbn)}</b> in Open Library right now.</p><div class="scanacts"><button class="btn primary small" type="button" data-sc="hand" data-isbn="${esc(isbn)}">Add it by hand</button><button class="btn small" type="button" data-sc="again">Scan another</button></div></div>`; return;
+    }
+    r = { ...r, isbn };
+    const have = findSame(r);
+    scanFound = r;
+    res.innerHTML = `<div class="scanbook">${coverHTML(r)}<div><div class="sbt">${esc(r.title)}</div><div class="sba">${esc(r.author || "")}${r.year ? ` · ${r.year}` : ""}${r.pages ? ` · ${r.pages} pages` : ""}</div>
+      ${have ? `<p class="note">Already on your ${esc(SHELVES[have.shelf])} shelf.</p><div class="scanacts"><button class="btn small" type="button" data-sc="open" data-id="${esc(have.id)}">Open it</button><button class="btn small" type="button" data-sc="again">Scan another</button></div>`
+        : `<div class="label" style="margin-top:8px">Put it on</div><div class="scanacts"><button class="btn primary small" type="button" data-sc="want">Want to read</button><button class="btn small" type="button" data-sc="reading">Reading</button><button class="btn small" type="button" data-sc="read">Read</button></div><button class="linkbtn" type="button" data-sc="again">Scan another</button>`}</div></div>`;
+  }
+  let scanFound = null;
+  function scanClick(e){
+    if (e.target === this) return closeScanner();
+    const a = e.target.closest("[data-sc]"); if (!a) return;
+    const k = a.dataset.sc;
+    if (k === "close") return closeScanner();
+    if (k === "again") { $("#scan-res").hidden = true; $("#scan-view").hidden = false; $("#scan-isbn").value = ""; startCamera(); return; }
+    if (k === "hand") { closeScanner(); openEditor({ title: "", isbn: a.dataset.isbn }, true); return; }
+    if (k === "open") { closeScanner(); openById(a.dataset.id); return; }
+    if (!scanFound) return;
+    if (k === "want") { upsert({ ...scanFound, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString() }); toast(`${scanFound.title} added to Want to read`); $("#scan-res").hidden = true; $("#scan-view").hidden = false; startCamera(); return; }
+    if (k === "reading" || k === "read") { const r = scanFound; closeScanner(); openEditor({ ...r, shelf: k }, true); }
+  }
+  // ================= The TBR jar =================
+  const TXTB = b => [b.title, b.summary, ...(b.subjects || []), ...(b.tropes || []), ...(b.themes || []), ...(b.genres || [])].join(" ").toLowerCase();
+  const JAR_MOODS = [
+    ["any", "✦ Anything", () => true, "Whatever fate decides."],
+    ["short", "☕ Something short", b => b.pages && b.pages <= 320, "Under 320 pages. A quick little treat."],
+    ["big", "🏰 A big one", b => b.pages >= 500, "500+ pages to disappear into."],
+    ["cry", "💧 Make me cry", b => /grief|tragic|tragedy|heartbreak|death|dying|loss|war|cancer|tear|devastat|emotional/.test(TXTB(b)), "Tissues recommended."],
+    ["swoon", "♥ Make me swoon", b => [...bookGenres(b)].some(g => /Romance|Romantasy/.test(g)) || /romance|love story|slow burn|enemies to lovers/.test(TXTB(b)), "Butterflies guaranteed."],
+    ["thrill", "⚡ Thrill me", b => [...bookGenres(b)].some(g => /Thriller|Mystery|Horror|Crime/.test(g)) || /thriller|murder|mystery|suspense|killer|detective/.test(TXTB(b)), "Lock the doors."],
+    ["cozy", "🍵 Something cozy", b => /cozy|cosy|found family|small town|witch|tea|bakery|bookshop|comfort|heartwarming|cottage/.test(TXTB(b)), "Blanket, tea, done."],
+    ["magic", "✧ Take me away", b => [...bookGenres(b)].some(g => /Fantasy|Romantasy|Sci|Myth/.test(g)), "Another world, please."],
+    ["series", "❧ Continue a series", b => !!b.seriesName && books.some(x => x.shelf === "read" && x.seriesName && norm(x.seriesName) === norm(b.seriesName)), "Back to a world you already love."],
+    ["new", "🌱 A new author", b => !books.some(x => x.shelf === "read" && norm(x.author) === norm(b.author)), "Someone you've never read before."]
+  ];
+  const JAR_LINES = {
+    cat: ["Close your eyes, darling. Let my paw decide.", "Mmm, this one has been waiting for you."],
+    owl: ["By the ancient method of random selection, I present…", "A most fortuitous draw. Ahem."],
+    raven: ["I seized this one from the jar with my own talons!", "Fate fears me. Behold!"],
+    fox: ["I picked the lock on the jar. Don't tell.", "Psst. This one. Trust me."],
+    toad: ["Randomised trial complete. Result:", "The data has spoken. Statistically, this one."],
+    bat: ["I… I picked one. I hope you like it?", "Is this okay? I chose it really carefully."],
+    hedgehog: ["I got it! I got one! Look look look!", "This one was at the very bottom. Adventure!"],
+    lion: ["Ay, destiny itself chose this one, mi amor!", "The jar whispered your name. Así es."],
+    wolf: ["The jar chose. I didn't. Whatever.", "This one's dark enough. You'll survive."]
+  };
+  let jarMood = "any", jarLast = null;
+  function jarPool(){ const m = JAR_MOODS.find(x => x[0] === jarMood) || JAR_MOODS[0]; return books.filter(b => b.shelf === "want").filter(b => { try { return m[2](b); } catch { return false; } }); }
+  function jarSVG(n){
+    const slips = Array.from({ length: Math.min(26, Math.max(4, n * 2)) }, (_, i) => { const x = 34 + ((i * 37) % 52), y = 150 - (i * 4.6) % 78 - Math.floor(i / 9) * 6, r = (i * 47) % 70 - 35; const c = ["#E9B872", "#D9826A", "#A9C49A", "#C9A6D8", "#F2D58A", "#9CC3D5", "#E8A3B6"][i % 7]; return `<rect x="${x}" y="${y}" width="16" height="9" rx="1.5" fill="${c}" transform="rotate(${r} ${x + 8} ${y + 4})" opacity=".95"/>`; }).join("");
+    return `<svg class="jarsvg" viewBox="0 0 120 180" aria-hidden="true"><defs><linearGradient id="jg" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".25" stop-color="#fff" stop-opacity=".08"/><stop offset=".8" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".25"/></linearGradient></defs>
+      <ellipse cx="60" cy="172" rx="44" ry="6" fill="#000" opacity=".18"/>
+      <g class="slips">${slips}</g>
+      <path d="M26 40q-6 6-6 20v92q0 18 18 18h44q18 0 18-18V60q0-14-6-20z" fill="url(#jg)" stroke="#C9B48E" stroke-width="2"/>
+      <path d="M30 56v96" stroke="#fff" stroke-width="4" opacity=".35" stroke-linecap="round"/>
+      <g class="lid"><rect x="24" y="26" width="72" height="16" rx="4" fill="#8A5A2A"/><rect x="24" y="26" width="72" height="5" rx="2.5" fill="#A8743A"/><path d="M30 34h60" stroke="#6A4420" stroke-width="1" stroke-dasharray="3 3"/></g>
+      <path d="M40 30q20-14 40 0" stroke="#C9A24E" stroke-width="2.4" fill="none"/>
+      <g class="label"><rect x="38" y="92" width="44" height="26" rx="3" fill="#F7EDD6" stroke="#B8986A"/><text x="60" y="104" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-style="italic" fill="#5A3A22">To be read</text><text x="60" y="113" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#8A6A4A">${n} inside</text></g></svg>`;
+  }
+  function openJar(){
+    document.getElementById("jar-ov")?.remove();
+    const ov = document.createElement("div"); ov.id = "jar-ov"; ov.className = "jarov";
+    document.body.append(ov);
+    ov.addEventListener("click", jarClick);
+    paintJar();
+  }
+  function paintJar(result){
+    const ov = $("#jar-ov"); if (!ov) return;
+    const all = books.filter(b => b.shelf === "want"), pool = jarPool(), F = FAMILIARS[familiar];
+    const counts = Object.fromEntries(JAR_MOODS.map(m => [m[0], all.filter(b => { try { return m[2](b); } catch { return false; } }).length]));
+    ov.innerHTML = `<div class="jarbox" role="dialog" aria-modal="true" aria-label="The TBR jar" style="--aura:${F.aura}">
+      <div class="jarhead"><div><div class="label">Can't decide?</div><h2>The TBR jar</h2></div><button class="iconbtn" type="button" data-jar="close" aria-label="Close">✕</button></div>
+      ${!all.length ? `<p class="note">Your Want to read shelf is empty, so the jar is too. Add a few books you're curious about first.</p>` : `
+      <div class="jarmoods">${JAR_MOODS.map(([k, l]) => `<button type="button" data-jarmood="${k}" aria-pressed="${k === jarMood}" ${counts[k] ? "" : "disabled"}>${l}<b>${counts[k]}</b></button>`).join("")}</div>
+      <div class="jarstage${result ? " drawn" : ""}" id="jar-stage">
+        <div class="jarwrap">${jarSVG(pool.length)}<div class="jarfam famcard" data-fam="${familiar}" data-expr="${result ? "happy" : "idle"}">${famArt(familiar)}</div></div>
+        ${result ? `<div class="jarslip"><div class="jarline">“${esc(result.line)}”<small>${esc(famName(familiar))}</small></div>
+          <div class="jarbook">${coverHTML(result.b)}<div><div class="jbt">${esc(result.b.title)}</div><div class="jba">${esc(result.b.author || "")}${result.b.pages ? ` · ${result.b.pages} pages` : ""}</div><p class="note">${esc(result.why)}</p>
+          <div class="jaracts"><button class="btn primary small" type="button" data-jar="start" data-id="${esc(result.b.id)}">🕯 Start reading it</button><button class="btn small" type="button" data-jar="draw">Draw again</button><button class="linkbtn" type="button" data-open="${esc(result.b.id)}">Open</button></div></div></div></div>`
+        : `<div class="jarcta"><p>${pool.length ? `${pool.length} book${pool.length > 1 ? "s" : ""} in the jar${jarMood !== "any" ? " for this mood" : ""}.` : "No books match this mood."}</p><button class="btn primary" type="button" data-jar="draw" ${pool.length ? "" : "disabled"}>Shake the jar</button></div>`}
+      </div>`}</div>`;
+    if (result) paintRecCovers?.(ov);
+  }
+  function jarClick(e){
+    if (e.target === this) return this.remove();
+    const m = e.target.closest("[data-jarmood]"); if (m) { jarMood = m.dataset.jarmood; jarLast = null; paintJar(); return; }
+    const a = e.target.closest("[data-jar]"); if (!a) { if (e.target.closest("[data-open]")) this.remove(); return; }
+    const k = a.dataset.jar;
+    if (k === "close") return this.remove();
+    if (k === "draw") {
+      let pool = jarPool(); if (!pool.length) return;
+      if (pool.length > 1 && jarLast) pool = pool.filter(b => b.id !== jarLast);
+      const pick1 = pool[Math.floor(Math.random() * pool.length)]; jarLast = pick1.id;
+      const stage = $("#jar-stage"); if (stage) { paintJar(); $("#jar-stage")?.classList.add("shaking"); const fc = $("#jar-ov .jarfam"); if (fc) fc.dataset.expr = "surprised"; }
+      const mood = JAR_MOODS.find(x => x[0] === jarMood);
+      const why = jarMood === "any" ? (pick1.added ? `On your shelf since ${new Date(pick1.added).toLocaleDateString(undefined, { month: "long", year: "numeric" })}.` : "Waiting patiently on your shelf.") : mood[3];
+      setTimeout(() => { paintJar({ b: pick1, line: pick(JAR_LINES[familiar] || JAR_LINES.cat), why }); }, 1500);
+      return;
+    }
+    if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
+  }
   function render(){
     renderNow(); renderShelf(); renderPortrait(); renderLibrary(); if (typeof renderGuide === "function") renderGuide();
     setTimeout(fillSpineColors, 300);
@@ -5957,6 +6526,13 @@ alter publication supabase_realtime add table public.library;`;
   });
   $("#search-form").addEventListener("submit", e => { e.preventDefault(); runSearch($("#q").value); });
   $("#manual-btn").addEventListener("click", () => openEditor({ title: $("#q").value.trim() }, true));
+  $("#scan-btn").addEventListener("click", openScanner);
+  document.addEventListener("click", e => {
+    if (e.target.closest("[data-famjar]")) { openJar(); return; }
+    if (e.target.closest("[data-releases]")) { openReleases(); return; }
+    if (e.target.closest("[data-bond]")) { openBond(); return; }
+  });
+  setTimeout(bondVisit, 1500);
   $("#series-add-btn").addEventListener("click", () => openSeriesAdder());
   $("#results-wrap").addEventListener("click", e => {
     const chip = e.target.closest("[data-q]"); if (chip) { $("#q").value = chip.dataset.q; return runSearch(chip.dataset.q); }
