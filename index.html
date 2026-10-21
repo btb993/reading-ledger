@@ -6930,7 +6930,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     function init(){
       if (ctx) return;
       ctx = new (window.AudioContext || window.webkitAudioContext)();
-      comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3; comp.connect(ctx.destination);
+      comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.knee.value = 12; comp.ratio.value = 2; comp.connect(ctx.destination);
       master = ctx.createGain(); master.gain.value = vol; master.connect(comp);
       WHITE = mkbuf("white"); PINK = mkbuf("pink"); BROWN = mkbuf("brown");
     }
@@ -6957,16 +6957,145 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
       o.connect(gn); out.connect(L.out); o.start(T); o.stop(T + att + dec + .05); o.onended = () => { try { o.disconnect(); gn.disconnect(); out.disconnect(); } catch {} };
     }
     const rnd = (a, b) => a + Math.random() * (b - a);
+    // ---- studio-rendered textures: built sample by sample once (in a background worker), then looped seamlessly ----
+    function TEXGEN(api){
+    const R = Math.random, rr = (a, b) => a + R() * (b - a);
+    function bq(sr){ let b0 = 1, b1 = 0, b2 = 0, a1 = 0, a2 = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+      return { set(type, fq, Q = .707){ const w = 2 * Math.PI * Math.min(fq, sr * .45) / sr, c = Math.cos(w), s = Math.sin(w), al = s / (2 * Q), A0 = 1 + al; let B0, B1, B2;
+          if (type === "lp") { B0 = (1 - c) / 2; B1 = 1 - c; B2 = B0; } else if (type === "hp") { B0 = (1 + c) / 2; B1 = -(1 + c); B2 = B0; } else { B0 = al; B1 = 0; B2 = -al; }
+          b0 = B0 / A0; b1 = B1 / A0; b2 = B2 / A0; a1 = -2 * c / A0; a2 = (1 - al) / A0; return this; },
+        run(x){ const y = b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2; x2 = x1; x1 = x; y2 = y1; y1 = y; return y; } }; }
+    const pinkGen = () => { let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0; return () => { const w = R() * 2 - 1; b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; const o = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926; return o; }; };
+    const brownGen = () => { let l = 0; return () => { l = (l + .02 * (R() * 2 - 1)) / 1.02; return l * 3.5; }; };
+    // a smooth random wander between lo and hi, a new target every `step` seconds
+    function wander(n, sr, step, lo, hi){ const out = new Float32Array(n), k = Math.max(2, Math.floor(step * sr)); let a = rr(lo, hi), b = rr(lo, hi);
+      for (let i = 0; i < n; i++) { const j = i % k; if (j === 0 && i) { a = b; b = rr(lo, hi); } const t = j / k, e = (1 - Math.cos(Math.PI * t)) / 2; out[i] = a + (b - a) * e; } return out; }
+    // join the end back onto the start so the loop never clicks
+    function seam(x, n, F){ const o = x.slice(0, n); for (let i = 0; i < F; i++) { const t = i / F; o[i] = x[i] * t + x[n + i] * (1 - t); } return o; }
+    function toBuf(chs, rms){ let s = 0, c = 0; for (const d of chs) for (let i = 0; i < d.length; i += 3) { s += d[i] * d[i]; c++; } const k = rms / (Math.sqrt(s / c) || 1);
+      let pk = 0; for (const d of chs) for (let i = 0; i < d.length; i++) { d[i] *= k; if (Math.abs(d[i]) > pk) pk = Math.abs(d[i]); }
+      if (pk > .95) for (const d of chs) for (let i = 0; i < d.length; i++) d[i] *= .95 / pk;
+      return chs; }
+    // a water drop: a tiny bubble that rings and rises in pitch (how real raindrops sound)
+    function drop(d, at, sr, f0, dec, amp){ const len = Math.min(d.length - at, Math.floor(dec * sr * 5)); let ph = 0;
+      for (let j = 0; j < len; j++) { const t = j / sr; ph += 2 * Math.PI * f0 * (1 + 1.6 * t / (dec * 5)) / sr; d[at + j] += amp * Math.exp(-t / dec) * Math.sin(ph); }
+      const ck = Math.min(len, Math.floor(sr * .0007)); for (let j = 0; j < ck; j++) d[at + j] += amp * .5 * (R() * 2 - 1) * (1 - j / ck); }
+
+    const MAKE = {
+      rain(sr){ // gentle steady rain: a soft distant hush, thousands of tiny drops, a few nearer ones on the glass
+        const n = sr * 18, F = Math.floor(sr * .6), N = n + F, out = [];
+        for (let c = 0; c < 2; c++) {
+          const x = new Float32Array(N), pk = pinkGen(), hp = bq(sr).set("hp", 350), lp = bq(sr).set("lp", 3200, .6), sw = wander(N, sr, 3, .75, 1.05);
+          for (let i = 0; i < N; i++) x[i] = lp.run(hp.run(pk())) * .55 * sw[i];
+          const far = new Float32Array(N); for (let k = 0, m = Math.floor(N / sr * 520); k < m; k++) drop(far, Math.floor(R() * N), sr, rr(1600, 5200), rr(.0015, .006), Math.pow(R(), 3) * .35 + .015);
+          const near = new Float32Array(N); for (let k = 0, m = Math.floor(N / sr * 14); k < m; k++) drop(near, Math.floor(R() * N), sr, rr(700, 2600), rr(.004, .014), Math.pow(R(), 2) * .5 + .08);
+          const lf = bq(sr).set("lp", 3800, .5), ln = bq(sr).set("lp", 5000, .6);
+          for (let i = 0; i < N; i++) x[i] += lf.run(far[i]) * .55 + ln.run(near[i]) * .35;
+          out.push(seam(x, n, F));
+        }
+        return toBuf(out, .08);
+      },
+      wind(sr){ // a breeze that rises and falls in slow, smooth gusts; the loop length is the gusts' common period so it never jumps
+        const n = sr * 24, F = Math.floor(sr * .8), N = n + F, out = [];
+        const P = [24, 12, 8, 4.8].map(p => [p, R() * 6.283]);
+        for (let c = 0; c < 2; c++) {
+          const x = new Float32Array(N), bn = brownGen(), pk = pinkGen(), bp = bq(sr), body = bq(sr).set("lp", 1100, .6), wh = bq(sr), rust = bq(sr).set("hp", 2600), rl = bq(sr).set("lp", 6000);
+          const lag = c ? 1.3 : 0, fl = wander(N, sr, .18, .7, 1); let e = .5, ee = .25;
+          for (let i = 0; i < N; i++) {
+            if (i % 32 === 0) { const t = i / sr - lag; e = 0; for (let j = 0; j < 4; j++) e += Math.sin(2 * Math.PI * t / P[j][0] + P[j][1]) / (j + 1.4); e = Math.max(0, Math.min(1, .5 + e * .55)); ee = e * e; }
+            if (i % 64 === 0) { bp.set("bp", 200 + 750 * ee, .6); wh.set("bp", 520 + 380 * e, 9); }
+            const s = bn() * .7 + pk() * .5;
+            x[i] = body.run(bp.run(s)) * (.12 + .9 * ee) + wh.run(pk()) * .05 * ee * e + rl.run(rust.run(pk())) * .1 * ee * fl[i];
+          }
+          out.push(seam(x, n, F));
+        }
+        return toBuf(out, .08);
+      },
+      fire(sr){ // a hearth: a low soft roar, a breath of flame, wood crackling in little clusters, the odd pop and sap hiss
+        const n = sr * 32, F = Math.floor(sr * .5), N = n + F, L = new Float32Array(N), Rt = new Float32Array(N);
+        const bn = brownGen(), bn2 = brownGen(), pk = pinkGen(), lp = bq(sr).set("lp", 170, .7), lp2 = bq(sr).set("lp", 170, .7), mid = bq(sr).set("bp", 520, .5), mid2 = bq(sr).set("bp", 520, .5);
+        const fl = wander(N, sr, .35, .55, 1), fl2 = wander(N, sr, .13, .3, 1), hissW = wander(N, sr, 1.6, .2, 1), hs = bq(sr).set("bp", 2600, .5);
+        for (let i = 0; i < N; i++) { const a = bn(), b = bn2(), h = hs.run(pk()) * .02 * hissW[i];
+          L[i] = lp.run(a * .8 + b * .2) * .5 * fl[i] + mid.run(pk()) * .09 * fl2[i] + h;
+          Rt[i] = lp2.run(b * .8 + a * .2) * .5 * fl[i] + mid2.run(pk()) * .09 * fl2[i] + h * .9; }
+        const click = (at, amp, f0, dec, p) => { const len = Math.min(N - at, Math.floor(dec * sr * 6)); const gl = amp * (1 - p) * .8, gr = amp * (1 + p) * .8; let ph = R() * 6;
+          for (let j = 0; j < len; j++) { const v = Math.exp(-j / (dec * sr)) * (Math.sin(ph += 2 * Math.PI * f0 / sr) * .6 + (j < 3 ? (R() * 2 - 1) : 0)); L[at + j] += v * gl; Rt[at + j] += v * gr; } };
+        let t = 0; while (t < N / sr) { t += -Math.log(1 - R()) / 4.5; const at = Math.floor(t * sr); if (at >= N) break; const p = rr(-.6, .6), A = Math.pow(R(), 2.6) * .7 + .03, m = 1 + Math.floor(Math.pow(R(), 2) * 7);
+          let o = 0; for (let k = 0; k < m; k++) { o += rr(.002, .03) * sr; if (at + o < N) click(Math.floor(at + o), A * rr(.3, 1), rr(1400, 5500), rr(.0004, .0025), p + rr(-.08, .08)); } }
+        t = rr(1, 3); while (t < N / sr - 1) { const at = Math.floor(t * sr), p = rr(-.4, .4);
+          { const len = Math.floor(sr * .12), f0 = rr(90, 190); let ph = 0; for (let j = 0; j < len; j++) { const v = Math.exp(-j / (sr * .028)) * Math.sin(ph += 2 * Math.PI * f0 / sr) * .35; L[at + j] += v * (1 - p); Rt[at + j] += v * (1 + p); } }
+          click(at, .55, rr(1800, 3500), .0016, p); for (let k = 0, m = 3 + Math.floor(R() * 6); k < m; k++) click(at + Math.floor(rr(.03, .5) * sr), rr(.1, .35), rr(2000, 6000), rr(.0004, .0015), p + rr(-.15, .15));
+          t += rr(3, 8); }
+        t = rr(4, 10); while (t < N / sr - 2) { const at = Math.floor(t * sr), len = Math.floor(rr(.6, 1.6) * sr), b2 = bq(sr).set("bp", rr(3200, 5200), 7), p = rr(-.5, .5);
+          for (let j = 0; j < len; j++) { const v = b2.run(R() * 2 - 1) * .05 * Math.sin(Math.PI * j / len); L[at + j] += v * (1 - p); Rt[at + j] += v * (1 + p); } t += rr(9, 18); }
+        return toBuf([seam(L, n, F), seam(Rt, n, F)], .08);
+      },
+      wave(sr){ // one wave on a sandy shore: it gathers, breaks, then foams and fizzes back out to sea
+        const D = rr(10, 13), tb = rr(2.4, 3.6), N = Math.floor(D * sr), out = [];
+        const crash = rr(.75, 1);
+        for (let c = 0; c < 2; c++) {
+          const x = new Float32Array(N), pk = pinkGen(), bn = brownGen(), lp = bq(sr), spray = bq(sr).set("hp", 2800), sl = bq(sr).set("lp", 7000), soft = bq(sr).set("lp", 5200, .6), off = c ? rr(.02, .09) : 0;
+          for (let i = 0; i < N; i++) {
+            const t = i / sr - off; let a, cut;
+            if (t < tb) { const u = Math.max(0, t / tb); a = .32 * Math.pow(u, 2.2); cut = 180 + 600 * u * u; }
+            else { const u = t - tb, rise = Math.min(1, u / .22); a = rise * (crash * Math.exp(-u / 1.1) + .42 * Math.exp(-u / 3.6)); cut = 450 + 4200 * Math.exp(-u / 1.5); }
+            a *= Math.min(1, (D - t) / 1.6);
+            if (i % 64 === 0) lp.set("lp", cut, .6);
+            const s = pk() * .8 + bn() * .5;
+            x[i] = soft.run(lp.run(s) * a + sl.run(spray.run(pk())) * .22 * a * (t > tb ? Math.exp(-(t - tb) / 2.4) : 0));
+          }
+          // the fizz of foam draining through the sand
+          for (let k = 0, m = Math.floor(D * 260); k < m; k++) { const t = tb + .4 + Math.pow(R(), 1.6) * (D - tb - .8), at = Math.floor(t * sr); if (at >= N) continue;
+            drop(x, at, sr, rr(3000, 8500), rr(.0004, .0016), (R() * .05 + .008) * Math.exp(-(t - tb) / 3.2) * Math.min(1, (D - t) / 1.6)); }
+          out.push(x);
+        }
+        return toBuf(out, .1);
+      },
+      cafe(sr){ // a room full of people chatting softly: real voiced murmurs, not hiss
+        const n = sr * 22, F = Math.floor(sr * .6), N = n + F, L = new Float32Array(N), Rt = new Float32Array(N);
+        const V = [[800, 1200], [500, 1850], [320, 2250], [520, 900], [350, 780], [650, 1650], [430, 1450]];
+        for (let v = 0; v < 7; v++) {
+          const f0b = R() < .5 ? rr(95, 140) : rr(170, 240), g = rr(.35, 1), p = rr(-.8, .8), f1 = bq(sr), f2 = bq(sr), dist = bq(sr).set("lp", rr(1500, 2600), .6);
+          let ph = 0, i = Math.floor(rr(0, 2) * sr);
+          while (i < N) {
+            const phrase = Math.floor(rr(1.2, 4) * sr), end = Math.min(N, i + phrase); let syl = 0;
+            while (i < end) { const sl = Math.floor(rr(.13, .26) * sr), vw = V[Math.floor(R() * V.length)], acc = R() < .25 ? 1.25 : 1;
+              f1.set("bp", vw[0] * rr(.9, 1.1), 5); f2.set("bp", vw[1] * rr(.9, 1.1), 7);
+              for (let j = 0; j < sl && i < N; j++, i++) { const t = i / sr, f0 = f0b * (1 + .12 * Math.sin(2 * Math.PI * t * .4 + v) + .04 * Math.sin(syl + j / sl * 2)) * acc;
+                ph += f0 / sr; if (ph >= 1) ph -= 1; const src = (ph * 2 - 1) * .6 + (R() * 2 - 1) * .08, e = Math.sin(Math.PI * j / sl) ** 1.5;
+                const y = dist.run(f1.run(src) * 1 + f2.run(src) * .55) * e * g; L[i] += y * (1 - p) * .5; Rt[i] += y * (1 + p) * .5; }
+              syl++; }
+            i += Math.floor(rr(.3, 2.2) * sr);
+          }
+        }
+        // the room: a soft reflection so voices blend instead of standing out
+        const room = (d, ms, fb) => { const k = Math.floor(ms / 1000 * sr); for (let i = k; i < N; i++) d[i] += d[i - k] * fb; };
+        room(L, 41, .35); room(Rt, 47, .35); room(L, 89, .2); room(Rt, 97, .2);
+        return toBuf([seam(L, n, F), seam(Rt, n, F)], .07);
+      }
+    };
+      api.make = (key, sr) => MAKE[key](sr);
+      if (api.worker) self.onmessage = e => { const { id, key, sr } = e.data; let chs = []; try { chs = MAKE[key](sr); } catch {} self.postMessage({ id, chs }, chs.map(c => c.buffer)); };
+    }
+    const TEX = {}, TEX_SR = 32000; let texWorker = null, texInline = null, texId = 0; const texWait = {};
+    function texRaw(key){
+      if (texWorker === null) { try { const url = URL.createObjectURL(new Blob([`(${TEXGEN.toString()})({ worker: true })`], { type: "text/javascript" })); texWorker = new Worker(url);
+          texWorker.onmessage = e => { const w = texWait[e.data.id]; delete texWait[e.data.id]; w?.(e.data.chs); }; texWorker.onerror = () => { texWorker = false; }; } catch { texWorker = false; } }
+      if (texWorker) return new Promise(res => { const id = ++texId; texWait[id] = res; texWorker.postMessage({ id, key, sr: TEX_SR }); setTimeout(() => { if (texWait[id]) { delete texWait[id]; texWorker = false; res(texRaw(key)); } }, 20000); });
+      if (!texInline) { texInline = {}; TEXGEN(texInline); }
+      return new Promise(res => setTimeout(() => res(texInline.make(key, TEX_SR)), 20));
+    }
+    function tex(key, variant = 0){ const id = key + variant;
+      if (!TEX[id]) TEX[id] = texRaw(key).then(chs => { if (!chs?.length) { delete TEX[id]; return null; } const b = ctx.createBuffer(chs.length, chs[0].length, TEX_SR); chs.forEach((d, i) => b.copyToChannel ? b.copyToChannel(d, i) : b.getChannelData(i).set(d)); return b; });
+      return TEX[id]; }
+    function loop(L, bufP, gain){ const gn = g(L, gain); gn.connect(L.out);
+      Promise.resolve(bufP).then(buf => { if (!buf || L.dead) return; const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.connect(gn); s.start(now(), Math.random() * buf.duration); L.nodes.push(s); }); return gn; }
     // ---- the layers ----
     const BUILD = {
       rain(L){
-        // a soft, steady drizzle on the window: gentle wash, muted low end, light scattered drops
-        const wash = chain(noise(L, PINK), f(L, "highpass", 500), f(L, "lowpass", 3800), g(L, .26)); wash.connect(L.out);
-        drift(L, wash.gain, .18, .3, 4, 9, 2.5);
-        const low = chain(noise(L, BROWN), f(L, "lowpass", 600), g(L, .12)); low.connect(L.out);
-        every(L, 70, 220, () => shot(L, { freq: rnd(2500, 6000), Q: rnd(1, 2.5), amp: rnd(.006, .025), att: .002, dec: rnd(.01, .03), p: rnd(-.9, .9) }));
-        every(L, 1600, 4200, () => shot(L, { freq: rnd(900, 1500), Q: 3, amp: rnd(.02, .04), att: .003, dec: .06, p: rnd(-.6, .6) }));
-        every(L, 5000, 12000, () => tone(L, { freq: rnd(1000, 1400), to: rnd(500, 700), amp: .015, dec: .08, p: rnd(-.4, .4) }));
+        loop(L, tex("rain"), .42);
+        // now and then a drip from the gutter, close by
+        every(L, 2500, 7000, () => { const p = rnd(-.7, .7), f0 = rnd(900, 1500); tone(L, { freq: f0, to: f0 * 1.6, amp: .02, att: .001, dec: .05, p }); });
       },
       thunder(L){
         const strike = () => {
@@ -6980,40 +7109,20 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
         };
         L.timers.push(setTimeout(strike, 2200)); every(L, 25000, 60000, strike);
       },
-      fire(L){
-        // the roar of the flames: deep brown noise, gently surging
-        const roar = chain(noise(L, BROWN), f(L, "lowpass", 260), g(L, .5)); roar.connect(L.out); drift(L, roar.gain, .32, .6, .6, 1.8, .3);
-        const breath = chain(noise(L, PINK), f(L, "bandpass", 700, .6), g(L, .05)); breath.connect(L.out); drift(L, breath.gain, .02, .09, .4, 1.4, .2);
-        // crackles come in little clusters, like real wood
-        every(L, 120, 700, () => { const n = 1 + Math.floor(Math.random() * 4), p = rnd(-.5, .5);
-          for (let i = 0; i < n; i++) shot(L, { type: "highpass", freq: rnd(1800, 6000), amp: rnd(.04, .25), att: .0007, dec: rnd(.003, .02), p: p + rnd(-.1, .1), t: i * rnd(.008, .05) }); });
-        // a log settles or pops
-        every(L, 3500, 9000, () => { const p = rnd(-.4, .4); shot(L, { freq: rnd(350, 700), Q: 2, amp: .5, att: .002, dec: .09, p }); for (let i = 0; i < 6; i++) shot(L, { type: "highpass", freq: rnd(2500, 6000), amp: rnd(.1, .3), att: .0007, dec: .012, p, t: .03 + i * rnd(.02, .08) }); });
-      },
-      wind(L){
-        // a soft breeze outside: low and slow, never howling
-        const bp = f(L, "bandpass", 380, .7), out = chain(noise(L, PINK), bp, f(L, "lowpass", 900), g(L, .3)); out.connect(L.out);
-        drift(L, bp.frequency, 220, 560, 4, 9, 3); drift(L, out.gain, .1, .32, 5, 10, 3);
-        const wh = f(L, "bandpass", 700, 6), whg = g(L, 0); chain(noise(L, WHITE), wh, whg).connect(L.out);
-        drift(L, wh.frequency, 500, 900, 6, 12, 3.5); drift(L, whg.gain, 0, .015, 7, 14, 4);
-      },
+      fire(L){ loop(L, tex("fire"), .75); },
+      wind(L){ const w = loop(L, tex("wind"), .6); drift(L, w.gain, .5, .7, 8, 16, 4); },
       ocean(L){
-        // waves on a far-off shore: slow, soft swells
-        const mk = (period, delay, p) => { const lp = f(L, "lowpass", 300), gn = g(L, 0), pn = pan(L, p); chain(noise(L, PINK), lp, gn, pn).connect(L.out);
-          const wave = () => { if (L.dead) return; const T = now(), up = period * rnd(.4, .55);
-            lp.frequency.cancelScheduledValues(T); gn.gain.cancelScheduledValues(T);
-            lp.frequency.setValueAtTime(lp.frequency.value, T); lp.frequency.linearRampToValueAtTime(rnd(800, 1200), T + up); lp.frequency.linearRampToValueAtTime(280, T + period);
-            gn.gain.setValueAtTime(gn.gain.value, T); gn.gain.linearRampToValueAtTime(rnd(.22, .32), T + up); gn.gain.linearRampToValueAtTime(.04, T + period);
-            L.timers.push(setTimeout(wave, period * 1000 * rnd(.95, 1.15))); };
-          L.timers.push(setTimeout(wave, delay)); };
-        mk(rnd(10, 13), 0, -.3); mk(rnd(11, 15), 5000, .35);
-        chain(noise(L, BROWN), f(L, "lowpass", 120), g(L, .2)).connect(L.out);
+        // waves arrive one by one, never quite on the beat, a little left or right
+        chain(noise(L, BROWN), f(L, "lowpass", 140), g(L, .06)).connect(L.out); // the far-off sea
+        const wave = () => tex("wave", Math.floor(Math.random() * 3)).then(buf => { if (!buf || L.dead) return; const s = ctx.createBufferSource(); s.buffer = buf;
+          const gn = ctx.createGain(); gn.gain.value = rnd(.22, .4); let o = gn; if (ctx.createStereoPanner) { o = ctx.createStereoPanner(); o.pan.value = rnd(-.35, .35); gn.connect(o); }
+          s.connect(gn); o.connect(L.out); s.start(); s.onended = () => { try { s.disconnect(); gn.disconnect(); o.disconnect(); } catch {} }; });
+        wave(); const next = () => { if (L.dead) return; wave(); L.timers.push(setTimeout(next, rnd(6500, 10000))); }; L.timers.push(setTimeout(next, rnd(5000, 7000)));
       },
       night(L){
         const cricket = (freq, p, rest) => every(L, rest, rest * 1.6, () => { const pulses = 3 + Math.floor(Math.random() * 2); for (let i = 0; i < pulses; i++) tone(L, { freq, amp: .075, att: .004, dec: .018, p, t: i * .034 }); });
         cricket(4300, -.6, 650); cricket(4650, .5, 820); cricket(3900, .1, 1100);
         every(L, 2600, 6000, () => { for (let i = 0; i < 14; i++) tone(L, { freq: 5100, amp: .012, att: .003, dec: .012, p: rnd(-.9, .9), t: i * .022 }); }); // a distant chorus
-        chain(noise(L, BROWN), f(L, "lowpass", 300), g(L, .12)).connect(L.out); // the quiet of the night air
         every(L, 9000, 22000, () => { const p = rnd(-.7, .7); tone(L, { freq: 420, to: 380, type: "sine", amp: .05, att: .05, dec: .45, p }); tone(L, { freq: 400, to: 360, amp: .045, att: .05, dec: .6, p, t: .7 }); }); // a far-off owl
       },
       birds(L){
@@ -7021,19 +7130,15 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
           for (let i = 0; i < n; i++) { const up = Math.random() < .5; tone(L, { freq: base * rnd(.85, 1.2), to: base * (up ? rnd(1.2, 1.6) : rnd(.6, .85)), amp: rnd(.08, .17), att: .01, dec: rnd(.05, .14), p, t }); t += rnd(.08, .2); } };
         every(L, 900, 3200, song);
         every(L, 5000, 11000, () => { const p = rnd(-.6, .6); for (let i = 0; i < 3; i++) tone(L, { freq: 1900, to: 1500, amp: .07, att: .02, dec: .25, p, t: i * .45 }); }); // a dove-ish call
-        const leaves = chain(noise(L, PINK), f(L, "highpass", 1500), g(L, .04)); leaves.connect(L.out); drift(L, leaves.gain, .01, .07, 2, 5, 1.2);
       },
       clock(L){
         let tick = true;
         every(L, 1000, 1000, () => { const fq = tick ? 2900 : 2400; tick = !tick;
           shot(L, { type: "bandpass", freq: fq, Q: 6, amp: .42, att: .0008, dec: .03, p: -.2 }); tone(L, { freq: fq / 2, amp: .05, att: .001, dec: .05, p: -.2 }); });
         every(L, 25000, 60000, () => { const T = rnd(.3, .6); shot(L, { buf: PINK, type: "bandpass", freq: 2200, Q: .6, amp: .07, att: T, dec: .25, p: .4 }); shot(L, { buf: PINK, type: "highpass", freq: 3000, amp: .05, att: .01, dec: .12, p: .4, t: T + .1 }); }); // a page turned somewhere
-        chain(noise(L, BROWN), f(L, "lowpass", 180), g(L, .08)).connect(L.out); // the hush of a big room
       },
       cafe(L){
-        // a murmur of voices: noise through moving vowel formants
-        [[520, -.5], [1250, .2], [2400, .55]].forEach(([fq, p]) => { const bp = f(L, "bandpass", fq, 4), gn = g(L, .18); chain(noise(L, PINK), bp, gn, pan(L, p)).connect(L.out); drift(L, bp.frequency, fq * .7, fq * 1.35, .12, .4, .05); drift(L, gn.gain, .04, .26, .15, .5, .06); });
-        chain(noise(L, BROWN), f(L, "lowpass", 400), g(L, .3)).connect(L.out);
+        loop(L, tex("cafe"), .5);
         every(L, 2500, 7000, () => { const p = rnd(-.8, .8), b = rnd(2400, 3400); tone(L, { freq: b, amp: .03, dec: .5, p }); tone(L, { freq: b * 1.51, amp: .02, dec: .35, p }); }); // cups and spoons
         every(L, 30000, 70000, () => { const p = rnd(-.6, .6); shot(L, { buf: WHITE, type: "bandpass", freq: 4500, Q: .8, amp: .08, att: .3, dec: 2.5, p }); }); // the espresso machine sighs
       }
@@ -7042,7 +7147,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
       if (live[k] || !BUILD[k]) return; init();
       const L = { nodes: [], timers: [], dead: false, out: ctx.createGain() };
       L.out.gain.value = 0; L.out.connect(master); L.out.gain.setTargetAtTime(1, now(), .6);
-      live[k] = L; BUILD[k](L);
+      live[k] = L; setTimeout(() => { if (!L.dead) try { BUILD[k](L); } catch (e) { console.warn(e); } }, 30); // let the button respond first
     }
     function stop(k){ const L = live[k]; if (!L) return; L.dead = true; delete live[k]; L.timers.forEach(clearTimeout);
       L.out.gain.setTargetAtTime(0, now(), .35); setTimeout(() => { L.nodes.forEach(n => { try { n.stop?.(); } catch {} try { n.disconnect(); } catch {} }); try { L.out.disconnect(); } catch {} }, 1800); }
@@ -7051,6 +7156,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
         try { if (list.length) { init(); ctx.resume().catch(() => {}); } Object.keys(live).forEach(k => { if (!list.includes(k)) stop(k); }); list.forEach(start);
           if (!list.length && ctx) setTimeout(() => { if (!Object.keys(live).length && ctx.state === "running") ctx.suspend().catch(() => {}); }, 2000); } catch {} },
       get layers(){ return Object.keys(live); },
+      prewarm(){ try { init(); ["rain", "fire", "wind", "wave", "cafe"].forEach(k => tex(k)); } catch {} },
       volume(v){ vol = v; if (master) master.gain.setTargetAtTime(v, now(), .1); }, get vol(){ return vol; }
     };
   })();
@@ -7143,7 +7249,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     const paintAmb = list => { lsSet(KEY_AMB, list); Ambience.set(list); this.querySelectorAll("[data-amb]").forEach(x => x.setAttribute("aria-pressed", list.includes(x.dataset.amb))); const n = this.querySelector("#rm-ambnow"); if (n) n.textContent = list.length ? " · " + list.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off"; };
     if (amb) { const k = amb.dataset.amb, cur = ambSaved(); paintAmb(cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]); return; }
     const set = e.target.closest("[data-ambset]"); if (set) { paintAmb(set.dataset.ambset ? set.dataset.ambset.split(",") : []); return; }
-    if (e.target.closest("[data-ambopen]")) { const pnl = this.querySelector("#rm-ambpanel"), btn = e.target.closest("[data-ambopen]"); pnl.hidden = !pnl.hidden; btn.setAttribute("aria-expanded", !pnl.hidden); return; }
+    if (e.target.closest("[data-ambopen]")) { const pnl = this.querySelector("#rm-ambpanel"), btn = e.target.closest("[data-ambopen]"); pnl.hidden = !pnl.hidden; btn.setAttribute("aria-expanded", !pnl.hidden); if (!pnl.hidden) Ambience.prewarm(); return; }
     const a = e.target.closest("[data-rm]"); if (!a) return;
     const s = sessGet(); if (!s) return closeReadMode();
     const act = a.dataset.rm;
