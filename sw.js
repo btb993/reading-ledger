@@ -13,7 +13,7 @@ self.addEventListener("fetch", e => {
   }
   // covers, fonts and chart/sync libraries: use the saved copy if there is one,
   // and only save copies we know are good (never a hidden error page)
-  if (/covers\.openlibrary\.org|archive\.org|books\.google\.com|fonts\.(googleapis|gstatic)\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net/.test(url.host)) {
+  if (/covers\.openlibrary\.org|archive\.org|books\.google\.com|amazon\.com|media-amazon\.com|gr-assets\.com|fonts\.(googleapis|gstatic)\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net/.test(url.host)) {
     e.respondWith(caches.open(COVERS).then(async c => {
       const hit = await c.match(req); if (hit) return hit;
       try {
@@ -26,4 +26,17 @@ self.addEventListener("fetch", e => {
       }
     }));
   }
+});
+
+// the app asks us to keep a cover it has just shown successfully, or to forget one that turned out broken
+self.addEventListener("message", e => {
+  const d = e.data || {};
+  if (d.type === "keep-cover" && d.url) {
+    e.waitUntil(caches.open(COVERS).then(async c => {
+      if (await c.match(d.url)) return;
+      try { const r = await fetch(d.url, { mode: "cors", credentials: "omit" }); if (r.ok) return c.put(d.url, r); } catch {}
+      try { const r = await fetch(d.url, { mode: "no-cors", credentials: "omit" }); if (r.ok || r.type === "opaque") return c.put(d.url, r); } catch {}
+    }));
+  }
+  if (d.type === "drop-cover" && d.url) e.waitUntil(caches.open(COVERS).then(c => c.delete(d.url)));
 });

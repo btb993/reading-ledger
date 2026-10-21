@@ -1474,49 +1474,123 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
   // ================= helpers =================
   function hashColor(s){ let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return "var(--c" + (h % 8 + 1) + ")"; }
   function hashNum(s, mod){ let h = 7; for (const c of String(s)) h = (h * 33 + c.charCodeAt(0)) >>> 0; return h % mod; }
-  // Cover rescue: when Open Library is slow, down or rate-limited, retry once, then ask Google Books.
-  const GB_KEY = "reading-ledger-gbcovers";
-  const gbCache = (() => { try { return JSON.parse(localStorage.getItem(GB_KEY) || "{}"); } catch { return {}; } })();
-  const gbSave = () => { try { localStorage.setItem(GB_KEY, JSON.stringify(gbCache)); } catch {} };
-  const gbQueue = []; let gbBusy = 0;
-  function gbCover(t, a, isbn){
-    const k = (isbn || (t + "|" + a)).toLowerCase();
-    if (k in gbCache) return Promise.resolve(gbCache[k]);
-    return new Promise(res => { gbQueue.push({ t, a, isbn, k, res }); gbPump(); });
+  // Cover rescue: Open Library (Internet Archive) is sometimes unreachable for days, and Google's keyless
+  // book search now has no free quota. So when a cover fails we walk a chain of other sources and remember
+  // whatever works, so the next visit shows it instantly.
+  const CMAP_KEY = "reading-ledger-covermap2", OLDOWN_KEY = "reading-ledger-oldown", GBOFF_KEY = "reading-ledger-gboff";
+  const lsJ = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const lsS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const coverMap = lsJ(CMAP_KEY, {});
+  const isOL = u => /openlibrary\.org|archive\.org/.test(u || "");
+  const olDown = () => Date.now() - (+lsJ(OLDOWN_KEY, 0)) < 3 * 3600e3;
+  let olFails = 0;
+  const isbn10 = i => {
+    i = (i || "").replace(/[^0-9Xx]/g, "");
+    if (i.length === 10) return i.toUpperCase();
+    if (i.length !== 13 || !i.startsWith("978")) return "";
+    const core = i.slice(3, 12); let sum = 0;
+    for (let k = 0; k < 9; k++) sum += (10 - k) * +core[k];
+    const c = (11 - sum % 11) % 11; return core + (c === 10 ? "X" : c);
+  };
+  // small queue so we never hammer the lookup services
+  const lkQueue = []; let lkBusy = 0;
+  const lookupQ = fn => new Promise(res => { lkQueue.push({ fn, res }); lkPump(); });
+  function lkPump(){ while (lkBusy < 2 && lkQueue.length){ const j = lkQueue.shift(); lkBusy++; j.fn().then(j.res, () => j.res("")).finally(() => { lkBusy--; setTimeout(lkPump, 120); }); } }
+  const timed = (u, ms = 8000) => { const c = new AbortController(); const t = setTimeout(() => c.abort(), ms); return fetch(u, { signal: c.signal }).finally(() => clearTimeout(t)); };
+  let bcOff = false;
+  const clean = x => (x || "").replace(/[:(\[].*$/, "").replace(/["']/g, "").trim();
+  const bookcoverApi = (t, a, i) => bcOff ? Promise.resolve("") : lookupQ(async () => {
+    if (i && i.length !== 13) return "";
+    const u = i ? `https://bookcover.longitood.com/bookcover?isbn=${i}` : `https://bookcover.longitood.com/bookcover?book_title=${encodeURIComponent(clean(t))}&author_name=${encodeURIComponent(clean(a))}`;
+    try { const r = await timed(u); if (r.status >= 500 || r.status === 429) { if (r.status === 429) bcOff = true; return ""; } const d = r.ok ? await r.json() : null; return (d && d.url) || ""; } catch { return ""; }
+  });
+  const googleApi = (t, a, i) => Date.now() - (+lsJ(GBOFF_KEY, 0)) < 864e5 ? Promise.resolve("") : lookupQ(async () => {
+    const q = i ? `isbn:${i}` : `intitle:${clean(t)}${a ? `+inauthor:${clean(a).split(/\s+/).pop()}` : ""}`;
+    try {
+      const r = await timed(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q).replace(/%2B/g, "+")}&maxResults=3&printType=books&fields=items(volumeInfo/imageLinks)`);
+      if (r.status === 429 || r.status === 403) { lsS(GBOFF_KEY, Date.now()); return ""; }
+      const d = r.ok ? await r.json() : null; const it = (d && d.items || []).find(x => x.volumeInfo && x.volumeInfo.imageLinks); const l = it && it.volumeInfo.imageLinks;
+      return l ? (l.thumbnail || l.smallThumbnail || "").replace(/^http:/, "https:").replace("&edge=curl", "") : "";
+    } catch { return ""; }
+  });
+  // the fallback chain for one cover; each step returns a url (or "" to skip)
+  function coverChain(img){
+    const t = img.dataset.t, a = img.dataset.a, i = (img.dataset.i || "").replace(/[^0-9Xx]/g, ""), i10 = isbn10(i);
+    const amazon = () => i10 ? `https://images-na.ssl-images-amazon.com/images/P/${i10}.01.L.jpg` : "";
+    // Look the book up by title and author first: that finds its main (usually English) edition.
+    // The stored ISBN is often a translation's, so it only comes after.
+    return [
+      () => t ? bookcoverApi(t, a, "") : "",
+      () => googleApi(t, a, ""),
+      () => i ? bookcoverApi(t, a, i) : "",
+      amazon,
+      () => (!olDown() && img.dataset.o && img.dataset.o !== img.getAttribute("src")) ? img.dataset.o : ""
+    ];
   }
-  function gbPump(){
-    while (gbBusy < 2 && gbQueue.length){
-      const j = gbQueue.shift(); gbBusy++;
-      if (j.k in gbCache) { gbBusy--; j.res(gbCache[j.k]); continue; }
-      const clean = x => (x || "").replace(/[:(\[].*$/, "").replace(/["']/g, "").trim();
-      const q = j.isbn ? `isbn:${j.isbn}` : `intitle:${clean(j.t)}${j.a ? `+inauthor:${clean(j.a).split(/\s+/).pop()}` : ""}`;
-      fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q).replace(/%2B/g, "+")}&maxResults=3&printType=books&fields=items(volumeInfo/imageLinks)`)
-        .then(r => r.ok ? r.json() : null)
-        .then(d => { const it = (d && d.items || []).find(x => x.volumeInfo && x.volumeInfo.imageLinks); const l = it && it.volumeInfo.imageLinks; const u = l ? (l.thumbnail || l.smallThumbnail || "").replace(/^http:/, "https:").replace("&edge=curl", "") : ""; gbCache[j.k] = u; gbSave(); j.res(u); })
-        .catch(() => j.res(""))
-        .finally(() => { gbBusy--; setTimeout(gbPump, 150); });
-    }
-  }
-  window.nookCoverOk = img => { if (img.naturalWidth && img.naturalWidth < 8) window.nookCoverFail(img); };
-  window.nookCoverFail = img => {
-    const src = img.getAttribute("src") || "", step = +(img.dataset.step || 0);
-    img.dataset.step = step + 1;
-    if (step === 0 && /openlibrary\.org/.test(src)) { // one gentle retry, bypassing any bad saved copy
-      img.style.visibility = "hidden";
-      setTimeout(() => { img.src = src.split("?")[0] + "?r=" + Date.now() % 100000; }, 600 + Math.random() * 1200);
-      return;
-    }
-    if (step <= 1 && img.dataset.t) {
-      img.style.visibility = "hidden";
-      gbCover(img.dataset.t, img.dataset.a, img.dataset.i).then(u => { if (u && img.isConnected) { img.src = u; img.style.visibility = ""; } else img.remove(); });
-      return;
+  async function nextCover(img){
+    const chain = coverChain(img);
+    let step = +(img.dataset.step || 0);
+    img.style.visibility = "hidden";
+    while (step < chain.length){
+      const u = await chain[step](); step++; img.dataset.step = step;
+      if (u && u !== img.getAttribute("src") && !(img.dataset.tried || "").includes(u)) {
+        if (!img.isConnected) return;
+        img.dataset.tried = (img.dataset.tried || "") + "|" + u;
+        img.src = u; return;
+      }
     }
     img.remove();
+  }
+  // Keep a copy of every good cover inside the app (the service worker's cover store), so shelves show
+  // their covers even offline or when the cover sites are down.
+  const SAVED_KEY = "reading-ledger-savedcovers";
+  const savedCovers = new Set(lsJ(SAVED_KEY, []));
+  const toSW = msg => { try { const sw = navigator.serviceWorker; if (!sw) return; if (sw.controller) sw.controller.postMessage(msg); else sw.ready.then(r => r.active && r.active.postMessage(msg)).catch(() => {}); } catch {} };
+  const keepCover = (o, src) => { if (!src || src.startsWith("data:")) return; toSW({ type: "keep-cover", url: src }); if (o && !savedCovers.has(o)) { savedCovers.add(o); lsS(SAVED_KEY, [...savedCovers]); } };
+  window.nookCoverOk = img => {
+    if (img.naturalWidth && img.naturalWidth < 8) return window.nookCoverFail(img); // Amazon's "no cover" pixel
+    img.style.visibility = "";
+    keepCover(img.dataset.o, img.getAttribute("src"));
+    const o = img.dataset.o, src = img.getAttribute("src");
+    if (isOL(src)) { olFails = 0; try { localStorage.removeItem(OLDOWN_KEY); } catch {} }
+    if (o && src && src !== o && !src.startsWith("data:")) { coverMap[o] = src; lsS(CMAP_KEY, coverMap); }
   };
-  document.addEventListener("load", e => { const t = e.target; if (t.tagName === "IMG" && t.dataset && t.dataset.step) t.style.visibility = ""; }, true);
+  window.nookCoverFail = img => {
+    const src = img.getAttribute("src") || "";
+    if (src && !src.startsWith("data:")) toSW({ type: "drop-cover", url: src });
+    if (img.dataset.o && savedCovers.delete(img.dataset.o)) lsS(SAVED_KEY, [...savedCovers]);
+    if (isOL(src) && ++olFails >= 2) lsS(OLDOWN_KEY, Date.now());
+    if (img.dataset.o && coverMap[img.dataset.o] === src) { delete coverMap[img.dataset.o]; lsS(CMAP_KEY, coverMap); }
+    nextCover(img);
+  };
+  // which address to try first: a remembered working copy, or skip Open Library while it is unreachable
+  const coverSrc = b => b.coverPicked ? b.cover : coverMap[b.cover] || (isOL(b.cover) && olDown() && !savedCovers.has(b.cover) ? "data:," : b.cover);
+  // quietly save covers for every book on your shelves, a few at a time
+  function warmCovers(){
+    if (!("serviceWorker" in navigator) || !/^https?:$/.test(location.protocol)) return;
+    const todo = books.filter(b => b.cover && !savedCovers.has(b.cover));
+    if (!todo.length) return;
+    const box = document.createElement("div");
+    box.setAttribute("aria-hidden", "true");
+    box.style.cssText = "position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none";
+    document.body.append(box);
+    let i = 0;
+    const tick = () => {
+      if (!box.isConnected) return;
+      [...box.children].forEach(n => { if (!n.querySelector("img") || n.dataset.born < Date.now() - 45000) n.remove(); });
+      while (i < todo.length && box.children.length < 4) {
+        const w = document.createElement("div"); w.dataset.born = Date.now();
+        w.innerHTML = coverHTML(todo[i++]).replace(' loading="lazy"', "");
+        box.append(w);
+      }
+      if (i >= todo.length && !box.children.length) { box.remove(); return; }
+      setTimeout(tick, 1500);
+    };
+    tick();
+  }
 
   function coverHTML(b, extra = ""){
-    return `<div class="cover" style="--c:${hashColor((b.title || "") + (b.author || ""))}"><div class="art"><span class="ct">${esc(b.title)}</span><span class="orn">❦</span><span class="ca">${esc(b.author || "")}</span></div>${b.cover ? `<img src="${esc(b.cover)}" alt="" loading="lazy" data-t="${esc(b.title || "")}" data-a="${esc(b.author || "")}" data-i="${esc(b.isbn || "")}" onload="window.nookCoverOk&&nookCoverOk(this)" onerror="window.nookCoverFail?nookCoverFail(this):this.remove()">` : ""}${extra}</div>`;
+    return `<div class="cover" style="--c:${hashColor((b.title || "") + (b.author || ""))}"><div class="art"><span class="ct">${esc(b.title)}</span><span class="orn">❦</span><span class="ca">${esc(b.author || "")}</span></div>${b.cover ? `<img src="${esc(coverSrc(b))}" data-o="${esc(b.cover)}" alt="" loading="lazy" data-t="${esc(b.title || "")}" data-a="${esc(b.author || "")}" data-i="${esc(b.isbn || "")}" onload="window.nookCoverOk&&nookCoverOk(this)" onerror="window.nookCoverFail?nookCoverFail(this):this.remove()">` : ""}${extra}</div>`;
   }
   const stars = n => n ? `<span class="starbar" style="--p:${Math.max(0, Math.min(5, n)) / 5 * 100}%" aria-label="${n} stars">★★★★★</span>` : "";
   const starLabel = s => `${Math.floor(s) || ""}${s % 1 ? "½" : ""}★`;
@@ -3263,7 +3337,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
     const _sf = shelfFields;
     shelfFields = () => { _sf(); paintStars(b.rating || 0); const box = $("#m-stars"); if (box) { box.addEventListener("mouseover", e => { const s = e.target.closest("[data-star]"); if (s) paintStars(+s.dataset.star); }); box.addEventListener("mouseleave", () => paintStars(b.rating || 0)); } };
     shelfFields();
-    const setCover = src => { newCover = src; $("#m-cover").innerHTML = coverHTML({ ...b, cover: src }); };
+    const setCover = src => { newCover = src; $("#m-cover").innerHTML = coverHTML({ ...b, cover: src, coverPicked: true }); };
     const takeFile = async file => { if (!file) return toast("That isn't an image. Copy the image itself, not its link."); try { setCover(await downscale(file)); } catch { toast("Couldn't read that image."); } };
     const close = () => { document.removeEventListener("paste", onPaste); root.innerHTML = ""; };
     const onPaste = e => { if (e.target.matches?.("input:not([type=file])")) return; const f = imageFrom(e); if (f) { e.preventDefault(); takeFile(f); } };
@@ -3281,15 +3355,20 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
         const t = ($("#m-t")?.value || b.title).trim(), a = ($("#m-a")?.value || b.author || "").trim();
         const items = [], seen = new Set();
         const add = (id, label) => { if (id > 0 && !seen.has(id)) { seen.add(id); items.push({ id, label }); } };
+        // the main edition's cover from Goodreads, which still works when Open Library's covers can't be reached
+        const main = await bookcoverApi(t, a, "").catch(() => "");
+        if (main) items.push({ url: main, label: "Main edition" });
         let key = b.olKey;
+        try {
         if (!key) { const r = await olSearch({ title: t, author: a }, 3); key = r[0]?.olKey; r.forEach(x => add(x.coverId, "")); }
         if (key) { try { const ed = await olJSON(`${OL}${key}/editions.json?limit=120`);
           (ed.entries || []).forEach(e => { const yr = (String(e.publish_date || "").match(/\d{4}/) || [""])[0]; const lang = (e.languages || []).map(l => l.key.split("/").pop()).join(", ").toUpperCase(); (e.covers || []).forEach(c => add(c, [yr, lang, e.physical_format].filter(Boolean).join(" · "))); }); } catch {} }
         if (items.length < 4) (await olSearch({ title: t, author: a }, 12)).forEach(r => add(r.coverId, r.year ? String(r.year) : ""));
+        } catch { if (!items.length) throw new Error("ol"); }
         const cur = (newCover ?? b.cover) || "";
         g.innerHTML = `<div class="galhead"><span class="label">${items.length ? `${items.length} cover${items.length > 1 ? "s" : ""} from different editions · click one to use it` : "No other covers found"}</span><button class="btn small" type="button" data-galclose>Close</button></div>
-          ${items.length ? `<div class="gallery">${items.slice(0, 60).map(it => `<button type="button" data-alt="${it.id}" class="${cur.includes("/" + it.id + "-") ? "sel" : ""}" title="Use this cover"><img src="${coverById(it.id, "M")}" alt="" loading="lazy" onerror="this.closest('button').remove()"><small>${esc(it.label || "\u00a0")}</small></button>`).join("")}</div>` : `<div class="note">Open Library has no other covers for this book. Try the image search link and paste one in.</div>`}`;
-      } catch { g.innerHTML = `<div class="galhead"><span class="note">Couldn't reach Open Library. Check your connection.</span><button class="btn small" type="button" data-galclose>Close</button></div>`; }
+          ${items.length ? `<div class="gallery">${items.slice(0, 60).map(it => `<button type="button" data-alt="${it.id || ""}" data-alturl="${esc(it.url || "")}" class="${(it.url ? cur === it.url : cur.includes("/" + it.id + "-")) ? "sel" : ""}" title="Use this cover"><img src="${it.url ? esc(it.url) : coverById(it.id, "M")}" alt="" loading="lazy" onerror="this.closest('button').remove()"><small>${esc(it.label || "\u00a0")}</small></button>`).join("")}</div>` : `<div class="note">Open Library has no other covers for this book. Try the image search link and paste one in.</div>`}`;
+      } catch { g.innerHTML = `<div class="galhead"><span class="note">Couldn't reach Open Library right now. Try Image search, then paste or drop the picture here.</span><button class="btn small" type="button" data-galclose>Close</button></div>`; }
     }
     const readFields = () => {
       const v = id => $(id)?.value?.trim();
@@ -3334,7 +3413,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
       if (e.target.closest("[data-vsurprise]")) { verdict.surpriseFav = !verdict.surpriseFav; return paintVerdict(); }
       if (e.target.closest("[data-vrec]")) { verdict.recommend = !verdict.recommend; paintVerdict(); if (verdict.recommend) $("#m-recto")?.focus(); return; }
       const sw = e.target.closest("[data-sw]"); if (sw) { spinePick = sw.dataset.sw || null; $("#m-swatches").querySelectorAll("[data-sw]").forEach(z => z.classList.toggle("sel", z === sw && !!spinePick)); toast(spinePick ? "Spine colour chosen. Press Save to keep it." : "Spine colour set back to automatic."); return; }
-      const alt = e.target.closest("[data-alt]"); if (alt) { setCover(coverById(alt.dataset.alt)); $("#m-gallery").querySelectorAll("[data-alt]").forEach(x => x.classList.toggle("sel", x === alt)); toast("Cover chosen. Press Save to keep it."); return; }
+      const alt = e.target.closest("[data-alt]"); if (alt) { setCover(alt.dataset.alturl || coverById(alt.dataset.alt)); $("#m-gallery").querySelectorAll("[data-alt]").forEach(x => x.classList.toggle("sel", x === alt)); toast("Cover chosen. Press Save to keep it."); return; }
       const s = e.target.closest("[data-shelf]");
       if (s) { readFields(); if ($("#fin") || $("#st")) { const f = readPicker("fin"), st = readPicker("st"); if (f.ok && f.value !== undefined) b.finished = f.value; if (st.ok && st.value !== undefined) b.started = st.value; }
         if (s.dataset.shelf === "read" && !b.finished && !b.finishedUnknown) b.finished = todayISO();
@@ -3350,7 +3429,7 @@ button.dnachip:hover{filter:brightness(1.1);text-decoration:underline}
         if (!readDates()) return;
         if (!tropesEdited && !(b.tropes || []).length) b.tropes = detectTropes(b.subjects || [], b.summary || "");
         const { because, why, score, seriesHint, series, ...rest } = b;
-        if (newCover !== null && newCover !== b.cover) { rest.spineColor = null; rest.spineTried = null; }
+        if (newCover !== null && newCover !== b.cover) { rest.spineColor = null; rest.spineTried = null; rest.coverPicked = !!newCover; }
         const out = { ...rest, id: b.id || newId(), cover: newCover !== null ? newCover : (b.cover || ""),
           rating: b.shelf === "read" ? (b.rating || 0) : 0,
           started: b.shelf === "want" ? null : (b.started || null),
@@ -5430,6 +5509,7 @@ alter publication supabase_realtime add table public.library;`;
   $("#sync-pill").addEventListener("click", () => Sync.openPanel());
   Sync.paint(); Sync.init();
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
+  setTimeout(warmCovers, 5000);
 })();
 </script>
 </body>
