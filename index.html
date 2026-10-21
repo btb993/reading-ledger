@@ -7,11 +7,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Book Nook">
+<meta name="apple-mobile-web-app-title" content="My Book Nook">
+<meta name="application-name" content="My Book Nook">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
 <title>My Book Nook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1592,12 +1594,148 @@ body.rm-open .familiar.docked{display:none}
   #shelf-reading::-webkit-scrollbar,#shelf-read::-webkit-scrollbar,#shelf-want::-webkit-scrollbar{display:none}
   #shelf-reading > *,#shelf-read > *,#shelf-want > *{flex-shrink:0}
 }
-</style>
+
+/* tucked-away nook menu */
+.menubtn{right:calc(110px + env(safe-area-inset-right,0px));font-size:20px;line-height:1}
+.nookmenu{position:absolute;top:calc(60px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));z-index:40;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 16px 40px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:2px;min-width:250px;animation:soulin .2s ease}
+.nookmenu[hidden]{display:none}
+.nookmenu .label{padding:2px 8px 6px}
+.nmitem{display:block;text-align:left;border:0;background:none;font:inherit;font-size:15px;color:var(--ink);padding:9px 10px;border-radius:10px;cursor:pointer}
+.nmitem:hover{background:color-mix(in srgb,var(--gold) 12%,transparent)}
+header .menu{margin-top:6px}
+
+.dnakey{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px}
+.dnakey button{border:0;background:none;padding:0;font:inherit;font-size:13px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.dnakey button:hover{color:var(--ink)}.dnakey i{width:10px;height:10px;border-radius:3px;display:inline-block}.dnakey b{color:var(--ink);font-weight:600}
+@media (max-width:700px){.tabs.roomtabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible}.roomtabs .tab{min-width:0;padding:6px 2px 5px;font-size:10px}.roomtabs .tab .ti{font-size:16px}}
+
+/* compact now-reading card */
+.nowcard{grid-template-columns:96px minmax(0,1fr) auto;padding:14px 18px;gap:16px;align-items:start}
+.nowcard .coverbtn .cover{width:96px}
+.nowcard h2{font-size:26px;margin:2px 0 0;line-height:1.15}
+.nowauthor{font-style:italic;color:var(--muted);font-size:15px}
+.nowcard .bigbar{margin:8px 0 4px}
+.nowline{font-size:14px;color:var(--muted)}.nowline b{color:var(--ink);font-weight:600}
+.nowcard .upd{margin-top:8px;gap:6px}
+.nowin{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:0 4px 0 10px;background:var(--card,#fff8ee)}
+.nowin span{font-family:var(--f-cap);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nowin input{width:64px;border:0!important;background:none!important;padding:6px 4px!important;font:inherit;font-size:16px;color:var(--ink);box-shadow:none!important;outline:none}
+.nowin.small input{width:44px}
+.nowmorebtn{font-size:18px;line-height:1;padding:4px 12px}
+.nowmore{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;padding:10px;border:1px dashed color-mix(in srgb,var(--gold) 40%,var(--line));border-radius:12px;animation:soulin .2s ease}
+.nowmore .tracksw{margin:0}
+.nowfull{flex-basis:100%;font-size:14px;color:var(--muted);margin-top:2px}.nowfull .rmline{margin-top:3px}
+.nowcard .ringwrap{width:86px;height:86px;align-self:center}.nowcard .ring{width:86px}.nowcard .ringwrap .pct{font-size:24px}
+@media (max-width:640px){.nowcard{grid-template-columns:64px minmax(0,1fr)}.nowcard .coverbtn{margin-top:0}.nowcard .coverbtn .cover{width:64px}.nowcard h2{font-size:20px;padding-right:58px}.nowcard .label{padding-right:58px}.nowcard .ringwrap{width:52px;height:52px;top:12px;right:12px}.nowcard .ringwrap .ring{width:52px}.nowcard .ringwrap .pct span{font-size:13px}.nowcard .upd{grid-column:1/-1}.nowin input{width:54px}}
+
+/* familiar corner, refined: sits in the margin beside the page when there's room, bubble opens to its left */
+@media (min-width:701px){
+  .familiar.docked{right:max(12px,calc((100vw - 1080px) / 2 - 132px));bottom:16px}
+  .familiar.docked .bubble{right:104px;bottom:8px;width:min(430px,calc(100vw - 150px));max-height:calc(100vh - 40px);transform-origin:100% 100%}
+  .familiar.docked .bubble::after{right:-10px;bottom:30px;left:auto}
+}
+.familiar.docked .bubble{overflow:visible}
+.familiar.docked.open .bubble{overflow-y:auto}
+@media (max-width:700px){.familiar.docked .bubble{max-height:calc(100vh - 110px)}}
+
+.familiar.docked .bubble{padding-right:18px;padding-top:12px}
+.familiar.docked .bubtools{position:static;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px;margin:-4px -6px 8px 0}
+@media (max-width:640px){
+  header{padding-top:46px}
+  .nowcard{grid-template-columns:64px minmax(0,1fr);column-gap:12px;row-gap:0;align-items:start}
+  .nowcard .nowmeta{display:contents}
+  .nowcard .coverbtn{grid-row:1 / span 3;grid-column:1}
+  .nowcard .nowmeta > *{grid-column:2}
+  .nowcard .nowmeta > .bigbar,.nowcard .nowmeta > .nowline,.nowcard .nowmeta > .upd,.nowcard .nowmeta > .nowmore,.nowcard .nowmeta > .wordpanel{grid-column:1 / -1}
+  .nowcard .nowmeta > .bigbar{margin-top:12px}
+  .nowcard .upd{flex-wrap:nowrap}.nowcard .upd .btn{padding:6px 10px}
+  .nowmore .btn{padding:5px 9px;font-size:13px}
+}
+
+/* phone: a denser library */
+@media (max-width:640px){
+  .gridbooks{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px 10px!important}
+  .gridbooks .book{gap:4px}
+  .gridbooks .book .cover{--fs:9px}
+  .gridbooks .book .bt{font-size:13.5px}
+  .gridbooks .book .ba{font-size:12px;margin-top:-2px}
+  .gridbooks .book .bgr,.gridbooks .book .facts,.gridbooks .book .vtags,.gridbooks .book .bd{display:none}
+  .gridbooks .book .stars{font-size:12px}
+  .shelfbar{gap:8px!important}.shelfbar .seg button{padding:4px 9px;font-size:13px}
+  .wrap{padding-left:12px;padding-right:12px}
+  .maintitle{font-size:40px!important}
+  header .crest.logo{width:96px!important;height:auto}
+  .hall{margin-top:16px}
+}
+
+/* ===== collector character cards ===== */
+.charmodal{max-width:440px}
+.tcard{--cc:#6E3A8A;position:relative;border-radius:18px;padding:10px 10px 12px;background:linear-gradient(160deg,color-mix(in srgb,var(--cc) 85%,#fff 10%),color-mix(in srgb,var(--cc) 70%,#000) 100%);box-shadow:0 10px 30px rgba(0,0,0,.3),inset 0 0 0 2px rgba(255,236,190,.55),inset 0 0 0 6px color-mix(in srgb,var(--cc) 60%,#000);color:#FFF5E2;display:flex;flex-direction:column;gap:8px}
+.tcard.r3{box-shadow:0 10px 30px rgba(0,0,0,.3),inset 0 0 0 2px #F2D16B,inset 0 0 0 6px color-mix(in srgb,var(--cc) 60%,#000),0 0 24px rgba(242,209,107,.45)}
+.tcard.r3::after{content:"";position:absolute;inset:0;border-radius:18px;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.22) 45%,transparent 60%);background-size:250% 100%;animation:holo 4s ease-in-out infinite;pointer-events:none}
+@keyframes holo{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
+.tchead{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 6px}
+.tchead b{font-family:var(--f-display);font-style:italic;font-size:24px;line-height:1.1;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.trar{color:#F7D774;font-size:15px;letter-spacing:1px;text-shadow:0 0 6px rgba(247,215,116,.6);white-space:nowrap}
+.tcimg{aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 2px rgba(255,236,190,.5);display:grid;place-items:center}
+.tcimg img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}.tcimg .cmono{font-family:var(--f-display);font-size:64px;color:rgba(255,245,226,.8)}
+.tctype{font-family:var(--f-cap);font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:rgba(0,0,0,.25);border-radius:6px;padding:4px 8px;color:#FBE9C6}
+.tcblurb{margin:0;padding:8px 10px;background:rgba(255,248,232,.92);color:#2A1A10;border-radius:8px;font-size:14.5px;line-height:1.45}
+.tctraits{display:flex;gap:6px;flex-wrap:wrap}.tctraits span{font-size:12px;background:rgba(255,236,190,.2);border:1px solid rgba(255,236,190,.4);border-radius:99px;padding:2px 9px}
+.tcfoot{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;letter-spacing:.06em;color:#F3DDB8;padding:0 6px}
+.tcard.mini{width:150px;padding:6px 6px 8px;gap:5px;border-radius:12px}.tcard.mini .tchead b{font-size:15px}.tcard.mini .trar{font-size:11px}.tcard.mini .tctype{font-size:9px;padding:2px 5px}.tcard.mini .tcfoot{font-size:9.5px}
+.cmacts{display:flex;justify-content:center;margin:10px 0 4px}
+.charmodal details.cmsec{border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin-top:8px}
+.charmodal details.cmsec summary{cursor:pointer;font-family:var(--f-display);font-style:italic;font-size:17px}
+.charmodal details.cmsec p{font-size:14.5px;line-height:1.5}.charmodal details.cmsec h3{font-size:15px;margin:10px 0 2px}
+.crar{position:absolute;top:8px;right:8px;color:#F7D774;font-size:11px;text-shadow:0 0 4px rgba(0,0,0,.6);z-index:2}
+.ccard{position:relative}
+/* pack opening */
+.packbanner{display:flex;align-items:center;gap:12px;border:1.5px solid color-mix(in srgb,var(--gold) 55%,var(--line));border-radius:16px;padding:10px 14px;margin-bottom:12px;background:radial-gradient(ellipse at 0 50%,color-mix(in srgb,var(--gold) 18%,transparent),transparent 60%),var(--paper)}
+.packbanner .pkicon{font-size:26px;color:var(--gold);animation:twk 2.4s ease-in-out infinite}.packbanner div{flex:1;display:flex;flex-direction:column}.packbanner small{color:var(--muted)}
+#pack-root{position:relative;z-index:420}
+.packov{position:fixed;inset:0;z-index:420;background:radial-gradient(circle at 50% 40%,rgba(80,40,90,.85),rgba(10,5,15,.92));display:grid;place-items:center;padding:16px;animation:rmin .4s ease both}
+.packbox{text-align:center;color:#FFF3DC;max-width:900px}.packbox h2{font-family:var(--f-display);font-style:italic;font-size:clamp(24px,4vw,34px);margin:4px 0}.packbox .label{color:#E9C77E}.packbox .note{color:#E0CBA8}
+.packcards{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:18px 0}
+.pflip{width:150px;perspective:900px;position:relative}
+.pfin,.pback{backface-visibility:hidden;transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.pfin{transform:rotateY(180deg);animation:flipin .8s var(--d) cubic-bezier(.3,1.3,.5,1) forwards}
+.pback{position:absolute;inset:0;border-radius:12px;background:repeating-linear-gradient(45deg,#3A2050 0 10px,#4A2A66 10px 20px);box-shadow:inset 0 0 0 2px #E9C77E;display:grid;place-items:center;font-size:40px;color:#E9C77E;animation:flipout .8s var(--d) forwards}
+@keyframes flipin{to{transform:rotateY(0)}}@keyframes flipout{to{transform:rotateY(-180deg);opacity:0}}
+.packacts{display:flex;gap:10px;justify-content:center}
+@media (max-width:640px){.pflip,.tcard.mini{width:110px}.packcards{gap:8px}}
+/* authors */
+.authlink{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--gold) 50%,transparent);text-underline-offset:3px}
+.authlink:hover{color:var(--accent)}
+#au-root{position:relative;z-index:410}#au-root .scrim{z-index:410}
+.authmodal{max-width:720px}
+.authtop{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center;margin:4px 0 10px}
+.authimg{width:110px;height:110px;border-radius:50%;object-fit:cover;object-position:50% 25%;box-shadow:0 6px 18px rgba(0,0,0,.2),0 0 0 3px color-mix(in srgb,var(--gold) 50%,transparent)}
+.authimg.mono{display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 25%,var(--paper));font-family:var(--f-display);font-size:38px}
+.authtop h2{margin:0}.authdesc{color:var(--muted);font-style:italic}
+.authlife{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:8px 0 0;font-size:14px}.authlife dt{font-family:var(--f-cap);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:3px}.authlife dd{margin:0}
+.authbio{font-size:15.5px;line-height:1.6}
+.authbooks,.authworks{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px;margin-top:6px}
+.authbook,.authwork{display:flex;flex-direction:column;gap:3px;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:var(--ink);font-size:13px}.authbook .cover,.authwork .cover{width:100%}.authbook small,.authwork small{color:var(--muted)}.authwork{cursor:default}
+.authgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.authcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;border:1px solid var(--line);border-radius:16px;background:var(--paper);padding:14px 10px;cursor:pointer;font:inherit;color:var(--ink)}
+.authcard img,.authcard .mono{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 25%}.authcard .mono{display:grid;place-items:center;background:color-mix(in srgb,var(--c) 30%,var(--paper));font-family:var(--f-display);font-size:26px}
+.authcard b{font-family:var(--f-display);font-style:italic;font-size:17px;line-height:1.15}.authcard small{font-size:12px;color:var(--muted)}
+@media (max-width:640px){.authtop{grid-template-columns:80px 1fr}.authimg{width:80px;height:80px}.authgrid{grid-template-columns:repeat(2,1fr)}.authbooks,.authworks{grid-template-columns:repeat(3,1fr)}}
+.packacts .btn:not(.primary){background:rgba(255,255,255,.14);color:#FFF3DC;border-color:rgba(255,236,190,.4)}</style>
 </head>
 <body>
 <div class="drift" id="drift" aria-hidden="true"></div>
 <button class="themebtn seasonbtn" id="season-btn" type="button" title="Seasons and themes" aria-label="Choose a seasonal theme">🍂</button>
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
+<button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
+<div class="nookmenu" id="nook-menu" hidden>
+  <div class="label">Your nook</div>
+  <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
+  <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
+  <label class="nmitem">↺ Restore a backup<input id="imp-json" type="file" accept=".json,application/json" hidden></label>
+  <button class="nmitem" id="install-btn" type="button">📲 Put My Book Nook on your home screen</button>
+</div>
 <div class="wrap">
   <header>
     <svg class="crest logo" viewBox="70 64 380 324" aria-hidden="true"><defs><radialGradient id="lg-bg" cx=".5" cy=".42" r=".75"><stop offset="0" stop-color="#4A2C1E"/><stop offset=".6" stop-color="#2C1A13"/><stop offset="1" stop-color="#1A0F0C"/></radialGradient><linearGradient id="lg-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F2550"/><stop offset=".65" stop-color="#4B3B78"/><stop offset="1" stop-color="#C77A4E"/></linearGradient><radialGradient id="lg-glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFC56B" stop-opacity=".55"/><stop offset="1" stop-color="#FFC56B" stop-opacity="0"/></radialGradient><linearGradient id="lg-mug" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9542F"/><stop offset="1" stop-color="#9C3A20"/></linearGradient><linearGradient id="lg-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A86B3C"/><stop offset="1" stop-color="#6E4021"/></linearGradient></defs><ellipse class="lglow" cx="258" cy="300" rx="176" ry="84" fill="url(#lg-glow)"/><path d="M138 352V196a118 118 0 0 1 236 0v156z" fill="url(#lg-sky)"/><mask id="lg-moonm"><rect width="512" height="512" fill="#fff"/><circle cx="327" cy="160" r="27" fill="#000"/></mask><g class="lmoon"><circle cx="312" cy="170" r="30" fill="#FFE3A3" mask="url(#lg-moonm)"/><circle class="lhalo" cx="312" cy="170" r="44" fill="#FFE3A3" opacity=".12" mask="url(#lg-moonm)"/></g><g class="lstars" fill="#FFE9B8"><circle cx="160" cy="190" r="2"/><circle cx="248" cy="150" r="1.6"/><circle cx="350" cy="230" r="1.8"/><circle cx="190" cy="150" r="3.5"/><circle cx="228" cy="118" r="2.5"/><circle cx="262" cy="196" r="2.5"/><circle cx="176" cy="226" r="2"/><path d="M216 176l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></g><path d="M138 300q20-30 40-6q14-26 36-4q18-24 40 2q20-22 42 2q20-26 40-2q20-20 38 4v56H138z" fill="#5A2E2A" opacity=".85"/><path d="M138 316q30-18 60 0q30-16 60 0q30-16 60 0q28-14 56 0v36H138z" fill="#3B1F1E"/><path d="M138 352V196a118 118 0 0 1 236 0v156" fill="none" stroke="#E8B86A" stroke-width="12"/><path d="M256 82v270M138 250h236" stroke="#E8B86A" stroke-width="7" opacity=".9"/><rect x="104" y="348" width="304" height="26" rx="8" fill="url(#lg-wood)"/><rect x="104" y="348" width="304" height="6" rx="3" fill="#C88A55"/><g><rect x="118" y="322" width="150" height="26" rx="4" fill="#3F6B57"/><rect x="124" y="326" width="138" height="5" fill="#F3E3C3" opacity=".9"/><rect x="118" y="322" width="10" height="26" fill="#2D4E3F"/><rect x="128" y="296" width="132" height="26" rx="4" fill="#B5543C"/><rect x="134" y="300" width="120" height="5" fill="#F3E3C3" opacity=".9"/><rect x="250" y="296" width="10" height="26" fill="#8C3E2B"/><rect x="122" y="272" width="122" height="24" rx="4" fill="#D9A441"/><rect x="128" y="276" width="110" height="4" fill="#FFF3D6" opacity=".9"/><rect x="122" y="272" width="10" height="24" fill="#B78428"/><path d="M150 288h60" stroke="#8C5E14" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(150 246)"><ellipse cx="0" cy="14" rx="20" ry="13" fill="#E07A2E"/><ellipse cx="-9" cy="14" rx="9" ry="12" fill="#C9631F"/><ellipse cx="9" cy="14" rx="9" ry="12" fill="#C9631F"/><ellipse cx="0" cy="14" rx="8" ry="13" fill="#EE8A38"/><path d="M0 2q1-8 6-10" stroke="#5A6B2E" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M4 0q8-6 12 0q-6 4-12 0z" fill="#6E8B3A"/></g><g><path d="M300 276h72v52a20 20 0 0 1-20 20h-32a20 20 0 0 1-20-20z" fill="url(#lg-mug)"/><path d="M372 288h10a18 18 0 0 1 0 36h-10" fill="none" stroke="#9C3A20" stroke-width="9"/><ellipse cx="336" cy="277" rx="36" ry="7" fill="#5A2A14"/><path d="M336 306c-7-5-10-9-6-12c3-2 5-1 6 1c1-2 3-3 6-1c4 3-1 7-6 12z" fill="#FFE3C2"/><g class="lsteam" fill="none" stroke="#FFF3E0" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M322 262c-10-12 8-18-2-32"/><path d="M342 258c-10-12 8-18-2-32"/></g></g><g class="lleaf l1"><path d="M410 140c14-4 26 4 28 18c-14 4-26-4-28-18z" fill="#D9682B"/><path d="M412 142l24 14" stroke="#8C3A16" stroke-width="2"/></g><g class="lleaf l2"><path d="M84 196c10-10 24-8 30 4c-10 10-24 8-30-4z" fill="#E3A23A"/><path d="M86 198l26 2" stroke="#9A6614" stroke-width="2"/></g></svg>
@@ -1606,10 +1744,7 @@ body.rm-open .familiar.docked{display:none}
     <div class="seasongarland" id="season-garland"></div>
     <div class="sub" id="subline">Every book you've read, are reading, and dream of reading.</div>
     <div class="menu">
-      <label class="btn small">Import Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
       <button class="btn small syncpill" id="sync-pill" type="button" data-state="off">☁ Set up sync</button>
-      <button class="btn small" id="exp-btn" type="button">Save a backup</button>
-      <label class="btn small">Restore a backup<input id="imp-json" type="file" accept=".json,application/json" hidden></label>
     </div>
   </header>
 
@@ -1655,11 +1790,11 @@ body.rm-open .familiar.docked{display:none}
   <nav class="tabs roomtabs" role="tablist">
     <button class="tab" id="tab-library" role="tab" aria-selected="true"><span class="ti" aria-hidden="true">▥</span><span class="tl">Library</span></button>
     <button class="tab" id="tab-calendar" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">▦</span><span class="tl">Calendar</span></button>
-    <button class="tab" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year in books</span></button>
+    <button class="tab" title="Year in books" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year</span></button>
     <button class="tab" id="tab-series" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❧</span><span class="tl">Series</span></button>
-    <button class="tab" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Statistics</span></button>
-    <button class="tab" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Reader's Soul</span></button>
-    <button class="tab" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">Recommendations</span></button>
+    <button class="tab" title="Statistics" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Stats</span></button>
+    <button class="tab" title="Your Reader's Soul" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Soul</span></button>
+    <button class="tab" title="Recommendations" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">For you</span></button>
     <button class="tab" id="tab-keep" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">♥</span><span class="tl">Keepsakes</span></button>
     <button class="tab" id="tab-friends" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">☺</span><span class="tl">Friends</span></button>
   </nav>
@@ -1770,6 +1905,18 @@ body.rm-open .familiar.docked{display:none}
   function applyTheme(t){ if (t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme"); $("#theme-btn").textContent = isDark() ? "☀" : "☾"; }
   const isDark = () => { const t = document.documentElement.getAttribute("data-theme"); return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
   applyTheme(lsGet(KEY_THEME, null));
+  let installEvt = null;
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; });
+  $("#nook-menu-btn").addEventListener("click", e => { e.stopPropagation(); const m = $("#nook-menu"); m.hidden = !m.hidden; e.currentTarget.setAttribute("aria-expanded", !m.hidden); });
+  document.addEventListener("click", e => { const m = $("#nook-menu"); if (!m.hidden && !e.target.closest("#nook-menu") && !e.target.closest("#nook-menu-btn")) { m.hidden = true; $("#nook-menu-btn").setAttribute("aria-expanded", "false"); } });
+  $("#nook-menu").addEventListener("change", () => { $("#nook-menu").hidden = true; });
+  $("#install-btn").addEventListener("click", async () => {
+    $("#nook-menu").hidden = true;
+    if (installEvt) { installEvt.prompt(); try { await installEvt.userChoice; } catch {} installEvt = null; return; }
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+    if (standalone) { toast("You're already using the app version. ✦"); return; }
+    toast(ios ? "On iPhone: open this page in Safari, tap the Share button, then “Add to Home Screen”." : "In Chrome: tap the ⋮ menu, then “Install app” or “Add to Home screen”. In other browsers look for “Add to Home screen”.", 8000);
+  });
   $("#theme-btn").addEventListener("click", () => { const t = isDark() ? "light" : "dark"; lsSet(KEY_THEME, t); applyTheme(t); if (tab === "stats") renderStats(); });
 
   // ================= dates (exact day, month only, or year only) =================
@@ -2225,7 +2372,8 @@ body.rm-open .familiar.docked{display:none}
       <div class="dnabarmain"><div class="label">Your Reader DNA · Level ${LV.level} · ${esc(LV.title)}</div>
         <div class="dnabarname"><b>${top.name}</b>${second ? ` <span class="dnawith">with a dash of <b style="color:${second.c}">${second.name.replace(/^The /, "")}</b></span>` : ""}</div>
         <p class="dnadesc">${esc(top.d)}</p>
-        <div class="strand thin" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div></div>
+        <div class="strand thin" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div>
+        <div class="dnakey">${dna.map((a, i) => `<button type="button" data-soulchip="${esc(a.name)}" title="What makes you ${esc(a.name)}?"><i style="background:${a.c}"></i>${esc(a.name.replace(/^The /, ""))} <b>${pct[i]}%</b></button>`).join("")}</div></div>
       <div class="dnabaracts"><button class="btn soulbtn" type="button" data-soul>✦ Your Reader's Soul</button><div class="dnazod">${zodHead()}</div></div></div>${zodPicker()}`;
   }
 
@@ -2827,7 +2975,7 @@ body.rm-open .familiar.docked{display:none}
         ${gs.map(g => { const rd = g.list.filter(b => b.shelf === "read"), rated = rd.filter(b => b.rating), avg = rated.length ? rated.reduce((s, b) => s + b.rating, 0) / rated.length : 0;
           const pages = rd.reduce((s, b) => s + (Number(b.pages) || 0), 0);
           return `<section class="authgroup" id="${slug(g.name)}"><div class="authhead"><span class="authmono" style="--c:${hashColor(g.name)}">${esc(g.name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>
-            <div><h3>${esc(g.name)}</h3><div class="note">${g.list.length} book${g.list.length > 1 ? "s" : ""}${rd.length ? ` · ${rd.length} read` : ""}${pages ? ` · ${pages.toLocaleString()} pages` : ""}${avg ? ` · you average ${avg.toFixed(1)}★` : ""}</div></div></div>
+            <div><h3><button type="button" class="authlink" data-author="${esc(g.name)}" title="About ${esc(g.name)}">${esc(g.name)}</button></h3><div class="note">${g.list.length} book${g.list.length > 1 ? "s" : ""}${rd.length ? ` · ${rd.length} read` : ""}${pages ? ` · ${pages.toLocaleString()} pages` : ""}${avg ? ` · you average ${avg.toFixed(1)}★` : ""}</div></div></div>
             <div class="gridbooks">${g.list.map(cardOf).join("")}</div></section>`; }).join("")}`;
       return;
     }
@@ -3729,7 +3877,7 @@ body.rm-open .familiar.docked{display:none}
     root.onclick = null;
     root.innerHTML = `<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
-        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic">${esc(b.author)}${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
+        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
           <div class="summary clamp" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>${b.summary && b.summary.length > 220 ? `<button type="button" class="linkbtn sumtog" id="m-sumtog">Read more</button>` : `<button type="button" class="linkbtn sumtog" id="m-sumtog" hidden>Read more</button>`}
         </div></div>
@@ -3943,6 +4091,7 @@ body.rm-open .familiar.docked{display:none}
         close();
         if (isNew && lastResults.length) closeResults();
         upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
+        if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb && navigator.onLine !== false) { toast("✦ Opening your card pack…", 2500); openPack(bb); } }, 1400); }
         { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
       }
     });
@@ -4050,6 +4199,7 @@ body.rm-open .familiar.docked{display:none}
     const daysLeft = Math.max(0, Math.ceil((total - cur) / pace));
     return { total, cur, pace, daysIn, basis, daysLeft, unit, ch, exact, finish: new Date(today.getTime() + daysLeft * dayMs) };
   }
+  let nowMore = null;
   function renderNow(){
     const el = $("#now"), list = books.filter(b => b.shelf === "reading").sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""));
     if (!list.length) { el.innerHTML = books.length ? `<div class="nowempty">Not reading anything right now. Drag a book onto the Currently reading shelf to start.</div>` : ""; return; }
@@ -4067,17 +4217,21 @@ body.rm-open .familiar.docked{display:none}
       const form = chMode
         ? `<label class="label" for="ch-${esc(b.id)}">I just finished chapter</label><input id="ch-${esc(b.id)}" data-f="ch" type="number" min="0" inputmode="numeric" value="${e.cur}"><span class="label">of</span><input data-f="tot" type="number" min="1" inputmode="numeric" value="${esc(b.chapters || "")}" placeholder="total" aria-label="Chapters in the book">`
         : `<label class="label" for="pg-${esc(b.id)}">I'm on page</label><input id="pg-${esc(b.id)}" data-f="pg" type="number" min="0" ${e.total ? `max="${e.total}"` : ""} inputmode="numeric" value="${e.cur}">`;
+      const short = !e.total ? `<button class="linkbtn" type="button" data-open="${esc(b.id)}">${chMode ? "add the chapter count" : "add the page count"}</button>` : e.cur >= e.total ? "the last page! ✦" : e.daysLeft === null ? "keep updating for an estimate" : e.daysLeft <= 1 ? (e.daysLeft === 0 ? "finish today" : "finish tomorrow") : `finish ≈ <b>${fmtD(e.finish)}</b>`;
+      const ses = lsGet("reading-ledger-session", null), on = ses && ses.id === b.id, more = nowMore === b.id;
+      const form2 = chMode
+        ? `<label class="nowin"><span>chapter</span><input id="ch-${esc(b.id)}" data-f="ch" type="number" min="0" inputmode="numeric" value="${e.cur}"></label><label class="nowin small"><span>of</span><input data-f="tot" type="number" min="1" inputmode="numeric" value="${esc(b.chapters || "")}" placeholder="?" aria-label="Chapters in the book"></label>`
+        : `<label class="nowin"><span>page</span><input id="pg-${esc(b.id)}" data-f="pg" type="number" min="0" ${e.total ? `max="${e.total}"` : ""} inputmode="numeric" value="${e.cur}"></label>`;
       return `<article class="nowcard">
         <button class="coverbtn" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, `<i class="ribbon"></i>`)}</button>
-        <div class="nowmeta"><div class="nowtop"><div class="label">${list.length > 1 ? "Main read" : "Now reading"}${e.daysIn ? ` · day ${e.daysIn}` : ""}</div>
-            <div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div></div>
-          <h2>${esc(b.title)}</h2><div class="muted" style="font-style:italic">${esc(b.author)}</div>
+        <div class="nowmeta"><div class="label">${list.length > 1 ? "Main read" : "Now reading"}${e.daysIn ? ` · day ${e.daysIn}` : ""}</div>
+          <h2>${esc(b.title)}</h2><div class="nowauthor"><button type="button" class="authlink" data-author="${esc(b.author)}">${esc(b.author)}</button></div>
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
-          <div class="facts">${facts}</div>
-          <div class="eta">${eta}</div>
-          <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form}<button class="btn small primary" type="submit">Update</button><button class="btn small" type="button" data-finish="${esc(b.id)}">I finished it</button></form>
-          <div class="nowacts">${(() => { const s = lsGet("reading-ledger-session", null), on = s && s.id === b.id; return `<div class="rmstart"><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}">🕯 ${on ? "Back to reading" : "Start reading"}</button>${nowSessionLine(b)}${todayMins(b) ? `<button class="linkbtn" type="button" data-share="session">⤴ Share</button>` : ""}<button class="linkbtn" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button></div>`; })()}
-          ${wordPanel(b)}</div>
+          <div class="nowline" title="${esc(eta.replace(/<[^>]+>/g, ""))}">${e.total ? `${u} ${e.cur} of ${e.total}` : `${u} ${e.cur}`} · ${short}</div>
+          <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form2}<button class="btn small primary" type="submit">Update</button><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}" title="${on ? "Back to your reading session" : "Read by candlelight: timer and sounds"}">🕯 ${on ? "Back" : "Read"}</button><button class="btn small nowmorebtn" type="button" data-nowmore="${esc(b.id)}" aria-expanded="${more}" title="More">⋯</button></form>
+          ${more ? `<div class="nowmore"><button class="btn small" type="button" data-finish="${esc(b.id)}">✓ I finished it</button><div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div><button class="btn small" type="button" data-words="${esc(b.id)}">✎ Look up a word${(b.words || []).length ? ` · ${(b.words || []).length}` : ""}</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button>${todayMins(b) ? `<button class="btn small" type="button" data-share="session">⤴ Today's reading</button>` : ""}
+            <div class="nowfull">${eta}${nowSessionLine(b)}</div></div>` : ""}
+          ${wordOpen === b.id ? wordPanel(b) : ""}
         </div>
         <div class="ringwrap"><div class="ring" style="--p:${pct}"></div><div class="pct"><span>${pctTxt}%<small>read</small></span></div></div>
       </article>`;
@@ -4109,6 +4263,7 @@ body.rm-open .familiar.docked{display:none}
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
+    const nm = e.target.closest("[data-nowmore]"); if (nm) { nowMore = nowMore === nm.dataset.nowmore ? null : nm.dataset.nowmore; renderNow(); return; }
     const m = e.target.closest("[data-mainread]"); if (m) { lsSet("reading-ledger-mainread", m.dataset.mainread); const card = $("#now .nowcard"); card?.classList.add("swap"); setTimeout(() => { renderNow(); $("#now .nowcard")?.classList.add("swapin"); }, 160); } });
   $("#now").addEventListener("click", e => {
     const t = e.target.closest("[data-track]"); if (!t) return;
@@ -4729,7 +4884,7 @@ body.rm-open .familiar.docked{display:none}
   const famSec = () => $("#familiar");
   function applyDock(){ const el = famSec(); if (!el) return; el.classList.toggle("docked", !!famDocked); if (!famDocked) el.classList.remove("open", "peek"); }
   function famOpen(on){ const el = famSec(); if (!el) return; el.classList.toggle("open", on); el.classList.remove("peek"); if (!on && famPicking) { famPicking = false; renderFamiliar(); } }
-  function famPeek(){ const el = famSec(); if (!el || !famDocked || el.classList.contains("open")) return; if (Date.now() - famLastPeek < 150000) return; famLastPeek = Date.now();
+  function famPeek(){ const el = famSec(); if (!el || !famDocked || el.classList.contains("open")) return; if (Date.now() - famLastPeek < (innerWidth > 700 ? 150000 : 300000)) return; famLastPeek = Date.now();
     el.classList.add("peek"); clearTimeout(famPeekT); famPeekT = setTimeout(() => el.classList.remove("peek"), 7000); }
   function speak(text, mood = "idle"){ saidMood = mood; const ms = Math.min(5200, 700 + String(text).split(/\s+/).length * 150); setExpr("talk", ms, mood); }
   function famAct(){ const card = famCard(); if (!card) return; card.classList.remove("act"); void card.offsetWidth; card.classList.add("act"); clearTimeout(actT); actT = setTimeout(() => card.classList.remove("act"), 2800); }
@@ -4949,7 +5104,7 @@ body.rm-open .familiar.docked{display:none}
     for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + Math.random() * .4, r = 46 + Math.random() * 30; body.insertAdjacentHTML("beforeend", `<i class="pburst" style="--dx:${(Math.cos(a) * r).toFixed(0)}px;--dy:${(Math.sin(a) * r - 20).toFixed(0)}px;color:${FAMILIARS[familiar].aura};animation-delay:${(i * .03).toFixed(2)}s">${P.burst}</i>`); }
     clearTimeout(petTimer); petTimer = setTimeout(() => { petLine = null; lastSaid = "__"; renderFamiliar(); }, 6000);
   }
-  applyDock(); setTimeout(() => { famLastPeek = 0; famPeek(); }, 3500);
+  applyDock(); if (innerWidth > 700) setTimeout(() => { famLastPeek = 0; famPeek(); }, 3500); else famLastPeek = Date.now();
   $("#familiar").addEventListener("click", e => {
     if (e.target.closest("[data-famdock]")) { e.stopImmediatePropagation(); famDocked = !famDocked; lsSet("reading-ledger-famdock", famDocked); applyDock(); renderFamiliar(); if (famDocked) famOpen(false); toast(famDocked ? "Your familiar is sitting in the corner. Tap them to chat." : "Your familiar is back in the page."); return; }
     if (e.target.closest("[data-famclose]")) { e.stopImmediatePropagation(); famOpen(false); return; }
@@ -6009,16 +6164,181 @@ alter publication supabase_realtime add table public.library;`;
     return { name: s.title, img: s.originalimage?.source || s.thumbnail?.source || "", summary: s.extract || "", personality, appearance: "", info: s.description ? { Description: s.description } : {}, srcName: "Wikipedia", srcUrl: s.content_urls?.desktop?.page || "" };
   }
   const allChars = () => books.flatMap(b => (b.characters || []).map(c => ({ c, b })));
-  const charArt = (c, b) => c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cmono',textContent:${JSON.stringify((c.name || "?")[0])}}))">` : `<span class="cmono">${esc((c.name || "?")[0])}</span>`;
+  const charArt = (c, b) => c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-l="${esc((c.name || "?")[0])}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cmono',textContent:this.dataset.l}))">` : `<span class="cmono">${esc((c.name || "?")[0])}</span>`;
   function charCard(c, b){
     const col = spineColorOf(b);
     return `<button type="button" class="ccard${c.fav ? " fav" : ""}" data-char="${esc(b.id)}|${esc(c.id)}" style="--cc:${col}"><span class="cframe"><span class="cimg">${charArt(c, b)}</span><span class="cshine"></span>${c.fav ? `<span class="cheart">♥</span>` : ""}</span>
-      <span class="cname">${esc(c.name)}</span><span class="cbook">${esc(b.seriesName || b.title)}</span></button>`;
+      <span class="cname">${esc(c.name)}</span><span class="cbook">${esc(b.seriesName || b.title)}</span>${c.rarity ? `<span class="crar r${c.rarity}">${RAR[c.rarity][0]}</span>` : ""}</button>`;
   }
+  // ================= Authors: who you're reading =================
+  const AUTH_KEY = n => "reading-ledger-author:" + norm(n);
+  const isWriter = d => /\b(writer|author|novelist|poet|journalist|essayist|playwright|historian|philosopher|theologian|psychologist|economist|scientist|biographer|screenwriter|illustrator|cartoonist|columnist|professor|scholar|memoirist|lyricist)\b/i.test(d || "");
+  async function wikiAuthor(name){
+    let s = null;
+    try { s = await jget(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name.replace(/\s+/g, "_"))}`); } catch {}
+    if (!s || s.type === "disambiguation" || !isWriter(s.description + " " + s.extract)) {
+      try { const d = await jget(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(name + " author")}&srlimit=3&format=json&origin=*`);
+        for (const r of d.query?.search || []) { try { const t = await jget(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(r.title.replace(/\s+/g, "_"))}`); if (t.type !== "disambiguation" && isWriter(t.description + " " + t.extract)) { s = t; break; } } catch {} } } catch {}
+    }
+    return s && s.extract ? s : null;
+  }
+  const wdTime = c => { const t = c?.mainsnak?.datavalue?.value?.time; if (!t) return null; const m = t.match(/^([+-]\d+)-(\d\d)-(\d\d)/); if (!m) return null; const y = +m[1]; return { y, m: +m[2], d: +m[3] }; };
+  const fmtWD = t => t ? `${t.d ? t.d + " " : ""}${t.m ? MONTHS_LONG[t.m - 1] + " " : ""}${t.y < 0 ? -t.y + " BC" : t.y}` : "";
+  async function wikidataLife(title){
+    try {
+      const p = await jget(`https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=${encodeURIComponent(title)}&format=json&origin=*`);
+      const qid = Object.values(p.query?.pages || {})[0]?.pageprops?.wikibase_item; if (!qid) return {};
+      const e = (await jget(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`)).entities?.[qid]; if (!e) return {};
+      const C = k => (e.claims?.[k] || [])[0];
+      const born = wdTime(C("P569")), died = wdTime(C("P570"));
+      const ids = ["P19", "P27"].map(k => C(k)?.mainsnak?.datavalue?.value?.id).filter(Boolean);
+      let labels = {};
+      if (ids.length) { try { const l = await jget(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${ids.join("|")}&props=labels&languages=en&format=json&origin=*`); for (const [k, v] of Object.entries(l.entities || {})) labels[k] = v.labels?.en?.value; } catch {} }
+      return { born: fmtWD(born), died: fmtWD(died), bornY: born?.y || null, diedY: died?.y || null, place: labels[C("P19")?.mainsnak?.datavalue?.value?.id] || "", country: labels[C("P27")?.mainsnak?.datavalue?.value?.id] || "" };
+    } catch { return {}; }
+  }
+  async function famousWorks(name, wikiTitle){
+    try { const d = await olJSON(`${OL}/search.json?${new URLSearchParams({ author: name, sort: "readinglog", fields: "title,first_publish_year,cover_i,key", limit: "12", lang: "en" })}`);
+      const seen = new Set(), out = [];
+      for (const x of d.docs || []) { const k = tnorm(x.title); if (seen.has(k) || /collection|box set|boxed set|omnibus|books \d|\bset\b|summary|study guide/i.test(x.title)) continue; seen.add(k); out.push({ t: x.title, y: x.first_publish_year || null, c: x.cover_i ? coverById(x.cover_i, "M") : "" }); if (out.length >= 8) break; }
+      if (out.length) return out;
+    } catch {}
+    try { // fall back to the Bibliography / Works section on Wikipedia
+      const d = await jget(`https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(wikiTitle)}&prop=text&format=json&origin=*&redirects=1`);
+      const doc = new DOMParser().parseFromString(d.parse?.text?.["*"] || "", "text/html");
+      for (const h of doc.querySelectorAll("h2,h3")) { if (!/^(works|bibliography|selected works|novels|books|publications)/i.test(h.textContent.trim())) continue;
+        const out = []; let n = (h.closest(".mw-heading") || h).nextElementSibling;
+        while (n && !/^H[23]$/.test(n.tagName) && !n.classList?.contains("mw-heading") && out.length < 8) { n.querySelectorAll?.("li").forEach(li => { if (out.length >= 8) return; const i = li.querySelector("i"); const t = (i ? i.textContent : li.textContent.split(/[(,–-]/)[0]).trim(); const y = (li.textContent.match(/\b(1[5-9]|20)\d\d\b/) || [])[0]; if (t && t.length < 80) out.push({ t, y: y ? +y : null, c: "" }); }); n = n.nextElementSibling; }
+        if (out.length) return out; }
+    } catch {}
+    return [];
+  }
+  async function authorInfo(name, force){
+    const cached = lsGet(AUTH_KEY(name), null);
+    if (cached && !force && Date.now() - cached.t < 30 * 864e5) return cached;
+    const s = await wikiAuthor(name);
+    const life = s ? await wikidataLife(s.title) : {};
+    const works = await famousWorks(name, s?.title || name);
+    const info = { t: Date.now(), name, found: !!s, title: s?.title || name, desc: s?.description || "", extract: s?.extract || "", img: s?.thumbnail?.source || s?.originalimage?.source || "", url: s?.content_urls?.desktop?.page || "", ...life, works };
+    lsSet(AUTH_KEY(name), info); return info;
+  }
+  function authorStats(name){
+    const mine = books.filter(b => b.author && norm(b.author) === norm(name)), read = mine.filter(b => b.shelf === "read"), r = read.filter(b => b.rating);
+    return { mine, read, avg: r.length ? r.reduce((s, b) => s + b.rating, 0) / r.length : 0, pages: read.reduce((s, b) => s + (Number(b.pages) || 0), 0) };
+  }
+  async function openAuthor(name){
+    if (!name) return;
+    let root = document.getElementById("au-root"); if (!root) { root = document.createElement("div"); root.id = "au-root"; document.body.append(root); }
+    const st = authorStats(name);
+    const draw = (A, loading) => {
+      const age = A && A.bornY ? (A.diedY ? `${A.diedY - A.bornY} years` : `${new Date().getFullYear() - A.bornY} years old`) : "";
+      root.innerHTML = `<div class="scrim" id="au-scrim"><div class="modal authmodal" role="dialog" aria-modal="true" aria-labelledby="au-t">
+        <div class="phead"><div class="label">The author</div><button class="btn small" type="button" data-aux>Close</button></div>
+        <div class="authtop">${A?.img ? `<img class="authimg" src="${esc(A.img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="authimg mono">${esc(name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}
+          <div><h2 id="au-t">${esc(name)}</h2>${A?.desc ? `<div class="authdesc">${esc(cap(A.desc))}</div>` : ""}
+            <dl class="authlife">${A?.born ? `<dt>Born</dt><dd>${esc(A.born)}${A.place ? `, ${esc(A.place)}` : ""}</dd>` : ""}${A?.died ? `<dt>Died</dt><dd>${esc(A.died)}${age ? ` (aged ${esc(age.replace(" years", ""))})` : ""}</dd>` : age ? `<dt>Age</dt><dd>${esc(age)}</dd>` : ""}${A?.country ? `<dt>Country</dt><dd>${esc(A.country)}</dd>` : ""}</dl></div></div>
+        ${loading ? `<div class="progress dots">Looking them up</div>` : A?.extract ? `<p class="authbio">${esc(A.extract)}</p>` : `<p class="note">I couldn't find a biography for ${esc(name)} right now.</p>`}
+        <div class="label">On your shelves · ${st.mine.length} book${st.mine.length === 1 ? "" : "s"}${st.read.length ? ` · ${st.read.length} read` : ""}${st.avg ? ` · you rate them ${st.avg.toFixed(1)}★` : ""}${st.pages ? ` · ${st.pages.toLocaleString()} pages together` : ""}</div>
+        <div class="authbooks">${st.mine.map(b => `<button type="button" class="authbook" data-open="${esc(b.id)}">${coverHTML(b)}<span>${esc(b.title)}</span>${b.rating ? `<small>${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</small>` : `<small>${esc(SHELVES[b.shelf] || "")}</small>`}</button>`).join("")}</div>
+        ${A?.works?.length ? `<div class="label" style="margin-top:12px">Their best-known books</div><div class="authworks">${A.works.map(w => `<div class="authwork">${w.c ? coverHTML({ title: w.t, author: name, cover: w.c }) : coverHTML({ title: w.t, author: name })}<span>${esc(w.t)}${w.y ? ` <small>${w.y}</small>` : ""}</span>${inLibrary(w.t, name) ? `<small class="onshelf">On your shelf</small>` : `<button type="button" class="linkbtn" data-auwant="${esc(w.t)}" data-auc="${esc(w.c || "")}">+ Want to read</button>`}</div>`).join("")}</div>` : ""}
+        ${A?.url ? `<p class="note">From <a href="${esc(A.url)}" target="_blank" rel="noopener">Wikipedia ↗</a></p>` : ""}</div></div>`;
+      paintRecCovers(root);
+    };
+    const cached = lsGet(AUTH_KEY(name), null);
+    draw(cached, !cached);
+    root.onclick = e => {
+      if (e.target.id === "au-scrim" || e.target.closest("[data-aux]")) { root.onclick = null; root.innerHTML = ""; return; }
+      const w = e.target.closest("[data-auwant]"); if (w) { upsert({ title: w.dataset.auwant, author: name, cover: w.dataset.auc || "", id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [] }); toast(`${w.dataset.auwant} added to Want to read`); w.outerHTML = `<small class="onshelf">On your shelf</small>`; return; }
+      if (e.target.closest("[data-open]")) { root.onclick = null; setTimeout(() => { root.innerHTML = ""; }, 0); }
+    };
+    if (!cached || Date.now() - cached.t > 30 * 864e5) { try { const A = await authorInfo(name, true); if ($("#au-scrim")) draw(A, false); } catch { if ($("#au-scrim")) draw(cached, false); } }
+  }
+  // the authors keepsake: everyone you've read
+  function authorsPanel(){
+    const map = new Map(); books.forEach(b => { if (!b.author) return; const k = norm(b.author); if (!map.has(k)) map.set(k, { name: b.author, list: [] }); map.get(k).list.push(b); });
+    const list = [...map.values()].map(a => ({ ...a, read: a.list.filter(b => b.shelf === "read").length, avg: (() => { const r = a.list.filter(b => b.rating); return r.length ? r.reduce((s, b) => s + b.rating, 0) / r.length : 0; })() })).sort((a, b) => b.list.length - a.list.length || b.avg - a.avg);
+    if (!list.length) return `<div class="empty"><span class="fleuron">✒</span><h3>No authors yet</h3><div>Add some books and the people who wrote them gather here.</div></div>`;
+    return `<div class="panel"><div class="phead"><h2>The people behind your books</h2><span class="note">${list.length} author${list.length > 1 ? "s" : ""} · tap one to learn who they are</span></div>
+      <div class="authgrid">${list.map(a => { const c = lsGet(AUTH_KEY(a.name), null); return `<button type="button" class="authcard" data-author="${esc(a.name)}">${c?.img ? `<img src="${esc(c.img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="mono" style="--c:${hashColor(a.name)}">${esc(a.name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}<b>${esc(a.name)}</b><small>${a.list.length} book${a.list.length > 1 ? "s" : ""}${a.avg ? ` · ${a.avg.toFixed(1)}★` : ""}</small>${c?.desc ? `<small class="muted">${esc(cap(c.desc))}</small>` : ""}</button>`; }).join("")}</div></div>`;
+  }
+  document.addEventListener("click", e => { const a = e.target.closest("[data-author]"); if (!a) return; e.preventDefault(); e.stopPropagation(); openAuthor(a.dataset.author); }, true);
+  // ================= Character card packs: finish a book, meet its cast =================
+  const TRAITS = ["brave", "loyal", "cunning", "clever", "kind", "ruthless", "stubborn", "proud", "fierce", "loving", "witty", "mysterious", "protective", "ambitious", "reckless", "compassionate", "intelligent", "cold", "arrogant", "gentle", "determined", "sarcastic", "charming", "impulsive", "wise", "cheerful", "shy", "independent", "honest", "selfless", "vengeful", "manipulative", "hot-tempered", "playful", "curious", "caring", "cruel", "noble", "courageous", "headstrong", "resourceful", "ambitious", "quiet", "brooding", "cheeky", "fearless", "devoted"];
+  function charTraits(c){ const txt = `${c.personality || ""} ${c.summary || ""}`.toLowerCase(); const found = []; for (const t of TRAITS) { const i = txt.search(new RegExp(`\\b${t.replace("-", "[- ]")}\\b`)); if (i >= 0) found.push([t, i]); } return [...new Set(found.sort((a, b) => a[1] - b[1]).map(x => x[0]))].slice(0, 3); }
+  function charBlurb(c){ const s = String(c.summary || "").replace(/\s+/g, " ").trim(); if (!s) return ""; const first = (s.match(/^.{20,220}?[.!?](\s|$)/) || [s.slice(0, 180)])[0].trim(); return first.length > 200 ? first.slice(0, 190).replace(/\s+\S*$/, "") + "…" : first; }
+  function charRole(c){ const pick2 = Object.entries(c.info || {}).filter(([k]) => /species|race|occupation|title|position|role|affiliation|house|court|nationality|description/i.test(k)).map(([, v]) => String(v).split(/[,;(]/)[0].trim()).filter(v => v && v.length < 30); return [...new Set(pick2)].slice(0, 2).join(" · "); }
+  const RAR = { 3: ["★★★", "Legendary"], 2: ["★★", "Rare"], 1: ["★", "Common"] };
+  // which names make up a book's cast: from its fan wiki page or its Wikipedia article
+  function namesFromSection(doc){
+    for (const h of doc.querySelectorAll("h2,h3")) {
+      if (!/^(main )?characters|^cast|^protagonists|^major characters|^principal characters/i.test(h.textContent.replace(/\[.*?\]/g, "").trim())) continue;
+      const names = []; let n = (h.closest(".mw-heading") || h).nextElementSibling;
+      while (n && names.length < 12) {
+        if (/^H[12]$/.test(n.tagName) || (n.classList?.contains("mw-heading") && n.querySelector("h2"))) break;
+        if (/^H[3-4]$/.test(n.tagName) || n.classList?.contains("mw-heading")) { const t = n.textContent.replace(/\[.*?\]/g, "").trim(); if (t && t.split(" ").length <= 5 && !/characters|minor|other|secondary/i.test(t)) names.push(t); }
+        n.querySelectorAll?.("li, dt").forEach(li => { if (names.length >= 12) return; const b = li.querySelector("b, a"); let t = (li.tagName === "DT" ? li.textContent : b ? b.textContent : li.textContent.split(/\s[–—-]\s|:|,/)[0]).replace(/\[.*?\]/g, "").trim(); if (t && t.length > 1 && t.length < 50 && t.split(" ").length <= 6) names.push(t); });
+        n = n.nextElementSibling;
+      }
+      const clean = [...new Set(names.map(x => x.replace(/^(the|a)\s+/i, (m) => m).trim()))].filter(x => !/^(see|main article|list of)/i.test(x));
+      if (clean.length) return clean;
+    }
+    return [];
+  }
+  async function bookCast(b){
+    for (const slug of wikiSlugs(b).slice(0, 2)) {
+      try { const d = await jget(`https://${slug}.fandom.com/api.php?action=parse&page=${encodeURIComponent(b.title)}&prop=text&redirects=1&format=json&origin=*`); const doc = new DOMParser().parseFromString(d.parse?.text?.["*"] || "", "text/html"); const n = namesFromSection(doc); if (n.length) return { names: n, wiki: slug }; } catch {}
+    }
+    try {
+      const q = await jget(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(`${b.title} ${b.author || ""} novel`)}&srlimit=3&format=json&origin=*`);
+      for (const r of q.query?.search || []) {
+        if (!norm(r.title).includes(norm(b.title).slice(0, 12))) continue;
+        const d = await jget(`https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(r.title)}&prop=text&redirects=1&format=json&origin=*`);
+        const doc = new DOMParser().parseFromString(d.parse?.text?.["*"] || "", "text/html"); const n = namesFromSection(doc); if (n.length) return { names: n, wiki: null };
+      }
+    } catch {}
+    return { names: [], wiki: null };
+  }
+  const seriesChars = b => books.filter(x => x === b || (b.seriesName && x.seriesName && seriesKey(x) === seriesKey(b))).flatMap(x => (x.characters || []).map(c => norm(c.name)));
+  async function openPack(b, quiet){
+    if (!b) return [];
+    b.castTried = true; save({ stamp: false });
+    const { names } = await bookCast(b);
+    const have = new Set(seriesChars(b)), got = [];
+    for (const nm of names) {
+      if (got.length >= 5) break;
+      if ([...have].some(h => h && (h === norm(nm) || h.includes(norm(nm)) || norm(nm).includes(h)))) continue;
+      try {
+        const opts = await searchCharacter(nm, b); const f = opts[0]; if (!f) continue;
+        const data = await fetchCharacter(f); if (!data || !data.name) continue;
+        if (have.has(norm(data.name))) continue; have.add(norm(data.name));
+        got.push({ id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), added: new Date().toISOString(), fav: false, notes: "", quote: "", ...data, rarity: got.length === 0 ? 3 : got.length <= 2 ? 2 : 1, reward: true });
+      } catch {}
+    }
+    if (got.length) { b.characters = [...(b.characters || []), ...got]; save(); }
+    if (!quiet) showPack(b, got);
+    return got;
+  }
+  function showPack(b, got){
+    let root = document.getElementById("pack-root"); if (!root) { root = document.createElement("div"); root.id = "pack-root"; document.body.append(root); }
+    if (!got.length) { toast(`No character cards found for ${b.title}. You can add your favourites in Keepsakes.`, 5000); return; }
+    root.innerHTML = `<div class="packov"><div class="packbox"><div class="label">Book finished · reward</div><h2>You met the cast of <i>${esc(b.title)}</i></h2><p class="note">${got.length} character card${got.length > 1 ? "s" : ""} joined your collection.</p>
+      <div class="packcards">${got.map((c, i) => `<div class="pflip" style="--d:${i * .25 + .3}s"><div class="pfin">${miniCard(c, b)}</div><div class="pback"><span>✦</span></div></div>`).join("")}</div>
+      <div class="packacts"><button class="btn" type="button" data-packx>Lovely</button><button class="btn primary" type="button" data-packgo>See my collection</button></div></div></div>`;
+    paintCharImgs(root);
+    root.onclick = e => { if (e.target.closest("[data-packx]") || e.target.classList.contains("packov")) { root.innerHTML = ""; return; } if (e.target.closest("[data-packgo]")) { root.innerHTML = ""; keepMode = "chars"; lsSet("reading-ledger-keepmode", "chars"); showTab("keep"); $("#view-keep")?.scrollIntoView({ behavior: "smooth" }); } };
+  }
+  const paintCharImgs = () => {};
+  function miniCard(c, b){
+    const r = RAR[c.rarity || 1], role = charRole(c);
+    return `<div class="tcard mini r${c.rarity || 1}" style="--cc:${spineColorOf(b)}"><div class="tchead"><b>${esc(c.name)}</b><span class="trar" title="${r[1]}">${r[0]}</span></div><div class="tcimg">${charArt(c, b)}</div>${role ? `<div class="tctype">${esc(role)}</div>` : ""}<div class="tcfoot">${esc(b.seriesName || b.title)}</div></div>`;
+  }
+  // books you've finished whose cast you haven't met yet: unopened packs
+  const unopened = () => readBooks().filter(b => !b.castTried && !(b.characters || []).some(c => c.reward)).sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
   function renderKeep(){
     const el = $("#view-keep");
     const chars = allChars(), words = books.flatMap(b => (b.words || []).map(w => ({ w, b }))), quotes = books.flatMap(b => (b.quotes || []).map(q => ({ q, b })));
-    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">♥ Characters <b>${chars.length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button></div></div>`;
+    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">♥ Characters <b>${chars.length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button><button type="button" data-keep="authors" aria-selected="${keepMode === "authors"}">✒ Authors <b>${new Set(books.filter(b => b.author).map(b => norm(b.author))).size}</b></button></div></div>`;
+    if (keepMode === "authors") { el.innerHTML = head + authorsPanel(); return; }
     if (keepMode === "quotes") {
       el.innerHTML = head + (quotes.length ? `<div class="panel"><div class="phead"><h2>Lines you kept</h2><span class="note">${quotes.length} quote${quotes.length > 1 ? "s" : ""} · add them from a book's ❝ Notes tab</span></div>
         ${quotes.length >= 2 ? `<div class="wotd qotd">${(() => { const x = quotes[hashNum(todayISO(), quotes.length)]; return `<span class="label">Quote of the day</span><blockquote>“${esc(x.q.q)}”</blockquote><small>${esc(x.b.title)} · ${esc(x.b.author || "")}</small>`; })()}</div>` : ""}
@@ -6037,7 +6357,9 @@ alter publication supabase_realtime add table public.library;`;
     const opts = [...books].filter(b => b.shelf !== "want").concat(books.filter(b => b.shelf === "want")).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.seriesName ? ` (${esc(b.seriesName)})` : ""}</option>`).join("");
     const series = [...new Set(chars.map(x => x.b.seriesName || x.b.title))];
     const shown = chars.filter(x => charFilter === "all" || charFilter === "fav" ? (charFilter !== "fav" || x.c.fav) : (x.b.seriesName || x.b.title) === charFilter).sort((a, b) => (b.c.fav ? 1 : 0) - (a.c.fav ? 1 : 0) || (b.c.added || "").localeCompare(a.c.added || ""));
-    el.innerHTML = head + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
+    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner"><span class="pkicon">✦</span><div><b>${packs.length} unopened card pack${packs.length > 1 ? "s" : ""}</b><small>One for every book you've finished. Open one to meet its main characters.</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : `Open ${esc(packs[0].title)}`}</button></div>` : "";
+    
+el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
       <form class="charform" id="char-form" autocomplete="off"><input name="n" placeholder="Character name, e.g. Aelin, Rhysand, Hermione" required><select name="b" aria-label="From which book">${opts}</select><button class="btn primary" type="submit">${charBusy ? "Searching…" : "Find them"}</button></form>
       ${charFind ? `<div class="charfind">${charFind.length ? charFind.map((f, i) => `<button type="button" class="cfound" data-cpick="${i}">${f.thumb ? `<img src="${esc(f.thumb)}" alt="" referrerpolicy="no-referrer">` : `<span class="cmono small">${esc(f.title[0])}</span>`}<span><b>${esc(f.title)}</b><small>${f.src === "fandom" ? `${esc(f.wiki)} wiki` : "Wikipedia"}${f.snippet ? ` · ${esc(f.snippet.slice(0, 90))}` : ""}</small></span></button>`).join("") : `<div class="note">Couldn't find them online.</div>`}
         <button type="button" class="linkbtn" data-cmanual>Add them by hand instead</button></div>` : ""}</div>
@@ -6049,16 +6371,21 @@ alter publication supabase_realtime add table public.library;`;
     const fam = (b.seriesName ? books.filter(x => x.seriesName && seriesKey(x) === seriesKey(b)) : [b]).sort((x, y) => (x.seriesNum || 0) - (y.seriesNum || 0));
     const root = $("#modal-root");
     root.innerHTML = `<div class="scrim" id="char-scrim"><div class="modal charmodal" role="dialog" aria-modal="true" aria-labelledby="c-title" style="--cc:${spineColorOf(b)}">
-      <div class="cmhead"><div class="cmimg">${charArt(c, b)}</div><div><div class="label">${esc(b.seriesName || "From")} ${b.seriesName ? "" : ""}</div><h2 id="c-title">${esc(c.name)}</h2>
+      ${(() => { const r = RAR[c.rarity || 1], role = charRole(c), blurb = charBlurb(c), tr = charTraits(c), n = allChars().findIndex(x => x.c.id === c.id) + 1;
+        return `<div class="tcard big r${c.rarity || 1}" style="--cc:${spineColorOf(b)}"><div class="tchead"><b id="c-title">${esc(c.name)}</b><span class="trar" title="${r[1]}">${r[0]}</span></div>
+          <div class="tcimg">${charArt(c, b)}</div>${role ? `<div class="tctype">${esc(role)}</div>` : ""}
+          ${blurb ? `<p class="tcblurb">${esc(blurb)}</p>` : ""}${tr.length ? `<div class="tctraits">${tr.map(t => `<span>${esc(cap(t))}</span>`).join("")}</div>` : ""}
+          <div class="tcfoot"><span>${esc(b.seriesName || b.title)}</span><span>${r[1]} · Nº ${n}</span></div></div>`; })()}
+      <div class="cmacts"><button class="btn small${c.fav ? " primary" : ""}" type="button" id="c-fav">${c.fav ? "♥ Most cherished" : "♡ Mark as most cherished"}</button></div>
+      ${(c.summary || c.personality || c.appearance || Object.keys(c.info || {}).length) ? `<details class="cmsec"><summary>Their full story</summary>
         <div class="cmbooks">${fam.map(x => `<span class="cmb${x.id === b.id ? " main" : ""}">${esc(x.title)}${x.shelf === "read" ? " ✓" : ""}</span>`).join("")}</div>
         ${Object.keys(c.info || {}).length ? `<dl class="cinfo">${Object.entries(c.info).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>` : ""}
-        <button class="btn small${c.fav ? " primary" : ""}" type="button" id="c-fav">${c.fav ? "♥ Most cherished" : "♡ Mark as most cherished"}</button></div></div>
-      ${c.summary ? `<section class="cmsec"><h3>Who they are</h3>${c.summary.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("")}</section>` : ""}
-      ${c.personality ? `<section class="cmsec"><h3>Personality</h3>${c.personality.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("")}</section>` : ""}
-      ${c.appearance ? `<details class="cmsec"><summary><h3>Appearance</h3></summary>${c.appearance.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("")}</details>` : ""}
-      <section class="cmsec"><h3>Your thoughts</h3><label class="field full"><span class="label">Why you love them</span><textarea id="c-notes" rows="3" placeholder="What makes them unforgettable to you?">${esc(c.notes || "")}</textarea></label>
+        ${c.summary ? c.summary.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("") : ""}
+        ${c.personality ? `<h3>Personality</h3>${c.personality.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("")}` : ""}
+        ${c.appearance ? `<h3>Appearance</h3>${c.appearance.split("\n\n").map(p => `<p>${esc(p)}</p>`).join("")}` : ""}</details>` : ""}
+      <details class="cmsec"><summary>Your thoughts${c.notes || c.quote ? " ✎" : ""}</summary><label class="field full"><span class="label">Why you love them</span><textarea id="c-notes" rows="3" placeholder="What makes them unforgettable to you?">${esc(c.notes || "")}</textarea></label>
         <label class="field full"><span class="label">A favourite line of theirs</span><input id="c-quote" value="${esc(c.quote || "")}" placeholder="Something they said that stayed with you"></label>
-        <label class="field full"><span class="label">Picture link</span><input id="c-img" value="${esc(c.img || "")}" placeholder="Paste an image link to change the picture"></label></section>
+        <label class="field full"><span class="label">Picture link</span><input id="c-img" value="${esc(c.img || "")}" placeholder="Paste an image link to change the picture"></label></details>
       ${c.srcUrl ? `<p class="note">Details from <a href="${esc(c.srcUrl)}" target="_blank" rel="noopener">${esc(c.srcName || "the web")} ↗</a>. Fan wikis can contain spoilers.</p>` : ""}
       <div class="mfoot"><button class="btn danger" type="button" id="c-del">Remove from collection</button><span style="flex:1"></span><button class="btn" type="button" id="c-cancel">Close</button><button class="btn primary" type="button" id="c-save">Save</button></div></div></div>`;
     const close = () => { root.innerHTML = ""; };
@@ -6075,7 +6402,9 @@ alter publication supabase_realtime add table public.library;`;
     const c = { id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), added: new Date().toISOString(), fav: false, notes: "", quote: "", ...data };
     b.characters = [...(b.characters || []), c]; save(); charFind = null; renderKeep(); toast(`${c.name} joined your collection ♥`); setTimeout(() => openChar(b.id, c.id), 250);
   }
+  let packBusy = false;
   $("#view-keep").addEventListener("click", async e => {
+    if (e.target.closest("[data-openpack]")) { if (packBusy) return; const b = unopened()[0]; if (!b) return; packBusy = true; renderKeep(); try { await openPack(b); } finally { packBusy = false; renderKeep(); } return; }
     const k = e.target.closest("[data-keep]"); if (k) { keepMode = k.dataset.keep; lsSet("reading-ledger-keepmode", keepMode); renderKeep(); return; }
     const cf = e.target.closest("[data-cfilter]"); if (cf) { charFilter = cf.dataset.cfilter; renderKeep(); return; }
     const ch = e.target.closest("[data-char]"); if (ch) { const [bid, cid] = ch.dataset.char.split("|"); openChar(bid, cid); return; }
