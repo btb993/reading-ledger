@@ -1722,7 +1722,40 @@ header .menu{margin-top:6px}
 .authcard img,.authcard .mono{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 25%}.authcard .mono{display:grid;place-items:center;background:color-mix(in srgb,var(--c) 30%,var(--paper));font-family:var(--f-display);font-size:26px}
 .authcard b{font-family:var(--f-display);font-style:italic;font-size:17px;line-height:1.15}.authcard small{font-size:12px;color:var(--muted)}
 @media (max-width:640px){.authtop{grid-template-columns:80px 1fr}.authimg{width:80px;height:80px}.authgrid{grid-template-columns:repeat(2,1fr)}.authbooks,.authworks{grid-template-columns:repeat(3,1fr)}}
-.packacts .btn:not(.primary){background:rgba(255,255,255,.14);color:#FFF3DC;border-color:rgba(255,236,190,.4)}.nowcard .upd .btn{white-space:nowrap}</style>
+.packacts .btn:not(.primary){background:rgba(255,255,255,.14);color:#FFF3DC;border-color:rgba(255,236,190,.4)}.nowcard .upd .btn{white-space:nowrap}
+/* the abandoned shelf: a dusty corner with cobwebs */
+.dnfshelf{max-width:1080px;margin:8px auto 0;width:100%}
+.dnfshelf[hidden]{display:none}
+.dnfclosed{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;gap:1px;border:0;cursor:pointer;padding:10px 12px;border-radius:0 0 18px 18px;background:linear-gradient(180deg,#3B302A,#2A221D);box-shadow:inset 0 3px 8px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.2);color:#C9BBA6;font:inherit;filter:saturate(.5)}
+.dnfclosed span{font-family:var(--f-cap);font-size:12px;letter-spacing:.14em;text-transform:uppercase}.dnfclosed small{font-style:italic;font-size:12px;opacity:.75}
+.dnfclosed:hover{filter:saturate(.8);color:#EDE2CF}
+.cobweb{position:absolute;top:0;width:46px;height:46px;pointer-events:none;opacity:.8}.cobweb.l{left:4px}.cobweb.r{right:4px;transform:scaleX(-1)}
+.dnfin{position:relative;border-radius:16px;padding:14px 16px 18px;background:radial-gradient(ellipse at 50% 0%,rgba(255,240,210,.06),transparent 70%),linear-gradient(180deg,#2E2620,#1E1814);box-shadow:inset 0 0 40px rgba(0,0,0,.6);color:#D9CCB8;animation:soulin .3s ease}
+.dnfin .cobweb{width:64px;height:64px}
+.dnfhead{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;margin-bottom:12px}.dnfhead .label{color:#D9CCB8}.dnfhead .note{color:#A99A86}
+.dnfrow{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;padding:6px 40px 0;border-bottom:8px solid #4A3A2E;border-radius:0 0 4px 4px;scrollbar-width:thin;min-height:150px}
+.dnfbook{display:flex;flex-direction:column;align-items:center;gap:4px;flex:0 0 auto}.dnfbook small{font-size:10.5px;color:#A99A86}
+.dnfbook .spine{filter:grayscale(.75) sepia(.35) brightness(.75);position:relative}
+.dnfbook .spine::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(220,215,205,.28),transparent 22%);pointer-events:none}
+.dnfbook .spine:hover{filter:grayscale(.2) brightness(.95)}
+
+.gchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:-4px}
+.gchips button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:3px 10px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink)}
+.gchips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* TBR jar: jar and familiar side by side, words below, never overlapping */
+.jarwrap{height:auto;min-height:0;display:grid;grid-template-columns:auto auto;align-items:end;justify-content:center;gap:6px;margin:4px 0 14px}
+.jarfam{width:120px;height:120px;margin:0;position:relative;display:block}
+.jarfam svg{width:120px;height:120px;display:block}
+.jarsvg{width:120px;height:180px;display:block}
+.jarline{position:relative;margin:0 auto 12px;max-width:440px;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--aura) 12%,var(--paper));border:1px solid color-mix(in srgb,var(--aura) 40%,var(--line))}
+.jarline::before{content:"";position:absolute;top:-8px;left:calc(50% + 40px);width:14px;height:14px;background:inherit;border-left:1px solid color-mix(in srgb,var(--aura) 40%,var(--line));border-top:1px solid color-mix(in srgb,var(--aura) 40%,var(--line));transform:rotate(45deg)}
+@media (max-width:640px){.jarfam,.jarfam svg{width:96px;height:96px}.jarsvg{width:100px;height:150px}}
+
+.trinket.movable{pointer-events:auto;cursor:grab;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.trinket.lifted{transform:translateY(-10px) scale(1.08);filter:drop-shadow(0 10px 10px rgba(0,0,0,.5)) brightness(1.15);transition:transform .2s;z-index:5}
+#bookcase.placing-trinket .tier{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--gold2) 60%,transparent);cursor:copy}
+.dnfhead .btn{background:rgba(255,255,255,.1);color:#EDE2CF;border-color:rgba(237,226,207,.35)}</style>
 </head>
 <body>
 <div class="drift" id="drift" aria-hidden="true"></div>
@@ -1770,6 +1803,7 @@ header .menu{margin-top:6px}
     <div class="tier" data-tier="want"><div class="shelf" id="shelf-want"></div></div>
     <div class="plank"><span class="plaque" id="plaque-want">Want to read</span></div>
   </section>
+  <div class="dnfshelf" id="dnf-shelf" hidden></div>
   <div class="casebar">
     <div class="casehint">Tap a spine to open it · drag it along a shelf to rearrange · drag it to another shelf to move it</div>
     <div class="casebtns"><button class="btn small casetoggle" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel">⚙ Customise bookcase</button><button class="btn small casetoggle" type="button" id="decor-toggle" aria-pressed="false">✎ Decorate shelves</button><button class="btn small casetoggle" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel"><span class="lgdots" aria-hidden="true"><i></i><i></i><i></i></span> Genre colours</button></div>
@@ -1836,7 +1870,7 @@ header .menu{margin-top:6px}
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const SHELVES = { read: "Read", reading: "Reading", want: "Want to read" };
+  const SHELVES = { read: "Read", reading: "Reading", want: "Want to read", dnf: "Didn't finish" };
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const MONTHS_LONG = ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const pad = n => String(n).padStart(2, "0");
@@ -1990,6 +2024,72 @@ header .menu{margin-top:6px}
   function detectTropes(subjects = [], desc = ""){
     const text = (subjects.join(" | ") + " | " + desc).toLowerCase();
     return TROPES.filter(([, re]) => re.test(text)).map(([n]) => n).slice(0, 6);
+  }
+  // ================= smarter tropes =================
+  // more tropes that book descriptions reveal
+  TROPES.push(
+    ["Fae", /\bfae\b|faeries?|faerie|fairies|\bfey\b|seelie|high lord/], ["Assassins", /assassins?\b/], ["Royal court", /\b(royal court|princes?s?|crown prince|heir to the throne|the throne|queen|king)\b/],
+    ["Arranged marriage", /arranged marriage|marriage of convenience|forced marriage|political marriage|betrothed/], ["Forced proximity", /forced proximity|snowed in|stuck together|share (a|one) (bed|room|cabin|tent)|trapped together/],
+    ["Grumpy & sunshine", /grump(y|iness)|sunshine/], ["Witches", /\bwitch(es|craft)?\b/], ["Trials & tournaments", /tournament|deadly (trials|games|competition)|\btrials\b|the games\b|competition to/],
+    ["Fated mates", /\bmates?\b|fated|soul ?mates?/], ["Secret identity", /secret identity|in disguise|disguised as|double life|hiding (her|his) true/], ["Betrayal", /betray(al|ed|s)?/],
+    ["Redemption", /redemption|redeem/], ["Plot twist", /twists?\b|shocking ending|nothing is as it seems/], ["Serial killer", /serial killer/], ["Locked room", /locked[- ]room/],
+    ["Billionaire", /billionaire/], ["Sports romance", /hockey|quarterback|football player|soccer|baseball|athlete/], ["Workplace romance", /co-?workers?|office romance|her boss|his boss|rival (colleague|co-worker)/],
+    ["Holiday", /christmas|holiday season|winter holiday/], ["Pirates", /pirates?\b/], ["Gods & goddesses", /\bgods\b|goddess|deities|\bdeity\b/], ["Rebellion", /rebellion|rebels?\b|uprising|resistance/],
+    ["Political intrigue", /political intrigue|court intrigue|scheming|power struggle|politics of/], ["Shapeshifters", /shape-?shift|werewolf|werewolves/], ["Heists & cons", /\bcon artist|\bcon\b.*\bjob\b|thieves|thief/]
+  );
+  // well-loved books and series whose tropes readers know by heart (descriptions often don't say)
+  const KNOWN_TROPES = [
+    [/throne of glass|assassin.?s blade|crown of midnight|heir of fire|queen of shadows|empire of storms|tower of dawn|kingdom of ash/, ["Assassins", "Hidden heir", "Fae", "Found family", "Slow burn", "Chosen one", "Royal court", "Rebellion"]],
+    [/court of thorns|court of mist|court of wings|court of frost|court of silver|acotar/, ["Fae", "Enemies to lovers", "Fated mates", "Found family", "Royal court", "Fairy tale", "Slow burn"]],
+    [/crescent city|house of earth and blood|house of sky and breath|house of flame and shadow/, ["Fae", "Found family", "Grief & healing", "Fated mates", "Political intrigue"]],
+    [/fourth wing|iron flame|onyx storm|empyrean/, ["Dragons", "Enemies to lovers", "Magic school", "Trials & tournaments", "Forced proximity", "Rebellion"]],
+    [/cruel prince|wicked king|queen of nothing|folk of the air/, ["Fae", "Enemies to lovers", "Political intrigue", "Royal court", "Morally grey", "Betrayal"]],
+    [/from blood and ash|kingdom of flesh|crown of gilded bones|war of two queens|blood and ash/, ["Enemies to lovers", "Vampires & monsters", "Forbidden love", "Hidden heir", "Royal court"]],
+    [/six of crows|crooked kingdom/, ["Heist", "Found family", "Morally grey", "Slow burn", "Revenge"]], [/shadow and bone|siege and storm|ruin and rising/, ["Chosen one", "Love triangle", "Morally grey"]],
+    [/hunger games|catching fire|mockingjay|ballad of songbirds|sunrise on the reaping/, ["Dystopia", "Trials & tournaments", "Rebellion", "Love triangle", "Survival"]],
+    [/harry potter/, ["Magic school", "Chosen one", "Found family", "Coming of age"]], [/percy jackson|heroes of olympus/, ["Gods & goddesses", "Quest", "Found family", "Chosen one"]],
+    [/serpent (and|&) dove/, ["Witches", "Enemies to lovers", "Arranged marriage", "Forbidden love"]], [/divine rivals|ruthless vows/, ["Rivals", "Enemies to lovers", "Epistolary", "War"]],
+    [/caraval|legendary|finale$/, ["Trials & tournaments", "Plot twist", "Fairy tale"]], [/once upon a broken heart|ballad of never after|curse for true love/, ["Fairy tale", "Forbidden love", "Morally grey"]],
+    [/red queen|glass sword|king.?s cage|war storm/, ["Rebellion", "Betrayal", "Royal court", "Love triangle"]], [/twilight|new moon|eclipse|breaking dawn/, ["Vampires & monsters", "Love triangle", "Forbidden love"]],
+    [/song of achilles/, ["Myth retelling", "Forbidden love", "Grief & healing", "War"]], [/circe$/, ["Myth retelling", "Witches", "Gods & goddesses"]],
+    [/aristotle and dante/, ["Coming of age", "Slow burn", "Forbidden love"]], [/what if it.?s us|here.?s to us/, ["Second chance", "Coming of age"]], [/red, white (&|and) royal blue/, ["Enemies to lovers", "Royal court", "Forbidden love"]],
+    [/the hating game/, ["Enemies to lovers", "Workplace romance", "Rivals"]], [/spanish love deception/, ["Fake relationship", "Workplace romance", "Enemies to lovers"]],
+    [/people we meet on vacation|beach read|book lovers|happy place|funny story/, ["Second chance", "Slow burn", "Grumpy & sunshine"]], [/it ends with us|it starts with us/, ["Second chance", "Grief & healing"]],
+    [/seven husbands of evelyn hugo/, ["Forbidden love", "Plot twist", "Family saga"]], [/gone girl/, ["Unreliable narrator", "Plot twist", "Revenge"]], [/silent patient/, ["Unreliable narrator", "Plot twist"]],
+    [/the housemaid/, ["Plot twist", "Unreliable narrator", "Revenge"]], [/good girl.?s guide to murder/, ["Whodunit", "Small town", "Coming of age"]], [/murder on the orient|and then there were none|death on the nile/, ["Whodunit", "Locked room"]],
+    [/the secret history/, ["Dark academia", "Morally grey", "Unreliable narrator"]], [/ninth house|hell bent/, ["Dark academia", "Vampires & monsters", "Morally grey"]], [/if we were villains/, ["Dark academia", "Plot twist"]],
+    [/house in the cerulean sea|under the whispering door/, ["Found family", "Grief & healing", "Slow burn"]], [/legends (&|and) lattes|bookshops (&|and) bonedust/, ["Found family", "Small town"]],
+    [/name of the wind|wise man.?s fear/, ["Magic school", "Coming of age", "Unreliable narrator"]], [/mistborn|well of ascension|hero of ages/, ["Heist", "Rebellion", "Chosen one", "Found family"]],
+    [/way of kings|words of radiance|oathbringer|rhythm of war|wind and truth/, ["War", "Found family", "Redemption", "Chosen one"]], [/tress of the emerald sea/, ["Pirates", "Quest", "Fairy tale"]],
+    [/lord of the rings|fellowship of the ring|two towers|return of the king|the hobbit/, ["Quest", "Found family", "War", "Dragons"]], [/a game of thrones|clash of kings|storm of swords|feast for crows|dance with dragons/, ["Political intrigue", "War", "Dragons", "Morally grey", "Royal court"]],
+    [/pride and prejudice/, ["Enemies to lovers", "Slow burn"]], [/jane eyre/, ["Gothic", "Forbidden love"]], [/wuthering heights/, ["Gothic", "Forbidden love", "Revenge"]], [/rebecca$/, ["Gothic", "Plot twist"]],
+    [/mexican gothic/, ["Gothic", "Vampires & monsters"]], [/haunting of hill house/, ["Gothic", "Unreliable narrator"]], [/a deadly education|the last graduate|golden enclaves/, ["Magic school", "Grumpy & sunshine", "Survival"]],
+    [/the atlas six|atlas paradox/, ["Dark academia", "Rivals", "Morally grey"]], [/powerless|reckless|fearless/, ["Enemies to lovers", "Trials & tournaments", "Forbidden love"]], [/quicksilver/, ["Fae", "Enemies to lovers", "Forced proximity"]]
+  ];
+  function knownTropes(b){ const txt = `${b.seriesName || ""} | ${b.title || ""}`.toLowerCase(); const out = []; for (const [re, list] of KNOWN_TROPES) if (re.test(txt)) out.push(...list); try { for (const [tr, list] of Object.entries(TROPE_SHELVES)) if (list.some(([t]) => tnorm(t) === tnorm(b.title))) out.push(tr); } catch {} return [...new Set(out)]; }
+  function autoTropes(b, extraText = ""){ return [...new Set([...knownTropes(b), ...detectTropes(b.subjects || [], `${b.summary || ""} ${extraText}`)])].slice(0, 8); }
+  async function wikiPlot(b){
+    try { const q = await jget(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(`${b.title} ${b.author || ""} novel`)}&srlimit=3&format=json&origin=*`);
+      for (const r of q.query?.search || []) { if (!norm(r.title).includes(norm(b.title).slice(0, 10))) continue; const s = await jget(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(r.title.replace(/\s+/g, "_"))}`); if (s.extract) return s.extract; } } catch {}
+    return "";
+  }
+  let tropeBusy = false;
+  async function findTropesAll(){
+    if (tropeBusy) return; tropeBusy = true;
+    const todo = books.filter(b => (b.tropes || []).length < 3 && !b.tropeTried);
+    let found = 0, i = 0;
+    for (const b of todo) {
+      i++; const btn = $("#trope-btn"); if (btn) { btn.textContent = `✦ Reading blurbs… ${i} of ${todo.length}`; btn.disabled = true; }
+      let text = "";
+      if (!b.summary && b.olKey) { try { const d = await olDescription(b.olKey); if (d) { b.summary = d; } } catch {} }
+      if (!b.summary && !knownTropes(b).length) text = await wikiPlot(b);
+      const before = (b.tropes || []).length;
+      b.tropes = [...new Set([...(b.tropes || []), ...autoTropes(b, text)])].slice(0, 8);
+      b.tropeTried = true; if (b.tropes.length > before) found++;
+      if (i % 5 === 0) save();
+    }
+    save(); tropeBusy = false; render();
+    toast(found ? `Found new tropes for ${found} book${found > 1 ? "s" : ""} ✦` : "No new tropes this time. You can still add them in each book's Details.", 5000);
   }
 
   // ================= helpers =================
@@ -2402,10 +2502,13 @@ header .menu{margin-top:6px}
     "Psychology":         { color: "#4E3866", hues: ["#3E2E4F","#2D4A4A"], motif: "✶", aura: "#B9A3FF", kinds: ["paper","cloth"] },
     "Self-help":          { color: "#B85A3A", hues: ["#C9772E","#2F7A6B","#B84A3A"], motif: "✶", aura: "#FFD36E", kinds: ["paper"] },
     "Religion":           { color: "#3D2A1A", hues: ["#3D2A1A","#24324A"], motif: "✝", aura: "#F2D58E", kinds: ["leather","gilt"] },
+    "Business":           { color: "#1F3B52", hues: ["#1F3B52","#2C4A3E","#3A3A44","#22344A"], motif: "♜", aura: "#8EC5F2", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "True Crime":         { color: "#2B1E1E", hues: ["#2B1E1E","#3A2222","#1F2328"], motif: "⚖", aura: "#E0525A", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Politics":           { color: "#2F3A55", hues: ["#2F3A55","#4A2F35"], motif: "⚑", aura: "#A8C0F0", kinds: ["paper","cloth"] },
     "Graphic Novel":      { color: "#B8312F", hues: ["#B8312F","#1F5FA8","#E0A526"], motif: "✸", aura: "#FFE07A", kinds: ["paper"] },
   };
   const DEFAULT_LOOK = { color: "#4C3A5E", hues: ["#4C3A5E","#2F4A44","#5A3A2E","#2E3E5A"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper","gilt"] };
-  const lookOf = b => { for (const g of b.genres || []) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; return b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK; };
+  const lookOf = b => { for (const g of b.genres || []) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; try { for (const g of fineGenres(b)) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; } catch {} return b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK; };
   const KEY_SPINE = "reading-ledger-spines";
   let spineMode = lsGet(KEY_SPINE, "genre");
   if (!lsGet("reading-ledger-spines-v2", false)) { spineMode = "genre"; lsSet(KEY_SPINE, spineMode); lsSet("reading-ledger-spines-v2", true); }
@@ -2830,6 +2933,17 @@ header .menu{margin-top:6px}
     if (decorating) { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<button class="tdel" type="button" data-tdel="${t.id}" data-tshelf="${k}" aria-label="Remove ${esc(TRINKET_NAMES[t.k] || "trinket")}">✕</button>` + h.slice(i); }
     return h;
   }
+  let dnfOpen = false;
+  const COBWEB = (cls) => `<svg class="cobweb ${cls}" viewBox="0 0 60 60" aria-hidden="true"><g fill="none" stroke="rgba(235,230,220,.55)" stroke-width=".8"><path d="M0 0L60 60M0 0L60 22M0 0L22 60M0 0L60 42M0 0L42 60"/><path d="M0 12q7 3 12 0q-1 6 0 12M0 24q13 6 24 0q-2 12 0 24M0 36q19 9 36 0q-3 18 0 36M0 48q25 12 48 0"/></g><g fill="rgba(240,235,225,.75)"><circle cx="30" cy="34" r="1.6"/><path d="M30 34v-10" stroke="rgba(240,235,225,.6)" stroke-width=".6"/></g></svg>`;
+  function renderDnf(){
+    const el = $("#dnf-shelf"); if (!el) return; const list = books.filter(b => b.shelf === "dnf").sort((a, b) => (b.abandoned || "").localeCompare(a.abandoned || ""));
+    el.hidden = !list.length; if (!list.length) { el.innerHTML = ""; return; }
+    el.classList.toggle("open", dnfOpen);
+    el.innerHTML = dnfOpen ? `<div class="dnfin">${COBWEB("l")}${COBWEB("r")}<div class="dnfhead"><span class="label">🕸 The Abandoned Shelf · ${list.length}</span><span class="note">Books you started but put down. Tap one to give it another go, or just let it rest.</span><button class="btn small" type="button" data-dnfclose>Dust it back in the corner</button></div>
+        <div class="dnfrow">${list.map((b, i) => `<div class="dnfbook">${spine(b, i)}<small>${b.pages && b.currentPage ? `p. ${b.currentPage}/${b.pages}` : "abandoned"}</small></div>`).join("")}</div></div>`
+      : `<button type="button" class="dnfclosed" data-dnfopen>${COBWEB("l")}${COBWEB("r")}<span>🕸 The Abandoned Shelf · ${list.length}</span><small>a dusty corner · tap to look</small></button>`;
+  }
+  document.addEventListener("click", e => { if (e.target.closest("[data-dnfopen]")) { dnfOpen = true; renderDnf(); return; } if (e.target.closest("[data-dnfclose]")) { dnfOpen = false; renderDnf(); } });
   function renderShelf(){
     const { by, lists } = shelfLists();
     const words = { reading: "Drag a book here when you start it.", read: "Finished books rest here.", want: "Books you dream of reading wait here." };
@@ -2839,15 +2953,17 @@ header .menu{margin-top:6px}
       const el = $("#shelf-" + k), list = lists[k], mine = lay[k] || [], ids = new Set(list.map(b => b.id));
       $("#plaque-" + k).textContent = `${k === "reading" ? "Currently reading" : SHELVES[k]} · ${by[k].length}`;
       const slot = a => decorating ? `<button class="dslot${decorPick ? " ready" : ""}" type="button" data-slot="${k}|${a}" title="Put a trinket here" aria-label="Put a trinket here">+</button>` : "";
-      const at = a => mine.filter(t => t.after === a).map(t => trinketHTML(t, k)).join("");
+      const tag = t => decorating ? trinketHTML(t, k) : trinketHTML(t, k).replace('<div class="trinket"', `<div class="trinket movable" data-tidx="${mine.indexOf(t)}" draggable="true" title="Drag me (or press and hold) to move me"`);
+      const at = a => mine.filter(t => t.after === a).map(tag).join("");
       const items = [slot("^"), at("^")];
       if (!list.length) items.push(`<div class="emptyshelf">${words[k]}</div>`);
       list.forEach((b, i) => { items.push(spine(b, i), at(b.id), slot(b.id)); });
-      items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(t => trinketHTML(t, k)).join(""));
+      items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(tag).join(""));
       if (decorating && !list.length) items.push(slot("$"));
       if (hiddenOnShelf[k]) items.push(`<button type="button" class="sidestack" data-sideshelf="${k}" title="${hiddenOnShelf[k]} more on the side shelf"><span class="ssp"><i></i><i></i><i></i></span><b>+${hiddenOnShelf[k]}</b></button>`);
       el.innerHTML = items.join("");
     });
+    renderDnf();
     const c = { read: by.read.length, reading: by.reading.length, want: by.want.length };
     $("#subline").textContent = books.length ? `${c.read} read · ${c.reading} in progress · ${c.want} waiting` : "Every book you've read, are reading, and dream of reading.";
   }
@@ -2941,12 +3057,13 @@ header .menu{margin-top:6px}
 
   // ================= library =================
   function renderLibrary(){
-    const c = { all: books.length, read: 0, reading: 0, want: 0 };
+    const c = { all: books.length, read: 0, reading: 0, want: 0, dnf: 0 };
     books.forEach(b => c[b.shelf]++);
-    $("#shelf-filter").innerHTML = [["all","All"],["reading","Reading"],["read","Read"],["want","Want to read"]]
+    $("#shelf-filter").innerHTML = [["all","All"],["reading","Reading"],["read","Read"],["want","Want to read"], ...(c.dnf ? [["dnf","🕸 Didn't finish"]] : [])]
       .map(([k, l]) => `<button type="button" data-filter="${k}" aria-pressed="${filter === k}">${l}<span class="n">${c[k] || 0}</span></button>`).join("");
     const pending = books.filter(b => (!b.cover && !b.coverChecked) || !b.descChecked).length;
-    $("#tools").innerHTML = pending ? `<button class="btn gold small" type="button" id="fetch-btn">✦ Fetch missing covers, details & tropes (${pending} books)</button>` : "";
+    const tropeTodo = books.filter(b => (b.tropes || []).length < 3 && !b.tropeTried).length;
+    $("#tools").innerHTML = (pending ? `<button class="btn gold small" type="button" id="fetch-btn">✦ Fetch missing covers, details & tropes (${pending} books)</button>` : "") + (tropeTodo ? ` <button class="btn small" type="button" id="trope-btn" title="Reads each book's blurb (and already knows the tropes of many popular series)">✦ Find tropes for ${tropeTodo} book${tropeTodo > 1 ? "s" : ""}</button>` : "");
     const lastName = a => (a || "").trim().split(" ").pop();
     const cmp = { added: (a, b) => (b.added || "").localeCompare(a.added || ""), finished: (a, b) => (b.finished || "").localeCompare(a.finished || ""),
       title: (a, b) => a.title.localeCompare(b.title), author: (a, b) => lastName(a.author).localeCompare(lastName(b.author)),
@@ -3010,7 +3127,7 @@ header .menu{margin-top:6px}
         if (!u.descChecked && u.olKey) {
           const d = await olDescription(u.olKey);
           if (!u.summary && d) u.summary = d;
-          u.tropes = [...new Set([...(u.tropes || []), ...detectTropes(u.subjects || [], d || u.summary || "")])].slice(0, 6);
+          u.tropes = [...new Set([...(u.tropes || []), ...knownTropes(u), ...detectTropes(u.subjects || [], d || u.summary || "")])].slice(0, 8);
           u.descChecked = true;
         } else if (!u.olKey) u.descChecked = true;
         const k = books.findIndex(x => x.id === b.id); books[k] = u;
@@ -3579,7 +3696,7 @@ header .menu{margin-top:6px}
     return s;
   }
   function bookWeight(b){
-    let w = b.shelf === "read" ? (b.rating ? b.rating - 3 : 0.6) : b.shelf === "reading" ? 0.7 : 0.25;
+    let w = b.shelf === "read" ? (b.rating ? b.rating - 3 : 0.6) : b.shelf === "reading" ? 0.7 : b.shelf === "dnf" ? -1.2 : 0.25;
     if (b.surpriseFav) w += .5;
     if (b.reread === "comfort") w += 1; else if (b.reread === "yes") w += .5; else if (b.reread === "no") w -= .3;
     if (b.recommend) w += .4;
@@ -3908,7 +4025,8 @@ header .menu{margin-top:6px}
           <label class="field"><span class="label">Number of Goodreads ratings</span><input id="m-grc" type="number" min="0" inputmode="numeric" value="${esc(b.goodreadsCount || "")}" placeholder="e.g. 1250000"></label>
           <label class="field full"><span class="label">Paste from Goodreads · <a href="${grURL(b)}" target="_blank" rel="noopener" style="text-transform:none;letter-spacing:0">open the book on Goodreads ↗</a></span><input id="m-grpaste" placeholder="Copy the rating line, e.g. “4.27 · 1,234,567 ratings · 45,678 reviews”, and paste it here"></label>
           <label class="field"><span class="label">Fiction or nonfiction</span><select id="m-cat"><option value="">—</option>${["Fiction","Nonfiction"].map(c => `<option ${b.category === c ? "selected" : ""}>${c}</option>`).join("")}</select></label>
-          <label class="field full"><span class="label">Genres (comma separated)</span><input id="m-g" value="${esc((b.genres||[]).join(", "))}"></label>
+          <label class="field full"><span class="label">Genres (comma separated, or tap below)</span><input id="m-g" value="${esc((b.genres||[]).join(", "))}"></label>
+          <div class="field full gchips" id="m-gchips">${["Fantasy", "Romantasy", "Romance", "Mystery", "Thriller", "Horror", "Science Fiction", "Historical Fiction", "Literary Fiction", "Contemporary", "Classics", "Young Adult", "Children's", "Graphic Novel", "Poetry", "Humor", "Biography & Memoir", "History", "Business", "Self-help", "Psychology", "Philosophy", "Religion", "Science", "True Crime", "Politics"].map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="${(b.genres || []).includes(g)}">${esc(g)}</button>`).join("")}</div>
           <label class="field full"><span class="label">Story elements / themes (comma separated)</span><input id="m-th" value="${esc((b.themes||[]).join(", "))}"></label>
           <label class="field full"><span class="label">Tropes (comma separated)</span><input id="m-tr" value="${esc((b.tropes||[]).join(", "))}" list="trope-list" placeholder="e.g. Found family, Slow burn"></label>
           <datalist id="trope-list">${TROPES.map(([n]) => `<option>${n}</option>`).join("")}</datalist>
@@ -3931,7 +4049,7 @@ header .menu{margin-top:6px}
     });
     if (b.olKey && !b.summary) olDescription(b.olKey).then(d => {
       if (!d) return; b.summary = d; const s = $("#m-sum"); if (s) s.textContent = d; if (d.length > 220) $("#m-sumtog")?.removeAttribute("hidden");
-      if (!tropesEdited && $("#m-tr")) { const t = [...new Set([...(b.tropes || []), ...detectTropes(b.subjects || [], d)])].slice(0, 6); b.tropes = t; $("#m-tr").value = t.join(", "); }
+      if (!tropesEdited && $("#m-tr")) { const t = [...new Set([...(b.tropes || []), ...autoTropes(b, d)])].slice(0, 8); b.tropes = t; $("#m-tr").value = t.join(", "); }
     });
     const verdictHTML = () => `<span class="label">Your verdict</span>
       <div class="vrow"><span class="vk">Rereadability</span><div class="seg small">${REREAD.map(([k, l]) => `<button type="button" data-vreread="${k}" aria-pressed="${verdict.reread === k}">${l}</button>`).join("")}</div></div>
@@ -3953,7 +4071,7 @@ header .menu{margin-top:6px}
     const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
     const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
     let mTab = !b.title ? "details" : null;
-    const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["cover", "❦ Cover"], ["details", "☰ Details"]] };
+    const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["cover", "❦ Cover"], ["details", "☰ Details"]], dnf: [["dates", "🕸 Where you stopped"], ["notes", "❝ Notes"], ["cover", "❦ Cover"], ["details", "☰ Details"]] };
     const showMTab = k => { const set = TAB_SETS[b.shelf] || TAB_SETS.want; if (!set.some(t => t[0] === k)) k = set[0][0]; mTab = k;
       $("#m-tabs").innerHTML = set.map(([id, l]) => `<button type="button" role="tab" data-mtab="${id}" aria-selected="${id === k}">${l}</button>`).join("");
       ["thoughts", "notes", "dates", "cover", "details"].forEach(id => { const p = $("#m-pane-" + id); if (p) p.hidden = id !== k; }); };
@@ -3972,6 +4090,13 @@ header .menu{margin-top:6px}
         <label class="field"><span class="label">Current page</span><input id="m-cp" type="number" min="0" inputmode="numeric" value="${esc(b.currentPage || 0)}"></label>
         <div class="field note" style="align-self:end">${b.pages ? `Out of ${b.pages} pages.` : "Set the page count under Details to track progress."}</div>
         ${datePicker("st", b.started || (isNew ? todayISO() : null), "Started", { ask: "When did you start reading it?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}</div>`;
+      } else if (b.shelf === "dnf") {
+        rate.innerHTML = ""; th.innerHTML = ""; $("#m-pane-notes").innerHTML = `<div class="fields">${moreHTML(false)}</div>`;
+        dt.innerHTML = `<div class="fields">
+        <label class="field"><span class="label">Gave up at page</span><input id="m-cp" type="number" min="0" inputmode="numeric" value="${esc(b.currentPage || 0)}"></label>
+        <div class="field note" style="align-self:end">${b.pages ? `Out of ${b.pages} pages.` : ""} No guilt: life's too short for books that don't grab you.</div>
+        <label class="field full"><span class="label">Why it didn't work for you (optional)</span><input id="m-dnfwhy" maxlength="120" value="${esc(b.dnfWhy || "")}" placeholder="e.g. too slow, not in the mood, maybe later"></label>
+        ${datePicker("st", b.started || null, "Started", { ask: "When did you start it?", allowUnknown: true, unknown: b.startedUnknown && !b.started })}</div>`;
       } else { rate.innerHTML = ""; th.innerHTML = ""; dt.innerHTML = ""; $("#m-pane-notes").innerHTML = ""; }
       if (!$("#m-err")) $("#m-tabs").insertAdjacentHTML("afterend", `<div class="merr" id="m-err" role="alert"></div>`);
       showMTab(mTab || (b.shelf === "read" ? (moveTo ? "dates" : "thoughts") : b.shelf === "reading" ? "dates" : "cover"));
@@ -4029,6 +4154,7 @@ header .menu{margin-top:6px}
       b.genres = list(v("#m-g")); b.themes = list(v("#m-th")); b.tropes = list(v("#m-tr")).map(cap);
       b.seriesName = v("#m-se") || null; const sn = parseFloat(v("#m-sn")); b.seriesNum = b.seriesName && !isNaN(sn) ? sn : null;
       if ($("#m-cp")) b.currentPage = parseInt(v("#m-cp")) || 0;
+      if ($("#m-dnfwhy")) b.dnfWhy = v("#m-dnfwhy") || undefined;
     };
     const readDates = () => {
       for (const [id, key, label] of [["fin", "finished", "finish"], ["st", "started", "start"]]) {
@@ -4047,6 +4173,7 @@ header .menu{margin-top:6px}
       const id = e.target.id;
       if (id === "scrim" || id === "m-cancel") return close();
       const mt = e.target.closest("[data-mtab]"); if (mt) { showMTab(mt.dataset.mtab); return; }
+      const gc = e.target.closest("[data-gchip]"); if (gc) { const inp = $("#m-g"), g = gc.dataset.gchip; let list = inp.value.split(",").map(x => x.trim()).filter(Boolean); list = list.includes(g) ? list.filter(x => x !== g) : [...list, g]; inp.value = list.join(", "); gc.setAttribute("aria-pressed", list.includes(g)); return; }
       if (id === "m-sumtog") { const sm = $("#m-sum"); sm.classList.toggle("clamp"); e.target.textContent = sm.classList.contains("clamp") ? "Read more" : "Show less"; return; }
       if (e.target.closest("#m-coverbtn")) { showMTab("cover"); $("#m-pane-cover").scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
       if (id === "m-findcov") return findCovers();
@@ -4077,14 +4204,15 @@ header .menu{margin-top:6px}
         readFields();
         if (!b.title) { showMTab("details"); $("#m-t").focus(); toast("Give the book a title first."); return; }
         if (!readDates()) return;
-        if (!tropesEdited && !(b.tropes || []).length) b.tropes = detectTropes(b.subjects || [], b.summary || "");
+        if (!tropesEdited && (b.tropes || []).length < 3) b.tropes = [...new Set([...(b.tropes || []), ...autoTropes(b)])].slice(0, 8);
         const { because, why, score, seriesHint, series, ...rest } = b;
         if (newCover !== null && newCover !== b.cover) { rest.spineColor = null; rest.spineTried = null; rest.coverPicked = !!newCover; }
         const out = { ...rest, id: b.id || newId(), cover: newCover !== null ? newCover : (b.cover || ""),
           rating: b.shelf === "read" ? (b.rating || 0) : 0,
           started: b.shelf === "want" ? null : (b.started || null),
           finished: b.shelf === "read" ? (b.finished || null) : null, finishedUnknown: b.shelf === "read" && !!b.finishedUnknown,
-          currentPage: b.shelf === "reading" ? (b.currentPage || 0) : (b.shelf === "read" ? (b.pages || 0) : 0),
+          currentPage: b.shelf === "reading" || b.shelf === "dnf" ? (b.currentPage || 0) : (b.shelf === "read" ? (b.pages || 0) : 0),
+          abandoned: b.shelf === "dnf" ? (b.abandoned || todayISO()) : undefined, dnfWhy: b.shelf === "dnf" ? (b.dnfWhy || undefined) : undefined,
           descChecked: b.descChecked || !!b.summary, coverChecked: true,
           added: b.added || new Date().toISOString() };
         if (out.shelf === "reading" && out.currentPage !== (book.currentPage || 0)) logProgress(out, out.currentPage);
@@ -4142,6 +4270,37 @@ header .menu{margin-top:6px}
     cs.addEventListener("dragend", () => { clear(); dragId = null; });
   })();
 
+
+  // ================= move trinkets anytime, like books =================
+  (() => {
+    const cs = $("#bookcase"); let moving = null, lifted = null, pressT = null, pressAt = null;
+    const itemFor = (shelf, idx) => {
+      if (!decor) { decor = autoLayout(shelfLists().lists); Object.values(decor).forEach(a => a.forEach(t => { t.id = t.id || decorId(); })); saveDecor(); }
+      return (decor[shelf] || [])[idx] || null;
+    };
+    const dropAt = (tier, x) => {
+      const shelf = tier.dataset.tier, sp = [...tier.querySelectorAll(".spine[data-id]")];
+      let idx = sp.length; for (let i = 0; i < sp.length; i++) { const r = sp[i].getBoundingClientRect(); if (x < r.left + r.width / 2) { idx = i; break; } }
+      return `${shelf}|${idx === 0 ? "^" : sp[idx - 1].dataset.id}`;
+    };
+    const move = (m, tier, x) => { const it = itemFor(m.shelf, m.idx); if (!it) return; placeTrinket(null, dropAt(tier, x), it.id); toast("Trinket moved ✦", 1500); };
+    cs.addEventListener("dragstart", e => { if (decorating) return; const t = e.target.closest(".trinket.movable"); if (!t) return; moving = { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }; try { e.dataTransfer.setData("text/plain", "trinket"); e.dataTransfer.effectAllowed = "move"; } catch {} setTimeout(() => t.classList.add("lifted"), 0); });
+    cs.addEventListener("dragover", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); if (!tier) return; e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x !== tier && x.classList.remove("over")); tier.classList.add("over"); });
+    cs.addEventListener("drop", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x.classList.remove("over")); const m = moving; moving = null; if (tier) move(m, tier, e.clientX); });
+    document.addEventListener("dragend", () => { if (!moving) return; moving = null; cs.querySelectorAll(".tier.over,.trinket.lifted").forEach(x => x.classList.remove("over", "lifted")); });
+    // phones: press and hold a trinket to pick it up, then tap where it should go
+    cs.addEventListener("pointerdown", e => { if (decorating || e.pointerType === "mouse") return; const t = e.target.closest(".trinket.movable"); if (!t) return; pressAt = [e.clientX, e.clientY];
+      clearTimeout(pressT); pressT = setTimeout(() => { lifted = { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }; t.classList.add("lifted"); cs.classList.add("placing-trinket"); try { navigator.vibrate?.(30); } catch {} toast("Picked up! Tap the spot on any shelf where it should go.", 3000); }, 450); });
+    cs.addEventListener("pointermove", e => { if (pressAt && Math.hypot(e.clientX - pressAt[0], e.clientY - pressAt[1]) > 10) { clearTimeout(pressT); pressAt = null; } });
+    ["pointerup", "pointercancel"].forEach(ev => cs.addEventListener(ev, () => { clearTimeout(pressT); pressAt = null; }));
+    cs.addEventListener("contextmenu", e => { if (e.target.closest(".trinket.movable")) e.preventDefault(); });
+    cs.addEventListener("click", e => {
+      if (!lifted) return; e.preventDefault(); e.stopPropagation();
+      const m = lifted; lifted = null; cs.classList.remove("placing-trinket");
+      if (e.target.closest(".trinket.lifted")) { cs.querySelectorAll(".trinket.lifted").forEach(x => x.classList.remove("lifted")); return; }
+      const tier = e.target.closest("[data-tier]"); if (tier) move(m, tier, e.clientX); else renderShelf();
+    }, true);
+  })();
 
   // ================= decorating the shelves =================
   (() => {
@@ -4229,7 +4388,7 @@ header .menu{margin-top:6px}
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
           <div class="nowline" title="${esc(eta.replace(/<[^>]+>/g, ""))}">${e.total ? `${u} ${e.cur} of ${e.total}` : `${u} ${e.cur}`} · ${short}</div>
           <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form2}<button class="btn small primary" type="submit">Update</button><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}" title="${on ? "Back to your reading session" : "Read by candlelight: timer and sounds"}">🕯 ${on ? "Back" : "Read"}</button><button class="btn small nowmorebtn" type="button" data-nowmore="${esc(b.id)}" aria-expanded="${more}" title="More">⋯</button></form>
-          ${more ? `<div class="nowmore"><button class="btn small" type="button" data-finish="${esc(b.id)}">✓ I finished it</button><div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div><button class="btn small" type="button" data-words="${esc(b.id)}">✎ Look up a word${(b.words || []).length ? ` · ${(b.words || []).length}` : ""}</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button>${todayMins(b) ? `<button class="btn small" type="button" data-share="session">⤴ Today's reading</button>` : ""}
+          ${more ? `<div class="nowmore"><button class="btn small" type="button" data-finish="${esc(b.id)}">✓ I finished it</button><button class="btn small" type="button" data-abandon="${esc(b.id)}" title="Put it on the Abandoned Shelf">🕸 Not for me</button><div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div><button class="btn small" type="button" data-words="${esc(b.id)}">✎ Look up a word${(b.words || []).length ? ` · ${(b.words || []).length}` : ""}</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button>${todayMins(b) ? `<button class="btn small" type="button" data-share="session">⤴ Today's reading</button>` : ""}
             <div class="nowfull">${eta}${nowSessionLine(b)}</div></div>` : ""}
           ${wordOpen === b.id ? wordPanel(b) : ""}
         </div>
@@ -4263,6 +4422,7 @@ header .menu{margin-top:6px}
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
+    const ab = e.target.closest("[data-abandon]"); if (ab) { const b = books.find(x => x.id === ab.dataset.abandon); if (!b) return; b.shelf = "dnf"; b.abandoned = todayISO(); if (lsGet("reading-ledger-session", null)?.id === b.id) localStorage.removeItem("reading-ledger-session"); nowMore = null; save(); render(); toast(`${b.title} is resting on the Abandoned Shelf. No guilt ✦`); return; }
     const nm = e.target.closest("[data-nowmore]"); if (nm) { nowMore = nowMore === nm.dataset.nowmore ? null : nm.dataset.nowmore; renderNow(); return; }
     const m = e.target.closest("[data-mainread]"); if (m) { lsSet("reading-ledger-mainread", m.dataset.mainread); const card = $("#now .nowcard"); card?.classList.add("swap"); setTimeout(() => { renderNow(); $("#now .nowcard")?.classList.add("swapin"); }, 160); } });
   $("#now").addEventListener("click", e => {
@@ -7399,7 +7559,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     if (ask) { const row = ask.closest(".row"), ex = row.querySelector(".famsay"); if (ex) { ex.remove(); return; } row.querySelector(".meta").insertAdjacentHTML("beforeend", famBubble({ ...lastResults[+ask.dataset.askfam], shelf: "want" })); return; }
     const as = e.target.closest("[data-addseries]"); if (as) { const r = lastResults[+as.dataset.addseries]; return openSeriesAdder({ name: r.seriesHint, author: r.author }); }
   });
-  $("#tools").addEventListener("click", e => { if (e.target.id === "fetch-btn") fetchMissing(); });
+  $("#tools").addEventListener("click", e => { if (e.target.id === "fetch-btn") fetchMissing(); if (e.target.id === "trope-btn") findTropesAll(); });
   $("#shelf-filter").addEventListener("click", e => { const f = e.target.closest("[data-filter]"); if (f) { filter = f.dataset.filter; renderLibrary(); } });
   $("#sort").addEventListener("change", e => { sortBy = e.target.value; renderLibrary(); });
   $("#group-by").addEventListener("click", e => { const g = e.target.closest("[data-group]"); if (!g) return; groupBy = g.dataset.group; lsSet("reading-ledger-groupby", groupBy); renderLibrary(); });
