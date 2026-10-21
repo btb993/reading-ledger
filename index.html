@@ -1429,6 +1429,19 @@ body.rm-open{overflow:hidden}
 .rmlayers button i{font-style:normal;margin-right:5px}
 .rmpresets button{font-style:italic;font-family:var(--f-display)!important}
 .rmvol{display:flex;align-items:center;gap:10px;margin-top:4px}.rmvol input{flex:1;accent-color:#E8983A}
+
+/* accounts & profiles */
+.authseg{margin:2px 0 4px;width:100%}.authseg button{flex:1}
+.profcard{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:radial-gradient(ellipse at 0 50%,color-mix(in srgb,var(--gold) 14%,transparent),transparent 60%)}
+.profav{width:64px;height:64px;border-radius:50%;background:color-mix(in srgb,var(--gold) 14%,var(--paper));overflow:hidden;display:grid;place-items:center}.profav svg{width:100%;height:100%;margin-top:8%}
+.profinfo{display:flex;flex-direction:column;min-width:0}.profinfo b{font-family:var(--f-display);font-style:italic;font-size:22px;line-height:1.1}.profhandle{color:var(--accent);font-size:14px}
+.profedit[hidden]{display:none}.profedit{margin-top:8px}
+.privlist{display:grid;gap:6px;margin-top:6px}
+.privrow{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:8px 12px;font:inherit;color:var(--ink);cursor:pointer}
+.privrow b{display:block;font-size:15px}.privrow small{color:var(--muted);font-size:12.5px}
+.tog{flex:0 0 auto;width:38px;height:22px;border-radius:99px;background:color-mix(in srgb,var(--muted) 35%,transparent);position:relative;transition:background .2s}
+.tog i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.privrow[aria-pressed="true"] .tog{background:var(--accent)}.privrow[aria-pressed="true"] .tog i{transform:translateX(16px)}
 </style>
 </head>
 <body>
@@ -1592,11 +1605,11 @@ body.rm-open{overflow:hidden}
     if (copy?.books?.length && !books.length) { books = copy.books; deleted = copy.deleted || {}; snap = null; save({ stamp: false }); render(); toast(`Brought back your ${books.length} books from this device's safety copy.`, 5000); }
   }
   function protectNudge(){
-    if (books.length < 5 || lsGet("reading-ledger-sync", null)) return;
+    if (books.length < 5 || (() => { try { return !!localStorage.getItem("reading-ledger-auth"); } catch { return false; } })()) return;
     const last = lsGet("reading-ledger-lastbackup", 0), nudged = lsGet("reading-ledger-nudged", 0);
     if (Date.now() - last < 30 * 864e5 || Date.now() - nudged < 7 * 864e5) return;
     lsSet("reading-ledger-nudged", Date.now());
-    setTimeout(() => toast("Your books live only on this device. Turn on ☁ sync or save a backup so they can never be lost.", 7000), 2500);
+    setTimeout(() => toast("Your books live only on this device. Tap “☁ Sign in / join” at the top to create a free account, so they can never be lost.", 7000), 2500);
   }
   function upsert(b){ const i = books.findIndex(x => x.id === b.id); i >= 0 ? books[i] = b : books.push(b); save(); render(); }
   function removeBook(id){ books = books.filter(b => b.id !== id); save(); render(); }
@@ -5241,12 +5254,17 @@ alter publication supabase_realtime add table public.library;`;
     return { books: [...map.values()].filter(b => !(deleted[b.id] && deleted[b.id] >= (b.updatedAt || 0))), deleted };
   }
   const libSig = lib => JSON.stringify([(lib.books || []).map(b => b.id + ":" + (b.updatedAt || 0)).sort(), Object.keys(lib.deleted || {}).sort()]);
+  // everyone shares one My Book Nook home, so friends never have to set anything up
+  const DEFAULT_SYNC = { url: "https://adkfuzmontecmhfnrcyb.supabase.co", key: "sb_publishable_sDtY-M37SKKBOqUe0mlZUA_jOrOW4E9" };
+  const KEY_PROF = "reading-ledger-profile";
+  const PRIVACY = [["reading", "What I'm reading now", "and how far I am"], ["shelves", "My shelves", "read and want-to-read books"], ["ratings", "My ratings and verdicts", "stars, feelings, would-recommend"], ["soul", "My Reader's Soul", "DNA, alignment, level"]];
   const Sync = (() => {
-    let cfg = lsGet(KEY_SYNC, null), client = null, user = null, state = "off", detail = "", lastSync = null, timer = null, chan = null, lastPushAt = null, busy = false, again = false;
+    let cfg = (() => { const c = lsGet(KEY_SYNC, null); if (c && c.url) c.url = c.url.replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, ""); return c && c.url && c.key ? c : DEFAULT_SYNC; })(), client = null, user = null, state = "off", detail = "", lastSync = null, prof = lsGet(KEY_PROF, null), profState = "unknown", authMode = "in", timer = null, chan = null, lastPushAt = null, busy = false, again = false;
     const pill = () => $("#sync-pill");
     function paint(){
       const p = pill(); if (!p) return;
-      const txt = { off: "☁ Set up sync", signedout: "☁ Sign in to sync", syncing: "☁ Syncing…", pending: "☁ Saving…", ok: "☁ Synced", offline: "☁ Offline, will sync later", error: "☁ Sync problem" }[state] || "☁ Sync";
+      const who = user && prof ? `✦ ${prof.name} · ` : "";
+      const txt = who + ({ off: "☁ Set up sync", signedout: "☁ Sign in / join", syncing: "☁ Syncing…", pending: "☁ Saving…", ok: "☁ Synced", offline: "☁ Offline, will sync later", error: "☁ Sync problem" }[state] || "☁ Sync").replace(who ? "☁ " : "\u0000", "");
       p.textContent = txt; p.dataset.state = state; p.title = detail || (lastSync ? `Last synced ${new Date(lastSync).toLocaleTimeString()}` : "");
       if ($("#sync-panel")) panel();
     }
@@ -5258,8 +5276,8 @@ alter publication supabase_realtime add table public.library;`;
       try { client = window.supabase.createClient(cfg.url, cfg.key, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "reading-ledger-auth" } }); }
       catch (e) { return set("error", "That project URL or key doesn't look right."); }
       const { data } = await client.auth.getSession(); user = data.session?.user || null;
-      client.auth.onAuthStateChange((_e, s) => { const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); } else set("signedout"); } });
-      if (user) { subscribe(); await pull(); } else set("signedout");
+      client.auth.onAuthStateChange((_e, s) => { const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); loadProfile(); } else { prof = null; lsSet(KEY_PROF, null); set("signedout"); } } });
+      if (user) { subscribe(); loadProfile(); await pull(); } else set("signedout");
     }
     function readLink(){
       const h = location.hash.match(/#sync=([^&]+)/); if (!h) return false;
@@ -5274,6 +5292,40 @@ alter publication supabase_realtime add table public.library;`;
       document.addEventListener("visibilitychange", () => { if (!document.hidden) pull(); });
       setInterval(() => { if (!document.hidden) pull(); }, 60000);
     }
+    // ---------- profiles ----------
+    const handleOk = h => /^[a-z0-9_.]{3,20}$/.test(h);
+    const cleanHandle = h => String(h || "").trim().replace(/^@/, "").toLowerCase();
+    function profMeta(){
+      let title = "", soul = "";
+      try { title = readerLevel().title; const D = soulData(); if (D.dna.length) soul = hybridName(D.dna[0], D.dna[1]); } catch {}
+      return { familiar, title, soul };
+    }
+    async function loadProfile(){
+      if (!client || !user) return;
+      try {
+        const { data, error } = await client.from("profiles").select("*").eq("id", user.id).maybeSingle();
+        if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = error.message; paint(); return; }
+        if (data) { prof = data; profState = "ok"; lsSet(KEY_PROF, prof); touchProfile(); }
+        else { const m = user.user_metadata || {}; profState = "none";
+          if (m.name && handleOk(cleanHandle(m.handle))) { await saveProfile({ name: m.name, handle: cleanHandle(m.handle) }, true); } }
+      } catch (e) { profState = "error"; }
+      paint();
+    }
+    async function saveProfile(p, quiet){
+      const row = { id: user.id, name: String(p.name || "").trim().slice(0, 40), handle: cleanHandle(p.handle), ...profMeta(), privacy: p.privacy || prof?.privacy || { reading: true, shelves: true, ratings: true, soul: true }, updated_at: new Date().toISOString() };
+      if (!row.name) { toast("Add the name your friends know you by."); return false; }
+      if (!handleOk(row.handle)) { toast("Your @handle needs 3 to 20 letters, numbers, dots or underscores."); return false; }
+      const { data, error } = await client.from("profiles").upsert(row).select().maybeSingle();
+      if (error) { if (!quiet) toast(/duplicate|unique|23505/i.test(error.message + error.code) ? `@${row.handle} is already taken. Try another one.` : error.message); profState = prof ? "ok" : "none"; paint(); return false; }
+      prof = data || row; profState = "ok"; lsSet(KEY_PROF, prof); paint(); return true;
+    }
+    let touchT = null;
+    function touchProfile(){ // keep your familiar, title and soul name up to date for friends, quietly
+      if (!client || !user || !prof) return; clearTimeout(touchT);
+      touchT = setTimeout(async () => { const m = profMeta(); if (m.familiar === prof.familiar && m.title === prof.title && m.soul === prof.soul) return;
+        const { data } = await client.from("profiles").update({ ...m, updated_at: new Date().toISOString() }).eq("id", user.id).select().maybeSingle(); if (data) { prof = data; lsSet(KEY_PROF, prof); } }, 2500);
+    }
+    async function setPrivacy(k, v){ if (!prof) return; const privacy = { ...(prof.privacy || {}), [k]: v }; const { data, error } = await client.from("profiles").update({ privacy }).eq("id", user.id).select().maybeSingle(); if (error) { toast(error.message); return; } prof = data; lsSet(KEY_PROF, prof); toast(v ? "Friends will be able to see that." : "Hidden from friends."); }
     async function fetchRemote(){ const { data, error } = await client.from("library").select("data, updated_at").eq("user_id", user.id).maybeSingle(); if (error) throw error; return data?.data || null; }
     async function push(lib){ lastPushAt = new Date().toISOString(); const { error } = await client.from("library").upsert({ user_id: user.id, data: lib, updated_at: lastPushAt }); if (error) throw error; }
     async function pull(){
@@ -5285,7 +5337,7 @@ alter publication supabase_realtime add table public.library;`;
         const merged = remote ? mergeLibraries(local, remote) : local;
         if (libSig(merged) !== libSig(local)) { books = merged.books; deleted = merged.deleted; save({ stamp: false }); render(); }
         if (!remote || libSig(merged) !== libSig(remote)) await push({ books: merged.books, deleted: merged.deleted });
-        lastSync = Date.now(); set("ok");
+        lastSync = Date.now(); set("ok"); touchProfile();
       } catch (e) {
         const m = String(e?.message || e);
         set(navigator.onLine === false ? "offline" : "error", /relation .*library.* does not exist|could not find the table/i.test(m) ? "The library table is missing. Run the setup SQL in your Supabase project." : m);
@@ -5299,7 +5351,7 @@ alter publication supabase_realtime add table public.library;`;
     }
     // ---------- the sync panel ----------
     const isHosted = () => /^https?:$/.test(location.protocol);
-    function phoneLink(){ return `${location.origin}${location.pathname}#sync=${encodeURIComponent(btoa(unescape(encodeURIComponent(cfg.url + "|" + cfg.key))))}`; }
+    function phoneLink(){ return cfg.url === DEFAULT_SYNC.url ? `${location.origin}${location.pathname}` : `${location.origin}${location.pathname}#sync=${encodeURIComponent(btoa(unescape(encodeURIComponent(cfg.url + "|" + cfg.key))))}`; }
     function loadQR(){ return window.QRCode ? Promise.resolve() : new Promise((res, rej) => { const s = document.createElement("script"); s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; s.onload = res; s.onerror = rej; document.head.append(s); }); }
     function openPanel(){
       const root = $("#modal-root");
@@ -5317,19 +5369,31 @@ alter publication supabase_realtime add table public.library;`;
           if (key.length < 30) { toast("Paste the long “anon public” key."); return; }
           cfg = { url, key }; lsSet(KEY_SYNC, cfg); await connect(); panel(); return;
         }
+        if (t.closest("[data-authmode]")) { authMode = t.closest("[data-authmode]").dataset.authmode; panel(); return; }
+        if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Welcome to the nook, ${prof.name}!`); panel(); } return; }
+        const pv = t.closest("[data-privacy]"); if (pv) { const k = pv.dataset.privacy, v = !(prof?.privacy?.[k] !== false); await setPrivacy(k, v); panel(); return; }
         if (t.closest("[data-auth]")) {
           const mode = t.closest("[data-auth]").dataset.auth, email = $("#s-email").value.trim(), pw = $("#s-pw").value;
           if (!email || pw.length < 6) { toast("Enter your email and a password of at least 6 characters."); return; }
+          let meta = null;
+          if (mode === "up") {
+            const name = $("#s-name").value.trim(), handle = cleanHandle($("#s-handle").value), invite = $("#s-invite").value.trim().toLowerCase();
+            if (!name) { toast("Add the name your friends know you by."); return; }
+            if (!handleOk(handle)) { toast("Your @handle needs 3 to 20 letters, numbers, dots or underscores."); return; }
+            if (!invite) { toast("You need the invite code from whoever shared the app with you."); return; }
+            meta = { name, handle, invite };
+          }
           t.disabled = true;
-          const fn = mode === "up" ? client.auth.signUp({ email, password: pw }) : client.auth.signInWithPassword({ email, password: pw });
+          const fn = mode === "up" ? client.auth.signUp({ email, password: pw, options: { data: meta } }) : client.auth.signInWithPassword({ email, password: pw });
           const { data, error } = await fn; t.disabled = false;
-          if (error) { toast(error.message); return; }
+          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /invalid login/i.test(error.message) ? "That email and password don't match." : error.message, 5000); return; }
           if (mode === "up" && !data.session) { toast("Account created. Check your email to confirm it, then sign in. (Or turn off “Confirm email” in Supabase, step 3.)", 6000); return; }
           toast(mode === "up" ? "Account created. Your library is syncing." : "Signed in. Your library is syncing."); panel(); return;
         }
         if (t.closest("[data-syncnow]")) { pull(); return; }
-        if (t.closest("[data-signout]")) { await client.auth.signOut(); user = null; set("signedout"); panel(); return; }
-        if (t.closest("[data-forget]")) { try { await client?.auth.signOut(); } catch {} cfg = null; client = null; user = null; try { localStorage.removeItem(KEY_SYNC); } catch {} set("off"); panel(); return; }
+        if (t.closest("[data-editprof]")) { const ed = $("#prof-edit"); if (ed) ed.hidden = !ed.hidden; return; }
+        if (t.closest("[data-signout]")) { await client.auth.signOut(); user = null; prof = null; lsSet(KEY_PROF, null); set("signedout"); panel(); return; }
+        if (t.closest("[data-forget]")) { try { await client?.auth.signOut(); } catch {} cfg = DEFAULT_SYNC; client = null; user = null; try { localStorage.removeItem(KEY_SYNC); } catch {} await connect(); panel(); return; }
       };
     }
     function panel(){
@@ -5354,14 +5418,35 @@ alter publication supabase_realtime add table public.library;`;
         return;
       }
       if (!user) {
-        el.innerHTML = head + `${state === "error" ? `<div class="confirm">${esc(detail)}</div>` : ""}
-          <p class="note" style="margin:0">Connected to <b>${esc(cfg.url.replace("https://", ""))}</b>. Create an account the first time, then use the same email and password on every device.</p>
-          <div class="fields"><label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email"></label>
-          <label class="field full"><span class="label">Password</span><input id="s-pw" type="password" autocomplete="current-password" placeholder="at least 6 characters"></label></div>
-          <div class="mfoot"><button class="linkbtn" type="button" data-forget>Use a different project</button><div class="r"><button class="btn" type="button" data-auth="up">Create account</button><button class="btn primary" type="button" data-auth="in">Sign in</button></div></div>`;
+        const up = authMode === "up";
+        el.innerHTML = head.replace("Sync between your devices", up ? "Join My Book Nook" : "Sign in to My Book Nook") + `${state === "error" ? `<div class="confirm">${esc(detail)}</div>` : ""}
+          <div class="seg authseg" role="tablist"><button type="button" data-authmode="in" aria-pressed="${!up}">I have an account</button><button type="button" data-authmode="up" aria-pressed="${up}">Create an account</button></div>
+          <p class="note" style="margin:0">${up ? "Your account keeps your books safe on every device, and lets friends find you (step by step, only what you choose to share)." : "Use the same email and password on every device. Your books sync automatically."}</p>
+          <div class="fields">
+            ${up ? `<label class="field"><span class="label">Your name</span><input id="s-name" autocomplete="name" maxlength="40" placeholder="e.g. Bojana"></label>
+            <label class="field"><span class="label">@handle · how friends find you</span><input id="s-handle" autocomplete="username" maxlength="21" placeholder="e.g. bojana.reads" autocapitalize="none" spellcheck="false"></label>` : ""}
+            <label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email"></label>
+            <label class="field full"><span class="label">Password</span><input id="s-pw" type="password" autocomplete="${up ? "new-password" : "current-password"}" placeholder="at least 6 characters"></label>
+            ${up ? `<label class="field full"><span class="label">Invite code</span><input id="s-invite" autocomplete="off" autocapitalize="none" placeholder="from whoever shared the app with you"></label>` : ""}</div>
+          <div class="mfoot"><span class="note">Your books stay on this device until you sign in.</span><div class="r"><button class="btn primary" type="button" data-auth="${up ? "up" : "in"}">${up ? "Create my account" : "Sign in"}</button></div></div>`;
         return;
       }
-      el.innerHTML = head + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
+      if (profState === "none" || profState === "missingtable") {
+        const m = user.user_metadata || {};
+        el.innerHTML = head.replace("Sync between your devices", "Your reader profile") + (profState === "missingtable" ? `<div class="confirm">Profiles aren't switched on in the database yet. (For the owner: run the friends SQL in Supabase.) Your books still sync.</div>` : "") + `
+          <p class="note" style="margin:0">So your friends know who is who. You can change it any time.</p>
+          <div class="fields"><label class="field"><span class="label">Your name</span><input id="p-name" maxlength="40" value="${esc(m.name || "")}" placeholder="e.g. Bojana"></label>
+          <label class="field"><span class="label">@handle</span><input id="p-handle" maxlength="21" value="${esc(m.handle || "")}" placeholder="e.g. bojana.reads" autocapitalize="none" spellcheck="false"></label></div>
+          <div class="mfoot"><button class="linkbtn" type="button" data-signout>Sign out</button><div class="r"><button class="btn primary" type="button" data-saveprof ${profState === "missingtable" ? "disabled" : ""}>Save my profile</button></div></div>`;
+        return;
+      }
+      const P = prof || {}, pr = P.privacy || {};
+      el.innerHTML = head.replace("Sync between your devices", "Your account") + (prof ? `<div class="profcard famcard" data-fam="${esc(P.familiar || familiar)}" data-expr="happy"><div class="profav">${famArt(FAMILIARS[P.familiar] ? P.familiar : familiar)}</div>
+          <div class="profinfo"><b>${esc(P.name)}</b><span class="profhandle">@${esc(P.handle)}</span><span class="note">${esc([P.title, P.soul].filter(Boolean).join(" · "))}</span></div><button class="btn small" type="button" data-editprof>Edit</button></div>
+          <div class="profedit" id="prof-edit" hidden><div class="fields"><label class="field"><span class="label">Your name</span><input id="p-name" maxlength="40" value="${esc(P.name)}"></label><label class="field"><span class="label">@handle</span><input id="p-handle" maxlength="21" value="${esc(P.handle)}" autocapitalize="none" spellcheck="false"></label></div><div class="r" style="display:flex;justify-content:flex-end"><button class="btn small primary" type="button" data-saveprof>Save</button></div></div>
+          <div class="label" style="margin-top:6px">What friends will be able to see</div>
+          <div class="privlist">${PRIVACY.map(([k, l, d]) => `<button type="button" class="privrow" data-privacy="${k}" aria-pressed="${pr[k] !== false}"><span class="tog"><i></i></span><span><b>${l}</b><small>${d}</small></span></button>`).join("")}</div>
+          <p class="note" style="margin:4px 0 10px">Friends are coming next: once they arrive, only friends you accept will see these, and only the ones switched on.</p>` : profState === "error" ? `<div class="confirm">Couldn't load your profile right now. ${esc(detail)}</div>` : "") + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
           <span class="note">${state === "error" ? esc(detail) : `Signed in as ${esc(user.email || "")}${lastSync ? ` · last synced ${new Date(lastSync).toLocaleTimeString()}` : ""}`}</span></div>
         <div class="label" style="margin-top:4px">Connect your phone</div>
         ${isHosted() ? `<div class="phone"><div id="qr" class="qr"></div><ol class="setup" style="margin:0">
@@ -5372,7 +5457,7 @@ alter publication supabase_realtime add table public.library;`;
         <div class="mfoot"><button class="linkbtn" type="button" data-signout>Sign out on this device</button><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
       if (isHosted()) loadQR().then(() => { const q = $("#qr"); if (q && !q.firstChild) new QRCode(q, { text: phoneLink(), width: 168, height: 168, colorDark: "#1D1824", colorLight: "#ffffff" }); }).catch(() => { const q = $("#qr"); if (q) q.textContent = "QR code needs internet."; });
     }
-    return { init, schedule, openPanel, paint };
+    return { init, schedule, openPanel, paint, get profile(){ return prof; }, get user(){ return user; }, get client(){ return client; }, touchProfile };
   })();
   window.__ledgerSync = Sync;
   // ================= wiring =================
