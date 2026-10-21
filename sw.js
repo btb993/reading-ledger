@@ -1,5 +1,5 @@
 // My Book Nook: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v2", COVERS = "ledger-covers-v1";
+const SHELL = "ledger-shell-v3", COVERS = "ledger-covers-v2";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "icons/favicon-64.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => ![SHELL, COVERS].includes(k)).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
@@ -11,8 +11,19 @@ self.addEventListener("fetch", e => {
     e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(SHELL).then(c => c.put(req, copy)); return r; }).catch(() => caches.match(req).then(r => r || caches.match("index.html"))));
     return;
   }
-  // covers, fonts and chart/sync libraries: use the saved copy if there is one
-  if (/covers\.openlibrary\.org|archive\.org|fonts\.(googleapis|gstatic)\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net/.test(url.host)) {
-    e.respondWith(caches.open(COVERS).then(async c => { const hit = await c.match(req); if (hit) return hit; try { const r = await fetch(req); if (r.ok || r.type === "opaque") c.put(req, r.clone()); return r; } catch { return hit || Response.error(); } }));
+  // covers, fonts and chart/sync libraries: use the saved copy if there is one,
+  // and only save copies we know are good (never a hidden error page)
+  if (/covers\.openlibrary\.org|archive\.org|books\.google\.com|fonts\.(googleapis|gstatic)\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net/.test(url.host)) {
+    e.respondWith(caches.open(COVERS).then(async c => {
+      const hit = await c.match(req); if (hit) return hit;
+      try {
+        const r = await fetch(req.url, { mode: "cors", credentials: "omit" });
+        const type = r.headers.get("content-type") || "";
+        if (r.ok && !/text\/html/.test(type) && +(r.headers.get("content-length") || 1000) > 200) c.put(req, r.clone());
+        return r;
+      } catch {
+        try { return await fetch(req); } catch { return Response.error(); }
+      }
+    }));
   }
 });
