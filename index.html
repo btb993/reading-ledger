@@ -1886,7 +1886,12 @@ header .menu{margin-top:6px}
   // ================= storage =================
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-  const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } };
+  // look-and-feel settings that follow you between devices with your account
+  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience"];
+  const SETTINGS_T = "reading-ledger-settings-t";
+  let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
+  setTimeout(() => { settingsReady = true; }, 6000);
+  const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); if (!applyingSettings && settingsReady && SYNCED_SETTINGS.includes(k)) { localStorage.setItem(SETTINGS_T, String(Date.now())); try { window.__ledgerSync?.schedule(); } catch {} } return true; } catch { return false; } };
   let books = lsGet(KEY, []), recs = lsGet(KEY_RECS, null);
   let groupBy = lsGet("reading-ledger-groupby", "none"), filter = "all", sortBy = "added", tab = "library", statYear = new Date().getFullYear(), statScope = "all";
   const KEY_DEL = "reading-ledger-deleted";
@@ -5862,6 +5867,25 @@ alter publication supabase_realtime add table public.library;`;
   const DEFAULT_SYNC = { url: "https://adkfuzmontecmhfnrcyb.supabase.co", key: "sb_publishable_sDtY-M37SKKBOqUe0mlZUA_jOrOW4E9" };
   const KEY_PROF = "reading-ledger-profile";
   const PRIVACY = [["reading", "What I'm reading now", "and how far I am"], ["shelves", "My shelves", "read and want-to-read books"], ["ratings", "My ratings and verdicts", "stars, feelings, would-recommend"], ["soul", "My Reader's Soul", "DNA, alignment, level"]];
+  function collectSettings(t){ const v = {}; for (const k of SYNCED_SETTINGS) { const x = localStorage.getItem(k); if (x !== null) v[k] = x; } return { t, v }; }
+  function applyRemoteSettings(S){
+    applyingSettings = true;
+    try { for (const k of SYNCED_SETTINGS) { if (S.v && k in S.v) localStorage.setItem(k, S.v[k]); } localStorage.setItem(SETTINGS_T, String(S.t)); } catch {}
+    applyingSettings = false;
+    try {
+      applyTheme(lsGet(KEY_THEME, null));
+      seasonPick = lsGet(KEY_SEASON, "auto"); driftOn = lsGet(KEY_DRIFT, true); applySeason();
+      caseTheme = lsGet(KEY_CASE, "library"); if (!CASES[caseTheme]) caseTheme = "library"; decorateCase();
+      arrangeBy = lsGet(KEY_ARR, "date"); paintArrange();
+      spineMode = lsGet(KEY_SPINE, "genre"); paintSpineMode(); paintSpineNote();
+      decor = lsGet(KEY_DECOR, null);
+      zodiac = lsGet(KEY_ZOD, null);
+      shelfMax = lsGet("reading-ledger-shelfmax", "auto"); paintShelfMax();
+      const f = lsGet(KEY_FAM, familiar); if (FAMILIARS[f]) { familiar = f; if (S.v && S.v[KEY_FAM]) { try { famChosen = true; } catch {} if ($("#welcome-scrim")) $("#modal-root").innerHTML = ""; } }
+      famDocked = lsGet("reading-ledger-famdock", true); applyDock();
+      render(); renderFamiliar(); refreshFigurines();
+    } catch (e) { console.warn("settings", e); }
+  }
   const Sync = (() => {
     let cfg = (() => { const c = lsGet(KEY_SYNC, null); if (c && c.url) c.url = c.url.replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, ""); return c && c.url && c.key ? c : DEFAULT_SYNC; })(), client = null, user = null, state = "off", detail = "", lastSync = null, prof = lsGet(KEY_PROF, null), profState = "unknown", authMode = "in", timer = null, chan = null, lastPushAt = null, busy = false, again = false;
     const pill = () => $("#sync-pill");
@@ -5941,7 +5965,13 @@ alter publication supabase_realtime add table public.library;`;
         const remote = await fetchRemote(), local = { books, deleted };
         const merged = remote ? mergeLibraries(local, remote) : local;
         if (libSig(merged) !== libSig(local)) { books = merged.books; deleted = merged.deleted; save({ stamp: false }); render(); }
-        if (!remote || libSig(merged) !== libSig(remote)) await push({ books: merged.books, deleted: merged.deleted });
+        // settings: the newest device wins
+        let localT = Number(localStorage.getItem(SETTINGS_T)) || 0; const rs = remote?.settings;
+        if (rs && rs.t > localT) { applyRemoteSettings(rs); localT = rs.t; }
+        if (!localT && !rs) { localT = 1; localStorage.setItem(SETTINGS_T, "1"); }
+        settingsReady = true;
+        const settingsNewer = localT > (rs?.t || 0);
+        if (!remote || libSig(merged) !== libSig(remote) || settingsNewer) await push({ books: merged.books, deleted: merged.deleted, settings: settingsNewer ? collectSettings(localT) : rs });
         lastSync = Date.now(); set("ok"); touchProfile(); try { Social.queueShare(); } catch {}
       } catch (e) {
         const m = String(e?.message || e);
