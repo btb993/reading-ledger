@@ -1442,6 +1442,31 @@ body.rm-open{overflow:hidden}
 .tog{flex:0 0 auto;width:38px;height:22px;border-radius:99px;background:color-mix(in srgb,var(--muted) 35%,transparent);position:relative;transition:background .2s}
 .tog i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
 .privrow[aria-pressed="true"] .tog{background:var(--accent)}.privrow[aria-pressed="true"] .tog i{transform:translateX(16px)}
+
+/* ===== Friends ===== */
+.tab[data-n]:not([data-n=""]){position:relative}.tab.hasnew::after{content:attr(data-n);position:absolute;top:4px;right:10px;min-width:16px;height:16px;border-radius:99px;background:var(--accent);color:#fff;font-size:10px;line-height:16px;text-align:center;padding:0 3px}
+.syncpill[data-state="profile"]{background:var(--accent);color:#fff;border-color:transparent;animation:candlepulse 2s ease-in-out infinite}
+.friends{display:flex;flex-direction:column;gap:18px;max-width:1000px;margin:0 auto}
+.fsec h3{font-family:var(--f-display);font-style:italic;font-size:24px;margin:0 0 8px;display:flex;align-items:center;gap:8px}.fsec .pill{font-size:12px;background:var(--accent);color:#fff;border-radius:99px;padding:1px 8px;font-style:normal}
+.fme{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.finvite{border:1px dashed color-mix(in srgb,var(--gold) 50%,var(--line));border-radius:16px;padding:10px 14px}.finvite p{margin:2px 0 8px}
+.fperson{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:8px 12px;background:var(--paper);margin-bottom:6px}
+.fpinfo{display:flex;flex-direction:column;min-width:0;flex:1}.fpinfo b{font-family:var(--f-display);font-style:italic;font-size:19px;line-height:1.15}.fpinfo span{color:var(--muted);font-size:13.5px;overflow:hidden;text-overflow:ellipsis}
+.favatar{flex:0 0 auto;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--gold) 20%,var(--paper)),color-mix(in srgb,var(--gold) 8%,var(--paper)));display:grid;place-items:center;border:1px solid var(--line)}
+.favatar svg{width:100%;height:100%;margin-top:10%}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.fcard{border:1px solid var(--line);border-radius:18px;padding:14px;background:radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--gold) 10%,transparent),transparent 60%),var(--paper);display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow,0 4px 14px rgba(0,0,0,.06))}
+.fchead{display:flex;gap:12px;align-items:center}
+.fmatch{margin-left:auto;text-align:center;font-family:var(--f-display);font-size:24px;color:var(--accent);line-height:1}.fmatch small{display:block;font-family:var(--f-cap);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.freading{display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center}.freading .cover{width:54px}.freading b{display:block;font-family:var(--f-display);font-style:italic;font-size:17px;line-height:1.2}.freading .muted{font-size:13px}.freading small{color:var(--muted);font-size:12.5px}.freading .bigbar{height:6px;margin:5px 0 3px}
+.fcounts{display:flex;gap:14px;font-size:13.5px;color:var(--muted)}.fcounts b{color:var(--ink)}
+.fcacts{display:flex;justify-content:flex-end}
+.ffind{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}.ffind input{flex:1;min-width:160px;font:inherit;padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card,#fff8ee);color:var(--ink)}
+.fnook{max-width:820px}.fnhead{display:flex;gap:14px;align-items:center;min-width:0}.fnhead h2{margin:0}.fnook .phead{align-items:flex-start}
+.fbooks{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.fbook{display:flex;flex-direction:column;gap:3px;font-size:13.5px}.fbook .cover{width:100%;max-width:130px}.fbook b{font-family:var(--f-display);font-style:italic;font-size:15px;line-height:1.2}.fbook .muted{font-size:12.5px}.fstars{color:var(--gold)}.ftag{font-size:12px;color:var(--accent)}.fbook .linkbtn{font-size:13px;text-align:left}.fbook .bigbar{height:6px}
+.fsoul h3{font-family:var(--f-display);font-style:italic;font-size:30px;margin:2px 0 10px}
+@media (max-width:640px){.friends{padding:0 12px}.fme{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.fbooks{grid-template-columns:repeat(3,1fr);gap:10px}.fperson{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -1510,6 +1535,7 @@ body.rm-open{overflow:hidden}
     <button class="tab" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Reader's Soul</span></button>
     <button class="tab" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">Recommendations</span></button>
     <button class="tab" id="tab-keep" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">♥</span><span class="tl">Keepsakes</span></button>
+    <button class="tab" id="tab-friends" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">☺</span><span class="tl">Friends</span></button>
   </nav>
 
 
@@ -1539,6 +1565,7 @@ body.rm-open{overflow:hidden}
   <main id="view-soul" hidden></main>
   <main id="view-recs" hidden></main>
   <main id="view-keep" hidden></main>
+  <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
 </div>
@@ -5264,6 +5291,7 @@ alter publication supabase_realtime add table public.library;`;
     function paint(){
       const p = pill(); if (!p) return;
       const who = user && prof ? `✦ ${prof.name} · ` : "";
+      if (user && !prof && profState === "none") { p.textContent = "✦ Create your profile"; p.dataset.state = "profile"; p.title = "Choose your name and @handle"; if ($("#sync-panel")) panel(); if (!sessionStorage.getItem("nook-profask")) { try { sessionStorage.setItem("nook-profask", 1); } catch {} setTimeout(() => { if (!$("#modal-root").innerHTML.trim()) openPanel(); }, 1200); } return; }
       const txt = who + ({ off: "☁ Set up sync", signedout: "☁ Sign in / join", syncing: "☁ Syncing…", pending: "☁ Saving…", ok: "☁ Synced", offline: "☁ Offline, will sync later", error: "☁ Sync problem" }[state] || "☁ Sync").replace(who ? "☁ " : "\u0000", "");
       p.textContent = txt; p.dataset.state = state; p.title = detail || (lastSync ? `Last synced ${new Date(lastSync).toLocaleTimeString()}` : "");
       if ($("#sync-panel")) panel();
@@ -5305,7 +5333,7 @@ alter publication supabase_realtime add table public.library;`;
       try {
         const { data, error } = await client.from("profiles").select("*").eq("id", user.id).maybeSingle();
         if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = error.message; paint(); return; }
-        if (data) { prof = data; profState = "ok"; lsSet(KEY_PROF, prof); touchProfile(); }
+        if (data) { prof = data; profState = "ok"; lsSet(KEY_PROF, prof); touchProfile(); try { Social.load(true).then(() => { if (tab === "friends") Social.render(); }); Social.queueShare(); } catch {} }
         else { const m = user.user_metadata || {}; profState = "none";
           if (m.name && handleOk(cleanHandle(m.handle))) { await saveProfile({ name: m.name, handle: cleanHandle(m.handle) }, true); } }
       } catch (e) { profState = "error"; }
@@ -5317,7 +5345,7 @@ alter publication supabase_realtime add table public.library;`;
       if (!handleOk(row.handle)) { toast("Your @handle needs 3 to 20 letters, numbers, dots or underscores."); return false; }
       const { data, error } = await client.from("profiles").upsert(row).select().maybeSingle();
       if (error) { if (!quiet) toast(/duplicate|unique|23505/i.test(error.message + error.code) ? `@${row.handle} is already taken. Try another one.` : error.message); profState = prof ? "ok" : "none"; paint(); return false; }
-      prof = data || row; profState = "ok"; lsSet(KEY_PROF, prof); paint(); return true;
+      prof = data || row; profState = "ok"; lsSet(KEY_PROF, prof); paint(); try { Social.queueShare(); Social.load(true); } catch {} return true;
     }
     let touchT = null;
     function touchProfile(){ // keep your familiar, title and soul name up to date for friends, quietly
@@ -5337,7 +5365,7 @@ alter publication supabase_realtime add table public.library;`;
         const merged = remote ? mergeLibraries(local, remote) : local;
         if (libSig(merged) !== libSig(local)) { books = merged.books; deleted = merged.deleted; save({ stamp: false }); render(); }
         if (!remote || libSig(merged) !== libSig(remote)) await push({ books: merged.books, deleted: merged.deleted });
-        lastSync = Date.now(); set("ok"); touchProfile();
+        lastSync = Date.now(); set("ok"); touchProfile(); try { Social.queueShare(); } catch {}
       } catch (e) {
         const m = String(e?.message || e);
         set(navigator.onLine === false ? "offline" : "error", /relation .*library.* does not exist|could not find the table/i.test(m) ? "The library table is missing. Run the setup SQL in your Supabase project." : m);
@@ -5370,7 +5398,7 @@ alter publication supabase_realtime add table public.library;`;
           cfg = { url, key }; lsSet(KEY_SYNC, cfg); await connect(); panel(); return;
         }
         if (t.closest("[data-authmode]")) { authMode = t.closest("[data-authmode]").dataset.authmode; panel(); return; }
-        if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Welcome to the nook, ${prof.name}!`); panel(); } return; }
+        if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Saved, ${prof.name}!`); panel(); try { Social.queueShare(); if (tab === "friends") Social.show(); } catch {} } return; }
         const pv = t.closest("[data-privacy]"); if (pv) { const k = pv.dataset.privacy, v = !(prof?.privacy?.[k] !== false); await setPrivacy(k, v); panel(); return; }
         if (t.closest("[data-auth]")) {
           const mode = t.closest("[data-auth]").dataset.auth, email = $("#s-email").value.trim(), pw = $("#s-pw").value;
@@ -5392,7 +5420,7 @@ alter publication supabase_realtime add table public.library;`;
         }
         if (t.closest("[data-syncnow]")) { pull(); return; }
         if (t.closest("[data-editprof]")) { const ed = $("#prof-edit"); if (ed) ed.hidden = !ed.hidden; return; }
-        if (t.closest("[data-signout]")) { await client.auth.signOut(); user = null; prof = null; lsSet(KEY_PROF, null); set("signedout"); panel(); return; }
+        if (t.closest("[data-signout]")) { await client.auth.signOut(); user = null; prof = null; authMode = "in"; lsSet(KEY_PROF, null); set("signedout"); panel(); return; }
         if (t.closest("[data-forget]")) { try { await client?.auth.signOut(); } catch {} cfg = DEFAULT_SYNC; client = null; user = null; try { localStorage.removeItem(KEY_SYNC); } catch {} await connect(); panel(); return; }
       };
     }
@@ -5460,8 +5488,154 @@ alter publication supabase_realtime add table public.library;`;
     return { init, schedule, openPanel, paint, get profile(){ return prof; }, get user(){ return user; }, get client(){ return client; }, touchProfile };
   })();
   window.__ledgerSync = Sync;
+  // ================= Friends =================
+  const Social = (() => {
+    let loadedFor = null, friends = [], incoming = [], outgoing = [], shelves = new Map(), state = "idle", err = "", lastLoad = 0, search = null, everyone = null, lastShare = lsGet("reading-ledger-sharedsig", ""), shareT = null;
+    const C = () => Sync.client, U = () => Sync.user, ME = () => Sync.profile;
+    const ready = () => !!(C() && U() && ME());
+    const tableMissing = m => /friendships|shared_shelf|are_friends|schema cache|does not exist/i.test(m || "");
+    // ---- what I share: built from my privacy switches ----
+    function snapshot(){
+      const P = ME(), pr = P?.privacy || {}, out = { v: 1, at: new Date().toISOString(), counts: { read: readBooks().length, reading: books.filter(b => b.shelf === "reading").length, want: books.filter(b => b.shelf === "want").length, year: readBooks().filter(b => yearOf(b.finished) === new Date().getFullYear()).length } };
+      const cov = b => { const c = (b.cover && !b.cover.startsWith("data:")) ? (coverMap[b.cover] || b.cover) : ""; return c; };
+      const base = b => ({ t: b.title, a: b.author || "", c: cov(b), p: Number(b.pages) || null, s: b.seriesName || null });
+      if (pr.reading !== false) out.reading = books.filter(b => b.shelf === "reading").map(b => { const last = (b.progressLog || []).slice(-1)[0]; return { ...base(b), cp: Number(b.currentPage) || 0, st: b.started || null, up: last?.d || b.started || null, min: (b.sessions || []).reduce((t, s) => t + (s.m || 0), 0) }; });
+      if (pr.shelves !== false) {
+        out.read = readBooks().slice().sort((a, b) => (b.finished || "").localeCompare(a.finished || "")).slice(0, 400).map(b => { const o = { ...base(b), f: b.finished || null }; if (pr.ratings !== false) { if (b.rating) o.r = b.rating; if ((b.feelings || []).length) o.fe = b.feelings.slice(0, 4); if (b.recommend) o.rec = b.recommendTo || true; if (b.surpriseFav) o.sf = 1; if (b.hype) o.hy = b.hype; } return o; });
+        out.want = books.filter(b => b.shelf === "want").slice(0, 300).map(base);
+      }
+      if (pr.soul !== false) { try { const D = soulData(); if (D.dna.length) { const L = readerLevel(), AL = alignment(D); out.soul = { name: hybridName(D.dna[0], D.dna[1]), level: L.level, title: L.title, dna: D.dna.slice(0, 5).map(x => ({ n: x.name, p: x.pct, g: x.g, c: x.c })), align: AL.name, code: myCode(D), trait: hiddenTrait(D)[0] }; } } catch {} }
+      return out;
+    }
+    function queueShare(){ if (!ready()) return; clearTimeout(shareT); shareT = setTimeout(pushShare, 4000); }
+    async function pushShare(){
+      if (!ready()) return;
+      const snap = snapshot(), sig = U().id + ":" + JSON.stringify({ ...snap, at: 0 });
+      if (sig === lastShare) return;
+      const { error } = await C().from("shared_shelf").upsert({ user_id: U().id, data: snap, updated_at: new Date().toISOString() });
+      if (!error) { lastShare = sig; lsSet("reading-ledger-sharedsig", sig); }
+    }
+    // ---- loading friends ----
+    async function load(force){
+      if (!ready()) { state = "signedout"; return; }
+      if (loadedFor !== U().id) { loadedFor = U().id; search = null; everyone = null; friends = []; incoming = []; outgoing = []; shelves = new Map(); }
+      if (!force && Date.now() - lastLoad < 20000 && state === "ok") return;
+      state = "loading";
+      try {
+        const me = U().id;
+        const { data: fr, error } = await C().from("friendships").select("*").or(`requester.eq.${me},addressee.eq.${me}`);
+        if (error) throw error;
+        const ids = [...new Set(fr.flatMap(f => [f.requester, f.addressee]).filter(id => id !== me))];
+        let profs = [];
+        if (ids.length) { const r = await C().from("profiles").select("*").in("id", ids); if (r.error) throw r.error; profs = r.data || []; }
+        const P = id => profs.find(p => p.id === id);
+        friends = fr.filter(f => f.status === "accepted").map(f => P(f.requester === me ? f.addressee : f.requester)).filter(Boolean);
+        incoming = fr.filter(f => f.status === "pending" && f.addressee === me).map(f => P(f.requester)).filter(Boolean);
+        outgoing = fr.filter(f => f.status === "pending" && f.requester === me).map(f => P(f.addressee)).filter(Boolean);
+        shelves = new Map();
+        if (friends.length) { const r = await C().from("shared_shelf").select("*").in("user_id", friends.map(f => f.id)); if (!r.error) (r.data || []).forEach(x => shelves.set(x.user_id, x.data || {})); }
+        state = "ok"; err = ""; lastLoad = Date.now();
+      } catch (e) { state = "error"; err = String(e?.message || e); }
+      paintBadge();
+    }
+    function paintBadge(){ const t = $("#tab-friends"); if (t) { t.dataset.n = incoming.length || ""; t.classList.toggle("hasnew", incoming.length > 0); } }
+    const relation = id => friends.some(f => f.id === id) ? "friend" : incoming.some(f => f.id === id) ? "incoming" : outgoing.some(f => f.id === id) ? "outgoing" : id === U()?.id ? "me" : "none";
+    async function request(id){ const { error } = await C().from("friendships").insert({ requester: U().id, addressee: id }); if (error && !/duplicate|23505/.test(error.message + error.code)) { toast(error.message); return; } toast("Friend request sent ✦"); await load(true); render(); }
+    async function accept(id){ const { error } = await C().from("friendships").update({ status: "accepted" }).eq("requester", id).eq("addressee", U().id); if (error) { toast(error.message); return; } toast("You're friends now ♥"); await pushShare(); await load(true); render(); }
+    async function remove(id){ const me = U().id; await C().from("friendships").delete().eq("requester", me).eq("addressee", id); await C().from("friendships").delete().eq("requester", id).eq("addressee", me); await load(true); render(); }
+    async function find(q){
+      q = q.trim().replace(/^@/, "").replace(/[,()*%_]/g, "").toLowerCase(); if (q.length < 2) { search = null; render(); return; }
+      const like = `%${q.replace(/[%_]/g, "")}%`;
+      const { data, error } = await C().from("profiles").select("*").or(`handle.ilike.${like},name.ilike.${like}`).limit(20);
+      search = error ? [] : (data || []).filter(p => p.id !== U().id); render();
+    }
+    async function browse(){ const { data } = await C().from("profiles").select("*").order("created_at", { ascending: false }).limit(60); everyone = (data || []).filter(p => p.id !== U().id); render(); }
+    // ---- drawing ----
+    const avatar = (p, size = 56) => `<span class="favatar" style="width:${size}px;height:${size}px">${famArt(FAMILIARS[p.familiar] ? p.familiar : "cat")}</span>`;
+    const ago = d => { if (!d) return ""; const days = Math.round((new Date(todayISO()) - new Date(String(d).slice(0, 10))) / 864e5); return days <= 0 ? "today" : days === 1 ? "yesterday" : days < 7 ? `${days} days ago` : days < 30 ? `${Math.round(days / 7)} week${days < 14 ? "" : "s"} ago` : `${Math.round(days / 30)} month${days < 60 ? "" : "s"} ago`; };
+    const mini = x => coverHTML({ title: x.t, author: x.a, cover: x.c });
+    function personRow(p, extra = ""){
+      const rel = relation(p.id);
+      const btn = rel === "friend" ? `<span class="onshelf">Friends ♥</span>` : rel === "incoming" ? `<button class="btn small primary" type="button" data-facc="${p.id}">Accept</button>` : rel === "outgoing" ? `<span class="note">Request sent</span>` : `<button class="btn small" type="button" data-freq="${p.id}">+ Add friend</button>`;
+      return `<div class="fperson" data-fam="${esc(p.familiar || "cat")}" data-expr="idle">${avatar(p, 48)}<div class="fpinfo"><b>${esc(p.name)}</b><span>@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div>${extra}${btn}</div>`;
+    }
+    function friendCard(p){
+      const S = shelves.get(p.id) || {}, R = S.reading || [], soul = S.soul;
+      let match = null; try { if (soul?.code) match = compareCode(soulData(), soul.code); } catch {}
+      return `<article class="fcard" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
+        <div class="fchead">${avatar(p, 64)}<div class="fpinfo"><b>${esc(p.name)}</b><span>@${esc(p.handle)}</span><span class="note">${esc([p.title, p.soul].filter(Boolean).join(" · "))}</span></div>${match ? `<span class="fmatch" title="How closely your reading DNA matches">${match.match}%<small>match</small></span>` : ""}</div>
+        ${S.reading === undefined && !S.read ? `<p class="note">${esc(p.name)} hasn't shared anything yet.</p>` : R.length ? R.map(x => { const pct = x.p ? Math.min(100, Math.round(x.cp / x.p * 100)) : null; return `<div class="freading">${mini(x)}<div><span class="label">Reading now</span><b>${esc(x.t)}</b><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}% · page ${x.cp} of ${x.p}${x.up ? ` · updated ${ago(x.up)}` : ""}</small>` : x.up ? `<small>updated ${ago(x.up)}</small>` : ""}</div></div>`; }).join("") : S.reading ? `<p class="note">Not reading anything right now.</p>` : `<p class="note">Keeps their current read private.</p>`}
+        <div class="fcounts">${S.counts ? `<span><b>${S.counts.read}</b> read</span><span><b>${S.counts.year}</b> this year</span><span><b>${S.counts.want}</b> waiting</span>` : ""}</div>
+        <div class="fcacts"><button class="btn small primary" type="button" data-fopen="${p.id}">Visit their nook</button></div></article>`;
+    }
+    function render(){
+      const el = $("#view-friends"); if (!el) return;
+      if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
+      if (!ME()) { el.innerHTML = `<div class="empty"><span class="fleuron">✦</span><h3>One small step first</h3><div>Choose your name and @handle so friends can find you.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Set up my profile</button></div>`; return; }
+      if (state === "error" && tableMissing(err)) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Friends aren't switched on yet</h3><div>For the owner: run the step 2 friends SQL in Supabase, then reload.</div></div>`; return; }
+      const me = ME(), invite = `${location.origin}${location.pathname}`;
+      el.innerHTML = `<div class="friends">
+        <section class="fme">${personRow(me, `<button class="btn small" type="button" data-fsignin>Edit profile</button>`).replace(/<button class="btn small" type="button" data-freq[^>]*>[^<]*<\/button>|<span class="onshelf">[^<]*<\/span>/, "")}
+          <div class="finvite"><span class="label">Invite a friend</span><p class="note">Send them the app and the invite code. They join, then add you as <b>@${esc(me.handle)}</b>.</p><button class="btn small" type="button" data-finvite>Copy an invitation</button></div></section>
+        ${incoming.length ? `<section class="fsec"><h3>Friend requests <span class="pill">${incoming.length}</span></h3>${incoming.map(p => personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button>`)).join("")}</section>` : ""}
+        <section class="fsec"><h3>Your friends</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="fgrid">${friends.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
+        <section class="fsec"><h3>Find readers</h3><form class="ffind" id="f-find" autocomplete="off"><input id="f-q" placeholder="Name or @handle" value=""><button class="btn small primary" type="submit">Search</button><button class="btn small" type="button" data-fbrowse>See everyone</button></form>
+          ${search ? (search.length ? search.map(p => personRow(p)).join("") : `<p class="note">Nobody by that name yet.</p>`) : ""}
+          ${!search && everyone ? `<div class="label" style="margin-top:8px">Everyone in the nook</div>${everyone.length ? everyone.map(p => personRow(p)).join("") : `<p class="note">It's just you so far. Invite someone!</p>`}` : ""}
+          ${outgoing.length ? `<div class="label" style="margin-top:10px">Waiting for an answer</div>${outgoing.map(p => personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Cancel</button>`)).join("")}` : ""}</section>
+      </div>`;
+      paintRecCovers(el);
+    }
+    function openNook(id){
+      const p = friends.find(f => f.id === id); if (!p) return; const S = shelves.get(id) || {};
+      const root = $("#modal-root"); let tab = S.reading?.length ? "reading" : S.read ? "read" : "soul";
+      const draw = () => {
+        const tabs = [["reading", "Reading now"], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", "Want to read"], ["soul", "Reader's Soul"]].filter(([k]) => S[k] !== undefined);
+        const book = x => `<div class="fbook">${mini(x)}<b>${esc(x.t)}</b><span class="muted">${esc(x.a)}</span>${x.r ? `<span class="fstars">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise favourite</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}${x.fe ? `<small class="muted">${x.fe.map(esc).join(" · ")}</small>` : ""}${!inLibrary(x.t, x.a) ? `<button class="linkbtn" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}">+ Want to read</button>` : `<span class="onshelf">On your shelf</span>`}</div>`;
+        let body = "";
+        if (tab === "reading") body = (S.reading || []).length ? `<div class="fbooks">${S.reading.map(x => { const pct = x.p ? Math.round(x.cp / x.p * 100) : null; return `<div class="fbook">${mini(x)}<b>${esc(x.t)}</b><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}%${x.up ? ` · ${ago(x.up)}` : ""}${x.min ? ` · ${fmtMins(x.min)} by candlelight` : ""}</small>` : ""}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
+        if (tab === "read") body = `<div class="fbooks">${(S.read || []).map(book).join("")}</div>`;
+        if (tab === "want") body = `<div class="fbooks">${(S.want || []).map(book).join("")}</div>`;
+        if (tab === "soul" && S.soul) { const so = S.soul; let match = null; try { match = compareCode(soulData(), so.code); } catch {}
+          body = `<div class="fsoul"><div class="label">Level ${so.level} · ${esc(so.title)}</div><h3>${esc(so.name)}</h3><div class="strand big">${so.dna.map(x => `<span style="flex:${x.p};--c:${x.c}" title="${esc(x.n)} ${x.p}%"></span>`).join("")}</div>
+            <div class="soulchips">${so.dna.map(x => `<span class="dnachip" style="--c:${x.c}"><i>${x.g}</i>${esc(x.n.replace(/^The /, ""))}<b>${x.p}%</b></span>`).join("")}</div>
+            ${so.trait ? `<blockquote class="hidden-trait"><div class="label">Their hidden reading trait</div>“${esc(so.trait)}”</blockquote>` : ""}<p><b>Alignment:</b> ${esc(so.align)}</p>
+            ${match ? `<div class="materes"><span class="matepct">${match.match}%</span><div><b>You and ${esc(p.name)}</b><p>${match.match >= 85 ? "Literary soulmates. Start a two-person book club immediately." : match.match >= 65 ? "Kindred spirits with just enough difference to recommend each other books." : match.match >= 45 ? "Different shelves, overlapping hearts. Swap your favourites." : "Opposites. You will broaden each other's horizons, whether you like it or not."}</p></div></div>` : ""}</div>`; }
+        root.innerHTML = `<div class="scrim" id="fn-scrim"><div class="modal fnook" role="dialog" aria-modal="true" aria-labelledby="fn-t" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
+          <div class="phead"><div class="fnhead">${avatar(p, 72)}<div><div class="label">The nook of</div><h2 id="fn-t">${esc(p.name)}</h2><span class="muted">@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div></div><button class="btn small" type="button" data-fnx>Close</button></div>
+          ${tabs.length ? `<div class="mtabs">${tabs.map(([k, l]) => `<button type="button" data-fntab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div>${body}` : `<p class="note">${esc(p.name)} keeps their nook private for now.</p>`}
+          <div class="mfoot"><button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
+        paintRecCovers(root);
+      };
+      draw();
+      $("#fn-scrim").onclick = null;
+      root.onclick = async e => {
+        if (e.target.id === "fn-scrim" || e.target.closest("[data-fnx]")) { root.onclick = null; root.innerHTML = ""; return; }
+        const t = e.target.closest("[data-fntab]"); if (t) { tab = t.dataset.fntab; draw(); return; }
+        const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [] }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
+        const u = e.target.closest("[data-funfriend]"); if (u) { if (!confirmUnfriend) { confirmUnfriend = true; u.textContent = `Tap again to remove ${p.name}`; return; } confirmUnfriend = false; root.onclick = null; root.innerHTML = ""; await remove(u.dataset.funfriend); toast("Removed from your friends."); }
+      };
+      let confirmUnfriend = false;
+    }
+    // ---- clicks in the Friends room ----
+    document.addEventListener("click", async e => {
+      if (!e.target.closest("#view-friends")) return;
+      if (e.target.closest("[data-fsignin]")) { Sync.openPanel(); return; }
+      const r = e.target.closest("[data-freq]"); if (r) { r.disabled = true; await request(r.dataset.freq); return; }
+      const a = e.target.closest("[data-facc]"); if (a) { a.disabled = true; await accept(a.dataset.facc); return; }
+      const d = e.target.closest("[data-fdel]"); if (d) { await remove(d.dataset.fdel); return; }
+      const o = e.target.closest("[data-fopen]"); if (o) { openNook(o.dataset.fopen); return; }
+      if (e.target.closest("[data-fbrowse]")) { search = null; await browse(); return; }
+      if (e.target.closest("[data-finvite]")) { const txt = `Come read with me on My Book Nook 📚✨\n${location.origin}${location.pathname}\nCreate an account with the invite code: booknook26\nThen add me: @${ME().handle}`;
+        try { if (navigator.share) await navigator.share({ text: txt }); else { await navigator.clipboard.writeText(txt); toast("Invitation copied. Paste it into a message."); } } catch { try { await navigator.clipboard.writeText(txt); toast("Invitation copied."); } catch {} } return; }
+    });
+    document.addEventListener("submit", e => { if (e.target.id !== "f-find") return; e.preventDefault(); find($("#f-q").value); });
+    async function show(){ render(); await load(true); render(); pushShare(); }
+    setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
+    return { show, render, load, queueShare, pushShare };
+  })();
   // ================= wiring =================
-  const TABS = ["library","calendar","covers","series","stats","soul","recs","keep"];
+  const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","friends"];
   // ================= words you learned while reading =================
   const WORD_LANGS = [["en", "English"], ["fr", "French"], ["es", "Spanish"], ["de", "German"], ["it", "Italian"], ["pt", "Portuguese"], ["hu", "Hungarian"], ["sr", "Serbian"], ["hr", "Croatian"], ["nl", "Dutch"], ["la", "Latin"]];
   let wordOpen = null, wordRes = null, wordBusy = false, wordLang = lsGet("reading-ledger-wordlang", "en");
@@ -6601,7 +6775,7 @@ alter publication supabase_realtime add table public.library;`;
     tab = t;
     for (const k of TABS) { $("#tab-" + k).setAttribute("aria-selected", k === t); $("#view-" + k).hidden = k !== t; }
     if (t !== "stats") destroyCharts();
-    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep })[t]?.();
+    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep, friends: () => Social.show() })[t]?.();
   }
   const openById = id => { const b = books.find(x => x.id === id); if (b) openEditor(b, false); };
   document.addEventListener("keydown", e => { if (e.key === "Escape") ($("#m-cancel") || $("#s-cancel"))?.click(); });
