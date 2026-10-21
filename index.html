@@ -1467,6 +1467,52 @@ body.rm-open{overflow:hidden}
 .fbook{display:flex;flex-direction:column;gap:3px;font-size:13.5px}.fbook .cover{width:100%;max-width:130px}.fbook b{font-family:var(--f-display);font-style:italic;font-size:15px;line-height:1.2}.fbook .muted{font-size:12.5px}.fstars{color:var(--gold)}.ftag{font-size:12px;color:var(--accent)}.fbook .linkbtn{font-size:13px;text-align:left}.fbook .bigbar{height:6px}
 .fsoul h3{font-family:var(--f-display);font-style:italic;font-size:30px;margin:2px 0 10px}
 @media (max-width:640px){.friends{padding:0 12px}.fme{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.fbooks{grid-template-columns:repeat(3,1fr);gap:10px}.fperson{flex-wrap:wrap}}
+
+/* ===== compact layout ===== */
+/* finder in one row */
+.finder{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 14px;padding:12px 16px}
+.finder .finderhead{display:contents}
+.finder .finderhead h2{grid-column:1;grid-row:1;font-size:22px;margin:0;white-space:nowrap}
+.finder #search-form{grid-column:2;grid-row:1;display:flex;gap:8px;margin:0}
+.finder .finderacts{grid-column:3;grid-row:1;flex-wrap:nowrap;gap:6px}
+.finder #results-wrap{grid-column:1/-1}.finder #results-wrap:empty{display:none}
+.finder input[type=search]{font-size:16.5px;padding:9px 14px}
+.finder #search-btn{padding:8px 18px;font-size:16px}
+@media (max-width:900px){.finder{grid-template-columns:1fr auto}.finder .finderhead h2{grid-column:1;grid-row:1;font-size:19px}.finder .finderacts{grid-column:2;grid-row:1}.finder #search-form{grid-column:1/-1;grid-row:2}}
+@media (max-width:460px){.finder .finderacts .btn{padding:5px 8px;font-size:12.5px;white-space:nowrap}.finder .finderacts{gap:4px}.finder .finderhead h2{font-size:17px}}
+/* now card: one row of actions, smaller on phones */
+.nowcard{padding:14px 18px;gap:16px}
+.nowacts{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:10px}
+.nowacts .rmstart{margin:0}.nowacts .wordbar{margin:0}.nowacts .wordpanel{flex-basis:100%;margin-top:4px}
+.nowcard .eta{margin:4px 0 8px}
+@media (max-width:640px){.nowcard{grid-template-columns:72px minmax(0,1fr);padding:12px 14px;gap:12px}.nowcard .ringwrap{position:absolute;top:10px;right:10px;width:62px;height:62px;order:0}.nowcard .ringwrap .ring{width:62px;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px));mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px))}.nowcard .ringwrap .pct{font-size:15px}.nowcard .ringwrap .pct span{font-size:15px}.nowcard .ringwrap .pct small{display:none}.nowcard .nowtop{padding-right:64px}.nowcard .coverbtn{align-self:start;margin-top:22px}.nowcard h2{font-size:21px}}
+/* also reading: a compact strip */
+.alsoreading{grid-column:1/-1;border-top:1px dashed color-mix(in srgb,var(--gold) 40%,var(--line));padding-top:10px;margin-top:2px}
+.arlist{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 4px;scrollbar-width:thin}
+.arbook{flex:0 0 auto;display:flex;gap:9px;align-items:center;text-align:left;border:1px solid var(--line);background:color-mix(in srgb,var(--paper) 80%,var(--gold) 6%);border-radius:12px;padding:6px 12px 6px 6px;font:inherit;color:var(--ink);cursor:pointer;max-width:260px;transition:transform .15s,border-color .15s}
+.arbook:hover{transform:translateY(-2px);border-color:var(--accent)}
+.arbook .cover{width:34px;flex:0 0 34px;--fs:4px}
+.arinfo{display:flex;flex-direction:column;min-width:0;gap:3px}.arinfo b{font-family:var(--f-display);font-style:italic;font-size:15px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.arbar{display:block;height:4px;width:120px;border-radius:99px;background:color-mix(in srgb,var(--gold) 20%,transparent);overflow:hidden}.arbar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.arinfo small{font-size:11.5px;color:var(--muted)}
+.nowcard.swap{opacity:.4;transform:scale(.99);transition:.15s}.nowcard.swapin{animation:soulin .3s ease}
+/* Reader DNA: a slim banner, the full story lives in the Reader's Soul room */
+.portrait.dna{padding:14px 18px}
+.dnabar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 16px;align-items:center}
+.dnabar > .dnaglyph{font-size:40px;line-height:1}
+.dnabarname{font-family:var(--f-display);font-size:24px;font-style:italic;line-height:1.2}.dnabarname > b{font-weight:600}
+.dnabarname .dnawith{font-size:16px;color:var(--muted)}
+.dnabar .dnadesc{margin:2px 0 6px;font-size:15px}
+.strand.thin{height:7px;margin:0}
+.dnabaracts{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.dnazod:empty{display:none}
+@media (max-width:640px){.dnabar{grid-template-columns:auto minmax(0,1fr)}.dnabaracts{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center}.dnabarname{font-size:20px}.dnabar > .dnaglyph{font-size:32px;align-self:start}}
+/* the hall and the room tabs: one row */
+.hall{margin:22px 0 2px}.hallt{font-size:24px}.hallsub{display:none}
+.tabs.roomtabs{grid-template-columns:repeat(9,minmax(0,1fr));gap:4px;padding:5px}
+.roomtabs .tab{padding:8px 4px 7px;font-size:11px;letter-spacing:.06em}
+.roomtabs .tab .ti{font-size:19px}
+@media (max-width:900px){.tabs.roomtabs{display:flex;overflow-x:auto;scrollbar-width:none}.tabs.roomtabs::-webkit-scrollbar{display:none}.roomtabs .tab{flex:0 0 auto;min-width:78px}}
 </style>
 </head>
 <body>
@@ -1490,7 +1536,7 @@ body.rm-open{overflow:hidden}
 
   <section class="desk finder" aria-label="Find a book">
     <div class="finderhead"><h2><span class="fglyph">✦</span> Find a book</h2>
-      <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> Add by hand</button><button class="btn small" id="scan-btn" type="button"><span aria-hidden="true">▥</span> Scan a barcode</button><button class="btn small" id="series-add-btn" type="button"><span aria-hidden="true">❧</span> Add a whole series</button></div></div>
+      <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> By hand</button><button class="btn small" id="scan-btn" type="button" title="Scan a book's barcode"><span aria-hidden="true">▥</span> Scan</button><button class="btn small" id="series-add-btn" type="button" title="Add a whole series"><span aria-hidden="true">❧</span> Series</button></div></div>
     <form id="search-form" autocomplete="off">
       <input id="q" type="search" placeholder="Title, author or both…" aria-label="Search for a book by title or author">
       <button class="btn primary" id="search-btn" type="submit">Search</button>
@@ -2037,12 +2083,12 @@ body.rm-open{overflow:hidden}
     const [top, second, third] = dna;
     const mix = second ? `Your favourite stories also mix in ${second.s}${third ? ` and ${third.s}` : ""}.` : "";
     const LV = readerLevel(), hy = second ? hybridName(top, second) : null;
-    el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA · Level ${LV.level} · ${esc(LV.title)}</div>${zodHead()}</div>${zodPicker()}
-      <div class="dnatitle"><span class="dnaglyph" style="color:${top.c}">${top.g}</span><h2>${top.name}</h2>${second ? `<span class="dnawith">with a dash of <b style="color:${second.c}">${second.name.replace(/^The /, "")}</b></span>` : ""}</div>
-      <p class="dnadesc">${esc(top.d)} ${esc(mix)}</p>${zodLine()}
-      <div class="strand" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div>
-      <div class="dnalegend">${dna.map((a, i) => `<button type="button" class="dnachip" data-soulchip="${esc(a.name)}" style="--c:${a.c}" title="What makes you this?"><i>${a.g}</i>${esc(a.name.replace(/^The /, ""))}<b>${pct[i]}%</b></button>`).join("")}</div>
-      <div class="soulopen"><button class="btn soulbtn" type="button" data-soul>✦ Open your Reader's Soul</button><span class="note">${hy ? `Your hybrid soul: <b>${esc(hy)}</b> · ` : ""}alignment, red flags, passport, achievements and more</span></div>`;
+    el.innerHTML = `<div class="dnabar"><span class="dnaglyph" style="color:${top.c}">${top.g}</span>
+      <div class="dnabarmain"><div class="label">Your Reader DNA · Level ${LV.level} · ${esc(LV.title)}</div>
+        <div class="dnabarname"><b>${top.name}</b>${second ? ` <span class="dnawith">with a dash of <b style="color:${second.c}">${second.name.replace(/^The /, "")}</b></span>` : ""}</div>
+        <p class="dnadesc">${esc(top.d)}</p>
+        <div class="strand thin" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div></div>
+      <div class="dnabaracts"><button class="btn soulbtn" type="button" data-soul>✦ Your Reader's Soul</button><div class="dnazod">${zodHead()}</div></div></div>${zodPicker()}`;
   }
 
   // ================= bookcase =================
@@ -3813,7 +3859,8 @@ body.rm-open{overflow:hidden}
   function renderNow(){
     const el = $("#now"), list = books.filter(b => b.shelf === "reading").sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""));
     if (!list.length) { el.innerHTML = books.length ? `<div class="nowempty">Not reading anything right now. Drag a book onto the Currently reading shelf to start.</div>` : ""; return; }
-    el.innerHTML = list.map(b => {
+    const mainId = lsGet("reading-ledger-mainread", null), main = list.find(b => b.id === mainId) || list[0], others = list.filter(b => b !== main);
+    const card = b => {
       const e = estimate(b), pct = Math.min(100, Math.round(e.exact * 1000) / 10), pctTxt = pct % 1 ? pct.toFixed(1) : String(pct);
       const fmtD = d => `${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`;
       const chMode = byChapters(b), u = e.unit, us = n => n === 1 ? u : u + "s";
@@ -3828,19 +3875,21 @@ body.rm-open{overflow:hidden}
         : `<label class="label" for="pg-${esc(b.id)}">I'm on page</label><input id="pg-${esc(b.id)}" data-f="pg" type="number" min="0" ${e.total ? `max="${e.total}"` : ""} inputmode="numeric" value="${e.cur}">`;
       return `<article class="nowcard">
         <button class="coverbtn" type="button" data-open="${esc(b.id)}" aria-label="Open ${esc(b.title)}">${coverHTML(b, `<i class="ribbon"></i>`)}</button>
-        <div class="nowmeta"><div class="nowtop"><div class="label">Now reading${e.daysIn ? ` · day ${e.daysIn}` : ""}</div>
+        <div class="nowmeta"><div class="nowtop"><div class="label">${list.length > 1 ? "Main read" : "Now reading"}${e.daysIn ? ` · day ${e.daysIn}` : ""}</div>
             <div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div></div>
           <h2>${esc(b.title)}</h2><div class="muted" style="font-style:italic">${esc(b.author)}</div>
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
           <div class="facts">${facts}</div>
           <div class="eta">${eta}</div>
           <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form}<button class="btn small primary" type="submit">Update</button><button class="btn small" type="button" data-finish="${esc(b.id)}">I finished it</button></form>
-          ${(() => { const s = lsGet("reading-ledger-session", null), on = s && s.id === b.id; return `<div class="rmstart"><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}">🕯 ${on ? "Back to reading" : "Start reading"}</button>${nowSessionLine(b)}${todayMins(b) ? `<button class="linkbtn" type="button" data-share="session">⤴ Share</button>` : ""}<button class="linkbtn" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button></div>`; })()}
-          ${wordPanel(b)}
+          <div class="nowacts">${(() => { const s = lsGet("reading-ledger-session", null), on = s && s.id === b.id; return `<div class="rmstart"><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}">🕯 ${on ? "Back to reading" : "Start reading"}</button>${nowSessionLine(b)}${todayMins(b) ? `<button class="linkbtn" type="button" data-share="session">⤴ Share</button>` : ""}<button class="linkbtn" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button></div>`; })()}
+          ${wordPanel(b)}</div>
         </div>
         <div class="ringwrap"><div class="ring" style="--p:${pct}"></div><div class="pct"><span>${pctTxt}%<small>read</small></span></div></div>
       </article>`;
-    }).join("");
+    };
+    const also = others.length ? `<div class="alsoreading"><span class="label">Also reading · tap to switch</span><div class="arlist">${others.map(b => { const e = estimate(b), pct = Math.min(100, Math.round(e.exact * 100)); return `<button type="button" class="arbook" data-mainread="${esc(b.id)}" title="Make ${esc(b.title)} your main read">${coverHTML(b)}<span class="arinfo"><b>${esc(b.title)}</b><span class="arbar"><i style="width:${pct}%"></i></span><small>${pct}%${e.total ? ` · ${e.unit} ${e.cur} of ${e.total}` : ""}</small></span></button>`; }).join("")}</div></div>` : "";
+    el.innerHTML = card(main).replace('<article class="nowcard">', `<article class="nowcard${others.length ? " hasalso" : ""}">`).replace("</article>", also + "</article>");
   }
   $("#now").addEventListener("submit", e => {
     const f = e.target.closest("[data-upd]"); if (!f) return; e.preventDefault();
@@ -3865,7 +3914,8 @@ body.rm-open{overflow:hidden}
     b.currentPage = page; logProgress(b, page); save(); render(); bondAdd(2, "progress");
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
-  $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode); });
+  $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
+    const m = e.target.closest("[data-mainread]"); if (m) { lsSet("reading-ledger-mainread", m.dataset.mainread); const card = $("#now .nowcard"); card?.classList.add("swap"); setTimeout(() => { renderNow(); $("#now .nowcard")?.classList.add("swapin"); }, 160); } });
   $("#now").addEventListener("click", e => {
     const t = e.target.closest("[data-track]"); if (!t) return;
     const b = books.find(x => x.id === t.dataset.id); if (!b) return;
