@@ -1755,7 +1755,47 @@ header .menu{margin-top:6px}
 .trinket.movable{pointer-events:auto;cursor:grab;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .trinket.lifted{transform:translateY(-10px) scale(1.08);filter:drop-shadow(0 10px 10px rgba(0,0,0,.5)) brightness(1.15);transition:transform .2s;z-index:5}
 #bookcase.placing-trinket .tier{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--gold2) 60%,transparent);cursor:copy}
-.dnfhead .btn{background:rgba(255,255,255,.1);color:#EDE2CF;border-color:rgba(237,226,207,.35)}</style>
+.dnfhead .btn{background:rgba(255,255,255,.1);color:#EDE2CF;border-color:rgba(237,226,207,.35)}
+@media (max-width:640px){.familiar:not(.docked) .bubtools{position:static;flex-wrap:wrap;justify-content:flex-end;gap:5px;margin:-2px -4px 8px 0}.familiar:not(.docked) .bubble{padding-top:12px}}
+/* wrap-ups */
+.wrapbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;border-radius:16px;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);background:radial-gradient(ellipse at 0% 0%,color-mix(in srgb,var(--v4) 18%,transparent),transparent 60%),var(--card)}
+.wrapbar .wbtxt{display:flex;flex-direction:column;gap:2px}.wrapbar .wbtxt b{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:19px}
+.wbbtns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.wbbtns .sort{max-width:150px}
+.wnew{box-shadow:0 0 0 0 color-mix(in srgb,var(--v4) 60%,transparent);animation:wnewp 2.4s ease-in-out infinite}@keyframes wnewp{50%{box-shadow:0 0 0 6px transparent}}
+.sharestrip{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.ssbtns{display:flex;gap:6px;flex-wrap:wrap}
+.ssbtns button{font:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.ssbtns button:hover{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--card))}
+@media (max-width:640px){.sharestrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.ssbtns{flex-wrap:nowrap}.ssbtns button{white-space:nowrap}.sharestrip .label{white-space:nowrap}}
+.wrapov{--wa:#8A4FBF;position:fixed;inset:0;z-index:380;color:#FBEFD8;background:radial-gradient(ellipse at 50% 18%,color-mix(in srgb,var(--wa) 55%,transparent),transparent 62%),radial-gradient(ellipse at 80% 100%,color-mix(in srgb,var(--wa) 30%,transparent),transparent 60%),linear-gradient(180deg,#22121F,#0F0810);display:flex;flex-direction:column;align-items:center;overflow:hidden;transition:background .6s;animation:rmin .35s ease both;user-select:none}
+.wbars-top{position:absolute;top:12px;left:14px;right:56px;display:flex;gap:4px;z-index:3}.wbars-top i{flex:1;height:3px;border-radius:2px;background:rgba(251,239,216,.22)}.wbars-top i.done,.wbars-top i.on{background:#E9C77E}.wbars-top i.on{animation:wbar .5s ease both}@keyframes wbar{from{background:rgba(251,239,216,.22)}}
+.wclose{position:absolute;top:4px;right:8px;z-index:4;width:40px;height:40px;border:0;background:none;color:#FBEFD8;font-size:20px;cursor:pointer}
+.wnav{position:absolute;top:60px;bottom:0;width:38%;border:0;background:none;cursor:pointer;z-index:1}.wnav.prev{left:0;width:28%}.wnav.next{right:0;width:72%}.wnav[hidden]{display:none}
+.wslide{position:relative;z-index:2;pointer-events:none;width:min(560px,100%);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:56px 24px 60px;overflow-y:auto}
+.wslide.end{pointer-events:auto}.wslide.fwd{animation:wfwd .45s cubic-bezier(.2,.8,.2,1) both}.wslide.back{animation:wback .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes wfwd{from{opacity:0;transform:translateX(40px) scale(.98)}}@keyframes wback{from{opacity:0;transform:translateX(-40px)}}
+.wslide > *{animation:wup .6s ease both}.wslide > *:nth-child(2){animation-delay:.12s}.wslide > *:nth-child(3){animation-delay:.24s}.wslide > *:nth-child(4){animation-delay:.36s}.wslide > *:nth-child(5){animation-delay:.48s}.wslide > *:nth-child(n+6){animation-delay:.6s}
+@keyframes wup{from{opacity:0;transform:translateY(14px)}}
+.wkick{font-family:var(--f-cap);letter-spacing:.18em;text-transform:uppercase;font-size:12.5px;color:#E9C77E}
+.wtitle{font-family:var(--f-display);font-style:italic;font-size:clamp(84px,24vw,150px);line-height:1;color:#E9C77E;text-shadow:0 0 40px color-mix(in srgb,var(--wa) 80%,transparent)}.wtitle.sm{font-size:clamp(54px,14vw,84px)}
+.wsub{font-style:italic;color:#C8B193;font-size:17px}
+.wsay{font-family:var(--f-display);font-style:italic;font-size:20px;line-height:1.4;max-width:30ch;margin:8px 0 0;color:#FBEFD8}.wsay b{font-style:normal}
+.wfam{width:130px;height:130px;margin-top:10px;display:grid;place-items:center}.wfam svg{width:100%;height:100%}
+.wbig{display:flex;flex-direction:column;align-items:center}.wbig b{font-family:var(--f-display);font-weight:500;font-size:clamp(64px,20vw,110px);line-height:1;color:#FBEFD8}.wbig span{font-family:var(--f-cap);letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#C8B193}
+.wrow{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin-top:8px}.wrow .wbig b{font-size:clamp(30px,9vw,44px)}
+.wcov{width:110px;aspect-ratio:2/3;border-radius:6px;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.55)}.wcov > *{width:100%;height:100%}.wcov img{width:100%;height:100%;object-fit:cover}.wcov.hero{width:min(190px,48vw)}
+.wpair{display:flex;flex-direction:column;align-items:center;gap:10px}.wpair .wcov{width:120px}.warrow{font-family:var(--f-cap);letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:#E9C77E}
+.wname{font-family:var(--f-display);font-style:italic;font-size:26px;line-height:1.2;max-width:24ch}.wname.big{font-size:clamp(34px,10vw,52px);color:#E9C77E}
+.wstars{color:#E9C77E;letter-spacing:4px;font-size:22px}
+.wlist{list-style:none;padding:0;margin:10px 0 0;width:min(360px,100%);display:flex;flex-direction:column;gap:6px;counter-reset:w 1}.wlist li{display:flex;justify-content:space-between;gap:10px;padding:7px 12px;border-radius:10px;background:rgba(255,240,210,.07);font-size:14.5px;text-align:left;counter-increment:w}.wlist li::before{content:counter(w);color:#E9C77E;font-family:var(--f-display);margin-right:4px}.wlist li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wlist b{color:#E9C77E;font-weight:600}
+.wbars{width:min(380px,100%);display:flex;flex-direction:column;gap:9px;margin-top:6px}.wbars div{display:grid;grid-template-columns:1fr auto;gap:2px 10px;text-align:left;font-size:14.5px}.wbars i{grid-column:1/-1;height:8px;border-radius:5px;background:rgba(255,240,210,.12);position:relative;overflow:hidden}.wbars i::after{content:"";position:absolute;inset:0;width:var(--w);border-radius:5px;background:linear-gradient(90deg,var(--wa),#E9C77E);animation:wgrow 1s .5s ease both}@keyframes wgrow{from{width:0}}.wbars b{color:#E9C77E}
+.wchips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:440px}.wchips span{padding:6px 13px;border-radius:999px;background:rgba(255,240,210,.09);border:1px solid rgba(233,199,126,.3);font-size:14px}.wchips span.top{background:#E9C77E;color:#22121F;font-weight:600}
+.wfeel{display:flex;flex-direction:column;align-items:center}.wfeel i{font-style:normal;font-size:64px;color:var(--fc);text-shadow:0 0 30px var(--fc)}.wfeel b{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:40px}
+.wrec{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(440px,100%)}.wrec div{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:14px;background:rgba(255,240,210,.07);border:1px solid rgba(233,199,126,.22);min-width:0}.wrec span{font-family:var(--f-cap);letter-spacing:.12em;text-transform:uppercase;font-size:10.5px;color:#E9C77E}.wrec b{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:18px;line-height:1.2;overflow-wrap:anywhere}.wrec small{color:#C8B193;font-size:12.5px}
+.wmosaic{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:400px}.wmosaic .wcov{width:58px;box-shadow:0 6px 14px rgba(0,0,0,.5)}
+.wacts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}.wacts .btn{color:#FBEFD8;border-color:rgba(251,239,216,.4);background:rgba(255,255,255,.08)}.wacts .btn.primary{background:#E9C77E;color:#22121F;border-color:#E9C77E}
+.whint{position:absolute;bottom:18px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,239,216,.45);font-family:var(--f-cap);z-index:2;pointer-events:none;animation:wup .6s 1.2s both}
+@media (prefers-reduced-motion:reduce){.wslide,.wslide > *,.wbars i::after{animation:none!important}}
+</style>
 </head>
 <body>
 <div class="drift" id="drift" aria-hidden="true"></div>
@@ -3457,6 +3497,7 @@ header .menu{margin-top:6px}
     el.innerHTML = `<div style="display:flex;flex-direction:column;gap:14px">
       <div class="scopebar"><span class="label">Statistics for</span><div class="seg" id="stat-scope"><button type="button" data-scope="all" aria-pressed="${!scoped}">All time</button>${[...years].reverse().map(y => `<button type="button" data-scope="${y}" aria-pressed="${statScope === y}">${y}</button>`).join("")}</div></div>
       ${scoped ? `<h2 class="scopetitle">Your ${statScope} in books</h2>` : ""}
+      ${wrapBar()}
       <div class="kpis">
         <div class="kpi"><span class="label">Books read</span><span class="v">${read.length}</span><span class="s">${scoped ? `finished in ${statScope}` : `${read.filter(b => yearOf(b.finished) === now.getFullYear()).length} this year`}</span></div>
         <div class="kpi"><span class="label">Pages turned</span><span class="v">${totalPages.toLocaleString()}</span><span class="s">${scoped ? `in ${statScope}` : "including books in progress"}</span></div>
@@ -3466,6 +3507,7 @@ header .menu{margin-top:6px}
         <div class="kpi"><span class="label">Series</span><span class="v">${groups.length}</span><span class="s">${groups.filter(g => g.complete).length} finished</span></div>
         <div class="kpi"><span class="label">Your average</span><span class="v">${avgRating ? avgRating.toFixed(2) : "—"}</span><span class="s">${both.length ? `${srcName} give the same books ${cmAvg.toFixed(2)}` : `${rated.length} rated`}</span></div>
       </div>
+      ${statShareStrip(statScope)}
       <div class="panels">
         ${sessionsPanel()}
         <div class="panel wide"><div class="phead"><h3>Pages finished each month</h3>
@@ -4219,6 +4261,7 @@ header .menu{margin-top:6px}
           currentPage: b.shelf === "reading" || b.shelf === "dnf" ? (b.currentPage || 0) : (b.shelf === "read" ? (b.pages || 0) : 0),
           abandoned: b.shelf === "dnf" ? (b.abandoned || todayISO()) : undefined, dnfWhy: b.shelf === "dnf" ? (b.dnfWhy || undefined) : undefined,
           descChecked: b.descChecked || !!b.summary, coverChecked: true,
+          ...(b.shelf === "dnf" && (b.characters || []).some(c => c.reward) ? { characters: b.characters.filter(c => !c.reward), castTried: false } : {}),
           added: b.added || new Date().toISOString() };
         if (out.shelf === "reading" && out.currentPage !== (book.currentPage || 0)) logProgress(out, out.currentPage);
         close();
@@ -4427,7 +4470,7 @@ header .menu{margin-top:6px}
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
-    const ab = e.target.closest("[data-abandon]"); if (ab) { const b = books.find(x => x.id === ab.dataset.abandon); if (!b) return; b.shelf = "dnf"; b.abandoned = todayISO(); if (lsGet("reading-ledger-session", null)?.id === b.id) localStorage.removeItem("reading-ledger-session"); nowMore = null; save(); render(); toast(`${b.title} is resting on the Abandoned Shelf. No guilt ✦`); return; }
+    const ab = e.target.closest("[data-abandon]"); if (ab) { const b = books.find(x => x.id === ab.dataset.abandon); if (!b) return; b.shelf = "dnf"; b.abandoned = todayISO(); dropRewards(b); if (lsGet("reading-ledger-session", null)?.id === b.id) localStorage.removeItem("reading-ledger-session"); nowMore = null; save(); render(); toast(`${b.title} is resting on the Abandoned Shelf. No guilt ✦`); return; }
     const nm = e.target.closest("[data-nowmore]"); if (nm) { nowMore = nowMore === nm.dataset.nowmore ? null : nm.dataset.nowmore; renderNow(); return; }
     const m = e.target.closest("[data-mainread]"); if (m) { lsSet("reading-ledger-mainread", m.dataset.mainread); const card = $("#now .nowcard"); card?.classList.add("swap"); setTimeout(() => { renderNow(); $("#now .nowcard")?.classList.add("swapin"); }, 160); } });
   $("#now").addEventListener("click", e => {
@@ -6490,7 +6533,7 @@ alter publication supabase_realtime add table public.library;`;
   }
   const seriesChars = b => books.filter(x => x === b || (b.seriesName && x.seriesName && seriesKey(x) === seriesKey(b))).flatMap(x => (x.characters || []).map(c => norm(c.name)));
   async function openPack(b, quiet){
-    if (!b) return [];
+    if (!b || b.shelf !== "read") return [];
     b.castTried = true; save({ stamp: false });
     const { names } = await bookCast(b);
     const have = new Set(seriesChars(b)), got = [];
@@ -7492,6 +7535,200 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     } catch (err) { ov.querySelector(".sharepre").innerHTML = `<p class="note">${esc(err && err.message || "Couldn't paint the card.")}</p>`; }
   }
   document.addEventListener("click", e => { const s = e.target.closest("[data-share]"); if (!s) return; e.preventDefault(); shareCard(s.dataset.share, s.dataset.share === "year" ? +s.dataset.year : s.dataset.id); });
+  // ================= Wrap-ups: your quarter and your year, told as a little story =================
+  function parsePeriod(p){
+    const m = String(p || "").match(/^(\d{4})(?:-Q([1-4]))?$/); if (!m) return null;
+    const y = +m[1], q = m[2] ? +m[2] : 0, QN = ["", "January to March", "April to June", "July to September", "October to December"];
+    const now = new Date(), cy = now.getFullYear(), cq = Math.floor(now.getMonth() / 3) + 1, live = q ? (y === cy && q === cq) : y === cy;
+    return { y, q, key: p, from: q ? `${y}-${pad((q - 1) * 3 + 1)}` : `${y}-01`, to: q ? `${y}-${pad(q * 3)}` : `${y}-12`, live,
+      label: q ? `Q${q} ${y}` : String(y), span: q ? `${QN[q]} ${y}` : `the year ${y}`, word: q ? "quarter" : "year", prev: q ? (q === 1 ? `${y - 1}-Q4` : `${y}-Q${q - 1}`) : String(y - 1) };
+  }
+  function inPeriod(P, d){ if (!P || !d) return false; d = String(d); if (!P.q) return yearOf(d) === P.y; if (!/^\d{4}-\d{2}/.test(d)) return false; const s = d.slice(0, 7); return s >= P.from && s <= P.to; }
+  function wrapPeriods(){ // every quarter and year you finished something in, newest first
+    const qs = new Set(), ys = new Set();
+    readBooks().forEach(b => { const d = String(b.finished || ""); const y = yearOf(d); if (!y) return; ys.add(String(y)); if (/^\d{4}-\d{2}/.test(d)) qs.add(`${y}-Q${Math.floor((+d.slice(5, 7) - 1) / 3) + 1}`); });
+    const sortK = k => k.length === 4 ? k + "-Q5" : k;
+    return { quarters: [...qs].sort((a, b) => sortK(b).localeCompare(sortK(a))), years: [...ys].sort((a, b) => b.localeCompare(a)) };
+  }
+  function dnaOf(list){ if (!list.length) return []; const w = b => b.rating ? .3 + b.rating / 5 : .8, W = list.reduce((s, b) => s + w(b), 0);
+    return ARCHETYPES.map(a => ({ ...a, score: list.reduce((s, b) => s + w(b) * a.t(b), 0) / W })).filter(a => a.score > .08).sort((x, y) => y.score - x.score); }
+  function wrapData(key){
+    const P = parsePeriod(key); if (!P) return null;
+    const Pg = b => Number(b.pages) || 0, all = readBooks();
+    const list = all.filter(b => inPeriod(P, b.finished)).sort((a, b) => (a.finished || "").localeCompare(b.finished || ""));
+    const prevN = all.filter(b => inPeriod(parsePeriod(P.prev), b.finished)).length;
+    const mins = allSessions().filter(s => inPeriod(P, (s.s || "").slice(0, 10))).reduce((t, s) => t + (s.m || 0), 0);
+    const rated = list.filter(b => b.rating), avg = rated.length ? rated.reduce((s, b) => s + b.rating, 0) / rated.length : 0;
+    const best = rated.slice().sort((a, b) => b.rating - a.rating || (b.surpriseFav ? 1 : 0) - (a.surpriseFav ? 1 : 0) || (b.finished || "").localeCompare(a.finished || ""));
+    const before = all.filter(b => b.finished && !inPeriod(P, b.finished) && (yearOf(b.finished) < P.y || (/^\d{4}-\d{2}/.test(b.finished) && b.finished.slice(0, 7) < P.from)));
+    const known = new Set(before.map(b => norm(b.author || "")));
+    const authors = topN(list.map(b => b.author).filter(Boolean), 5), fresh = [...new Set(list.map(b => b.author).filter(a => a && !known.has(norm(a))))];
+    const durs = list.filter(b => isExact(b.started) && isExact(b.finished) && b.finished >= b.started).map(b => ({ b, d: Math.round((new Date(b.finished) - new Date(b.started)) / 864e5) + 1 })).sort((a, b) => a.d - b.d);
+    const MN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month = topN(list.filter(b => /^\d{4}-\d{2}/.test(b.finished || "")).map(b => b.finished.slice(5, 7)), 1)[0];
+    return { P, list, n: list.length, prevN, pages: list.reduce((s, b) => s + Pg(b), 0), mins, avg, rated, best, fav: best[0],
+      genres: topN(list.flatMap(b => [...bookGenres(b)]), 6), tropes: topN(list.flatMap(b => b.tropes || []), 8), feels: topN(list.flatMap(b => b.feelings || []), 5),
+      authors, fresh, longest: list.filter(Pg).sort((a, b) => Pg(b) - Pg(a))[0], shortest: list.filter(Pg).sort((a, b) => Pg(a) - Pg(b))[0], fastest: durs[0],
+      month: month && month[1] > 1 ? [MN[+month[0] - 1], month[1]] : null, dna: dnaOf(list)[0],
+      dnf: books.filter(b => b.shelf === "dnf" && inPeriod(P, b.abandoned)).length,
+      series: [...new Set(list.filter(b => b.seriesName).map(b => b.seriesName))].length };
+  }
+  function wrapSlides(D){
+    const { P } = D, fam = famChosen ? famName(familiar) : "", big = (v, l) => `<div class="wbig"><b>${v}</b><span>${l}</span></div>`;
+    const cov = (b, cls = "") => `<div class="wcov ${cls}">${coverHTML(b)}</div>`;
+    const S = [];
+    S.push({ a: "#8A4FBF", h: `<div class="wkick">Your ${P.word}${P.live ? " so far" : ""}, wrapped</div><div class="wtitle">${P.q ? `Q${P.q}` : P.y}</div><div class="wsub">${esc(P.span)}</div>
+      ${famChosen ? `<div class="wfam">${famArt(familiar)}</div><p class="wsay">“${esc(fam)} has been keeping count. Ready?”</p>` : `<p class="wsay">Let's look back at what you read.</p>`}` });
+    const cmp = D.prevN ? (D.n > D.prevN ? `That's ${D.n - D.prevN} more than last ${P.word}.` : D.n === D.prevN ? `Exactly as many as last ${P.word}. Steady as a candle.` : `A gentler ${P.word} than the last (${D.prevN}), and that's fine.`) : "";
+    S.push({ a: "#C9822E", h: `<div class="wkick">You finished</div>${big(D.n, D.n === 1 ? "book" : "books")}
+      <div class="wrow">${D.pages ? big(D.pages.toLocaleString(), "pages") : ""}${D.mins >= 30 ? big(fmtMins(D.mins), "by candlelight") : ""}${D.avg ? big(D.avg.toFixed(1) + "★", "average") : ""}</div>${cmp ? `<p class="wsay">${cmp}</p>` : ""}` });
+    if (D.n >= 2) S.push({ a: "#3E7A8C", h: `<div class="wkick">It all began with</div><div class="wpair">${cov(D.list[0])}<div class="warrow">…and ended with</div>${cov(D.list.at(-1))}</div>
+      <p class="wsay"><i>${esc(D.list[0].title)}</i> to <i>${esc(D.list.at(-1).title)}</i></p>` });
+    if (D.fav) S.push({ a: "#C94F7C", h: `<div class="wkick">Your favourite of the ${P.word}</div>${cov(D.fav, "hero")}<div class="wname">${esc(D.fav.title)}</div><div class="wstars">${"★".repeat(Math.round(D.fav.rating))}</div>
+      ${D.best.length > 1 ? `<ol class="wlist">${D.best.slice(1, 5).map(b => `<li><span>${esc(b.title)}</span><b>${b.rating}★</b></li>`).join("")}</ol>` : ""}` });
+    if (D.genres.length) { const mx = D.genres[0][1]; S.push({ a: D.dna?.c || "#7A3FC4", h: `<div class="wkick">You lived mostly in</div><div class="wname big">${esc(D.genres[0][0])}</div>
+      <div class="wbars">${D.genres.map(([g, n]) => `<div><span>${esc(g)}</span><b>${n}</b><i style="--w:${n / mx * 100}%"></i></div>`).join("")}</div>
+      ${D.dna ? `<p class="wsay">This ${P.word} you read like <b style="color:${D.dna.c}">${D.dna.g} ${esc(D.dna.name)}</b>.</p>` : ""}` }); }
+    if (D.tropes.length || D.feels.length) S.push({ a: "#B8312F", h: `${D.tropes.length ? `<div class="wkick">The tropes that had your heart</div><div class="wchips">${D.tropes.map(([t, n], i) => `<span class="${i ? "" : "top"}">${esc(t)}${n > 1 ? ` · ${n}` : ""}</span>`).join("")}</div>` : ""}
+      ${D.feels.length ? `<div class="wkick" style="margin-top:22px">And they made you feel</div><div class="wfeel" style="--fc:${feelLook(D.feels[0][0]).c}"><i>${feelLook(D.feels[0][0]).g}</i><b>${esc(D.feels[0][0])}</b></div>${D.feels.length > 1 ? `<div class="wchips">${D.feels.slice(1).map(([f]) => `<span>${feelLook(f).g} ${esc(f)}</span>`).join("")}</div>` : ""}` : ""}` });
+    if (D.authors.length) S.push({ a: "#2E6A55", h: `<div class="wkick">Your author of the ${P.word}</div><div class="wname big">${esc(D.authors[0][0])}</div><div class="wsub">${D.authors[0][1]} book${D.authors[0][1] > 1 ? "s" : ""}</div>
+      ${D.fresh.length ? `<p class="wsay">You met <b>${D.fresh.length}</b> new author${D.fresh.length > 1 ? "s" : ""}${D.fresh.length <= 4 ? `: ${D.fresh.map(esc).join(", ")}` : `, including ${D.fresh.slice(0, 3).map(esc).join(", ")}`}.</p>` : ""}` });
+    const rec = [D.longest && [`Longest`, `${esc(D.longest.title)}`, `${D.longest.pages} pages`], D.shortest && D.shortest !== D.longest && [`Shortest`, esc(D.shortest.title), `${D.shortest.pages} pages`],
+      D.fastest && [`Fastest read`, esc(D.fastest.b.title), `${D.fastest.d} day${D.fastest.d > 1 ? "s" : ""}`], D.month && [`Busiest month`, D.month[0], `${D.month[1]} books`], D.series && [`Series`, `${D.series} visited`, ""],
+      D.dnf && [`Let go of`, `${D.dnf} book${D.dnf > 1 ? "s" : ""}`, "no guilt"]].filter(Boolean);
+    if (rec.length) S.push({ a: "#4A5A9C", h: `<div class="wkick">The record book</div><div class="wrec">${rec.map(([l, v, s]) => `<div><span>${l}</span><b>${v}</b>${s ? `<small>${s}</small>` : ""}</div>`).join("")}</div>` });
+    S.push({ a: "#C9A24E", h: `<div class="wkick">That was your ${P.word}</div><div class="wtitle sm">${P.label}</div><div class="wmosaic">${D.list.slice(-12).map(b => cov(b)).join("")}</div>
+      <p class="wsay">${famChosen ? `“${esc(fam)} is very proud of you.”` : "Here's to the next chapter."}</p>
+      <div class="wacts"><button class="btn primary" type="button" data-share="wrap" data-id="${P.key}">⤴ Share my wrap-up</button><button class="btn" type="button" data-wx>Close</button></div>`, end: true });
+    return S;
+  }
+  function openWrap(key){
+    const D = wrapData(key); if (!D) return;
+    if (!D.n) { toast(`No finished books in ${parsePeriod(key).label} yet. Add finish dates to see this wrap-up.`, 5000); return; }
+    try { const seen = lsGet("reading-ledger-wrapseen", []); if (!seen.includes(key)) lsSet("reading-ledger-wrapseen", [...seen, key].slice(-40)); } catch {}
+    const S = wrapSlides(D); let i = 0;
+    document.getElementById("wrap-ov")?.remove();
+    const ov = document.createElement("div"); ov.id = "wrap-ov"; ov.className = "wrapov"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); ov.setAttribute("aria-label", `${D.P.label} wrap-up`);
+    document.body.append(ov);
+    const paint = dir => {
+      ov.style.setProperty("--wa", S[i].a);
+      ov.innerHTML = `<div class="wbars-top">${S.map((_, k) => `<i class="${k < i ? "done" : k === i ? "on" : ""}"></i>`).join("")}</div><button class="wclose" type="button" data-wx aria-label="Close">✕</button>
+        <div class="wslide ${dir || ""}${S[i].end ? " end" : ""}">${S[i].h}</div>${S[i].end ? "" : `<div class="whint">tap to continue</div>`}
+        <button class="wnav prev" type="button" data-wprev aria-label="Back"${i ? "" : " hidden"}></button>${S[i].end ? "" : `<button class="wnav next" type="button" data-wnext aria-label="Next"></button>`}`;
+    };
+    const close = () => { ov.remove(); document.removeEventListener("keydown", onKey); };
+    const go = d => { const j = i + d; if (j < 0 || j >= S.length) return; i = j; paint(d > 0 ? "fwd" : "back"); };
+    const onKey = e => { if (e.key === "Escape") close(); else if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(1); } else if (e.key === "ArrowLeft") go(-1); };
+    ov.addEventListener("click", e => { if (e.target.closest("[data-wx]")) return close(); if (e.target.closest("[data-share]")) return; if (e.target.closest("[data-wprev]")) return go(-1); if (e.target.closest("[data-wnext]")) return go(1); });
+    document.addEventListener("keydown", onKey);
+    paint();
+  }
+  // a wrap-up that has just become ready (the first three weeks after a quarter or year ends)
+  function freshWrap(){
+    const now = new Date(), y = now.getFullYear(), m = now.getMonth(), d = now.getDate(); if (!(m % 3 === 0 && d <= 21)) return null;
+    const key = m === 0 ? `${y - 1}-Q4` : `${y}-Q${m / 3}`, seen = lsGet("reading-ledger-wrapseen", []);
+    if (m === 0 && !seen.includes(String(y - 1)) && wrapData(String(y - 1))?.n) return String(y - 1);
+    return !seen.includes(key) && wrapData(key)?.n ? key : null;
+  }
+  function wrapBar(){
+    const { quarters, years } = wrapPeriods(); if (!quarters.length && !years.length) return "";
+    const fresh = freshWrap(), feat = [...new Set([fresh, quarters[0], years[0]].filter(Boolean))].slice(0, 3), lab = k => { const P = parsePeriod(k); return `${P.q ? `Q${P.q} ${P.y}` : `${P.y} wrapped`}${P.live ? " so far" : ""}`; };
+    const rest = [...quarters, ...years].filter(k => !feat.includes(k));
+    return `<div class="wrapbar"><div class="wbtxt"><span class="label">✦ Wrap-ups</span><b>Your reading, told as a little story</b></div><div class="wbbtns">
+      ${feat.map(k => `<button type="button" class="btn small${k === fresh ? " primary wnew" : ""}" data-wrap="${k}">${k === fresh ? "✦ New · " : ""}${lab(k)}</button>`).join("")}
+      ${rest.length ? `<select class="sort" data-wrapsel aria-label="Earlier wrap-ups"><option value="">Earlier…</option>${rest.map(k => `<option value="${k}">${lab(k)}</option>`).join("")}</select>` : ""}</div></div>`;
+  }
+  document.addEventListener("click", e => { const w = e.target.closest("[data-wrap]"); if (w) openWrap(w.dataset.wrap); });
+  document.addEventListener("change", e => { if (e.target.matches?.("[data-wrapsel]") && e.target.value) { openWrap(e.target.value); e.target.value = ""; } });
+  setTimeout(() => { try { const k = freshWrap(); if (k) toast(`✦ Your ${parsePeriod(k).q ? parsePeriod(k).label : parsePeriod(k).y} wrap-up is ready. Find it in Stats.`, 6000); } catch {} }, 4000);
+
+  // ---- share cards for the stats room ----
+  function scBars(x, F, rows, y, colorOf){ // rows: [label, value, sub?]
+    const mx = Math.max(...rows.map(r => r[1]), 1), L = 140, W = SC.W - 280;
+    rows.forEach(([l, v, sub], i) => { const Y = y + i * 104, c = colorOf(l, i);
+      x.fillStyle = SC.cream; x.font = `38px ${F.b}`; x.textAlign = "left"; const lt = wrap(x, l, W - 120)[0]; x.fillText(lt, L, Y);
+      x.fillStyle = SC.gold; x.textAlign = "right"; x.font = `600 34px ${F.b}`; x.fillText(sub || String(v), L + W, Y);
+      x.fillStyle = "rgba(255,240,210,.1)"; rr(x, L, Y + 18, W, 22, 11); x.fill(); x.fillStyle = c; rr(x, L, Y + 18, Math.max(22, W * v / mx), 22, 11); x.fill(); });
+    return y + rows.length * 104;
+  }
+  const scPal = i => ["#E9C77E", "#C94F7C", "#7A3FC4", "#3E9C8C", "#E2643A", "#4A7AC4", "#B8312F", "#8AA845"][i % 8];
+  const scopeName = a => a === "all" || !a ? "All time" : String(a);
+  const scopeRead = a => { const r = readBooks(); return a === "all" || !a ? r : r.filter(b => yearOf(b.finished) === +a); };
+  async function cardStats(x, F, scope){
+    const read = scopeRead(scope); if (!read.length) throw new Error("No finished books here yet.");
+    const P = b => Number(b.pages) || 0, pages = read.reduce((s, b) => s + P(b), 0), paged = read.filter(P), rated = read.filter(b => b.rating);
+    const avgLen = paged.length ? Math.round(pages / paged.length) : 0, avgR = rated.length ? rated.reduce((s, b) => s + b.rating, 0) / rated.length : 0;
+    const mins = allSessions().filter(s => scope === "all" || !scope || yearOf(s.s) === +scope).reduce((t, s) => t + (s.m || 0), 0);
+    scBackground(x, "#7A3FC4"); scHeader(x, F, "My reading stats");
+    x.fillStyle = SC.gold; x.font = `italic 120px ${F.d}`; x.textAlign = "center"; x.fillText(scopeName(scope), SC.W / 2, 360);
+    const tiles = [[read.length, read.length === 1 ? "book read" : "books read"], [pages.toLocaleString(), "pages turned"], [avgLen || "—", "pages a book"], [avgR ? avgR.toFixed(2) + "★" : "—", "average rating"], [new Set(read.map(b => b.author)).size, "authors"], [mins >= 60 ? fmtMins(mins) : `${[...new Set(read.flatMap(b => [...bookGenres(b)]))].length}`, mins >= 60 ? "by candlelight" : "genres"]];
+    tiles.forEach(([v, l], i) => { const c = i % 2, r = Math.floor(i / 2), X = 110 + c * 440, Y = 460 + r * 250; x.fillStyle = "rgba(255,240,210,.07)"; rr(x, X, Y, 420, 220, 26); x.fill(); x.strokeStyle = "rgba(233,199,126,.35)"; x.lineWidth = 1.5; x.stroke();
+      x.fillStyle = SC.cream; x.textAlign = "center"; fitFont(x, String(v), F.d, 92, 40, 380, ""); x.fillText(String(v), X + 210, Y + 125); x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText(l.toUpperCase(), X + 210, Y + 180); });
+    let y = 1250; const g = topN(read.flatMap(b => [...bookGenres(b)]), 1)[0], fav = rated.slice().sort((a, b) => b.rating - a.rating || (b.finished || "").localeCompare(a.finished || ""))[0], longest = paged.slice().sort((a, b) => P(b) - P(a))[0];
+    [[g && "TOP GENRE", g && g[0]], [fav && "FAVOURITE", fav && `${fav.title}`], [longest && "LONGEST", longest && `${longest.title} · ${P(longest)} p`]].filter(r => r[0]).forEach(([l, v]) => {
+      x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText(l, SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; y = textBlock(x, v, SC.W / 2, y + 60, SC.W - 220, 54, 2) + 46; });
+    scFooter(x, F);
+  }
+  async function cardTropes(x, F, scope){
+    const read = scopeRead(scope), t = topN(read.flatMap(b => b.tropes || []), 8); if (!t.length) throw new Error("No tropes yet. Find them in the Library or a book's Details.");
+    scBackground(x, "#C94F7C"); scHeader(x, F, "My favourite tropes");
+    x.fillStyle = SC.cream; x.font = `italic 64px ${F.d}`; x.textAlign = "center"; x.fillText(`I can't resist`, SC.W / 2, 330); x.fillStyle = SC.gold; fitFont(x, t[0][0], F.d, 104, 56, SC.W - 160); x.fillText(t[0][0], SC.W / 2, 450);
+    let y = scBars(x, F, t, 580, (l, i) => scPal(i)) + 30;
+    const loved = topN(read.filter(b => b.rating >= 4).flatMap(b => b.tropes || []), 5).map(r => r[0]);
+    if (loved.length && y < SC.H - 330) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("IN THE BOOKS I LOVED MOST", SC.W / 2, y); chipRow(x, F, loved, y + 80); }
+    x.fillStyle = SC.muted; x.font = `italic 30px ${F.d}`; x.textAlign = "center"; x.fillText(scopeName(scope), SC.W / 2, SC.H - 150); scFooter(x, F);
+  }
+  async function cardFeel(x, F, scope){
+    const read = scopeRead(scope), f = topN(read.flatMap(b => b.feelings || []), 7); if (!f.length) throw new Error("Pick feelings when you rate a book first.");
+    scBackground(x, feelLook(f[0][0]).c); scHeader(x, F, "How books made me feel");
+    x.font = `170px ${F.d}`; x.textAlign = "center"; x.fillStyle = feelLook(f[0][0]).c; x.save(); x.shadowColor = feelLook(f[0][0]).c; x.shadowBlur = 50; x.fillText(feelLook(f[0][0]).g, SC.W / 2, 450); x.restore();
+    x.fillStyle = SC.muted; x.font = `600 26px ${F.c}`; x.fillText("MOSTLY I FELT", SC.W / 2, 540); x.fillStyle = SC.cream; x.font = `italic 96px ${F.d}`; x.fillText(f[0][0], SC.W / 2, 650);
+    scBars(x, F, f.map(([n, v]) => [`${feelLook(n).g}  ${n}`, v]), 790, l => feelLook(l.replace(/^\S+\s+/, "")).c);
+    x.fillStyle = SC.muted; x.font = `italic 30px ${F.d}`; x.textAlign = "center"; x.fillText(scopeName(scope), SC.W / 2, SC.H - 150); scFooter(x, F);
+  }
+  async function cardTaste(x, F, scope){
+    const read = scopeRead(scope); if (!read.length) throw new Error("No finished books here yet.");
+    const g = topN(read.flatMap(b => [...bookGenres(b)]), 6), a = topN(read.map(b => b.author).filter(Boolean), 5);
+    scBackground(x, "#3E9C8C"); scHeader(x, F, "My genres & authors");
+    x.fillStyle = SC.gold; x.font = `600 26px ${F.c}`; x.textAlign = "center"; x.fillText("WHERE I LIVE", SC.W / 2, 300);
+    let y = scBars(x, F, g, 390, (l, i) => scPal(i + 2)) + 50;
+    x.fillStyle = SC.gold; x.font = `600 26px ${F.c}`; x.textAlign = "center"; x.fillText("WHO I KEEP GOING BACK TO", SC.W / 2, y); y += 70;
+    a.forEach(([n, c], i) => { x.fillStyle = i ? SC.cream : SC.gold; x.font = `italic ${i ? 44 : 60}px ${F.d}`; x.fillText(n, SC.W / 2, y); x.fillStyle = SC.muted; x.font = `26px ${F.b}`; x.fillText(`${c} book${c > 1 ? "s" : ""}`, SC.W / 2, y + 38); y += i ? 100 : 118; });
+    x.fillStyle = SC.muted; x.font = `italic 30px ${F.d}`; x.textAlign = "center"; x.fillText(scopeName(scope), SC.W / 2, SC.H - 150); scFooter(x, F);
+  }
+  async function cardTbr(x, F){
+    const want = books.filter(b => b.shelf === "want"); if (!want.length) throw new Error("Your to-read pile is empty. Lucky you!");
+    const pages = want.reduce((s, b) => s + (Number(b.pages) || 300), 0), sp = readingSpeed();
+    scBackground(x, "#4A7AC4"); scHeader(x, F, "My to-read pile");
+    x.fillStyle = SC.gold; x.font = `italic 220px ${F.d}`; x.textAlign = "center"; x.fillText(String(want.length), SC.W / 2, 470); x.fillStyle = SC.muted; x.font = `600 28px ${F.c}`; x.fillText("BOOKS WAITING FOR ME", SC.W / 2, 530);
+    const show = want.slice(-8), w = 190, h = 285; await Promise.all(show.map((b, i) => drawCover(x, b, (SC.W - (Math.min(4, show.length) * (w + 22) - 22)) / 2 + (i % 4) * (w + 22), 620 + Math.floor(i / 4) * (h + 26), w, h)));
+    let y = 620 + Math.ceil(show.length / 4) * (h + 26) + 80;
+    x.fillStyle = SC.cream; x.font = `italic 52px ${F.d}`; x.fillText(`about ${pages.toLocaleString()} pages`, SC.W / 2, y);
+    if (sp) { x.fillStyle = SC.muted; x.font = `34px ${F.b}`; x.fillText(`roughly ${fmtMins(pages / sp * 60)} of reading`, SC.W / 2, y + 64); }
+    x.fillStyle = SC.cream; x.font = `italic 40px ${F.d}`; x.fillText("No regrets. Only plans.", SC.W / 2, SC.H - 200); scFooter(x, F);
+  }
+  async function cardWrap(x, F, key){
+    const D = wrapData(key); if (!D || !D.n) throw new Error("No finished books in this period yet.");
+    const { P } = D; scBackground(x, D.dna?.c || "#C9822E"); scHeader(x, F, P.q ? `My quarter in books` : `My ${P.y} wrapped`);
+    x.fillStyle = SC.gold; x.font = `italic ${P.q ? 170 : 200}px ${F.d}`; x.textAlign = "center"; x.save(); x.shadowColor = "rgba(233,199,126,.6)"; x.shadowBlur = 40; x.fillText(P.q ? `Q${P.q} ${P.y}` : String(P.y), SC.W / 2, 400); x.restore();
+    const st = [[D.n, D.n === 1 ? "book" : "books"], [D.pages.toLocaleString(), "pages"], D.mins >= 60 ? [fmtMins(D.mins), "read"] : [D.avg ? D.avg.toFixed(1) + "★" : "—", "average"]];
+    st.forEach(([v, l], i) => { const cx = 220 + i * 320; x.fillStyle = SC.cream; fitFont(x, String(v), F.d, 64, 36, 290, ""); x.fillText(String(v), cx, 540); x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText(l.toUpperCase(), cx, 584); });
+    const show = D.list.slice(-10), cols = show.length <= 3 ? show.length : show.length <= 6 ? 3 : 5, rows = Math.ceil(show.length / cols), cw = Math.min(230, (SC.W - 200 - (cols - 1) * 20) / cols), ch = Math.min(cw * 1.5, (560 - (rows - 1) * 20) / rows), w = ch / 1.5;
+    const gx = (SC.W - (cols * w + (cols - 1) * 20)) / 2; await Promise.all(show.map((b, i) => drawCover(x, b, gx + (i % cols) * (w + 20), 650 + Math.floor(i / cols) * (ch + 20), w, ch)));
+    let y = 650 + rows * (ch + 20) + 70;
+    const lines = [D.fav && ["FAVOURITE", `${D.fav.title} · ${D.fav.rating}★`], D.genres[0] && ["TOP GENRE", D.genres[0][0]], D.tropes[0] && ["TOP TROPE", D.tropes[0][0]], D.dna && ["I READ LIKE", `${D.dna.g} ${D.dna.name}`], D.authors[0] && ["AUTHOR", D.authors[0][0]]].filter(Boolean);
+    for (const [l, v] of lines) { if (y > SC.H - 260) break; x.fillStyle = SC.muted; x.font = `600 22px ${F.c}`; x.textAlign = "center"; x.fillText(l, SC.W / 2, y); x.fillStyle = SC.cream; fitFont(x, v, F.d, 46, 32, SC.W - 200); x.fillText(v, SC.W / 2, y + 54); y += 108; }
+    scFooter(x, F);
+  }
+  Object.assign(CARDS, { stats: ["My reading stats", cardStats], tropes: ["My favourite tropes", cardTropes], feelings: ["How books made me feel", cardFeel], taste: ["My genres & authors", cardTaste], tbr: ["My to-read pile", cardTbr], wrap: ["My wrap-up", cardWrap] });
+  function statShareStrip(scope){
+    const s = String(scope); return `<div class="sharestrip"><span class="label">⤴ Share a card</span><div class="ssbtns">
+      <button type="button" data-share="stats" data-id="${s}">📊 My stats</button><button type="button" data-share="taste" data-id="${s}">📚 Genres & authors</button><button type="button" data-share="tropes" data-id="${s}">♥ Tropes</button>
+      <button type="button" data-share="feelings" data-id="${s}">☀ Feelings</button><button type="button" data-share="tbr">🗻 To-read pile</button>${scope !== "all" ? `<button type="button" data-share="year" data-year="${s}">🗓 Year collage</button>` : ""}</div></div>`;
+  }
+  // cards come from finishing a book, never from putting one down
+  function dropRewards(b){ if (!b || !(b.characters || []).some(c => c.reward)) return false; b.characters = b.characters.filter(c => !c.reward); b.castTried = false; return true; }
+  setTimeout(() => { try { let ch = false; books.filter(b => b.shelf === "dnf").forEach(b => { if (dropRewards(b)) ch = true; }); if (ch) { save({ stamp: false }); } } catch {} }, 0);
   // ================= Scan a barcode to add a book =================
   const ZXING_URL = "https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js";
   let scanStream = null, scanStop = null, zxLoad = null;
