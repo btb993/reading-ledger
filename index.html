@@ -2002,6 +2002,74 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
 
 .dlvenv{position:relative}.dlvenv.bundle::before,.dlvenv.bundle::after{content:"";position:absolute;inset:6px 6px 34px;border-radius:3px;background:linear-gradient(160deg,#EADBB8,#D6BF8E);box-shadow:0 10px 20px rgba(0,0,0,.4)}
 .dlvenv.bundle::before{transform:rotate(6deg) translate(10px,-8px)}.dlvenv.bundle::after{transform:rotate(-7deg) translate(-12px,-4px)}.dlvenv .env{z-index:1}
+
+/* soul v2 */
+.habits{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}.habits .label{margin-right:4px}
+.habit{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold2) 10%,var(--paper));font-size:13.5px}.habit i{font-style:normal}
+.habits.small .habit{font-size:12.5px;padding:2px 8px}
+.lvlink{font:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--accent);padding:0}
+.souldet{border:1px solid var(--line);border-radius:14px;padding:4px 14px;margin-top:10px;background:var(--paper)}
+.souldet > summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:8px 0}.souldet > summary::-webkit-details-marker{display:none}
+.souldet > summary span{font-family:var(--f-display);font-size:19px;font-weight:600}.souldet > summary small{color:var(--muted);font-style:italic;flex:1}.souldet > summary::after{content:"▾";color:var(--muted);transition:transform .2s}.souldet[open] > summary::after{transform:rotate(180deg)}
+.souldet .hidden-trait{margin:4px 0 12px}
+.soullevel[role=button]{cursor:pointer}
+.lvlnow{display:flex;align-items:center;gap:16px;padding:14px;border:1px solid var(--gold2);border-radius:16px;background:radial-gradient(ellipse at 0% 0%,color-mix(in srgb,var(--gold2) 20%,transparent),transparent 60%),var(--paper)}
+.lvlnow > div{flex:1;display:flex;flex-direction:column;gap:4px}.lvlnow b{font-family:var(--f-display);font-size:22px}
+.lvlbig{flex:0 0 64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:32px;font-weight:600;color:var(--accent-ink);background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--gold2) 80%,#fff),var(--gold));box-shadow:0 4px 12px color-mix(in srgb,var(--gold) 40%,transparent)}
+.lvladder{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:6px}
+.lvladder li{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);opacity:.72}
+.lvladder li.got{opacity:1}.lvladder li.now{border-color:var(--gold2);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold2) 18%,transparent)}
+.lvn{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:600;background:var(--line);color:var(--ink)}.lvladder li.got .lvn{background:var(--gold2);color:#2A1A08}
+.lvladder li > div{flex:1;display:flex;flex-direction:column;gap:2px}.lvladder small{color:var(--muted)}.lvst{font-size:16px}
+.lvrw{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.lvrw span{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;padding:3px 9px;border-radius:10px;background:color-mix(in srgb,var(--gold2) 12%,transparent)}
+.lvrw i{font-style:normal}.lvrw .lvtk{display:inline-flex;height:28px;align-items:flex-end;overflow:hidden}.lvrw .lvtk .trinket{transform:scale(.4);transform-origin:bottom left;margin:0 -24px 0 0}
+.eracards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}.eracard{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);display:flex;flex-direction:column;gap:2px}.eracard b{font-family:var(--f-display);font-size:21px}.eracard small{color:var(--muted)}
+.eramonths .em small b{font-weight:600;color:var(--ink)}.eramonths .em{position:relative}
+.eralegend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:13px;color:var(--muted)}.eralegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.mini2 small.note{display:block;margin-top:6px;font-size:12px}
+.stamp{position:relative}.stamp.silver{border-color:#A9B4C2;box-shadow:inset 0 0 0 2px rgba(169,180,194,.5)}.stamp.gold{border-color:var(--gold2);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--gold2) 55%,transparent),0 0 12px color-mix(in srgb,var(--gold2) 30%,transparent)}
+.stamp .visa{position:absolute;top:6px;right:6px;font-family:var(--f-cap);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:999px;background:var(--gold2);color:#2A1A08}.stamp.silver .visa{background:#C7CFDA}
+.achtabs{margin-bottom:10px;flex-wrap:wrap}
+
+.dtile.locked{opacity:.55;filter:grayscale(.7);cursor:not-allowed;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;border:1px dashed var(--line);border-radius:12px}
+
+/* explore your nook: folded until you open it */
+.hallbtn{display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;color:inherit;font:inherit;cursor:pointer;padding:6px 18px;border-radius:16px}
+.hallbtn:hover{background:color-mix(in srgb,var(--gold) 8%,transparent)}.hallchev{font-style:normal;color:var(--gold);margin-left:4px}
+body.hall-closed #room-tabs,body.hall-closed main[id^="view-"],body.hall-grid main[id^="view-"]{display:none!important}
+.roomtabs .td{display:none}
+body.hall-grid .tabs.roomtabs{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;padding:10px;animation:wup .35s ease both}
+body.hall-grid .roomtabs .tab{flex-direction:row;justify-content:flex-start;gap:10px;padding:12px;text-align:left;letter-spacing:.06em;border:1px solid var(--line);background:var(--paper)}
+body.hall-grid .roomtabs .tab .tl{font-size:13px}body.hall-grid .roomtabs .td{display:block;letter-spacing:0;text-transform:none;font-family:var(--f-body);font-style:italic;font-size:13px;color:var(--muted);font-weight:400}
+body.hall-grid .roomtabs .tab{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px}body.hall-grid .roomtabs .tab .ti{grid-row:1/3;align-self:center;font-size:24px}
+body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);color:inherit;box-shadow:none}
+@media (max-width:640px){body.hall-grid .tabs.roomtabs{grid-template-columns:1fr 1fr}body.hall-grid .roomtabs .td{font-size:12px}}
+@media (min-width:901px){.tabs.roomtabs{grid-template-columns:repeat(10,minmax(0,1fr))}}
+
+/* familiars: care, moods, gifts, treasures */
+.careacts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.careacts button{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--aura,var(--gold)) 45%,var(--line));background:color-mix(in srgb,var(--aura,var(--gold)) 10%,var(--paper));color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.careacts button i{font-style:normal}.careacts button:hover{background:color-mix(in srgb,var(--aura,var(--gold)) 22%,var(--paper))}
+.moodchip{margin-left:6px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font:inherit;font-size:11px;letter-spacing:.04em;text-transform:none;cursor:pointer;vertical-align:middle}.moodchip.m-moody,.moodchip.m-sad{border-color:#D9822B;animation:moodp 2.4s ease-in-out infinite}@keyframes moodp{50%{box-shadow:0 0 0 4px rgba(217,130,43,.15)}}
+.giftbox{display:flex;align-items:center;gap:12px}.giftbtn{border:0;background:none;padding:0;cursor:pointer;animation:giftw 2.2s ease-in-out infinite;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}@keyframes giftw{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg) translateY(-3px)}}
+.giftbox div{display:flex;flex-direction:column}.giftbox b{font-family:var(--f-display);font-style:italic;font-size:18px}.giftbox small{color:var(--muted)}
+.treasures{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.treasure{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:12px 8px 10px;border-radius:14px;border:1px solid var(--line);background:var(--paper);opacity:.6}
+.treasure.got{opacity:1}.treasure .tic{font-size:28px;line-height:1;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:color-mix(in srgb,var(--aura,var(--gold)) 14%,transparent)}
+.treasure b{font-family:var(--f-display);font-size:15.5px;line-height:1.15}.treasure small{font-size:12px;color:var(--muted);line-height:1.3}
+.treasure .trar{font-family:var(--f-cap);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.treasure.epic.got{border-color:#9C5AD0}.treasure.legendary{border-style:dashed}.treasure.legendary.got{border:1.5px solid #D9A43A;background:radial-gradient(circle at 50% 20%,rgba(242,201,76,.28),transparent 65%),var(--paper);box-shadow:0 0 0 3px rgba(242,201,76,.18),0 0 22px rgba(242,201,76,.35);animation:legglow 3s ease-in-out infinite}
+.treasure.legendary.got .tic{background:radial-gradient(circle,#FFF3C4,#F2C94C);box-shadow:0 0 16px rgba(242,201,76,.7)}@keyframes legglow{50%{box-shadow:0 0 0 5px rgba(242,201,76,.1),0 0 30px rgba(242,201,76,.5)}}
+.trinket.legend text{filter:drop-shadow(0 0 4px rgba(255,220,120,.9))}
+
+/* cards: saga sets and book cards */
+.cardtabs{margin:4px 0 14px;flex-wrap:wrap}
+.sagaset{margin-bottom:22px}.sshead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.sshead h3{margin:0;font-family:var(--f-display);font-size:22px}.sscount{font-weight:600;color:var(--accent)}
+.sscomplete{font-family:var(--f-cap);font-size:11px;letter-spacing:.1em;padding:2px 10px;border-radius:999px;background:linear-gradient(90deg,#F2C94C,#E8A13A);color:#2A1A08}
+.ssbar{height:6px;border-radius:4px;background:var(--line);margin:6px 0 10px;overflow:hidden}.ssbar span{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--accent))}
+.ccard.locked{filter:grayscale(.85);opacity:.55;cursor:default}.ccard.locked .cimg{display:grid;place-items:center}.lockq{font-family:var(--f-display);font-size:46px;color:var(--muted)}
+.bookcard .bcimg > *{width:100%;height:100%}.bookcard .bcimg img{width:100%;height:100%;object-fit:cover}
+.ccard.foil .cframe{position:relative;overflow:hidden}.ccard.foil .cframe::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 45%,rgba(180,220,255,.35) 50%,rgba(255,200,240,.3) 55%,transparent 70%);background-size:250% 100%;mix-blend-mode:overlay;animation:foil 4s ease-in-out infinite}
+@keyframes foil{0%{background-position:120% 0}100%{background-position:-120% 0}}
 </style>
 </head>
 <body>
@@ -2010,7 +2078,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v2.8</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v2.9</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2073,17 +2141,18 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
 
   <section class="portrait dna" aria-label="Your Reader DNA" id="portrait"></section>
 
-  <div class="hall" aria-hidden="true"><span class="hrule"></span><div class="hallt"><span class="hfl">❦</span> Explore your nook <span class="hfl">❦</span></div><div class="hallsub">Browse, track, look back and discover: pick a room below</div></div>
-  <nav class="tabs roomtabs" role="tablist">
-    <button class="tab" id="tab-library" role="tab" aria-selected="true"><span class="ti" aria-hidden="true">▥</span><span class="tl">Library</span></button>
-    <button class="tab" id="tab-calendar" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">▦</span><span class="tl">Calendar</span></button>
-    <button class="tab" title="Year in books" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year</span></button>
-    <button class="tab" id="tab-series" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❧</span><span class="tl">Series</span></button>
-    <button class="tab" title="Statistics" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Stats</span></button>
-    <button class="tab" title="Your Reader's Soul" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Soul</span></button>
-    <button class="tab" title="Recommendations" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">For you</span></button>
-    <button class="tab" id="tab-keep" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">♥</span><span class="tl">Keepsakes</span></button>
-    <button class="tab" id="tab-friends" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">☺</span><span class="tl">Friends</span></button>
+  <div class="hall"><span class="hrule"></span><button type="button" class="hallbtn" id="hall-btn" aria-expanded="false" aria-controls="room-tabs"><span class="hallt"><span class="hfl">❦</span> Explore your nook <span class="hfl">❦</span></span><span class="hallsub" id="hall-sub">Your library, stats, soul, keepsakes and friends <b class="hallchev">▾</b></span></button></div>
+  <nav class="tabs roomtabs" role="tablist" id="room-tabs">
+    <button class="tab" id="tab-library" role="tab" aria-selected="true"><span class="ti" aria-hidden="true">▥</span><span class="tl">Library</span><span class="td">All your books, search and sort</span></button>
+    <button class="tab" id="tab-calendar" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">▦</span><span class="tl">Calendar</span><span class="td">What you read, day by day</span></button>
+    <button class="tab" title="Year in books" id="tab-covers" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✺</span><span class="tl">Year</span><span class="td">Your year in covers</span></button>
+    <button class="tab" id="tab-series" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❧</span><span class="tl">Series</span><span class="td">Every series and where you are</span></button>
+    <button class="tab" title="Statistics" id="tab-stats" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">❖</span><span class="tl">Stats</span><span class="td">Charts, numbers and wrap-ups</span></button>
+    <button class="tab" title="Your Reader's Soul" id="tab-soul" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✧</span><span class="tl">Soul</span><span class="td">Your Reader's Soul, DNA and levels</span></button>
+    <button class="tab" title="Recommendations" id="tab-recs" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✦</span><span class="tl">For you</span><span class="td">Books picked for you</span></button>
+    <button class="tab" id="tab-keep" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">♥</span><span class="tl">Keepsakes</span><span class="td">Characters, quotes and words</span></button>
+    <button class="tab" title="Authors" id="tab-authors" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">✒</span><span class="tl">Authors</span><span class="td">The writers you love</span></button>
+    <button class="tab" id="tab-friends" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">☺</span><span class="tl">Friends</span><span class="td">Friends, letters and their nooks</span></button>
   </nav>
 
 
@@ -2113,10 +2182,11 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   <main id="view-soul" hidden></main>
   <main id="view-recs" hidden></main>
   <main id="view-keep" hidden></main>
+  <main id="view-authors" hidden></main>
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v2.8 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v2.9 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2611,7 +2681,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   const FICTION_G = ["Fantasy", "Romance", "Romantasy", "Mystery", "Thriller", "Horror", "Science Fiction", "Historical Fiction", "Young Adult", "Literary Fiction", "Contemporary", "Dystopian", "Classics"];
   const fineCache = new Map();
   function fineGenres(b){
-    const k = b.id + "|" + b.title + "|" + (b.subjects || []).length; let out = fineCache.get(k); if (out) return out; out = new Set();
+    const k = b.id + "|" + b.title + "|" + (b.subjects || []).length + "|" + (b.genres || []).join() + "|" + b.category; let out = fineCache.get(k); if (out) return out; out = new Set();
     const subj = [...(b.subjects || []), ...(b.themes || []), ...(b.genres || [])].join(" | ").toLowerCase();
     let fic = b.category === "Fiction" || /\bfiction\b|novel/.test(subj);
     try { if (!fic) fic = [...bookGenres(b)].some(g => FICTION_G.includes(g)); } catch {}
@@ -2623,76 +2693,138 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     fineCache.set(k, out); return out;
   }
   const allG = b => { let s; try { s = new Set(bookGenres(b)); } catch { s = new Set(); } (b.genres || []).forEach(x => s.add(x)); fineGenres(b).forEach(x => s.add(x)); return s; };
-  const hasG = (b, ...g) => { if ((b.genres || []).some(x => g.includes(x))) return true; const k = b.id + "|" + b.title + "|" + (b.genres || []).join(); let s = bgCache.get(k); if (!s) { s = allG(b); bgCache.set(k, s); } return g.some(x => s.has(x)); };
+  const hasG = (b, ...g) => { if ((b.genres || []).some(x => g.includes(x))) return true; const k = b.id + "|" + b.title + "|" + (b.genres || []).join() + "|" + (b.subjects || []).length + "|" + (b.summary || "").length; let s = bgCache.get(k); if (!s) { s = allG(b); bgCache.set(k, s); } return g.some(x => s.has(x)); };
   const hasT = (b, ...t) => (b.tropes || []).some(x => t.includes(x));
   const hasF = (b, ...f) => (b.feelings || []).some(x => f.includes(x));
+  // ================= Reader DNA, version 2: what you read (taste), read fairly, refreshed with every book =================
+  // everything we know about a book, as one lower-case text, cached until the book changes
+  const dnaSig = b => [b.id, b.title, b.seriesName, (b.genres || []).join(), (b.subjects || []).length, (b.themes || []).length, (b.tropes || []).join(), (b.feelings || []).join(), b.rating, b.category, (b.summary || "").length, b.pages].join("|");
+  const blobCache = new Map();
+  const BLOB = b => { const k = dnaSig(b); let v = blobCache.get(k); if (v === undefined) { v = [b.title, b.seriesName, ...(b.genres || []), ...(b.subjects || []), ...(b.themes || []), ...(b.tropes || []), b.summary || ""].join(" | ").toLowerCase(); blobCache.set(k, v); } return v; };
+  const rxB = (b, re) => re.test(BLOB(b));
+  const isFic = b => b.category === "Fiction" || (b.category !== "Nonfiction" && (hasG(b, "Fantasy", "Romance", "Romantasy", "Mystery", "Thriller", "Horror", "Science Fiction", "Historical Fiction", "Literary Fiction", "Contemporary", "Young Adult", "Classics", "Dystopian", "Adventure") || /\bfiction\b|\bnovel\b/.test(BLOB(b))));
+  const nonF = b => !isFic(b);
+  const FAITH_RE = /\b(bible|bibles|holy scripture|scriptures?|gospels?|new testament|old testament|psalms?|proverbs|christian\w*|christ|jesus|catholic\w*|orthodox church|protestant|evangelical|theolog\w*|devotion(al|als)?|prayers?|church|apostle|saints?|quran|qur.an|islam\w*|torah|talmud|judaism|buddhis\w*|hindu\w*|bhagavad|sermon|faith|god)\b/;
   const ARCHETYPES = [
+    // ---- stories ----
     { name: "The Fantasy Wanderer", g: "✦", c: "#7A3FC4", d: "You wander through invented worlds, maps and magic systems; the further from home, the better.", s: "magic and far-off worlds",
-      t: b => hasG(b, "Fantasy") ? 1 : hasG(b, "Adventure") ? .4 : 0 },
+      t: b => hasG(b, "Fantasy") ? 1 : hasG(b, "Adventure") || rxB(b, /\b(magic|wizards?|sorcer\w*|enchant\w*|quest)\b/) ? .45 : 0 },
+    { name: "The Dragon Rider", g: "🐉", c: "#B4462A", d: "Wings, fire and a bond that could burn the world: you can't resist a dragon.", s: "dragons and the riders who love them",
+      t: b => hasT(b, "Dragons") || rxB(b, /\bdragons?\b|\bwyverns?\b/) ? .8 : 0 },
     { name: "The Court Intriguer", g: "♛", c: "#9E3348", d: "Crowns, assassins and dangerous courts: you love power games played behind palace doors.", s: "crowns, schemes and assassins",
-      t: b => /\b(court|courts|royal|royalty|queen|queens|king|kings|prince|princess|princes|assassin|assassins|throne)\b/.test(TXT(b)) ? 1 : 0 },
+      t: b => isFic(b) && rxB(b, /\b(courts?|royal\w*|queens?|kings?|princes?s?|assassins?|throne|heir to|crown)\b/) ? .8 : 0 },
     { name: "The Romantic Dreamer", g: "♥", c: "#D23A6E", d: "You read for the ache and the payoff of love, the slow burn and the long-awaited kiss.", s: "slow-burning love",
-      t: b => hasG(b, "Romance") ? 1 : hasT(b, "Enemies to lovers", "Slow burn", "Second chance", "Fake relationship", "Forbidden love", "Love triangle") ? .8 : hasF(b, "Swooning") ? .7 : /\blove\b/.test(TXT(b)) ? .4 : 0 },
+      t: b => hasG(b, "Romance", "Romantasy") ? 1 : hasT(b, "Enemies to lovers", "Slow burn", "Second chance", "Fake relationship", "Forbidden love", "Love triangle", "Fated mates", "Grumpy & sunshine") ? .8 : hasF(b, "Swooning") ? .7 : 0 },
     { name: "The Rainbow Romantic", g: "✿", c: "#E2559B", d: "Queer love stories and found courage are close to your heart.", s: "queer love and courage",
-      t: b => /\b(gay|gays|lesbian|lesbians|queer|lgbt\w*|homosexuality|bisexual|transgender|sapphic)\b/.test(TXT(b)) ? 1 : 0 },
-    { name: "The Emotional Explorer", g: "❦", c: "#2563D9", d: "You want books that leave a mark: grief, growing up, memory and the people we lose and find.", s: "stories that leave a mark",
-      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic") ? 1 : hasT(b, "Grief & healing", "Coming of age") ? .7 : /\b(grief|loss|identity|memory|family|families|friendship|loneliness)\b/.test(TXT(b)) ? .5 : 0 },
+      t: b => rxB(b, /\b(gay|lesbian|queer|lgbt\w*|homosexuality|bisexual|transgender|sapphic|achilles and patroclus)\b/) ? 1 : 0 },
+    { name: "The Emotional Explorer", g: "❦", c: "#2563D9", d: "You want books that leave a mark: grief, memory, and the people we lose and find.", s: "stories that leave a mark",
+      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic") ? .9 : hasT(b, "Grief & healing") ? .7 : isFic(b) && rxB(b, /\b(grief|loss|mourning|memory|loneliness)\b/) ? .4 : 0 },
     { name: "The Coming-of-Age Kindred", g: "☼", c: "#1F8F95", d: "You keep returning to the turning points of youth: first loves, first losses, first freedom.", s: "growing up",
-      t: b => hasT(b, "Coming of age") ? 1 : hasG(b, "Young Adult") ? .7 : 0 },
-    { name: "The Saga Devotee", g: "❧", c: "#5A7A2E", d: "Once a series has you, it has you for every last book.", s: "long series",
-      t: b => b.seriesName ? 1 : 0 },
-    { name: "The Tome Conqueror", g: "❖", c: "#9C6A12", d: "Doorstoppers don't scare you; you like a story with room to breathe.", s: "big, immersive books",
-      t: b => (b.pages || 0) >= 550 ? 1 : (b.pages || 0) >= 450 ? .5 : 0 },
-    { name: "The Quick-Sip Reader", g: "✱", c: "#C2702B", d: "You love a book you can finish in a sitting or two.", s: "short, sharp reads",
-      t: b => b.pages && b.pages <= 230 ? 1 : 0 },
-    { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story, from classics to quiet literary gems.", s: "beautiful writing",
-      t: b => hasG(b, "Literary Fiction") ? 1 : hasG(b, "Classics", "Poetry") ? .8 : 0 },
-    { name: "The Myth Weaver", g: "✧", c: "#9A62E0", d: "Gods, legends and fairy tales retold are your favourite kind of magic.", s: "myths retold",
-      t: b => hasT(b, "Myth retelling", "Fairy tale") ? 1 : /\b(mytholog\w*|gods|legends?|achilles|troy|trojan)\b/.test(TXT(b)) ? .7 : 0 },
-    { name: "The Mystery Hunter", g: "◆", c: "#B8860B", d: "You can't resist a puzzle, a body in the library or a twist you didn't see coming.", s: "puzzles and twists",
-      t: b => hasG(b, "Mystery", "Thriller") ? 1 : hasT(b, "Whodunit") ? .8 : 0 },
-    { name: "The Shadow Seeker", g: "☾", c: "#8E2A3A", d: "You're drawn to the dark: gothic houses, monsters and the thrill of fear.", s: "dark, gothic shadows",
-      t: b => hasG(b, "Horror") ? 1 : hasT(b, "Gothic", "Vampires & monsters") ? .8 : 0 },
-    { name: "The Stargazer", g: "◈", c: "#0F98AE", d: "You look up and ahead: other planets, strange futures and big what-ifs.", s: "the stars and the future",
-      t: b => hasG(b, "Science Fiction") ? 1 : hasG(b, "Dystopian") ? .7 : hasT(b, "Artificial intelligence", "Time travel") ? .6 : 0 },
-    { name: "The Time Traveller", g: "⚜", c: "#8A6A3A", d: "You love to live for a while in other centuries.", s: "other centuries",
-      t: b => hasG(b, "Historical Fiction") ? 1 : hasG(b, "History") ? .7 : b.year && b.year < 1900 ? .5 : 0 },
-    { name: "The Curious Scholar", g: "☉", c: "#3C5A8A", d: "You read to understand how the world and people actually work.", s: "real-world ideas",
-      t: b => b.category === "Nonfiction" ? 1 : hasG(b, "Science", "Philosophy", "Psychology", "Biography & Memoir") ? .8 : 0 },
+      t: b => hasT(b, "Coming of age") ? 1 : hasG(b, "Young Adult") ? .6 : 0 },
     { name: "The Found-Family Seeker", g: "✶", c: "#C25A7A", d: "Your favourite stories are about the people who choose each other.", s: "chosen families",
-      t: b => hasT(b, "Found family") ? 1 : /\bfriendship\b/.test(TXT(b)) ? .5 : 0 },
-    { name: "The Spiritual Seeker", g: "❂", c: "#B8902E", d: "You read in search of meaning: faith, scripture and the questions of the soul.", s: "faith and meaning",
-      t: b => hasG(b, "Religion") ? 1 : /\b(spiritual\w*|soul|faith|prayer|meditation)\b/.test(TXT(b)) ? .5 : 0 },
-    { name: "The Strategist", g: "♜", c: "#2F5D8A", d: "You read like a leader in training: strategy, management and how great things get built.", s: "leadership and strategy",
-      t: b => hasG(b, "Business") ? 1 : 0 },
-    { name: "The Mind Explorer", g: "◎", c: "#7B4FA0", d: "You're fascinated by what goes on inside people's heads: why we think, feel and do what we do.", s: "how minds work",
-      t: b => hasG(b, "Psychology") ? 1 : /\b(psycholog\w*|mind|behavio\w*)\b/.test(TXT(b)) ? .4 : 0 },
-    { name: "The Self-Builder", g: "▲", c: "#D08A2C", d: "Every book is a step up: better habits, a stronger mindset and a life on purpose.", s: "becoming a better self",
-      t: b => hasG(b, "Self-help") ? 1 : 0 },
-    { name: "The Philosopher", g: "∞", c: "#4A6A7A", d: "You collect big questions the way others collect bookmarks: how to live, what is true, what matters.", s: "the big questions",
-      t: b => hasG(b, "Philosophy") ? 1 : 0 },
-    { name: "The Science Wonderer", g: "⚛", c: "#1E8C7A", d: "From atoms to galaxies, you read to understand how the universe actually works.", s: "how the universe works",
-      t: b => hasG(b, "Science") ? 1 : 0 },
-    { name: "The Chronicler", g: "⌖", c: "#7A5230", d: "Real history fascinates you: empires, wars and the moments that changed everything.", s: "real history",
-      t: b => hasG(b, "History") && !hasG(b, "Historical Fiction") ? 1 : 0 },
-    { name: "The Life Collector", g: "✎", c: "#8A5A44", d: "Real lives are your favourite stories: memoirs, biographies and people who lived boldly.", s: "real lives",
-      t: b => hasG(b, "Biography & Memoir", "Memoir") ? 1 : 0 },
-    { name: "The Truth Seeker", g: "⚖", c: "#5A4636", d: "True crime, hard truths and investigations: you want to know what really happened.", s: "true stories",
-      t: b => hasG(b, "True Crime", "Politics") ? 1 : 0 },
+      t: b => hasT(b, "Found family") ? .9 : isFic(b) && rxB(b, /\bfound family|\bfellowship\b|\bcrew\b/) ? .4 : 0 },
+    { name: "The Cozy Soul", g: "☕", c: "#B87A4B", d: "Warm drinks, kind characters, small towns and low stakes: reading is your safe place.", s: "cosy, comforting stories",
+      t: b => hasF(b, "Cozy", "Comforted") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
+    { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story: quiet, beautifully written books.", s: "beautiful writing",
+      t: b => hasG(b, "Literary Fiction") ? 1 : 0 },
+    { name: "The Classic Soul", g: "❧", c: "#6E2632", d: "Austen, Brontë, Dostoevsky: you keep the great old books alive.", s: "the classics",
+      t: b => hasG(b, "Classics") ? 1 : isFic(b) && b.year && b.year < 1920 ? .7 : 0 },
+    { name: "The Myth Weaver", g: "✧", c: "#9A62E0", d: "Gods, legends and fairy tales retold are your favourite kind of magic.", s: "myths retold",
+      t: b => hasT(b, "Myth retelling", "Fairy tale", "Gods & goddesses") ? 1 : rxB(b, /\b(mytholog\w*|greek gods|norse|legends?|fairy tales?|retelling|achilles|troy|trojan|odyss\w*)\b/) ? .7 : 0 },
+    { name: "The Mystery Hunter", g: "◆", c: "#B8860B", d: "You can't resist a puzzle, a body in the library or a detective with a hunch.", s: "puzzles and detectives",
+      t: b => hasG(b, "Mystery") ? 1 : hasT(b, "Whodunit", "Locked room") ? .8 : rxB(b, /\b(detective|murder mystery|whodunit|sleuth)\b/) ? .6 : 0 },
+    { name: "The Thrill Chaser", g: "⚡", c: "#C2402F", d: "Twists, unreliable narrators and the next-chapter-at-2am feeling: you live for suspense.", s: "twists and suspense",
+      t: b => hasG(b, "Thriller") ? 1 : hasT(b, "Unreliable narrator", "Plot twist", "Serial killer") ? .8 : rxB(b, /\b(suspense|psychological thriller|thrillers?)\b/) ? .6 : 0 },
+    { name: "The Shadow Seeker", g: "☾", c: "#8E2A3A", d: "You're drawn to the dark: gothic houses, monsters and the thrill of fear.", s: "dark, gothic shadows",
+      t: b => hasG(b, "Horror") ? 1 : hasT(b, "Gothic", "Vampires & monsters") ? .8 : rxB(b, /\b(gothic|haunted|ghosts?|vampires?|demons?)\b/) ? .5 : 0 },
+    { name: "The Stargazer", g: "◈", c: "#0F98AE", d: "You look up and ahead: other planets, strange futures and big what-ifs.", s: "the stars and the future",
+      t: b => hasG(b, "Science Fiction") ? 1 : hasT(b, "Artificial intelligence", "Time travel") || rxB(b, /\b(space opera|spaceships?|aliens?|galax\w*|cyberpunk)\b/) ? .7 : 0 },
+    { name: "The Dystopian Rebel", g: "✕", c: "#5E6A3A", d: "Broken worlds, cruel regimes and the people who refuse to accept them.", s: "rebellion against broken worlds",
+      t: b => hasG(b, "Dystopian") ? 1 : hasT(b, "Dystopia", "Rebellion") || rxB(b, /\b(dystopi\w*|post-apocalyptic|apocalypse|totalitarian)\b/) ? .7 : 0 },
+    { name: "The Time Traveller", g: "⚜", c: "#8A6A3A", d: "You love to live for a while in other centuries.", s: "other centuries",
+      t: b => hasG(b, "Historical Fiction") ? 1 : 0 },
+    { name: "The War Witness", g: "⚔", c: "#5A5A4A", d: "Soldiers, survivors and the courage of ordinary people when the world is at war.", s: "stories of war and survival",
+      t: b => hasT(b, "War") || rxB(b, /\b(world war|wwii|ww2|holocaust|battle of|soldiers?|civil war|resistance fighters?)\b/) ? .7 : 0 },
     { name: "The Poet's Heart", g: "❀", c: "#C76B98", d: "A few perfect words move you more than a hundred pages.", s: "poetry",
       t: b => hasG(b, "Poetry") ? 1 : 0 },
     { name: "The Young at Heart", g: "☆", c: "#E2A03A", d: "Children's books still hold their magic for you, and they always will.", s: "stories for the young at heart",
-      t: b => hasG(b, "Children's") ? 1 : 0 },
+      t: b => hasG(b, "Children's") && !hasG(b, "Young Adult", "Fantasy", "Romance", "Romantasy") && !(b.pages > 300) && !/\b(young adult|teen)\b/.test(BLOB(b)) ? 1 : 0 },
     { name: "The Panel Hopper", g: "▣", c: "#3D7FC4", d: "You read in pictures as well as words: comics, manga and graphic novels.", s: "comics and manga",
-      t: b => hasG(b, "Graphic Novel") ? 1 : 0 },
+      t: b => hasG(b, "Graphic Novel") || rxB(b, /\b(manga|comics?|graphic novels?)\b/) ? 1 : 0 },
     { name: "The Laughter Seeker", g: "☺", c: "#D9A520", d: "If a book makes you laugh out loud, it has done its job.", s: "books that make you laugh",
-      t: b => hasG(b, "Humor") ? 1 : 0 },
+      t: b => hasG(b, "Humor") || hasF(b, "Amused") ? .9 : 0 },
+    // ---- the real world ----
+    { name: "The Faithful Pilgrim", g: "✝", c: "#B8902E", d: "You read in search of the sacred: scripture, prayer and the long story of faith.", s: "scripture and faith",
+      t: b => hasG(b, "Religion") || rxB(b, FAITH_RE) && (nonF(b) || /\b(bible|scripture|gospel|devotional)\b/.test(BLOB(b))) ? 1 : 0 },
+    { name: "The Spiritual Seeker", g: "❂", c: "#A27BB8", d: "Mindfulness, meditation and the quiet questions of the soul.", s: "spirituality and inner peace",
+      t: b => nonF(b) && rxB(b, /\b(spiritual\w*|mindfulness|meditation|zen|tao\w*|stoic\w*|the soul)\b/) ? .8 : 0 },
+    { name: "The Philosopher", g: "∞", c: "#4A6A7A", d: "You collect big questions the way others collect bookmarks: how to live, what is true, what matters.", s: "the big questions",
+      t: b => hasG(b, "Philosophy") || nonF(b) && rxB(b, /\b(philosoph\w*|ethics|existential\w*|metaphysics)\b/) ? 1 : 0 },
+    { name: "The Strategist", g: "♜", c: "#2F5D8A", d: "You read like a leader in training: strategy, management and how great things get built.", s: "leadership and strategy",
+      t: b => hasG(b, "Business") || nonF(b) && rxB(b, /\b(leadership|management|entrepreneur\w*|startups?|strategy|business)\b/) ? 1 : 0 },
+    { name: "The Money Mind", g: "◉", c: "#3C7A4A", d: "Compound interest is your love language: money, markets and how wealth really works.", s: "money and markets",
+      t: b => nonF(b) && rxB(b, /\b(personal finance|investing|investment|wealth|money|economics|stock market|financial)\b/) ? 1 : 0 },
+    { name: "The Mind Explorer", g: "◎", c: "#7B4FA0", d: "You're fascinated by what goes on inside people's heads: why we think, feel and do what we do.", s: "how minds work",
+      t: b => hasG(b, "Psychology") || nonF(b) && rxB(b, /\b(psycholog\w*|neuroscience|behavio\w* science|the brain)\b/) ? 1 : 0 },
+    { name: "The Self-Builder", g: "▲", c: "#D08A2C", d: "Every book is a step up: better habits, a stronger mindset and a life on purpose.", s: "becoming a better self",
+      t: b => hasG(b, "Self-help") || nonF(b) && rxB(b, /\b(self-help|habits?|productivity|motivation\w*|personal development|success)\b/) ? 1 : 0 },
+    { name: "The Wellness Keeper", g: "✚", c: "#3FA08A", d: "Body and mind: you read to feel stronger, eat better and live longer.", s: "health and wellbeing",
+      t: b => nonF(b) && rxB(b, /\b(health|nutrition|fitness|diet|wellness|sleep|longevity|medicine)\b/) ? .9 : 0 },
+    { name: "The Science Wonderer", g: "⚛", c: "#1E8C7A", d: "From atoms to galaxies, you read to understand how the universe actually works.", s: "how the universe works",
+      t: b => hasG(b, "Science") || nonF(b) && rxB(b, /\b(physics|biology|chemistry|astronomy|evolution|cosmology|science)\b/) ? 1 : 0 },
+    { name: "The Tech Tinkerer", g: "⌘", c: "#3D6FA8", d: "Code, computers and the machines that are changing everything.", s: "technology and code",
+      t: b => nonF(b) && rxB(b, /\b(programming|software|computers?|artificial intelligence|machine learning|technology|coding|internet)\b/) ? 1 : 0 },
+    { name: "The Chronicler", g: "⌖", c: "#7A5230", d: "Real history fascinates you: empires, wars and the moments that changed everything.", s: "real history",
+      t: b => hasG(b, "History") && !hasG(b, "Historical Fiction") || nonF(b) && rxB(b, /\b(history|empire|medieval|ancient rome|ancient greece|world war)\b/) ? 1 : 0 },
+    { name: "The Political Mind", g: "⚑", c: "#4A4A7A", d: "Power, society and how the world is run: you read to understand the news behind the news.", s: "politics and society",
+      t: b => hasG(b, "Politics") || nonF(b) && rxB(b, /\b(politic\w*|democracy|government|sociology|society|geopolitic\w*)\b/) ? 1 : 0 },
+    { name: "The Life Collector", g: "✎", c: "#8A5A44", d: "Real lives are your favourite stories: memoirs, biographies and people who lived boldly.", s: "real lives",
+      t: b => hasG(b, "Biography & Memoir", "Memoir") || nonF(b) && rxB(b, /\b(biography|memoir|autobiography)\b/) ? 1 : 0 },
+    { name: "The Truth Seeker", g: "⚖", c: "#5A4636", d: "True crime, investigations and hard truths: you want to know what really happened.", s: "true stories",
+      t: b => hasG(b, "True Crime") || nonF(b) && rxB(b, /\b(true crime|investigat\w*|journalism)\b/) ? 1 : 0 },
+    { name: "The Nature Walker", g: "❦", c: "#4E8A3A", d: "Forests, oceans and animals: you read your way back to the wild.", s: "nature and animals",
+      t: b => nonF(b) && rxB(b, /\b(nature|animals?|birds|wildlife|gardening|plants|ecology|environment\w*|climate|ocean)\b/) ? .9 : 0 },
+    { name: "The Globetrotter", g: "✈", c: "#2E8AAF", d: "Every book is a ticket: travel writing, faraway places and journeys that change you.", s: "travel and faraway places",
+      t: b => nonF(b) && rxB(b, /\b(travel\w*|journeys?|voyages?|explor\w*|expedition)\b/) ? .9 : 0 },
+    { name: "The Kitchen Alchemist", g: "🍲", c: "#C2702B", d: "Recipes, food writing and the stories behind every dish.", s: "food and cooking",
+      t: b => rxB(b, /\b(cook\w*|recipes?|baking|cuisine|food|kitchen)\b/) && nonF(b) ? 1 : 0 },
+    { name: "The Artist's Eye", g: "✺", c: "#C24A7A", d: "Art, music, design and craft: you read to see the world more beautifully.", s: "art, music and craft",
+      t: b => nonF(b) && rxB(b, /\b(art|artists?|painting|music\w*|design|photograph\w*|architecture|crafts?|fashion)\b/) ? .9 : 0 },
+    { name: "The Nurturer", g: "♡", c: "#D97A8A", d: "Parenting, relationships and family: you read to love the people around you better.", s: "family and relationships",
+      t: b => nonF(b) && rxB(b, /\b(parenting|parents?|marriage|relationships?|children|motherhood|fatherhood)\b/) ? .9 : 0 },
+    { name: "The Wordsmith", g: "Ꞷ", c: "#6A5A8A", d: "Language, writing and the craft of words themselves.", s: "words and writing",
+      t: b => nonF(b) && rxB(b, /\b(language|linguistic\w*|writing|grammar|words|literature)\b/) ? .8 : 0 },
+    { name: "The Curious Scholar", g: "☉", c: "#3C5A8A", d: "You read to understand how the world and people actually work.", s: "real-world ideas",
+      t: b => nonF(b) && (b.category === "Nonfiction" || rxB(b, /\bnonfiction|non-fiction\b/)) ? .35 : 0 },
   ];
-  function readerDNA(){
-    const read = readBooks(); if (!read.length) return [];
-    const w = b => b.rating ? .3 + b.rating / 5 : .8, W = read.reduce((s, b) => s + w(b), 0);
-    return ARCHETYPES.map(a => ({ ...a, score: read.reduce((s, b) => s + w(b) * a.t(b), 0) / W })).filter(a => a.score > .08).sort((x, y) => y.score - x.score);
+  // how you read (not what): shown as habits beside the DNA
+  const HABITS = [
+    ["❧", "Series devotee", "you finish what you start, one whole saga at a time", list => list.filter(b => b.seriesName).length / Math.max(1, list.length) >= .45],
+    ["❖", "Doorstopper conqueror", "big books don't scare you", list => list.filter(b => (b.pages || 0) >= 500).length / Math.max(1, list.length) >= .35],
+    ["✱", "Quick-sip reader", "you love a book you can finish in a sitting or two", list => list.filter(b => b.pages && b.pages <= 230).length / Math.max(1, list.length) >= .35],
+    ["⟳", "Rereader", "old favourites are home", list => list.filter(b => b.reread === "comfort" || b.reread === "often").length >= 3],
+    ["⚡", "Binge reader", "you read in feverish bursts", list => { const ex = list.filter(b => isExact(b.finished)).map(b => b.finished).sort(); let n = 0; for (let i = 0; i + 2 < ex.length; i++) if ((new Date(ex[i + 2]) - new Date(ex[i])) / 864e5 <= 7) n++; return n >= 2; }],
+    ["⚖", "Tough critic", "you don't hand out five stars lightly", list => { const r = list.filter(b => b.rating); return r.length >= 8 && r.reduce((s, b) => s + b.rating, 0) / r.length <= 3.3; }],
+    ["♥", "Generous heart", "you love the books you read", list => { const r = list.filter(b => b.rating); return r.length >= 8 && r.reduce((s, b) => s + b.rating, 0) / r.length >= 4.2; }],
+    ["🧭", "Genre omnivore", "you read across many worlds", list => new Set(list.flatMap(b => [...allG(b)])).size >= 9],
+  ];
+  const habitsOf = list => HABITS.filter(h => { try { return h[3](list); } catch { return false; } });
+  // a book counts as one "vote", shared between the types it fits; loved books count more
+  const dnaWeight = b => b.shelf === "reading" ? .45 : !b.rating ? .9 : [0, .35, .6, .9, 1.1, 1.3][Math.round(b.rating)] || .9;
+  function dnaFor(list){
+    if (!list.length) return [];
+    const score = new Map(); let W = 0, covered = 0;
+    for (const b of list) {
+      const w = dnaWeight(b); W += w;
+      let m = ARCHETYPES.map(a => [a, Math.max(0, Math.min(1, +a.t(b) || 0))]).filter(x => x[1] > 0);
+      if (m.some(([a]) => a.name !== "The Curious Scholar")) m = m.filter(([a]) => a.name !== "The Curious Scholar" || m.length === 1);
+      const tot = m.reduce((s, x) => s + x[1], 0); if (!tot) continue; covered += w;
+      m.forEach(([a, v]) => score.set(a, (score.get(a) || 0) + w * v / Math.max(1, tot)));
+    }
+    const out = ARCHETYPES.map(a => ({ ...a, score: (score.get(a) || 0) / (W || 1) })).filter(a => a.score >= .02).sort((x, y) => y.score - x.score);
+    out.coverage = W ? covered / W : 0; return out;
   }
+  const readerDNA = () => dnaFor([...readBooks(), ...books.filter(b => b.shelf === "reading")]);
   const ZODIAC = [["aries","Aries","♈","21 Mar – 19 Apr","Fire","you devour books in one fierce sitting and want the plot to start on page one"],
     ["taurus","Taurus","♉","20 Apr – 20 May","Earth","you savour every sentence, love a beautiful edition and reread your comfort books without shame"],
     ["gemini","Gemini","♊","21 May – 20 Jun","Air","you read three books at once, adore witty banter and never say no to a twist"],
@@ -2713,7 +2845,8 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   const zodPicker = () => zodPicking ? `<div class="zpicker">${ZODIAC.map(([k, n, g, d, e]) => `<button type="button" data-zod="${k}" aria-pressed="${zodiac === k}" style="--zc:${ZEL[e]}"><span class="zg">${g}\uFE0E</span><b>${n}</b><small>${d}</small></button>`).join("")}${zodiac ? `<button type="button" class="linkbtn" data-zod="">Remove sign</button>` : ""}</div>` : "";
   const zodLine = () => { const z = ZODIAC.find(x => x[0] === zodiac); return z ? `<p class="zline" style="--zc:${ZEL[z[4]]}"><span class="zg">${z[2]}\uFE0E</span> As a ${z[1]} reader, ${z[5]}.</p>` : ""; };
   $("#portrait").addEventListener("click", e => {
-    if (e.target.closest("[data-soul]")) { soulSel = null; openSoul(); return; }
+    if (e.target.closest("[data-soullevels]")) { openSoul("levels"); return; }
+    if (e.target.closest("[data-soul]")) { soulSel = null; openSoul("dna"); return; }
     const sc = e.target.closest("[data-soulchip]"); if (sc) { soulSel = sc.dataset.soulchip; openSoul("dna"); return; }
     if (e.target.closest("[data-zodpick]")) { zodPicking = !zodPicking; renderPortrait(); return; }
     const z = e.target.closest("[data-zod]"); if (z) { zodiac = z.dataset.zod || null; lsSet(KEY_ZOD, zodiac); zodPicking = false; renderPortrait(); if (zodiac) toast(`${ZODIAC.find(x => x[0] === zodiac)[1]} added to your Reader DNA`); }
@@ -2721,19 +2854,17 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   function renderPortrait(){
     const el = $("#portrait"), read = readBooks();
     if (read.length < 2) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Shelve a couple of books as Read and your Reader DNA appears here: the mix of reader types that makes you you. It shifts a little with every book.</p>`; return; }
-    const dna = readerDNA().slice(0, 5);
-    if (!dna.length) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Fetch details for your books (Library → Fetch missing covers, details & tropes) so your Reader DNA can be read.</p>`; return; }
-    const total = dna.reduce((s, a) => s + a.score, 0), pct = dna.map(a => Math.round(a.score / total * 100));
-    const [top, second, third] = dna;
-    const mix = second ? `Your favourite stories also mix in ${second.s}${third ? ` and ${third.s}` : ""}.` : "";
-    const LV = readerLevel(), hy = second ? hybridName(top, second) : null;
+    const D = soulData(), dna = D.dna.slice(0, 5);
+    if (!dna.length) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader's Soul</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Fetch details for your books (Library → Fetch missing covers, details & tropes) so your Reader DNA can be read.</p>`; return; }
+    const [top, second, third] = dna, LV = readerLevel(), soulName = hybridName(top, second), HB = habitsOf(D.read);
     el.innerHTML = `<div class="dnabar"><span class="dnaglyph" style="color:${top.c}">${top.g}</span>
-      <div class="dnabarmain"><div class="label">Your Reader DNA · Level ${LV.level} · ${esc(LV.title)}</div>
-        <div class="dnabarname"><b>${top.name}</b>${second ? ` <span class="dnawith">with a dash of <b style="color:${second.c}">${second.name.replace(/^The /, "")}</b></span>` : ""}</div>
-        <p class="dnadesc">${esc(top.d)}</p>
-        <div class="strand thin" role="img" aria-label="${dna.map((a, i) => `${a.name} ${pct[i]}%`).join(", ")}">${dna.map((a, i) => `<span style="flex:${pct[i]};--c:${a.c}" title="${esc(a.name)} · ${pct[i]}%"></span>`).join("")}</div>
-        <div class="dnakey">${dna.map((a, i) => `<button type="button" data-soulchip="${esc(a.name)}" title="What makes you ${esc(a.name)}?"><i style="background:${a.c}"></i>${esc(a.name.replace(/^The /, ""))} <b>${pct[i]}%</b></button>`).join("")}</div></div>
-      <div class="dnabaracts"><button class="btn soulbtn" type="button" data-soul>✦ Your Reader's Soul</button><div class="dnazod">${zodHead()}</div></div></div>${zodPicker()}`;
+      <div class="dnabarmain"><div class="label">Your Reader's Soul · <button type="button" class="linkbtn lvlink" data-soullevels title="What do levels mean?">Level ${LV.level} · ${esc(LV.title)} ⓘ</button></div>
+        <div class="dnabarname"><b>${esc(soulName)}</b></div>
+        <p class="dnadesc">Mostly <b style="color:${top.c}">${esc(short(top))}</b>${second ? `, with <b style="color:${second.c}">${esc(short(second))}</b>` : ""}${third ? ` and a touch of ${esc(short(third))}` : ""}. ${esc(top.d)}</p>
+        <div class="strand thin" role="img" aria-label="${dna.map(a => `${a.name} ${a.pct}%`).join(", ")}">${dna.map(a => `<span style="flex:${a.pct};--c:${a.c}" title="${esc(a.name)} · ${a.pct}%"></span>`).join("")}</div>
+        <div class="dnakey">${dna.map(a => `<button type="button" data-soulchip="${esc(a.name)}" title="What makes you ${esc(a.name)}?"><i style="background:${a.c}"></i>${esc(short(a))} <b>${a.pct}%</b></button>`).join("")}</div>
+        ${HB.length ? `<div class="habits small">${HB.slice(0, 3).map(h => `<span class="habit" title="${esc(h[2])}"><i>${h[0]}</i>${esc(h[1])}</span>`).join("")}</div>` : ""}</div>
+      <div class="dnabaracts"><button class="btn soulbtn" type="button" data-soul>✦ Open your Reader's Soul</button><div class="dnazod">${zodHead()}</div></div></div>${zodPicker()}`;
   }
 
   // ================= bookcase =================
@@ -3379,7 +3510,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     const cs = getComputedStyle($("#bookcase")); ["wood1", "wood2", "wood3", "night", "light", "leaf", "leaf2", "glass", "flame", "metal", "bloom", "mote"].forEach(v => el.style.setProperty("--" + v, cs.getPropertyValue("--" + v)));
     el.innerHTML = `<div class="dhead"><div><h3>Trinket drawer</h3><p class="note">${decorPick ? `<b>${esc(TRINKET_NAMES[decorPick])}</b> chosen: tap any glowing <b>+</b> on the shelves to place it. Tap it again to put it away.` : "Pick a trinket, then tap a <b>+</b> on the shelves to place it, or drag it there. Drag trinkets on the shelves to move them; ✕ removes one."}</p></div>
       <div class="dacts2">${decorPick ? `<button class="btn small pickother" type="button" data-pick="${decorPick}">Choose another trinket</button>` : ""}<button class="btn small" type="button" data-dclear>Clear all trinkets</button><button class="btn small" type="button" data-dauto>Back to automatic</button><button class="btn primary small" type="button" data-ddone>Done</button></div></div>
-      ${TRINKET_DRAWER.map(([cat, list]) => `<div class="dcat"><span class="label">${cat}</span><div class="dtiles">${list.filter(k => TRINKETS[k]).map(k => `<button type="button" class="dtile" data-pick="${k}" draggable="true" aria-pressed="${decorPick === k}" title="${esc(TRINKET_NAMES[k])}"><span class="dprev">${TRINKETS[k]()}</span><small>${esc(TRINKET_NAMES[k])}</small></button>`).join("")}</div></div>`).join("")}`;
+      ${TRINKET_DRAWER.map(([cat, list]) => `<div class="dcat"><span class="label">${cat}</span><div class="dtiles">${list.filter(k => TRINKETS[k]).map(k => rewardLevel(k) > levelNow() ? `<span class="dtile locked" title="Unlocks at level ${rewardLevel(k)}"><span class="dprev">${TRINKETS[k]()}</span><small>🔒 Level ${rewardLevel(k)}</small></span>` : `<button type="button" class="dtile" data-pick="${k}" draggable="true" aria-pressed="${decorPick === k}" title="${esc(TRINKET_NAMES[k])}"><span class="dprev">${TRINKETS[k]()}</span><small>${esc(TRINKET_NAMES[k])}</small></button>`).join("")}</div></div>`).join("")}`;
   }
   function setDecorating(on){
     decorating = on; decorPick = null;
@@ -5098,7 +5229,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
         ${MOUTH(62, 58, 3.4, { line: "#3A2414" })}
       </g>${EXTRAS(60, 12, { heart: "#FFD36E" })}`, "hedgehog"); },
 
-    // ---- Roberto: a golden lion with a flowing mane, an open ruffled shirt and a red rose ----
+    // ---- Antonio: a golden lion with a flowing mane, an open ruffled shirt and a red rose ----
     lion(){ const u = ++artUid;
       return svgWrap(`<defs><radialGradient id="lm${u}" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#F6C25A"/><stop offset=".7" stop-color="#D9862E"/><stop offset="1" stop-color="#9C5418"/></radialGradient><linearGradient id="lf${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2C070"/><stop offset="1" stop-color="#D99A48"/></linearGradient></defs>
       <g class="tail"><path d="M80 106q22 4 22-14" stroke="#D99A48" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M102 92q-6-4-2-10q6 2 6 8z" fill="#9C5418"/></g>
@@ -5293,7 +5424,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     gets: "Gentle, nervous encouragement and cosy recommendations offered with a hopeful little blush." });
   Object.assign(FAMILIARS.hedgehog, { blurb: "A little explorer hedgehog in a bush hat with a satchel full of maps and snacks. He treats every book like an expedition and every page like treasure.",
     gets: "Boundless excitement, exclamation marks, adventure picks and the feeling of being a kid again." });
-  FAMILIARS.lion = { spark: "♥", name: "Roberto", kind: "Lion", verb: "serenades", aura: "#F2B84B",
+  FAMILIARS.lion = { spark: "♥", name: "Antonio", kind: "Lion", verb: "serenades", aura: "#F2B84B",
     blurb: "A golden lion with a magnificent flowing mane, an open ruffled shirt, a red sash and a rose for you. Passionate, dramatic and hopelessly in love… with you, mi amor.",
     gets: "Spanish-flavoured flirting, grand dramatic declarations, and the steamiest recommendations on the shelf.",
     sample: "Ay, mi amor! You are reading again? My heart… it cannot take such beauty.",
@@ -5458,7 +5589,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     const gest = V.gest ? pick(V.gest) : "";
     return { line, gest, mood };
   }
-  function famNeedMore(){ return { cat: "Show me a few books you've loved first, darling. Then I'll whisper what to read next.", lion: "Ay, first tell Roberto which books stole your heart! Then I find you more.", owl: "Kindly shelve a few completed books first; I cannot advise without evidence.", raven: "Show me your past victories first, then I shall choose your next battle!", fox: "Tell me what you've read first. A fox needs a trail to follow.", toad: "Ribbit! Log a few books you've read so I can study your habitat!", bat: "Um… if you add some books you've read, I could… maybe… help?", hedgehog: "Add some books you've finished so I can draw the map!", wolf: "Add some books you've read. I can't read your mind. …Yet." }[familiar]; }
+  function famNeedMore(){ return { cat: "Show me a few books you've loved first, darling. Then I'll whisper what to read next.", lion: "Ay, first tell Antonio which books stole your heart! Then I find you more.", owl: "Kindly shelve a few completed books first; I cannot advise without evidence.", raven: "Show me your past victories first, then I shall choose your next battle!", fox: "Tell me what you've read first. A fox needs a trail to follow.", toad: "Ribbit! Log a few books you've read so I can study your habitat!", bat: "Um… if you add some books you've read, I could… maybe… help?", hedgehog: "Add some books you've finished so I can draw the map!", wolf: "Add some books you've read. I can't read your mind. …Yet." }[familiar]; }
   let exprT = null, actT = null, lastPoke = Date.now(), lastSaid = "", saidMood = "idle";
   const famCard = () => $("#familiar .famcard");
   function setExpr(e, ms, then){ const card = famCard(); if (!card) return; card.dataset.expr = e; clearTimeout(exprT); if (ms) exprT = setTimeout(() => setExpr(then || saidMood), ms); }
@@ -5596,7 +5727,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     if (after.lvl > before) {
       const o = OUTFITS.find(x => x.lvl === after.lvl); if (o && !B.wear.includes(o.id)) { B.wear = [...B.wear, o.id]; all[k] = B; lsSet(KEY_BOND, all); }
       refreshFigurines();
-      setTimeout(() => { toast(`♥ ${famName(k)} is now your ${after.name.toLowerCase()}! Unlocked: ${BOND_UNLOCKS[after.lvl]}.`); renderFamiliar(); setExpr("love", 2600); }, 900);
+      setTimeout(() => { let tr = null; try { tr = famTreasures(k).find(t => t.lvl === after.lvl); } catch {} toast(`♥ ${famName(k)} is now your ${after.name.toLowerCase()}! Unlocked: ${BOND_UNLOCKS[after.lvl]}.${tr ? ` ${tr.rarity === "legendary" ? "LEGENDARY treasure" : "New treasure"}: ${tr.icon} ${tr.name}.` : ""}`, 7000); renderFamiliar(); setExpr("love", 2600); }, 900);
     }
   }
   function bondVisit(){ const all = bondAll(), k = familiar, B = { pts: 0, wear: [], ...(all[k] || {}) }; const t = todayISO(); if (B.day === t) return; B.day = t; B.pets = 0; all[k] = B; lsSet(KEY_BOND, all); bondAdd(2, "visit"); }
@@ -5634,6 +5765,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
           ${L.next ? `<div class="lvlbar"><span style="width:${L.next.pct}%"></span></div><small class="muted">${Math.round(B.pts)} / ${L.next.at} bond · next: ${esc(L.next.name)}</small>` : `<small class="muted">The deepest bond there is.</small>`}
           <p class="note">Your bond grows when you read together: updating your page, reading sessions, finishing books, rating them, visiting each day and the occasional pat.</p></div></div>
       <div class="label">Outfits</div><div class="outfits">${OUTFITS.map(o => { const open = L.lvl >= o.lvl, on = B.wear.includes(o.id); return `<button type="button" class="outfit${on ? " on" : ""}" ${open ? `data-wear="${o.id}"` : "disabled"} aria-pressed="${on}"><svg viewBox="30 ${o.id === "scarf" ? 40 : 0} 60 40" aria-hidden="true">${o.id === "scarf" ? outfitSVG(k, ["scarf"]).neck.replace(/<g class="outfit scarf">/, `<g transform="translate(0 ${48 - (ANCH[k] || [60])[0]})">`) : outfitSVG(k, [o.id]).top.replace(/<g class="outfit [a-z]+">/, `<g transform="translate(0 ${22 - (ANCH[k] || [0, 16])[1]})">`)}</svg><b>${esc(o.name)}</b><small>${open ? (on ? "Wearing it · tap to take off" : esc(o.desc)) : `Unlocks at ${BOND_LEVELS[o.lvl - 1][1]}`}</small></button>`; }).join("")}</div>
+      <div class="label" style="margin-top:12px">${esc(famName(k))}'s treasures</div><div class="treasures">${famTreasures(k).map(t => `<div class="treasure ${t.rarity}${t.got ? " got" : ""}"><span class="tic">${t.got ? t.icon : "?"}</span><b>${t.got ? esc(t.name) : "Locked"}</b><small>${t.got ? esc(t.desc) : `Bond level ${t.lvl}: ${esc(BOND_LEVELS[t.lvl - 1][1])}`}</small><span class="trar">${t.rarity}</span></div>`).join("")}</div>
       <div class="label" style="margin-top:12px">What you unlock</div><ol class="bondsteps">${BOND_LEVELS.map(([p, n], i) => `<li class="${L.lvl > i ? "done" : ""}"><b>${esc(n)}</b>${i ? ` · ${BOND_UNLOCKS[i + 1]}` : " · where every friendship starts"}</li>`).join("")}</ol>
     </div></div>`;
     $("#bond-scrim").addEventListener("click", e => {
@@ -5652,7 +5784,9 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     if (famMode === "rec" && !famRec) { famRec = nextFamRec(); if (famRec) { famRec.pitch = pitchFor(famRec); recItems.set(famRec.key, famRec); } }
     const words = t => esc(t).split(/(\s+)/).map((w, i) => /\s/.test(w) ? w : `<span class="wd" style="animation-delay:${(i * .028).toFixed(2)}s">${w}</span>`).join("");
     let said = "", mood = "idle", content;
-    if (petLine) { said = petLine; mood = PET[familiar]?.expr || "happy"; content = `<blockquote class="petline">${words(petLine)}</blockquote>`; }
+    if (famMode === "gift" && pendingGift) { said = ""; mood = "happy"; content = giftHTML(); }
+    else if (famMode === "care") { said = careLine || ""; mood = "happy"; content = `<blockquote class="petline">${words(careLine || "")}</blockquote><div class="careacts">${CARE_ACTS.map(([k, ic, l]) => `<button type="button" data-care="${k}"><i>${ic}</i>${k === "treat" ? `${l}` : l}</button>`).join("")}</div>`; }
+    else if (petLine) { said = petLine; mood = PET[familiar]?.expr || "happy"; content = `<blockquote class="petline">${words(petLine)}</blockquote>`; }
     else if (famMode === "rec") {
       if (!famRec) { said = famNeedMore(); content = `<blockquote class="chat">${words(said)}</blockquote>`; }
       else { const c = famRec, have = inLibrary(c.title, c.author); said = c.pitch; mood = PITCH[familiar]?.expr === "talk" ? "idle" : (PITCH[familiar]?.expr || "happy");
@@ -5670,7 +5804,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
       <div class="bubble m-${famMode}" aria-live="polite">
         <span class="bubglow" aria-hidden="true"></span>
         <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Chat with me"}" aria-label="Something else">↻</button><button class="iconbtn" type="button" data-famrec title="Recommend me a book" aria-label="Recommend me a book" aria-pressed="${famMode === "rec"}">📖</button><button class="iconbtn" type="button" data-famjar title="The TBR jar: let me pick your next read" aria-label="TBR jar">🫙</button><button class="iconbtn relbtn" type="button" data-releases title="New and upcoming books from your authors" aria-label="New releases">🔔</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button><button class="iconbtn famdockbtn" type="button" data-famdock title="${famDocked ? "Put me back in the page" : "Let me sit in the corner"}" aria-label="Move familiar">${famDocked ? "⇱" : "⇲"}</button><button class="iconbtn famx" type="button" data-famclose aria-label="Close">✕</button></div>
-        <div class="label famlabel">${esc(famName(familiar))} ${petLine ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}${bondPill()}</div>
+        <div class="label famlabel">${esc(famName(familiar))} ${petLine || famMode === "care" ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}${bondPill()}${(() => { let M; try { M = famMood(); } catch { return ""; } return M[0] === "content" ? "" : `<button type="button" class="moodchip m-${M[0]}" data-care="mood" title="${esc(famName(familiar))} is ${esc(M[2])}">${M[1]} ${M[0] === "moody" ? "moody" : M[0]}</button>`; })()}</div>
         ${content}
       </div>
     </div>${famPicking ? `<div class="fampicker">${famOptions()}</div>` : ""}`;
@@ -5681,11 +5815,11 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   function petFamiliar(){
     lastPoke = Date.now(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1); bondPet();
     const P = PET[familiar]; let line; do { line = pick(P.lines); } while (line === petLine && P.lines.length > 1);
-    petLine = line; lastSaid = ""; renderFamiliar();
+    careLine = line; famMode = "care"; petLine = null; lastSaid = ""; renderFamiliar();
     const body = $("#familiar .fambody");
     body.classList.add("pet-" + P.anim); setExpr(P.expr || "happy", 2600, "talk"); setTimeout(() => speak(line, P.expr === "shy" ? "shy" : "happy"), 1300);
     for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + Math.random() * .4, r = 46 + Math.random() * 30; body.insertAdjacentHTML("beforeend", `<i class="pburst" style="--dx:${(Math.cos(a) * r).toFixed(0)}px;--dy:${(Math.sin(a) * r - 20).toFixed(0)}px;color:${FAMILIARS[familiar].aura};animation-delay:${(i * .03).toFixed(2)}s">${P.burst}</i>`); }
-    clearTimeout(petTimer); petTimer = setTimeout(() => { petLine = null; lastSaid = "__"; renderFamiliar(); }, 6000);
+    clearTimeout(petTimer); petTimer = setTimeout(() => { if (famMode === "care") { famMode = "chat"; chatLine = makeChat(); lastSaid = "__"; renderFamiliar(); } }, 30000);
   }
   applyDock(); if (innerWidth > 700) setTimeout(() => { famLastPeek = 0; famPeek(); }, 3500); else famLastPeek = Date.now();
   $("#familiar").addEventListener("click", e => {
@@ -5697,6 +5831,9 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   $("#familiar").addEventListener("click", e => {
     lastPoke = Date.now();
     if (e.target.closest("[data-pet]")) { petFamiliar(); return; }
+    if (e.target.closest("[data-giftopen]")) { openGift(); return; }
+    const cr = e.target.closest("[data-care]"); if (cr) { const act = cr.dataset.care; if (act === "pet") { petFamiliar(); return; }
+      const [line, m] = careFor(act); careLine = line; famMode = "care"; lastSaid = ""; renderFamiliar(); setExpr(m, 2600); famAct(); clearTimeout(petTimer); petTimer = setTimeout(() => { if (famMode === "care") { famMode = "chat"; chatLine = makeChat(); lastSaid = "__"; renderFamiliar(); } }, 30000); return; }
     const fresh = () => { petLine = null; clearTimeout(petTimer); };
     if (e.target.closest("[data-famnext]")) { fresh(); if (famMode === "chat") { famMode = "quote"; newQuote(); } else { famMode = "chat"; chatLine = makeChat(); } renderFamiliar(); return; }
     if (e.target.closest("[data-famrec]")) { fresh(); if (famMode === "rec") { famMode = "chat"; chatLine = makeChat(); } else { famMode = "rec"; famRecs = null; famRec = null; } renderFamiliar(); return; }
@@ -6108,18 +6245,18 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   }
   const famBubble = b => { if (!famChosen) return ""; const r = familiarReason(b); const F = FAMILIARS[familiar]; return r ? `<div class="famsay" data-fam="${familiar}" style="--aura:${F.aura}"><span class="famthumb">${F.svg}</span><p><b>${esc(famName(familiar))}:</b> ${esc(r)}</p></div>` : ""; };
 
-  // ================= Roberto and Wulfila find their voices =================
+  // ================= Antonio and Wulfila find their voices =================
   Object.assign(VOICE, {
     lion: {
       gest: ["*places a paw over his heart*", "*tosses his golden mane*", "*offers you a rose*", "*sighs dramatically*", "*kisses your hand*", "*strums an invisible guitar*", "*flexes, entirely by accident*"],
       open: ["Ay, mi amor!", "Querida…", "Mi corazón!", "Ah, my beautiful reader.", "Dios mío, look at you.", "Hola, preciosa.", "Bella, bella…"],
-      because: ["You must read it because", "Ay, it will steal your heart because", "Trust Roberto:"],
+      because: ["You must read it because", "Ay, it will steal your heart because", "Trust Antonio:"],
       empty: ["Something new? Adventure! Passion! I will follow you anywhere, mi amor.", "Not your usual type… but love is never what we expect, no?"],
       days: [d => `${d} night${s_(d)} of passion, mi amor. I will light the candles.`, d => `Give it ${d} evening${s_(d)}. I will be here, waiting, like a poem.`, d => `${d} day${s_(d)}… an eternity without you, but I will survive. Barely.`],
       close: ["Ay, I am in love.", "Now go. Before I cry.", "Read it, and think of me.", "Olé!"],
       r5: [r => `${r}★! Ay, I knew it! A love like this, it comes once in a lifetime. Read it again with me?`, r => `${r}★, mi amor. My heart sings for this one.`],
       rlow: [r => `${r}★? This book broke your heart? Give me its name. I will duel it.`, r => `Only ${r}★. Not every romance is destiny, querida.`],
-      rnone: ["You finished it and you don't tell Roberto how you feel? Ay, the suspense! Rate it!", "Stars, mi amor! How many stars did it give your heart?"],
+      rnone: ["You finished it and you don't tell Antonio how you feel? Ay, the suspense! Rate it!", "Stars, mi amor! How many stars did it give your heart?"],
       rmid: [r => `${r}★. A sweet flirtation, but not true love.`, r => `${r}★. Pleasant, like a summer evening. But you deserve fireworks.`],
     },
     wolf: {
@@ -6175,7 +6312,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
       s: { autumn: ["Autumn leaves fall… like I fall for you, every single day.", "Pumpkin, cinnamon, and you. Perfección."], winter: ["It is cold, querida. Come closer. For warmth. Only for warmth.", "Winter! Hot chocolate, a fireplace, a love story."], spring: ["Spring! The season of love! Every season is, with you.", "The flowers bloom, but none as lovely as you."], summer: ["Summer, mi amor! Beaches, sangria, scandalous books!", "Hot like Sevilla. Hot like me. Ay."] },
       reading: [(t, p) => `${p}% into ${t}! Ay, the tension! I cannot breathe!`, (t, p) => `${t}, ${p}%. Tell me, has anyone kissed yet?`, t => `I read over your shoulder… ${t}… ay, my heart!`],
       near: [(t, d) => `Only ${d} more day${s_(d)} with ${t}. Endings make me cry, mi amor.`, t => `The end of ${t} is near! Hold my paw.`],
-      done: [(t, r) => r >= 4 ? `You finished ${t}, ${r}★! Olé! I knew you would love it!` : `You finished ${t}. Tell Roberto everything, every detail!`],
+      done: [(t, r) => r >= 4 ? `You finished ${t}, ${r}★! Olé! I knew you would love it!` : `You finished ${t}. Tell Antonio everything, every detail!`],
       pile: [n => `${n} books waiting for you? So many admirers. I am jealous of every one.`, n => `${n} books, mi amor. Choose the most passionate.`],
       idle: [d => `${d} days without reading? Without me? Ay, my heart is in pieces!`, () => "Where have you been, querida? I wrote you three sonnets."],
     },
@@ -6223,7 +6360,7 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
   };
   const PITCH = {
     cat: { lead: [(t, a) => `Darling, take ${t} by ${a} to bed tonight.`, (t, a) => `Mmm, ${t}. ${a} writes the kind of tension I adore.`, t => `I've been saving ${t} for someone special. That's you.`], why: [w => `Trust me: ${w}.`, w => `Why? ${w}, and I saw how you blushed last time.`], star: [(v, n) => `${n} readers swoon at ${v}★.`, v => `${v}★, darling. Irresistible.`], close: ["Tell me everything when you're done.", "Don't keep me waiting.", "*winks*"], expr: "wink" },
-    lion: { lead: [(t, a) => `Ay, mi amor! ${t} by ${a}! A book with fire in its pages!`, t => `Querida, ${t}… I read it and I cried three times.`, t => `For you, I bring ${t}. And this rose.`], why: [w => `Because ${w}. Destiny, no?`, w => `Listen: ${w}. Ay!`], star: [(v, n) => `${n} hearts rated it ${v}★. Mine too.`, v => `${v}★! Olé!`], close: ["Read it, and think of Roberto.", "Ay, I am too emotional. Go, read!", "*kisses your hand*"], expr: "love" },
+    lion: { lead: [(t, a) => `Ay, mi amor! ${t} by ${a}! A book with fire in its pages!`, t => `Querida, ${t}… I read it and I cried three times.`, t => `For you, I bring ${t}. And this rose.`], why: [w => `Because ${w}. Destiny, no?`, w => `Listen: ${w}. Ay!`], star: [(v, n) => `${n} hearts rated it ${v}★. Mine too.`, v => `${v}★! Olé!`], close: ["Read it, and think of Antonio.", "Ay, I am too emotional. Go, read!", "*kisses your hand*"], expr: "love" },
     owl: { lead: [(t, a) => `Ahem. May I recommend ${t}, by ${a}?`, t => `For your next course of study: ${t}.`, t => `I have prepared a reading. ${t}. Most instructive.`], why: [w => `My reasoning: ${w}.`, w => `The evidence: ${w}.`], star: [(v, n) => `It holds ${v} across ${n} ratings, a statistically sound sample.`, v => `Readers grade it ${v}.`], close: ["Do take notes.", "I shall expect a report.", "Class dismissed."], expr: "happy" },
     raven: { lead: [(t, a) => `CAW! Your next battle: ${t}, by ${a}!`, t => `Raise your sword against ${t}! A worthy foe!`, t => `I, Corvin the Undefeated, command you: conquer ${t}!`], why: [w => `Why? ${w}! Glory awaits!`, w => `Intelligence report: ${w}.`], star: [(v, n) => `${n} lesser warriors rank it ${v}.`, v => `Rated ${v}. A fearsome opponent!`], close: ["CHARGE!", "For glory!", "Victory shall be ours!"], expr: "proud" },
     fox: { lead: [(t, a) => `Psst. ${t}. ${a}. You didn't hear it from me.`, t => `I lifted ${t} from a locked library. It's yours now.`, t => `Here's a secret worth keeping: ${t}.`], why: [w => `Between us: ${w}.`, w => `I happen to know ${w.charAt(0).toLowerCase() + w.slice(1)}.`], star: [(v, n) => `${n} readers know, ${v}★. The secret's half out.`, v => `${v}★. Shh.`], close: ["Now forget we talked.", "Burn this message. Kidding. Mostly.", "*taps her nose*"], expr: "wink" },
@@ -6257,6 +6394,136 @@ body:has(#modal-root > *) .verbanner,body:has(#modal-root > *) .postpill,body:ha
     parts.push(pick(T.close));
     return parts.join(" ");
   }
+
+  // ================= familiars, grown up: treasures, moods, treats, care, gifts and smarter picks =================
+  // four treasures each, earned as your bond grows; the last is legendary
+  const TREASURES = {
+    cat: [["🎀", "Velvet ribbon", "Tied in a bow. Untie it slowly, darling.", "rare"], ["💄", "Cherry-red lipstick", "For kissing book covers. Obviously.", "rare"], ["🌹", "The rose that never wilts", "Picked the night you first stayed up reading with me.", "epic"], ["🖤", "The Midnight Pearl", "A black pearl from a library that sank beneath the sea. It glows when you read.", "legendary"]],
+    owl: [["📜", "Annotated syllabus", "Your reading list, with my marginalia. Do read the footnotes.", "rare"], ["🔍", "Brass magnifying glass", "For examining plot holes at close range.", "rare"], ["🎓", "Honorary doctorate", "In Advanced Reading. Signed by me. Entirely legitimate.", "epic"], ["📕", "The Lost Index", "A catalogue of every book ever written, including the ones not yet written.", "legendary"]],
+    raven: [["🛡", "Dented shield", "It has seen battle. Mostly with a bookcase.", "rare"], ["🍢", "Toothpick sword", "Small but fearsome. Like me.", "rare"], ["🏅", "Medal of Valour", "Awarded by me, to you, for bravery in finishing a series.", "epic"], ["🗡", "Featherbane", "A blade forged from a fallen star. Only the truest reader may hold it.", "legendary"]],
+    fox: [["🗝", "Silver lockpicks", "For locked rooms. And locked hearts.", "rare"], ["🔖", "Bookmark dagger", "Keeps your page. And your secrets.", "rare"], ["🗺", "Map of secret passages", "Every library has them. Now you know where.", "epic"], ["🌑", "The Shadow Cloak", "Worn by the first thief of stories. Put it on and the world goes quiet.", "legendary"]],
+    toad: [["🧪", "Bubbling flask", "Contents: unknown. Smell: lavender. Probably safe.", "rare"], ["🔬", "Pocket microscope", "For studying very small fonts.", "rare"], ["📓", "Lab notebook", "Every observation inside is about your reading habits. Fascinating.", "epic"], ["⚗", "The Philosopher's Lily Pad", "Turns any page into gold. Verified in three experiments.", "legendary"]],
+    bat: [["🍓", "Shared strawberry", "I saved you the best half.", "rare"], ["🧶", "Tiny knitted blanket", "For reading under. It took me all winter.", "rare"], ["🫙", "Moonlight in a jar", "So you never have to read in the dark.", "epic"], ["🔮", "The Starlight Locket", "There's a tiny picture of you inside. Please don't laugh.", "legendary"]],
+    hedgehog: [["🍄", "Lucky mushroom", "Found it under a fallen book! Super lucky!", "rare"], ["🧭", "Wobbly compass", "It always points to the next good book.", "rare"], ["🎒", "Very tiny backpack", "Packed with snacks for our adventures!", "epic"], ["🗺", "The Map to Everywhere", "Every story ever told is on here. And there's a little X where you are.", "legendary"]],
+    lion: [["🌹", "A single red rose", "For you, mi amor. Only the reddest.", "rare"], ["🎸", "Pocket guitar", "To serenade you between chapters.", "rare"], ["💌", "Love letter in Spanish", "Don't translate it. Some things should be felt.", "epic"], ["💛", "Corazón de Oro", "The golden heart of a lion. Antonio gives it only once.", "legendary"]],
+    wolf: [["🎧", "Scratched headphones", "My playlist for sad chapters. You're welcome.", "rare"], ["🖤", "Black nail polish", "Chipped. Perfect.", "rare"], ["📔", "Poetry diary", "Don't read it out loud. Okay, maybe one poem.", "epic"], ["🌕", "The Moon's Own Howl", "A moonstone that hums on full-moon nights. It chose you.", "legendary"]],
+  };
+  const TREASURE_LV = [2, 3, 4, 5];
+  const famTreasures = k => { const lv = bondLevel(bondOf(k).pts).lvl; return (TREASURES[k] || []).map((t, i) => ({ icon: t[0], name: t[1], desc: t[2], rarity: t[3], lvl: TREASURE_LV[i], got: lv >= TREASURE_LV[i] })); };
+  FAM_ORDER.forEach(k => {
+    const T = TREASURES[k]?.[3]; if (!T) return;
+    TRINKETS["leg-" + k] = () => `<div class="trinket legend" style="width:56px;height:78px" aria-hidden="true">${glowDiv(-14, -6, 84, "pulse")}<svg viewBox="0 0 56 78" width="56" height="78"><path d="M10 70h36l-4-12H14z" fill="#C9A24E"/><rect x="8" y="70" width="40" height="6" rx="2" fill="#A7801E"/><path d="M14 58V26a14 14 0 0 1 28 0v32z" fill="rgba(220,240,255,.16)" stroke="rgba(255,240,200,.75)" stroke-width="1.3"/><text x="28" y="48" text-anchor="middle" font-size="22">${T[0]}</text></svg></div>`;
+    TRINKET_NAMES["leg-" + k] = T[1];
+  });
+  const _refreshFig = refreshFigurines;
+  refreshFigurines = function(){ _refreshFig(); const legs = FAM_ORDER.filter(k => bondLevel(bondOf(k).pts).lvl >= 5 && TRINKETS["leg-" + k]).map(k => "leg-" + k), cat = TRINKET_DRAWER.find(c => c[0] === "Familiars");
+    if (legs.length) { if (cat) cat[1] = [...new Set([...cat[1], ...legs])]; else TRINKET_DRAWER.push(["Familiars", legs]); } };
+  refreshFigurines();
+  // ---- moods: they notice when you've been away, and a treat always helps ----
+  const TREATS = { cat: "a tiny tuna tart", owl: "a lemon shortbread", raven: "a victory cracker", fox: "a stolen blueberry muffin", toad: "a candied fly (organic)", bat: "a slice of ripe mango", hedgehog: "a mealworm cookie", lion: "a warm churro", wolf: "a dark-chocolate cookie" };
+  const lastActivity = () => { let t = 0; books.forEach(b => { [b.finished, b.started, ...(b.progressLog || []).map(p => p.d), ...(b.sessions || []).map(s => (s.s || "").slice(0, 10))].forEach(d => { if (isExact(d)) t = Math.max(t, new Date(d).getTime()); }); }); return t; };
+  function famMood(){
+    const tr = lsGet("reading-ledger-treated", {}); if (tr[familiar] === todayISO()) return ["happy", "😊", "happy and full of treats"];
+    const h = new Date().getHours(); if (h < 5) return ["sleepy", "😴", "very sleepy"];
+    const away = (Date.now() - lastActivity()) / 864e5;
+    if (lastActivity() && away >= 4) return ["moody", "😾", `a bit moody: you haven't read together in ${Math.floor(away)} days`];
+    if (books.some(b => b.shelf === "dnf" && b.abandoned && (Date.now() - new Date(b.abandoned)) / 864e5 < 3)) return ["sad", "🥺", "a little sad about the book you put down"];
+    return ["content", "✨", "content"];
+  }
+  const CARE = {
+    cat: { scratch: ["*leans into your hand* Lower, darling. Perfect.", "Behind the ears? You've done this before."], play: ["*bats at a loose thread, very elegantly*", "Chase the ribbon? How undignified. …Again."], treat: ["A tuna tart? You spoil me. Keep doing it.", "*nibbles daintily* You may stay."], mood: { moody: "You've been away, darling. I noticed. I always notice.", sad: "That book didn't deserve you anyway.", sleepy: "Shh. I'm beautiful when I sleep.", happy: "Purring. Can't you tell?", content: "Content, darling. Spoil me anyway." }, secret: ["I read your romance novels when you're asleep.", "I was a duchess in a past life. Obviously."] },
+    owl: { scratch: ["Most irregular. …Slightly to the left.", "Ah. Yes. That is the spot. Carry on."], play: ["Let us play… a quiz! Name three Brontës.", "*solemnly pushes a pebble towards you*"], treat: ["Lemon shortbread! The scholar's fuel.", "Splendid. Crumbs on the syllabus, but splendid."], mood: { moody: "Our study sessions have been… absent. For four days.", sad: "Not every book earns its ending. Wise of you to stop.", sleepy: "I am nocturnal, technically. Yet I am exhausted.", happy: "Thoroughly delighted, thank you.", content: "Quite well. Shall we read?" }, secret: ["I once misfiled a book. It haunts me.", "My spectacles are purely decorative."] },
+    raven: { scratch: ["A warrior does not… oh. Oh, that's nice.", "*closes eyes* You may continue, squire."], play: ["Duel me! *pokes you with a toothpick*", "I challenge you to a staring contest. I never blink."], treat: ["A victory cracker! For the victor! Me.", "CAW! Fuel for battle!"], mood: { moody: "Four days without a quest. My sword grows rusty.", sad: "A tactical retreat from that book. Wise. Honourable.", sleepy: "Even legends must rest. Briefly.", happy: "VICTORIOUS. And full.", content: "Ready for battle, as always." }, secret: ["I lost my first fight to a moth.", "My real name is Kevin. Tell no one."] },
+    fox: { scratch: ["*ears flick back* …Don't tell anyone I like this.", "Mm. Your secret's safe with me. So is mine."], play: ["Hide and seek? You'll never find me.", "*vanishes behind the curtain, tail still visible*"], treat: ["A blueberry muffin? I'd have stolen one anyway. Thanks.", "Mm. You know my weakness now. Dangerous."], mood: { moody: "You went quiet on me. Four days. I kept watch alone.", sad: "Some books aren't worth the risk. Good call.", sleepy: "Even shadows sleep.", happy: "Feeling sharp. And fed.", content: "All quiet. Just how I like it." }, secret: ["I have a cloak just for stealing bookmarks.", "My name isn't Ember. But it's close."] },
+    toad: { scratch: ["Fascinating. A tactile response. *ribbit*", "Recording: subject enjoys head scratches. Hypothesis confirmed."], play: ["Let's test gravity! *drops a pebble* It works.", "*catches an imaginary fly* Data collected."], treat: ["A candied fly! Organic, I hope. Yes. Delicious.", "Calories consumed. Mood: improved by 34%."], mood: { moody: "Observation: no reading in four days. Morale declining.", sad: "Not every experiment succeeds. That's science.", sleepy: "Hibernation protocol initiating…", happy: "Optimal. All readings green.", content: "Stable. Would like data. Read something?" }, secret: ["I've named all your books' characters' pets.", "I'm actually a prince. Allegedly."] },
+    bat: { scratch: ["Oh… that's… really nice. Thank you.", "*wraps wings around your finger*"], play: ["Can we play peekaboo? *hides* …Did you find me?", "*does a tiny loop-the-loop, then gets embarrassed*"], treat: ["Mango? For me? You're the best!", "*eats very carefully* This is my favourite day."], mood: { moody: "I missed you. Four whole days. It's okay though.", sad: "It's okay to not finish things. I don't finish my sentences sometimes.", sleepy: "*yawns* Bats sleep in the day… and now.", happy: "So happy! *flaps*", content: "I'm okay! Better now you're here." }, secret: ["I'm a little bit scared of moths.", "I practise saying hello to you in the mirror."] },
+    hedgehog: { scratch: ["Careful, prickly! …Hehe, you did it!", "*happy snuffling noises*"], play: ["TAG! You're it! *rolls away*", "Let's go on an adventure! To… the kitchen!"], treat: ["A COOKIE?! Best. Day. Ever.", "*munch munch* Can I have another? Tomorrow?"], mood: { moody: "Where did you GO? No adventures for four days!", sad: "That book was boring anyway! Let's find a good one!", sleepy: "*curls into a ball* Five more minutes…", happy: "SO HAPPY! *zooms in a circle*", content: "Ready for anything!" }, secret: ["I've never been on a real adventure. You're my first.", "I'm scared of the vacuum cleaner."] },
+    lion: { scratch: ["Ay… the mane, mi amor. Gently.", "*purrs like a guitar* Don't stop."], play: ["Dance with me! *twirls you* Olé!", "I shall sing you a song. *clears throat dramatically*"], treat: ["A churro! You know the way to Antonio's heart.", "Ay, cinnamon and sugar… like you."], mood: { moody: "Four days without you, querida. My heart, it aches.", sad: "That book broke your heart? Ay, come here.", sleepy: "Even Antonio must sleep. Dream of me.", happy: "I am the happiest lion in the world!", content: "Ah, mi amor. All is well when you are here." }, secret: ["I wrote 300 sonnets. All about your bookshelf.", "I cry at every wedding. Even in books."] },
+    wolf: { scratch: ["*sighs* …Okay, that's actually good.", "Don't make it weird. Keep going."], play: ["Fetch? I'm not a dog. …Throw it again.", "*howls quietly at the lamp*"], treat: ["Dark chocolate. You get me.", "…Thanks. That was nice of you."], mood: { moody: "Four days. Not that I was counting. I was.", sad: "Some stories just aren't worth it. Respect.", sleepy: "Night's my time. But… I'm tired.", happy: "This is me being happy. You can't tell. I am.", content: "Fine. Better than usual, actually." }, secret: ["I listen to pop music when no one's around.", "I keep every bookmark you've ever used."] },
+  };
+  const CARE_ACTS = [["pet", "♥", "Pet"], ["scratch", "✋", "Scratch ears"], ["treat", "🍪", "Treat"], ["play", "🎲", "Play"], ["mood", "💬", "How are you?"], ["secret", "🤫", "A secret"]];
+  let careLine = null, careT = null;
+  function careFor(act){
+    const C = CARE[familiar] || CARE.cat, M = famMood();
+    if (act === "treat") {
+      const day = lsGet("reading-ledger-treatday", {}); const n = day.d === todayISO() ? day.n : 0;
+      if (n >= 3) return [`${famName(familiar)} is too full for another treat today.`, "sleepy"];
+      lsSet("reading-ledger-treatday", { d: todayISO(), n: n + 1 }); lsSet("reading-ledger-treats", lsGet("reading-ledger-treats", 0) + 1);
+      const tr = lsGet("reading-ledger-treated", {}); tr[familiar] = todayISO(); lsSet("reading-ledger-treated", tr); bondAdd(2, "treat");
+      return [`*${M[0] === "moody" || M[0] === "sad" ? "perks right up at" : "happily munches"} ${TREATS[familiar]}* ${pick(C.treat)}`, "love"];
+    }
+    if (act === "mood") return [C.mood[M[0]] || C.mood.content, M[0] === "moody" ? "sad" : M[0] === "sad" ? "sad" : M[0] === "sleepy" ? "sleepy" : "happy"];
+    if (act === "secret") { const lv = bondLevel(bondOf(familiar).pts).lvl; return lv >= 2 ? [pick(C.secret), "wink"] : ["Secrets are for friends. Read with me a little more first.", "shy"]; }
+    bondPet(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1);
+    return [pick(C[act] || C.scratch), act === "play" ? "happy" : "love"];
+  }
+  // ---- gifts: now and then your familiar leaves something for you ----
+  const GIFT_TRINKETS = {
+    giftfeather: ["A feather quill", () => `<div class="trinket" style="width:30px;height:56px" aria-hidden="true"><svg viewBox="0 0 30 56" width="30" height="56"><path d="M20 2c8 10 4 26-6 38l-2 10c-4-18-2-34 8-48z" fill="#E8DCF2" stroke="#A88BC8" stroke-width="1"/><path d="M20 4l-8 46" stroke="#8A6AB0" stroke-width=".8"/></svg></div>`],
+    giftflower: ["A pressed flower", () => `<div class="trinket" style="width:40px;height:46px" aria-hidden="true"><svg viewBox="0 0 40 46" width="40" height="46"><rect x="4" y="4" width="32" height="40" rx="2" fill="#F4EAD6" stroke="#C9A86A"/>${[0, 72, 144, 216, 288].map(r => `<ellipse cx="20" cy="17" rx="3.2" ry="6" fill="#E88AA8" transform="rotate(${r} 20 22)"/>`).join("")}<circle cx="20" cy="22" r="2.6" fill="#F2C94C"/><path d="M20 26v14" stroke="#6E9B4A" stroke-width="1.4"/></svg></div>`],
+    giftbookmark: ["A ribbon bookmark", () => `<div class="trinket" style="width:22px;height:60px" aria-hidden="true"><svg viewBox="0 0 22 60" width="22" height="60"><path d="M4 2h14v52l-7-7-7 7z" fill="#8E1F22"/><path d="M7 8h8M7 12h8" stroke="#F2D58E" stroke-width="1"/><circle cx="11" cy="22" r="3" fill="#F2D58E"/></svg></div>`],
+    giftstone: ["A wishing stone", () => `<div class="trinket" style="width:36px;height:26px" aria-hidden="true">${glowDiv(-10, -12, 56, "pulse")}<svg viewBox="0 0 36 26" width="36" height="26"><ellipse cx="18" cy="15" rx="15" ry="10" fill="#7FA8C8"/><ellipse cx="13" cy="11" rx="5" ry="2.6" fill="#CFE6F7" opacity=".7"/><path d="M8 17q10 5 20-2" stroke="#E9F4FF" stroke-width="1.2" fill="none" opacity=".7"/></svg></div>`],
+  };
+  Object.entries(GIFT_TRINKETS).forEach(([k, [n, f]]) => { TRINKETS[k] = f; TRINKET_NAMES[k] = n; });
+  const giftsGot = () => lsGet("reading-ledger-famgifts", []) || [];
+  const paintGiftDrawer = () => { const got = [...new Set(giftsGot().filter(g => g.tk).map(g => g.tk))], cat = TRINKET_DRAWER.find(c => c[0] === "Gifts"); if (got.length) { if (cat) cat[1] = got; else TRINKET_DRAWER.push(["Gifts", got]); } };
+  paintGiftDrawer();
+  let pendingGift = null;
+  function maybeGift(){
+    if (!famChosen || levelNow() < 2) return;
+    const gs = giftsGot(); if (gs.some(g => g.d === todayISO())) return;
+    const seenDay = lsGet("reading-ledger-giftcheck", ""); if (seenDay === todayISO()) return; lsSet("reading-ledger-giftcheck", todayISO());
+    const lv = bondLevel(bondOf(familiar).pts).lvl, chance = .22 + lv * .06; if (Math.random() > chance) return;
+    const left = Object.keys(GIFT_TRINKETS).filter(k => !gs.some(g => g.tk === k));
+    const r = Math.random();
+    if (left.length && r < .35) pendingGift = { type: "trinket", tk: left[Math.floor(Math.random() * left.length)] };
+    else if (r < .75) { const c = (() => { try { return nextFamRec(); } catch { return null; } })(); pendingGift = c ? { type: "book", c } : { type: "bond" }; }
+    else pendingGift = { type: "bond" };
+    famMode = "gift"; renderFamiliar(); setExpr("happy", 2000);
+  }
+  function openGift(){
+    const g = pendingGift; if (!g) return; pendingGift = null;
+    const rec = { d: todayISO(), fam: familiar, type: g.type };
+    let line = "";
+    if (g.type === "trinket") { rec.tk = g.tk; line = `I found you ${GIFT_TRINKETS[g.tk][0].toLowerCase()}! It's on your Decorate shelves drawer now, under Gifts.`; }
+    else if (g.type === "book") { rec.title = g.c.title; famRec = g.c; famRec.pitch = `I wrapped this one for you: ${g.c.title}. ${reasonFor(g.c) ? cap(reasonFor(g.c)) + "." : ""}`; recItems.set(famRec.key, famRec); }
+    else { bondAdd(3, "gift"); line = "Just a little something: a pressed four-leaf clover. For luck in your next book. (+3 bond)"; }
+    lsSet("reading-ledger-famgifts", [...giftsGot(), rec].slice(-60)); paintGiftDrawer();
+    if (g.type === "book") { famMode = "rec"; renderFamiliar(); }
+    else { careLine = line; famMode = "care"; renderFamiliar(); }
+    setExpr("love", 2400); famAct();
+  }
+  const giftHTML = () => `<div class="giftbox"><button type="button" class="giftbtn" data-giftopen aria-label="Open your gift"><svg viewBox="0 0 64 60" width="64" height="60"><rect x="6" y="24" width="52" height="32" rx="3" fill="#C94F7C"/><rect x="2" y="16" width="60" height="12" rx="3" fill="#E06A93"/><rect x="28" y="16" width="8" height="40" fill="#F2D58E"/><path d="M32 16c-6-10-18-12-18-4s12 4 18 4zM32 16c6-10 18-12 18-4s-12 4-18 4z" fill="#F2D58E"/></svg></button><div><b>${esc(famName(familiar))} left something for you</b><small>Tap the present to open it</small></div></div>`;
+  // ---- smarter: they notice what you read, and explain their picks with your own books ----
+  function reasonFor(c){
+    try {
+      const loved = readBooks().filter(b => (b.rating || 0) >= 4).sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      const sameA = loved.find(b => b.author && c.author && norm(b.author) === norm(c.author));
+      if (sameA) return `you gave ${sameA.title} by the same author ${sameA.rating}★`;
+      const ct = [...(c.tropes || [])], best = loved.map(b => [b, (b.tropes || []).filter(t => ct.includes(t))]).filter(x => x[1].length).sort((a, b) => b[1].length - a[1].length || (b[0].rating || 0) - (a[0].rating || 0))[0];
+      if (best) return `you loved ${best[0].title} (${best[0].rating}★) and this one has the same ${best[1].slice(0, 2).map(t => t.toLowerCase()).join(" and ")}`;
+      const D = readerDNA(), cg = [...(c.core || c.genres || [])], A = D.find(a => { try { return a.t({ title: c.title, genres: cg, tropes: ct, subjects: [], category: "" }) > 0; } catch { return false; } });
+      if (A) { const ex = loved.find(b => A.t(b) > 0); return `it feeds the ${short(A).toLowerCase()} in you${ex ? `, like ${ex.title} did` : ""}`; }
+    } catch {}
+    return (c.why || []).find(x => !/^Rated /.test(x)) || "";
+  }
+  const _pitch = pitchFor;
+  pitchFor = function(c){ const T = PITCH[familiar] || PITCH.cat, r = reasonFor(c); if (!r) return _pitch(c);
+    const parts = [pick(T.lead)(c.title, c.author), pick(T.why)(r)]; if (c.gr) parts.push(pick(T.star)(c.gr.toFixed(2), c.cnt ? shortCount(c.cnt).replace(" ratings", "") : "Many")); parts.push(pick(T.close)); return parts.join(" "); };
+  const CALL = { cat: "Darling,", owl: "Ahem.", raven: "CAW!", fox: "Psst.", toad: "Observation:", bat: "Um…", hedgehog: "Ooh!", lion: "Ay,", wolf: "Hm." };
+  function smartLine(){
+    const out = [], cur = books.filter(b => b.shelf === "reading"), read = readBooks();
+    cur.forEach(b => { if (b.pages && b.currentPage) { const left = b.pages - b.currentPage; if (left > 0 && left <= 60) out.push(`only ${left} pages left of ${b.title}. You could finish it tonight.`); else if (b.currentPage / b.pages >= .45 && b.currentPage / b.pages <= .55) out.push(`you're halfway through ${b.title}. The middle is where the good stuff hides.`); } });
+    try { const E = era(soulData()); if (E.nowG && E.allG && E.nowG !== E.allG) out.push(`I see you're in your ${E.nowG} era. Very different from your usual ${E.allG}.`); } catch {}
+    try { const D = readerDNA(); if (D[0]) out.push(`your soul is mostly ${short(D[0])}. I could have told you that.`); } catch {}
+    const year = read.filter(b => yearOf(b.finished) === new Date().getFullYear()).length; if (year) out.push(`${year} book${year > 1 ? "s" : ""} this year so far. I've been counting.`);
+    const want = books.filter(b => b.shelf === "want").length; if (want >= 20) out.push(`${want} books waiting on your shelf. They whisper at night, you know.`);
+    const M = famMood(); if (M[0] === "moody") out.push(`we haven't read together in a while. I'm ${M[2].split(":")[0]}. A treat might help.`);
+    if (!out.length) return null; return { line: `${CALL[familiar] || ""} ${cap(pick(out))}`.trim(), mood: M[0] === "moody" ? "sad" : "happy" };
+  }
+  const _makeChat = makeChat;
+  makeChat = function(){ if (Math.random() < .4) { const s = smartLine(); if (s) return s; } return _makeChat(); };
+  setTimeout(() => { try { maybeGift(); } catch {} }, 7000);
 
   renderFamiliar();
   // ================= cloud sync (your own free Supabase project) =================
@@ -6788,7 +7055,7 @@ alter publication supabase_realtime add table public.library;`;
     return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter };
   })();
   // ================= wiring =================
-  const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","friends"];
+  const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","authors","friends"];
   // ================= words you learned while reading =================
   const WORD_LANGS = [["en", "English"], ["fr", "French"], ["es", "Spanish"], ["de", "German"], ["it", "Italian"], ["pt", "Portuguese"], ["hu", "Hungarian"], ["sr", "Serbian"], ["hr", "Croatian"], ["nl", "Dutch"], ["la", "Latin"]];
   let wordOpen = null, wordRes = null, wordBusy = false, wordLang = lsGet("reading-ledger-wordlang", "en");
@@ -6909,6 +7176,22 @@ alter publication supabase_realtime add table public.library;`;
   // ================= Authors: who you're reading =================
   const AUTH_KEY = n => "reading-ledger-author:" + norm(n);
   const isWriter = d => /\b(writer|author|novelist|poet|journalist|essayist|playwright|historian|philosopher|theologian|psychologist|economist|scientist|biographer|screenwriter|illustrator|cartoonist|columnist|professor|scholar|memoirist|lyricist)\b/i.test(d || "");
+  // just the portrait, fetched quietly for the Authors room (Wikipedia first, then Open Library)
+  const PIC_KEY = n => "reading-ledger-authpic:" + norm(n);
+  async function authorPic(name){
+    const c = lsGet(PIC_KEY(name), null); if (c && Date.now() - c.t < 60 * 864e5) return c.img;
+    let img = lsGet(AUTH_KEY(name), null)?.img || "";
+    if (!img) { try { const s = await wikiAuthor(name); img = s?.thumbnail?.source || s?.originalimage?.source || ""; } catch {} }
+    if (!img) { try { const d = await jget(`https://openlibrary.org/search/authors.json?q=${encodeURIComponent(name)}&limit=1`); const k = d.docs?.[0]?.key; if (k) { const u = `https://covers.openlibrary.org/a/olid/${k}-M.jpg?default=false`; const ok = await new Promise(r => { const im = new Image(); im.onload = () => r(im.naturalWidth > 10); im.onerror = () => r(false); im.src = u; setTimeout(() => r(false), 6000); }); if (ok) img = u; } } catch {} }
+    lsSet(PIC_KEY(name), { t: Date.now(), img }); return img;
+  }
+  let picRun = 0;
+  async function loadAuthorPics(root){
+    const run = ++picRun, cards = [...root.querySelectorAll("[data-authpic]")].filter(c => !c.querySelector("img"));
+    let i = 0; const next = async () => { while (i < cards.length && run === picRun) { const c = cards[i++], img = await authorPic(c.dataset.authpic); if (img && c.isConnected && !c.querySelector("img")) { c.querySelector(".mono")?.remove(); c.insertAdjacentHTML("afterbegin", `<img src="${esc(img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">`); } } };
+    await Promise.all([next(), next(), next()]);
+  }
+  function renderAuthors(){ const el = $("#view-authors"); if (!el) return; el.innerHTML = authorsPanel(); loadAuthorPics(el); }
   async function wikiAuthor(name){
     let s = null;
     try { s = await jget(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name.replace(/\s+/g, "_"))}`); } catch {}
@@ -6995,14 +7278,14 @@ alter publication supabase_realtime add table public.library;`;
     const list = [...map.values()].map(a => ({ ...a, read: a.list.filter(b => b.shelf === "read").length, avg: (() => { const r = a.list.filter(b => b.rating); return r.length ? r.reduce((s, b) => s + b.rating, 0) / r.length : 0; })() })).sort((a, b) => b.list.length - a.list.length || b.avg - a.avg);
     if (!list.length) return `<div class="empty"><span class="fleuron">✒</span><h3>No authors yet</h3><div>Add some books and the people who wrote them gather here.</div></div>`;
     return `<div class="panel"><div class="phead"><h2>The people behind your books</h2><span class="note">${list.length} author${list.length > 1 ? "s" : ""} · tap one to learn who they are</span></div>
-      <div class="authgrid">${list.map(a => { const c = lsGet(AUTH_KEY(a.name), null); return `<button type="button" class="authcard" data-author="${esc(a.name)}">${c?.img ? `<img src="${esc(c.img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="mono" style="--c:${hashColor(a.name)}">${esc(a.name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}<b>${esc(a.name)}</b><small>${a.list.length} book${a.list.length > 1 ? "s" : ""}${a.avg ? ` · ${a.avg.toFixed(1)}★` : ""}</small>${c?.desc ? `<small class="muted">${esc(cap(c.desc))}</small>` : ""}</button>`; }).join("")}</div></div>`;
+      <div class="authgrid">${list.map(a => { const c = lsGet(AUTH_KEY(a.name), null), pic = c?.img || lsGet(PIC_KEY(a.name), null)?.img; return `<button type="button" class="authcard" data-author="${esc(a.name)}" data-authpic="${esc(a.name)}">${pic ? `<img src="${esc(pic)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="mono" style="--c:${hashColor(a.name)}">${esc(a.name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}<b>${esc(a.name)}</b><small>${a.list.length} book${a.list.length > 1 ? "s" : ""}${a.avg ? ` · ${a.avg.toFixed(1)}★` : ""}</small>${c?.desc ? `<small class="muted">${esc(cap(c.desc))}</small>` : ""}</button>`; }).join("")}</div></div>`;
   }
   document.addEventListener("click", e => { const a = e.target.closest("[data-author]"); if (!a) return; e.preventDefault(); e.stopPropagation(); openAuthor(a.dataset.author); }, true);
   // ================= Character card packs: finish a book, meet its cast =================
   const TRAITS = ["brave", "loyal", "cunning", "clever", "kind", "ruthless", "stubborn", "proud", "fierce", "loving", "witty", "mysterious", "protective", "ambitious", "reckless", "compassionate", "intelligent", "cold", "arrogant", "gentle", "determined", "sarcastic", "charming", "impulsive", "wise", "cheerful", "shy", "independent", "honest", "selfless", "vengeful", "manipulative", "hot-tempered", "playful", "curious", "caring", "cruel", "noble", "courageous", "headstrong", "resourceful", "ambitious", "quiet", "brooding", "cheeky", "fearless", "devoted"];
   function charTraits(c){ const txt = `${c.personality || ""} ${c.summary || ""}`.toLowerCase(); const found = []; for (const t of TRAITS) { const i = txt.search(new RegExp(`\\b${t.replace("-", "[- ]")}\\b`)); if (i >= 0) found.push([t, i]); } return [...new Set(found.sort((a, b) => a[1] - b[1]).map(x => x[0]))].slice(0, 3); }
   function charBlurb(c){ const s = String(c.summary || "").replace(/\s+/g, " ").trim(); if (!s) return ""; const first = (s.match(/^.{20,220}?[.!?](\s|$)/) || [s.slice(0, 180)])[0].trim(); return first.length > 200 ? first.slice(0, 190).replace(/\s+\S*$/, "") + "…" : first; }
-  function charRole(c){ const pick2 = Object.entries(c.info || {}).filter(([k]) => /species|race|occupation|title|position|role|affiliation|house|court|nationality|description/i.test(k)).map(([, v]) => String(v).split(/[,;(]/)[0].trim()).filter(v => v && v.length < 30); return [...new Set(pick2)].slice(0, 2).join(" · "); }
+  function charRole(c){ if (!c.info && c.role) return c.role; const pick2 = Object.entries(c.info || {}).filter(([k]) => /species|race|occupation|title|position|role|affiliation|house|court|nationality|description/i.test(k)).map(([, v]) => String(v).split(/[,;(]/)[0].trim()).filter(v => v && v.length < 30); return [...new Set(pick2)].slice(0, 2).join(" · "); }
   const RAR = { 3: ["★★★", "Legendary"], 2: ["★★", "Rare"], 1: ["★", "Common"] };
   // which names make up a book's cast: from its fan wiki page or its Wikipedia article
   function namesFromSection(doc){
@@ -7070,11 +7353,170 @@ alter publication supabase_realtime add table public.library;`;
   }
   // books you've finished whose cast you haven't met yet: unopened packs
   const unopened = () => readBooks().filter(b => !b.castTried && !(b.characters || []).some(c => c.reward)).sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
+  // ================= collectible cards: saga sets you complete by reading, and a card for every other book =================
+  // [id, set name, how to recognise the series, books in reading order, [character, book (0-based), rarity 1-3, who they are]]
+  const SAGAS = [
+    ["tog", "Throne of Glass", /throne of glass|assassin.?s blade|crown of midnight|heir of fire|queen of shadows|empire of storms|tower of dawn|kingdom of ash/,
+      ["The Assassin's Blade", "Throne of Glass", "Crown of Midnight", "Heir of Fire", "Queen of Shadows", "Empire of Storms", "Tower of Dawn", "Kingdom of Ash"],
+      [["Celaena Sardothien", 1, 3, "Adarlan's Assassin"], ["Sam Cortland", 0, 1, "Assassin"], ["Arobynn Hamel", 0, 2, "King of the Assassins"], ["Chaol Westfall", 1, 2, "Captain of the Guard"], ["Dorian Havilliard", 1, 2, "Crown Prince"], ["Nehemia Ytger", 1, 2, "Princess of Eyllwe"], ["Elena Galathynius", 1, 2, "First Queen of Adarlan"], ["Kaltain Rompier", 1, 1, "Lady of the court"], ["Mort", 2, 2, "Talking door-knocker"], ["Archer Finn", 2, 1, "Courtesan"],
+       ["Rowan Whitethorn", 3, 3, "Fae warrior prince"], ["Manon Blackbeak", 3, 3, "Ironteeth witch heir"], ["Abraxos", 3, 2, "Wyvern"], ["Aelin Galathynius", 4, 3, "Queen of Terrasen"], ["Aedion Ashryver", 4, 2, "General of Terrasen"], ["Lysandra", 4, 2, "Shapeshifter"],
+       ["Elide Lochan", 4, 1, "Lady of Perranth"], ["Lorcan Salvaterre", 5, 2, "Fae warrior"], ["Maeve", 5, 2, "Queen of the Fae"], ["Yrene Towers", 6, 2, "Healer"], ["Erawan", 7, 3, "Valg king"]]],
+    ["acotar", "A Court of Thorns and Roses", /court of thorns|court of mist|court of wings|court of frost|court of silver|acotar/,
+      ["A Court of Thorns and Roses", "A Court of Mist and Fury", "A Court of Wings and Ruin", "A Court of Frost and Starlight", "A Court of Silver Flames"],
+      [["Feyre Archeron", 0, 3, "Human huntress, then High Lady"], ["Tamlin", 0, 1, "High Lord of Spring"], ["Lucien Vanserra", 0, 1, "Emissary of Spring"], ["Rhysand", 0, 3, "High Lord of the Night Court"], ["Amarantha", 0, 2, "Usurper queen"], ["Elain Archeron", 0, 1, "Feyre's sister"],
+       ["Cassian", 1, 2, "Illyrian general"], ["Azriel", 1, 2, "Shadowsinger"], ["Morrigan", 1, 1, "Third of the Night Court"], ["Amren", 1, 2, "Second of the Night Court"], ["Tarquin", 1, 1, "High Lord of Summer"],
+       ["Nesta Archeron", 4, 3, "Feyre's eldest sister"], ["Gwyneth Berdara", 4, 1, "Priestess"], ["Emerie", 4, 1, "Illyrian shopkeeper"]]],
+    ["empyrean", "The Empyrean", /fourth wing|iron flame|onyx storm|empyrean/,
+      ["Fourth Wing", "Iron Flame", "Onyx Storm"],
+      [["Violet Sorrengail", 0, 3, "Rider"], ["Xaden Riorson", 0, 3, "Wingleader"], ["Tairn", 0, 3, "Black morningtail dragon"], ["Andarna", 0, 2, "Golden feathertail"], ["Sgaeyl", 0, 2, "Blue daggertail"], ["Dain Aetos", 0, 1, "Squad leader"],
+       ["Rhiannon Matthias", 0, 1, "Rider"], ["Liam Mairi", 0, 2, "Rider"], ["Ridoc Gamlyn", 0, 1, "Rider"], ["Mira Sorrengail", 0, 1, "Lieutenant"], ["Jack Barlowe", 0, 1, "Rider"], ["Imogen Cardulo", 0, 1, "Rider"],
+       ["Brennan Sorrengail", 1, 2, "Rebel mender"], ["Bodhi Durran", 1, 1, "Rider"]]],
+    ["cc", "Crescent City", /crescent city|house of earth and blood|house of sky and breath|house of flame and shadow/,
+      ["House of Earth and Blood", "House of Sky and Breath", "House of Flame and Shadow"],
+      [["Bryce Quinlan", 0, 3, "Half-Fae, half-human"], ["Hunt Athalar", 0, 3, "The Umbra Mortis"], ["Danika Fendyr", 0, 2, "Wolf alpha"], ["Ruhn Danaan", 0, 2, "Crown Prince of the Valbaran Fae"], ["Lehabah", 0, 2, "Fire sprite"], ["Syrinx", 0, 1, "Chimera pet"],
+       ["Jesiba Roga", 0, 1, "Sorceress"], ["Ithan Holstrom", 0, 1, "Wolf"], ["Tharion Ketos", 0, 1, "Mer agent"], ["Juniper Andromeda", 0, 1, "Faun dancer"], ["Micah Domitus", 0, 2, "Archangel"], ["Lidia Cervos", 1, 2, "The Hind"]]],
+    ["hp", "Harry Potter", /harry potter/,
+      ["Philosopher's Stone", "Chamber of Secrets", "Prisoner of Azkaban", "Goblet of Fire", "Order of the Phoenix", "Half-Blood Prince", "Deathly Hallows"],
+      [["Harry Potter", 0, 3, "The Boy Who Lived"], ["Hermione Granger", 0, 3, "Brightest witch of her age"], ["Ron Weasley", 0, 2, "Loyal friend"], ["Albus Dumbledore", 0, 3, "Headmaster"], ["Rubeus Hagrid", 0, 2, "Keeper of Keys"], ["Severus Snape", 0, 3, "Potions Master"],
+       ["Draco Malfoy", 0, 2, "Slytherin"], ["Minerva McGonagall", 0, 2, "Transfiguration professor"], ["Neville Longbottom", 0, 1, "Gryffindor"], ["Ginny Weasley", 1, 1, "Gryffindor"], ["Dobby", 1, 2, "Free elf"], ["Sirius Black", 2, 3, "Harry's godfather"], ["Remus Lupin", 2, 2, "Defence professor"],
+       ["Lord Voldemort", 3, 3, "The Dark Lord"], ["Cedric Diggory", 3, 1, "Hufflepuff champion"], ["Luna Lovegood", 4, 2, "Ravenclaw"], ["Bellatrix Lestrange", 4, 2, "Death Eater"], ["Dolores Umbridge", 4, 1, "High Inquisitor"], ["Horace Slughorn", 5, 1, "Potions Master"]]],
+    ["thg", "The Hunger Games", /hunger games|catching fire|mockingjay|songbirds and snakes|sunrise on the reaping/,
+      ["The Hunger Games", "Catching Fire", "Mockingjay", "The Ballad of Songbirds and Snakes", "Sunrise on the Reaping"],
+      [["Katniss Everdeen", 0, 3, "The Girl on Fire"], ["Peeta Mellark", 0, 3, "The boy with the bread"], ["Gale Hawthorne", 0, 2, "Hunter"], ["Haymitch Abernathy", 0, 2, "Mentor"], ["Effie Trinket", 0, 1, "Escort"], ["Cinna", 0, 2, "Stylist"], ["Rue", 0, 2, "Tribute"],
+       ["Primrose Everdeen", 0, 1, "Katniss's sister"], ["President Snow", 0, 3, "President of Panem"], ["Finnick Odair", 1, 3, "Victor"], ["Johanna Mason", 1, 2, "Victor"], ["Beetee", 1, 1, "Victor"], ["Alma Coin", 2, 2, "President of District 13"], ["Lucy Gray Baird", 3, 3, "Songbird of District 12"]]],
+    ["soc", "Six of Crows", /six of crows|crooked kingdom/,
+      ["Six of Crows", "Crooked Kingdom"],
+      [["Kaz Brekker", 0, 3, "Dirtyhands"], ["Inej Ghafa", 0, 3, "The Wraith"], ["Jesper Fahey", 0, 2, "Sharpshooter"], ["Nina Zenik", 0, 2, "Heartrender"], ["Matthias Helvar", 0, 2, "Drüskelle"], ["Wylan Van Eck", 0, 1, "Demolitions"], ["Pekka Rollins", 0, 1, "Rival boss"], ["Jan Van Eck", 1, 1, "Merchant"]]],
+    ["grisha", "Shadow and Bone", /shadow and bone|siege and storm|ruin and rising/,
+      ["Shadow and Bone", "Siege and Storm", "Ruin and Rising"],
+      [["Alina Starkov", 0, 3, "Sun Summoner"], ["Malyen Oretsev", 0, 2, "Tracker"], ["The Darkling", 0, 3, "General Kirigan"], ["Genya Safin", 0, 1, "Tailor"], ["Baghra", 0, 2, "Teacher"], ["Zoya Nazyalensky", 0, 2, "Squaller"], ["Nikolai Lantsov", 1, 3, "Prince and privateer"], ["David Kostyk", 1, 1, "Fabrikator"]]],
+    ["fota", "The Folk of the Air", /cruel prince|wicked king|queen of nothing|folk of the air/,
+      ["The Cruel Prince", "The Wicked King", "The Queen of Nothing"],
+      [["Jude Duarte", 0, 3, "Mortal in Faerie"], ["Cardan Greenbriar", 0, 3, "Youngest prince"], ["Madoc", 0, 2, "Redcap general"], ["Taryn Duarte", 0, 1, "Jude's twin"], ["Vivienne", 0, 1, "Jude's sister"], ["Locke", 0, 1, "Courtier"], ["The Ghost", 0, 1, "Spy of the Court of Shadows"], ["The Roach", 0, 1, "Spy"], ["The Bomb", 0, 1, "Spy"], ["Oak", 0, 2, "Heir"], ["Nicasia", 0, 1, "Princess of the Undersea"]]],
+    ["fbaa", "From Blood and Ash", /from blood and ash|kingdom of flesh|crown of gilded bones|war of two queens|blood and ash/,
+      ["From Blood and Ash", "A Kingdom of Flesh and Fire", "The Crown of Gilded Bones", "The War of Two Queens"],
+      [["Poppy Balfour", 0, 3, "The Maiden"], ["Casteel Da'Neer", 0, 3, "Hawke"], ["Kieran Contou", 0, 2, "Wolven"], ["Vikter Wardwell", 0, 1, "Guard"], ["Ian Balfour", 0, 1, "Poppy's brother"], ["Tawny", 0, 1, "Poppy's friend"], ["Malik Da'Neer", 1, 2, "Casteel's brother"], ["Isbeth", 3, 3, "The Blood Queen"]]],
+    ["lotr", "The Lord of the Rings", /lord of the rings|fellowship of the ring|two towers|return of the king|the hobbit/,
+      ["The Hobbit", "The Fellowship of the Ring", "The Two Towers", "The Return of the King"],
+      [["Bilbo Baggins", 0, 2, "Burglar"], ["Thorin Oakenshield", 0, 2, "King under the Mountain"], ["Smaug", 0, 3, "Dragon"], ["Frodo Baggins", 1, 3, "Ring-bearer"], ["Samwise Gamgee", 1, 3, "Gardener and hero"], ["Gandalf", 1, 3, "Wizard"], ["Aragorn", 1, 3, "Heir of Isildur"], ["Legolas", 1, 2, "Elf of Mirkwood"],
+       ["Gimli", 1, 2, "Dwarf"], ["Boromir", 1, 2, "Son of Gondor"], ["Meriadoc Brandybuck", 1, 1, "Hobbit"], ["Peregrin Took", 1, 1, "Hobbit"], ["Gollum", 1, 2, "Sméagol"], ["Galadriel", 1, 2, "Lady of Lothlórien"], ["Saruman", 1, 2, "Wizard"], ["Éowyn", 2, 2, "Shieldmaiden of Rohan"], ["Faramir", 2, 1, "Captain of Gondor"], ["Treebeard", 2, 1, "Ent"]]],
+    ["pj", "Percy Jackson", /percy jackson|lightning thief|sea of monsters|titan.?s curse|battle of the labyrinth|last olympian/,
+      ["The Lightning Thief", "The Sea of Monsters", "The Titan's Curse", "The Battle of the Labyrinth", "The Last Olympian"],
+      [["Percy Jackson", 0, 3, "Son of Poseidon"], ["Annabeth Chase", 0, 3, "Daughter of Athena"], ["Grover Underwood", 0, 2, "Satyr"], ["Luke Castellan", 0, 2, "Son of Hermes"], ["Chiron", 0, 2, "Centaur"], ["Clarisse La Rue", 0, 1, "Daughter of Ares"], ["Tyson", 1, 1, "Cyclops"], ["Thalia Grace", 2, 2, "Daughter of Zeus"], ["Nico di Angelo", 2, 2, "Son of Hades"], ["Rachel Elizabeth Dare", 3, 1, "Oracle"], ["Kronos", 4, 3, "Titan lord"]]],
+    ["mistborn", "Mistborn", /mistborn|final empire|well of ascension|hero of ages/,
+      ["The Final Empire", "The Well of Ascension", "The Hero of Ages"],
+      [["Vin", 0, 3, "Mistborn"], ["Kelsier", 0, 3, "Survivor of Hathsin"], ["Elend Venture", 0, 2, "Noble"], ["Sazed", 0, 2, "Keeper"], ["Breeze", 0, 1, "Soother"], ["Hammond", 0, 1, "Thug"], ["Spook", 0, 1, "Tineye"], ["Marsh", 0, 1, "Seeker"], ["The Lord Ruler", 0, 3, "God-emperor"], ["TenSoon", 1, 2, "Kandra"]]],
+    ["twilight", "Twilight", /^twilight\b|new moon|eclipse|breaking dawn|twilight saga/,
+      ["Twilight", "New Moon", "Eclipse", "Breaking Dawn"],
+      [["Bella Swan", 0, 3, "Human, at first"], ["Edward Cullen", 0, 3, "Vampire"], ["Jacob Black", 0, 2, "Shapeshifter"], ["Alice Cullen", 0, 2, "Seer"], ["Carlisle Cullen", 0, 1, "Doctor"], ["Charlie Swan", 0, 1, "Police chief"], ["Victoria", 1, 2, "Nomad vampire"], ["Aro", 1, 2, "Volturi leader"], ["Renesmee Cullen", 3, 2, "Half-vampire"]]],
+    ["redqueen", "Red Queen", /red queen|glass sword|king.?s cage|war storm/,
+      ["Red Queen", "Glass Sword", "King's Cage", "War Storm"],
+      [["Mare Barrow", 0, 3, "The Lightning Girl"], ["Tiberias Calore", 0, 3, "Crown prince"], ["Maven Calore", 0, 3, "Younger prince"], ["Kilorn Warren", 0, 1, "Mare's friend"], ["Evangeline Samos", 0, 2, "Magnetron"], ["Diana Farley", 0, 1, "Scarlet Guard captain"], ["Elara Merandus", 0, 2, "Queen and whisper"], ["Shade Barrow", 1, 1, "Mare's brother"]]],
+    ["caraval", "Caraval", /caraval|legendary|finale/,
+      ["Caraval", "Legendary", "Finale"],
+      [["Scarlett Dragna", 0, 3, "Elder sister"], ["Donatella Dragna", 0, 2, "Younger sister"], ["Julian Marrero", 0, 2, "Sailor"], ["Legend", 0, 3, "Master of Caraval"], ["Jacks", 1, 3, "Prince of Hearts"]]],
+    ["divine", "Letters of Enchantment", /divine rivals|ruthless vows/,
+      ["Divine Rivals", "Ruthless Vows"],
+      [["Iris Winnow", 0, 3, "War correspondent"], ["Roman Kitt", 0, 3, "Rival reporter"], ["Forest Winnow", 0, 1, "Iris's brother"], ["Attie", 0, 1, "Correspondent"], ["Dacre", 0, 2, "Underground god"], ["Enva", 0, 2, "Sky god"]]],
+  ];
+  const sagaOf = b => { const t = `${b.seriesName || ""} | ${b.title || ""}`.toLowerCase(); return SAGAS.find(S => S[2].test(t)) || null; };
+  function sagaBookIdx(S, b){
+    const clean = x => norm(String(x).split(/[:(]/)[0]).replace(/^(the|a) /, "").trim(), t = clean(b.title || "");
+    let i = t ? S[3].findIndex(x => { const n = clean(x); return t === n || t.includes(n) || (t.length > 5 && n.includes(t)); }) : -1;
+    if (i < 0 && b.seriesNum) { const n = Math.round(Number(b.seriesNum)), j = (S[0] === "tog" || S[0] === "lotr") ? n : n - 1; if (j >= 0 && j < S[3].length) i = j; }
+    return i;
+  }
+  const sameName = (a, b) => { a = norm(a); b = norm(b); return a === b || a.includes(b) || b.includes(a) || a.split(" ")[0] === b.split(" ")[0] && a.split(" ")[0].length > 3; };
+  function setCardsFor(S, idx){ return S[4].filter(c => c[1] === idx); }
+  // give each saga book its characters (no internet needed); pictures arrive later when you open a card
+  function backfillSagas(){
+    let ch = false;
+    for (const b of readBooks()) { const S = sagaOf(b); if (!S) continue; const i = sagaBookIdx(S, b); if (i < 0) continue;
+      const have = books.filter(x => sagaOf(x) === S).flatMap(x => x.characters || []);
+      const add = setCardsFor(S, i).filter(c => !have.some(h => sameName(h.name, c[0]))).map(c => ({ id: "c" + Math.random().toString(36).slice(2, 9), added: new Date().toISOString(), fav: false, notes: "", quote: "", name: c[0], role: c[3], rarity: c[2], reward: true, set: S[0] }));
+      if (add.length) { b.characters = [...(b.characters || []), ...add]; ch = true; }
+      if (!b.castTried) { b.castTried = true; ch = true; } }
+    if (ch) save({ stamp: false });
+  }
+  function sagaSets(){
+    const out = [];
+    for (const S of SAGAS) {
+      const mine = books.filter(b => sagaOf(b) === S); if (!mine.length) continue;
+      const got = mine.flatMap(b => (b.characters || []).map(c => ({ c, b })));
+      const cards = S[4].map(([name, bi, rar, role]) => { const g = got.find(x => sameName(x.c.name, name)); return { name, bi, rar, role, got: g || null, book: S[3][bi] }; });
+      out.push({ S, id: S[0], name: S[1], cards, have: cards.filter(c => c.got).length });
+    }
+    return out.sort((a, b) => b.have / b.cards.length - a.have / a.cards.length);
+  }
+  // a standalone book becomes a card itself; how rare depends on how much you loved it (and your level)
+  function bookCardRarity(b){
+    const lv = (() => { try { return levelNow(); } catch { return 1; } })();
+    let r = b.rating >= 5 && (b.surpriseFav || b.reread === "comfort") ? 3 : b.rating >= 4.5 ? 3 : b.rating >= 4 ? 2 : 1;
+    if (lv >= 5 && r < 2) r = 2; if (lv >= 6 && r === 2 && hashNum(b.id + "up", 100) < 15) r = 3;
+    return { rarity: r, foil: b.rating >= 5 || hashNum(b.id + "foil", 100) < 8 };
+  }
+  function bookCardHTML(b, big){
+    const bc = b.bookCard || bookCardRarity(b), r = RAR[bc.rarity || 1];
+    return `<button type="button" class="ccard bookcard${bc.foil ? " foil" : ""}" style="--cc:${spineColorOf(b)}" data-open="${esc(b.id)}" title="${esc(r[1])} book card${bc.foil ? " · foil" : ""}"><span class="cframe"><span class="cimg bcimg">${coverHTML(b)}</span><span class="cshine"></span></span><span class="cname">${esc(b.title)}</span><span class="cbook">${esc(b.author || "")}${b.rating ? ` · ${"★".repeat(Math.round(b.rating))}` : ""}</span><span class="crar r${bc.rarity || 1}">${r[0]}</span></button>`;
+  }
+  const _openPack = openPack;
+  openPack = async function(b, quiet){
+    if (!b || b.shelf !== "read") return [];
+    const S = sagaOf(b);
+    if (S) { const i = sagaBookIdx(S, b); const before = new Set(books.flatMap(x => (x.characters || []).map(c => c.id)));
+      backfillSagas(); const got = (b.characters || []).filter(c => !before.has(c.id));
+      if (levelNow() >= 11 && got.length && !got.some(c => c.rarity === 3)) got[0].rarity = 3;
+      if (!got.length) { b.bookCard = b.bookCard || bookCardRarity(b); save(); if (!quiet) showPack(b, [], null, -1, true); return [b.bookCard]; }
+      save(); if (!quiet) showPack(b, got, S, i); return got; }
+    b.castTried = true; b.bookCard = bookCardRarity(b); if (levelNow() >= 11) b.bookCard.rarity = 3; save();
+    if (!quiet) showPack(b, [], null, -1, true);
+    return [b.bookCard];
+  };
+  const _showPack = showPack;
+  showPack = function(b, got, S, i, bookCard){
+    if (!bookCard && !S) return _showPack(b, got);
+    let root = document.getElementById("pack-root"); if (!root) { root = document.createElement("div"); root.id = "pack-root"; document.body.append(root); }
+    if (S && !got.length) { toast(`You already have every ${S[1]} card from ${b.title}.`, 4000); return; }
+    const cards = bookCard ? [bookCardHTML(b)] : got.map(c => miniCard(c, b));
+    const set = S ? sagaSets().find(x => x.id === S[0]) : null;
+    root.innerHTML = `<div class="packov"><div class="packbox"><div class="label">Book finished · reward</div><h2>${bookCard ? `<i>${esc(b.title)}</i> joins your collection` : `${got.length} new ${esc(S[1])} card${got.length > 1 ? "s" : ""}`}</h2>
+      <p class="note">${bookCard ? `A ${RAR[b.bookCard.rarity][1].toLowerCase()} book card${b.bookCard.foil ? ", in foil" : ""}.` : set ? `Your ${esc(S[1])} set: ${set.have} of ${set.cards.length} collected.` : ""}</p>
+      <div class="packcards">${cards.map((h, k) => `<div class="pflip" style="--d:${k * .25 + .3}s"><div class="pfin">${h}</div><div class="pback"><span>✦</span></div></div>`).join("")}</div>
+      <div class="packacts"><button class="btn" type="button" data-packx>Lovely</button><button class="btn primary" type="button" data-packgo>See my collection</button></div></div></div>`;
+    root.onclick = e => { if (e.target.closest("[data-packx]") || e.target.classList.contains("packov")) { root.innerHTML = ""; return; } if (e.target.closest("[data-packgo]")) { root.innerHTML = ""; keepMode = "chars"; cardView = S ? "sets" : "books"; lsSet("reading-ledger-keepmode", "chars"); showTab("keep"); } };
+  };
+  let cardView = lsGet("reading-ledger-cardview", "sets");
+  function cardsHeader(){
+    const sets = sagaSets(), bookCards = readBooks().filter(b => b.bookCard);
+    return `<div class="seg cardtabs">${[["sets", `Saga sets · ${sets.reduce((s, x) => s + x.have, 0)}`], ["books", `Book cards · ${bookCards.length}`], ["mine", "Your characters"]].map(([k, l]) => `<button type="button" data-cardview="${k}" aria-pressed="${cardView === k}">${l}</button>`).join("")}</div>`;
+  }
+  function setsHTML(){
+    const sets = sagaSets();
+    if (!sets.length) return `<div class="empty"><span class="fleuron">🎴</span><h3>No saga sets yet</h3><div>Famous series have their own card sets: Throne of Glass, A Court of Thorns and Roses, Fourth Wing, Harry Potter, The Hunger Games, Six of Crows, The Lord of the Rings and more. Add one of their books and finish it to start collecting.</div></div>`;
+    return sets.map(x => `<section class="sagaset"><div class="sshead"><h3>${esc(x.name)}</h3><span class="sscount">${x.have} / ${x.cards.length}</span>${x.have === x.cards.length ? `<span class="sscomplete">✦ Complete set</span>` : ""}</div><div class="ssbar"><span style="width:${Math.round(x.have / x.cards.length * 100)}%"></span></div>
+      <div class="cgrid ssgrid">${x.cards.map(c => c.got ? charCard(c.got.c, c.got.b) : `<div class="ccard locked" title="Finish ${esc(c.book)} to collect ${esc(c.name)}"><span class="cframe"><span class="cimg"><span class="lockq">?</span></span></span><span class="cname">${esc(c.name)}</span><span class="cbook">Read <i>${esc(c.book)}</i></span><span class="crar r${c.rar}">${RAR[c.rar][0]}</span></div>`).join("")}</div></section>`).join("");
+  }
+  function bookCardsHTML(){
+    const list = readBooks().filter(b => b.bookCard).sort((a, b) => (b.bookCard.rarity - a.bookCard.rarity) || (b.finished || "").localeCompare(a.finished || ""));
+    const left = unopened().filter(b => !sagaOf(b)).length;
+    return `${left ? `<p class="note">${left} book${left > 1 ? "s" : ""} still waiting to become cards: open their packs above.</p>` : ""}${list.length ? `<div class="cgrid">${list.map(b => bookCardHTML(b)).join("")}</div>` : `<div class="empty"><span class="fleuron">📚</span><h3>No book cards yet</h3><div>Every book you finish that isn't part of a famous saga becomes a card of its own. The more you loved it, the rarer the card.</div></div>`}`;
+  }
+  document.addEventListener("click", e => { const v = e.target.closest("[data-cardview]"); if (v) { cardView = v.dataset.cardview; lsSet("reading-ledger-cardview", cardView); renderKeep(); } });
+  setTimeout(() => { try { backfillSagas(); } catch (e) { console.warn(e); } }, 1500);
+  // pictures and descriptions for set cards, fetched quietly when you look at your sets
+  let enrichRun = 0;
+  async function enrichCards(root){
+    const run = ++enrichRun, todo = sagaSets().flatMap(x => x.cards.filter(c => c.got && !c.got.c.img && !c.got.c.imgTried).map(c => c.got)).slice(0, 10);
+    let i = 0; const next = async () => { while (i < todo.length && run === enrichRun) { const { c, b } = todo[i++]; c.imgTried = true;
+      try { const f = (await searchCharacter(c.name, b))[0]; if (f) { const data = await fetchCharacter(f); if (data) { Object.assign(c, { img: data.img || c.img, summary: data.summary || c.summary, personality: data.personality || c.personality, info: data.info || c.info, wiki: data.wiki, url: data.url }); save({ stamp: false });
+        const el = root.querySelector(`[data-char$="|${c.id}"] .cimg`); if (el && c.img) el.innerHTML = charArt(c, b); } } } catch {} } };
+    await Promise.all([next(), next()]);
+  }
   function renderKeep(){
     const el = $("#view-keep");
     const chars = allChars(), words = books.flatMap(b => (b.words || []).map(w => ({ w, b }))), quotes = books.flatMap(b => (b.quotes || []).map(q => ({ q, b })));
-    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">♥ Characters <b>${chars.length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button><button type="button" data-keep="authors" aria-selected="${keepMode === "authors"}">✒ Authors <b>${new Set(books.filter(b => b.author).map(b => norm(b.author))).size}</b></button></div></div>`;
-    if (keepMode === "authors") { el.innerHTML = head + authorsPanel(); return; }
+    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">🎴 Cards <b>${chars.length + readBooks().filter(b => b.bookCard).length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button></div></div>`;
+    if (keepMode === "authors") keepMode = "chars";
     if (keepMode === "quotes") {
       el.innerHTML = head + (quotes.length ? `<div class="panel"><div class="phead"><h2>Lines you kept</h2><span class="note">${quotes.length} quote${quotes.length > 1 ? "s" : ""} · add them from a book's ❝ Notes tab</span></div>
         ${quotes.length >= 2 ? `<div class="wotd qotd">${(() => { const x = quotes[hashNum(todayISO(), quotes.length)]; return `<span class="label">Quote of the day</span><blockquote>“${esc(x.q.q)}”</blockquote><small>${esc(x.b.title)} · ${esc(x.b.author || "")}</small>`; })()}</div>` : ""}
@@ -7093,9 +7535,10 @@ alter publication supabase_realtime add table public.library;`;
     const opts = [...books].filter(b => b.shelf !== "want").concat(books.filter(b => b.shelf === "want")).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.seriesName ? ` (${esc(b.seriesName)})` : ""}</option>`).join("");
     const series = [...new Set(chars.map(x => x.b.seriesName || x.b.title))];
     const shown = chars.filter(x => charFilter === "all" || charFilter === "fav" ? (charFilter !== "fav" || x.c.fav) : (x.b.seriesName || x.b.title) === charFilter).sort((a, b) => (b.c.fav ? 1 : 0) - (a.c.fav ? 1 : 0) || (b.c.added || "").localeCompare(a.c.added || ""));
-    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner"><span class="pkicon">✦</span><div><b>${packs.length} unopened card pack${packs.length > 1 ? "s" : ""}</b><small>One for every book you've finished. Open one to meet its main characters.</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : `Open ${esc(packs[0].title)}`}</button></div>` : "";
+    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner"><span class="pkicon">✦</span><div><b>${packs.length} unopened card pack${packs.length > 1 ? "s" : ""}</b><small>One for every book you've finished: saga books bring their characters, other books become cards themselves.</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : `Open ${esc(packs[0].title)}`}</button></div>` : "";
+    if (cardView !== "mine") { el.innerHTML = head + packHTML + `<div class="panel cardspanel">${cardsHeader()}${cardView === "sets" ? setsHTML() : bookCardsHTML()}</div>`; if (cardView === "sets") enrichCards(el); return; }
     
-el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
+el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
       <form class="charform" id="char-form" autocomplete="off"><input name="n" placeholder="Character name, e.g. Aelin, Rhysand, Hermione" required><select name="b" aria-label="From which book">${opts}</select><button class="btn primary" type="submit">${charBusy ? "Searching…" : "Find them"}</button></form>
       ${charFind ? `<div class="charfind">${charFind.length ? charFind.map((f, i) => `<button type="button" class="cfound" data-cpick="${i}">${f.thumb ? `<img src="${esc(f.thumb)}" alt="" referrerpolicy="no-referrer">` : `<span class="cmono small">${esc(f.title[0])}</span>`}<span><b>${esc(f.title)}</b><small>${f.src === "fandom" ? `${esc(f.wiki)} wiki` : "Wikipedia"}${f.snippet ? ` · ${esc(f.snippet.slice(0, 90))}` : ""}</small></span></button>`).join("") : `<div class="note">Couldn't find them online.</div>`}
         <button type="button" class="linkbtn" data-cmanual>Add them by hand instead</button></div>` : ""}</div>
@@ -7167,6 +7610,9 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
   }
   const dnaTier = n => n >= 100 ? ["Deeply mapped", "100+ books: your DNA is rich and detailed."] : n >= 40 ? ["Established", "40+ books: your DNA is well defined."] : n >= 15 ? ["Developing", "15+ books: your DNA is taking shape."] : n >= 5 ? ["Emerging", "A first impression from fewer than 15 books. It sharpens with every book you add."] : ["A first sketch", "A very first sketch. Add a few more books you've read."];
   const HYBRID = {
+    "Faithful Pilgrim|Curious Scholar": "The Seeker of Wisdom", "Faithful Pilgrim|Life Collector": "The Keeper of Testimonies", "Faithful Pilgrim|Philosopher": "The Contemplative", "Faithful Pilgrim|Self-Builder": "The Purposeful Soul",
+    "Fantasy Wanderer|Dragon Rider": "The Dragonbound", "Romantic Dreamer|Dragon Rider": "The Dragon's Heart", "Romantic Dreamer|Court Intriguer": "The Royal Romantic", "Cozy Soul|Fantasy Wanderer": "The Hearthside Mage", "Cozy Soul|Mystery Hunter": "The Teacup Sleuth",
+    "Thrill Chaser|Mystery Hunter": "The Midnight Detective", "Classic Soul|Romantic Dreamer": "The Regency Heart", "Dystopian Rebel|Coming-of-Age Kindred": "The Young Revolutionary", "Strategist|Self-Builder": "The Empire Builder", "Strategist|Money Mind": "The Tycoon",
     "Saga Devotee|Romantic Dreamer": "The Eternal Heart", "Saga Devotee|Court Intriguer": "The Throne Chaser", "Saga Devotee|Fantasy Wanderer": "The Keeper of Worlds", "Fantasy Wanderer|Romantic Dreamer": "The Starlit Romantic",
     "Fantasy Wanderer|Court Intriguer": "The Crown Seeker", "Fantasy Wanderer|Mystery Hunter": "The Arcane Detective", "Romantic Dreamer|Emotional Explorer": "The Tender Heart", "Rainbow Romantic|Emotional Explorer": "The Brave Heart",
     "Rainbow Romantic|Saga Devotee": "The Eternal Rainbow", "Mystery Hunter|Shadow Seeker": "The Midnight Sleuth", "Shadow Seeker|Fantasy Wanderer": "The Dark Enchanter", "Literary Adventurer|Emotional Explorer": "The Quiet Poet",
@@ -7177,8 +7623,9 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
   };
   const ADJ = { "Fantasy Wanderer": "Enchanted", "Court Intriguer": "Scheming", "Romantic Dreamer": "Lovesick", "Rainbow Romantic": "Rainbow", "Emotional Explorer": "Tender", "Coming-of-Age Kindred": "Young-Hearted", "Saga Devotee": "Devoted", "Tome Conqueror": "Mighty",
     "Quick-Sip Reader": "Swift", "Literary Adventurer": "Lyrical", "Myth Weaver": "Mythic", "Mystery Hunter": "Sharp-Eyed", "Shadow Seeker": "Shadowed", "Stargazer": "Starbound", "Time Traveller": "Timeworn", "Curious Scholar": "Curious", "Found-Family Seeker": "Loyal",
-    "Spiritual Seeker": "Faithful", "Strategist": "Strategic", "Mind Explorer": "Perceptive", "Self-Builder": "Driven", "Philosopher": "Contemplative", "Science Wonderer": "Inquisitive", "Chronicler": "Learned", "Life Collector": "Empathic", "Truth Seeker": "Truth-Bound", "Poet's Heart": "Poetic", "Young at Heart": "Wonder-Filled", "Panel Hopper": "Vivid", "Laughter Seeker": "Merry" };
-  const RARITY = { "Fantasy Wanderer": 1, "Romantic Dreamer": 1, "Saga Devotee": 1, "Mystery Hunter": 1, "Emotional Explorer": 1, "Coming-of-Age Kindred": 1, "Court Intriguer": 2, "Rainbow Romantic": 2, "Literary Adventurer": 2, "Tome Conqueror": 2, "Quick-Sip Reader": 2, "Found-Family Seeker": 2, "Time Traveller": 3, "Shadow Seeker": 3, "Stargazer": 3, "Myth Weaver": 3, "Curious Scholar": 3, "Self-Builder": 2, "Mind Explorer": 2, "Life Collector": 2, "Strategist": 3, "Spiritual Seeker": 3, "Philosopher": 3, "Science Wonderer": 3, "Chronicler": 3, "Truth Seeker": 3, "Poet's Heart": 3, "Young at Heart": 3, "Panel Hopper": 3, "Laughter Seeker": 3 };
+    "Spiritual Seeker": "Faithful", "Strategist": "Strategic", "Mind Explorer": "Perceptive", "Self-Builder": "Driven", "Philosopher": "Contemplative", "Science Wonderer": "Inquisitive", "Chronicler": "Learned", "Life Collector": "Empathic", "Truth Seeker": "Truth-Bound", "Poet's Heart": "Poetic", "Young at Heart": "Wonder-Filled", "Panel Hopper": "Vivid", "Laughter Seeker": "Merry", "Dragon Rider": "Dragonhearted", "Cozy Soul": "Cosy", "Classic Soul": "Timeless", "Thrill Chaser": "Restless", "Dystopian Rebel": "Rebel", "War Witness": "Brave", "Faithful Pilgrim": "Faithful", "Money Mind": "Shrewd", "Wellness Keeper": "Radiant", "Tech Tinkerer": "Ingenious", "Political Mind": "Principled", "Nature Walker": "Wild", "Globetrotter": "Wandering", "Kitchen Alchemist": "Epicurean", "Artist's Eye": "Artful", "Nurturer": "Gentle", "Wordsmith": "Eloquent" };
+  ADJ["Spiritual Seeker"] = "Serene";
+  const RARITY = { "Fantasy Wanderer": 1, "Romantic Dreamer": 1, "Saga Devotee": 1, "Mystery Hunter": 1, "Emotional Explorer": 1, "Coming-of-Age Kindred": 1, "Court Intriguer": 2, "Rainbow Romantic": 2, "Literary Adventurer": 2, "Tome Conqueror": 2, "Quick-Sip Reader": 2, "Found-Family Seeker": 2, "Time Traveller": 3, "Shadow Seeker": 3, "Stargazer": 3, "Myth Weaver": 3, "Curious Scholar": 3, "Self-Builder": 2, "Mind Explorer": 2, "Life Collector": 2, "Strategist": 3, "Spiritual Seeker": 3, "Philosopher": 3, "Science Wonderer": 3, "Chronicler": 3, "Truth Seeker": 3, "Poet's Heart": 3, "Young at Heart": 3, "Panel Hopper": 3, "Laughter Seeker": 3, "Dragon Rider": 2, "Cozy Soul": 2, "Classic Soul": 2, "Thrill Chaser": 1, "Dystopian Rebel": 2, "War Witness": 3, "Faithful Pilgrim": 3, "Money Mind": 3, "Wellness Keeper": 3, "Tech Tinkerer": 3, "Political Mind": 3, "Nature Walker": 3, "Globetrotter": 3, "Kitchen Alchemist": 3, "Artist's Eye": 3, "Nurturer": 3, "Wordsmith": 3 };
   const short = a => a.name.replace(/^The /, "");
   function hybridName(a, b){ if (!b) return a.name; return HYBRID[`${short(a)}|${short(b)}`] || HYBRID[`${short(b)}|${short(a)}`] || `The ${ADJ[short(b)] || "Wandering"} ${short(a).split(" ").pop()}`; }
   const W8 = b => b.rating ? .3 + b.rating / 5 : .8;
@@ -7292,13 +7739,108 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     return { nowG, allG, months, weather, nemesis, twist };
   }
   // ---- 05 the literary passport ----
-  const LANDS = [["Fantasy", "🏰", "Fantasy Realms"], ["Romantasy", "🐉", "Dragon & Fae Courts"], ["Romance", "💘", "Romance Lands"], ["Mystery", "🔎", "Mystery Cities"], ["Thriller", "🗝", "Thriller Alleys"], ["Horror", "🌑", "Dark Kingdoms"], ["Science Fiction", "🚀", "Future Worlds"],
-    ["Historical Fiction", "⏳", "Bygone Eras"], ["Classics", "📜", "The Old Libraries"], ["Literary Fiction", "🖋", "The Quiet Streets"], ["Contemporary", "☕", "Present-Day Towns"], ["Young Adult", "🌟", "Coming-of-Age Coast"], ["Nonfiction", "🧭", "The Real World"], ["Memoir", "🪞", "Other People's Lives"], ["Self-help", "🌱", "Self-Growth Gardens"], ["Religion", "🕯", "The Sacred Halls"], ["Business", "🏛", "The Market Towers"], ["Psychology", "🧠", "The Mind Palace"], ["Philosophy", "🦉", "The Thinkers' Garden"], ["Science", "🔭", "The Observatory"], ["History", "🗺", "The Archive of Ages"], ["Poetry", "🪶", "The Poets' Corner"], ["Graphic Novel", "💥", "Panel City"], ["cozy", "🌿", "Cozy Villages"]];
-  function passport(D){
-    const visits = LANDS.map(([k, ic, name]) => ({ k, ic, name, n: D.read.filter(b => k === "cozy" ? trAny(b, "Found family", "Small town") || feltAny(b, "Cozy", "Comforted") : allG(b).has(k)).length }));
-    const worlds = D.groups.filter(g => g.read).map(g => { const rd = g.books.filter(b => b.shelf === "read"); const days = rd.filter(b => isExact(b.started) && isExact(b.finished)).reduce((s, b) => s + Math.max(1, Math.round((new Date(b.finished) - new Date(b.started)) / 864e5) + 1), 0); return { name: g.name, n: rd.length, of: g.books.length, pages: rd.reduce((s, b) => s + (Number(b.pages) || 0), 0), days }; }).sort((a, b) => b.n - a.n || b.pages - a.pages).slice(0, 4);
-    return { visits, level: visits.filter(v => v.n).length, worlds };
+  // ================= levels: what they mean and what they unlock =================
+  const LEVEL_REWARDS = {
+    1: [["✦", "Your Reader's Soul and DNA appear"]],
+    2: [["⚖", "Your literary alignment"], ["🎁", "Your familiar starts bringing you little gifts"]],
+    3: [["🚩", "Your red & green flags"], ["🪶", "Trinket: the Wordsmith's quill", "lvquill"]],
+    4: [["🗺", "Your reading era and literary passport"]],
+    5: [["💡", "Trinket: a brass reading lamp", "lvlamp"], ["🎴", "Card packs: one card is always rare or better"]],
+    6: [["🎴", "Rare character cards appear more often in card packs"]],
+    7: [["🥈", "A silver frame on all your share cards"], ["🪐", "Trinket: a clockwork orrery", "lvorrery"]],
+    8: [["📜", "Secret achievements give you hints"]],
+    9: [["🥇", "A gold frame on all your share cards"]],
+    10: [["👑", "Trinket: the Lorekeeper's crown", "lvcrown"]],
+    11: [["🔥", "Trinket: a phoenix feather in a bell jar", "lvphoenix"], ["✨", "Legendary card packs: every pack has a legendary card"]],
+    12: [["🌌", "An aurora frame on all your share cards"]],
+    13: [["🏛", "Your nook becomes a Legend: a golden name for friends to see"]],
+  };
+  const levelNow = () => readerLevel().level;
+  const rewardLevel = k => { for (const [lv, list] of Object.entries(LEVEL_REWARDS)) if (list.some(r => r[2] === k)) return +lv; return 0; };
+  const cardFrame = () => { const l = levelNow(); return l >= 12 ? "aurora" : l >= 9 ? "gold" : l >= 7 ? "silver" : ""; };
+  Object.assign(TRINKETS, {
+    lvquill: () => `<div class="trinket" style="width:40px;height:62px" aria-hidden="true"><svg viewBox="0 0 40 62" width="40" height="62"><path d="M26 2c8 6 10 20 2 34l-8 10c-2-14 0-32 6-44z" fill="#F4ECD8" stroke="#C9B48A" stroke-width="1"/><path d="M26 6l-5 38" stroke="#B8A27A" stroke-width=".8"/><path d="M20 46l-2 6" stroke="#3A2A1A" stroke-width="1.6"/><path d="M8 48h24l-2 12H10z" fill="#2A3A5A"/><ellipse cx="20" cy="48" rx="12" ry="3" fill="#1A2440"/><path d="M10 52h20" stroke="#C9A24E" stroke-width="1.2"/></svg></div>`,
+    lvlamp: () => `<div class="trinket" style="width:46px;height:84px" aria-hidden="true">${glowDiv(-20, -10, 84, "flick")}<svg viewBox="0 0 46 84" width="46" height="84"><path d="M8 26h30l-6-18H14z" fill="#2E5E3A" stroke="#C9A24E" stroke-width="1.2"/><path d="M14 26q9 6 18 0" fill="#FFE7A8" opacity=".8"/><path d="M23 26v44" stroke="#B8862E" stroke-width="3"/><path d="M23 40q10 0 10-8" stroke="#B8862E" stroke-width="2" fill="none"/><ellipse cx="23" cy="78" rx="16" ry="4.5" fill="#B8862E"/><rect x="17" y="70" width="12" height="8" rx="2" fill="#C9A24E"/></svg></div>`,
+    lvorrery: () => `<div class="trinket" style="width:58px;height:74px" aria-hidden="true"><svg viewBox="0 0 58 74" width="58" height="74"><g class="swirl"><ellipse cx="29" cy="30" rx="26" ry="9" fill="none" stroke="#C9A24E" stroke-width="1.2"/><ellipse cx="29" cy="30" rx="16" ry="22" fill="none" stroke="#C9A24E" stroke-width="1" transform="rotate(30 29 30)"/><circle cx="55" cy="30" r="3.4" fill="#6EA7D9"/><circle cx="18" cy="11" r="2.6" fill="#D96A4A"/></g><circle cx="29" cy="30" r="7" fill="#F2B940"/><path d="M29 52v12" stroke="#8A6A3A" stroke-width="3"/><path d="M15 70h28l-4-6H19z" fill="#8A6A3A"/></svg></div>`,
+    lvcrown: () => `<div class="trinket" style="width:56px;height:46px" aria-hidden="true">${glowDiv(-14, -14, 84, "pulse")}<svg viewBox="0 0 56 46" width="56" height="46"><path d="M6 36L4 12l12 10 12-18 12 18 12-10-2 24z" fill="#E9C24E" stroke="#A7801E" stroke-width="1.2"/><rect x="5" y="36" width="46" height="6" rx="2" fill="#C9A24E"/>${[[16, 26, "#C8243F"], [28, 22, "#2E7DAF"], [40, 26, "#2E8A4A"]].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="3" fill="${c}"/>`).join("")}<circle cx="4" cy="12" r="2.4" fill="#F7E7A8"/><circle cx="28" cy="4" r="2.6" fill="#F7E7A8"/><circle cx="52" cy="12" r="2.4" fill="#F7E7A8"/></svg></div>`,
+    lvphoenix: () => `<div class="trinket" style="width:44px;height:80px" aria-hidden="true">${glowDiv(-18, 0, 80, "flick")}<svg viewBox="0 0 44 80" width="44" height="80"><path d="M8 72V30a14 14 0 0 1 28 0v42z" fill="rgba(220,240,255,.18)" stroke="rgba(255,255,255,.6)" stroke-width="1.3"/><path class="flame" d="M22 64c-6-10-4-22 4-32c0 8 6 12 4 22c3-3 4-6 4-9c4 8 0 16-6 19z" fill="#FF8A3C"/><path d="M22 64c-3-6-2-13 2-19c1 6 4 8 2 14z" fill="#FFD27A"/><rect x="5" y="72" width="34" height="6" rx="2" fill="#6B4021"/></svg></div>`,
+  });
+  Object.assign(TRINKET_NAMES, { lvquill: "Wordsmith's quill", lvlamp: "Reading lamp", lvorrery: "Clockwork orrery", lvcrown: "Lorekeeper's crown", lvphoenix: "Phoenix feather" });
+  TRINKET_DRAWER.push(["Level rewards", ["lvquill", "lvlamp", "lvorrery", "lvcrown", "lvphoenix"]]);
+  function levelsHTML(L){
+    return `<div class="lvlnow"><span class="lvlbig">${L.level}</span><div><div class="label">Your level</div><b>${esc(L.title)}</b>${L.next ? `<span class="lvlbar"><span style="width:${L.next.pct}%"></span></span><small>${L.next.at - L.n} more book${L.next.at - L.n === 1 ? "" : "s"} to level ${L.level + 1}: ${esc(L.next.title)}</small>` : `<small>You've reached the highest level. A true legend.</small>`}</div></div>
+      <p class="note">Your level grows with every book you finish (books on the Read shelf). Each level gives you a new title, which friends see on your profile, and many levels unlock something for your nook: trinkets for your shelves, frames for your share cards, better card packs and more of your Reader's Soul.</p>
+      <ol class="lvladder">${LEVELS.map(([at, title], i) => { const lv = i + 1, got = L.level >= lv, R = LEVEL_REWARDS[lv] || [];
+        return `<li class="${got ? "got" : ""}${lv === L.level ? " now" : ""}"><span class="lvn">${lv}</span><div><b>${esc(title)}</b><small>${at ? `${at} book${at === 1 ? "" : "s"} read` : "where everyone begins"}${got ? " · unlocked" : ` · ${at - L.n} to go`}</small>${R.length ? `<div class="lvrw">${R.map(([ic, t, tk]) => `<span>${tk && TRINKETS[tk] ? `<i class="lvtk">${TRINKETS[tk]()}</i>` : `<i>${ic}</i>`}${esc(t)}</span>`).join("")}</div>` : ""}</div><span class="lvst">${got ? "✓" : "🔒"}</span></li>`; }).join("")}</ol>`;
   }
+  // ================= the passport: more lands, and visas for the places you return to =================
+  const LAND_DEFS = [
+    ["Fantasy Realms", "🏰", b => hasG(b, "Fantasy")], ["Dragon Roosts", "🐉", b => hasT(b, "Dragons") || rxB(b, /\bdragons?\b/)], ["Faerie Courts", "🧚", b => hasT(b, "Fae") || rxB(b, /\b(fae|faerie|fairy court)\b/)],
+    ["Romance Lands", "💘", b => hasG(b, "Romance", "Romantasy")], ["Mystery Cities", "🔎", b => hasG(b, "Mystery")], ["Thriller Alleys", "🗝", b => hasG(b, "Thriller")], ["Dark Kingdoms", "🌑", b => hasG(b, "Horror") || hasT(b, "Gothic")],
+    ["Future Worlds", "🚀", b => hasG(b, "Science Fiction")], ["Dystopian Wastes", "☢", b => hasG(b, "Dystopian") || hasT(b, "Dystopia")], ["Myth Mountains", "⚡", b => hasT(b, "Myth retelling", "Gods & goddesses")],
+    ["Bygone Eras", "⏳", b => hasG(b, "Historical Fiction")], ["The Old Libraries", "📜", b => hasG(b, "Classics")], ["The Quiet Streets", "🖋", b => hasG(b, "Literary Fiction")], ["Present-Day Towns", "☕", b => hasG(b, "Contemporary")],
+    ["Coming-of-Age Coast", "🌟", b => hasG(b, "Young Adult")], ["Cozy Villages", "🌿", b => hasT(b, "Found family", "Small town") || hasF(b, "Cozy", "Comforted")], ["The War Fronts", "🎖", b => hasT(b, "War") || rxB(b, /\b(world war|wwii|battle of)\b/)],
+    ["The Sacred Halls", "🕯", b => ARCHETYPES.find(a => a.name === "The Faithful Pilgrim").t(b) > 0], ["The Market Towers", "🏛", b => hasG(b, "Business")], ["The Mind Palace", "🧠", b => hasG(b, "Psychology")], ["The Thinkers' Garden", "🦉", b => hasG(b, "Philosophy")],
+    ["The Observatory", "🔭", b => hasG(b, "Science")], ["The Archive of Ages", "🗺", b => hasG(b, "History") && !hasG(b, "Historical Fiction")], ["Other People's Lives", "🪞", b => hasG(b, "Biography & Memoir", "Memoir")], ["Self-Growth Gardens", "🌱", b => hasG(b, "Self-help")],
+    ["The Poets' Corner", "🪶", b => hasG(b, "Poetry")], ["Panel City", "💥", b => hasG(b, "Graphic Novel")], ["The Laughing Tavern", "😂", b => hasG(b, "Humor")], ["Storybook Lane", "🧸", b => hasG(b, "Children's")],
+    ["The Far Horizons", "✈", b => ARCHETYPES.find(a => a.name === "The Globetrotter").t(b) > 0], ["The Wildwood", "🌲", b => ARCHETYPES.find(a => a.name === "The Nature Walker").t(b) > 0], ["The Spice Market", "🍲", b => ARCHETYPES.find(a => a.name === "The Kitchen Alchemist").t(b) > 0],
+  ];
+  const LANDS = LAND_DEFS;
+  function passport(D){
+    const visits = LAND_DEFS.map(([name, ic, test]) => { const list = D.read.filter(b => { try { return test(b); } catch { return false; } }); const first = list.map(b => b.finished).filter(Boolean).sort()[0];
+      return { name, ic, n: list.length, first, visa: list.length >= 10 ? "gold" : list.length >= 5 ? "silver" : list.length ? "stamp" : "" }; });
+    const worlds = D.groups.filter(g => g.read).map(g => { const rd = g.books.filter(b => b.shelf === "read"); const days = rd.filter(b => isExact(b.started) && isExact(b.finished)).reduce((s, b) => s + Math.max(1, Math.round((new Date(b.finished) - new Date(b.started)) / 864e5) + 1), 0); return { name: g.name, n: rd.length, of: g.books.length, pages: rd.reduce((s, b) => s + (Number(b.pages) || 0), 0), days }; }).sort((a, b) => b.n - a.n || b.pages - a.pages).slice(0, 4);
+    return { visits, level: visits.filter(v => v.n).length, worlds, gold: visits.filter(v => v.visa === "gold").length };
+  }
+  // ================= more achievements & secrets =================
+  const ACH_CAT = { Milestones: ["First Chapter", "Bookworm", "Bibliophile", "Living Library", "Fifty Strong", "The Two Hundred", "Page Mountain", "Page Everest", "A Book a Week", "A Book a Month", "Marathon Month"],
+    Explorer: ["Royal Obsession", "Dragon Whisperer", "Rainbow Collector", "Time Traveller", "World Hopper", "Passport Stamper", "Citizen of Everywhere", "Classic Revival", "Pilgrim's Path", "Mind Palace", "Lab Coat", "Myth Maker", "Shadow Walker", "Detective's Badge", "Star Charts", "Real World", "Emotional Damage", "Doorstopper Slayer", "The Completionist", "Saga Sovereign"],
+    Habits: ["Critic's Eye", "Word Collector", "Heart Collector", "Candlelight Ritual", "Lost in the Pages", "Keeper of the Flame", "Speed Reader", "Note Taker", "Feelings Fluent", "Reviewer", "Pen Pal", "Social Butterfly", "Card Collector", "Set Complete", "Loyal Reader", "Speed Demon"] };
+  function moreAchievements(D, A){
+    const { read } = D, ach = (icon, name, desc, rarity, have, need, secret) => A.push({ icon, name, desc, rarity, have: Math.min(have, need), need, done: have >= need, secret });
+    const pages = read.reduce((s, b) => s + (Number(b.pages) || 0), 0), AT = name => ARCHETYPES.find(a => a.name === name), cntA = name => read.filter(b => AT(name)?.t(b) > 0).length;
+    ach("🌟", "Fifty Strong", "Finish 50 books.", "epic", read.length, 50);
+    ach("🏰", "The Two Hundred", "Finish 200 books.", "legendary", read.length, 200);
+    ach("⛰", "Page Mountain", "Read 10,000 pages.", "rare", pages, 10000);
+    ach("🗻", "Page Everest", "Read 50,000 pages.", "legendary", pages, 50000);
+    const byYear = new Map(); read.forEach(b => { const y = yearOf(b.finished); if (y) byYear.set(y, (byYear.get(y) || 0) + 1); });
+    ach("📅", "A Book a Month", "Finish 12 books in one calendar year.", "rare", Math.max(0, ...byYear.values()), 12);
+    const P = passport(D);
+    ach("🛂", "Passport Stamper", "Visit 10 lands in your literary passport.", "rare", P.level, 10);
+    ach("🌍", "Citizen of Everywhere", "Visit 20 lands in your literary passport.", "legendary", P.level, 20);
+    ach("📜", "Classic Revival", "Read 5 classics.", "rare", cntA("The Classic Soul"), 5);
+    ach("✝", "Pilgrim's Path", "Read 3 books of scripture or faith.", "rare", cntA("The Faithful Pilgrim"), 3);
+    ach("🧠", "Mind Palace", "Read 3 books about the mind.", "rare", cntA("The Mind Explorer"), 3);
+    ach("🔬", "Lab Coat", "Read 3 science books.", "rare", cntA("The Science Wonderer"), 3);
+    ach("⚡", "Myth Maker", "Read 3 myth retellings.", "rare", cntA("The Myth Weaver"), 3);
+    ach("🌑", "Shadow Walker", "Read 3 dark or gothic books.", "rare", cntA("The Shadow Seeker"), 3);
+    ach("🔎", "Detective's Badge", "Solve 5 mysteries.", "rare", cntA("The Mystery Hunter"), 5);
+    ach("🚀", "Star Charts", "Read 3 science fiction books.", "rare", cntA("The Stargazer"), 3);
+    ach("🧭", "Real World", "Read 10 nonfiction books.", "epic", read.filter(b => nonF(b)).length, 10);
+    ach("❝", "Note Taker", "Save 10 quotes from your books.", "rare", read.reduce((s, b) => s + (b.quotes || []).length, 0), 10);
+    ach("☀", "Feelings Fluent", "Add feelings to 20 books.", "rare", read.filter(b => (b.feelings || []).length).length, 20);
+    ach("✍", "Reviewer", "Write your thoughts on 10 books.", "rare", read.filter(b => (b.review || "").length > 20).length, 10);
+    ach("🎴", "Card Collector", "Collect 20 character cards.", "epic", allChars().length, 20);
+    ach("🏅", "Set Complete", "Complete a whole saga card set.", "legendary", (() => { try { return sagaSets().filter(s => s.have >= s.cards.length).length; } catch { return 0; } })(), 1);
+    const byAuthor = new Map(); read.forEach(b => b.author && byAuthor.set(b.author, (byAuthor.get(b.author) || 0) + 1));
+    ach("🖋", "Loyal Reader", "Read 5 books by the same author.", "epic", Math.max(0, ...byAuthor.values()), 5);
+    ach("🏎", "Speed Demon", "Finish a 500+ page book within 3 days.", "epic", read.filter(b => (b.pages || 0) >= 500 && isExact(b.started) && isExact(b.finished) && (new Date(b.finished) - new Date(b.started)) / 864e5 <= 2).length, 1);
+    try { const L = Social._stats?.() || {}; ach("✉", "Pen Pal", "Send 3 book letters to friends.", "rare", L.sent || 0, 3); ach("🦋", "Social Butterfly", "Make 3 friends in the nook.", "rare", L.friends || 0, 3); } catch {}
+    // ---- secrets ----
+    ach("🌕", "Full Moon Reader", "Finish a book on a full moon.", "epic", read.filter(b => isExact(b.finished) && moonAge(b.finished) >= 13.8 && moonAge(b.finished) <= 15.8).length, 1, true);
+    ach("🦇", "Witching Hour", "Start a reading session between 3 and 4 in the morning.", "epic", allSessions().filter(s => new Date(s.s).getHours() === 3).length, 1, true);
+    ach("🐓", "Early Bird", "Start a reading session before 6 in the morning.", "rare", allSessions().filter(s => { const h = new Date(s.s).getHours(); return h >= 4 && h < 6; }).length, 1, true);
+    ach("🗂", "Tsundoku", "Have 50 books waiting on your Want to read shelf.", "epic", books.filter(b => b.shelf === "want").length, 50, true);
+    ach("🕸", "No Guilt", "Put a book on the Abandoned Shelf.", "common", books.filter(b => b.shelf === "dnf").length, 1, true);
+    ach("☀", "Same Day", "Start and finish a book on the same day.", "rare", read.filter(b => isExact(b.started) && b.started === b.finished).length, 1, true);
+    ach("🐌", "The Slowest Burn", "Take more than 100 days over a single book.", "rare", read.filter(b => isExact(b.started) && isExact(b.finished) && (new Date(b.finished) - new Date(b.started)) / 864e5 > 100).length, 1, true);
+    ach("🍪", "Cookie Monster", "Give your familiar 10 treats.", "rare", lsGet("reading-ledger-treats", 0), 10, true);
+    ach("🎁", "Gift Keeper", "Receive 3 gifts from your familiar.", "epic", (lsGet("reading-ledger-famgifts", []) || []).length, 3, true);
+    ach("🏆", "Legendary Bond", "Earn your familiar's legendary treasure.", "legendary", (() => { try { return Object.keys(FAMILIARS).some(k => bondLevel(bondOf(k).pts).lvl >= 5) ? 1 : 0; } catch { return 0; } })(), 1, true);
+  }
+  // how old the moon is on a given day (days since new moon), good enough for a secret
+  const moonAge = d => { const t = (new Date(d + "T21:00:00").getTime() - Date.UTC(2000, 0, 6, 18, 14)) / 864e5, p = 29.530588853; return ((t % p) + p) % p; };
+  const achCat = name => Object.entries(ACH_CAT).find(([, l]) => l.includes(name))?.[0] || "Milestones";
   // ---- 06 achievements ----
   function achievements(D){
     const { read, groups } = D, A = [];
@@ -7311,7 +7853,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     ach("👑", "Royal Obsession", "Read 5 books full of courts, crowns and assassins.", "rare", read.filter(b => /\b(court|courts|royal|queen|king|prince|princess|assassin|assassins|throne)\b/.test(TXT(b)) || /throne|court|crown|queen|king/i.test(b.title)).length, 5);
     ach("💔", "Emotional Damage", "Finish 3 books that left you heartbroken or devastated.", "epic", read.filter(b => feltAny(b, "Heartbroken", "Devastated")).length, 3);
     ach("🐉", "Dragon Whisperer", "Read 3 books with dragons.", "rare", read.filter(b => trAny(b, "Dragons") || /\bdragons?\b/i.test(TXT(b) + " " + b.title)).length, 3);
-    ach("🌈", "Rainbow Collector", "Read 5 queer love stories.", "epic", read.filter(b => ARCHETYPES[3].t(b) > 0 || /what if it|here.?s to us|aristotle and dante|arr[eê]te avec|song of achilles|red, white|heartstopper/i.test(b.title)).length, 5);
+    ach("🌈", "Rainbow Collector", "Read 5 queer love stories.", "epic", read.filter(b => ARCHETYPES.find(a => a.name === "The Rainbow Romantic").t(b) > 0 || /what if it|here.?s to us|aristotle and dante|arr[eê]te avec|song of achilles|red, white|heartstopper/i.test(b.title)).length, 5);
     ach("📜", "The Completionist", "Finish every book of a series (3+ books).", "epic", groups.filter(g => g.complete && g.books.length >= 3).length, 1);
     ach("🏆", "Saga Sovereign", "Complete 3 whole series.", "legendary", groups.filter(g => g.complete && g.books.length >= 3).length, 3);
     ach("⚔", "Doorstopper Slayer", "Finish a book of 700 pages or more.", "rare", read.filter(b => (b.pages || 0) >= 700).length, 1);
@@ -7333,6 +7875,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     ach("🕯", "Candlelight Ritual", "Read in 10 reading-mode sessions.", "rare", SS.length, 10);
     ach("⌛", "Lost in the Pages", "Read for 2 hours in a single session.", "epic", Math.max(0, ...SS.map(x => x.m)), 120);
     ach("🔥", "Keeper of the Flame", "Read by candlelight 7 days in a row.", "legendary", (() => { const ds = [...new Set(SS.map(x => (x.s || "").slice(0, 10)))].sort(); let best = 0, run = 0, prev = null; for (const d of ds) { run = prev && (new Date(d) - new Date(prev)) / 864e5 === 1 ? run + 1 : 1; best = Math.max(best, run); prev = d; } return best; })(), 7);
+    try { moreAchievements(D, A); } catch (e) { console.warn(e); }
     return A;
   }
   // ---- 07 the literary horoscope (for fun) ----
@@ -7340,7 +7883,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     libra: ["Venus", "beautiful prose and impossible romances"], scorpio: ["Pluto", "obsession, secrets and love that burns"], sagittarius: ["Jupiter", "epic quests and far-off worlds"], capricorn: ["Saturn", "ambitious schemers and slow, rewarding builds"], aquarius: ["Uranus", "strange ideas and rule-breaking characters"], pisces: ["Neptune", "dreamy magic and gentle heartbreak"] };
   const DESTINY = { "Fantasy Wanderer": "a sprawling fantasy with a map in the front", "Court Intriguer": "enough political intrigue to ruin your sleep schedule", "Romantic Dreamer": "a slow burn that makes you scream into a pillow", "Rainbow Romantic": "a queer love story that fixes something in your chest",
     "Emotional Explorer": "an ending that wrecks you in the best way", "Coming-of-Age Kindred": "a coming-of-age story that feels like your own diary", "Saga Devotee": "the first book of a very long series", "Tome Conqueror": "an 800-page doorstopper", "Quick-Sip Reader": "a slim book you devour in one evening", "Literary Adventurer": "sentences so beautiful you underline them",
-    "Myth Weaver": "gods behaving badly", "Mystery Hunter": "a twist you absolutely do not see coming", "Shadow Seeker": "a gothic house with a secret in the walls", "Stargazer": "a spaceship and a very big question", "Time Traveller": "candlelight and corsets", "Curious Scholar": "a true story stranger than fiction", "Found-Family Seeker": "a ragtag crew who become each other's home" , "Spiritual Seeker": "a quiet book about faith and meaning", "Strategist": "a leadership book that changes how you work", "Mind Explorer": "a book about why people do what they do", "Self-Builder": "a book that becomes your new habit", "Philosopher": "an old book of wisdom that still feels new", "Science Wonderer": "a book that makes the universe feel bigger", "Chronicler": "a sweeping true history", "Life Collector": "a memoir you can't put down", "Truth Seeker": "a true story stranger than fiction", "Poet's Heart": "a slim book of poems to read slowly", "Young at Heart": "a children's classic to revisit", "Panel Hopper": "a graphic novel with stunning art", "Laughter Seeker": "a book that makes you laugh out loud" };
+    "Myth Weaver": "gods behaving badly", "Mystery Hunter": "a twist you absolutely do not see coming", "Shadow Seeker": "a gothic house with a secret in the walls", "Stargazer": "a spaceship and a very big question", "Time Traveller": "candlelight and corsets", "Curious Scholar": "a true story stranger than fiction", "Found-Family Seeker": "a ragtag crew who become each other's home" , "Spiritual Seeker": "a quiet book about faith and meaning", "Strategist": "a leadership book that changes how you work", "Mind Explorer": "a book about why people do what they do", "Self-Builder": "a book that becomes your new habit", "Philosopher": "an old book of wisdom that still feels new", "Science Wonderer": "a book that makes the universe feel bigger", "Chronicler": "a sweeping true history", "Life Collector": "a memoir you can't put down", "Truth Seeker": "a true story stranger than fiction", "Poet's Heart": "a slim book of poems to read slowly", "Young at Heart": "a children's classic to revisit", "Panel Hopper": "a graphic novel with stunning art", "Laughter Seeker": "a book that makes you laugh out loud", "Dragon Rider": "a dragon who chooses you", "Cozy Soul": "a warm blanket of a book", "Classic Soul": "a classic you always meant to read", "Thrill Chaser": "a twist at 2am", "Dystopian Rebel": "a rebellion worth joining", "War Witness": "a story of quiet courage", "Faithful Pilgrim": "a passage that stays with you all week", "Money Mind": "one idea that changes how you spend", "Wellness Keeper": "a habit that sticks", "Tech Tinkerer": "a peek at the future", "Political Mind": "the story behind the headlines", "Nature Walker": "a walk in the wild, on paper", "Globetrotter": "a journey to somewhere new", "Kitchen Alchemist": "a recipe worth a Sunday", "Artist's Eye": "a book as beautiful as a painting", "Nurturer": "words for the people you love", "Wordsmith": "a sentence you copy into your notebook" };
   function horoscope(D){
     const z = ZODIAC.find(x => x[0] === zodiac); if (!z) return null;
     const [planet, desire] = PLANET[z[0]], [a, b] = D.dna;
@@ -7351,9 +7894,10 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
   }
   // ---- 08 literary soulmate: compare DNA codes with a friend ----
   const dnaVec = D => ARCHETYPES.map(a => (D.dna.find(x => x.name === a.name)?.pct) || 0);
-  const myCode = D => "NOOK-" + btoa(JSON.stringify({ n: lsGet("reading-ledger-readername", "") || "A reader", v: dnaVec(D), t: D.dna[0] ? hybridName(D.dna[0], D.dna[1]) : "" })).replace(/=+$/, "");
+  const dnaMap = D => Object.fromEntries(D.dna.filter(x => x.pct > 0).map(x => [short(x), x.pct]));
+  const myCode = D => "NOOK-" + btoa(unescape(encodeURIComponent(JSON.stringify({ n: lsGet("reading-ledger-readername", "") || "A reader", m: dnaMap(D), t: D.dna[0] ? hybridName(D.dna[0], D.dna[1]) : "" })))).replace(/=+$/, "");
   function compareCode(D, code){
-    try { const o = JSON.parse(atob(code.trim().replace(/^NOOK-/, ""))); const a = dnaVec(D), b = o.v; const dot = a.reduce((s, x, i) => s + x * (b[i] || 0), 0), na = Math.hypot(...a), nb = Math.hypot(...b);
+    try { let raw = atob(code.trim().replace(/^NOOK-/, "")); try { raw = decodeURIComponent(escape(raw)); } catch {} const o = JSON.parse(raw); const a = dnaVec(D), b = o.m ? ARCHETYPES.map(x => o.m[short(x)] || 0) : (o.v || []); const dot = a.reduce((s, x, i) => s + x * (b[i] || 0), 0), na = Math.hypot(...a), nb = Math.hypot(...b);
       const match = na && nb ? Math.round(dot / na / nb * 100) : 0;
       const shared = ARCHETYPES.map((x, i) => [x, Math.min(a[i], b[i] || 0)]).filter(x => x[1] >= 10).sort((p, q) => q[1] - p[1]).slice(0, 3).map(x => short(x[0]));
       return { name: o.n || "Your friend", title: o.t, match, shared }; } catch { return null; }
@@ -7361,7 +7905,9 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
   // ---- the page itself ----
   let soulSel = null, soulCmp = null;
   const RCOL = { common: "#8A8A7A", rare: "#3A7BD5", epic: "#9C5AD0", legendary: "#D9A43A" };
-  const SOUL_PAGES = [["dna", "DNA"], ["align", "Alignment"], ["flags", "Flags"], ["era", "Era"], ["pass", "Passport"], ["ach", "Achievements"], ["horo", "Horoscope"], ["mate", "Soulmate"]];
+  const SOUL_PAGES = [["dna", "You"], ["levels", "Levels"], ["align", "Alignment"], ["flags", "Flags"], ["era", "Era"], ["pass", "Passport"], ["ach", "Achievements"], ["horo", "Horoscope"], ["mate", "Soulmate"]];
+  let achTab = "All";
+  const fmtShort = d => { const [y, m] = String(d).split("-"); return m ? `${MONTHS[+m - 1]} ${y}` : y; };
   let soulPage = "dna";
   function openSoul(focus){
     if (focus) soulPage = focus;
@@ -7390,33 +7936,44 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     const evidence = !sel ? [] : D.read.filter(x => sel.t(x) > 0).sort((p, q) => (q.rating || 0) - (p.rating || 0)).slice(0, 4);
     const timeline = (() => { const ys = [...new Set(D.read.map(x => yearOf(x.finished)).filter(Boolean))].sort(); return ys.map(y => { const list = D.read.filter(x => yearOf(x.finished) === y); if (list.length < 2) return null; const w = W8; const top = ARCHETYPES.map(A => [A, list.reduce((s, x) => s + w(x) * A.t(x), 0)]).sort((p, q) => q[1] - p[1])[0]; return top[1] > 0 ? { y, A: top[0], n: list.length } : null; }).filter(Boolean); })();
     const unlocked = ACH.filter(x => x.done).length;
-    const ch = (n, id, title, sub, body) => `<section class="soulch" id="soul-${id}"><div class="soulnum">${n}</div><div class="soulbody"><h3>${title}</h3><div class="soulsub">${sub}</div>${body}</div></section>`;
+    const HB = habitsOf(D.read);
+    const ch = (n, id, title, sub, body) => `<section class="soulch" id="soul-${id}"><div class="soulnum">${String(SOUL_PAGES.findIndex(p => p[0] === id) + 1).padStart(2, "0")}</div><div class="soulbody"><h3>${title}</h3><div class="soulsub">${sub}</div>${body}</div></section>`;
     view.innerHTML = `<div class="soul soulpage">
       <header class="soulhead"><div class="soultop"><div class="soultitle"><div class="label">The Reader's Soul</div><h2 id="soul-title">Your literary universe</h2></div>
-        <div class="soullevel"><span class="lvl">Level ${L.level}</span><b>${esc(L.title)}</b>${L.next ? `<span class="lvlbar"><span style="width:${L.next.pct}%"></span></span><small>${L.n} / ${L.next.at} books to become ${esc(L.next.title)}</small>` : `<small>${L.n} books. The highest rank.</small>`}</div>
+        <div class="soullevel" data-soulgo="levels" role="button" tabindex="0" title="What do levels mean?"><span class="lvl">Level ${L.level} ⓘ</span><b>${esc(L.title)}</b>${L.next ? `<span class="lvlbar"><span style="width:${L.next.pct}%"></span></span><small>${L.n} / ${L.next.at} books to become ${esc(L.next.title)}</small>` : `<small>${L.n} books. The highest rank.</small>`}</div>
         <button type="button" class="btn small soulshare" data-share="soul">⤴ Share my soul</button></div>
         <nav class="soulnav">${SOUL_PAGES.map(([k, l], i) => `<button type="button" data-soulgo="${k}"><i>0${i + 1}</i>${l}</button>`).join("")}</nav></header>
-      ${ch("01", "dna", "Your Reader DNA", `${tier} DNA · ${esc(tierTxt)}`, `<div class="soulhero" style="--c:${a.c}"><span class="dnaglyph" style="color:${a.c}">${a.g}</span><div><div class="label">Your hybrid soul</div><h4>${esc(hybridName(a, b))}</h4><p>${esc(a.name)}${b ? ` × ${esc(b.name)}` : ""}${rareLabel ? ` <span class="rarity r-${rareLabel[1]}">${rareLabel[0]}</span>` : ""}</p></div></div>
+      ${ch("01", "dna", "You, as a reader", `${tier} · ${esc(tierTxt)}`, `<div class="soulhero" style="--c:${a.c}"><span class="dnaglyph" style="color:${a.c}">${a.g}</span><div><div class="label">Your Reader's Soul</div><h4>${esc(hybridName(a, b))}</h4><p>Mostly <b style="color:${a.c}">${esc(short(a))}</b>${b ? `, with <b style="color:${b.c}">${esc(short(b))}</b>` : ""}${D.dna[2] ? ` and a touch of ${esc(short(D.dna[2]))}` : ""}.${rareLabel ? ` <span class="rarity r-${rareLabel[1]}">${rareLabel[0]}</span>` : ""}</p></div></div>
         <div class="strand big">${D.dna.slice(0, 6).map(x => `<span style="flex:${x.pct};--c:${x.c}" title="${esc(x.name)} · ${x.pct}%"></span>`).join("")}</div>
         <p class="dnadesc soulwho">${esc(who)}</p>
-        <div class="soulchips">${D.dna.slice(0, 8).map(x => `<button type="button" class="dnachip${x === sel ? " on" : ""}" data-soulsel="${esc(x.name)}" style="--c:${x.c}" aria-expanded="${x === sel}" title="${x === sel ? "Close" : "What makes you this?"}"><i>${x.g}</i>${esc(short(x))}<b>${x.pct}%</b></button>`).join("")}</div>
-        <p class="note soulhint">${sel ? "" : "Tap any of them to see what makes you that kind of reader."}</p>
-        ${!sel ? "" : `<div class="soulsel" style="--c:${sel.c}"><button type="button" class="iconbtn soulselx" data-soulsel="${esc(sel.name)}" aria-label="Close">✕</button><b>${esc(sel.name)}</b><p>${esc(sel.d)}</p>${evidence.length ? `<div class="label">What makes you this</div><div class="evid">${evidence.map(x => `<button type="button" class="evb" data-open="${esc(x.id)}">${coverHTML(x)}<span>${esc(x.title)}${x.rating ? ` · ${x.rating}★` : ""}</span></button>`).join("")}</div>` : ""}</div>`}
-        <blockquote class="hidden-trait"><div class="label">Your hidden reading trait</div>“${esc(H[0])}”<small>${esc(H[1])}</small></blockquote>
-        ${timeline.length > 1 ? `<div class="label" style="margin-top:12px">Your DNA through time</div><div class="timeline">${timeline.map(t => `<span style="--c:${t.A.c}"><i>${t.A.g}</i><b>${t.y}</b>${esc(short(t.A))}<small>${t.n} books</small></span>`).join("")}</div>` : ""}`)}
+        ${HB.length ? `<div class="habits"><span class="label">How you read</span>${HB.map(h => `<span class="habit" title="${esc(h[2])}"><i>${h[0]}</i>${esc(h[1])}</span>`).join("")}</div>` : ""}
+        <details class="souldet"${sel ? " open" : ""}><summary><span>Your reader types</span><small>${D.dna.length} found · what each colour means</small></summary>
+          <p class="note">Each colour is one kind of reader you are. The bigger the share, the more of your books (especially the ones you loved) point that way. Tap one to see why.</p>
+          <div class="soulchips">${D.dna.slice(0, 10).map(x => `<button type="button" class="dnachip${x === sel ? " on" : ""}" data-soulsel="${esc(x.name)}" style="--c:${x.c}" aria-expanded="${x === sel}"><i>${x.g}</i>${esc(short(x))}<b>${x.pct}%</b></button>`).join("")}</div>
+          ${!sel ? "" : `<div class="soulsel" style="--c:${sel.c}"><button type="button" class="iconbtn soulselx" data-soulsel="${esc(sel.name)}" aria-label="Close">✕</button><b>${esc(sel.name)}</b><p>${esc(sel.d)}</p>${evidence.length ? `<div class="label">The books that make you this</div><div class="evid">${evidence.map(x => `<button type="button" class="evb" data-open="${esc(x.id)}">${coverHTML(x)}<span>${esc(x.title)}${x.rating ? ` · ${x.rating}★` : ""}</span></button>`).join("")}</div>` : ""}</div>`}
+          <p class="note">Based on ${Math.round((D.dna.coverage || 0) * 100)}% of your books${(D.dna.coverage || 0) < .8 ? `. Use Library → “Fetch missing covers, details & tropes” so the rest can be read too.` : "."}</p></details>
+        <details class="souldet"><summary><span>Your hidden reading trait</span><small>the pattern you might not have noticed</small></summary><blockquote class="hidden-trait">“${esc(H[0])}”<small>${esc(H[1])}</small></blockquote></details>`)}
+      ${ch("02", "levels", "Your level", "What levels mean, and what they unlock", levelsHTML(L))}
       ${ch("02", "align", "Your Literary Alignment", "Do you read with your heart, your mind or your appetite for chaos?", `<div class="aligngrid"><div class="alabels"><span>Heart</span><span>Mind</span></div><div class="agrid">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<div class="acell${r === AL.row && c === AL.col ? " on" : ""}">${["The Devoted Romantic", "The Open Heart", "The Beautiful Chaos Reader", "The Loyal Keeper", "The Wandering Lantern", "The Wild Card", "The Scholarly Archivist", "The Curious Philosopher", "The Mad Scholar"][r * 3 + c].replace(/^The /, "")}</div>`).join("")).join("")}
         <span class="adot" style="left:${cellPos(AL.x, AL.col).toFixed(1)}%;top:${cellPos(AL.y, AL.row, 1).toFixed(1)}%"></span></div><div class="axlabels"><span>Order</span><span>Chaos</span></div></div>
         <div class="alignres"><h4>${esc(AL.name)}</h4><p>${esc(AL.desc)}</p>${AL.why.length ? `<div class="label">Why</div><ul>${AL.why.map(w => `<li>${esc(cap(w))}</li>`).join("")}</ul>` : ""}</div>`)}
       ${ch("03", "flags", "Your Red & Green Flags", "We analysed your bookshelf. We have concerns. And compliments.", `<button type="button" class="btn small sharefl" data-share="flags">⤴ Share my flags</button><div class="flagcols"><div><div class="label">🚩 Red flags</div>${F.red.length ? F.red.map(([t, e]) => `<div class="flag red"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Suspiciously clean. For now.</div>`}</div>
         <div><div class="label">💚 Green flags</div>${F.green.length ? F.green.map(([t, e]) => `<div class="flag green"><b>${esc(t)}</b><small>${esc(e)}</small></div>`).join("") : `<div class="note">Read, rate and save words to earn some.</div>`}</div></div>`)}
-      ${ch("04", "era", "Your Reading Era", "Where your taste is right now, and where it's heading", `<div class="erahero">${E.nowG ? `You are in your <b>${esc(E.nowG)} era</b>.` : "Your era is still being written."} ${E.allG && E.nowG && E.allG !== E.nowG ? `Your all-time home is ${esc(E.allG)}, so this is a new chapter.` : E.allG ? "A long, faithful era." : ""}</div>
-        <div class="eramonths">${E.months.map(m => `<span class="em${m.n ? " on" : ""}" title="${m.n} book${m.n === 1 ? "" : "s"}${m.g ? " · " + esc(m.g) : ""}" style="--c:${m.g ? spineColorOf({ genres: [m.g] }) : "transparent"}"><i style="height:${Math.min(100, m.n * 22)}%"></i><small>${m.label}</small></span>`).join("")}</div>
-        <div class="soulminis"><div class="mini2"><div class="label">Reading mood weather</div>${E.weather ? `<b>${E.weather[1]} ${E.weather[0]}</b><p>${esc(E.weather[3])}</p>` : `<p class="note">Add feelings when you rate books to get a forecast.</p>`}</div>
-          <div class="mini2"><div class="label">Plot-twist addiction</div><b>${E.twist}%</b><div class="meterbar"><span style="width:${E.twist}%"></span></div><p>${E.twist >= 50 ? "Severe. Please seek a cosy romance immediately." : E.twist >= 20 ? "A healthy appetite for surprises." : "You like to know where you stand."}</p></div>
-          <div class="mini2"><div class="label">Your literary nemesis</div>${E.nemesis ? `<b>${esc(E.nemesis[0])}</b><p>You rate it ${E.nemesis[1].toFixed(1)}★ on average. It knows what it did.</p>` : `<p class="note">No nemesis yet. Everyone is on probation.</p>`}</div></div>`)}
-      ${ch("05", "pass", "Your Literary Passport", `Traveller level ${P.level} · ${P.level} of ${LANDS.length} worlds visited`, `<div class="stamps">${P.visits.map(v => `<div class="stamp${v.n ? " on" : ""}"><span class="sic">${v.ic}</span><b>${esc(v.name)}</b><small>${v.n ? `${v.n} visit${v.n > 1 ? "s" : ""}` : "Not yet visited"}</small></div>`).join("")}</div>
+      ${ch("04", "era", "Your Reading Era", "What you're into lately, compared with always", `<div class="eracards"><div class="eracard"><div class="label">Lately</div><b>${E.nowG ? `Your ${esc(E.nowG)} era` : "Still being written"}</b><small>${E.nowG ? `the genre of most of your last 5 books` : "finish a few more books with dates"}</small></div>
+          <div class="eracard"><div class="label">All time</div><b>${E.allG ? esc(E.allG) : "—"}</b><small>the genre you've read most, ever</small></div></div>
+        <p class="note">${E.allG && E.nowG && E.allG !== E.nowG ? `A new chapter: you've drifted from ${esc(E.allG)} towards ${esc(E.nowG)}.` : E.allG ? "A long, faithful era: lately you read what you've always loved." : ""}</p>
+        <div class="label">Your last 12 months · one bar per month, coloured by its main genre</div>
+        <div class="eramonths">${E.months.map(m => `<span class="em${m.n ? " on" : ""}" title="${m.n} book${m.n === 1 ? "" : "s"}${m.g ? " · " + esc(m.g) : ""}" style="--c:${m.g ? spineColorOf({ genres: [m.g] }) : "transparent"}"><i style="height:${Math.min(100, m.n * 22)}%"></i><small>${m.label}${m.n ? `<br><b>${m.n}</b>` : ""}</small></span>`).join("")}</div>
+        <div class="eralegend">${[...new Set(E.months.filter(m => m.g).map(m => m.g))].map(g => `<span><i style="background:${spineColorOf({ genres: [g] })}"></i>${esc(g)}</span>`).join("")}</div>
+        ${timeline.length > 1 ? `<div class="label" style="margin-top:14px">Your Reader DNA through the years</div><div class="timeline">${timeline.map(t => `<span style="--c:${t.A.c}"><i>${t.A.g}</i><b>${t.y}</b>${esc(short(t.A))}<small>${t.n} books</small></span>`).join("")}</div>` : ""}
+        <div class="label" style="margin-top:14px">Just for fun</div>
+        <div class="soulminis"><div class="mini2"><div class="label">Reading mood weather</div>${E.weather ? `<b>${E.weather[1]} ${E.weather[0]}</b><p>${esc(E.weather[3])}</p>` : `<p class="note">Add feelings when you rate books to get a forecast.</p>`}<small class="note">from the feelings of your last 5 books</small></div>
+          <div class="mini2"><div class="label">Plot-twist addiction</div><b>${E.twist}%</b><div class="meterbar"><span style="width:${E.twist}%"></span></div><p>${E.twist >= 50 ? "Severe. Please seek a cosy romance immediately." : E.twist >= 20 ? "A healthy appetite for surprises." : "You like to know where you stand."}</p><small class="note">share of your books that are mysteries, thrillers or shocked you</small></div>
+          <div class="mini2"><div class="label">Your literary nemesis</div>${E.nemesis ? `<b>${esc(E.nemesis[0])}</b><p>You rate it ${E.nemesis[1].toFixed(1)}★ on average. It knows what it did.</p>` : `<p class="note">No nemesis yet. Everyone is on probation.</p>`}<small class="note">the genre or trope you rate lowest</small></div></div>`)}
+      ${ch("05", "pass", "Your Literary Passport", `${P.level} of ${LANDS.length} lands visited · ${P.gold} gold visa${P.gold === 1 ? "" : "s"}`, `<p class="note">Every book stamps your passport for the lands it belongs to. Visit a land 5 times for a silver visa, 10 times for gold.</p><div class="stamps">${P.visits.map(v => `<div class="stamp${v.n ? " on" : ""} ${v.visa}"><span class="sic">${v.ic}</span><b>${esc(v.name)}</b><small>${v.n ? `${v.n} visit${v.n > 1 ? "s" : ""}${v.first ? ` · since ${fmtShort(v.first)}` : ""}` : "Not yet visited"}</small>${v.visa === "gold" || v.visa === "silver" ? `<span class="visa">${v.visa} visa</span>` : ""}</div>`).join("")}</div>
         ${P.worlds.length ? `<div class="label" style="margin-top:12px">The worlds you return to most</div><div class="worlds">${P.worlds.map(w => `<div class="world"><b>${esc(w.name)}</b><small>${w.n} of ${w.of} books · ${w.pages.toLocaleString()} pages${w.days ? ` · ${w.days} days spent there` : ""}</small></div>`).join("")}</div>` : ""}`)}
-      ${ch("06", "ach", "Achievements & Secrets", `${unlocked} of ${ACH.length} unlocked`, `<div class="achgrid">${ACH.slice().sort((p, q) => (q.done - p.done) || ((p.secret && !p.done) - (q.secret && !q.done))).map(x => { const hidden = x.secret && !x.done; return `<div class="ach${x.done ? " done" : ""}" style="--rc:${RCOL[x.rarity]}"><span class="aic">${hidden ? "?" : x.icon}</span><div><b>${hidden ? "Secret achievement" : esc(x.name)}</b><small>${hidden ? "Keep reading to discover it." : esc(x.desc)}</small>
+      ${ch("06", "ach", "Achievements & Secrets", `${unlocked} of ${ACH.length} unlocked`, `<div class="seg achtabs">${["All", "Milestones", "Explorer", "Habits", "Secrets"].map(c => `<button type="button" data-achcat="${c}" aria-pressed="${achTab === c}">${c}${c === "Secrets" ? ` · ${ACH.filter(x => x.secret && x.done).length}/${ACH.filter(x => x.secret).length}` : ""}</button>`).join("")}</div>
+        <div class="achgrid">${ACH.filter(x => achTab === "All" || (achTab === "Secrets" ? x.secret : !x.secret && achCat(x.name) === achTab)).sort((p, q) => (q.done - p.done) || ((p.secret && !p.done) - (q.secret && !q.done))).map(x => { const hidden = x.secret && !x.done, hint = hidden && L.level >= 8; return `<div class="ach${x.done ? " done" : ""}" style="--rc:${RCOL[x.rarity]}"><span class="aic">${hidden ? "?" : x.icon}</span><div><b>${hidden ? (hint ? `Secret: ${esc(x.name)}` : "Secret achievement") : esc(x.name)}</b><small>${hidden ? (hint ? esc(x.desc) : "Keep reading to discover it. (Level 8 reveals hints.)") : esc(x.desc)}</small>
         ${!x.done && !hidden && x.need > 1 ? `<span class="aprog"><span style="width:${Math.round(x.have / x.need * 100)}%"></span></span><small>${x.have.toLocaleString()} / ${x.need.toLocaleString()}</small>` : ""}</div><span class="arar">${x.rarity}</span></div>`; }).join("")}</div>`)}
       ${ch("07", "horo", "Your Literary Horoscope", "For fun, not science", HS ? `<div class="horo" style="--zc:${ZEL[HS.z[4]]}"><span class="hz">${HS.z[2]}︎</span><div><div class="label">${esc(HS.z[1])} · literary horoscope</div><p>“${esc(HS.line)}”</p><p class="dest">${esc(HS.destiny)}</p>${HS.book ? `<button type="button" class="hbook" data-ropen="${esc(HS.book.key)}">The stars point to <b>${esc(HS.book.title)}</b> by ${esc(HS.book.author)}</button>` : ""}</div></div>` : `<p class="note">Add your zodiac sign on your Reader DNA card to receive your literary horoscope.</p>`)}
       ${ch("08", "mate", "Your Literary Soulmate", "Compare your DNA with a friend's", `<div class="mate"><label class="field"><span class="label">Your name on your DNA code</span><input id="soul-name" value="${esc(lsGet("reading-ledger-readername", ""))}" placeholder="e.g. Bojana"></label>
@@ -7432,6 +7989,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     const view = $("#view-soul"); if (!view || view.dataset.bound) return; view.dataset.bound = 1;
     view.addEventListener("click", e => {
       const g = e.target.closest("[data-soulgo]"); if (g) { const inFoot = !!g.closest(".soulfoot"); soulGo(g.dataset.soulgo); if (inFoot) view.querySelector(".soulnav")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); return; }
+      const ac = e.target.closest("[data-achcat]"); if (ac) { achTab = ac.dataset.achcat; soulRefresh(); return; }
       const s = e.target.closest("[data-soulsel]"); if (s) { soulSel = soulSel === s.dataset.soulsel ? null : s.dataset.soulsel; soulRefresh(); return; }
       if (e.target.id === "soul-copy") { navigator.clipboard?.writeText($("#soul-code").textContent).then(() => toast("DNA code copied. Send it to a friend!"), () => toast("Select the code and copy it.")); return; }
       const op = e.target.closest("[data-ropen]"); if (op) { const c = recItems.get(op.dataset.ropen); if (c) openEditor({ ...recToBook(c), shelf: "want" }, true); }
@@ -7582,7 +8140,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     toad: ["*observes the candle flame with great interest*", "Fascinating. Your page rate is remarkably steady.", "Hypothesis: one more chapter. Testing now.", "*scribbles an observation*", "Ideal reading conditions: confirmed."],
     bat: ["*hangs nearby, very quietly*", "I… I like reading with you.", "Is it okay if I stay? I'll be quiet.", "*peeks at your page, then hides*", "This is nice. Really nice."],
     hedgehog: ["*curls into a little ball beside you*", "Is it exciting yet?? Okay okay, I'll be quiet.", "*whispers* what happens next?", "*snuffles happily*", "This is the best adventure. Sitting. With you."],
-    lion: ["*lounges dramatically by the fire*", "Ay, the candlelight and you… pure poetry.", "Read, mi amor. Roberto guards your heart.", "*sighs, romantically*", "Every page you turn, a little love song."],
+    lion: ["*lounges dramatically by the fire*", "Ay, the candlelight and you… pure poetry.", "Read, mi amor. Antonio guards your heart.", "*sighs, romantically*", "Every page you turn, a little love song."],
     wolf: ["*sits in the dark corner, vibing*", "Candles. Silence. Finally, a decent evening.", "Night is the only honest hour.", "*stares into the flame, brooding*", "Don't stop. The quiet's good."]
   };
   const RM_END = {
@@ -7754,7 +8312,10 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
     for (let i = 0; i < 140; i++) { const sx = rnd() * W, sy = rnd() * H, s = rnd() * 2.4 + .4; x.fillStyle = `rgba(255,236,190,${.15 + rnd() * .6})`; x.beginPath(); x.arc(sx, sy, s, 0, 7); x.fill(); }
     for (let i = 0; i < 7; i++) { const sx = rnd() * W, sy = rnd() * H * .9, s = 8 + rnd() * 10; x.save(); x.translate(sx, sy); x.fillStyle = "rgba(255,226,160,.55)"; x.beginPath(); for (let k = 0; k < 8; k++) { const a = k * Math.PI / 4, rr2 = k % 2 ? s * .22 : s; x.lineTo(Math.cos(a) * rr2, Math.sin(a) * rr2); } x.fill(); x.restore(); }
-    x.strokeStyle = "rgba(233,199,126,.55)"; x.lineWidth = 2; rr(x, 38, 38, W - 76, H - 76, 28); x.stroke();
+    const fr = cardFrame();
+    if (fr === "aurora") { const ag = x.createLinearGradient(0, 0, W, H); ["#7FE0E8", "#B48CFF", "#FF8FB1", "#F2D58E"].forEach((c, i) => ag.addColorStop(i / 3, c)); x.strokeStyle = ag; x.lineWidth = 8; }
+    else if (fr === "gold") { x.strokeStyle = "#E9C24E"; x.lineWidth = 7; } else if (fr === "silver") { x.strokeStyle = "#D6DEE8"; x.lineWidth = 6; } else { x.strokeStyle = "rgba(233,199,126,.55)"; x.lineWidth = 2; }
+    rr(x, 38, 38, W - 76, H - 76, 28); x.stroke();
     x.strokeStyle = "rgba(233,199,126,.25)"; x.lineWidth = 1; rr(x, 52, 52, W - 104, H - 104, 22); x.stroke();
   }
   function scHeader(x, F, label, y = 150){ x.fillStyle = SC.gold; x.font = `600 30px ${F.c}`; x.textAlign = "center"; if ("letterSpacing" in x) x.letterSpacing = "8px"; x.fillText(label.toUpperCase(), SC.W / 2, y); if ("letterSpacing" in x) x.letterSpacing = "0px";
@@ -7924,7 +8485,7 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     return { quarters: [...qs].sort((a, b) => sortK(b).localeCompare(sortK(a))), years: [...ys].sort((a, b) => b.localeCompare(a)) };
   }
   function dnaOf(list){ if (!list.length) return []; const w = b => b.rating ? .3 + b.rating / 5 : .8, W = list.reduce((s, b) => s + w(b), 0);
-    return ARCHETYPES.map(a => ({ ...a, score: list.reduce((s, b) => s + w(b) * a.t(b), 0) / W })).filter(a => a.score > .08).sort((x, y) => y.score - x.score); }
+    return dnaFor(list); }
   function wrapData(key){
     const P = parsePeriod(key); if (!P) return null;
     const Pg = b => Number(b.pages) || 0, all = readBooks();
@@ -8263,8 +8824,17 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "2.8";
+  const APP_VERSION = "2.9";
   const CHANGELOG = [
+    ["2.9", "22 Oct 2026", "A new Reader's Soul, wiser familiars and collectible sets", [
+      "Explore your nook stays folded until you open it, then shows every room with a short description; Authors has its own room, with photos",
+      "Reader DNA rebuilt: 44 reader types including faith and scripture, money, health, tech, nature, travel, cooking, art and more; it updates with every book you add or edit, and friends see the new one",
+      "One clear name everywhere: your Reader's Soul (like 'The Starlit Romantic'), mostly X with Y; reading habits (series devotee, binge reader…) are shown separately",
+      "The Soul page is regrouped into short pages; new Levels page explains what levels mean and what they unlock: trinkets, card frames, better card packs and familiar gifts",
+      "Your reading era is clearer (lately vs all time), the passport has 32 lands with silver and gold visas, and there are many new achievements and secrets",
+      "Familiars: four treasures each (the last is legendary and goes on your shelves), moods, treats, a care menu when you tap them, surprise gifts, and recommendations explained with your own books",
+      "Roberto is now Antonio",
+      "Character cards: famous sagas have fixed sets you complete by reading each book; every other book becomes a card itself, rarer the more you loved it"]],
     ["2.8", "22 Oct 2026", "Letters with a wax seal", [
       "New letters arrive like real post: an old envelope drops onto the page, addressed to you in handwriting, with a stamp, a postmark and a red wax seal",
       "Tap to break the seal: the flap opens and the letter unrolls",
@@ -8350,11 +8920,16 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     if (tab === "recs" && document.activeElement?.id !== "rec-mood") renderRecs();
     if (lastResults.length && $("#results-wrap .results")) renderResultsArea("list");
   }
+  // the rooms stay folded away until you open Explore your nook
+  function hallState(st){ document.body.classList.remove("hall-closed", "hall-grid", "hall-room"); document.body.classList.add("hall-" + st); $("#hall-btn")?.setAttribute("aria-expanded", st !== "closed");
+    const sub = $("#hall-sub"); if (sub) sub.innerHTML = st === "closed" ? `Your library, stats, soul, keepsakes and friends <b class="hallchev">▾</b>` : st === "grid" ? `Pick a room <b class="hallchev">▴</b>` : `Close the rooms <b class="hallchev">▴</b>`; }
+  hallState("closed");
+  $("#hall-btn").addEventListener("click", () => { const open = !document.body.classList.contains("hall-closed"); hallState(open ? "closed" : "grid"); if (open) $(".hall")?.scrollIntoView({ behavior: "smooth", block: "start" }); });
   function showTab(t){
-    tab = t;
+    tab = t; hallState("room");
     for (const k of TABS) { $("#tab-" + k).setAttribute("aria-selected", k === t); $("#view-" + k).hidden = k !== t; }
     if (t !== "stats") destroyCharts();
-    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep, friends: () => Social.show() })[t]?.();
+    ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep, authors: renderAuthors, friends: () => Social.show() })[t]?.();
   }
   const openById = id => { const b = books.find(x => x.id === id); if (b) openEditor(b, false); };
   document.addEventListener("keydown", e => { if (e.key === "Escape") ($("#m-cancel") || $("#s-cancel"))?.click(); });
