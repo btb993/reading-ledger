@@ -2150,7 +2150,7 @@ body:not(.hall-closed) .hdoor{display:none}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.1</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.1.1</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2258,7 +2258,7 @@ body:not(.hall-closed) .hdoor{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.1 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.1.1 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -3455,7 +3455,7 @@ body:not(.hall-closed) .hdoor{display:none}
     const w = Math.round(22 + 34 * Math.min(1, p / 1000));
     const h = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
     const L = lookOf(b), color = spineColorOf(b);
-    const g2 = secondGenreOf(b), L2 = g2 ? GENRE_LOOK[g2] : null, c2 = L2 ? (spineMode === "individual" ? harmonize(L2.color) : harmonizeG(L2.color)) : null;
+    const g2 = secondGenreOf(b), c2 = null; // one colour per spine: the main genre
     const rainbow = isQueer(b) && !(spineMode === "individual" && b.spineCustom);
     const lite = !rainbow && lum(color) > .19;
     const loved = b.shelf === "read" && b.rating >= 4.5;
@@ -4905,8 +4905,8 @@ body:not(.hall-closed) .hdoor{display:none}
       const preview = { ...b, genres: cur, rainbow: rainbowPick ?? undefined, spineCustom: b.spineCustom, pages: b.pages || 320 }, q = isQueer(preview);
       const dot = g => `<i class="gdot" style="background:${harmonizeG(GENRE_LOOK[g].color)}"></i>`;
       return `<div class="gpick"><div class="gpickhead"><div class="gprev" aria-hidden="true">${spine({ ...preview, id: "__prev", title: b.title || "Your book", shelf: "want" }, 0).replace(/draggable="true" data-id="__prev" data-open="__prev"/, "tabindex=\"-1\"")}</div>
-        <div><span class="label">Your genres</span>${known.length ? `<div class="gsel">${known.map((g, i) => `<span class="gselchip${i === 0 ? " main" : ""}">${dot(g)}${esc(g)}${i === 0 ? `<small>main colour</small>` : i === 1 ? `<small>the bands</small>` : `<button type="button" class="linkbtn" data-gmain="${esc(g)}">make main</button>`}<button type="button" class="iconbtn" data-gchip="${esc(g)}" aria-label="Remove ${esc(g)}">✕</button></span>`).join("")}</div>` : `<p class="note">None yet. Tap the genres below; the first one colours the spine.</p>`}
-        <p class="note gexplain">The first genre is the spine colour, the second shows in the bands at the top and bottom.${known.length > 1 ? " Tap “make main” to swap." : ""}</p></div></div>
+        <div><span class="label">Your genres</span>${known.length ? `<div class="gsel">${known.map((g, i) => `<span class="gselchip${i === 0 ? " main" : ""}">${dot(g)}${esc(g)}${i === 0 ? `<small>main colour</small>` : false ? "" : `<button type="button" class="linkbtn" data-gmain="${esc(g)}">make main</button>`}<button type="button" class="iconbtn" data-gchip="${esc(g)}" aria-label="Remove ${esc(g)}">✕</button></span>`).join("")}</div>` : `<p class="note">None yet. Tap the genres below; the first one colours the spine.</p>`}
+        <p class="note gexplain">The first genre colours the spine.${known.length > 1 ? " Tap “make main” to choose a different one." : ""}</p></div></div>
         ${GENRE_GROUPS.map(([lab, list]) => `<div class="ggroup"><span class="label">${lab}</span><div class="gchips">${list.map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="${cur.includes(g)}">${dot(g)}${esc(g)}</button>`).join("")}</div></div>`).join("")}
         <div class="ggroup"><span class="label">Representation</span><div class="gchips"><button type="button" class="rainbowchip" data-grainbow aria-pressed="${q}"><i class="gdot rb"></i>LGBTQ+ <small>rainbow spine</small></button></div></div>
         ${other.length ? `<div class="ggroup"><span class="label">Your own</span><div class="gchips">${other.map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="true">${esc(g)} ✕</button>`).join("")}</div></div>` : ""}
@@ -9243,12 +9243,11 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.1";
+  const APP_VERSION = "3.1.1";
   const CHANGELOG = [
-    ["3.1", "22 Oct 2026", "Clearer spines, rainbow books and a genre picker", [
-      "Genres have their own tab when you edit a book, grouped into stories, who it's for, and true stories & ideas; the first genre colours the spine",
-      "Books with two genres keep the main colour and show the second genre in the bands at the top and bottom",
-      "Every genre now has its own clearly different colour, and lighter spines get dark lettering so titles stay readable",
+    ["3.1.1", "22 Oct 2026", "Clearer spines, rainbow books and a genre picker", [
+      "Genres have their own tab when you edit a book, grouped into stories, who it's for, and true stories & ideas; the first (main) genre colours the spine",
+            "Every genre now has its own clearly different colour, and lighter spines get dark lettering so titles stay readable",
       "LGBTQ+ books get a rainbow spine, found automatically or switched on in the genre tab",
       "Titles sit centred on the spine, on one line or two balanced lines, without the author squeezed in",
       "Drag a book from the Abandoned Shelf back onto any shelf, or drop one onto it (on a phone, press and hold the spine first)",
