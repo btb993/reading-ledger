@@ -2092,6 +2092,56 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
 .fstars.big{font-size:20px}.fbifit ul{margin:6px 0 0;padding-left:20px}.fbifit li{margin:3px 0}
 .fbisheet .mfoot{flex-wrap:wrap;gap:8px}.fbisheet a.btn{color:inherit;text-decoration:none}
 @media (max-width:640px){.fbitop{grid-template-columns:84px minmax(0,1fr)}.fbitop .cover{width:84px}.fbix{grid-column:1/-1;grid-row:1;justify-self:end}.fbitop>.cover{grid-row:2}.fbimeta{grid-row:2}}
+
+/* v3.1 spines: distinct genre colours, two-genre bands, rainbow, centred titles */
+.spine.b3 .tts{writing-mode:horizontal-tb;transform:none;max-height:none;text-overflow:clip;white-space:normal;flex:1 1 auto;min-height:0;display:flex;flex-direction:row;justify-content:center;align-items:center;gap:1px;width:100%;margin:7px 0 5px;overflow:hidden}
+.spine.b3 .tts .tt{flex:0 1 auto;margin:0;max-height:100%;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;font-size:var(--sfs);line-height:1.02}
+.spine.b3 .tts.two .tt{line-height:1}
+.spine.b3.two .band{background:var(--c2);height:9px;opacity:1;box-shadow:0 0 0 .5px rgba(0,0,0,.25)}
+.spine.b3.lite .tt{color:#22170C;text-shadow:0 1px 0 rgba(255,255,255,.28)}
+.spine.b3.lite .st{color:#3B2810}.spine.b3.lite .mk{color:#2E2010;text-shadow:none}
+.spine.b3.lite .band{border-color:#5A4318}
+.spine.b3.rainbow{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px),linear-gradient(180deg,#B8373A 0 16.7%,#D0702A 16.7% 33.3%,#CFA92C 33.3% 50%,#3E8A4A 50% 66.7%,#2F5FA8 66.7% 83.3%,#6E3F9C 83.3%)}
+.spine.b3.rainbow .tts .tt{background:rgba(20,12,8,.42);border-radius:3px;padding:3px 1px;color:#FBF1DC}
+.spine.b3.rainbow .band{border-color:#F2D58E;background:rgba(0,0,0,.18)}.spine.b3.rainbow.two .band{background:var(--c2)}
+.spine.b3.rainbow .mk{color:#FFF3D0;text-shadow:0 0 4px rgba(0,0,0,.6)}.spine.b3.rainbow .st{color:#FFF0C0;text-shadow:0 0 3px rgba(0,0,0,.7)}
+.ghostbook{transform:rotate(-4deg) scale(1.06)!important;box-shadow:0 14px 30px rgba(0,0,0,.45)!important;opacity:.95}
+body.dragging-book .tier.over{outline:2px dashed var(--gold);outline-offset:-4px}
+#dnf-shelf.over{outline:2px dashed #B9A88C;outline-offset:2px;border-radius:12px}
+body.dragging-dnf #bookcase .tier{outline:1.5px dashed color-mix(in srgb,var(--gold) 55%,transparent);outline-offset:-4px}
+#bookcase .spine,#dnf-shelf .spine{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+/* genre picker */
+.gpick .label{display:block;margin-bottom:6px}.gpickhead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;margin-bottom:6px}
+.gprev{display:flex;align-items:flex-end;min-width:44px}.gprev .spine{transform:none!important;cursor:default;pointer-events:none}
+.gsel{display:flex;flex-wrap:wrap;gap:6px}.gselchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 10px;background:var(--bg);font-size:13.5px}
+.gselchip.main{border-color:var(--accent);font-weight:600}.gselchip small{font-size:11px;color:var(--muted);font-weight:400}.gselchip .iconbtn{width:24px;height:24px;font-size:12px}.gselchip .linkbtn{font-size:12px}
+.gexplain{margin:8px 0 0;font-size:13px}
+.ggroup{margin-top:12px}.gpick .gchips{margin-top:0}
+.gdot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.gdot.rb{background:conic-gradient(#B8373A,#D0702A,#CFA92C,#3E8A4A,#2F5FA8,#6E3F9C,#B8373A)}
+.gpick .gchips button{padding:6px 12px;font-size:13.5px;display:inline-flex;align-items:center}
+.gpick .gchips button[aria-pressed="true"] .gdot{box-shadow:0 0 0 2px var(--paper)}
+.rainbowchip small{margin-left:6px;font-size:11px;opacity:.75}
+.rainbowchip[aria-pressed="true"]{background:linear-gradient(90deg,#B8373A,#D0702A,#CFA92C,#3E8A4A,#2F5FA8,#6E3F9C)!important;color:#fff!important;border-color:transparent!important;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.gown{display:flex;gap:6px;margin-top:12px}.gown input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px;font:inherit;color:inherit}
+@media (max-width:640px){.gpick .gchips button{padding:7px 12px;font-size:14px}}
+/* explore your nook, clearly a button */
+.hallbtn.hb2{position:relative;gap:6px;padding:14px 26px 16px;border:1.5px solid color-mix(in srgb,var(--gold) 60%,transparent);border-radius:20px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 12%,var(--paper)),var(--paper));box-shadow:0 6px 18px -8px rgba(60,35,10,.35),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .2s,box-shadow .2s;max-width:min(560px,92vw)}
+.hallbtn.hb2:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(60,35,10,.45),inset 0 1px 0 rgba(255,255,255,.35);background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 18%,var(--paper)),var(--paper))}
+.hallbtn.hb2:active{transform:translateY(1px)}
+.hallbtn.hb2 .hallsub{display:block!important;font-size:14px}
+.hdoor{display:flex;gap:10px;font-size:17px;line-height:1}.hdoor i{font-style:normal;display:inline-block;filter:saturate(.85);animation:hdoor 4s ease-in-out infinite}
+.hdoor i:nth-child(2){animation-delay:.25s}.hdoor i:nth-child(3){animation-delay:.5s;color:var(--gold)}.hdoor i:nth-child(4){animation-delay:.75s}.hdoor i:nth-child(5){animation-delay:1s;color:var(--accent)}
+@keyframes hdoor{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-4px)}}
+.hallcta{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:6px 16px;border-radius:999px;background:var(--accent);color:var(--paper);font-size:14px;font-weight:600;font-style:normal;letter-spacing:.02em}
+.hallcta .hallchev{color:inherit;margin:0}
+body.hall-closed .hallcta{animation:hallcta 2.8s ease-in-out infinite}
+@keyframes hallcta{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent)}50%{box-shadow:0 0 0 8px transparent}}
+body:not(.hall-closed) .hallcta{background:transparent;color:var(--muted);border:1px solid var(--line)}
+body:not(.hall-closed) .hdoor{display:none}
+@media (max-width:640px){.hallbtn.hb2{padding:12px 18px 14px}.hallbtn.hb2 .hallsub{font-size:13px}.hdoor{font-size:15px}}
+@media (prefers-reduced-motion:reduce){.hdoor i,body.hall-closed .hallcta{animation:none}}
 </style>
 </head>
 <body>
@@ -2100,7 +2150,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.0</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.1</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2163,7 +2213,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
 
   <section class="portrait dna" aria-label="Your Reader DNA" id="portrait"></section>
 
-  <div class="hall"><span class="hrule"></span><button type="button" class="hallbtn" id="hall-btn" aria-expanded="false" aria-controls="room-tabs"><span class="hallt"><span class="hfl">❦</span> Explore your nook <span class="hfl">❦</span></span><span class="hallsub" id="hall-sub">Your library, stats, soul, keepsakes and friends <b class="hallchev">▾</b></span></button></div>
+  <div class="hall"><span class="hrule"></span><button type="button" class="hallbtn hb2" id="hall-btn" aria-expanded="false" aria-controls="room-tabs"><span class="hdoor" aria-hidden="true"><i>📚</i><i>📊</i><i>✦</i><i>🎴</i><i>♥</i></span><span class="hallt"><span class="hfl">❦</span> Explore your nook <span class="hfl">❦</span></span><span class="hallsub" id="hall-sub">Your library, stats, soul, keepsakes and friends</span><span class="hallcta" id="hall-cta">Tap to open the rooms <b class="hallchev">▾</b></span></button></div>
   <nav class="tabs roomtabs" role="tablist" id="room-tabs">
     <button class="tab" id="tab-library" role="tab" aria-selected="true"><span class="ti" aria-hidden="true">▥</span><span class="tl">Library</span><span class="td">All your books, search and sort</span></button>
     <button class="tab" id="tab-calendar" role="tab" aria-selected="false"><span class="ti" aria-hidden="true">▦</span><span class="tl">Calendar</span><span class="td">What you read, day by day</span></button>
@@ -2208,7 +2258,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.0 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.1 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2892,35 +2942,45 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   // ================= bookcase =================
   // genre → binding, palette, emblem and aura
   const GENRE_LOOK = {
-    "Fantasy":            { color: "#3B2A63", hues: ["#26473A","#3A2A5C","#1D3B52","#4A2440"], motif: "✦", aura: "#B48CFF", kinds: ["cloth","gilt","foil"] },
-    "Science Fiction":    { color: "#1C3A5E", hues: ["#14243F","#1E2E3A","#2A2F4F","#0F3440"], motif: "◈", aura: "#4FDCEB", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
-    "Mystery":            { color: "#4A2A20", hues: ["#3A1D1F","#22262B","#2C2A23","#40221A"], motif: "◆", aura: "#E2A458", kinds: ["cloth","foil","paper"] },
-    "Thriller":           { color: "#2A2D33", hues: ["#1E1E22","#3A1416","#23282E"], motif: "◆", aura: "#FF5D5D", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
-    "Horror":             { color: "#3A0F14", hues: ["#160F12","#2B0D10","#1C1A1F"], motif: "☾", aura: "#E0313A", kinds: ["cloth","foil"] },
-    "Romance":            { color: "#8C3B54", hues: ["#8C3B54","#A0485F","#6E2F4E","#B0646E"], motif: "♥", aura: "#FF8FB1", kinds: ["paper","gilt","cloth"] },
-    "Historical Fiction": { color: "#6B4A2B", hues: ["#5A3B22","#6B4A2B","#4A3626"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","gilt"] },
-    "Classics":           { color: "#5C1E24", hues: ["#5C1E24","#2E3D2A","#1F2D46","#4A2A1C"], motif: "❧", aura: "#F2D58E", kinds: ["leather","leather","gilt"] },
-    "Literary Fiction":   { color: "#3F5550", hues: ["#4C5A57","#5B4B5E","#6A5A48","#3F4E5E"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper"] },
-    "Poetry":             { color: "#6D5A86", hues: ["#6D5A86","#7C5C74","#4F6A73"], motif: "✿", aura: "#D7B4FF", kinds: ["cloth","gilt"] },
-    "Young Adult":        { color: "#1F6E73", hues: ["#1F6E73","#6B3FA0","#B0583A"], motif: "✧", aura: "#7FF0E0", kinds: ["paper","foil"] },
-    "Children's":         { color: "#C2702B", hues: ["#D9822B","#3C8D5A","#2F6FB0","#C2463C"], motif: "☼", aura: "#FFD36E", kinds: ["paper","cloth"] },
-    "Dystopian":          { color: "#4A4F3A", hues: ["#3A403C","#4A3F35","#2E3A3F"], motif: "✕", aura: "#C8D66B", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
-    "Adventure":          { color: "#2D5A3D", hues: ["#1F4A5C","#5A4022","#2D5A3D"], motif: "⚓", aura: "#7CC6FF", kinds: ["cloth","leather"] },
-    "Humor":              { color: "#B08A1F", hues: ["#C08A1F","#3E7B6E","#B5523A"], motif: "☺", aura: "#FFE07A", kinds: ["paper"] },
-    "Biography & Memoir": { color: "#2E3F58", hues: ["#2E3F58","#5A4632","#3D4F43"], motif: "✒", aura: "#E8D7B0", kinds: ["cloth","paper"] },
-    "History":            { color: "#5A4632", hues: ["#4A3622","#2F3F33","#3D2A2A"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","cloth"] },
-    "Science":            { color: "#12506A", hues: ["#123B4A","#1F3060","#2B4A3A"], motif: "✶", aura: "#6FD3FF", kinds: ["paper","cloth"], font: "var(--f-cap)", fs: "11px" },
-    "Philosophy":         { color: "#2B2B4F", hues: ["#2B2B3F","#3D3326","#24343A"], motif: "☉", aura: "#C9B6FF", kinds: ["cloth","leather"] },
-    "Psychology":         { color: "#4E3866", hues: ["#3E2E4F","#2D4A4A"], motif: "✶", aura: "#B9A3FF", kinds: ["paper","cloth"] },
-    "Self-help":          { color: "#B85A3A", hues: ["#C9772E","#2F7A6B","#B84A3A"], motif: "✶", aura: "#FFD36E", kinds: ["paper"] },
-    "Religion":           { color: "#3D2A1A", hues: ["#3D2A1A","#24324A"], motif: "✝", aura: "#F2D58E", kinds: ["leather","gilt"] },
-    "Business":           { color: "#1F3B52", hues: ["#1F3B52","#2C4A3E","#3A3A44","#22344A"], motif: "♜", aura: "#8EC5F2", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
-    "True Crime":         { color: "#2B1E1E", hues: ["#2B1E1E","#3A2222","#1F2328"], motif: "⚖", aura: "#E0525A", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
-    "Politics":           { color: "#2F3A55", hues: ["#2F3A55","#4A2F35"], motif: "⚑", aura: "#A8C0F0", kinds: ["paper","cloth"] },
-    "Graphic Novel":      { color: "#B8312F", hues: ["#B8312F","#1F5FA8","#E0A526"], motif: "✸", aura: "#FFE07A", kinds: ["paper"] },
+    "Fantasy":            { color: "#4B2C8A", hues: ["#26473A","#3A2A5C","#1D3B52","#4A2440"], motif: "✦", aura: "#B48CFF", kinds: ["cloth","gilt","foil"] },
+    "Science Fiction":    { color: "#1E4FA0", hues: ["#14243F","#1E2E3A","#2A2F4F","#0F3440"], motif: "◈", aura: "#4FDCEB", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "Mystery":            { color: "#6B3A1A", hues: ["#3A1D1F","#22262B","#2C2A23","#40221A"], motif: "◆", aura: "#E2A458", kinds: ["cloth","foil","paper"] },
+    "Thriller":           { color: "#2A2428", hues: ["#1E1E22","#3A1416","#23282E"], motif: "◆", aura: "#FF5D5D", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Horror":             { color: "#5C0F16", hues: ["#160F12","#2B0D10","#1C1A1F"], motif: "☾", aura: "#E0313A", kinds: ["cloth","foil"] },
+    "Romance":            { color: "#C0466E", hues: ["#8C3B54","#A0485F","#6E2F4E","#B0646E"], motif: "♥", aura: "#FF8FB1", kinds: ["paper","gilt","cloth"] },
+    "Historical Fiction": { color: "#9A6A22", hues: ["#5A3B22","#6B4A2B","#4A3626"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","gilt"] },
+    "Classics":           { color: "#1F5A3E", hues: ["#5C1E24","#2E3D2A","#1F2D46","#4A2A1C"], motif: "❧", aura: "#F2D58E", kinds: ["leather","leather","gilt"] },
+    "Literary Fiction":   { color: "#55636A", hues: ["#4C5A57","#5B4B5E","#6A5A48","#3F4E5E"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper"] },
+    "Poetry":             { color: "#8C77B8", hues: ["#6D5A86","#7C5C74","#4F6A73"], motif: "✿", aura: "#D7B4FF", kinds: ["cloth","gilt"] },
+    "Young Adult":        { color: "#158C8C", hues: ["#1F6E73","#6B3FA0","#B0583A"], motif: "✧", aura: "#7FF0E0", kinds: ["paper","foil"] },
+    "Children's":         { color: "#D4772A", hues: ["#D9822B","#3C8D5A","#2F6FB0","#C2463C"], motif: "☼", aura: "#FFD36E", kinds: ["paper","cloth"] },
+    "Dystopian":          { color: "#66702A", hues: ["#3A403C","#4A3F35","#2E3A3F"], motif: "✕", aura: "#C8D66B", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Adventure":          { color: "#3F8A3A", hues: ["#1F4A5C","#5A4022","#2D5A3D"], motif: "⚓", aura: "#7CC6FF", kinds: ["cloth","leather"] },
+    "Humor":              { color: "#C9A21F", hues: ["#C08A1F","#3E7B6E","#B5523A"], motif: "☺", aura: "#FFE07A", kinds: ["paper"] },
+    "Biography & Memoir": { color: "#2F4F86", hues: ["#2E3F58","#5A4632","#3D4F43"], motif: "✒", aura: "#E8D7B0", kinds: ["cloth","paper"] },
+    "History":            { color: "#8A3B22", hues: ["#4A3622","#2F3F33","#3D2A2A"], motif: "⚜", aura: "#E9C27A", kinds: ["leather","cloth"] },
+    "Science":            { color: "#1478A8", hues: ["#123B4A","#1F3060","#2B4A3A"], motif: "✶", aura: "#6FD3FF", kinds: ["paper","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "Philosophy":         { color: "#282A6E", hues: ["#2B2B3F","#3D3326","#24343A"], motif: "☉", aura: "#C9B6FF", kinds: ["cloth","leather"] },
+    "Psychology":         { color: "#6A5AC0", hues: ["#3E2E4F","#2D4A4A"], motif: "✶", aura: "#B9A3FF", kinds: ["paper","cloth"] },
+    "Self-help":          { color: "#2E9C7E", hues: ["#C9772E","#2F7A6B","#B84A3A"], motif: "✶", aura: "#FFD36E", kinds: ["paper"] },
+    "Religion":           { color: "#B08A3A", hues: ["#3D2A1A","#24324A"], motif: "✝", aura: "#F2D58E", kinds: ["leather","gilt"] },
+    "Business":           { color: "#3E5A78", hues: ["#1F3B52","#2C4A3E","#3A3A44","#22344A"], motif: "♜", aura: "#8EC5F2", kinds: ["paper","foil","cloth"], font: "var(--f-cap)", fs: "11px" },
+    "True Crime":         { color: "#4B4B50", hues: ["#2B1E1E","#3A2222","#1F2328"], motif: "⚖", aura: "#E0525A", kinds: ["paper","foil"], font: "var(--f-cap)", fs: "11px" },
+    "Politics":           { color: "#7A2D3F", hues: ["#2F3A55","#4A2F35"], motif: "⚑", aura: "#A8C0F0", kinds: ["paper","cloth"] },
+    "Graphic Novel":      { color: "#E04A2A", hues: ["#B8312F","#1F5FA8","#E0A526"], motif: "✸", aura: "#FFE07A", kinds: ["paper"] },
+    "Romantasy":          { color: "#8A2F86", hues: ["#8A2F86"], motif: "♛", aura: "#FF9BE8", kinds: ["foil","gilt"] },
+    "Contemporary":       { color: "#B5574A", hues: ["#B5574A"], motif: "☕", aura: "#FFC2A8", kinds: ["paper"] },
+    "LGBTQ+":             { color: "#7A3FA0", hues: ["#7A3FA0"], motif: "♡", aura: "#FF9BE8", kinds: ["paper"] },
   };
   const DEFAULT_LOOK = { color: "#4C3A5E", hues: ["#4C3A5E","#2F4A44","#5A3A2E","#2E3E5A"], motif: "❦", aura: "#E8D7B0", kinds: ["cloth","foil","paper","gilt"] };
-  const lookOf = b => { for (const g of b.genres || []) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; try { for (const g of fineGenres(b)) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; } catch {} return b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK; };
+  const lookOf = b => mainGenreOf(b) ? GENRE_LOOK[mainGenreOf(b)] : (b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK); const lookOfOld = b => { for (const g of b.genres || []) if (GENRE_LOOK[g] && g !== "LGBTQ+") return GENRE_LOOK[g]; try { for (const g of fineGenres(b)) if (GENRE_LOOK[g]) return GENRE_LOOK[g]; } catch {} return b.category === "Nonfiction" ? GENRE_LOOK["History"] : DEFAULT_LOOK; };
+  // the genres a book is shelved under, main one first; LGBTQ+ is a tag that paints the spine a rainbow, not a colour of its own
+  function genresOf(b){ const out = []; for (const g of b.genres || []) if (GENRE_LOOK[g] && g !== "LGBTQ+" && !out.includes(g)) out.push(g); if (!out.length) { try { for (const g of fineGenres(b)) if (GENRE_LOOK[g] && !out.includes(g)) out.push(g); } catch {} } return out; }
+  const mainGenreOf = b => genresOf(b)[0] || null;
+  function secondGenreOf(b){ const [m, ...rest] = genresOf(b); if (!m) return null; const [h1] = hexToHsl(GENRE_LOOK[m].color); for (const g of rest) { const [h2, s2] = hexToHsl(GENRE_LOOK[g].color); const d = Math.min(Math.abs(h1 - h2), 1 - Math.abs(h1 - h2)); if (d > .05 || s2 < .15) return g; } return null; }
+  const QUEER_RE = /\b(lgbt\w*|queer|gay|lesbians?|sapphic|bisexual\w*|transgender\w*|homosexual\w*|non-?binary|mlm|wlw|achillean|two-spirit)\b/i;
+  const QUEER_TITLES = /^(heartstopper|red, white (&|and) royal blue|aristotle and dante|the song of achilles|the seven husbands of evelyn hugo|call me by your name|simon vs|the house in the cerulean sea|the priory of the orange tree|one last stop|the gentleman's guide to vice|carry on|wayward son|they both die at the end|cemetery boys|boyfriend material|the miseducation of cameron post|giovanni's room|the color purple|a little life|the charm offensive|gideon the ninth|harrow the ninth|legends (&|and) lattes|felix ever after|loveless|if we were villains|the price of salt|carol|orlando|fun home|the night watch|tipping the velvet|fingersmith|written in the stars|her royal highness|the hellion's waltz|alice oseman|nick and charlie|this winter|solitaire|the extraordinaries|the spirit bares its teeth|the atlas six)\b/i;
+  const isQueer = b => b.rainbow === false ? false : b.rainbow === true || (b.genres || []).includes("LGBTQ+") || QUEER_TITLES.test(String(b.title || "").replace(/[’]/g, "'")) || QUEER_RE.test([...(b.subjects || []), ...(b.themes || []), ...(b.tropes || [])].join(" | "));
   const KEY_SPINE = "reading-ledger-spines";
   let spineMode = lsGet(KEY_SPINE, "genre");
   if (!lsGet("reading-ledger-spines-v2", false)) { spineMode = "genre"; lsSet(KEY_SPINE, spineMode); lsSet("reading-ledger-spines-v2", true); }
@@ -2932,6 +2992,8 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     return [h, s, l]; }
   function hslToHex(h, s, l){ const f = n => { const k = (n + h * 12) % 12, a = s * Math.min(l, 1 - l); return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, "0"); }; return "#" + f(0) + f(8) + f(4); }
   // every spine lands in the same rich, bookbinder's range so the shelf looks like one collection
+  // genre colours keep their own brightness so Fantasy, Romance and the rest are easy to tell apart
+  const harmonizeG = hex => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, s < .06 ? s : Math.min(.74, Math.max(.3, s)), Math.min(.52, Math.max(.16, l))); };
   const harmonize = hex => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, Math.min(.58, Math.max(s < .06 ? .08 : .24, s)), Math.min(.36, Math.max(.2, l * .9))); };
   const REREAD = [["no", "Once was enough"], ["maybe", "Maybe someday"], ["yes", "I'd reread it"], ["comfort", "Comfort reread"]];
   const HYPE = [["lives", "Lived up to the hype", "✓"], ["short", "Didn't live up to the hype", "≈"], ["disappoint", "Biggest disappointment", "✗"]];
@@ -2940,7 +3002,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   const feelLook = n => FEEL[n] || { g: "✧", c: `hsl(${hashNum(n, 360)} 45% 50%)` };
   const SPINE_SWATCHES = ["#7A2E3A","#B8312F","#C2702B","#B08A1F","#5A6B2E","#2D5A3D","#1F6E73","#1C3A5E","#3B2A63","#6D5A86","#8C3B54","#5A4632","#2A2D33"];
   const customTone = hex => { const [h, sat, l] = hexToHsl(hex); return hslToHex(h, sat, Math.min(.46, Math.max(.14, l))); };
-  const spineColorOf = b => spineMode === "individual" ? (b.spineCustom ? customTone(b.spineCustom) : harmonize(b.spineColor || lookOf(b).color)) : harmonize(lookOf(b).color);
+  const spineColorOf = b => spineMode === "individual" ? (b.spineCustom ? customTone(b.spineCustom) : harmonize(b.spineColor || lookOf(b).color)) : harmonizeG(lookOf(b).color);
 
   // ================= bookcase themes, trinkets & vines =================
   const CASES = {
@@ -3385,21 +3447,28 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     return [...list].sort(by);
   }
 
+  const RAINBOW_BG = "linear-gradient(180deg,#B8373A 0 16.7%,#D0702A 16.7% 33.3%,#CFA92C 33.3% 50%,#3E8A4A 50% 66.7%,#2F5FA8 66.7% 83.3%,#6E3F9C 83.3%)";
+  // split a long title into two balanced lines, so it sits centred on the spine
+  function splitTitle(t){ const w = t.split(/\s+/); if (w.length < 2) return null; let best = null; for (let i = 1; i < w.length; i++) { const a = w.slice(0, i).join(" "), b = w.slice(i).join(" "), m = Math.max(a.length, b.length); if (!best || m < best[2]) best = [a, b, m]; } return best; }
   function spine(b, i){
     const p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
     const w = Math.round(22 + 34 * Math.min(1, p / 1000));
     const h = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
     const L = lookOf(b), color = spineColorOf(b);
+    const g2 = secondGenreOf(b), L2 = g2 ? GENRE_LOOK[g2] : null, c2 = L2 ? (spineMode === "individual" ? harmonize(L2.color) : harmonizeG(L2.color)) : null;
+    const rainbow = isQueer(b) && !(spineMode === "individual" && b.spineCustom);
+    const lite = !rainbow && lum(color) > .19;
     const loved = b.shelf === "read" && b.rating >= 4.5;
     const st = b.shelf === "read" && b.rating ? `<i class="st">${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</i>` : "";
-    const last = (b.author || "").trim().split(/\s+/).pop() || "";
-    const tl = (b.title || "").length;
-    const fs = tl > 26 ? 11 : tl > 16 || w < 30 ? 12.5 : 14;
-    const room = h - 64 - (st ? 12 : 0);
-    const wrap = w >= 32 && tl * fs * .55 > room;
-    const showAuthor = last && !wrap && tl * fs * .58 + last.length * 6 + 8 < room;
-    return `<button class="spine b2 b3${loved ? " loved" : ""}" type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(b.title)} — ${esc(b.author)}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}"
-      style="--c:${color};--aura:${L.aura};--sfs:${fs}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<i class="band"></i><i class="mk">${L.motif}</i><span class="tt${wrap ? " wrap" : ""}">${esc(b.title)}</span>${showAuthor ? `<span class="au">${esc(last)}</span>` : ""}${st}<i class="band bot"></i></button>`;
+    const title = String(b.title || "").replace(/\s*[:(].*$/, "") || b.title || "";
+    const tl = title.length, room = h - 62 - (st ? 12 : 0);
+    // one line if it fits at a readable size, otherwise two centred lines on wider spines, otherwise one smaller line
+    let fs = Math.min(15, room / (tl * .56)), lines = [title];
+    if (fs < 11.5 && w >= 31) { const sp = splitTitle(title); if (sp) { const f2 = Math.min(13.5, room / (sp[2] * .56), (w - 8) / 2.3); if (f2 > fs) { fs = f2; lines = [sp[0], sp[1]]; } } }
+    fs = Math.max(9.5, Math.min(w < 30 ? 12.5 : 15, fs));
+    const genreNames = [mainGenreOf(b), g2].filter(Boolean).join(" + ");
+    return `<button class="spine b2 b3${loved ? " loved" : ""}${c2 ? " two" : ""}${rainbow ? " rainbow" : ""}${lite ? " lite" : ""}" type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(b.title)} — ${esc(b.author)}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}${genreNames ? " · " + esc(genreNames) : ""}${rainbow ? " · LGBTQ+" : ""}"
+      style="--c:${color};${c2 ? `--c2:${c2};` : ""}--aura:${L.aura};--sfs:${fs.toFixed(1)}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<i class="band"></i><i class="mk">${L.motif}</i><span class="tts${lines.length > 1 ? " two" : ""}">${lines.map(l => `<span class="tt">${esc(l)}</span>`).join("")}</span>${st}<i class="band bot"></i></button>`;
   }
   // read the real cover's colour, so the spine matches the book in your hands
   let spineBusy = false;
@@ -3497,9 +3566,9 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     const el = $("#dnf-shelf"); if (!el) return; const list = books.filter(b => b.shelf === "dnf").sort((a, b) => (b.abandoned || "").localeCompare(a.abandoned || ""));
     el.hidden = !list.length; if (!list.length) { el.innerHTML = ""; return; }
     el.classList.toggle("open", dnfOpen);
-    el.innerHTML = dnfOpen ? `<div class="dnfin">${COBWEB("l")}${COBWEB("r")}<div class="dnfhead"><span class="label">🕸 The Abandoned Shelf · ${list.length}</span><span class="note">Books you started but put down. Tap one to give it another go, or just let it rest.</span><button class="btn small" type="button" data-dnfclose>Dust it back in the corner</button></div>
+    el.innerHTML = dnfOpen ? `<div class="dnfin">${COBWEB("l")}${COBWEB("r")}<div class="dnfhead"><span class="label">🕸 The Abandoned Shelf · ${list.length}</span><span class="note">Books you started but put down. Drag one back up to any shelf to give it another go (on a phone, press and hold it first), or just let it rest.</span><button class="btn small" type="button" data-dnfclose>Dust it back in the corner</button></div>
         <div class="dnfrow">${list.map((b, i) => `<div class="dnfbook">${spine(b, i)}<small>${b.pages && b.currentPage ? `p. ${b.currentPage}/${b.pages}` : "abandoned"}</small></div>`).join("")}</div></div>`
-      : `<button type="button" class="dnfclosed" data-dnfopen>${COBWEB("l")}${COBWEB("r")}<span>🕸 The Abandoned Shelf · ${list.length}</span><small>a dusty corner · tap to look</small></button>`;
+      : `<button type="button" class="dnfclosed" data-dnfopen>${COBWEB("l")}${COBWEB("r")}<span>🕸 The Abandoned Shelf · ${list.length}</span><small>a dusty corner · tap to look, or drop a book here to set it aside</small></button>`;
   }
   document.addEventListener("click", e => { if (e.target.closest("[data-dnfopen]")) { dnfOpen = true; renderDnf(); return; } if (e.target.closest("[data-dnfclose]")) { dnfOpen = false; renderDnf(); } });
   function renderShelf(){
@@ -4731,6 +4800,9 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   }
 
   // ================= editor =================
+  const GENRE_GROUPS = [["Stories", ["Fantasy", "Romantasy", "Romance", "Mystery", "Thriller", "Horror", "Science Fiction", "Dystopian", "Historical Fiction", "Literary Fiction", "Contemporary", "Classics", "Adventure", "Humor"]],
+    ["Who it's for & how it's told", ["Young Adult", "Children's", "Graphic Novel", "Poetry"]],
+    ["True stories & ideas", ["Biography & Memoir", "History", "True Crime", "Science", "Psychology", "Philosophy", "Religion", "Self-help", "Business", "Politics"]]];
   function openEditor(book, isNew, opts = {}){
     const b = { shelf: isNew ? "want" : "read", rating: 0, finished: isNew ? todayISO() : null, started: null, currentPage: 0, genres: [], themes: [], tropes: [], ...book };
     const moveTo = opts.moveTo, moveFrom = b.shelf;
@@ -4769,6 +4841,11 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
             <span class="label" style="margin-top:6px">Its own spine colour · shows with “Individual colours”</span>
             <div class="swatches" id="m-swatches">${SPINE_SWATCHES.map(c => `<button type="button" data-sw="${c}" class="${b.spineCustom === c ? "sel" : ""}" style="background:${customTone(c)}" aria-label="Use this spine colour"></button>`).join("")}<label class="swcustom" title="Pick any colour"><input type="color" id="m-swc" value="${b.spineCustom || "#5a3a6e"}" aria-label="Pick any spine colour"></label><button class="linkbtn" type="button" data-sw="">${b.spineCustom ? "Back to automatic" : "Automatic"}</button></div>
 </div><div id="m-gallery" hidden></div></div>
+      <div class="mpane" id="m-pane-genres" hidden><input type="hidden" id="m-g" value="${esc((b.genres||[]).join(", "))}"><div id="m-genrebox"></div>
+        <div class="fields" style="margin-top:12px">
+          <label class="field full"><span class="label">Story elements / themes (comma separated)</span><input id="m-th" value="${esc((b.themes||[]).join(", "))}"></label>
+          <label class="field full"><span class="label">Tropes (comma separated)</span><input id="m-tr" value="${esc((b.tropes||[]).join(", "))}" list="trope-list" placeholder="e.g. Found family, Slow burn"></label>
+          <datalist id="trope-list">${TROPES.map(([n]) => `<option>${n}</option>`).join("")}</datalist></div></div>
       <div class="mpane" id="m-pane-details" hidden>
         <div class="fields">
           <label class="field full"><span class="label">Title</span><input id="m-t" value="${esc(b.title)}"></label>
@@ -4781,11 +4858,6 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
           <label class="field"><span class="label">Number of Goodreads ratings</span><input id="m-grc" type="number" min="0" inputmode="numeric" value="${esc(b.goodreadsCount || "")}" placeholder="e.g. 1250000"></label>
           <label class="field full"><span class="label">Paste from Goodreads · <a href="${grURL(b)}" target="_blank" rel="noopener" style="text-transform:none;letter-spacing:0">open the book on Goodreads ↗</a></span><input id="m-grpaste" placeholder="Copy the rating line, e.g. “4.27 · 1,234,567 ratings · 45,678 reviews”, and paste it here"></label>
           <label class="field"><span class="label">Fiction or nonfiction</span><select id="m-cat"><option value="">—</option>${["Fiction","Nonfiction"].map(c => `<option ${b.category === c ? "selected" : ""}>${c}</option>`).join("")}</select></label>
-          <label class="field full"><span class="label">Genres (comma separated, or tap below)</span><input id="m-g" value="${esc((b.genres||[]).join(", "))}"></label>
-          <div class="field full gchips" id="m-gchips">${["Fantasy", "Romantasy", "Romance", "Mystery", "Thriller", "Horror", "Science Fiction", "Historical Fiction", "Literary Fiction", "Contemporary", "Classics", "Young Adult", "Children's", "Graphic Novel", "Poetry", "Humor", "Biography & Memoir", "History", "Business", "Self-help", "Psychology", "Philosophy", "Religion", "Science", "True Crime", "Politics"].map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="${(b.genres || []).includes(g)}">${esc(g)}</button>`).join("")}</div>
-          <label class="field full"><span class="label">Story elements / themes (comma separated)</span><input id="m-th" value="${esc((b.themes||[]).join(", "))}"></label>
-          <label class="field full"><span class="label">Tropes (comma separated)</span><input id="m-tr" value="${esc((b.tropes||[]).join(", "))}" list="trope-list" placeholder="e.g. Found family, Slow burn"></label>
-          <datalist id="trope-list">${TROPES.map(([n]) => `<option>${n}</option>`).join("")}</datalist>
           ${b.seriesName ? `<div class="field full"><button class="btn small" type="button" id="m-addseries">Add the rest of the ${esc(b.seriesName)} series…</button></div>` : ""}
         </div></div>
       <div id="m-confirm"></div>
@@ -4794,7 +4866,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     </div></div>`;
     wirePickers($("#scrim"));
     $("#m-tr").addEventListener("input", () => { tropesEdited = true; });
-    $("#scrim").addEventListener("keydown", e => { if (e.target.id === "m-feelx" && e.key === "Enter") { e.preventDefault(); addFeel(); } });
+    $("#scrim").addEventListener("keydown", e => { if (e.target.id === "m-feelx" && e.key === "Enter") { e.preventDefault(); addFeel(); } if (e.target.id === "m-gown" && e.key === "Enter") { e.preventDefault(); $("#m-gowngo")?.click(); } });
     $("#m-swc").addEventListener("input", e => { spinePick = e.target.value; $("#m-swatches").querySelectorAll("[data-sw]").forEach(z => z.classList.remove("sel")); });
     $("#m-grpaste").addEventListener("input", e => {
       const t = e.target.value.replace(/\u00a0/g, " ");
@@ -4827,10 +4899,22 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
     const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
     let mTab = !b.title ? "details" : null;
-    const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["cover", "❦ Cover"], ["details", "☰ Details"]], dnf: [["dates", "🕸 Where you stopped"], ["notes", "❝ Notes"], ["cover", "❦ Cover"], ["details", "☰ Details"]] };
+    const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], dnf: [["dates", "🕸 Where you stopped"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]] };
+    let rainbowPick = b.rainbow ?? null;
+    const genreBoxHTML = () => { const cur = ($("#m-g")?.value || "").split(",").map(x => x.trim()).filter(Boolean), known = cur.filter(g => GENRE_LOOK[g] && g !== "LGBTQ+"), other = cur.filter(g => !GENRE_LOOK[g]);
+      const preview = { ...b, genres: cur, rainbow: rainbowPick ?? undefined, spineCustom: b.spineCustom, pages: b.pages || 320 }, q = isQueer(preview);
+      const dot = g => `<i class="gdot" style="background:${harmonizeG(GENRE_LOOK[g].color)}"></i>`;
+      return `<div class="gpick"><div class="gpickhead"><div class="gprev" aria-hidden="true">${spine({ ...preview, id: "__prev", title: b.title || "Your book", shelf: "want" }, 0).replace(/draggable="true" data-id="__prev" data-open="__prev"/, "tabindex=\"-1\"")}</div>
+        <div><span class="label">Your genres</span>${known.length ? `<div class="gsel">${known.map((g, i) => `<span class="gselchip${i === 0 ? " main" : ""}">${dot(g)}${esc(g)}${i === 0 ? `<small>main colour</small>` : i === 1 ? `<small>the bands</small>` : `<button type="button" class="linkbtn" data-gmain="${esc(g)}">make main</button>`}<button type="button" class="iconbtn" data-gchip="${esc(g)}" aria-label="Remove ${esc(g)}">✕</button></span>`).join("")}</div>` : `<p class="note">None yet. Tap the genres below; the first one colours the spine.</p>`}
+        <p class="note gexplain">The first genre is the spine colour, the second shows in the bands at the top and bottom.${known.length > 1 ? " Tap “make main” to swap." : ""}</p></div></div>
+        ${GENRE_GROUPS.map(([lab, list]) => `<div class="ggroup"><span class="label">${lab}</span><div class="gchips">${list.map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="${cur.includes(g)}">${dot(g)}${esc(g)}</button>`).join("")}</div></div>`).join("")}
+        <div class="ggroup"><span class="label">Representation</span><div class="gchips"><button type="button" class="rainbowchip" data-grainbow aria-pressed="${q}"><i class="gdot rb"></i>LGBTQ+ <small>rainbow spine</small></button></div></div>
+        ${other.length ? `<div class="ggroup"><span class="label">Your own</span><div class="gchips">${other.map(g => `<button type="button" data-gchip="${esc(g)}" aria-pressed="true">${esc(g)} ✕</button>`).join("")}</div></div>` : ""}
+        <div class="gown"><input id="m-gown" placeholder="Another genre…" maxlength="30"><button type="button" class="btn small" id="m-gowngo">Add</button></div></div>`; };
+    const paintGenres = () => { const box = $("#m-genrebox"); if (box) box.innerHTML = genreBoxHTML(); };
     const showMTab = k => { const set = TAB_SETS[b.shelf] || TAB_SETS.want; if (!set.some(t => t[0] === k)) k = set[0][0]; mTab = k;
       $("#m-tabs").innerHTML = set.map(([id, l]) => `<button type="button" role="tab" data-mtab="${id}" aria-selected="${id === k}">${l}</button>`).join("");
-      ["thoughts", "notes", "dates", "cover", "details"].forEach(id => { const p = $("#m-pane-" + id); if (p) p.hidden = id !== k; }); };
+      ["thoughts", "notes", "dates", "genres", "cover", "details"].forEach(id => { const p = $("#m-pane-" + id); if (p) p.hidden = id !== k; }); if (k === "genres") paintGenres(); };
     let shelfFields = () => {
       const rate = $("#m-rate"), th = $("#m-pane-thoughts"), dt = $("#m-pane-dates");
       if (b.shelf === "read") {
@@ -4907,7 +4991,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
       if ($("#m-more")) { b.review = ($("#m-review")?.value || "").trim() || undefined; b.quotes = thoughts.quotes.length ? [...thoughts.quotes] : undefined; b.pace = thoughts.pace || undefined; b.driven = thoughts.driven || undefined; b.format = thoughts.format || undefined; }
       if ($("#m-verdict")) { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim();
         b.reread = verdict.reread; b.surpriseFav = verdict.surpriseFav || undefined; b.recommend = verdict.recommend || undefined; b.recommendTo = verdict.recommend && verdict.recommendTo ? verdict.recommendTo : undefined; b.hype = verdict.hype; }
-      b.genres = list(v("#m-g")); b.themes = list(v("#m-th")); b.tropes = list(v("#m-tr")).map(cap);
+      b.genres = list(v("#m-g")); if (rainbowPick !== null) b.rainbow = rainbowPick; b.themes = list(v("#m-th")); b.tropes = list(v("#m-tr")).map(cap);
       b.seriesName = v("#m-se") || null; const sn = parseFloat(v("#m-sn")); b.seriesNum = b.seriesName && !isNaN(sn) ? sn : null;
       if ($("#m-cp")) b.currentPage = parseInt(v("#m-cp")) || 0;
       if ($("#m-dnfwhy")) b.dnfWhy = v("#m-dnfwhy") || undefined;
@@ -4929,7 +5013,10 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
       const id = e.target.id;
       if (id === "scrim" || id === "m-cancel") return close();
       const mt = e.target.closest("[data-mtab]"); if (mt) { showMTab(mt.dataset.mtab); return; }
-      const gc = e.target.closest("[data-gchip]"); if (gc) { const inp = $("#m-g"), g = gc.dataset.gchip; let list = inp.value.split(",").map(x => x.trim()).filter(Boolean); list = list.includes(g) ? list.filter(x => x !== g) : [...list, g]; inp.value = list.join(", "); gc.setAttribute("aria-pressed", list.includes(g)); return; }
+      const gc = e.target.closest("[data-gchip]"); if (gc) { const inp = $("#m-g"), g = gc.dataset.gchip; let list = inp.value.split(",").map(x => x.trim()).filter(Boolean); list = list.includes(g) ? list.filter(x => x !== g) : [...list, g]; inp.value = list.join(", "); paintGenres(); return; }
+      const gm = e.target.closest("[data-gmain]"); if (gm) { const inp = $("#m-g"), g = gm.dataset.gmain; inp.value = [g, ...inp.value.split(",").map(x => x.trim()).filter(x => x && x !== g)].join(", "); paintGenres(); return; }
+      if (e.target.closest("[data-grainbow]")) { const inp = $("#m-g"); const cur = isQueer({ ...b, genres: inp.value.split(",").map(x => x.trim()), rainbow: rainbowPick ?? undefined }); rainbowPick = !cur; inp.value = inp.value.split(",").map(x => x.trim()).filter(x => x && x !== "LGBTQ+").concat(rainbowPick ? ["LGBTQ+"] : []).join(", "); paintGenres(); return; }
+      if (e.target.closest("#m-gowngo")) { const x = $("#m-gown"), g = cap((x?.value || "").trim()); if (!g) return; const inp = $("#m-g"); const list = inp.value.split(",").map(y => y.trim()).filter(Boolean); if (!list.includes(g)) list.push(g); inp.value = list.join(", "); paintGenres(); return; }
       if (id === "m-sumtog") { const sm = $("#m-sum"); sm.classList.toggle("clamp"); e.target.textContent = sm.classList.contains("clamp") ? "Read more" : "Show less"; return; }
       if (e.target.closest("#m-coverbtn")) { showMTab("cover"); $("#m-pane-cover").scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
       if (id === "m-findcov") return findCovers();
@@ -5028,6 +5115,59 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
       save(); renderShelf(); toast("Shelf rearranged");
     });
     cs.addEventListener("dragend", () => { clear(); dragId = null; });
+    // the abandoned shelf: drag a book out of it onto any main shelf, or drag one in to set it aside
+    const dnf = $("#dnf-shelf");
+    const abandon = b => { b.shelf = "dnf"; b.abandoned = todayISO(); try { dropRewards(b); } catch {} if (lsGet("reading-ledger-session", null)?.id === b.id) localStorage.removeItem("reading-ledger-session"); save(); render(); toast(`${b.title} is resting on the Abandoned Shelf. No guilt ✦`); };
+    const dropOn = (target, id, x) => {
+      const b = books.find(z => z.id === id); if (!b || !target) return;
+      if (target === dnf) { if (b.shelf !== "dnf") abandon(b); return; }
+      if (target.dataset.tier !== b.shelf) { openEditor(b, false, { moveTo: target.dataset.tier }); return; }
+      const info = spot(target, x);
+      if (arrangeBy !== "custom") { ["reading","read","want"].forEach(k => arrangeList(books.filter(z => z.shelf === k), k).forEach((z, i) => { z.order = i; })); arrangeBy = "custom"; lsSet(KEY_ARR, arrangeBy); paintArrange(); }
+      const ids = info.ids; ids.splice(info.idx, 0, id); ids.forEach((bid, i) => { const z = books.find(y => y.id === bid); if (z) z.order = i; });
+      save(); renderShelf(); toast("Shelf rearranged");
+    };
+    dnf.addEventListener("dragstart", e => { const sp = e.target.closest(".spine[data-id]"); if (!sp) return; dragId = sp.dataset.id; fromShelf = "dnf"; e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", dragId); } catch {} setTimeout(() => sp.classList.add("dragging"), 0); document.body.classList.add("dragging-book", "dragging-dnf"); });
+    dnf.addEventListener("dragend", () => { clear(); document.body.classList.remove("dragging-dnf"); dragId = null; });
+    dnf.addEventListener("dragover", e => { if (!dragId || fromShelf === "dnf") return; e.preventDefault(); dnf.classList.add("over"); });
+    dnf.addEventListener("dragleave", e => { if (!dnf.contains(e.relatedTarget)) dnf.classList.remove("over"); });
+    dnf.addEventListener("drop", e => { if (!dragId || fromShelf === "dnf") return; e.preventDefault(); dnf.classList.remove("over"); const id = dragId; clear(); dragId = null; dropOn(dnf, id); });
+    // phones: press and hold a spine, then slide it where it should go
+    let T = null, ghost = null, swallow = false;
+    const targetAt = (x, y) => { const el = document.elementFromPoint(x, y); return el?.closest("#bookcase [data-tier]") || el?.closest("#dnf-shelf") || null; };
+    const endTouch = () => { if (T?.timer) clearTimeout(T.timer); ghost?.remove(); ghost = null; document.querySelectorAll(".tier.over,#dnf-shelf.over").forEach(z => z.classList.remove("over")); T?.sp.classList.remove("dragging"); document.body.classList.remove("dragging-book", "dragging-dnf"); marker.remove(); T = null; };
+    document.addEventListener("touchstart", e => {
+      const sp = e.target.closest("#bookcase .spine[data-id], #dnf-shelf .spine[data-id]"); if (!sp || decorating || e.touches.length > 1) return;
+      const t0 = e.touches[0];
+      T = { sp, id: sp.dataset.id, from: sp.closest("#dnf-shelf") ? "dnf" : books.find(z => z.id === sp.dataset.id)?.shelf, x: t0.clientX, y: t0.clientY, lifted: false };
+      T.timer = setTimeout(() => { if (!T) return; T.lifted = true; navigator.vibrate?.(12);
+        const r = sp.getBoundingClientRect(); ghost = sp.cloneNode(true); ghost.className += " ghostbook"; ghost.removeAttribute("data-id"); ghost.removeAttribute("data-open");
+        ghost.style.cssText += `;position:fixed;left:${r.left}px;top:${r.top}px;z-index:500;pointer-events:none;margin:0`; T.dx = T.x - r.left; T.dy = T.y - r.top; document.body.append(ghost);
+        sp.classList.add("dragging"); document.body.classList.add("dragging-book"); if (T.from === "dnf") document.body.classList.add("dragging-dnf"); }, 380);
+    }, { passive: true });
+    document.addEventListener("touchmove", e => {
+      if (!T) return; const t0 = e.touches[0];
+      if (!T.lifted) { if (Math.hypot(t0.clientX - T.x, t0.clientY - T.y) > 10) { clearTimeout(T.timer); T = null; } return; }
+      e.preventDefault();
+      ghost.style.left = (t0.clientX - T.dx) + "px"; ghost.style.top = (t0.clientY - T.dy) + "px";
+      const tg = targetAt(t0.clientX, t0.clientY); T.tg = tg; T.lx = t0.clientX;
+      document.querySelectorAll(".tier.over,#dnf-shelf.over").forEach(z => z !== tg && z.classList.remove("over"));
+      if (tg && (tg.id === "dnf-shelf" ? T.from !== "dnf" : tg.dataset.tier !== T.from)) { tg.classList.add("over"); marker.remove(); }
+      else if (tg && tg.dataset.tier === T.from) { dragId = T.id; const { idx, sp } = spot(tg, t0.clientX), tr = tg.getBoundingClientRect(); const x = sp.length ? (idx < sp.length ? sp[idx].getBoundingClientRect().left - 3 : sp[sp.length - 1].getBoundingClientRect().right + 1) : tr.left + 14; marker.style.left = (x - tr.left + tg.scrollLeft) + "px"; if (marker.parentNode !== tg) tg.append(marker); dragId = null; }
+      else marker.remove();
+      // nudge the page when the book is held near the top or bottom
+      if (t0.clientY < 60) scrollBy(0, -12); else if (t0.clientY > innerHeight - 60) scrollBy(0, 12);
+    }, { passive: false });
+    document.addEventListener("touchend", e => {
+      if (!T) return; if (!T.lifted) { clearTimeout(T.timer); T = null; return; }
+      e.preventDefault(); swallow = true; setTimeout(() => { swallow = false; }, 400);
+      const { id, tg, lx, from } = T; endTouch();
+      if (!tg || (tg.id === "dnf-shelf" && from === "dnf")) return;
+      if (tg.dataset.tier === from) { dragId = id; dropOn(tg, id, lx); dragId = null; } else dropOn(tg, id, lx);
+    });
+    document.addEventListener("touchcancel", endTouch);
+    document.addEventListener("click", e => { if (swallow && e.target.closest(".spine")) { e.stopPropagation(); e.preventDefault(); swallow = false; } }, true);
+    document.addEventListener("contextmenu", e => { if (T?.lifted || e.target.closest("#bookcase .spine, #dnf-shelf .spine")) e.preventDefault(); });
   })();
 
 
@@ -5211,13 +5351,13 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   decorateCase();
   function renderGuide(){
     const el = $("#legend-panel"); if (!el || el.hidden) return;
-    const counts = new Map(); books.forEach(b => { const g = (b.genres || []).find(x => GENRE_LOOK[x]) || (b.category === "Nonfiction" ? "History" : "Other"); counts.set(g, (counts.get(g) || 0) + 1); });
+    const counts = new Map(); books.forEach(b => { const g = mainGenreOf(b) || (b.category === "Nonfiction" ? "History" : "Other"); counts.set(g, (counts.get(g) || 0) + 1); if (isQueer(b)) counts.set("LGBTQ+", (counts.get("LGBTQ+") || 0) + 1); });
     const entries = [...Object.entries(GENRE_LOOK), ["Other", DEFAULT_LOOK]].sort((a, b) => (counts.get(b[0]) || 0) - (counts.get(a[0]) || 0));
     const custom = books.filter(b => b.spineCustom).length;
     const shown = legendAll ? entries : entries.filter(([g]) => counts.get(g));
     el.innerHTML = `<div class="lghead"><span class="label">Genre colours${spineMode === "individual" ? " · emblems" : ""}</span><span class="lgacts"><button class="linkbtn" type="button" data-legall>${legendAll ? "Only my genres" : "All genres"}</button><button class="iconbtn" type="button" data-legclose aria-label="Close">✕</button></span></div>
       ${spineMode === "individual" ? `<p class="note">Your spines use individual colours, so read this by the emblem at the top of each spine.</p>` : ""}
-      <div class="guide">${shown.map(([g, L]) => `<div class="gchip${counts.get(g) ? "" : " dim"}" style="--aura:${L.aura}"><span class="gsw"><i style="background:${harmonize(L.color)}"></i></span><span class="gem">${L.motif}</span><span class="gname">${g === "Other" ? "Other / unknown" : esc(g)}</span><span class="gct">${counts.get(g) || ""}</span></div>`).join("")}</div>`;
+      <div class="guide">${shown.map(([g, L]) => `<div class="gchip${counts.get(g) ? "" : " dim"}" style="--aura:${L.aura}"><span class="gsw"><i style="${g === "LGBTQ+" ? `background:${RAINBOW_BG}` : `background:${harmonizeG(L.color)}`}"></i></span><span class="gem">${L.motif}</span><span class="gname">${g === "Other" ? "Other / unknown" : esc(g)}</span><span class="gct">${counts.get(g) || ""}</span></div>`).join("")}</div>`;
   }
   function paintSpineMode(){ document.querySelectorAll("#spine-mode [data-sm]").forEach(x => x.setAttribute("aria-pressed", x.dataset.sm === spineMode)); }
   paintSpineMode();
@@ -9103,8 +9243,17 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.0";
+  const APP_VERSION = "3.1";
   const CHANGELOG = [
+    ["3.1", "22 Oct 2026", "Clearer spines, rainbow books and a genre picker", [
+      "Genres have their own tab when you edit a book, grouped into stories, who it's for, and true stories & ideas; the first genre colours the spine",
+      "Books with two genres keep the main colour and show the second genre in the bands at the top and bottom",
+      "Every genre now has its own clearly different colour, and lighter spines get dark lettering so titles stay readable",
+      "LGBTQ+ books get a rainbow spine, found automatically or switched on in the genre tab",
+      "Titles sit centred on the spine, on one line or two balanced lines, without the author squeezed in",
+      "Drag a book from the Abandoned Shelf back onto any shelf, or drop one onto it (on a phone, press and hold the spine first)",
+      "Explore your nook now looks like the button it is",
+    ]],
     ["3.0", "22 Oct 2026", "Famous series done right, and a closer look at friends' books", [
       "Add a whole series now knows over 110 famous series (Throne of Glass, ACOTAR, Harry Potter, Fourth Wing, The Witcher, Bridgerton and many more) with exactly the right books in reading order, prequels and novellas marked",
       "Start typing in Add a whole series and matching series appear; searching a series name in the book finder offers to add the whole set",
@@ -9207,7 +9356,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   }
   // the rooms stay folded away until you open Explore your nook
   function hallState(st){ document.body.classList.remove("hall-closed", "hall-grid", "hall-room"); document.body.classList.add("hall-" + st); $("#hall-btn")?.setAttribute("aria-expanded", st !== "closed");
-    const sub = $("#hall-sub"); if (sub) sub.innerHTML = st === "closed" ? `Your library, stats, soul, keepsakes and friends <b class="hallchev">▾</b>` : st === "grid" ? `Pick a room <b class="hallchev">▴</b>` : `Close the rooms <b class="hallchev">▴</b>`; }
+    const sub = $("#hall-sub"); if (sub) sub.textContent = st === "closed" ? "Your library, stats, soul, keepsakes and friends" : st === "grid" ? "Pick a room below" : "You're in a room below"; const cta = $("#hall-cta"); if (cta) cta.innerHTML = st === "closed" ? `Tap to open the rooms <b class="hallchev">▾</b>` : `Close the rooms <b class="hallchev">▴</b>`; }
   hallState("closed");
   $("#hall-btn").addEventListener("click", () => { const open = !document.body.classList.contains("hall-closed"); hallState(open ? "closed" : "grid"); if (open) $(".hall")?.scrollIntoView({ behavior: "smooth", block: "start" }); });
   function showTab(t){
