@@ -1795,6 +1795,35 @@ header .menu{margin-top:6px}
 .wacts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}.wacts .btn{color:#FBEFD8;border-color:rgba(251,239,216,.4);background:rgba(255,255,255,.08)}.wacts .btn.primary{background:#E9C77E;color:#22121F;border-color:#E9C77E}
 .whint{position:absolute;bottom:18px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,239,216,.45);font-family:var(--f-cap);z-index:2;pointer-events:none;animation:wup .6s 1.2s both}
 @media (prefers-reduced-motion:reduce){.wslide,.wslide > *,.wbars i::after{animation:none!important}}
+
+/* the sound room */
+.sroom{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:20;width:min(680px,calc(100vw - 20px));max-height:min(78vh,760px);overflow-y:auto;overscroll-behavior:contain;background:linear-gradient(180deg,rgba(38,22,14,.94),rgba(22,12,8,.96));border:1px solid rgba(255,214,150,.25);border-radius:20px;padding:16px 18px 14px;color:#EBD7B2;box-shadow:0 20px 60px rgba(0,0,0,.6);backdrop-filter:blur(8px);animation:srin .3s cubic-bezier(.2,.8,.2,1) both;scrollbar-width:thin}
+.sroom[hidden]{display:none}@keyframes srin{from{opacity:0;transform:translate(-50%,20px)}}
+.sroom .label{color:#C9A26A}
+.srhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}.srhead b{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:20px;color:#FFEBC4}
+.srhead .iconbtn{background:rgba(255,214,150,.08);border-color:rgba(255,214,150,.3);color:#FFEBC4}
+.srsec{margin-top:12px}.srsec > .label{display:block;margin-bottom:6px}
+.srmoods{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;flex-wrap:wrap}
+.srmoods button{flex:0 0 auto;display:flex;align-items:center;gap:6px;background:rgba(255,214,150,.06);border:1px solid rgba(255,214,150,.22);color:#EBD7B2;border-radius:999px;padding:6px 13px;font:inherit;font-family:var(--f-display);font-style:italic;font-size:14.5px;cursor:pointer}
+.srmoods button i{font-style:normal}.srmoods button[aria-pressed="true"]{background:rgba(255,190,100,.28);border-color:#FFC27A;color:#fff}
+.srtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.srtile{display:flex;flex-direction:column;border-radius:14px;background:rgba(255,214,150,.05);border:1px solid rgba(255,214,150,.16);overflow:hidden;transition:background .25s,border-color .25s}
+.srtile button{display:flex;align-items:center;gap:8px;padding:10px 11px;border:0;background:none;color:#EBD7B2;font:inherit;font-size:14px;text-align:left;cursor:pointer;line-height:1.2}
+.srtile button i{font-style:normal;font-size:20px;filter:grayscale(.6);transition:filter .25s,transform .25s}
+.srtile input{display:none;margin:0 11px 10px;accent-color:#E8983A;height:18px}
+.srtile[data-st="on"],.srtile[data-st="loading"]{background:rgba(255,180,90,.16);border-color:rgba(255,194,122,.6)}
+.srtile[data-st="on"] button,.srtile[data-st="loading"] button{color:#fff}.srtile[data-st="on"] i{filter:none;transform:scale(1.08)}
+.srtile[data-st="on"] input{display:block}
+.srtile[data-st="loading"] button::after{content:"";width:12px;height:12px;margin-left:auto;border-radius:50%;border:2px solid rgba(255,214,150,.3);border-top-color:#FFC27A;animation:spin 1s linear infinite;flex:0 0 auto}
+.srtile[data-st="error"] button{opacity:.55}
+@keyframes spin{to{transform:rotate(360deg)}}
+.srfoot{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,214,150,.15)}
+.srvol{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}.srvol input{flex:1;accent-color:#E8983A}
+.srsleep{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.srseg{display:flex;border:1px solid rgba(255,214,150,.25);border-radius:999px;overflow:hidden}
+.srseg button{border:0;background:none;color:#EBD7B2;font:inherit;font-size:12.5px;padding:5px 10px;cursor:pointer}.srseg button[aria-pressed="true"]{background:rgba(255,190,100,.3);color:#fff}
+.srleft{font-size:12.5px;color:#C9A26A;font-style:italic}
+.srcred{margin-top:12px;font-size:12px;color:#A99A86}.srcred summary{cursor:pointer}.srcred p{margin:6px 0 0;line-height:1.5}
+@media (max-width:640px){.sroom{bottom:0;border-radius:20px 20px 0 0;width:100vw;max-height:82vh;padding:14px 14px calc(14px + env(safe-area-inset-bottom))}.srtiles{grid-template-columns:1fr 1fr}.srmoods{flex-wrap:nowrap}}
 </style>
 </head>
 <body>
@@ -1927,7 +1956,7 @@ header .menu{margin-top:6px}
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   // look-and-feel settings that follow you between devices with your account
-  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience"];
+  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster"];
   const SETTINGS_T = "reading-ledger-settings-t";
   let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
   setTimeout(() => { settingsReady = true; }, 6000);
@@ -6956,254 +6985,118 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     return bits.length ? `<div class="rmline">${cap(bits.join(" · "))}.</div>` : "";
   }
 
-  // ---- ambient soundscapes, synthesised live in the browser (no files to download) ----
-  const AMB_LAYERS = [["rain", "🌧", "Rain"], ["thunder", "⛈", "Thunder"], ["fire", "🔥", "Fireplace"], ["wind", "🌬", "Wind"], ["ocean", "🌊", "Waves"], ["night", "🦗", "Night crickets"], ["birds", "🐦", "Birdsong"], ["clock", "🕰", "Old clock"], ["cafe", "☕", "Café"]];
-  const AMB_PRESETS = [["Rainy library", ["rain", "clock"]], ["Cabin by the fire", ["fire", "wind"]], ["Midnight storm", ["rain", "thunder", "wind"]], ["Summer night", ["night", "wind"]], ["Seaside", ["ocean", "birds"]], ["Rainy café", ["cafe", "rain"]]];
+  // ---- the sound room: real recordings, each with its own volume, loaded only when you switch them on ----
+  const AMB_LAYERS = [
+    ["rain", "🌧", "Rain on the window", "Rain", .75], ["roof", "🏠", "Rain on the roof", "Rain", .65], ["storm", "⛈", "Distant storm", "Rain", .6],
+    ["fire", "🔥", "Fireplace", "Cozy", .7], ["purr", "🐈", "Purring cat", "Cozy", .6], ["clock", "🕰", "Old clock", "Cozy", .45], ["pages", "📖", "Turning pages", "Cozy", .55],
+    ["ocean", "🌊", "Ocean waves", "Nature", .65], ["stream", "💧", "Forest stream", "Nature", .55], ["wind", "🍃", "Wind in the trees", "Nature", .65], ["birds", "🐦", "Birdsong", "Nature", .55], ["night", "🦗", "Summer night", "Nature", .6],
+    ["library", "🏛", "Quiet library", "Places", .75], ["cafe", "☕", "Café murmur", "Places", .55],
+    ["bowl", "🔔", "Singing bowl", "Calm", .45], ["chimes", "🎐", "Wind chimes", "Calm", .5], ["brown", "🟤", "Brown noise", "Calm", .5], ["pink", "🌸", "Pink noise", "Calm", .35]
+  ];
+  const AMB_PRESETS = [
+    ["Rainy library", "🌧", { rain: .75, library: .7, pages: .5 }], ["Cabin by the fire", "🔥", { fire: .75, roof: .5, clock: .35 }], ["Cat on my lap", "🐈", { purr: .6, fire: .55, rain: .5 }],
+    ["Deep focus", "🎧", { brown: .5, rain: .45 }], ["Café corner", "☕", { cafe: .55, rain: .5 }], ["Seaside cottage", "🌊", { ocean: .65, wind: .3 }],
+    ["Forest morning", "🌲", { stream: .55, birds: .4, wind: .35 }], ["Summer night", "🌙", { night: .55, stream: .25 }], ["Midnight storm", "⛈", { storm: .65, roof: .55, fire: .4 }],
+    ["Meditate", "🪷", { bowl: .45, stream: .4, chimes: .35 }]
+  ];
+  const AMB_CREDITS = "Rain, waves, stream, wind, birdsong, crickets, owl, purring cat, library, café, clock, pages, singing bowl and wind chimes from Moodist (CC0 and Pixabay licence). Fireplace (ezwa, public domain) and storm (Digifish Music, CC BY) via Blanket. Edited for calm looping in My Book Nook.";
+  const KEY_AMBVOL = "reading-ledger-ambvol";
   const Ambience = (() => {
-    let ctx = null, master = null, comp = null, vol = .5; const live = {};
-    let WHITE, PINK, BROWN;
-    function mkbuf(type){ const len = ctx.sampleRate * 4, b = ctx.createBuffer(2, len, ctx.sampleRate);
-      for (let ch = 0; ch < 2; ch++) { const d = b.getChannelData(ch); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0, last = 0;
-        for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1;
-          if (type === "pink") { b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926; }
-          else if (type === "brown") { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; }
-        // crossfade the loop seam
-        const f = 2048; for (let i = 0; i < f; i++) { const t = i / f; d[len - f + i] = d[len - f + i] * (1 - t) + d[i] * t; } }
-      return b; }
+    let ctx = null, master = null, vol = lsGet("reading-ledger-ambmaster", .5), sleepT = null, fadeT = null, sleepEnd = 0;
+    const bufs = {}, live = {}, state = {}; let listeners = [];
+    const def = k => AMB_LAYERS.find(x => x[0] === k)?.[4] ?? .5;
+    const levelOf = k => { const v = lsGet(KEY_AMBVOL, {})[k]; return typeof v === "number" ? v : def(k); };
+    const curve = v => v * v * 1.15; // sliders feel even: half way sounds about half as loud
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const emit = () => listeners.forEach(f => { try { f(); } catch {} });
     function init(){
       if (ctx) return;
       ctx = new (window.AudioContext || window.webkitAudioContext)();
-      comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.knee.value = 12; comp.ratio.value = 2; comp.connect(ctx.destination);
+      const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -16; comp.knee.value = 10; comp.ratio.value = 2.5; comp.attack.value = .02; comp.release.value = .4; comp.connect(ctx.destination);
       master = ctx.createGain(); master.gain.value = vol; master.connect(comp);
-      WHITE = mkbuf("white"); PINK = mkbuf("pink"); BROWN = mkbuf("brown");
     }
-    // ---- building blocks ----
-    const now = () => ctx.currentTime;
-    function noise(L, buf, rate = 1){ const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.playbackRate.value = rate; s.start(now(), Math.random() * 3); L.nodes.push(s); return s; }
-    function f(L, type, freq, Q){ const n = ctx.createBiquadFilter(); n.type = type; n.frequency.value = freq; if (Q != null) n.Q.value = Q; L.nodes.push(n); return n; }
-    function g(L, v){ const n = ctx.createGain(); n.gain.value = v; L.nodes.push(n); return n; }
-    function pan(L, p){ if (!ctx.createStereoPanner) return g(L, 1); const n = ctx.createStereoPanner(); n.pan.value = p; L.nodes.push(n); return n; }
-    function chain(...ns){ for (let i = 0; i < ns.length - 1; i++) ns[i].connect(ns[i + 1]); return ns[ns.length - 1]; }
-    function drift(L, param, lo, hi, minT, maxT, tc = .8){ const step = () => { if (L.dead) return; param.setTargetAtTime(lo + Math.random() * (hi - lo), now(), tc + Math.random() * tc); L.timers.push(setTimeout(step, (minT + Math.random() * (maxT - minT)) * 1000)); }; step(); }
-    function every(L, min, max, fn){ const go = () => { if (L.dead) return; try { fn(); } catch {} L.timers.push(setTimeout(go, min + Math.random() * (max - min))); }; L.timers.push(setTimeout(go, Math.random() * min)); }
-    // a one-shot sound that cleans up after itself
-    function shot(L, { buf = WHITE, type = "bandpass", freq = 3000, Q = 1, amp = .2, att = .002, dec = .03, p = 0, rate = 1, t = 0 }){
-      const s = ctx.createBufferSource(); s.buffer = buf; s.playbackRate.value = rate; const fl = ctx.createBiquadFilter(); fl.type = type; fl.frequency.value = freq; fl.Q.value = Q;
-      const gn = ctx.createGain(), T = now() + t; gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(amp, T + att); gn.gain.exponentialRampToValueAtTime(.0001, T + att + dec);
-      let out = gn; if (ctx.createStereoPanner) { const pn = ctx.createStereoPanner(); pn.pan.value = p; gn.connect(pn); out = pn; }
-      s.connect(fl).connect(gn); out.connect(L.out); s.start(T, Math.random() * 3, att + dec + .05); s.onended = () => { try { s.disconnect(); fl.disconnect(); gn.disconnect(); out.disconnect(); } catch {} };
+    function noiseBuf(type){ // brown and pink noise are made right here, perfectly smooth
+      const sr = ctx.sampleRate, n = sr * 12, F = sr, b = ctx.createBuffer(2, n, sr);
+      for (let c = 0; c < 2; c++) { const d = new Float32Array(n + F); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0, last = 0;
+        for (let i = 0; i < n + F; i++) { const w = Math.random() * 2 - 1;
+          if (type === "pink") { b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .035; b6 = w * .115926; }
+          else { last = (last + .02 * w) / 1.02; d[i] = last * 1.1; } }
+        const o = b.getChannelData(c); for (let i = 0; i < n; i++) o[i] = d[i]; for (let i = 0; i < F; i++) { const t = i / F; o[i] = d[i] * Math.sin(t * Math.PI / 2) + d[n + i] * Math.cos(t * Math.PI / 2); } }
+      return b;
     }
-    function tone(L, { freq = 1000, to = null, type = "sine", amp = .1, att = .003, dec = .2, p = 0, t = 0 }){
-      const o = ctx.createOscillator(); o.type = type; const T = now() + t; o.frequency.setValueAtTime(freq, T); if (to) o.frequency.exponentialRampToValueAtTime(to, T + att + dec);
-      const gn = ctx.createGain(); gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(amp, T + att); gn.gain.exponentialRampToValueAtTime(.0001, T + att + dec);
-      let out = gn; if (ctx.createStereoPanner) { const pn = ctx.createStereoPanner(); pn.pan.value = p; gn.connect(pn); out = pn; }
-      o.connect(gn); out.connect(L.out); o.start(T); o.stop(T + att + dec + .05); o.onended = () => { try { o.disconnect(); gn.disconnect(); out.disconnect(); } catch {} };
+    // mp3 files carry a few milliseconds of digital silence at each end; cut it so loops never gap
+    function trimPad(b){ const n = b.length, ch = [...Array(b.numberOfChannels)].map((_, i) => b.getChannelData(i)), quiet = i => ch.every(d => Math.abs(d[i]) < 1e-5);
+      let a = 0, z = n - 1; while (a < n && a < b.sampleRate && quiet(a)) a++; while (z > a && n - z < b.sampleRate && quiet(z)) z--;
+      if (a === 0 && z === n - 1) return b; const o = ctx.createBuffer(ch.length, z - a + 1, b.sampleRate); ch.forEach((d, i) => o.getChannelData(i).set(d.subarray(a, z + 1))); return o; }
+    function load(k){
+      if (bufs[k]) return bufs[k];
+      if (k === "brown" || k === "pink") return (bufs[k] = Promise.resolve(noiseBuf(k)));
+      bufs[k] = fetch(`sounds/${k}.mp3`).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(ab => new Promise((res, rej) => { const p = ctx.decodeAudioData(ab, res, rej); if (p?.then) p.then(res, rej); })).then(trimPad)
+        .catch(e => { delete bufs[k]; throw e; });
+      return bufs[k];
     }
-    const rnd = (a, b) => a + Math.random() * (b - a);
-    // ---- studio-rendered textures: built sample by sample once (in a background worker), then looped seamlessly ----
-    function TEXGEN(api){
-    const R = Math.random, rr = (a, b) => a + R() * (b - a);
-    function bq(sr){ let b0 = 1, b1 = 0, b2 = 0, a1 = 0, a2 = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
-      return { set(type, fq, Q = .707){ const w = 2 * Math.PI * Math.min(fq, sr * .45) / sr, c = Math.cos(w), s = Math.sin(w), al = s / (2 * Q), A0 = 1 + al; let B0, B1, B2;
-          if (type === "lp") { B0 = (1 - c) / 2; B1 = 1 - c; B2 = B0; } else if (type === "hp") { B0 = (1 + c) / 2; B1 = -(1 + c); B2 = B0; } else { B0 = al; B1 = 0; B2 = -al; }
-          b0 = B0 / A0; b1 = B1 / A0; b2 = B2 / A0; a1 = -2 * c / A0; a2 = (1 - al) / A0; return this; },
-        run(x){ const y = b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2; x2 = x1; x1 = x; y2 = y1; y1 = y; return y; } }; }
-    const pinkGen = () => { let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0; return () => { const w = R() * 2 - 1; b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; const o = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926; return o; }; };
-    const brownGen = () => { let l = 0; return () => { l = (l + .02 * (R() * 2 - 1)) / 1.02; return l * 3.5; }; };
-    // a smooth random wander between lo and hi, a new target every `step` seconds
-    function wander(n, sr, step, lo, hi){ const out = new Float32Array(n), k = Math.max(2, Math.floor(step * sr)); let a = rr(lo, hi), b = rr(lo, hi);
-      for (let i = 0; i < n; i++) { const j = i % k; if (j === 0 && i) { a = b; b = rr(lo, hi); } const t = j / k, e = (1 - Math.cos(Math.PI * t)) / 2; out[i] = a + (b - a) * e; } return out; }
-    // join the end back onto the start so the loop never clicks
-    function seam(x, n, F){ const o = x.slice(0, n); for (let i = 0; i < F; i++) { const t = i / F; o[i] = x[i] * t + x[n + i] * (1 - t); } return o; }
-    function toBuf(chs, rms){ let s = 0, c = 0; for (const d of chs) for (let i = 0; i < d.length; i += 3) { s += d[i] * d[i]; c++; } const k = rms / (Math.sqrt(s / c) || 1);
-      let pk = 0; for (const d of chs) for (let i = 0; i < d.length; i++) { d[i] *= k; if (Math.abs(d[i]) > pk) pk = Math.abs(d[i]); }
-      if (pk > .95) for (const d of chs) for (let i = 0; i < d.length; i++) d[i] *= .95 / pk;
-      return chs; }
-    // a water drop: a tiny bubble that rings and rises in pitch (how real raindrops sound)
-    function drop(d, at, sr, f0, dec, amp){ const len = Math.min(d.length - at, Math.floor(dec * sr * 5)); let ph = 0;
-      for (let j = 0; j < len; j++) { const t = j / sr; ph += 2 * Math.PI * f0 * (1 + 1.6 * t / (dec * 5)) / sr; d[at + j] += amp * Math.exp(-t / dec) * Math.sin(ph); }
-      const ck = Math.min(len, Math.floor(sr * .0007)); for (let j = 0; j < ck; j++) d[at + j] += amp * .5 * (R() * 2 - 1) * (1 - j / ck); }
-
-    const MAKE = {
-      rain(sr){ // gentle steady rain: a soft distant hush, thousands of tiny drops, a few nearer ones on the glass
-        const n = sr * 18, F = Math.floor(sr * .6), N = n + F, out = [];
-        for (let c = 0; c < 2; c++) {
-          const x = new Float32Array(N), pk = pinkGen(), hp = bq(sr).set("hp", 350), lp = bq(sr).set("lp", 3200, .6), sw = wander(N, sr, 3, .75, 1.05);
-          for (let i = 0; i < N; i++) x[i] = lp.run(hp.run(pk())) * .55 * sw[i];
-          const far = new Float32Array(N); for (let k = 0, m = Math.floor(N / sr * 520); k < m; k++) drop(far, Math.floor(R() * N), sr, rr(1600, 5200), rr(.0015, .006), Math.pow(R(), 3) * .35 + .015);
-          const near = new Float32Array(N); for (let k = 0, m = Math.floor(N / sr * 14); k < m; k++) drop(near, Math.floor(R() * N), sr, rr(700, 2600), rr(.004, .014), Math.pow(R(), 2) * .5 + .08);
-          const lf = bq(sr).set("lp", 3800, .5), ln = bq(sr).set("lp", 5000, .6);
-          for (let i = 0; i < N; i++) x[i] += lf.run(far[i]) * .55 + ln.run(near[i]) * .35;
-          out.push(seam(x, n, F));
-        }
-        return toBuf(out, .08);
-      },
-      wind(sr){ // a breeze that rises and falls in slow, smooth gusts; the loop length is the gusts' common period so it never jumps
-        const n = sr * 24, F = Math.floor(sr * .8), N = n + F, out = [];
-        const P = [24, 12, 8, 4.8].map(p => [p, R() * 6.283]);
-        for (let c = 0; c < 2; c++) {
-          const x = new Float32Array(N), bn = brownGen(), pk = pinkGen(), bp = bq(sr), body = bq(sr).set("lp", 1100, .6), wh = bq(sr), rust = bq(sr).set("hp", 2600), rl = bq(sr).set("lp", 6000);
-          const lag = c ? 1.3 : 0, fl = wander(N, sr, .18, .7, 1); let e = .5, ee = .25;
-          for (let i = 0; i < N; i++) {
-            if (i % 32 === 0) { const t = i / sr - lag; e = 0; for (let j = 0; j < 4; j++) e += Math.sin(2 * Math.PI * t / P[j][0] + P[j][1]) / (j + 1.4); e = Math.max(0, Math.min(1, .5 + e * .55)); ee = e * e; }
-            if (i % 64 === 0) { bp.set("bp", 200 + 750 * ee, .6); wh.set("bp", 520 + 380 * e, 9); }
-            const s = bn() * .7 + pk() * .5;
-            x[i] = body.run(bp.run(s)) * (.12 + .9 * ee) + wh.run(pk()) * .05 * ee * e + rl.run(rust.run(pk())) * .1 * ee * fl[i];
-          }
-          out.push(seam(x, n, F));
-        }
-        return toBuf(out, .08);
-      },
-      fire(sr){ // a hearth: a low soft roar, a breath of flame, wood crackling in little clusters, the odd pop and sap hiss
-        const n = sr * 32, F = Math.floor(sr * .5), N = n + F, L = new Float32Array(N), Rt = new Float32Array(N);
-        const bn = brownGen(), bn2 = brownGen(), pk = pinkGen(), lp = bq(sr).set("lp", 170, .7), lp2 = bq(sr).set("lp", 170, .7), mid = bq(sr).set("bp", 520, .5), mid2 = bq(sr).set("bp", 520, .5);
-        const fl = wander(N, sr, .35, .55, 1), fl2 = wander(N, sr, .13, .3, 1), hissW = wander(N, sr, 1.6, .2, 1), hs = bq(sr).set("bp", 2600, .5);
-        for (let i = 0; i < N; i++) { const a = bn(), b = bn2(), h = hs.run(pk()) * .02 * hissW[i];
-          L[i] = lp.run(a * .8 + b * .2) * .5 * fl[i] + mid.run(pk()) * .09 * fl2[i] + h;
-          Rt[i] = lp2.run(b * .8 + a * .2) * .5 * fl[i] + mid2.run(pk()) * .09 * fl2[i] + h * .9; }
-        const click = (at, amp, f0, dec, p) => { const len = Math.min(N - at, Math.floor(dec * sr * 6)); const gl = amp * (1 - p) * .8, gr = amp * (1 + p) * .8; let ph = R() * 6;
-          for (let j = 0; j < len; j++) { const v = Math.exp(-j / (dec * sr)) * (Math.sin(ph += 2 * Math.PI * f0 / sr) * .6 + (j < 3 ? (R() * 2 - 1) : 0)); L[at + j] += v * gl; Rt[at + j] += v * gr; } };
-        let t = 0; while (t < N / sr) { t += -Math.log(1 - R()) / 4.5; const at = Math.floor(t * sr); if (at >= N) break; const p = rr(-.6, .6), A = Math.pow(R(), 2.6) * .7 + .03, m = 1 + Math.floor(Math.pow(R(), 2) * 7);
-          let o = 0; for (let k = 0; k < m; k++) { o += rr(.002, .03) * sr; if (at + o < N) click(Math.floor(at + o), A * rr(.3, 1), rr(1400, 5500), rr(.0004, .0025), p + rr(-.08, .08)); } }
-        t = rr(1, 3); while (t < N / sr - 1) { const at = Math.floor(t * sr), p = rr(-.4, .4);
-          { const len = Math.floor(sr * .12), f0 = rr(90, 190); let ph = 0; for (let j = 0; j < len; j++) { const v = Math.exp(-j / (sr * .028)) * Math.sin(ph += 2 * Math.PI * f0 / sr) * .35; L[at + j] += v * (1 - p); Rt[at + j] += v * (1 + p); } }
-          click(at, .55, rr(1800, 3500), .0016, p); for (let k = 0, m = 3 + Math.floor(R() * 6); k < m; k++) click(at + Math.floor(rr(.03, .5) * sr), rr(.1, .35), rr(2000, 6000), rr(.0004, .0015), p + rr(-.15, .15));
-          t += rr(3, 8); }
-        t = rr(4, 10); while (t < N / sr - 2) { const at = Math.floor(t * sr), len = Math.floor(rr(.6, 1.6) * sr), b2 = bq(sr).set("bp", rr(3200, 5200), 7), p = rr(-.5, .5);
-          for (let j = 0; j < len; j++) { const v = b2.run(R() * 2 - 1) * .05 * Math.sin(Math.PI * j / len); L[at + j] += v * (1 - p); Rt[at + j] += v * (1 + p); } t += rr(9, 18); }
-        return toBuf([seam(L, n, F), seam(Rt, n, F)], .08);
-      },
-      wave(sr){ // one wave on a sandy shore: it gathers, breaks, then foams and fizzes back out to sea
-        const D = rr(10, 13), tb = rr(2.4, 3.6), N = Math.floor(D * sr), out = [];
-        const crash = rr(.75, 1);
-        for (let c = 0; c < 2; c++) {
-          const x = new Float32Array(N), pk = pinkGen(), bn = brownGen(), lp = bq(sr), spray = bq(sr).set("hp", 2800), sl = bq(sr).set("lp", 7000), soft = bq(sr).set("lp", 5200, .6), off = c ? rr(.02, .09) : 0;
-          for (let i = 0; i < N; i++) {
-            const t = i / sr - off; let a, cut;
-            if (t < tb) { const u = Math.max(0, t / tb); a = .32 * Math.pow(u, 2.2); cut = 180 + 600 * u * u; }
-            else { const u = t - tb, rise = Math.min(1, u / .22); a = rise * (crash * Math.exp(-u / 1.1) + .42 * Math.exp(-u / 3.6)); cut = 450 + 4200 * Math.exp(-u / 1.5); }
-            a *= Math.min(1, (D - t) / 1.6);
-            if (i % 64 === 0) lp.set("lp", cut, .6);
-            const s = pk() * .8 + bn() * .5;
-            x[i] = soft.run(lp.run(s) * a + sl.run(spray.run(pk())) * .22 * a * (t > tb ? Math.exp(-(t - tb) / 2.4) : 0));
-          }
-          // the fizz of foam draining through the sand
-          for (let k = 0, m = Math.floor(D * 260); k < m; k++) { const t = tb + .4 + Math.pow(R(), 1.6) * (D - tb - .8), at = Math.floor(t * sr); if (at >= N) continue;
-            drop(x, at, sr, rr(3000, 8500), rr(.0004, .0016), (R() * .05 + .008) * Math.exp(-(t - tb) / 3.2) * Math.min(1, (D - t) / 1.6)); }
-          out.push(x);
-        }
-        return toBuf(out, .1);
-      },
-      cafe(sr){ // a room full of people chatting softly: real voiced murmurs, not hiss
-        const n = sr * 22, F = Math.floor(sr * .6), N = n + F, L = new Float32Array(N), Rt = new Float32Array(N);
-        const V = [[800, 1200], [500, 1850], [320, 2250], [520, 900], [350, 780], [650, 1650], [430, 1450]];
-        for (let v = 0; v < 7; v++) {
-          const f0b = R() < .5 ? rr(95, 140) : rr(170, 240), g = rr(.35, 1), p = rr(-.8, .8), f1 = bq(sr), f2 = bq(sr), dist = bq(sr).set("lp", rr(1500, 2600), .6);
-          let ph = 0, i = Math.floor(rr(0, 2) * sr);
-          while (i < N) {
-            const phrase = Math.floor(rr(1.2, 4) * sr), end = Math.min(N, i + phrase); let syl = 0;
-            while (i < end) { const sl = Math.floor(rr(.13, .26) * sr), vw = V[Math.floor(R() * V.length)], acc = R() < .25 ? 1.25 : 1;
-              f1.set("bp", vw[0] * rr(.9, 1.1), 5); f2.set("bp", vw[1] * rr(.9, 1.1), 7);
-              for (let j = 0; j < sl && i < N; j++, i++) { const t = i / sr, f0 = f0b * (1 + .12 * Math.sin(2 * Math.PI * t * .4 + v) + .04 * Math.sin(syl + j / sl * 2)) * acc;
-                ph += f0 / sr; if (ph >= 1) ph -= 1; const src = (ph * 2 - 1) * .6 + (R() * 2 - 1) * .08, e = Math.sin(Math.PI * j / sl) ** 1.5;
-                const y = dist.run(f1.run(src) * 1 + f2.run(src) * .55) * e * g; L[i] += y * (1 - p) * .5; Rt[i] += y * (1 + p) * .5; }
-              syl++; }
-            i += Math.floor(rr(.3, 2.2) * sr);
-          }
-        }
-        // the room: a soft reflection so voices blend instead of standing out
-        const room = (d, ms, fb) => { const k = Math.floor(ms / 1000 * sr); for (let i = k; i < N; i++) d[i] += d[i - k] * fb; };
-        room(L, 41, .35); room(Rt, 47, .35); room(L, 89, .2); room(Rt, 97, .2);
-        return toBuf([seam(L, n, F), seam(Rt, n, F)], .07);
-      }
-    };
-      api.make = (key, sr) => MAKE[key](sr);
-      if (api.worker) self.onmessage = e => { const { id, key, sr } = e.data; let chs = []; try { chs = MAKE[key](sr); } catch {} self.postMessage({ id, chs }, chs.map(c => c.buffer)); };
+    function play(L, buf, { loop = true, gain = 1, pan = 0 } = {}){
+      const s = ctx.createBufferSource(); s.buffer = buf; s.loop = loop; let out = s;
+      if (gain !== 1 || pan) { const g = ctx.createGain(); g.gain.value = gain; s.connect(g); out = g; if (pan && ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = pan; g.connect(p); out = p; } }
+      out.connect(L.gain); s.start(ctx.currentTime + .02, loop ? Math.random() * buf.duration : 0); L.srcs.push(s);
+      if (!loop) s.onended = () => { L.srcs = L.srcs.filter(x => x !== s); try { out.disconnect(); s.disconnect(); } catch {} };
+      return s;
     }
-    const TEX = {}, TEX_SR = 32000; let texWorker = null, texInline = null, texId = 0; const texWait = {};
-    function texRaw(key){
-      if (texWorker === null) { try { const url = URL.createObjectURL(new Blob([`(${TEXGEN.toString()})({ worker: true })`], { type: "text/javascript" })); texWorker = new Worker(url);
-          texWorker.onmessage = e => { const w = texWait[e.data.id]; delete texWait[e.data.id]; w?.(e.data.chs); }; texWorker.onerror = () => { texWorker = false; }; } catch { texWorker = false; } }
-      if (texWorker) return new Promise(res => { const id = ++texId; texWait[id] = res; texWorker.postMessage({ id, key, sr: TEX_SR }); setTimeout(() => { if (texWait[id]) { delete texWait[id]; texWorker = false; res(texRaw(key)); } }, 20000); });
-      if (!texInline) { texInline = {}; TEXGEN(texInline); }
-      return new Promise(res => setTimeout(() => res(texInline.make(key, TEX_SR)), 20));
-    }
-    function tex(key, variant = 0){ const id = key + variant;
-      if (!TEX[id]) TEX[id] = texRaw(key).then(chs => { if (!chs?.length) { delete TEX[id]; return null; } const b = ctx.createBuffer(chs.length, chs[0].length, TEX_SR); chs.forEach((d, i) => b.copyToChannel ? b.copyToChannel(d, i) : b.getChannelData(i).set(d)); return b; });
-      return TEX[id]; }
-    function loop(L, bufP, gain){ const gn = g(L, gain); gn.connect(L.out);
-      Promise.resolve(bufP).then(buf => { if (!buf || L.dead) return; const s = ctx.createBufferSource(); s.buffer = buf; s.loop = true; s.connect(gn); s.start(now(), Math.random() * buf.duration); L.nodes.push(s); }); return gn; }
-    // ---- the layers ----
-    const BUILD = {
-      rain(L){
-        loop(L, tex("rain"), .42);
-        // now and then a drip from the gutter, close by
-        every(L, 2500, 7000, () => { const p = rnd(-.7, .7), f0 = rnd(900, 1500); tone(L, { freq: f0, to: f0 * 1.6, amp: .02, att: .001, dec: .05, p }); });
-      },
-      thunder(L){
-        const strike = () => {
-          const far = Math.random() < .8, a = far ? rnd(.15, .28) : rnd(.3, .45);
-          if (!far) shot(L, { buf: WHITE, type: "highpass", freq: 1800, amp: a * .5, att: .005, dec: .25, p: rnd(-.5, .5) }); // the crack
-          const s = ctx.createBufferSource(); s.buffer = BROWN; const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = far ? 160 : 320; const gn = ctx.createGain(), T = now() + (far ? .2 : .05), len = rnd(4, 8);
-          gn.gain.setValueAtTime(0, T); gn.gain.linearRampToValueAtTime(a, T + rnd(.15, .6));
-          for (let k = 1; k < 7; k++) gn.gain.linearRampToValueAtTime(a * rnd(.35, 1) * (1 - k / 8), T + k * len / 8);
-          gn.gain.exponentialRampToValueAtTime(.0001, T + len);
-          s.connect(lp).connect(gn).connect(L.out); s.start(T, Math.random() * 3, len + .2); s.onended = () => { try { s.disconnect(); lp.disconnect(); gn.disconnect(); } catch {} };
-        };
-        L.timers.push(setTimeout(strike, 2200)); every(L, 25000, 60000, strike);
-      },
-      fire(L){ loop(L, tex("fire"), .75); },
-      wind(L){ const w = loop(L, tex("wind"), .6); drift(L, w.gain, .5, .7, 8, 16, 4); },
-      ocean(L){
-        // waves arrive one by one, never quite on the beat, a little left or right
-        chain(noise(L, BROWN), f(L, "lowpass", 140), g(L, .06)).connect(L.out); // the far-off sea
-        const wave = () => tex("wave", Math.floor(Math.random() * 3)).then(buf => { if (!buf || L.dead) return; const s = ctx.createBufferSource(); s.buffer = buf;
-          const gn = ctx.createGain(); gn.gain.value = rnd(.22, .4); let o = gn; if (ctx.createStereoPanner) { o = ctx.createStereoPanner(); o.pan.value = rnd(-.35, .35); gn.connect(o); }
-          s.connect(gn); o.connect(L.out); s.start(); s.onended = () => { try { s.disconnect(); gn.disconnect(); o.disconnect(); } catch {} }; });
-        wave(); const next = () => { if (L.dead) return; wave(); L.timers.push(setTimeout(next, rnd(6500, 10000))); }; L.timers.push(setTimeout(next, rnd(5000, 7000)));
-      },
-      night(L){
-        const cricket = (freq, p, rest) => every(L, rest, rest * 1.6, () => { const pulses = 3 + Math.floor(Math.random() * 2); for (let i = 0; i < pulses; i++) tone(L, { freq, amp: .075, att: .004, dec: .018, p, t: i * .034 }); });
-        cricket(4300, -.6, 650); cricket(4650, .5, 820); cricket(3900, .1, 1100);
-        every(L, 2600, 6000, () => { for (let i = 0; i < 14; i++) tone(L, { freq: 5100, amp: .012, att: .003, dec: .012, p: rnd(-.9, .9), t: i * .022 }); }); // a distant chorus
-        every(L, 9000, 22000, () => { const p = rnd(-.7, .7); tone(L, { freq: 420, to: 380, type: "sine", amp: .05, att: .05, dec: .45, p }); tone(L, { freq: 400, to: 360, amp: .045, att: .05, dec: .6, p, t: .7 }); }); // a far-off owl
-      },
-      birds(L){
-        const song = () => { const p = rnd(-.8, .8), base = rnd(2200, 4200), n = 2 + Math.floor(Math.random() * 6); let t = 0;
-          for (let i = 0; i < n; i++) { const up = Math.random() < .5; tone(L, { freq: base * rnd(.85, 1.2), to: base * (up ? rnd(1.2, 1.6) : rnd(.6, .85)), amp: rnd(.08, .17), att: .01, dec: rnd(.05, .14), p, t }); t += rnd(.08, .2); } };
-        every(L, 900, 3200, song);
-        every(L, 5000, 11000, () => { const p = rnd(-.6, .6); for (let i = 0; i < 3; i++) tone(L, { freq: 1900, to: 1500, amp: .07, att: .02, dec: .25, p, t: i * .45 }); }); // a dove-ish call
-      },
-      clock(L){
-        let tick = true;
-        every(L, 1000, 1000, () => { const fq = tick ? 2900 : 2400; tick = !tick;
-          shot(L, { type: "bandpass", freq: fq, Q: 6, amp: .42, att: .0008, dec: .03, p: -.2 }); tone(L, { freq: fq / 2, amp: .05, att: .001, dec: .05, p: -.2 }); });
-        every(L, 25000, 60000, () => { const T = rnd(.3, .6); shot(L, { buf: PINK, type: "bandpass", freq: 2200, Q: .6, amp: .07, att: T, dec: .25, p: .4 }); shot(L, { buf: PINK, type: "highpass", freq: 3000, amp: .05, att: .01, dec: .12, p: .4, t: T + .1 }); }); // a page turned somewhere
-      },
-      cafe(L){
-        loop(L, tex("cafe"), .5);
-        every(L, 2500, 7000, () => { const p = rnd(-.8, .8), b = rnd(2400, 3400); tone(L, { freq: b, amp: .03, dec: .5, p }); tone(L, { freq: b * 1.51, amp: .02, dec: .35, p }); }); // cups and spoons
-        every(L, 30000, 70000, () => { const p = rnd(-.6, .6); shot(L, { buf: WHITE, type: "bandpass", freq: 4500, Q: .8, amp: .08, att: .3, dec: 2.5, p }); }); // the espresso machine sighs
-      }
-    };
+    function every(L, min, max, fn){ const go = () => { if (L.dead) return; try { fn(); } catch {} L.timers.push(setTimeout(go, rnd(min, max) * 1000)); }; L.timers.push(setTimeout(go, rnd(min * .3, min) * 1000)); }
     function start(k){
-      if (live[k] || !BUILD[k]) return; init();
-      const L = { nodes: [], timers: [], dead: false, out: ctx.createGain() };
-      L.out.gain.value = 0; L.out.connect(master); L.out.gain.setTargetAtTime(1, now(), .6);
-      live[k] = L; setTimeout(() => { if (!L.dead) try { BUILD[k](L); } catch (e) { console.warn(e); } }, 30); // let the button respond first
+      if (live[k]) return; init();
+      const L = live[k] = { gain: ctx.createGain(), srcs: [], timers: [], dead: false };
+      L.gain.gain.value = 0; L.gain.connect(master);
+      state[k] = "loading"; emit();
+      const on = () => { if (L.dead) return; state[k] = "on"; emit(); L.gain.gain.setTargetAtTime(curve(levelOf(k)), ctx.currentTime, .6); };
+      if (k === "pages") { load(k).then(buf => { if (L.dead) return; on(); every(L, 30, 80, () => play(L, buf, { loop: false, gain: rnd(.6, 1), pan: rnd(-.6, .6) })); }).catch(() => fail(k)); return; }
+      load(k).then(buf => { if (L.dead) return; play(L, buf); on();
+        if (k === "night") load("owl").then(ob => every(L, 45, 120, () => play(L, ob, { loop: false, gain: rnd(.5, .9), pan: rnd(-.8, .8) }))).catch(() => {});
+      }).catch(() => fail(k));
     }
-    function stop(k){ const L = live[k]; if (!L) return; L.dead = true; delete live[k]; L.timers.forEach(clearTimeout);
-      L.out.gain.setTargetAtTime(0, now(), .35); setTimeout(() => { L.nodes.forEach(n => { try { n.stop?.(); } catch {} try { n.disconnect(); } catch {} }); try { L.out.disconnect(); } catch {} }, 1800); }
+    function fail(k){ stop(k, true); state[k] = "error"; emit(); toast(`Couldn't load “${AMB_LAYERS.find(x => x[0] === k)?.[2] || k}”. It needs the internet the first time, then it's saved for offline.`, 5000); }
+    function stop(k, quick){ const L = live[k]; if (!L) return; L.dead = true; delete live[k]; if (state[k] !== "error") delete state[k]; L.timers.forEach(clearTimeout);
+      try { L.gain.gain.setTargetAtTime(0, ctx.currentTime, quick ? .05 : .4); } catch {}
+      setTimeout(() => { L.srcs.forEach(s => { try { s.stop(); } catch {} try { s.disconnect(); } catch {} }); try { L.gain.disconnect(); } catch {} }, quick ? 300 : 2200); emit(); }
+    function clearSleep(){ clearTimeout(sleepT); clearTimeout(fadeT); sleepT = fadeT = null; sleepEnd = 0; if (master && ctx) master.gain.setTargetAtTime(vol, ctx.currentTime, .3); }
     return {
-      set(list){ list = (list || []).filter(k => BUILD[k]);
+      set(list){ list = (list || []).filter(k => AMB_LAYERS.some(x => x[0] === k));
         try { if (list.length) { init(); ctx.resume().catch(() => {}); } Object.keys(live).forEach(k => { if (!list.includes(k)) stop(k); }); list.forEach(start);
-          if (!list.length && ctx) setTimeout(() => { if (!Object.keys(live).length && ctx.state === "running") ctx.suspend().catch(() => {}); }, 2000); } catch {} },
-      get layers(){ return Object.keys(live); },
-      prewarm(){ try { init(); ["rain", "fire", "wind", "wave", "cafe"].forEach(k => tex(k)); } catch {} },
-      volume(v){ vol = v; if (master) master.gain.setTargetAtTime(v, now(), .1); }, get vol(){ return vol; }
+          if (!list.length) { clearSleep(); if (ctx) setTimeout(() => { if (!Object.keys(live).length && ctx.state === "running") ctx.suspend().catch(() => {}); }, 2500); } } catch {} emit(); },
+      level(k, v){ const m = lsGet(KEY_AMBVOL, {}); m[k] = v; lsSet(KEY_AMBVOL, m); const L = live[k]; if (L && ctx) L.gain.gain.setTargetAtTime(curve(v), ctx.currentTime, .15); },
+      levelOf, get layers(){ return Object.keys(live); }, stateOf: k => state[k] || (live[k] ? "on" : ""),
+      volume(v){ vol = v; lsSet("reading-ledger-ambmaster", v); if (master && !fadeT) master.gain.setTargetAtTime(v, ctx.currentTime, .1); }, get vol(){ return vol; },
+      sleep(min, done){ clearSleep(); if (!min) { emit(); return; } sleepEnd = Date.now() + min * 60000;
+        fadeT = setTimeout(() => { if (master) master.gain.setTargetAtTime(0, ctx.currentTime, 12); }, Math.max(0, min * 60000 - 45000));
+        sleepT = setTimeout(() => { clearTimeout(fadeT); fadeT = null; sleepEnd = 0; Object.keys(live).forEach(k => stop(k, true)); setTimeout(() => master && master.gain.setTargetAtTime(vol, ctx.currentTime, .1), 600); try { done?.(); } catch {} emit(); }, min * 60000); emit(); },
+      get sleepLeft(){ return sleepEnd ? Math.max(0, Math.ceil((sleepEnd - Date.now()) / 60000)) : 0; },
+      prewarm(list){ try { init(); (list || []).forEach(k => load(k).catch(() => {})); } catch {} },
+      onChange(f){ listeners = [f]; }
     };
   })();
-  const ambSaved = () => { const v = lsGet(KEY_AMB, []); if (Array.isArray(v)) return v; return v === "both" ? ["rain", "fire"] : v === "off" || !v ? [] : [v]; };
+  const ambSaved = () => { let v = lsGet(KEY_AMB, []); if (!Array.isArray(v)) v = v === "both" ? ["rain", "fire"] : v === "off" || !v ? [] : [v]; return [...new Set(v.map(k => k === "thunder" ? "storm" : k))].filter(k => AMB_LAYERS.some(x => x[0] === k)); };
+  const ambIcons = list => list.length ? " · " + list.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off";
+  function soundRoomHTML(){
+    const groups = [...new Set(AMB_LAYERS.map(x => x[3]))];
+    return `<div class="srhead"><div><div class="label">The sound room</div><b>Mix the air around your book</b></div><button type="button" class="iconbtn" data-ambclose aria-label="Close sounds">✕</button></div>
+      <div class="srsec"><div class="label">Moods</div><div class="srmoods">${AMB_PRESETS.map(([n, ic], i) => `<button type="button" data-ambmood="${i}"><i>${ic}</i>${n}</button>`).join("")}</div></div>
+      ${groups.map(g => `<div class="srsec"><div class="label">${g}</div><div class="srtiles">${AMB_LAYERS.filter(x => x[3] === g).map(([k, ic, n]) => `<div class="srtile" data-k="${k}"><button type="button" data-amb="${k}" aria-pressed="false"><i>${ic}</i><span>${n}</span></button><input type="range" min="0" max="1" step=".02" value="${Ambience.levelOf(k)}" data-amblvl="${k}" aria-label="${n} volume"></div>`).join("")}</div></div>`).join("")}
+      <div class="srfoot"><label class="srvol"><span class="label">Volume</span><input type="range" min="0" max="1" step=".02" value="${Ambience.vol}" id="rm-vol" aria-label="Overall volume"></label>
+        <div class="srsleep"><span class="label">Fade out after</span><div class="srseg">${[[0, "Never"], [15, "15 min"], [30, "30 min"], [60, "1 hour"]].map(([m, l]) => `<button type="button" data-ambsleep="${m}">${l}</button>`).join("")}</div><span class="srleft" id="rm-sleepleft"></span></div></div>
+      <details class="srcred"><summary>Where the sounds come from</summary><p>${AMB_CREDITS}</p></details>`;
+  }
+  function paintRoom(){
+    const el = document.getElementById("rmode"); if (!el) return;
+    const on = Ambience.layers;
+    el.querySelectorAll(".srtile").forEach(t => { const k = t.dataset.k, st = Ambience.stateOf(k); t.dataset.st = st; t.querySelector("button").setAttribute("aria-pressed", on.includes(k)); });
+    el.querySelectorAll("[data-ambmood]").forEach(b => { const keys = Object.keys(AMB_PRESETS[+b.dataset.ambmood][2]); b.setAttribute("aria-pressed", keys.length === on.length && keys.every(k => on.includes(k))); });
+    const left = Ambience.sleepLeft; el.querySelectorAll("[data-ambsleep]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.ambsleep ? b.dataset.sel === "1" && !!left : !left));
+    const sl = el.querySelector("#rm-sleepleft"); if (sl) sl.textContent = left ? `${left} min left` : "";
+    const n = el.querySelector("#rm-ambnow"); if (n) n.textContent = ambIcons(on);
+  }
+  Ambience.onChange(paintRoom);
+  setInterval(() => { if (Ambience.sleepLeft) paintRoom(); }, 30000);
 
   // ---- what your familiar murmurs while you read ----
   const RM_LINES = {
@@ -7265,18 +7158,17 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
         <div class="rmbtns"><button type="button" class="rmbtn" data-rm="pause" id="rm-pause">Pause</button><button type="button" class="rmbtn primary" data-rm="end">I'm done for now</button></div>
       </div>
       <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart">${famArt(familiar)}</div><div class="rmwhisper" id="rm-whisper"></div></div>
-      <div class="rmamb"><button type="button" class="rmambtog" data-ambopen aria-expanded="false">♪ Sounds<span id="rm-ambnow">${amb.length ? " · " + amb.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off"}</span></button>
-        <div class="rmambpanel" id="rm-ambpanel" hidden><div class="label">Moods</div><div class="rmpresets">${AMB_PRESETS.map(([n, ks]) => `<button type="button" data-ambset="${ks.join(",")}">${n}</button>`).join("")}<button type="button" data-ambset="">Silence</button></div>
-        <div class="label">Mix your own</div><div class="rmlayers">${AMB_LAYERS.map(([k, ic, n]) => `<button type="button" data-amb="${k}" aria-pressed="${amb.includes(k)}"><i>${ic}</i>${n}</button>`).join("")}</div>
-        <label class="rmvol"><span class="label">Volume</span><input type="range" min="0" max="1" step=".05" value="${Ambience.vol}" id="rm-vol" aria-label="Volume"></label></div></div>
+      <div class="rmamb"><button type="button" class="rmambtog" data-ambopen aria-expanded="false">♪ Sounds<span id="rm-ambnow">${ambIcons(amb)}</span></button></div>
+      <div class="sroom" id="rm-ambpanel" role="dialog" aria-label="Sounds" hidden>${soundRoomHTML()}</div>
       <form class="rmend" id="rm-end" hidden autocomplete="off"><h3>Where did you stop?</h3>
         <label class="field"><span class="label">${ch ? "I just finished chapter" : "I'm on page"}</span><input type="number" min="0" inputmode="numeric" id="rm-to" value="${ch ? (b.currentChapter || 0) : (b.currentPage || 0)}" ${!ch && b.pages ? `max="${b.pages}"` : ""}></label>
         <div class="rmendbtns"><button type="submit" class="rmbtn primary">Save this session</button><button type="button" class="rmbtn" data-rm="back">Keep reading</button><button type="button" class="rmghost" data-rm="discard">Discard</button></div></form>`;
     document.body.append(el); document.body.classList.add("rm-open");
     el.addEventListener("click", rmClick);
-    el.querySelector("#rm-vol").addEventListener("input", e => Ambience.volume(+e.target.value));
+    el.addEventListener("input", e => { if (e.target.id === "rm-vol") Ambience.volume(+e.target.value); const lv = e.target.closest?.("[data-amblvl]"); if (lv) Ambience.level(lv.dataset.amblvl, +lv.value); });
     el.querySelector("#rm-end").addEventListener("submit", e => { e.preventDefault(); finishSession(+el.querySelector("#rm-to").value); });
     if (amb.length) Ambience.set(amb);
+    paintRoom();
     keepAwake(true);
     const paint = () => { const s2 = sessGet(); if (!s2) return; $("#rm-time").textContent = clock(sessElapsed(s2)); const st = new Date(s2.t0);
       $("#rm-sub").textContent = `${s2.pauseAt ? "Paused · " : ""}Started at ${pad(st.getHours())}:${pad(st.getMinutes())}${ch ? (s2.c0 ? ` after chapter ${s2.c0}` : "") : ` on page ${s2.p0}`}`;
@@ -7289,10 +7181,16 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
   function closeReadMode(){ clearInterval(rmTick); clearInterval(rmWhisper); Ambience.set([]); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); }
   function rmClick(e){
     const amb = e.target.closest("[data-amb]");
-    const paintAmb = list => { lsSet(KEY_AMB, list); Ambience.set(list); this.querySelectorAll("[data-amb]").forEach(x => x.setAttribute("aria-pressed", list.includes(x.dataset.amb))); const n = this.querySelector("#rm-ambnow"); if (n) n.textContent = list.length ? " · " + list.map(k => AMB_LAYERS.find(x => x[0] === k)?.[1] || "").join("") : " · off"; };
-    if (amb) { const k = amb.dataset.amb, cur = ambSaved(); paintAmb(cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]); return; }
-    const set = e.target.closest("[data-ambset]"); if (set) { paintAmb(set.dataset.ambset ? set.dataset.ambset.split(",") : []); return; }
-    if (e.target.closest("[data-ambopen]")) { const pnl = this.querySelector("#rm-ambpanel"), btn = e.target.closest("[data-ambopen]"); pnl.hidden = !pnl.hidden; btn.setAttribute("aria-expanded", !pnl.hidden); if (!pnl.hidden) Ambience.prewarm(); return; }
+    const paintAmb = list => { lsSet(KEY_AMB, list); Ambience.set(list); paintRoom(); };
+    if (amb) { const k = amb.dataset.amb, cur = Ambience.layers; paintAmb(cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k]); return; }
+    const mood = e.target.closest("[data-ambmood]"); if (mood) { const mix = AMB_PRESETS[+mood.dataset.ambmood][2];
+      if (mood.getAttribute("aria-pressed") === "true") { paintAmb([]); return; }
+      Object.entries(mix).forEach(([k, v]) => { Ambience.level(k, v); const r = this.querySelector(`[data-amblvl="${k}"]`); if (r) r.value = v; }); paintAmb(Object.keys(mix)); return; }
+    const sl = e.target.closest("[data-ambsleep]"); if (sl) { const m = +sl.dataset.ambsleep; this.querySelectorAll("[data-ambsleep]").forEach(b => b.dataset.sel = b === sl ? "1" : "0");
+      if (m && !Ambience.layers.length) { toast("Pick a sound first, then set the fade-out."); return; }
+      Ambience.sleep(m, () => toast("Your sounds have faded out. Sweet dreams ✦", 4000)); paintRoom(); if (m) toast(`Sounds will fade out gently in ${m >= 60 ? "an hour" : m + " minutes"}.`); return; }
+    if (e.target.closest("[data-ambclose]")) { const pnl = this.querySelector("#rm-ambpanel"); pnl.hidden = true; this.querySelector("[data-ambopen]")?.setAttribute("aria-expanded", "false"); return; }
+    if (e.target.closest("[data-ambopen]")) { const pnl = this.querySelector("#rm-ambpanel"), btn = e.target.closest("[data-ambopen]"); pnl.hidden = !pnl.hidden; btn.setAttribute("aria-expanded", !pnl.hidden); if (!pnl.hidden) { Ambience.prewarm(Ambience.layers); paintRoom(); } return; }
     const a = e.target.closest("[data-rm]"); if (!a) return;
     const s = sessGet(); if (!s) return closeReadMode();
     const act = a.dataset.rm;
