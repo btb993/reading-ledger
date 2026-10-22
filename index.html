@@ -2070,6 +2070,28 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
 .bookcard .bcimg > *{width:100%;height:100%}.bookcard .bcimg img{width:100%;height:100%;object-fit:cover}
 .ccard.foil .cframe{position:relative;overflow:hidden}.ccard.foil .cframe::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.45) 45%,rgba(180,220,255,.35) 50%,rgba(255,200,240,.3) 55%,transparent 70%);background-size:250% 100%;mix-blend-mode:overlay;animation:foil 4s ease-in-out infinite}
 @keyframes foil{0%{background-position:120% 0}100%{background-position:-120% 0}}
+
+/* v3.0 famous series + friend book lookup */
+.ssugg .label{display:block;margin-bottom:6px}.schips{display:flex;flex-wrap:wrap;gap:6px}
+.schip{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:6px 10px;cursor:pointer;text-align:left;color:inherit;font:inherit;max-width:100%}
+.schip b{font-family:var(--f-display);font-style:italic;font-size:14.5px;line-height:1.15}.schip small{font-size:11.5px;color:var(--muted)}
+.schip:hover,.schip.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
+.scathead{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}.scathead .seal{align-self:flex-start}
+.citem.pending{opacity:.72}.sothers{margin-top:10px}.sothers>summary{cursor:pointer;color:var(--muted);font-size:13.5px;padding:6px 0}.sothers .checklist{margin-top:6px}
+.seriesmodal .checklist{max-height:none}
+.scatbanner{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 10px;padding:10px 12px;border:1px dashed var(--accent);border-radius:12px;background:color-mix(in srgb,var(--accent) 8%,var(--paper));color:inherit;font:inherit;text-align:left;cursor:pointer}
+.scatbanner>span:nth-child(2){flex:1;min-width:0}.scatbanner b{font-family:var(--f-display);font-style:italic}
+.fbopen{display:flex;flex-direction:column;gap:3px;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.fbopen b{font-family:var(--f-display);font-style:italic;font-size:15px;line-height:1.2}.fbopen:hover b{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.fbopen .cover{transition:transform .2s}.fbopen:hover .cover{transform:translateY(-3px)}.fbhint{margin:0 0 10px}
+.fbiscrim{z-index:430}.fbisheet{max-width:620px}
+.fbitop{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:14px;align-items:start}.fbitop .cover{width:110px}
+.fbimeta h2{margin:2px 0 2px;line-height:1.15}.fbiser{font-size:13.5px;color:var(--accent);margin-top:4px}.fbimeta .facts{margin-top:6px}
+.fbisec{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.fbisec p{margin:6px 0}
+.fbisum{line-height:1.55}.fbirv{margin:8px 0;padding:8px 12px;border-left:3px solid var(--accent);font-style:italic;background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:0 8px 8px 0}
+.fstars.big{font-size:20px}.fbifit ul{margin:6px 0 0;padding-left:20px}.fbifit li{margin:3px 0}
+.fbisheet .mfoot{flex-wrap:wrap;gap:8px}.fbisheet a.btn{color:inherit;text-decoration:none}
+@media (max-width:640px){.fbitop{grid-template-columns:84px minmax(0,1fr)}.fbitop .cover{width:84px}.fbix{grid-column:1/-1;grid-row:1;justify-self:end}.fbitop>.cover{grid-row:2}.fbimeta{grid-row:2}}
 </style>
 </head>
 <body>
@@ -2078,7 +2100,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v2.9</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.0</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2186,7 +2208,7 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v2.9 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.0 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -3565,6 +3587,145 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   })();
 
 
+  // ================= famous series, in reading order =================
+  // "n@Title" sets the number (0.5 for novellas and prequels); otherwise books count on from the last whole number.
+  // "Title A/Title B" lists alternative titles (UK/US editions). aliases help the search find a series by its nickname.
+  const SERIES_CAT_RAW = [
+    ["Throne of Glass", "Sarah J. Maas", "0.5@The Assassin's Blade;Throne of Glass;Crown of Midnight;Heir of Fire;Queen of Shadows;Empire of Storms;Tower of Dawn;Kingdom of Ash", "tog"],
+    ["A Court of Thorns and Roses", "Sarah J. Maas", "A Court of Thorns and Roses;A Court of Mist and Fury;A Court of Wings and Ruin;3.5@A Court of Frost and Starlight;A Court of Silver Flames", "acotar"],
+    ["Crescent City", "Sarah J. Maas", "House of Earth and Blood;House of Sky and Breath;House of Flame and Shadow"],
+    ["The Empyrean", "Rebecca Yarros", "Fourth Wing;Iron Flame;Onyx Storm", "fourth wing"],
+    ["Harry Potter", "J.K. Rowling", "Harry Potter and the Philosopher's Stone/Harry Potter and the Sorcerer's Stone;Harry Potter and the Chamber of Secrets;Harry Potter and the Prisoner of Azkaban;Harry Potter and the Goblet of Fire;Harry Potter and the Order of the Phoenix;Harry Potter and the Half-Blood Prince;Harry Potter and the Deathly Hallows"],
+    ["The Hunger Games", "Suzanne Collins", "The Hunger Games;Catching Fire;Mockingjay;0@The Ballad of Songbirds and Snakes;0.5@Sunrise on the Reaping"],
+    ["Six of Crows", "Leigh Bardugo", "Six of Crows;Crooked Kingdom", "grishaverse"],
+    ["Shadow and Bone", "Leigh Bardugo", "Shadow and Bone;Siege and Storm;Ruin and Rising", "grisha"],
+    ["King of Scars", "Leigh Bardugo", "King of Scars;Rule of Wolves", "nikolai"],
+    ["Alex Stern", "Leigh Bardugo", "Ninth House;Hell Bent"],
+    ["The Folk of the Air", "Holly Black", "The Cruel Prince;The Wicked King;The Queen of Nothing", "cruel prince"],
+    ["The Lord of the Rings", "J.R.R. Tolkien", "0@The Hobbit;The Fellowship of the Ring;The Two Towers;The Return of the King", "lotr|middle-earth"],
+    ["Percy Jackson and the Olympians", "Rick Riordan", "The Lightning Thief;The Sea of Monsters;The Titan's Curse;The Battle of the Labyrinth;The Last Olympian;The Chalice of the Gods;Wrath of the Triple Goddess", "percy jackson"],
+    ["The Heroes of Olympus", "Rick Riordan", "The Lost Hero;The Son of Neptune;The Mark of Athena;The House of Hades;The Blood of Olympus"],
+    ["Mistborn", "Brandon Sanderson", "The Final Empire;The Well of Ascension;The Hero of Ages;The Alloy of Law;Shadows of Self;The Bands of Mourning;The Lost Metal"],
+    ["The Stormlight Archive", "Brandon Sanderson", "The Way of Kings;Words of Radiance;Oathbringer;Rhythm of War;Wind and Truth", "stormlight"],
+    ["Twilight", "Stephenie Meyer", "Twilight;New Moon;Eclipse;Breaking Dawn;Midnight Sun", "twilight saga"],
+    ["Red Queen", "Victoria Aveyard", "Red Queen;Glass Sword;King's Cage;War Storm"],
+    ["Caraval", "Stephanie Garber", "Caraval;Legendary;Finale"],
+    ["Once Upon a Broken Heart", "Stephanie Garber", "Once Upon a Broken Heart;The Ballad of Never After;A Curse for True Love"],
+    ["Letters of Enchantment", "Rebecca Ross", "Divine Rivals;Ruthless Vows", "divine rivals"],
+    ["From Blood and Ash", "Jennifer L. Armentrout", "From Blood and Ash;A Kingdom of Flesh and Fire;The Crown of Gilded Bones;The War of Two Queens;A Soul of Ash and Blood;The Primal of Blood and Bone", "fbaa|blood and ash"],
+    ["Flesh and Fire", "Jennifer L. Armentrout", "A Shadow in the Ember;A Light in the Flame;A Fire in the Flesh;Born of Blood and Ash"],
+    ["Crowns of Nyaxia", "Carissa Broadbent", "The Serpent and the Wings of Night;The Ashes and the Star-Cursed King", "nightborn|serpent and the wings"],
+    ["The Powerless Trilogy", "Lauren Roberts", "Powerless;Reckless;Fearless", "powerless"],
+    ["Shatter Me", "Tahereh Mafi", "Shatter Me;Unravel Me;Ignite Me;Restore Me;Defy Me;Imagine Me"],
+    ["The Selection", "Kiera Cass", "The Selection;The Elite;The One;The Heir;The Crown"],
+    ["Divergent", "Veronica Roth", "Divergent;Insurgent;Allegiant"],
+    ["The Maze Runner", "James Dashner", "The Maze Runner;The Scorch Trials;The Death Cure"],
+    ["A Song of Ice and Fire", "George R.R. Martin", "A Game of Thrones;A Clash of Kings;A Storm of Swords;A Feast for Crows;A Dance with Dragons", "game of thrones|asoiaf"],
+    ["The Witcher", "Andrzej Sapkowski", "The Last Wish;Sword of Destiny;Blood of Elves;Time of Contempt/The Time of Contempt;Baptism of Fire;The Tower of Swallows/The Tower of the Swallow;The Lady of the Lake;Season of Storms", "witcher|geralt"],
+    ["The Chronicles of Narnia", "C.S. Lewis", "The Magician's Nephew;The Lion, the Witch and the Wardrobe;The Horse and His Boy;Prince Caspian;The Voyage of the Dawn Treader;The Silver Chair;The Last Battle", "narnia"],
+    ["The Mortal Instruments", "Cassandra Clare", "City of Bones;City of Ashes;City of Glass;City of Fallen Angels;City of Lost Souls;City of Heavenly Fire", "shadowhunters"],
+    ["The Infernal Devices", "Cassandra Clare", "Clockwork Angel;Clockwork Prince;Clockwork Princess"],
+    ["The Dark Artifices", "Cassandra Clare", "Lady Midnight;Lord of Shadows;Queen of Air and Darkness"],
+    ["The Inheritance Cycle", "Christopher Paolini", "Eragon;Eldest;Brisingr;Inheritance;Murtagh", "eragon"],
+    ["His Dark Materials", "Philip Pullman", "Northern Lights/The Golden Compass;The Subtle Knife;The Amber Spyglass"],
+    ["The Kingkiller Chronicle", "Patrick Rothfuss", "The Name of the Wind;The Wise Man's Fear", "kingkiller"],
+    ["The Wheel of Time", "Robert Jordan", "0@New Spring;The Eye of the World;The Great Hunt;The Dragon Reborn;The Shadow Rising;The Fires of Heaven;Lord of Chaos;A Crown of Swords;The Path of Daggers;Winter's Heart;Crossroads of Twilight;Knife of Dreams;The Gathering Storm;Towers of Midnight;A Memory of Light"],
+    ["Dune", "Frank Herbert", "Dune;Dune Messiah;Children of Dune;God Emperor of Dune;Heretics of Dune;Chapterhouse: Dune"],
+    ["The Hitchhiker's Guide to the Galaxy", "Douglas Adams", "The Hitchhiker's Guide to the Galaxy;The Restaurant at the End of the Universe;Life, the Universe and Everything;So Long, and Thanks for All the Fish;Mostly Harmless", "hitchhiker"],
+    ["Red Rising", "Pierce Brown", "Red Rising;Golden Son;Morning Star;Iron Gold;Dark Age;Light Bringer"],
+    ["The Expanse", "James S.A. Corey", "Leviathan Wakes;Caliban's War;Abaddon's Gate;Cibola Burn;Nemesis Games;Babylon's Ashes;Persepolis Rising;Tiamat's Wrath;Leviathan Falls"],
+    ["The Poppy War", "R.F. Kuang", "The Poppy War;The Dragon Republic;The Burning God"],
+    ["The Locked Tomb", "Tamsyn Muir", "Gideon the Ninth;Harrow the Ninth;Nona the Ninth"],
+    ["The Raven Cycle", "Maggie Stiefvater", "The Raven Boys;The Dream Thieves;Blue Lily, Lily Blue;The Raven King", "raven boys"],
+    ["An Ember in the Ashes", "Sabaa Tahir", "An Ember in the Ashes;A Torch Against the Night;A Reaper at the Gates;A Sky Beyond the Storm"],
+    ["Legacy of Orïsha", "Tomi Adeyemi", "Children of Blood and Bone;Children of Virtue and Vengeance;Children of Anguish and Anarchy", "orisha|children of blood and bone"],
+    ["The Atlas Six", "Olivie Blake", "The Atlas Six;The Atlas Paradox;The Atlas Complex"],
+    ["A Good Girl's Guide to Murder", "Holly Jackson", "A Good Girl's Guide to Murder;Good Girl, Bad Blood;As Good as Dead", "agggtm"],
+    ["The Inheritance Games", "Jennifer Lynn Barnes", "The Inheritance Games;The Hawthorne Legacy;The Final Gambit;The Brothers Hawthorne", "hawthorne"],
+    ["Bridgerton", "Julia Quinn", "The Duke and I;The Viscount Who Loved Me;An Offer from a Gentleman;Romancing Mister Bridgerton;To Sir Phillip, With Love;When He Was Wicked;It's in His Kiss;On the Way to the Wedding"],
+    ["Outlander", "Diana Gabaldon", "Outlander/Cross Stitch;Dragonfly in Amber;Voyager;Drums of Autumn;The Fiery Cross;A Breath of Snow and Ashes;An Echo in the Bone;Written in My Own Heart's Blood;Go Tell the Bees That I Am Gone"],
+    ["Twisted", "Ana Huang", "Twisted Love;Twisted Games;Twisted Hate;Twisted Lies"],
+    ["Kings of Sin", "Ana Huang", "King of Wrath;King of Pride;King of Greed;King of Sloth"],
+    ["It Ends with Us", "Colleen Hoover", "It Ends with Us;It Starts with Us", "lily and atlas"],
+    ["Off-Campus", "Elle Kennedy", "The Deal;The Mistake;The Score;The Goal;The Legacy", "off campus"],
+    ["Save Me (Maxton Hall)", "Mona Kasten", "Save Me;Save You;Save Us", "maxton hall"],
+    ["Fifty Shades", "E.L. James", "Fifty Shades of Grey;Fifty Shades Darker;Fifty Shades Freed"],
+    ["Vampire Academy", "Richelle Mead", "Vampire Academy;Frostbite;Shadow Kiss;Blood Promise;Spirit Bound;Last Sacrifice"],
+    ["The Lunar Chronicles", "Marissa Meyer", "Cinder;Scarlet;Cress;3.5@Fairest;Winter"],
+    ["The Plated Prisoner", "Raven Kennedy", "Gild;Glint;Gleam;Glow;Gold"],
+    ["The Bridge Kingdom", "Danielle L. Jensen", "The Bridge Kingdom;The Traitor Queen;The Inadequate Heir;The Endless War"],
+    ["Kingdom of the Wicked", "Kerri Maniscalco", "Kingdom of the Wicked;Kingdom of the Cursed;Kingdom of the Feared"],
+    ["Lightlark", "Alex Aster", "Lightlark;Nightbane;Skyshade"],
+    ["Cat and Mouse Duet", "H.D. Carlton", "Haunting Adeline;Hunting Adeline", "adeline"],
+    ["Sherlock Holmes", "Arthur Conan Doyle", "A Study in Scarlet;The Sign of the Four/The Sign of Four;The Adventures of Sherlock Holmes;The Memoirs of Sherlock Holmes;The Hound of the Baskervilles;The Return of Sherlock Holmes;The Valley of Fear;His Last Bow;The Case-Book of Sherlock Holmes/The Casebook of Sherlock Holmes", "holmes"],
+    ["Anne of Green Gables", "L.M. Montgomery", "Anne of Green Gables;Anne of Avonlea;Anne of the Island;Anne of Windy Poplars;Anne's House of Dreams;Anne of Ingleside;Rainbow Valley;Rilla of Ingleside", "anne shirley"],
+    ["Millennium", "Stieg Larsson", "The Girl with the Dragon Tattoo;The Girl Who Played with Fire;The Girl Who Kicked the Hornet's Nest", "dragon tattoo|lisbeth salander"],
+    ["Robert Langdon", "Dan Brown", "Angels & Demons/Angels and Demons;The Da Vinci Code;The Lost Symbol;Inferno;Origin;The Secret of Secrets", "langdon"],
+    ["The Thursday Murder Club", "Richard Osman", "The Thursday Murder Club;The Man Who Died Twice;The Bullet That Missed;The Last Devil to Die;The Impossible Fortune"],
+    ["Cormoran Strike", "Robert Galbraith", "The Cuckoo's Calling;The Silkworm;Career of Evil;Lethal White;Troubled Blood;The Ink Black Heart;The Running Grave;The Hallmarked Man", "strike"],
+    ["The Giver Quartet", "Lois Lowry", "The Giver;Gathering Blue;Messenger;Son", "the giver"],
+    ["A Series of Unfortunate Events", "Lemony Snicket", "The Bad Beginning;The Reptile Room;The Wide Window;The Miserable Mill;The Austere Academy;The Ersatz Elevator;The Vile Village;The Hostile Hospital;The Carnivorous Carnival;The Slippery Slope;The Grim Grotto;The Penultimate Peril;The End", "unfortunate events|baudelaire"],
+    ["Earthsea", "Ursula K. Le Guin", "A Wizard of Earthsea;The Tombs of Atuan;The Farthest Shore;Tehanu;Tales from Earthsea;The Other Wind"],
+    ["Foundation", "Isaac Asimov", "Foundation;Foundation and Empire;Second Foundation;Foundation's Edge;Foundation and Earth;Prelude to Foundation;Forward the Foundation"],
+    ["Remembrance of Earth's Past", "Liu Cixin", "The Three-Body Problem;The Dark Forest;Death's End", "three-body|three body"],
+    ["The First Law", "Joe Abercrombie", "The Blade Itself;Before They Are Hanged;Last Argument of Kings"],
+    ["The Farseer Trilogy", "Robin Hobb", "Assassin's Apprentice;Royal Assassin;Assassin's Quest", "farseer|realm of the elderlings"],
+    ["The Green Bone Saga", "Fonda Lee", "Jade City;Jade War;Jade Legacy"],
+    ["The Broken Earth", "N.K. Jemisin", "The Fifth Season;The Obelisk Gate;The Stone Sky"],
+    ["Shades of Magic", "V.E. Schwab", "A Darker Shade of Magic;A Gathering of Shadows;A Conjuring of Light"],
+    ["Legend", "Marie Lu", "Legend;Prodigy;Champion"],
+    ["The Wrath and the Dawn", "Renée Ahdieh", "The Wrath and the Dawn;The Rose and the Dagger"],
+    ["Daughter of Smoke and Bone", "Laini Taylor", "Daughter of Smoke & Bone;Days of Blood & Starlight;Dreams of Gods & Monsters"],
+    ["Strange the Dreamer", "Laini Taylor", "Strange the Dreamer;Muse of Nightmares"],
+    ["Legendborn", "Tracy Deonn", "Legendborn;Bloodmarked"],
+    ["Arc of a Scythe", "Neal Shusterman", "Scythe;Thunderhead;The Toll", "scythe"],
+    ["The Scholomance", "Naomi Novik", "A Deadly Education;The Last Graduate;The Golden Enclaves", "scholomance"],
+    ["The Winternight Trilogy", "Katherine Arden", "The Bear and the Nightingale;The Girl in the Tower;The Winter of the Witch", "winternight"],
+    ["Malazan Book of the Fallen", "Steven Erikson", "Gardens of the Moon;Deadhouse Gates;Memories of Ice;House of Chains;Midnight Tides;The Bonehunters;Reaper's Gale;Toll the Hounds;Dust of Dreams;The Crippled God", "malazan"],
+    ["Gentleman Bastard", "Scott Lynch", "The Lies of Locke Lamora;Red Seas Under Red Skies;The Republic of Thieves", "locke lamora"],
+    ["Before the Coffee Gets Cold", "Toshikazu Kawaguchi", "Before the Coffee Gets Cold;Tales from the Cafe;Before Your Memory Fades;Before We Say Goodbye;Before We Forget Kindness"],
+    ["Neapolitan Novels", "Elena Ferrante", "My Brilliant Friend;The Story of a New Name;Those Who Leave and Those Who Stay;The Story of the Lost Child", "neapolitan quartet|my brilliant friend"],
+    ["In Search of Lost Time", "Marcel Proust", "Swann's Way;Within a Budding Grove/In the Shadow of Young Girls in Flower;The Guermantes Way;Sodom and Gomorrah;The Prisoner/The Captive;The Fugitive;Time Regained", "proust|remembrance of things past"],
+    ["The Cemetery of Forgotten Books", "Carlos Ruiz Zafón", "The Shadow of the Wind;The Angel's Game;The Prisoner of Heaven;The Labyrinth of the Spirits", "shadow of the wind"],
+    ["Empire of the Vampire", "Jay Kristoff", "Empire of the Vampire;Empire of the Damned"],
+    ["Dungeon Crawler Carl", "Matt Dinniman", "Dungeon Crawler Carl;Carl's Doomsday Scenario;The Dungeon Anarchist's Cookbook;The Gate of the Feral Gods;The Butcher's Masquerade;The Eye of the Bedlam Bride;This Inevitable Ruin", "dcc"],
+    ["The Belgariad", "David Eddings", "Pawn of Prophecy;Queen of Sorcery;Magician's Gambit;Castle of Wizardry;Enchanters' End Game"],
+    ["Mortal Engines", "Philip Reeve", "Mortal Engines;Predator's Gold;Infernal Devices;A Darkling Plain"],
+    ["Artemis Fowl", "Eoin Colfer", "Artemis Fowl;The Arctic Incident;The Eternity Code;The Opal Deception;The Lost Colony;The Time Paradox;The Atlantis Complex;The Last Guardian"],
+    ["Chaos Walking", "Patrick Ness", "The Knife of Never Letting Go;The Ask and the Answer;Monsters of Men"],
+    ["Miss Peregrine's Peculiar Children", "Ransom Riggs", "Miss Peregrine's Home for Peculiar Children;Hollow City;Library of Souls", "miss peregrine"],
+    ["The Bone Season", "Samantha Shannon", "The Bone Season;The Mime Order;The Song Rising;The Mask Falling"],
+    ["All Souls", "Deborah Harkness", "A Discovery of Witches;Shadow of Night;The Book of Life", "discovery of witches"],
+    ["Ender's Saga", "Orson Scott Card", "Ender's Game;Speaker for the Dead;Xenocide;Children of the Mind", "ender"],
+    ["The Murderbot Diaries", "Martha Wells", "All Systems Red;Artificial Condition;Rogue Protocol;Exit Strategy;Network Effect;Fugitive Telemetry;System Collapse", "murderbot"],
+    ["The Dark Tower", "Stephen King", "The Gunslinger;The Drawing of the Three;The Waste Lands;Wizard and Glass;4.5@The Wind Through the Keyhole;Wolves of the Calla;Song of Susannah;The Dark Tower"],
+    ["Heartstopper", "Alice Oseman", "Heartstopper: Volume One/Heartstopper Volume 1;Heartstopper: Volume Two/Heartstopper Volume 2;Heartstopper: Volume Three/Heartstopper Volume 3;Heartstopper: Volume Four/Heartstopper Volume 4;Heartstopper: Volume Five/Heartstopper Volume 5"],
+    ["The Wingfeather Saga", "Andrew Peterson", "On the Edge of the Dark Sea of Darkness;North! Or Be Eaten;The Monster in the Hollows;The Warden and the Wolf King"],
+    ["Wayward Children", "Seanan McGuire", "Every Heart a Doorway;Down Among the Sticks and Bones;Beneath the Sugar Sky;In an Absent Dream;Come Tumbling Down;Across the Green Grass Fields;Where the Drowned Girls Go;Lost in the Moment and Found"],
+    ["The Song of the Shattered Sands", "Bradley P. Beaulieu", "Twelve Kings in Sharakhai;With Blood Upon the Sand;A Veil of Spears;Beneath the Twisted Trees;When Jackals Storm the Walls;A Desert Torn Asunder", "sharakhai"],
+  ];
+  const SERIES_CAT = SERIES_CAT_RAW.map(([name, author, list, aliases]) => {
+    let last = 0;
+    const books = list.split(";").map(s => { let no = null; const m = /^(\d+(?:\.\d+)?)@(.*)$/.exec(s); if (m) { no = +m[1]; s = m[2]; } else no = last + 1; if (Number.isInteger(no)) last = no; else last = Math.floor(no);
+      const [title, ...alts] = s.split("/"); return { title: title.trim(), alts: alts.map(a => a.trim()), no }; });
+    return { name, author, books, keys: [name, ...(aliases || "").split("|").filter(Boolean)].map(norm) };
+  });
+  const catTitleKeys = S => S.books.flatMap(b => [b.title, ...b.alts].map(norm));
+  // best match for whatever the person typed: a series name, a nickname, or one of its book titles
+  function catalogMatches(q, author = "", limit = 6){
+    const n = norm(q || ""), na = norm(author || ""); if (!n && !na) return [];
+    const sc = SERIES_CAT.map(S => {
+      let s = 0;
+      if (n) { if (S.keys.includes(n)) s = 100; else if (S.keys.some(k => k.startsWith(n) || n.startsWith(k))) s = 70; else if (S.keys.some(k => k.includes(n))) s = 50;
+        else if (catTitleKeys(S).includes(n)) s = 60; else if (n.length > 3 && catTitleKeys(S).some(k => k.startsWith(n))) s = 30; }
+      if (na && norm(S.author) === na) s += n ? 15 : 40; else if (na && n && s && !norm(S.author).includes(na.split(" ").pop())) s -= 25;
+      return [S, s]; }).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+    return sc.slice(0, limit).map(x => x[0]);
+  }
+  const catalogExact = (name, author) => { const m = catalogMatches(name, author, 1)[0]; if (!m) return null; const n = norm(name || ""); return (m.keys.includes(n) || catTitleKeys(m).includes(n) || m.keys.some(k => k.length > 4 && (n.includes(k) || k.includes(n)))) ? m : null; };
+  // which famous series a single book belongs to, by its title
+  const catalogForBook = b => { const t = norm(b?.title || ""); if (!t) return null; return SERIES_CAT.find(S => catTitleKeys(S).includes(t) && (!b.author || !S.author || norm(b.author).split(" ").pop() === norm(S.author).split(" ").pop() || norm(b.author).includes(norm(S.author).split(" ").pop()))) || null; };
+
   // ================= search =================
   const SUGGEST = ["The Night Circus", "Jonathan Strange & Mr Norrell", "Ursula K. Le Guin", "The Secret History", "Circe", "Terry Pratchett"];
   let lastResults = [], lastQuery = "", searchCtl = null;
@@ -3576,13 +3737,14 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
     const list = lastResults;
     w.innerHTML = `<div class="results">
       <div class="reshead"><span class="label">${list.length ? `${list.length} match${list.length > 1 ? "es" : ""} for “${esc(lastQuery)}”` : `No books found for “${esc(lastQuery)}”`}</span><button class="btn small" type="button" data-close>✕ Close results</button></div>
+      ${(() => { const S = catalogExact(lastQuery); return S ? `<button type="button" class="scatbanner" data-scatadd="${esc(S.name)}"><span class="seal">❧ Series</span><span><b>${esc(S.name)}</b> by ${esc(S.author)}: add all ${S.books.length} books in reading order</span><span aria-hidden="true">→</span></button>` : ""; })()}
       ${list.map((r, i) => { const have = findSame(r); return `<div class="row">${coverHTML({ ...r, cover: coverById(r.coverId, "M") })}
         <div class="meta"><div class="t">${esc(r.title)}</div><div class="a">${esc(r.author)}${r.seriesHint ? ` · ${esc(r.seriesHint)} series` : ""}</div>
           <div class="facts">${r.year ? `<span>${esc(r.year)}</span>` : ""}${r.pages ? `<span>${esc(r.pages)} pages</span>` : ""}${r.genres.length ? `<span>${esc(r.genres.join(" / "))}</span>` : ""}</div>
           ${badges(r)}
           <div class="tags">${r.themes.map(t => `<span class="tag">${esc(t)}</span>`).join("")}${r.tropes.map(t => `<span class="trope">${esc(t)}</span>`).join("")}</div></div>
         <div class="side">${have ? `<span class="onshelf">On your shelf</span><button class="btn small" type="button" data-open="${esc(have.id)}">Open</button>` : `<button class="btn primary small" type="button" data-add="${i}">Add</button>`}
-          ${r.seriesHint ? `<button class="btn small" type="button" data-addseries="${i}">Add series</button>` : ""}<button class="btn small" type="button" data-askfam="${i}">Ask ${esc(famName(familiar))}</button></div></div>`; }).join("")}
+          ${r.seriesHint || catalogForBook(r) ? `<button class="btn small" type="button" data-addseries="${i}">Add series</button>` : ""}<button class="btn small" type="button" data-askfam="${i}">Ask ${esc(famName(familiar))}</button></div></div>`; }).join("")}
       ${list.length ? "" : `<div class="note">Try the full title, or <button class="linkbtn" type="button" data-manual>add it by hand</button>.</div>`}</div>`;
   }
   function closeResults(){ searchCtl?.abort(); lastResults = []; $("#q").value = ""; renderResultsArea("idle"); }
@@ -3794,44 +3956,84 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
   }
   async function openSeriesAdder(seed = {}){
     const root = $("#modal-root");
-    let found = [];
-    root.innerHTML = `<div class="scrim" id="sscrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="s-title">
+    let found = [], cat = null, run = 0;
+    const POPULAR = ["Throne of Glass", "A Court of Thorns and Roses", "The Empyrean", "Harry Potter", "The Hunger Games", "From Blood and Ash", "The Lord of the Rings", "A Song of Ice and Fire", "Six of Crows", "The Folk of the Air", "Percy Jackson and the Olympians", "Mistborn"];
+    root.innerHTML = `<div class="scrim" id="sscrim"><div class="modal seriesmodal" role="dialog" aria-modal="true" aria-labelledby="s-title">
       <div class="phead"><h2 id="s-title">Add a whole series</h2><button class="btn small" type="button" id="s-cancel">Close</button></div>
       <form class="fields" id="s-form" autocomplete="off">
-        <label class="field"><span class="label">Series name</span><input id="s-name" value="${esc(seed.name || "")}" placeholder="e.g. Discworld"></label>
-        <label class="field"><span class="label">Author</span><input id="s-author" value="${esc(seed.author || "")}" placeholder="e.g. Terry Pratchett"></label>
+        <label class="field"><span class="label">Series or one of its books</span><input id="s-name" value="${esc(seed.name || "")}" placeholder="e.g. Throne of Glass"></label>
+        <label class="field"><span class="label">Author <small class="muted">(optional)</small></span><input id="s-author" value="${esc(seed.author || "")}" placeholder="e.g. Sarah J. Maas"></label>
+        <div class="field full"><div id="s-sugg" class="ssugg"></div></div>
         <div class="field full"><button class="btn primary" type="submit">Find the books</button></div>
       </form>
-      <div id="s-out" class="note">Open Library will be searched for the author's books. Books it recognises as part of the series are ticked; check the list and fix the numbers before adding.</div>
+      <div id="s-out" class="note"></div>
     </div></div>`;
-    const close = () => { root.innerHTML = ""; };
+    const close = () => { run++; root.innerHTML = ""; };
     const out = $("#s-out");
-    async function find(){
+    function paintSugg(){
+      const el = $("#s-sugg"); if (!el) return;
+      const q = $("#s-name").value.trim(), a = $("#s-author").value.trim();
+      const list = q || a ? catalogMatches(q, a, 6) : POPULAR.map(n => SERIES_CAT.find(S => S.name === n)).filter(Boolean);
+      el.innerHTML = list.length ? `<span class="label">${q || a ? "Famous series that match" : `${SERIES_CAT.length} famous series are built in, in reading order`}</span><div class="schips">${list.map(S => `<button type="button" class="schip${cat === S ? " on" : ""}" data-scat="${esc(S.name)}"><b>${esc(S.name)}</b><small>${esc(S.author)} · ${S.books.length} books</small></button>`).join("")}</div>`
+        : q.length > 2 ? `<span class="note">Not in the built-in list. “Find the books” will search Open Library instead.</span>` : "";
+    }
+    const rowHTML = (r, i, checked) => { const have = findSame(r); return `<label class="citem${r.pending ? " pending" : ""}"><input type="checkbox" data-i="${i}" ${checked ? "checked" : ""}>${coverHTML({ ...r, cover: r.coverId ? coverById(r.coverId, "S") : r.cover || "" })}<span class="ct2"><b>${esc(r.title)}</b><span class="muted">${r.pending ? "looking it up…" : [r.year, r.pages ? r.pages + " p." : ""].filter(Boolean).join(" · ")}${have ? ` · on your shelf (${SHELVES[have.shelf]})` : ""}</span></span><input type="number" step="0.5" min="0" data-no="${i}" value="${r.no ?? ""}" placeholder="#" aria-label="Number in series"></label>`; };
+    const foot = () => `<div class="mfoot" style="margin-top:10px"><label class="label" style="display:flex;gap:6px;align-items:center">Put new books on <select class="sort" id="s-shelf"><option value="want">Want to read</option><option value="read">Read</option></select></label>
+      <div class="r"><button class="btn primary" type="button" id="s-add">Add ticked books</button></div></div>`;
+    // a famous series: exactly its books, in order, then fill in covers and pages from Open Library
+    async function fromCatalog(S){
+      cat = S; const me = ++run; paintSugg();
+      $("#s-name").value = S.name; $("#s-author").value = S.author;
+      found = S.books.map(b => { const have = findSame({ title: b.title, author: S.author }) || b.alts.map(t => findSame({ title: t, author: S.author })).find(Boolean);
+        return have ? { title: have.title, author: have.author, cover: have.cover, coverId: have.coverId, pages: have.pages, year: have.year, no: b.no, alts: b.alts } : { title: b.title, author: S.author, no: b.no, alts: b.alts, pending: true }; });
+      const fill = () => { if (me !== run) return; const box = $("#s-list"); if (box) { const ticks = [...box.querySelectorAll("input[data-i]")].map(c => c.checked); box.innerHTML = found.map((r, i) => rowHTML(r, i, ticks[i] ?? true)).join(""); paintRecCovers(box); updateCount(); } };
+      out.innerHTML = `<div class="scathead"><span class="seal">✦ ${esc(S.name)}</span><span class="note">${S.books.length} books by ${esc(S.author)}, in reading order. Half numbers (like 0.5) are prequels and novellas: untick any you don't want.</span></div>
+        <div class="shelfbar" style="margin-bottom:8px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn small" type="button" data-markall="1">✓ Mark all</button><button class="btn small" type="button" data-markall="main">Main books only</button><button class="btn small" type="button" data-markall="0">Unmark all</button></div><span class="note" id="s-count"></span></div>
+        <div class="checklist" id="s-list">${found.map((r, i) => rowHTML(r, i, true)).join("")}</div>${foot()}
+        <p class="note" style="margin-top:8px">Not the series you meant? <button class="linkbtn" type="button" data-sopen>Search Open Library instead</button></p>`;
+      paintRecCovers(out); updateCount();
+      const todo = found.map((r, i) => i).filter(i => found[i].pending); let k = 0;
+      const worker = async () => { while (k < todo.length && me === run) { const i = todo[k++], r = found[i];
+        try { const titles = [r.title, ...(r.alts || [])]; let best = null;
+          for (const t of titles) { const res = await olSearch({ title: t, author: S.author }, 5); best = res.find(x => titles.some(tt => norm(x.title) === norm(tt) || tnorm(x.title) === tnorm(tt))) || null; if (best) break; }
+          if (best) { const { seriesHint, ...rest } = best; found[i] = { ...rest, title: r.title, author: S.author, no: r.no, alts: r.alts }; } else found[i] = { ...r, pending: false };
+        } catch { found[i] = { ...r, pending: false }; }
+        if (me === run) fill(); } };
+      await Promise.all([worker(), worker(), worker(), worker()]);
+    }
+    // anything else: search Open Library, but only tick (and show) books it really puts in that series
+    async function fromSearch(){
+      cat = null; const me = ++run; paintSugg();
       const name = $("#s-name").value.trim(), author = $("#s-author").value.trim();
       if (!name) { $("#s-name").focus(); return; }
-      out.innerHTML = `<span class="dots">Gathering the series</span>`;
+      out.innerHTML = `<span class="dots">Searching Open Library</span>`;
       try {
         let res = [];
         if (author) res = await olSearch({ author, sort: "old" }, 100);
-        const byName = await olSearch({ q: name + (author ? " " + author : "") }, 40);
-        res = [...res, ...byName];
+        res = [...res, ...await olSearch({ q: name + (author ? " " + author : "") }, 40)];
+        if (me !== run) return;
         const seen = new Map();
         for (const r of res) { const k = norm(r.title); if (!seen.has(k) || (!seen.get(k).coverId && r.coverId)) seen.set(k, r); }
         const nk = norm(name);
-        found = [...seen.values()].map(r => ({ ...r, inSeries: norm(r.seriesHint) === nk || (r.subjects || []).some(s => norm(s).includes(nk) && /series/i.test(s)) || norm(r.title).includes(nk) }))
-          .filter(r => !author || norm(r.author) === norm(author) || r.inSeries)
+        const all = [...seen.values()].filter(r => !author || norm(r.author) === norm(author))
+          .map(r => ({ ...r, inSeries: !!nk && (norm(r.seriesHint) === nk || (r.subjects || []).some(s => /^series:/i.test(s) && norm(s.slice(7)) === nk)) }))
           .sort((a, b) => (b.inSeries - a.inSeries) || (a.year || 9999) - (b.year || 9999));
-        let n = 0;
-        found.forEach(r => { if (r.inSeries) r.no = ++n; });
-        found = found.slice(0, 80);
-        if (!found.length) { out.innerHTML = `Nothing found. Check the spelling of the series and author.`; return; }
-        out.innerHTML = `<div class="note" style="margin-bottom:8px">${n ? `${n} book${n > 1 ? "s" : ""} look like part of ${esc(name)}.` : "Open Library doesn't tag this series, so tick its books yourself."} Other books by the author are listed below, unticked.</div>
-          <div class="shelfbar" style="margin-bottom:8px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn small" type="button" data-markall="1">✓ Mark all</button><button class="btn small" type="button" data-markall="0">Unmark all</button><button class="btn small" type="button" data-markall="series">Only series books</button></div><span class="note" id="s-count"></span></div>
-          <div class="checklist">${found.map((r, i) => { const have = findSame(r); return `<label class="citem"><input type="checkbox" data-i="${i}" ${r.inSeries ? "checked" : ""}>${coverHTML({ ...r, cover: coverById(r.coverId, "S") })}<span class="ct2"><b>${esc(r.title)}</b><span class="muted">${r.year || ""}${have ? ` · on your shelf (${SHELVES[have.shelf]})` : ""}</span></span><input type="number" step="0.5" min="0" data-no="${i}" value="${r.no ?? ""}" placeholder="#" aria-label="Number in series"></label>`; }).join("")}</div>
-          <div class="mfoot" style="margin-top:10px"><label class="label" style="display:flex;gap:6px;align-items:center">Put new books on <select class="sort" id="s-shelf"><option value="want">Want to read</option><option value="read">Read</option></select></label>
-          <div class="r"><button class="btn primary" type="button" id="s-add">Add ticked books</button></div></div>`;
-        updateCount();
+        let n = 0; all.forEach(r => { if (r.inSeries) r.no = ++n; });
+        const series = all.filter(r => r.inSeries), others = all.filter(r => !r.inSeries).slice(0, 60);
+        found = [...series, ...others];
+        if (!found.length) { out.innerHTML = `Nothing found. Check the spelling of the series and the author.`; return; }
+        out.innerHTML = `<div class="note" style="margin-bottom:8px">${n ? `Open Library lists ${n} book${n > 1 ? "s" : ""} in ${esc(name)}. Check the numbers before adding.` : `Open Library doesn't tag ${esc(name)} as a series, so pick its books yourself from the list below.`}</div>
+          <div class="shelfbar" style="margin-bottom:8px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn small" type="button" data-markall="0">Unmark all</button></div><span class="note" id="s-count"></span></div>
+          ${series.length ? `<div class="checklist">${series.map((r, i) => rowHTML(r, i, true)).join("")}</div>` : ""}
+          ${others.length ? `<details class="sothers"${series.length ? "" : " open"}><summary>${series.length ? `Other books${author ? ` by ${esc(author)}` : ""} (${others.length}), not part of the series` : `Books found (${others.length})`}</summary><div class="checklist">${others.map((r, j) => rowHTML(r, series.length + j, false)).join("")}</div></details>` : ""}
+          ${foot()}`;
+        paintRecCovers(out); updateCount();
       } catch { out.innerHTML = `Couldn't reach Open Library. Check your internet connection.`; }
+    }
+    function find(){
+      const name = $("#s-name").value.trim(), author = $("#s-author").value.trim();
+      const S = catalogExact(name, author) || (seed.title ? catalogForBook(seed) : null);
+      return S ? fromCatalog(S) : fromSearch();
     }
     function updateCount(){
       const n = root.querySelectorAll("input[data-i]:checked").length;
@@ -3839,27 +4041,31 @@ body.hall-grid .roomtabs .tab[aria-selected="true"]{background:var(--paper);colo
       if ($("#s-add")) { $("#s-add").textContent = n ? `Add ${n} ticked book${n > 1 ? "s" : ""}` : "Tick books to add"; $("#s-add").disabled = !n; }
     }
     root.onchange = e => { if (e.target.matches("input[data-i]")) updateCount(); };
+    root.oninput = e => { if (e.target.matches("input[data-no]")) { const r = found[+e.target.dataset.no]; if (r) r.no = parseFloat(e.target.value); return; } if (e.target.id === "s-name" || e.target.id === "s-author") { cat = null; paintSugg(); } };
     $("#s-form").addEventListener("submit", e => { e.preventDefault(); find(); });
     root.onclick = e => {
+      const sc = e.target.closest("[data-scat]"); if (sc) { const S = SERIES_CAT.find(x => x.name === sc.dataset.scat); if (S) fromCatalog(S); return; }
+      if (e.target.closest("[data-sopen]")) { fromSearch(); return; }
       const mk = e.target.closest("[data-markall]");
-      if (mk) { root.querySelectorAll("input[data-i]").forEach(cb => { cb.checked = mk.dataset.markall === "1" ? true : mk.dataset.markall === "0" ? false : !!found[+cb.dataset.i].inSeries; }); updateCount(); return; }
-      if (e.target.id === "sscrim" || e.target.id === "s-cancel") { root.onclick = null; return close(); }
+      if (mk) { root.querySelectorAll("input[data-i]").forEach(cb => { const r = found[+cb.dataset.i]; cb.checked = mk.dataset.markall === "1" ? true : mk.dataset.markall === "main" ? Number.isInteger(r.no) && r.no > 0 : false; }); updateCount(); return; }
+      if (e.target.id === "sscrim" || e.target.id === "s-cancel") { root.onclick = root.oninput = null; return close(); }
       if (e.target.id === "s-add") {
-        const name = $("#s-name").value.trim(), shelf = $("#s-shelf").value;
+        const name = (cat ? cat.name : $("#s-name").value.trim()) || "Series", shelf = $("#s-shelf").value;
         let added = 0, updated = 0;
         root.querySelectorAll("input[data-i]:checked").forEach(cb => {
           const i = +cb.dataset.i, r = found[i], no = parseFloat(root.querySelector(`input[data-no="${i}"]`).value);
-          const have = findSame(r);
+          const have = findSame(r) || (r.alts || []).map(t => findSame({ title: t, author: r.author })).find(Boolean);
           if (have) { have.seriesName = name; if (!isNaN(no)) have.seriesNum = no; updated++; }
-          else { const { inSeries, no: _n, seriesHint, ...rest } = r;
-            books.push({ ...rest, id: newId(), seriesName: name, seriesNum: isNaN(no) ? null : no, shelf, rating: 0, currentPage: shelf === "read" ? (r.pages || 0) : 0, started: null, finished: null, finishedUnknown: shelf === "read", added: new Date().toISOString() }); added++; }
+          else { const { inSeries, no: _n, seriesHint, pending, alts, ...rest } = r;
+            books.push({ ...rest, cover: rest.cover || (rest.coverId ? coverById(rest.coverId) : ""), id: newId(), seriesName: name, seriesNum: isNaN(no) ? null : no, shelf, rating: 0, currentPage: shelf === "read" ? (r.pages || 0) : 0, started: null, finished: null, finishedUnknown: shelf === "read", added: new Date().toISOString() }); added++; }
         });
-        save(); root.onclick = null; close(); render();
+        save(); root.onclick = root.oninput = null; close(); render();
         toast(`Added ${added} book${added === 1 ? "" : "s"}${updated ? `, updated ${updated}` : ""} to ${name}.`, 3500);
         if (shelf === "read" && added) setTimeout(() => toast("Open each one to add the date you finished it."), 3600);
       }
     };
-    if (seed.name) find(); else $("#s-name").focus();
+    paintSugg();
+    if (seed.name || seed.title) find(); else $("#s-name").focus();
   }
 
   // ================= import / export =================
@@ -7002,16 +7208,88 @@ alter publication supabase_realtime add table public.library;`;
       </div>`;
       paintRecCovers(el);
     }
+    // ---- look up any book on a friend's shelves: what it is, what they thought, whether it suits you ----
+    const fbCache = new Map();
+    async function fbLookup(x){
+      const k = tnorm(x.t) + "|" + norm(x.a); if (fbCache.has(k)) return fbCache.get(k);
+      const p = (async () => {
+        let res = []; try { res = await olSearch({ title: x.t, author: x.a || "" }, 5); if (!res.length) res = await olSearch({ q: `${x.t} ${x.a || ""}` }, 5); } catch {}
+        const r = res.find(d => tnorm(d.title) === tnorm(x.t)) || res[0] || null;
+        if (r?.olKey) { try { r.summary = await olDescription(r.olKey); } catch {} }
+        if (r) r.tropes = [...new Set([...(r.tropes || []), ...knownTropes({ title: x.t, seriesName: x.s || "" }), ...detectTropes(r.subjects || [], r.summary || "")])].slice(0, 6);
+        return r;
+      })();
+      fbCache.set(k, p); return p;
+    }
+    function fitFor(x, r){
+      const why = [], mine = readBooks();
+      const byAuthor = mine.filter(b => norm(b.author) === norm(x.a)); if (byAuthor.length) why.push(`you've read ${byAuthor.length} by ${esc(x.a)}${byAuthor.some(b => b.rating >= 4) ? ", and loved it" : ""}`);
+      try { const P = tasteProfile(), topG = P.top(P.feats.genres, 5), topT = P.top(P.feats.tropes, 8);
+        const g = (r?.genres || []).filter(v => topG.includes(v)); if (g.length) why.push(`${esc(g.join(" & ").toLowerCase())} is one of your favourite kinds of book`);
+        const t = (r?.tropes || []).filter(v => topT.includes(v)); if (t.length) { const fav = P.best.get("tropes:" + t[0]); why.push(`it has ${esc(t.slice(0, 2).join(" and "))}${fav ? `, like ${esc(fav.title)}` : ""}`); }
+        const low = P.low(P.feats.genres).filter(v => (r?.genres || []).includes(v)); if (low.length) why.push(`careful: ${esc(low[0].toLowerCase())} hasn't been your thing so far`);
+      } catch {}
+      const S = catalogForBook({ title: x.t, author: x.a }); if (S) { const n = S.books.findIndex(b => [b.title, ...b.alts].some(t => tnorm(t) === tnorm(x.t))); if (n > 0 && S.books[n].no > 1 && !inLibrary(S.books[0].title, S.author)) why.push(`it's book ${S.books[n].no} of ${esc(S.name)}, so start with ${esc(S.books.find(b => b.no >= 1)?.title || S.books[0].title)}`); }
+      return why;
+    }
+    function openFriendBook(x, p, shelf){
+      document.getElementById("fbi-scrim")?.remove();
+      const el = document.createElement("div"); el.className = "scrim fbiscrim"; el.id = "fbi-scrim"; document.body.append(el);
+      const others = friends.filter(f => f.id !== p.id).map(f => { const S2 = shelves.get(f.id) || {}; const hit = ["read", "reading", "want"].find(k => (S2[k] || []).some(y => tnorm(y.t) === tnorm(x.t))); return hit ? { f, hit } : null; }).filter(Boolean);
+      const mineB = books.find(b => tnorm(b.title) === tnorm(x.t));
+      const ser = catalogForBook({ title: x.t, author: x.a }), serNo = ser ? ser.books.find(b => [b.title, ...b.alts].some(t => tnorm(t) === tnorm(x.t)))?.no : null;
+      let r = null;
+      const draw = () => {
+        const facts = [r?.year || x.y, (r?.pages || x.p) ? `${r?.pages || x.p} pages` : "", r?.genres?.length ? r.genres.join(" / ") : "", r?.olRating && r.olCount > 4 ? `★ ${r.olRating.toFixed(1)} on Open Library` : ""].filter(Boolean);
+        const pct = shelf === "reading" && x.p ? Math.round((x.cp || 0) / x.p * 100) : null;
+        const why = r === null ? [] : fitFor(x, r || {});
+        el.innerHTML = `<div class="modal fbisheet" role="dialog" aria-modal="true" aria-labelledby="fbi-t">
+          <div class="fbitop">${coverHTML({ title: x.t, author: x.a, cover: x.c || (r?.coverId ? coverById(r.coverId, "M") : "") })}
+            <div class="fbimeta"><div class="label">${shelf === "reading" ? `${esc(p.name)} is reading` : shelf === "want" ? `On ${esc(p.name)}'s wishlist` : `From ${esc(p.name)}'s shelves`}</div><h2 id="fbi-t">${esc(x.t)}</h2><div class="muted"><i>${esc(x.a || "")}</i></div>
+              ${ser ? `<div class="fbiser">❧ ${esc(ser.name)}${serNo != null ? ` · book ${serNo} of ${ser.books.filter(b => Number.isInteger(b.no) && b.no > 0).length}` : ""}</div>` : x.s ? `<div class="fbiser">❧ ${esc(x.s)}</div>` : ""}
+              ${facts.length ? `<div class="facts">${facts.map(f => `<span>${esc(String(f))}</span>`).join("")}</div>` : ""}</div>
+            <button class="btn small fbix" type="button" data-fbix>Close</button></div>
+          <section class="fbisec fbitake"><div class="label">What ${esc(p.name)} thought</div>
+            ${shelf === "reading" ? `<p>${pct !== null ? `${pct}% of the way through${x.up ? `, last read ${ago(x.up)}` : ""}.` : "Reading it right now."}</p>`
+              : shelf === "want" ? `<p>It's on their want-to-read pile, so nobody's spoiled it yet. Read it together?</p>`
+              : `${x.r ? `<div class="fstars big">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}<span class="muted"> ${x.r}/5</span></div>` : `<p class="muted">No stars given.</p>`}
+                ${x.sf ? `<span class="ftag">✷ a surprise favourite</span> ` : ""}${x.rec ? `<span class="ftag">♥ they recommend it${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}
+                ${x.fe?.length ? `<p class="muted">It made them feel ${esc(x.fe.join(", ").toLowerCase())}.</p>` : ""}${x.rv ? `<blockquote class="fbirv">${esc(x.rv)}</blockquote>` : ""}${x.qt ? `<p class="fqt">“${esc(x.qt)}”</p>` : ""}`}
+            ${others.length ? `<p class="note">Also on ${others.map(o => `<b>${esc(o.f.name)}</b>'s ${o.hit === "read" ? "read shelf" : o.hit === "reading" ? "nightstand" : "wishlist"}`).join(", ")}.</p>` : ""}</section>
+          <section class="fbisec"><div class="label">What it's about</div>${r === null ? `<p class="dots">Looking it up</p>` : r?.summary ? `<p class="fbisum">${esc(r.summary)}</p>` : `<p class="muted">No blurb found for this one.</p>`}
+            ${r?.tropes?.length || r?.themes?.length ? `<div class="tags">${(r.themes || []).filter(t => !(r.tropes || []).some(v => v.toLowerCase() === String(t).toLowerCase())).slice(0, 4).map(t => `<span class="tag">${esc(t)}</span>`).join("")}${(r.tropes || []).map(t => `<span class="trope">${esc(t)}</span>`).join("")}</div>` : ""}</section>
+          ${mineB ? `<section class="fbisec"><div class="label">For you</div><p>It's already on your <b>${esc(SHELVES[mineB.shelf] || mineB.shelf)}</b> shelf${mineB.rating ? `, and you gave it ${mineB.rating}★${x.r ? (Math.abs(mineB.rating - x.r) < 1 ? `, the same as ${esc(p.name)}` : mineB.rating > x.r ? `, more than ${esc(p.name)} did` : `, less than ${esc(p.name)} did`) : ""}` : ""}.</p></section>`
+            : why.length ? `<section class="fbisec fbifit"><div class="label">Would you like it?</div><ul>${why.map(w => `<li>${w}</li>`).join("")}</ul></section>` : ""}
+          <div class="mfoot">${mineB ? `<button class="btn small" type="button" data-fbiopen="${esc(mineB.id)}">Open your copy</button>` : `<button class="btn small primary" type="button" data-fbiadd>+ Want to read</button>`}
+            <a class="btn small" href="https://www.goodreads.com/search?q=${encodeURIComponent(`${x.t} ${x.a || ""}`)}" target="_blank" rel="noopener">Goodreads ↗</a>
+            ${ser && !inLibrary(ser.books[0].title, ser.author) ? `<button class="btn small" type="button" data-fbiser>Add the whole series</button>` : ""}</div></div>`;
+        paintRecCovers(el);
+      };
+      draw();
+      fbLookup(x).then(v => { r = v || false; if (el.isConnected) draw(); });
+      const close = () => { el.remove(); document.removeEventListener("keydown", onKey, true); };
+      const onKey = e => { if (e.key === "Escape") { e.stopPropagation(); close(); } };
+      document.addEventListener("keydown", onKey, true);
+      el.onclick = e => {
+        if (e.target === el || e.target.closest("[data-fbix]")) { close(); return; }
+        if (e.target.closest("[data-fbiadd]")) { const R = r || {};
+          upsert({ title: x.t, author: x.a, cover: x.c || (R.coverId ? coverById(R.coverId) : ""), coverId: R.coverId || null, olKey: R.olKey || null, pages: x.p || R.pages || null, year: R.year || null, subjects: R.subjects || [], genres: R.genres || [], themes: R.themes || [], tropes: R.tropes || [], category: R.category || null, summary: R.summary || "", seriesName: ser?.name || x.s || null, seriesNum: serNo ?? null,
+            id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), recommendedBy: p.name });
+          toast(`Added to Want to read, thanks to ${p.name}`); close(); document.querySelector('[data-fntab][aria-selected="true"]')?.click(); return; }
+        const o = e.target.closest("[data-fbiopen]"); if (o) { const id = o.dataset.fbiopen; close(); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; const b = books.find(z => z.id === id); if (b) openEditor(b, false); return; }
+        if (e.target.closest("[data-fbiser]")) { close(); $("#modal-root").onclick = null; openSeriesAdder({ name: ser.name, author: ser.author }); }
+      };
+    }
     function openNook(id){
       const p = friends.find(f => f.id === id); if (!p) return; const S = shelves.get(id) || {};
       const root = $("#modal-root"); let tab = S.reading?.length ? "reading" : S.read ? "read" : "soul";
       const draw = () => {
         const tabs = [["reading", "Reading now"], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", "Want to read"], ["soul", "Reader's Soul"]].filter(([k]) => S[k] !== undefined);
-        const book = x => `<div class="fbook">${mini(x)}<b>${esc(x.t)}</b><span class="muted">${esc(x.a)}</span>${x.r ? `<span class="fstars">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise favourite</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}${x.fe ? `<small class="muted">${x.fe.map(esc).join(" · ")}</small>` : ""}${x.rv ? `<details class="frv"><summary>Their thoughts</summary><p>${esc(x.rv)}</p></details>` : ""}${x.qt ? `<small class="fqt">“${esc(x.qt)}”</small>` : ""}${!inLibrary(x.t, x.a) ? `<button class="linkbtn" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}">+ Want to read</button>` : `<span class="onshelf">On your shelf</span>`}</div>`;
+        const book = (x, k, i) => `<div class="fbook"><button type="button" class="fbopen" data-fbi="${k}:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${x.r ? `<span class="fstars">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise favourite</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}${x.fe ? `<small class="muted">${x.fe.map(esc).join(" · ")}</small>` : ""}${x.rv ? `<details class="frv"><summary>Their thoughts</summary><p>${esc(x.rv)}</p></details>` : ""}${x.qt ? `<small class="fqt">“${esc(x.qt)}”</small>` : ""}${!inLibrary(x.t, x.a) ? `<button class="linkbtn" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}">+ Want to read</button>` : `<span class="onshelf">On your shelf</span>`}</div>`;
         let body = "";
-        if (tab === "reading") body = (S.reading || []).length ? `<div class="fbooks">${S.reading.map(x => { const pct = x.p ? Math.round(x.cp / x.p * 100) : null; return `<div class="fbook">${mini(x)}<b>${esc(x.t)}</b><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}%${x.up ? ` · ${ago(x.up)}` : ""}${x.min ? ` · ${fmtMins(x.min)} by candlelight` : ""}</small>` : ""}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
-        if (tab === "read") body = `<div class="fbooks">${(S.read || []).map(book).join("")}</div>`;
-        if (tab === "want") body = `<div class="fbooks">${(S.want || []).map(book).join("")}</div>`;
+        if (tab === "reading") body = (S.reading || []).length ? `<div class="fbooks">${S.reading.map((x, i) => { const pct = x.p ? Math.round(x.cp / x.p * 100) : null; return `<div class="fbook"><button type="button" class="fbopen" data-fbi="reading:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}%${x.up ? ` · ${ago(x.up)}` : ""}${x.min ? ` · ${fmtMins(x.min)} by candlelight` : ""}</small>` : ""}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
+        if (tab === "read") body = `<p class="note fbhint">Tap any book to see what it is and what ${esc(p.name)} thought.</p><div class="fbooks">${(S.read || []).map((x, i) => book(x, "read", i)).join("")}</div>`;
+        if (tab === "want") body = `<div class="fbooks">${(S.want || []).map((x, i) => book(x, "want", i)).join("")}</div>`;
         if (tab === "soul" && S.soul) { const so = S.soul; let match = null; try { match = compareCode(soulData(), so.code); } catch {}
           body = `<div class="fsoul"><div class="label">Level ${so.level} · ${esc(so.title)}</div><h3>${esc(so.name)}</h3><div class="strand big">${so.dna.map(x => `<span style="flex:${x.p};--c:${x.c}" title="${esc(x.n)} ${x.p}%"></span>`).join("")}</div>
             <div class="soulchips">${so.dna.map(x => `<span class="dnachip" style="--c:${x.c}"><i>${x.g}</i>${esc(x.n.replace(/^The /, ""))}<b>${x.p}%</b></span>`).join("")}</div>
@@ -7028,6 +7306,7 @@ alter publication supabase_realtime add table public.library;`;
       root.onclick = async e => {
         if (e.target.id === "fn-scrim" || e.target.closest("[data-fnx]")) { root.onclick = null; root.innerHTML = ""; return; }
         const t = e.target.closest("[data-fntab]"); if (t) { tab = t.dataset.fntab; draw(); return; }
+        const fi = e.target.closest("[data-fbi]"); if (fi) { const [k, i] = fi.dataset.fbi.split(":"); const x = (S[k] || [])[+i]; if (x) openFriendBook(x, p, k); return; }
         const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [] }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
         const lw = e.target.closest("[data-lwrite]"); if (lw) { root.onclick = null; compose({ to: lw.dataset.lwrite }); return; }
         const u = e.target.closest("[data-funfriend]"); if (u) { if (!confirmUnfriend) { confirmUnfriend = true; u.textContent = `Tap again to remove ${p.name}`; return; } confirmUnfriend = false; root.onclick = null; root.innerHTML = ""; await remove(u.dataset.funfriend); toast("Removed from your friends."); }
@@ -8824,8 +9103,14 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "2.9";
+  const APP_VERSION = "3.0";
   const CHANGELOG = [
+    ["3.0", "22 Oct 2026", "Famous series done right, and a closer look at friends' books", [
+      "Add a whole series now knows over 110 famous series (Throne of Glass, ACOTAR, Harry Potter, Fourth Wing, The Witcher, Bridgerton and many more) with exactly the right books in reading order, prequels and novellas marked",
+      "Start typing in Add a whole series and matching series appear; searching a series name in the book finder offers to add the whole set",
+      "Series that aren't built in only tick the books Open Library really lists in that series; the author's other books are tucked away underneath",
+      "In a friend's nook, tap any book to see what it's about, what they thought, which other friends have it, and whether it suits your taste",
+    ]],
     ["2.9", "22 Oct 2026", "A new Reader's Soul, wiser familiars and collectible sets", [
       "Explore your nook stays folded until you open it, then shows every room with a short description; Authors has its own room, with photos",
       "Reader DNA rebuilt: 44 reader types including faith and scripture, money, health, tech, nature, travel, cooking, art and more; it updates with every book you add or edit, and friends see the new one",
@@ -8954,7 +9239,8 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const add = e.target.closest("[data-add]"); if (add) return openEditor({ ...lastResults[+add.dataset.add] }, true);
     const ask = e.target.closest("[data-askfam]");
     if (ask) { const row = ask.closest(".row"), ex = row.querySelector(".famsay"); if (ex) { ex.remove(); return; } row.querySelector(".meta").insertAdjacentHTML("beforeend", famBubble({ ...lastResults[+ask.dataset.askfam], shelf: "want" })); return; }
-    const as = e.target.closest("[data-addseries]"); if (as) { const r = lastResults[+as.dataset.addseries]; return openSeriesAdder({ name: r.seriesHint, author: r.author }); }
+    const as = e.target.closest("[data-addseries]"); if (as) { const r = lastResults[+as.dataset.addseries], S = catalogForBook(r); return openSeriesAdder(S ? { name: S.name, author: S.author } : { name: r.seriesHint, author: r.author, title: r.title }); }
+    const sca = e.target.closest("[data-scatadd]"); if (sca) { const S = SERIES_CAT.find(x => x.name === sca.dataset.scatadd); if (S) return openSeriesAdder({ name: S.name, author: S.author }); }
   });
   $("#tools").addEventListener("click", e => { if (e.target.id === "fetch-btn") fetchMissing(); if (e.target.id === "trope-btn") findTropesAll(); });
   $("#shelf-filter").addEventListener("click", e => { const f = e.target.closest("[data-filter]"); if (f) { filter = f.dataset.filter; renderLibrary(); } });
