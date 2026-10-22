@@ -1873,6 +1873,16 @@ header .menu{margin-top:6px}
 @media (min-width:900px) and (hover:hover) and (prefers-color-scheme:light){:root[data-season="spring"]:not([data-theme="dark"]){--bg:#E5DFDA;--paper:#F1ECE7;--line:#DED0D4}}
 @media (min-width:900px) and (hover:hover){:root[data-season="summer"][data-theme="light"]{--bg:#E6D9BD;--paper:#F3EDE1;--line:#DECEAC}}
 @media (min-width:900px) and (hover:hover) and (prefers-color-scheme:light){:root[data-season="summer"]:not([data-theme="dark"]){--bg:#E6D9BD;--paper:#F3EDE1;--line:#DECEAC}}
+
+/* version & what's new */
+.clmodal{max-width:620px}.cllist{display:flex;flex-direction:column;gap:12px;max-height:min(60vh,560px);overflow-y:auto;margin:10px 0;padding-right:4px}
+.clv{border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--paper)}.clv.now{border-color:var(--gold2);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold2) 18%,transparent)}
+.clhead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.clhead b{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:19px}.clhead small{color:var(--muted);margin-left:auto;font-size:13px}
+.clnum{font-family:var(--f-cap);font-size:12px;letter-spacing:.1em;padding:2px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.clv ul{margin:6px 0 0;padding-left:20px;font-size:15px;line-height:1.45}.clv li{margin:2px 0}
+.verbanner{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:300;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;width:max-content;max-width:calc(100vw - 24px);padding:10px 12px 10px 16px;border-radius:16px;background:var(--paper);border:1px solid var(--gold2);box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:15px;animation:srin2 .4s ease both}
+@keyframes srin2{from{opacity:0;transform:translate(-50%,16px)}}
+.appver{display:flex;justify-content:center;margin:26px 0 0}.appver button{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;font-style:italic;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
 </style>
 </head>
 <body>
@@ -1881,6 +1891,7 @@ header .menu{margin-top:6px}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v2.6</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -1986,6 +1997,7 @@ header .menu{margin-top:6px}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v2.6 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2920,8 +2932,7 @@ header .menu{margin-top:6px}
     function frame(now){
       raf = requestAnimationFrame(frame);
       const dt = Math.min(.1, (now - last) / 1000); acc += dt; last = now;
-      if (coarse && acc < 1 / 24) return; // phones: 30 frames a second is plenty for drifting things
-      const step = acc; acc = 0; const T = (now - t0) / 1000;
+      const step = Math.min(acc, 1 / 20); acc = 0; const T = (now - t0) / 1000; // every frame, moved by the real time that passed: smooth on any phone
       wind = Math.sin(T * .11) * .6 + Math.sin(T * .37 + 1.3) * .4; // slow gusts
       cx.clearRect(0, 0, W, H);
       for (const p of parts) {
@@ -3280,7 +3291,7 @@ header .menu{margin-top:6px}
     const motes = Array.from({ length: coarse ? 12 : 30 }, () => ({ x: Math.random(), y: Math.random(), r: .6 + Math.random() * 1.8, vx: (Math.random() - .5) * .00012, vy: -(.00008 + Math.random() * .00018), p: Math.random() * 6.28 }));
     const tick = t => {
       raf = requestAnimationFrame(tick);
-      const dt = Math.min(100, t - last); last = t; acc += dt; if (acc < (coarse ? 80 : 20)) return; const step = acc; acc = 0;
+      const dt = Math.min(100, t - last); last = t; acc += dt; if (acc < (coarse ? 30 : 14)) return; const step = acc; acc = 0;
       if (cv.clientWidth !== W || cv.clientHeight !== H) resize();
       ctx.clearRect(0, 0, W, H);
       for (const m of motes) {
@@ -6458,7 +6469,72 @@ alter publication supabase_realtime add table public.library;`;
         <div class="fcounts">${S.counts ? `<span><b>${S.counts.read}</b> read</span><span><b>${S.counts.year}</b> this year</span><span><b>${S.counts.want}</b> waiting</span>` : ""}</div>
         <div class="fcacts"><button class="btn small primary" type="button" data-fopen="${p.id}">Visit their nook</button></div></article>`;
     }
-    function render(){
+    // ================= version & what's new =================
+  const APP_VERSION = "2.6";
+  const CHANGELOG = [
+    ["2.6", "22 Oct 2026", "Sounds fixed, smoother drifting", [
+      "Fixed: sounds in reading mode now load and play (they were looked for in the wrong place)",
+      "Falling leaves, snow, petals and fireflies move much more smoothly, especially on phones",
+      "The app now has a version number and this What's new page, so you can see what changed"]],
+    ["2.5", "22 Oct 2026", "A seasonal makeover, and a faster nook", [
+      "New garland under the title for every season, with ornaments that really hang from the string",
+      "Realistic falling leaves, soft snow, cherry petals and summer sparkles",
+      "Summer is now a beach: sea, sun, palm tree and a cocktail in the window, with coral and turquoise colours",
+      "New bookcases: Autumn cabin, Winter lodge, Spring greenhouse, Beach house, or Follow the season",
+      "Summer trinkets: cocktail, shells and starfish, sunglasses, sandcastle",
+      "Light themes are softer on big screens",
+      "Much faster on phones: smooth scrolling, nothing animates when it is off screen"]],
+    ["2.4", "22 Oct 2026", "The sound room", [
+      "Real recordings instead of computer-made sounds: rain on the window, fireplace, purring cat, library, café, ocean, forest stream and more",
+      "10 moods (Rainy library, Cabin by the fire, Deep focus, Meditate…) and your own mix with a volume for every sound",
+      "Fade-out timer for reading in bed; sounds work offline once played"]],
+    ["2.3", "22 Oct 2026", "Wrap-ups and more ways to share", [
+      "Quarterly and yearly wrap-ups, told as a little story you tap through, with a share card",
+      "New share cards in Stats: my stats, genres & authors, tropes, feelings, to-read pile",
+      "Character cards now only come from books you finish, never from abandoned ones",
+      "Familiar buttons line up neatly with the speech bubble on phones"]],
+    ["2.2", "22 Oct 2026", "Your nook, on every device", [
+      "Theme, season, bookcase, spine colours, trinkets, familiar and sounds now follow your account from phone to desktop"]],
+    ["2.1", "", "The Abandoned Shelf", [
+      "A dusty shelf with cobwebs for books you didn't finish, no guilt",
+      "Business genre, smarter trope finding, move trinkets by simply dragging them",
+      "Calmer reading sounds and a readable page number on the Now reading card"]],
+    ["2.0", "", "Collect the cast", [
+      "Finish a book, open a card pack and meet its main characters",
+      "Author pages, a tidier Now reading card, your reading DNA colours explained",
+      "Install on Android and iPhone with a proper icon and name"]],
+    ["1.9", "", "Friends", [
+      "Profiles, friends and an invite code; choose exactly what friends can see"]],
+    ["1.8", "", "More of you", [
+      "Many more reader DNA types (including Bible, management and psychology readers)",
+      "Notes and quotes, a smaller familiar that can sit in the corner, roomier shelves on phones"]],
+    ["1.7", "", "Little delights", [
+      "Scan a barcode to add a book, the TBR jar, gentle new-release alerts, your bond with your familiar, runes behind the familiar, a tidier book editor"]],
+    ["1.6", "", "Reading mode", [
+      "Reading mode with a candle and ambient sounds, share cards, the Reader's Soul, a hooded fox, more reliable covers"]],
+  ];
+  const KEY_SEENVER = "reading-ledger-seenver";
+  function openChangelog(){
+    const root = $("#modal-root");
+    root.innerHTML = `<div class="scrim" id="cl-scrim"><div class="modal clmodal" role="dialog" aria-modal="true" aria-labelledby="cl-title">
+      <div class="label">My Book Nook · version ${APP_VERSION}</div><h2 id="cl-title">What's new</h2>
+      <div class="cllist">${CHANGELOG.map(([v, d, t, items], i) => `<section class="clv${i === 0 ? " now" : ""}"><div class="clhead"><span class="clnum">v${v}</span><b>${esc(t)}</b>${d ? `<small>${d}</small>` : ""}</div><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>
+      <p class="note">Tip: if a friend's nook looks different from yours, compare version numbers. Closing and reopening the app picks up the newest one.</p>
+      <div class="mfoot"><button class="btn primary" type="button" id="cl-done">Lovely</button></div></div></div>`;
+    $("#cl-scrim").addEventListener("click", e => { if (e.target.id === "cl-scrim" || e.target.id === "cl-done") root.innerHTML = ""; });
+    lsSet(KEY_SEENVER, APP_VERSION);
+  }
+  document.addEventListener("click", e => { if (e.target.closest("[data-whatsnew]")) { e.preventDefault(); const m = $("#nook-menu"); if (m) m.hidden = true; openChangelog(); } });
+  // after an update, a gentle note (new friends just start at the current version)
+  setTimeout(() => { try {
+    const seen = lsGet(KEY_SEENVER, null);
+    if (seen === APP_VERSION) return;
+    if (!seen && !books.length) { lsSet(KEY_SEENVER, APP_VERSION); return; }
+    const el = document.createElement("div"); el.className = "verbanner"; el.innerHTML = `<span>✦ My Book Nook was updated to <b>v${APP_VERSION}</b></span><button type="button" class="btn small primary" data-whatsnew>See what's new</button><button type="button" class="iconbtn" aria-label="Dismiss">✕</button>`;
+    el.addEventListener("click", e => { if (e.target.closest(".iconbtn") || e.target.closest("[data-whatsnew]")) { lsSet(KEY_SEENVER, APP_VERSION); el.remove(); } });
+    document.body.append(el);
+  } catch {} }, 2500);
+  function render(){
       const el = $("#view-friends"); if (!el) return;
       if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
       if (!ME()) { el.innerHTML = `<div class="empty"><span class="fleuron">✦</span><h3>One small step first</h3><div>Choose your name and @handle so friends can find you.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Set up my profile</button></div>`; return; }
@@ -7242,7 +7318,8 @@ el.innerHTML = head + packHTML + `<div class="panel charadd"><h2>Add a cherished
     function load(k){
       if (bufs[k]) return bufs[k];
       if (k === "brown" || k === "pink") return (bufs[k] = Promise.resolve(noiseBuf(k)));
-      bufs[k] = fetch(`sounds/${k}.mp3`).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      const get = u => fetch(u).then(r => { if (!r.ok || /text\/html/.test(r.headers.get("content-type") || "")) throw new Error(r.status); return r.arrayBuffer(); });
+      bufs[k] = get(`${k}.mp3`).catch(() => get(`sounds/${k}.mp3`))
         .then(ab => new Promise((res, rej) => { const p = ctx.decodeAudioData(ab, res, rej); if (p?.then) p.then(res, rej); })).then(trimPad)
         .catch(e => { delete bufs[k]; throw e; });
       return bufs[k];

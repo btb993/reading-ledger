@@ -1,5 +1,5 @@
 // My Book Nook: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v9", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
+const SHELL = "ledger-shell-v10", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon-64.png"];
 // cache each file on its own, so one missing file can never stop the app from installing
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => Promise.all(FILES.map(f => c.add(f).catch(() => null)))).then(() => self.skipWaiting())); });
@@ -9,7 +9,7 @@ self.addEventListener("fetch", e => {
   const url = new URL(req.url);
   // the app itself: try the network first so updates arrive, fall back to the saved copy offline
   // sounds: download each one once, then play it from the saved copy (also offline)
-  if (url.origin === location.origin && url.pathname.includes("/sounds/")) {
+  if (url.origin === location.origin && /\.mp3$/.test(url.pathname)) {
     e.respondWith(caches.open(SOUNDS).then(async c => { const hit = await c.match(req, { ignoreSearch: true }); if (hit) return hit; const r = await fetch(req); if (r.ok) c.put(req, r.clone()); return r; }));
     return;
   }
