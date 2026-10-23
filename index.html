@@ -2428,7 +2428,7 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
 .inkpot{display:grid;place-items:center;min-width:34px;height:30px;padding:0 4px;border-radius:8px 8px 12px 12px;background:radial-gradient(circle at 40% 30%,#4A5A8A,#141A30);color:#E8EEFF;font-family:var(--f-display);font-weight:700;font-size:16px;box-shadow:inset 0 0 0 1.5px #8A9AC8;direction:ltr}
 .inktrack{height:8px;border-radius:999px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}.inktrack i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#26305A,#5A6AB0);transition:width .6s ease}
 .dsay{text-align:center;font-family:var(--f-display);font-style:italic;font-size:16px;margin:4px 0 10px;min-height:1.4em}
-.dslot{display:grid;place-items:center;aspect-ratio:5/7;width:100%;border:2px dashed var(--line);border-radius:11px;color:var(--muted);font-size:13px;text-align:center;padding:10px}
+.duelslot{display:grid;place-items:center;aspect-ratio:5/7;width:100%;border:2px dashed var(--line);border-radius:11px;color:var(--muted);font-size:13px;text-align:center;padding:10px}
 .dcenter{text-align:center}
 .dhandwrap{margin-top:16px;display:grid;gap:6px}
 .dhand{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 10px;scrollbar-width:thin}
@@ -2452,6 +2452,83 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
 @keyframes mglow{0%,100%{opacity:.25}50%{opacity:.75}}
 .famcard:has(.mantle) .fambody{filter:drop-shadow(0 0 10px color-mix(in srgb,var(--aura,#FFD27A) 55%,transparent))}
 @media (prefers-reduced-motion:reduce){.famart .mstar,.famart .mglow{animation:none}}
+
+/* v3.5 legible name plank */
+.pkboard{padding:7px 22px 8px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 9px,rgba(0,0,0,.08) 9px 10px,transparent 10px 17px),linear-gradient(180deg,#6E4224,#4E2C16 60%,#3A200E);
+  box-shadow:0 8px 16px -4px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,220,170,.3),inset 0 0 0 1px rgba(20,10,4,.7),inset 0 0 0 3px rgba(226,190,110,.55),inset 0 0 0 4px rgba(20,10,4,.5)}
+.pktxt{font-size:21px;color:#FFE4A6;letter-spacing:.01em;text-shadow:0 1px 0 #1E0E04,0 -1px 0 rgba(0,0,0,.5),0 0 10px rgba(255,200,110,.45)}
+.pknail{width:7px;height:7px}
+@media (max-width:640px){.pktxt{font-size:16.5px}.pkboard{padding:5px 14px 6px}}
+/* v3.5 bookcase designs: the shape and carving of the case, in any colour theme */
+#bookcase[data-design]:not([data-design="arch"]) .tier.top{border-radius:4px 4px 0 0}
+#bookcase[data-design]:not([data-design="arch"]) .tier.top .shelf{padding-top:40px}
+/* old library: square cabinet, cornice with dentils, fluted pilasters, a brass ladder rail */
+#bookcase[data-design="library"]{border-radius:6px 6px 8px 8px;padding:58px 34px 14px;margin-top:22px;
+  background:linear-gradient(180deg,transparent 40px,color-mix(in srgb,var(--metal) 85%,#000) 40px,var(--metal) 42px,color-mix(in srgb,var(--metal) 60%,#000) 44px,transparent 44px),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 2px,rgba(255,255,255,.06) 2px 3px,transparent 3px 7px) left 8px top 52px/22px calc(100% - 66px) no-repeat,
+    repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 2px,rgba(255,255,255,.06) 2px 3px,transparent 3px 7px) right 8px top 52px/22px calc(100% - 66px) no-repeat,
+    linear-gradient(180deg,var(--wood2),var(--wood3));
+  box-shadow:var(--shadow),inset 0 0 0 6px var(--wood1),inset 0 0 0 8px rgba(0,0,0,.25)}
+#bookcase[data-design="library"]::before{content:"";top:-20px;left:-14px;right:-14px;transform:none;height:30px;border-radius:4px 4px 2px 2px;opacity:1;letter-spacing:0;
+  background:repeating-linear-gradient(90deg,var(--wood2) 0 7px,transparent 7px 12px) 0 22px/100% 6px no-repeat,linear-gradient(180deg,var(--wood1),var(--wood2) 45%,var(--wood1) 46%,var(--wood3));box-shadow:0 6px 10px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.18)}
+#bookcase[data-design="library"] .nameplank{top:44px}#bookcase[data-design="library"] .tier.top .shelf{padding-top:58px}
+#bookcase[data-design="library"] .plank{height:26px}
+/* carved wood: a deep bevelled frame with scrollwork in every corner */
+#bookcase[data-design="carved"]{border-radius:160px 160px 14px 14px/70px 70px 14px 14px;padding:52px 30px 18px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23E6C27A' stroke-opacity='.9' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 64C6 30 24 10 60 6'/%3E%3Cpath d='M14 60C16 36 30 20 52 14'/%3E%3Cpath d='M22 34c8-2 12 4 8 9-4 4-10 0-7-5'/%3E%3Cpath d='M36 20c-1 7 5 10 9 6 3-4-1-9-6-6'/%3E%3Cpath d='M10 48c6 0 8 6 3 8'/%3E%3Cpath d='M48 10c0 6 6 8 8 3'/%3E%3C/g%3E%3Ccircle cx='9' cy='9' r='4' fill='%23E6C27A' fill-opacity='.8'/%3E%3C/svg%3E") left 4px top 46px/86px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23E6C27A' stroke-opacity='.9' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 64C6 30 24 10 60 6'/%3E%3Cpath d='M14 60C16 36 30 20 52 14'/%3E%3Cpath d='M22 34c8-2 12 4 8 9-4 4-10 0-7-5'/%3E%3Cpath d='M36 20c-1 7 5 10 9 6 3-4-1-9-6-6'/%3E%3Cpath d='M10 48c6 0 8 6 3 8'/%3E%3Cpath d='M48 10c0 6 6 8 8 3'/%3E%3C/g%3E%3Ccircle cx='9' cy='9' r='4' fill='%23E6C27A' fill-opacity='.8'/%3E%3C/svg%3E") right 4px top 46px/86px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23E6C27A' stroke-opacity='.9' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 64C6 30 24 10 60 6'/%3E%3Cpath d='M14 60C16 36 30 20 52 14'/%3E%3Cpath d='M22 34c8-2 12 4 8 9-4 4-10 0-7-5'/%3E%3Cpath d='M36 20c-1 7 5 10 9 6 3-4-1-9-6-6'/%3E%3Cpath d='M10 48c6 0 8 6 3 8'/%3E%3Cpath d='M48 10c0 6 6 8 8 3'/%3E%3C/g%3E%3Ccircle cx='9' cy='9' r='4' fill='%23E6C27A' fill-opacity='.8'/%3E%3C/svg%3E") left 4px bottom 4px/86px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23E6C27A' stroke-opacity='.9' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 64C6 30 24 10 60 6'/%3E%3Cpath d='M14 60C16 36 30 20 52 14'/%3E%3Cpath d='M22 34c8-2 12 4 8 9-4 4-10 0-7-5'/%3E%3Cpath d='M36 20c-1 7 5 10 9 6 3-4-1-9-6-6'/%3E%3Cpath d='M10 48c6 0 8 6 3 8'/%3E%3Cpath d='M48 10c0 6 6 8 8 3'/%3E%3C/g%3E%3Ccircle cx='9' cy='9' r='4' fill='%23E6C27A' fill-opacity='.8'/%3E%3C/svg%3E") right 4px bottom 4px/86px no-repeat,
+    repeating-linear-gradient(100deg,rgba(255,255,255,.03) 0 2px,transparent 2px 9px,rgba(0,0,0,.06) 9px 10px,transparent 10px 15px),linear-gradient(180deg,var(--wood1),var(--wood2) 30%,var(--wood3));
+  box-shadow:var(--shadow),inset 0 0 0 4px var(--wood1),inset 0 0 0 6px rgba(0,0,0,.35),inset 0 0 0 9px color-mix(in srgb,var(--metal) 45%,transparent),inset 0 0 0 11px rgba(0,0,0,.3),inset 0 10px 20px rgba(0,0,0,.35)}
+#bookcase[data-design="carved"] .corner-r{transform:scaleX(-1)}
+#bookcase[data-design="carved"]::before{content:"❦ ✿ ❦";font-size:16px;top:16px;color:color-mix(in srgb,var(--metal) 85%,#fff)}
+#bookcase[data-design="carved"] .tier.top{border-radius:46% 46% 4px 4px/48px 48px 4px 4px}
+#bookcase[data-design="carved"] .plank{height:24px;background:radial-gradient(circle at 14px 50%,color-mix(in srgb,var(--metal) 90%,#fff) 0 3px,color-mix(in srgb,var(--metal) 50%,#000) 3.5px 5px,transparent 5.5px),radial-gradient(circle at calc(100% - 14px) 50%,color-mix(in srgb,var(--metal) 90%,#fff) 0 3px,color-mix(in srgb,var(--metal) 50%,#000) 3.5px 5px,transparent 5.5px),repeating-linear-gradient(90deg,transparent 0 16px,rgba(0,0,0,.12) 16px 17px),linear-gradient(180deg,var(--wood1),var(--wood2))}
+/* gothic: pointed arches and a rose window */
+#bookcase[data-design="gothic"]{clip-path:polygon(0 100%, 0% 170px, 4% 112px, 9% 75px, 15% 48px, 22% 27px, 30% 14px, 39% 5px, 50% 0px, 61% 5px, 70% 14px, 78% 27px, 85% 48px, 91% 75px, 96% 112px, 100% 170px, 100% 100%);border-radius:0 0 10px 10px;padding-top:150px}
+#bookcase[data-design="gothic"] .tier.top{clip-path:polygon(0 100%, 0% 120px, 4% 79px, 9% 53px, 15% 34px, 22% 19px, 30% 10px, 39% 4px, 50% 0px, 61% 4px, 70% 10px, 78% 19px, 85% 34px, 91% 53px, 96% 79px, 100% 120px, 100% 100%);border-radius:0}
+#bookcase[data-design="gothic"] .tier.top .shelf{padding-top:110px}
+#bookcase[data-design="gothic"]::before{content:"";top:40px;width:62px;height:62px;border-radius:50%;opacity:.9;letter-spacing:0;
+  background:radial-gradient(circle,var(--light) 0 4px,transparent 5px),repeating-conic-gradient(color-mix(in srgb,var(--light) 55%,transparent) 0 14deg,transparent 14deg 30deg),radial-gradient(circle,transparent 60%,var(--wood1) 61% 70%,transparent 71%);
+  box-shadow:0 0 14px color-mix(in srgb,var(--light) 45%,transparent),inset 0 0 0 3px var(--wood1)}
+#bookcase[data-design="gothic"] .nameplank{top:118px}
+#bookcase[data-design="gothic"] .garland{top:84px}
+/* rustic cottage: chunky planks, nail heads and iron brackets */
+#bookcase[data-design="rustic"]{border-radius:4px;padding:26px 18px 14px;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 46px),repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 11px),linear-gradient(180deg,var(--wood1),var(--wood2));
+  box-shadow:var(--shadow),inset 0 0 0 8px var(--wood2),inset 0 0 0 10px rgba(0,0,0,.3)}
+#bookcase[data-design="rustic"]::before{content:"";top:8px;left:12px;right:12px;transform:none;height:8px;letter-spacing:0;opacity:1;background:radial-gradient(circle,#3A3A3A 0 2px,transparent 2.5px) 0 0/40px 8px repeat-x}
+#bookcase[data-design="rustic"] .tier.top{border-radius:2px}
+#bookcase[data-design="rustic"] .tier.top .shelf{padding-top:30px}
+#bookcase[data-design="rustic"] .plank{height:30px;margin:0 -10px;border-radius:3px;background:radial-gradient(circle at 18px 50%,#2E2A26 0 2.5px,transparent 3px),radial-gradient(circle at calc(100% - 18px) 50%,#2E2A26 0 2.5px,transparent 3px),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 13px,rgba(0,0,0,.1) 13px 14px,transparent 14px 23px),linear-gradient(180deg,var(--wood1),var(--wood2) 70%,var(--wood3))}
+/* glass-front cabinet: panes over each shelf, brass hinges and a keyhole */
+#bookcase[data-design="glass"]{border-radius:10px 10px 8px 8px;padding:40px 18px 14px}
+#bookcase[data-design="glass"]::before{content:"";top:12px;width:58%;height:14px;border-radius:8px 8px 0 0;opacity:1;letter-spacing:0;background:linear-gradient(180deg,var(--wood1),var(--wood2));box-shadow:0 -4px 0 -1px var(--wood1)}
+#bookcase[data-design="glass"] .tier::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 0 18%,rgba(255,255,255,.08) 22%,rgba(255,255,255,.02) 30%,transparent 34% 62%,rgba(255,255,255,.06) 66%,transparent 72%),linear-gradient(90deg,transparent calc(50% - 2px),var(--wood1) calc(50% - 2px) calc(50% + 2px),transparent calc(50% + 2px));
+  box-shadow:inset 0 0 0 3px var(--wood1),inset 0 0 0 4px color-mix(in srgb,var(--metal) 50%,transparent)}
+#bookcase[data-design="glass"] .tier::before{content:"";position:absolute;right:10px;top:50%;width:6px;height:12px;z-index:5;border-radius:3px 3px 1px 1px;background:radial-gradient(circle at 50% 30%,#1a1209 0 1.6px,transparent 2px),var(--metal);box-shadow:0 1px 2px rgba(0,0,0,.5)}
+#bookcase[data-design="glass"] .tier.top{border-radius:6px 6px 0 0}
+/* floating shelves: no cabinet, just boards on the wall */
+#bookcase[data-design="floating"]{background:none;box-shadow:none;border-radius:0;padding:26px 6px 10px}
+#bookcase[data-design="floating"]::before{content:""}
+#bookcase[data-design="floating"] .tier{background:none;box-shadow:none;margin:0}
+#bookcase[data-design="floating"] .tier.top .shelf{padding-top:34px}
+#bookcase[data-design="floating"] .plank{height:16px;margin:0 6% 26px;border-radius:3px;background:linear-gradient(180deg,var(--wood1),var(--wood2));box-shadow:0 14px 18px -8px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18)}
+#bookcase[data-design="floating"] .plaque{position:absolute;top:100%;margin-top:6px}
+#bookcase[data-design="floating"] .vine{display:none}
+.dsgtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
+.dsgtile{display:flex;flex-direction:column;align-items:center;gap:4px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 4px 6px;cursor:pointer;font:inherit;font-size:11.5px;line-height:1.15;color:var(--ink);text-align:center}
+.dsgtile[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 14px color-mix(in srgb,var(--gold) 30%,transparent)}
+.dsgtile svg{display:block}
+
+.dsg-orn{position:absolute;pointer-events:none;display:block}
+.lib-ladder{right:-6px;top:30px;bottom:-10px;width:34px;z-index:5;transform:rotate(3deg);transform-origin:50% 0;filter:drop-shadow(-4px 4px 4px rgba(0,0,0,.45))}
+.carved-crest{top:-34px;left:50%;transform:translateX(-50%);z-index:6;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4))}
+#bookcase[data-design="carved"]{margin-top:30px}
+#bookcase[data-design="carved"] .nameplank{top:22px}
+@media (max-width:640px){.lib-ladder{width:24px;right:-4px}.carved-crest svg{width:170px;height:46px}.carved-crest{top:-26px}}
+
+.frfresh{color:var(--muted);font-size:.92em}
+.frrefresh{margin-left:6px;vertical-align:middle;width:26px;height:26px;min-width:26px;padding:0;font-size:14px}
+.frrefresh.spin{animation:spin .8s linear infinite}
 </style>
 </head>
 <body>
@@ -2460,7 +2537,7 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.4</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.5</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2568,7 +2645,7 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.4 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.5 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2593,7 +2670,7 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   // look-and-feel settings that follow you between devices with your account
-  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel"];
+  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel", "reading-ledger-casedesign"];
   const SETTINGS_T = "reading-ledger-settings-t";
   let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
   setTimeout(() => { settingsReady = true; }, 6000);
@@ -3876,7 +3953,7 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
     root.onclick = e => {
       if (e.target.id === "ss-scrim" || e.target.closest("[data-ssx]")) { root.onclick = null; root.innerHTML = ""; return; }
       const pn = e.target.closest("[data-sspin]"); if (pn) { const b = books.find(x => x.id === pn.dataset.sspin); if (!b) return; b.onShelf = b.onShelf ? undefined : true; save(); renderShelf(); draw(); return; }
-      if (e.target.closest("[data-open]")) { root.onclick = null; }
+      const op = e.target.closest("[data-open]"); if (op) { e.stopPropagation(); const b = books.find(x => x.id === op.dataset.open); root.onclick = null; root.innerHTML = ""; if (b) openEditor(b, false); return; }
     };
   }
   function trinketHTML(t, k){
@@ -7321,7 +7398,7 @@ alter publication supabase_realtime add table public.library;`;
       const f = lsGet(KEY_FAM, familiar); if (FAMILIARS[f]) { familiar = f; if (S.v && S.v[KEY_FAM]) { try { famChosen = true; } catch {} if ($("#welcome-scrim")) $("#modal-root").innerHTML = ""; } }
       famDocked = lsGet("reading-ledger-famdock", true); applyDock();
       render(); renderFamiliar(); refreshFigurines();
-      try { plank = lsGet(KEY_PLANK, plank); lightStyle = lsGet(KEY_LIGHTS, lightStyle); paintLights(); paintPlankPanel(); paintPlank(); } catch {}
+      try { caseDesign = lsGet(KEY_DESIGN, caseDesign); paintDesign(); plank = lsGet(KEY_PLANK, plank); lightStyle = lsGet(KEY_LIGHTS, lightStyle); paintLights(); paintPlankPanel(); paintPlank(); } catch {}
     } catch (e) { console.warn("settings", e); }
   }
   const Sync = (() => {
@@ -7607,11 +7684,29 @@ alter publication supabase_realtime add table public.library;`;
       const btn = rel === "friend" ? `<span class="onshelf">Friends ♥</span>` : rel === "incoming" ? `<button class="btn small primary" type="button" data-facc="${p.id}">Accept</button>` : rel === "outgoing" ? `<span class="note">Request sent</span>` : `<button class="btn small" type="button" data-freq="${p.id}">+ Add friend</button>`;
       return `<div class="fperson" data-fam="${esc(p.familiar || "cat")}" data-expr="idle">${avatar(p, 48)}<div class="fpinfo"><b>${esc(p.name)}</b><span>@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div>${extra}${btn}</div>`;
     }
+    const fresh = t => { const m = Math.round((Date.now() - new Date(t)) / 60000); return m < 1 ? "just now" : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+    // only the shelves, quickly: used for frequent refreshes of friends' progress
+    let shelvesAt = 0, liveOn = false;
+    async function refreshShelves(){
+      if (!ready() || !friends.length) return false;
+      try { const r = await C().from("shared_shelf").select("*").in("user_id", friends.map(f => f.id)); if (r.error) return false;
+        let ch = false; (r.data || []).forEach(x => { const old = JSON.stringify(shelves.get(x.user_id) || {}), nw = JSON.stringify(x.data || {}); if (old !== nw) { shelves.set(x.user_id, x.data || {}); ch = true; } });
+        shelvesAt = Date.now(); return ch; } catch { return false; }
+    }
+    const canRender = () => tab === "friends" && !$("#modal-root").innerHTML.trim() && !document.activeElement?.closest?.("#view-friends input, #view-friends textarea");
+    // instant updates when the project has realtime switched on for shared_shelf (harmless if it isn't)
+    function goLive(){
+      if (liveOn || !ready()) return; const cl = C(); if (!cl || typeof cl.channel !== "function") return; liveOn = true;
+      try { cl.channel("nook-shelves").on("postgres_changes", { event: "*", schema: "public", table: "shared_shelf" }, pl => { const r = pl.new; if (!r || !friends.some(f => f.id === r.user_id)) return; shelves.set(r.user_id, r.data || {}); if (canRender()) render(); }).subscribe(); } catch { liveOn = false; }
+    }
+    setInterval(() => { if (tab === "friends" && !document.hidden && ready()) refreshShelves().then(ch => { if (ch && canRender()) render(); }); }, 30000);
+    const onBack = () => { if (!document.hidden && tab === "friends" && ready() && Date.now() - shelvesAt > 8000) refreshShelves().then(ch => { if (ch && canRender()) render(); }); };
+    document.addEventListener("visibilitychange", onBack); addEventListener("focus", onBack);
     function friendCard(p){
       const S = shelves.get(p.id) || {}, R = S.reading || [], x = R[0];
       let match = null; try { if (S.soul?.code) match = compareCode(soulData(), S.soul.code); } catch {}
       const pct = x && x.p ? Math.min(100, Math.round(x.cp / x.p * 100)) : null;
-      const line = x ? `📖 <i>${esc(x.t)}</i>${pct !== null ? ` · ${pct}%` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1}</span>` : ""}` : S.counts ? `${S.counts.read} read · ${S.counts.year} this year` : "Hasn't shared anything yet";
+      const line = x ? `📖 <i>${esc(x.t)}</i>${pct !== null ? ` · ${pct}%` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1}</span>` : ""}${S.at ? ` <span class="frfresh">· ${fresh(S.at)}</span>` : ""}` : S.counts ? `${S.counts.read} read · ${S.counts.year} this year` : "Hasn't shared anything yet";
       return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small></span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="How closely your reading DNA matches">${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}</div>`;
     }
     // ---- letters: recommend a book to a friend, on parchment ----
@@ -7743,7 +7838,7 @@ alter publication supabase_realtime add table public.library;`;
         ${incoming.length || unread().length ? `<section class="fsec fpost" id="f-post"><h3>✉ Your post <span class="pill">${incoming.length + unread().length}</span></h3>
           ${incoming.map(p => `<div class="freqcard">${personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button>`).replace('<div class="fperson"', '<div class="fperson"')}<small class="note">wants to be your friend</small></div>`).join("")}
           ${unread().length ? `<div class="envrow">${unread().map(l => `<button type="button" class="envbtn" data-lenv="${l.id}" aria-label="Open the letter from ${esc(whoIs(l.sender).name)}">${envelopeHTML(l)}</button>`).join("")}</div>` : ""}</section>` : ""}
-        <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
+        <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
         ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
           ${letters.some(l => l.sender === U().id) ? `<div class="label" style="margin-top:8px">Sent</div>${letters.filter(l => l.sender === U().id).map(l => letterThumb(l, true)).join("")}` : ""}</details>` : ""}
@@ -7872,11 +7967,12 @@ alter publication supabase_realtime add table public.library;`;
       const le = e.target.closest("[data-lenv]"); if (le) { openEnvelope(le.dataset.lenv, le); return; }
       const lw = e.target.closest("[data-lwrite]"); if (lw) { compose({ to: lw.dataset.lwrite || undefined }); return; }
       if (e.target.closest("[data-fbrowse]")) { search = null; await browse(); return; }
+      const rf = e.target.closest("[data-frefresh]"); if (rf) { rf.classList.add("spin"); await refreshShelves(); render(); toast("Friends' progress refreshed ✦", 1600); return; }
       if (e.target.closest("[data-finvite]")) { const txt = `Come read with me on My Book Nook 📚✨\n${location.origin}${location.pathname}\nCreate an account with the invite code: booknook26\nThen add me: @${ME().handle}`;
         try { if (navigator.share) await navigator.share({ text: txt }); else { await navigator.clipboard.writeText(txt); toast("Invitation copied. Paste it into a message."); } } catch { try { await navigator.clipboard.writeText(txt); toast("Invitation copied."); } catch {} } return; }
     });
     document.addEventListener("submit", e => { if (e.target.id !== "f-find") return; e.preventDefault(); find($("#f-q").value); });
-    async function show(){ render(); await load(true); render(); pushShare(); }
+    async function show(){ render(); await load(true); render(); pushShare(); goLive(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
     return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter };
   })();
@@ -8747,11 +8843,11 @@ alter publication supabase_realtime add table public.library;`;
     let field = "", controls = "";
     if (d.stage === "attack") {
       const x = d.sel != null ? d.hands[0][d.sel] : null;
-      field = `<div class="dtable"><div class="dside">${x ? fieldCard(x) : `<div class="dslot">Choose an attacker from your hand</div>`}</div><div class="dvs">⚑</div><div class="dside">${d.hands[1].length ? `<div class="dslot fam">${esc(famN)} will defend</div>` : ""}</div></div>`;
+      field = `<div class="dtable"><div class="dside">${x ? fieldCard(x) : `<div class="duelslot">Choose an attacker from your hand</div>`}</div><div class="dvs">⚑</div><div class="dside">${d.hands[1].length ? `<div class="duelslot fam">${esc(famN)} will defend</div>` : ""}</div></div>`;
       controls = x ? `<div class="dstats">${STATS.map(([k, g, n]) => `<button type="button" class="dstat s-${k}" data-duelstat="${k}"><i>${g}</i><span>${n}</span><b>${cardValue(x, k, "atk", 0)}</b></button>`).join("")}</div><p class="note dcenter">Attack with which stat? Numbers include abilities and fellowship.</p>` : "";
     } else if (d.stage === "defend") {
       const x = d.sel != null ? d.hands[0][d.sel] : null;
-      field = `<div class="dtable"><div class="dside">${x ? fieldCard(x) : `<div class="dslot">Choose a defender from your hand</div>`}</div><div class="dvs">${statName(d.stat)[1]}</div><div class="dside">${fieldCard(d.atk)}</div></div>`;
+      field = `<div class="dtable"><div class="dside">${x ? fieldCard(x) : `<div class="duelslot">Choose a defender from your hand</div>`}</div><div class="dvs">${statName(d.stat)[1]}</div><div class="dside">${fieldCard(d.atk)}</div></div>`;
       controls = `<p class="dcenter"><b>${esc(famN)} attacks with ${statName(d.stat)[2]}: ${cardValue(d.atk, d.stat, "atk", 1)}</b>${x ? ` · your ${esc(x.c.name)} defends with ${cardValue(x, d.stat, "def", 0)}` : ""}</p>
         <div class="packacts dacts">${d.twist[0] ? `<button class="btn small" type="button" data-twist>✧ Plot twist: change the stat</button>` : `<span class="note">Plot twist used</span>`}${x ? `<button class="btn primary" type="button" data-defend>Defend!</button>` : ""}</div>
         ${d.twisting ? `<div class="dstats">${STATS.filter(([k]) => k !== d.stat).map(([k, g, n]) => `<button type="button" class="dstat s-${k}" data-twiststat="${k}"><i>${g}</i><span>${n}</span><b>${x ? cardValue(x, k, "def", 0) : "?"}</b></button>`).join("")}</div>` : ""}`;
@@ -10145,8 +10241,15 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.4";
+  const APP_VERSION = "3.5";
   const CHANGELOG = [
+    ["3.5", "24 Oct 2026", "Seven bookcase designs and livelier friends", [
+      "New in Customise → Design: Old library (cornice, fluted pillars, a rolling ladder), Carved wood (crest and scrollwork), Gothic (pointed arch and rose window), Rustic cottage, Glass cabinet and Floating shelves, in any colour theme",
+      "The name plank is easier to read: gold lettering on dark walnut",
+      "Friends' reading progress refreshes every 30 seconds in the Friends room and when you come back to the app, with a ↻ button and an \"updated … ago\" note",
+      "Fixed: tapping a book in the side shelf left you stuck in that window",
+      "Fixed: in Decorate mode the + spots stretched and pushed your books far to the right",
+    ]],
     ["3.4", "23 Oct 2026", "A starlit hallway, real duels and a familiar wardrobe", [
       "The hallway of doors is smaller and starlit, with candle sconces, drifting sparks and a glowing welcome; a switch brings back the simple tiles",
       "Customise bookcase is compact: one section at a time behind small tabs, and each bookcase theme has its own little icon",
@@ -10399,6 +10502,28 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       ${plank.style === "custom" ? `<label class="field"><span class="label">Your words</span><input id="plank-custom" value="${esc(plank.custom || "")}" maxlength="34" placeholder="e.g. Kod Bojane ✦"></label>` : ""}
       <p class="note">Serbian names get the right form on their own (Bojana → Bojanina polica, Marko → Markova polica, Miloš → Miloševa polica), in Latin or Cyrillic letters.</p>`;
   }
+
+  // ================= bookcase designs =================
+  const KEY_DESIGN = "reading-ledger-casedesign";
+  let caseDesign = lsGet(KEY_DESIGN, "arch");
+  const DESIGNS = [
+    ["arch", "Classic arch", '<path d="M6 30V12Q20 2 34 12v18z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 20h24M8 26h24" stroke="currentColor" stroke-width="1.4"/>'],
+    ["library", "Old library", '<path d="M3 6h34v4H3z" fill="currentColor"/><path d="M6 10v20h28V10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 12v16M31 12v16" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 1.5"/><path d="M9 13h22" stroke="currentColor" stroke-width="1"/><path d="M12 20h16M12 26h16" stroke="currentColor" stroke-width="1.4"/>'],
+    ["carved", "Carved wood", '<path d="M6 30V13Q20 3 34 13v17z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M8 28c0-5 2-8 6-9M32 28c0-5-2-8-6-9M10 15c2-2 5-2 6 0" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="20" cy="7" r="1.6" fill="currentColor"/><path d="M10 22h20" stroke="currentColor" stroke-width="1.4"/>'],
+    ["gothic", "Gothic", '<path d="M7 30V14Q8 6 20 2Q32 6 33 14v16z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="11" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M9 22h22" stroke="currentColor" stroke-width="1.4"/>'],
+    ["rustic", "Rustic cottage", '<path d="M5 6h30v24H5z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 17h30M5 23h30" stroke="currentColor" stroke-width="2.4"/><circle cx="8" cy="17" r="1" fill="var(--bg)"/><circle cx="32" cy="17" r="1" fill="var(--bg)"/><path d="M8 12h24" stroke="currentColor" stroke-width=".8" stroke-dasharray="3 2"/>'],
+    ["glass", "Glass cabinet", '<path d="M6 8h28v22H6z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 8v22M6 19h28" stroke="currentColor" stroke-width="1.4"/><path d="M9 11l5 6M23 11l5 6" stroke="currentColor" stroke-width=".9" opacity=".7"/><rect x="18" y="5" width="4" height="3" fill="currentColor"/>'],
+    ["floating", "Floating shelves", '<path d="M6 12h28M6 22h28" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M10 12V5h3v7M15 12V6h2v6M24 22v-6h3v6" fill="currentColor"/>'],
+  ];
+  const DESIGN_ORN = { library: `<i class="dsg-orn lib-ladder" aria-hidden="true"><svg viewBox="0 0 40 400" preserveAspectRatio="none" width="100%" height="100%"><g stroke="var(--wood1)" stroke-width="5" stroke-linecap="round"><path d="M8 8V398M32 8V398"/></g><g stroke="var(--wood2)" stroke-width="4"><path d="M8 36H32"/><path d="M8 72H32"/><path d="M8 108H32"/><path d="M8 144H32"/><path d="M8 180H32"/><path d="M8 216H32"/><path d="M8 252H32"/><path d="M8 288H32"/><path d="M8 324H32"/><path d="M8 360H32"/><path d="M8 396H32"/></g><path d="M2 6Q20 -4 38 6" stroke="var(--metal)" stroke-width="3" fill="none"/><circle cx="8" cy="396" r="4" fill="#2A1A0C"/><circle cx="32" cy="396" r="4" fill="#2A1A0C"/></svg></i>`, carved: `<i class="dsg-orn carved-crest" aria-hidden="true"><svg viewBox="0 0 220 60" width="220" height="60"><g fill="var(--wood1)" stroke="color-mix(in srgb,var(--metal) 70%,#000)" stroke-width="1.4"><path d="M110 4C96 4 90 16 94 26C82 18 66 20 60 32C52 26 36 26 28 38C44 36 52 44 54 54H166C168 44 176 36 192 38C184 26 168 26 160 32C154 20 138 18 126 26C130 16 124 4 110 4Z"/></g><g fill="none" stroke="var(--metal)" stroke-width="1.6" stroke-linecap="round"><path d="M110 12v30M100 22c4 6 6 12 10 20M120 22c-4 6-6 12-10 20M70 38c8-2 16 2 22 10M150 38c-8-2-16 2-22 10"/></g><circle cx="110" cy="10" r="3.4" fill="var(--metal)"/></svg></i>` };
+  function paintDesign(){ const bc = $("#bookcase"); if (bc) { bc.dataset.design = caseDesign; bc.querySelectorAll(".dsg-orn").forEach(x => x.remove()); if (DESIGN_ORN[caseDesign]) bc.insertAdjacentHTML("beforeend", DESIGN_ORN[caseDesign]); } const el = $("#design-tiles"); if (el) el.innerHTML = DESIGNS.map(([k, n, svg]) => `<button type="button" class="dsgtile" data-design="${k}" aria-pressed="${caseDesign === k}"><svg viewBox="0 0 40 34" width="40" height="34" aria-hidden="true">${svg}</svg>${n}</button>`).join(""); }
+  (() => {
+    const panel = $("#case-panel"); if (!panel) return;
+    const theme = panel.querySelector(":scope > section.cp");
+    theme?.insertAdjacentHTML("afterend", `<section class="cp wide"><h3>Design</h3><div class="dsgtiles" id="design-tiles"></div><p class="note" style="margin-top:6px">The shape and carving of your bookcase. It works with every colour theme.</p></section>`);
+    paintDesign();
+    panel.addEventListener("click", e => { const d = e.target.closest("[data-design]"); if (!d || !d.closest("#design-tiles")) return; caseDesign = d.dataset.design; lsSet(KEY_DESIGN, caseDesign); paintDesign(); try { decorateCase(); renderShelf(); } catch {} });
+  })();
   // ================= fairy lights =================
   const KEY_LIGHTS = "reading-ledger-lights";
   let lightStyle = lsGet(KEY_LIGHTS, "theme");
@@ -10422,7 +10547,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
 
   (() => {
     const panel = $("#case-panel"); if (!panel || panel.querySelector(".cptabs")) return;
-    const secs = [...panel.querySelectorAll(":scope > section.cp")], NAMES = ["Theme", "Order", "Per shelf", "Spines", "Lights", "Name plank"];
+    const secs = [...panel.querySelectorAll(":scope > section.cp")], NAMES = ["Theme", "Design", "Order", "Per shelf", "Spines", "Lights", "Name plank"];
     let cur = lsGet("reading-ledger-cptab", 0); if (!(cur < secs.length)) cur = 0;
     panel.insertAdjacentHTML("afterbegin", `<nav class="cptabs" role="tablist">${secs.map((sec, i) => `<button type="button" role="tab" data-cptab="${i}">${NAMES[i] || sec.querySelector("h3")?.textContent || "More"}</button>`).join("")}</nav>`);
     const show = i => { cur = i; lsSet("reading-ledger-cptab", i); secs.forEach((sec, k) => { sec.hidden = k !== i; }); panel.querySelectorAll("[data-cptab]").forEach(b => b.setAttribute("aria-selected", +b.dataset.cptab === i)); };
