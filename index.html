@@ -934,8 +934,9 @@ body.dragging-book .tier:not(.from){box-shadow:inset 0 12px 18px rgba(0,0,0,.45)
 .bubble::after{content:"✦";position:absolute;left:14px;bottom:-11px;font-size:14px;color:var(--aura);text-shadow:0 0 8px var(--aura);animation:twinkle 3s ease-in-out infinite}
 .bubglow{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(110deg,transparent 30%,color-mix(in srgb,var(--aura) 16%,transparent) 50%,transparent 70%) -200% 0/250% 100% no-repeat;animation:shimmer 7s ease-in-out infinite}
 @keyframes shimmer{0%,60%{background-position:-200% 0}100%{background-position:200% 0}}
-.bubble .wd{display:inline-block;opacity:0;filter:blur(3px);transform:translateY(3px);animation:wordin .45s ease-out forwards}
-@keyframes wordin{to{opacity:1;filter:none;transform:none}}
+.bubble .wd{display:inline-block;animation:wordin .42s ease-out backwards}
+@keyframes wordin{from{opacity:0;transform:translateY(3px)}}
+.offscreen .bubble .wd,.familiar.docked:not(.open):not(.peek) .bubble .wd{animation:none}
 .bubble blockquote.chat{font-style:normal;font-size:clamp(18px,2.2vw,22px)}
 .bubble .gest{font-style:italic;color:color-mix(in srgb,var(--ink) 55%,var(--aura));font-size:15px;margin-top:2px}
 @media (prefers-reduced-motion:reduce){.bubble .wd{animation:none;opacity:1;filter:none;transform:none}.runes text,.runes circle,.bubglow,.famhalo{animation:none}}
@@ -2221,6 +2222,145 @@ body:not(.hall-closed) .hdoor{display:none}
 .suitnext{margin:4px 0 8px;font-size:13px}.suitnote{margin:0 0 12px}
 @media (max-width:640px){.pk2c{width:104px}.pk2cards{gap:8px}.ncbigwrap{width:min(250px,70vw)}}
 @media (prefers-reduced-motion:reduce){.ncholo,.pkfoil,.packet,.ncback.r3{animation:none}}
+
+/* v3.3 familiar bubble: centred close, no stray scrollbar */
+.familiar.docked .famx{place-items:center;padding:0;width:32px;min-width:32px}
+.familiar.docked .famx svg{display:block}
+.familiar.docked .bubble{overflow:visible;max-height:none}
+.familiar.docked .bubble .chat{max-height:min(46vh,380px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+
+/* v3.3 drop previews */
+.dropghost{position:relative!important;opacity:.5;pointer-events:none!important;z-index:5;outline:2px dashed color-mix(in srgb,var(--gold) 80%,#fff);outline-offset:2px;border-radius:4px;filter:saturate(.8) brightness(1.15);animation:ghostpulse 1.2s ease-in-out infinite;transform:none!important;margin:0!important}
+.shelf{position:relative}
+@keyframes ghostpulse{0%,100%{opacity:.42}50%{opacity:.68}}
+.trinket.movable.lifted{opacity:.3}
+
+/* v3.3 the hallway of doors */
+.roomtabs .door,.roomtabs .mat,.roomtabs .hallsign{display:none}
+body.hall-grid .tabs.roomtabs{position:relative;display:flex!important;flex-wrap:wrap;justify-content:center;gap:18px 14px;padding:66px 22px 60px;border-radius:22px;overflow:hidden;
+  border:2px solid color-mix(in srgb,var(--gold) 50%,#5A3A1E);
+  background:
+    linear-gradient(180deg,transparent calc(100% - 46px),#5A3A22 calc(100% - 46px),#5A3A22 calc(100% - 42px),#7A5232 calc(100% - 42px)) ,
+    repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 1px,transparent 1px 80px),
+    radial-gradient(circle at 20% 30%,rgba(255,214,140,.22),transparent 30%),radial-gradient(circle at 80% 30%,rgba(255,214,140,.22),transparent 30%),
+    radial-gradient(circle,color-mix(in srgb,var(--gold) 16%,transparent) 1.4px,transparent 2px) 0 0/22px 22px,
+    linear-gradient(180deg,color-mix(in srgb,var(--paper) 70%,#C99A62),color-mix(in srgb,var(--paper) 55%,#A8743E));
+  box-shadow:inset 0 0 60px rgba(60,30,10,.35),var(--shadow)}
+.dark body.hall-grid .tabs.roomtabs,:root[data-theme="dark"] body.hall-grid .tabs.roomtabs{background-color:#2A1C14}
+body.hall-grid .roomtabs .hallsign{display:flex;position:absolute;top:14px;left:0;right:0;justify-content:center;align-items:center;gap:18px;pointer-events:none}
+.hstxt{font-family:var(--f-display);font-style:italic;font-weight:700;font-size:20px;color:#3A2410;padding:6px 18px;border-radius:6px;background:linear-gradient(180deg,#E8C98A,#C9A060);box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 0 0 1.5px rgba(90,58,30,.6),inset 0 0 0 4px rgba(255,240,200,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%}
+.sconce{display:block;width:14px;height:22px;border-radius:7px 7px 3px 3px;background:radial-gradient(circle at 50% 35%,#FFF2C4,#FFB34A 45%,#9A5A1E 75%);box-shadow:0 0 18px 8px rgba(255,190,90,.35)}
+body.hall-grid .roomtabs .tab{flex:0 0 calc(20% - 12px);min-width:0;display:flex!important;flex-direction:column;align-items:center;gap:6px;padding:0;border:0!important;background:none!important;box-shadow:none!important;perspective:700px;color:inherit}
+body.hall-grid .roomtabs .tab>.ti,body.hall-grid .roomtabs .tab>.tl{display:none}
+body.hall-grid .roomtabs .tab .td{display:block;text-align:center;font-size:12.5px;line-height:1.25;color:#4A3018;max-width:150px}
+body.hall-grid .roomtabs .door{display:block;position:relative;width:min(100%,128px);aspect-ratio:3/5;border-radius:50% 50% 3px 3px/30% 30% 3px 3px;
+  background:radial-gradient(ellipse at 50% 62%,#FFF0C2 0,#FFC566 28%,#C26A22 62%,#4A240E 100%);
+  box-shadow:0 0 0 5px #4E3220,0 0 0 7px #7A5434,0 0 0 8px rgba(0,0,0,.3),0 10px 18px -6px rgba(0,0,0,.45)}
+body.hall-grid .roomtabs .leaf{position:absolute;inset:0;border-radius:inherit;transform-origin:4% 50%;transition:transform .55s cubic-bezier(.3,1.15,.5,1),box-shadow .3s;display:flex;flex-direction:column;align-items:center;
+  background:linear-gradient(90deg,rgba(0,0,0,.22),transparent 10%,transparent 90%,rgba(0,0,0,.25)),repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 7px,rgba(0,0,0,.05) 7px 8px,transparent 8px 13px),var(--door);
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.28),inset 0 0 18px rgba(0,0,0,.25)}
+.leaf .fan{display:grid;place-items:center;width:58%;aspect-ratio:2/1.05;margin-top:13%;border-radius:999px 999px 2px 2px;border:2.5px solid #C9A060;font-size:19px;line-height:1;color:#7A3A10;
+  background:radial-gradient(circle at 50% 100%,#FFF4CF,#FFD27A 45%,#E39A3E 100%);box-shadow:inset 0 0 8px rgba(120,60,10,.5),0 0 12px rgba(255,200,110,.35)}
+.leaf .pane{position:absolute;left:16%;right:16%;border-radius:3px;box-shadow:inset 2px 2px 3px rgba(0,0,0,.3),inset -1px -1px 2px rgba(255,255,255,.15)}
+.leaf .p1{top:46%;height:16%}.leaf .p2{top:68%;height:24%}
+.leaf .plq{position:absolute;top:36%;left:50%;transform:translate(-50%,-50%);font-family:var(--f-cap);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#3A2410;white-space:nowrap;padding:3px 7px;border-radius:3px;background:linear-gradient(180deg,#F2D898,#C99A52);box-shadow:0 1px 2px rgba(0,0,0,.4),inset 0 0 0 1px rgba(90,58,30,.45);z-index:1}
+.leaf .knob{position:absolute;right:11%;top:61%;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF1C0,#D2A24E 45%,#7A5220);box-shadow:0 1px 2px rgba(0,0,0,.5);z-index:1}
+body.hall-grid .roomtabs .mat{display:block;width:min(86%,110px);height:9px;margin-top:-2px;border-radius:3px;background:repeating-linear-gradient(90deg,#8A5A32 0 3px,#6A4224 3px 6px);box-shadow:0 2px 3px rgba(0,0,0,.3)}
+body.hall-grid .roomtabs .tab:hover .leaf,body.hall-grid .roomtabs .tab:focus-visible .leaf{transform:rotateY(-24deg)}
+body.hall-grid .roomtabs .tab:hover .door{box-shadow:0 0 0 5px #4E3220,0 0 0 7px #7A5434,0 0 0 8px rgba(0,0,0,.3),0 10px 18px -6px rgba(0,0,0,.45),0 18px 30px -6px rgba(255,190,90,.55)}
+body.hall-grid .roomtabs .tab.opening .leaf{transform:rotateY(-82deg)}
+body.hall-grid .roomtabs .tab.opening .door{box-shadow:0 0 0 5px #4E3220,0 0 0 7px #7A5434,0 0 40px 10px rgba(255,200,110,.6)}
+body.hall-grid .roomtabs .tab[aria-selected="true"] .plq{background:linear-gradient(180deg,#FFF0B8,#E0B45A)}
+@media (max-width:900px){body.hall-grid .tabs.roomtabs{gap:16px 10px;padding:60px 12px 56px}body.hall-grid .roomtabs .tab{flex-basis:calc(25% - 8px)}}
+@media (max-width:640px){body.hall-grid .tabs.roomtabs{gap:14px 8px;padding:56px 8px 50px}body.hall-grid .roomtabs .tab{flex-basis:calc(25% - 6px)}
+  body.hall-grid .roomtabs .tab .td{display:none}.leaf .plq{font-size:8.5px;letter-spacing:.08em;padding:2px 5px}.leaf .fan{font-size:15px}.hstxt{font-size:16px}
+  body.hall-grid .roomtabs .door{width:min(100%,76px)}.leaf .plq{font-size:7.5px;letter-spacing:.04em;padding:2px 4px}.leaf .fan{font-size:13px}}
+@media (prefers-reduced-motion:reduce){body.hall-grid .roomtabs .leaf{transition:none}}
+/* the compact room bar: little arched doors too */
+body.hall-room .roomtabs .tab{border-radius:14px 14px 5px 5px}
+body.hall-room .roomtabs .tab[aria-selected="true"]{background:var(--door,var(--ink));box-shadow:inset 0 0 0 2px rgba(0,0,0,.2),0 3px 10px rgba(0,0,0,.2)}
+body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
+
+.wlangnote{font-size:12.5px;color:var(--muted);margin:2px 0 6px;font-style:italic}.wlangnote .linkbtn{font-size:12.5px;font-style:normal}
+
+/* v3.3 small icon buttons under the bookcase */
+.casebtns .cicon{display:inline-flex;align-items:center;gap:6px;padding:5px 11px 5px 9px;font-size:13px;min-height:32px;border-radius:999px}
+.casebtns .cicon svg{flex:0 0 auto;display:block}
+@media (max-width:480px){.casebtns .cicon{padding:6px 9px;font-size:12px;gap:5px}}
+/* name plank */
+.nameplank{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;display:flex;flex-direction:column;align-items:center;transform-origin:50% 0;animation:plankswing 6s ease-in-out infinite}
+.pkrope{position:absolute;top:-10px;width:2px;height:16px;background:repeating-linear-gradient(180deg,#C9A060 0 3px,#8A6430 3px 5px)}
+.pkrope.l{left:22%;transform:rotate(8deg)}.pkrope.r{right:22%;transform:rotate(-8deg)}
+.pkboard{position:relative;margin-top:4px;display:flex;align-items:center;gap:8px;padding:5px 18px 6px;border-radius:7px;max-width:min(78vw,420px);
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 9px,rgba(0,0,0,.06) 9px 10px,transparent 10px 17px),linear-gradient(180deg,#B07A46,#8A5A2E 55%,#6E4422);
+  box-shadow:0 6px 12px -4px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,230,190,.35),inset 0 -2px 0 rgba(0,0,0,.25),inset 0 0 0 1px rgba(60,35,15,.55)}
+.pktxt{font-family:var(--f-display);font-weight:700;font-style:italic;font-size:17px;line-height:1.1;color:#3A200C;text-shadow:0 1px 0 rgba(255,225,175,.45),0 -1px 0 rgba(0,0,0,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pknail{width:6px;height:6px;border-radius:50%;flex:0 0 auto;background:radial-gradient(circle at 35% 30%,#F2D898,#8A6430);box-shadow:0 1px 1px rgba(0,0,0,.5)}
+@keyframes plankswing{0%,100%{transform:translateX(-50%) rotate(-1.4deg)}50%{transform:translateX(-50%) rotate(1.4deg)}}
+#bookcase:has(.nameplank) .garland{top:30px}
+@media (max-width:640px){.pktxt{font-size:14px}.pkboard{padding:4px 12px 5px}.nameplank{top:8px}}
+@media (prefers-reduced-motion:reduce){.nameplank{animation:none}}
+.plankrow{max-width:320px}.plankstyles{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.plankstyles button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:6px 10px;font:inherit;font-family:var(--f-display);font-style:italic;font-size:15px;cursor:pointer;text-align:left}
+.plankstyles button small{font-family:var(--f-cap);font-style:normal;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.plankstyles button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 30%,transparent)}
+/* fairy light styles */
+#bookcase[data-lights="off"] .garland{display:none}
+#bookcase[data-lights="warm"] .garland i{--light:#FFD98A}
+#bookcase[data-lights="plain"] .garland i{--light:#FFF8EA;width:5px;height:5px;animation:none;opacity:.92;box-shadow:0 0 4px 1px rgba(255,250,235,.7),0 0 10px 3px rgba(255,250,235,.18)}
+#bookcase[data-lights="candle"] .garland i{--light:#FFB04A;animation:flick 1.3s ease-in-out infinite}
+@keyframes flick{0%,100%{opacity:1}20%{opacity:.75}35%{opacity:.95}55%{opacity:.6}75%{opacity:.9}}
+#bookcase[data-lights="starlight"] .garland i{--light:#CFE4FF;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:0;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);box-shadow:none;filter:drop-shadow(0 0 4px #9CC8FF);animation:twinkle 2.2s ease-in-out infinite}
+#bookcase[data-lights="fairy"] .garland i{width:5px;height:5px;animation:fairy 4.5s ease-in-out infinite}
+#bookcase[data-lights="fairy"] .garland i:nth-child(3n){--light:#FFB8E6}#bookcase[data-lights="fairy"] .garland i:nth-child(3n+1){--light:#C8B6FF}#bookcase[data-lights="fairy"] .garland i:nth-child(3n+2){--light:#B6FFE0}
+@keyframes fairy{0%,100%{translate:0 0;opacity:.6}50%{translate:0 -5px;opacity:1}}
+#bookcase[data-lights="fairy"] .garland path{opacity:.35}
+#bookcase[data-lights="rainbow"] .garland i:nth-child(6n+1){--light:#FF5A5A}#bookcase[data-lights="rainbow"] .garland i:nth-child(6n+2){--light:#FFA03A}#bookcase[data-lights="rainbow"] .garland i:nth-child(6n+3){--light:#FFE04A}
+#bookcase[data-lights="rainbow"] .garland i:nth-child(6n+4){--light:#5AD86A}#bookcase[data-lights="rainbow"] .garland i:nth-child(6n+5){--light:#4AA8FF}#bookcase[data-lights="rainbow"] .garland i:nth-child(6n){--light:#B46AFF}
+.lightchips button{display:inline-flex;align-items:center;gap:7px}
+.lprev{display:inline-flex;gap:3px;padding:3px 5px;border-radius:999px;background:#2A1C14}.lprev i{width:5px;height:5px;border-radius:50%;background:#FFD98A;box-shadow:0 0 4px #FFD98A}
+.lp-plain i{background:#FFF8EA;box-shadow:0 0 3px #fff}.lp-candle i{background:#FFB04A;box-shadow:0 0 4px #FF9A2A}.lp-starlight i{background:#CFE4FF;border-radius:0;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);width:7px;height:7px}
+.lp-fairy i:nth-child(1){background:#FFB8E6}.lp-fairy i:nth-child(2){background:#C8B6FF}.lp-fairy i:nth-child(3){background:#B6FFE0}.lp-fairy i:nth-child(4){background:#FFB8E6}
+.lp-rainbow i:nth-child(1){background:#FF5A5A}.lp-rainbow i:nth-child(2){background:#FFE04A}.lp-rainbow i:nth-child(3){background:#5AD86A}.lp-rainbow i:nth-child(4){background:#4AA8FF}
+.lp-off i{background:#5A4A3A;box-shadow:none}
+
+/* v3.3 card stats */
+.ncstats{display:none;justify-content:space-around;gap:1cqi;padding:1.6cqi 2cqi;border-top:1px solid color-mix(in srgb,var(--g) 45%,transparent);background:rgba(0,0,0,.25);font-family:var(--f-cap);font-size:5.8cqi;line-height:1}
+.nst{display:inline-flex;align-items:center;gap:1cqi;color:#FFF3DC}.nst i{font-style:normal;color:var(--g);font-size:5.2cqi}
+@container (min-width:128px){.ncstats{display:flex}}
+.cstatbox{width:min(280px,72vw);margin:0 auto 12px;display:grid;gap:6px}.cability em{font-style:italic}.dabil{font-size:12.5px;text-align:center;color:var(--muted);line-height:1.3}.dabil b{color:var(--ink);display:block}
+.cstat{position:relative;display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--ink) 6%,transparent);overflow:hidden;font-size:14px}
+.cstat b{font-family:var(--f-display);font-size:18px;position:relative}.cstat span{position:relative}
+.cstat i{position:absolute;left:0;top:0;bottom:0;opacity:.18;border-radius:8px}
+.s-str i,.cstat.s-str i{background:#C24A3A}.cstat.s-mag i{background:#6A4AC0}.cstat.s-wit i{background:#2E7A6A}.cstat.s-hrt i{background:#C0466E}
+.cability{font-size:13.5px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:2px}.cability b{color:var(--ink)}.cability span{font-family:var(--f-cap);font-size:11px;letter-spacing:.1em}
+.pkbtns{display:flex;gap:6px;flex-wrap:wrap}
+.allcards .pk2c{width:118px;cursor:default}
+@media (max-width:640px){.allcards .pk2c{width:96px}}
+/* duels */
+.duelintro{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}.duelintro h3{margin:0;font-family:var(--f-display);font-style:italic;font-size:24px}.duelintro .note{max-width:560px}
+.duelrec{font-size:14px;margin:4px 0 0}.duelgo{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.duelgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))!important}
+.duelpick{position:relative}.duelpick.on .nc{outline:3px solid var(--accent);outline-offset:3px}
+.dppow{display:block;font-family:var(--f-cap);font-size:11px;letter-spacing:.08em;margin-top:5px;color:var(--muted)}
+.dpn{position:absolute;top:-6px;right:-6px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--paper);font-weight:700;font-size:13px;z-index:3}
+.dscore{display:flex;justify-content:space-between;align-items:center;font-size:16px;padding:8px 14px;border-radius:12px;background:color-mix(in srgb,var(--ink) 6%,transparent);margin-bottom:12px}.dscore b{font-family:var(--f-display);font-size:24px}
+.dround{font-family:var(--f-cap);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dtable{display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap}
+.dtable{flex-wrap:nowrap}.dside{display:flex;flex-direction:column;align-items:center;gap:6px;width:min(190px,40vw)}.dside .ncstats{display:flex;position:static;width:100%;container-type:normal;font-size:13px;border-radius:8px;padding:6px}.dside .nst i{font-size:12px}
+.dcard{width:100%;transition:transform .4s}.dcard.won{transform:scale(1.04);filter:drop-shadow(0 0 14px rgba(255,210,110,.7))}.dcard.lost{opacity:.6;transform:scale(.96)}
+.dvs{font-family:var(--f-display);font-style:italic;font-weight:700;font-size:30px;color:var(--accent)}
+.dstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:520px;margin:14px auto 6px}
+.dstat{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;font:inherit;color:inherit}
+.dstat i{font-style:normal;font-size:18px}.dstat span{font-size:12px;color:var(--muted)}.dstat b{font-family:var(--f-display);font-size:22px}
+.dstat:hover{border-color:var(--accent);transform:translateY(-2px)}
+.dstat.s-str i{color:#C24A3A}.dstat.s-mag i{color:#6A4AC0}.dstat.s-wit i{color:#2E7A6A}.dstat.s-hrt i{color:#C0466E}
+.dthink{text-align:center;animation:twinkle 1.2s ease-in-out infinite}
+.dresult{text-align:center;margin:14px auto 4px;padding:10px;border-radius:12px;max-width:480px;display:flex;flex-direction:column;gap:2px}.dresult.w{background:color-mix(in srgb,#3E8A4A 16%,transparent)}.dresult.l{background:color-mix(in srgb,#B8373A 14%,transparent)}.dresult.d{background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.dend{text-align:center}.dend h3{font-family:var(--f-display);font-style:italic;font-size:32px;margin:6px 0}.dend.won h3{color:#B8862E}
+.dlog{display:grid;gap:4px;max-width:520px;margin:10px auto}.dlrow{display:grid;grid-template-columns:30px 1fr auto 1fr;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;font-size:13.5px}.dlrow b:last-child{text-align:right}
+.dlrow.w{background:color-mix(in srgb,#3E8A4A 14%,transparent)}.dlrow.l{background:color-mix(in srgb,#B8373A 12%,transparent)}.dlrow.d{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+@media (max-width:640px){.dstats{grid-template-columns:repeat(2,minmax(0,1fr))}.dvs{font-size:22px}.dtable{gap:8px}.dside{width:42vw}.duelgrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
 </head>
 <body>
@@ -2229,7 +2369,7 @@ body:not(.hall-closed) .hdoor{display:none}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.2</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.3</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2278,7 +2418,7 @@ body:not(.hall-closed) .hdoor{display:none}
   <div class="dnfshelf" id="dnf-shelf" hidden></div>
   <div class="casebar">
     <div class="casehint">Tap a spine to open it · drag it along a shelf to rearrange · drag it to another shelf to move it</div>
-    <div class="casebtns"><button class="btn small casetoggle" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel">⚙ Customise bookcase</button><button class="btn small casetoggle" type="button" id="decor-toggle" aria-pressed="false">✎ Decorate shelves</button><button class="btn small casetoggle" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel"><span class="lgdots" aria-hidden="true"><i></i><i></i><i></i></span> Genre colours</button></div>
+    <div class="casebtns"><button class="btn small casetoggle cicon" type="button" id="case-toggle" aria-expanded="false" aria-controls="case-panel" title="Customise bookcase: theme, order, lights, name plank"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 2.5h14v15H3z M3 7.5h14M3 12.5h14" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5" y="3.6" width="2" height="3.2" fill="currentColor"/><rect x="8" y="4.2" width="1.6" height="2.6" fill="currentColor"/><rect x="11" y="8.6" width="2" height="3.2" fill="currentColor"/><rect x="5.5" y="13.6" width="1.8" height="3.2" fill="currentColor"/><rect x="8.2" y="13.8" width="2.2" height="3" fill="currentColor"/></svg><span class="cil">Customise</span></button><button class="btn small casetoggle cicon" type="button" id="decor-toggle" aria-pressed="false" title="Decorate shelves with trinkets"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M6 17h8l-1-6H7z" fill="currentColor"/><path d="M10 11c0-3-2-4-4-5 2 0 3 1 4 2 0-2 1-4 3-5-1 2-2 4-2 8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="15.5" cy="5" r="1.2" fill="currentColor"/></svg><span class="cil">Decorate</span></button><button class="btn small casetoggle cicon" type="button" id="legend-toggle" aria-expanded="false" aria-controls="legend-panel" title="Genre colours"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="3" y="3" width="3.6" height="14" rx=".8" fill="#4B2C8A"/><rect x="8.2" y="5" width="3.6" height="12" rx=".8" fill="#C0466E"/><rect x="13.4" y="2.5" width="3.6" height="14.5" rx=".8" fill="#1F5A3E"/></svg><span class="cil">Colours</span></button></div>
     <div class="legendpanel" id="legend-panel" hidden></div>
     <div class="decorpanel" id="decor-panel" hidden></div>
     <div class="casepanel" id="case-panel" hidden>
@@ -2337,7 +2477,7 @@ body:not(.hall-closed) .hdoor{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.2 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.3 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2362,7 +2502,7 @@ body:not(.hall-closed) .hdoor{display:none}
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   // look-and-feel settings that follow you between devices with your account
-  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster"];
+  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel"];
   const SETTINGS_T = "reading-ledger-settings-t";
   let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
   setTimeout(() => { settingsReady = true; }, 6000);
@@ -2386,6 +2526,7 @@ body:not(.hall-closed) .hdoor{display:none}
     if (!lsSet(KEY, books)) toast("Couldn't save. Your browser storage may be full or turned off.");
     lsSet(KEY_DEL, deleted);
     if (changed) window.__ledgerSync?.schedule();
+    if (changed) { try { Social.queueShare(); } catch {} try { dnaFreshen(); } catch {} }
     mirrorSave();
   }
   // a second copy of the library in IndexedDB, and a request that the browser never clears this site's storage
@@ -3002,12 +3143,17 @@ body:not(.hall-closed) .hdoor{display:none}
     if (e.target.closest("[data-zodpick]")) { zodPicking = !zodPicking; renderPortrait(); return; }
     const z = e.target.closest("[data-zod]"); if (z) { zodiac = z.dataset.zod || null; lsSet(KEY_ZOD, zodiac); zodPicking = false; renderPortrait(); if (zodiac) toast(`${ZODIAC.find(x => x[0] === zodiac)[1]} added to your Reader DNA`); }
   });
+  // a finished book that arrived without genres or a blurb gets them fetched quietly, so it counts in your Reader DNA
+  let dnaFreshT = null;
+  function dnaFreshen(){ clearTimeout(dnaFreshT); dnaFreshT = setTimeout(() => { if (navigator.onLine === false) return; const ids = books.filter(b => (b.shelf === "read" || b.shelf === "reading") && !b.descChecked && !b.dnaTried).map(b => { b.dnaTried = true; return b.id; }).slice(0, 8); if (ids.length) { try { fetchMissing({ quiet: true, only: ids }); } catch {} } }, 2500); }
+  // tell the reader when a book changed who they are
+  function noteSoulShift(name, n){ const last = lsGet("reading-ledger-lastsoul", null); lsSet("reading-ledger-lastsoul", { name, n }); if (last && last.name && last.name !== name && n > last.n) setTimeout(() => toast(`✦ Your Reader DNA shifted with that book: you're now ${name}`, 4500), 900); }
   function renderPortrait(){
     const el = $("#portrait"), read = readBooks();
     if (read.length < 2) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader DNA</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Shelve a couple of books as Read and your Reader DNA appears here: the mix of reader types that makes you you. It shifts a little with every book.</p>`; return; }
     const D = soulData(), dna = D.dna.slice(0, 5);
     if (!dna.length) { el.innerHTML = `<div class="dnahead"><div class="label">Your Reader's Soul</div>${zodHead()}</div>${zodPicker()}${zodLine()}<p class="dnadesc">Fetch details for your books (Library → Fetch missing covers, details & tropes) so your Reader DNA can be read.</p>`; return; }
-    const [top, second, third] = dna, LV = readerLevel(), soulName = hybridName(top, second), HB = habitsOf(D.read);
+    const [top, second, third] = dna, LV = readerLevel(), soulName = hybridName(top, second), HB = habitsOf(D.read); noteSoulShift(soulName, D.read.length);
     el.innerHTML = `<div class="dnabar"><span class="dnaglyph" style="color:${top.c}">${top.g}</span>
       <div class="dnabarmain"><div class="label">Your Reader's Soul · <button type="button" class="linkbtn lvlink" data-soullevels title="What do levels mean?">Level ${LV.level} · ${esc(LV.title)} ⓘ</button></div>
         <div class="dnabarname"><b>${esc(soulName)}</b></div>
@@ -3685,7 +3831,7 @@ body:not(.hall-closed) .hdoor{display:none}
   function setDecorating(on){
     decorating = on; decorPick = null;
     if (on && !decor) { decor = autoLayout(shelfLists().lists); Object.values(decor).forEach(a => a.forEach(t => t.id = decorId())); saveDecor(); }
-    $("#decor-toggle").textContent = on ? "✓ Done decorating" : "✎ Decorate shelves";
+    $("#decor-toggle").querySelector(".cil").textContent = on ? "Done" : "Decorate";
     $("#decor-toggle").setAttribute("aria-pressed", on);
     renderShelf(); renderDrawer();
     if (on) $("#bookcase").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -3955,9 +4101,9 @@ body:not(.hall-closed) .hdoor{display:none}
     el.innerHTML = `<div class="gridbooks">${shown.map(cardOf).join("")}</div>`;
   }
   let fetching = false;
-  async function fetchMissing(){
+  async function fetchMissing(opts = {}){
     if (fetching) return; fetching = true;
-    const todo = books.filter(b => (!b.cover && !b.coverChecked) || !b.descChecked);
+    const todo = books.filter(b => ((!b.cover && !b.coverChecked) || !b.descChecked) && (!opts.only || opts.only.includes(b.id)));
     let covers = 0, i = 0, fails = 0;
     for (const b0 of todo) {
       i++;
@@ -3992,6 +4138,7 @@ body:not(.hall-closed) .hdoor{display:none}
       await sleep(250);
     }
     save(); fetching = false; render();
+    if (opts.quiet) return;
     toast(fails === todo.length && todo.length ? "Couldn't reach Open Library. Check your internet connection and try again." : `Done. Found ${covers} cover${covers === 1 ? "" : "s"}.`, 4000);
   }
 
@@ -5157,7 +5304,7 @@ body:not(.hall-closed) .hdoor{display:none}
     const cs = $("#bookcase");
     let dragId = null, fromShelf = null;
     const marker = document.createElement("i"); marker.className = "insert";
-    const clear = () => { document.body.classList.remove("dragging-book"); cs.querySelectorAll(".tier").forEach(t => t.classList.remove("over", "from")); cs.querySelectorAll(".spine.dragging").forEach(s => s.classList.remove("dragging")); marker.remove(); };
+    const clear = () => { hideDropGhost(); document.body.classList.remove("dragging-book"); cs.querySelectorAll(".tier").forEach(t => t.classList.remove("over", "from")); cs.querySelectorAll(".spine.dragging").forEach(s => s.classList.remove("dragging")); marker.remove(); };
     const spot = (tier, x) => {
       const sp = [...tier.querySelectorAll(".spine[data-id]")].filter(s => s.dataset.id !== dragId);
       let idx = sp.length; for (let i = 0; i < sp.length; i++) { const r = sp[i].getBoundingClientRect(); if (x < r.left + r.width / 2) { idx = i; break; } }
@@ -5174,13 +5321,14 @@ body:not(.hall-closed) .hdoor{display:none}
       const t = e.target.closest("[data-tier]"); if (!t || !dragId) return;
       e.preventDefault(); e.dataTransfer.dropEffect = "move";
       cs.querySelectorAll(".tier.over").forEach(x => x !== t && x.classList.remove("over"));
+      const srcSp = document.querySelector(`.spine[data-id="${CSS.escape(dragId)}"]`); showDropGhost(t, srcSp, e.clientX);
       if (t.dataset.tier !== fromShelf) { t.classList.add("over"); marker.remove(); return; }
       const { idx, sp } = spot(t, e.clientX), tr = t.getBoundingClientRect();
       const x = sp.length ? (idx < sp.length ? sp[idx].getBoundingClientRect().left - 3 : sp[sp.length - 1].getBoundingClientRect().right + 1) : tr.left + 14;
       marker.style.left = (x - tr.left) + "px";
       if (marker.parentNode !== t) t.append(marker);
     });
-    cs.addEventListener("dragleave", e => { const t = e.target.closest("[data-tier]"); if (t && !t.contains(e.relatedTarget)) { t.classList.remove("over"); if (marker.parentNode === t) marker.remove(); } });
+    cs.addEventListener("dragleave", e => { const t = e.target.closest("[data-tier]"); if (t && !t.contains(e.relatedTarget)) { t.classList.remove("over"); if (marker.parentNode === t) marker.remove(); if (dropGhost?.parentNode === t) hideDropGhost(); } });
     cs.addEventListener("drop", e => {
       const t = e.target.closest("[data-tier]"); e.preventDefault();
       const id = dragId; const info = t ? spot(t, e.clientX) : null; clear(); dragId = null;
@@ -5214,7 +5362,7 @@ body:not(.hall-closed) .hdoor{display:none}
     // phones: press and hold a spine, then slide it where it should go
     let T = null, ghost = null, swallow = false;
     const targetAt = (x, y) => { const el = document.elementFromPoint(x, y); return el?.closest("#bookcase [data-tier]") || el?.closest("#dnf-shelf") || null; };
-    const endTouch = () => { if (T?.timer) clearTimeout(T.timer); ghost?.remove(); ghost = null; document.querySelectorAll(".tier.over,#dnf-shelf.over").forEach(z => z.classList.remove("over")); T?.sp.classList.remove("dragging"); document.body.classList.remove("dragging-book", "dragging-dnf"); marker.remove(); T = null; };
+    const endTouch = () => { hideDropGhost(); if (T?.timer) clearTimeout(T.timer); ghost?.remove(); ghost = null; document.querySelectorAll(".tier.over,#dnf-shelf.over").forEach(z => z.classList.remove("over")); T?.sp.classList.remove("dragging"); document.body.classList.remove("dragging-book", "dragging-dnf"); marker.remove(); T = null; };
     document.addEventListener("touchstart", e => {
       const sp = e.target.closest("#bookcase .spine[data-id], #dnf-shelf .spine[data-id]"); if (!sp || decorating || e.touches.length > 1) return;
       const t0 = e.touches[0];
@@ -5231,6 +5379,7 @@ body:not(.hall-closed) .hdoor{display:none}
       ghost.style.left = (t0.clientX - T.dx) + "px"; ghost.style.top = (t0.clientY - T.dy) + "px";
       const tg = targetAt(t0.clientX, t0.clientY); T.tg = tg; T.lx = t0.clientX;
       document.querySelectorAll(".tier.over,#dnf-shelf.over").forEach(z => z !== tg && z.classList.remove("over"));
+      if (tg && tg.dataset.tier) showDropGhost(tg, T.sp, t0.clientX); else hideDropGhost();
       if (tg && (tg.id === "dnf-shelf" ? T.from !== "dnf" : tg.dataset.tier !== T.from)) { tg.classList.add("over"); marker.remove(); }
       else if (tg && tg.dataset.tier === T.from) { dragId = T.id; const { idx, sp } = spot(tg, t0.clientX), tr = tg.getBoundingClientRect(); const x = sp.length ? (idx < sp.length ? sp[idx].getBoundingClientRect().left - 3 : sp[sp.length - 1].getBoundingClientRect().right + 1) : tr.left + 14; marker.style.left = (x - tr.left + tg.scrollLeft) + "px"; if (marker.parentNode !== tg) tg.append(marker); dragId = null; }
       else marker.remove();
@@ -5250,34 +5399,95 @@ body:not(.hall-closed) .hdoor{display:none}
   })();
 
 
-  // ================= move trinkets anytime, like books =================
+  // ================= live drop previews: a faint copy of what you're carrying shows where it will land =================
+  let dropGhost = null;
+  const shelfEl = tier => tier.querySelector(".shelf") || tier;
+  function shelfItems(tier, skip){ return [...shelfEl(tier).querySelectorAll(":scope > .spine[data-id], :scope > .trinket.movable")].filter(el => el !== skip && !el.classList.contains("dragging") && !el.classList.contains("lifted")); }
+  // where along this shelf x falls: the item just before that spot, and the pixel position for the preview
+  function shelfSpot(tier, x, skip){
+    const items = shelfItems(tier, skip), sh = shelfEl(tier), tr = sh.getBoundingClientRect();
+    // the preview itself takes room on the shelf: measure everything as if it weren't there
+    const g = dropGhost && dropGhost.parentNode === sh ? dropGhost : null, gw = g ? g.getBoundingClientRect().width + 4 : 0;
+    const pos = el => { const r = el.getBoundingClientRect(); const shift = g && (g.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) ? gw : 0; return { l: r.left - shift, w: r.width }; };
+    let i = items.length; for (let k = 0; k < items.length; k++) { const r = pos(items[k]); if (x < r.l + r.w / 2) { i = k; break; } }
+    const prev = items[i - 1] || null, next = items[i] || null;
+    const px = prev ? pos(prev).l + pos(prev).w + 2 : next ? pos(next).l - 2 : tr.left + 14;
+    return { prev, next, px: px - tr.left + sh.scrollLeft, items };
+  }
+  function showDropGhost(tier, src, x){
+    if (!tier || !src) return hideDropGhost();
+    const sh = shelfEl(tier), { prev, next } = shelfSpot(tier, x, src);
+    if (!dropGhost || dropGhost.dataset.src !== (src.dataset.id || src.dataset.tid || src.dataset.tidx)) {
+      hideDropGhost(); dropGhost = src.cloneNode(true); ["data-id", "data-open", "data-tidx", "draggable", "title"].forEach(a => dropGhost.removeAttribute(a));
+      dropGhost.classList.remove("dragging", "lifted", "movable", "ghostbook"); dropGhost.classList.add("dropghost"); dropGhost.dataset.src = src.dataset.id || src.dataset.tid || src.dataset.tidx; dropGhost.setAttribute("aria-hidden", "true"); dropGhost.style.left = dropGhost.style.top = ""; dropGhost.style.position = "";
+    }
+    // only move it when the landing spot really changes, so the shelf doesn't twitch
+    const key = (prev ? (prev.dataset.id || "t" + prev.dataset.tidx) : "^") + "|" + tier.dataset.tier;
+    if (dropGhost.dataset.at === key && dropGhost.parentNode === sh) return;
+    dropGhost.dataset.at = key;
+    if (next) sh.insertBefore(dropGhost, next); else if (prev) prev.after(dropGhost); else sh.prepend(dropGhost);
+  }
+  function hideDropGhost(){ dropGhost?.remove(); dropGhost = null; }
+
+  // ================= move trinkets anytime, like books: past each other too =================
   (() => {
-    const cs = $("#bookcase"); let moving = null, lifted = null, pressT = null, pressAt = null;
-    const itemFor = (shelf, idx) => {
-      if (!decor) { decor = autoLayout(shelfLists().lists); Object.values(decor).forEach(a => a.forEach(t => { t.id = t.id || decorId(); })); saveDecor(); }
-      return (decor[shelf] || [])[idx] || null;
-    };
-    const dropAt = (tier, x) => {
-      const shelf = tier.dataset.tier, sp = [...tier.querySelectorAll(".spine[data-id]")];
-      let idx = sp.length; for (let i = 0; i < sp.length; i++) { const r = sp[i].getBoundingClientRect(); if (x < r.left + r.width / 2) { idx = i; break; } }
-      return `${shelf}|${idx === 0 ? "^" : sp[idx - 1].dataset.id}`;
-    };
-    const move = (m, tier, x) => { const it = itemFor(m.shelf, m.idx); if (!it) return; placeTrinket(null, dropAt(tier, x), it.id); toast("Trinket moved ✦", 1500); };
-    cs.addEventListener("dragstart", e => { if (decorating) return; const t = e.target.closest(".trinket.movable"); if (!t) return; moving = { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }; try { e.dataTransfer.setData("text/plain", "trinket"); e.dataTransfer.effectAllowed = "move"; } catch {} setTimeout(() => t.classList.add("lifted"), 0); });
-    cs.addEventListener("dragover", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); if (!tier) return; e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x !== tier && x.classList.remove("over")); tier.classList.add("over"); });
-    cs.addEventListener("drop", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x.classList.remove("over")); const m = moving; moving = null; if (tier) move(m, tier, e.clientX); });
-    document.addEventListener("dragend", () => { if (!moving) return; moving = null; cs.querySelectorAll(".tier.over,.trinket.lifted").forEach(x => x.classList.remove("over", "lifted")); });
-    // phones: press and hold a trinket to pick it up, then tap where it should go
-    cs.addEventListener("pointerdown", e => { if (decorating || e.pointerType === "mouse") return; const t = e.target.closest(".trinket.movable"); if (!t) return; pressAt = [e.clientX, e.clientY];
-      clearTimeout(pressT); pressT = setTimeout(() => { lifted = { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }; t.classList.add("lifted"); cs.classList.add("placing-trinket"); try { navigator.vibrate?.(30); } catch {} toast("Picked up! Tap the spot on any shelf where it should go.", 3000); }, 450); });
-    cs.addEventListener("pointermove", e => { if (pressAt && Math.hypot(e.clientX - pressAt[0], e.clientY - pressAt[1]) > 10) { clearTimeout(pressT); pressAt = null; } });
-    ["pointerup", "pointercancel"].forEach(ev => cs.addEventListener(ev, () => { clearTimeout(pressT); pressAt = null; }));
+    const cs = $("#bookcase"); let moving = null, lifted = null, T = null, swallow = false;
+    const ensureDecor = () => { if (!decor) { decor = autoLayout(shelfLists().lists); Object.values(decor).forEach(a => a.forEach(t => { t.id = t.id || decorId(); })); saveDecor(); } };
+    const itemFor = (shelf, idx) => { ensureDecor(); return (decor[shelf] || [])[idx] || null; };
+    // put the trinket exactly where it was dropped: after the book or trinket just before that spot
+    function dropAt(m, tier, x, srcEl){
+      const it = itemFor(m.shelf, m.idx); if (!it) return;
+      const shelf = tier.dataset.tier, { prev } = shelfSpot(tier, x, srcEl);
+      for (const sh of Object.keys(decor)) { const i = (decor[sh] || []).findIndex(t => t.id === it.id); if (i >= 0) { decor[sh].splice(i, 1); break; } }
+      const arr = decor[shelf] = decor[shelf] || [];
+      if (prev && prev.classList.contains("trinket")) {
+        const pt = (decor[prev.dataset.tshelf] || [])[+prev.dataset.tidx], pi = pt ? arr.indexOf(pt) : -1;
+        const item = { ...it, after: pt ? pt.after : "$" }; pi >= 0 ? arr.splice(pi + 1, 0, item) : arr.push(item);
+      } else {
+        const after = prev ? prev.dataset.id : "^", fi = arr.findIndex(t => t.after === after);
+        const item = { ...it, after }; fi >= 0 ? arr.splice(fi, 0, item) : arr.push(item);
+      }
+      saveDecor(); renderShelf(); toast("Trinket moved ✦", 1400);
+    }
+    const tierAt = (x, y) => document.elementFromPoint(x, y)?.closest("#bookcase [data-tier]") || null;
+    let srcEl = null;
+    cs.addEventListener("dragstart", e => { if (decorating) return; const t = e.target.closest(".trinket.movable"); if (!t) return; moving = { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }; srcEl = t; try { e.dataTransfer.setData("text/plain", "trinket"); e.dataTransfer.effectAllowed = "move"; } catch {} setTimeout(() => t.classList.add("lifted"), 0); });
+    cs.addEventListener("dragover", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); if (!tier) return; e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x !== tier && x.classList.remove("over")); tier.classList.add("over"); showDropGhost(tier, srcEl, e.clientX); });
+    cs.addEventListener("drop", e => { if (!moving) return; const tier = e.target.closest("[data-tier]"); e.preventDefault(); cs.querySelectorAll(".tier.over").forEach(x => x.classList.remove("over")); hideDropGhost(); const m = moving; moving = null; if (tier) dropAt(m, tier, e.clientX, srcEl); });
+    document.addEventListener("dragend", () => { hideDropGhost(); if (!moving) return; moving = null; cs.querySelectorAll(".tier.over,.trinket.lifted").forEach(x => x.classList.remove("over", "lifted")); });
+    // phones: press and hold a trinket, then slide it (or lift it and tap the spot)
+    const endT = () => { if (T?.timer) clearTimeout(T.timer); T?.ghost?.remove(); hideDropGhost(); cs.querySelectorAll(".tier.over").forEach(x => x.classList.remove("over")); T = null; };
+    cs.addEventListener("touchstart", e => {
+      if (decorating || e.touches.length > 1) return; const t = e.target.closest(".trinket.movable"); if (!t) return; const p = e.touches[0];
+      T = { t, x: p.clientX, y: p.clientY, m: { shelf: t.dataset.tshelf, idx: +t.dataset.tidx }, up: false, moved: false };
+      T.timer = setTimeout(() => { if (!T) return; T.up = true; t.classList.add("lifted"); try { navigator.vibrate?.(25); } catch {} const r = t.getBoundingClientRect();
+        T.ghost = t.cloneNode(true); T.ghost.classList.remove("movable", "lifted"); T.ghost.classList.add("ghostbook"); T.ghost.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;z-index:500;pointer-events:none;margin:0;transform:none`; T.dx = T.x - r.left; T.dy = T.y - r.top; document.body.append(T.ghost); }, 420);
+    }, { passive: true });
+    cs.addEventListener("touchmove", e => {
+      if (!T) return; const p = e.touches[0];
+      if (!T.up) { if (Math.hypot(p.clientX - T.x, p.clientY - T.y) > 10) endT(); return; }
+      e.preventDefault(); T.moved = true; T.ghost.style.left = (p.clientX - T.dx) + "px"; T.ghost.style.top = (p.clientY - T.dy) + "px";
+      const tier = tierAt(p.clientX, p.clientY); T.tier = tier; T.lx = p.clientX;
+      cs.querySelectorAll(".tier.over").forEach(x => x !== tier && x.classList.remove("over"));
+      if (tier) { tier.classList.add("over"); showDropGhost(tier, T.t, p.clientX); } else hideDropGhost();
+      if (p.clientY < 60) scrollBy(0, -10); else if (p.clientY > innerHeight - 60) scrollBy(0, 10);
+    }, { passive: false });
+    cs.addEventListener("touchend", e => {
+      if (!T) return; if (!T.up) { endT(); return; }
+      e.preventDefault(); swallow = true; setTimeout(() => { swallow = false; }, 400);
+      const { m, tier, lx, moved, t } = T; endT();
+      if (moved && tier) { dropAt(m, tier, lx, t); return; }
+      if (moved) { t.classList.remove("lifted"); return; }
+      lifted = { ...m, el: t }; cs.classList.add("placing-trinket"); toast("Picked up! Slide it, or tap the spot where it should go.", 2600);
+    });
+    cs.addEventListener("touchcancel", endT);
     cs.addEventListener("contextmenu", e => { if (e.target.closest(".trinket.movable")) e.preventDefault(); });
     cs.addEventListener("click", e => {
+      if (swallow) { e.preventDefault(); e.stopPropagation(); swallow = false; return; }
       if (!lifted) return; e.preventDefault(); e.stopPropagation();
       const m = lifted; lifted = null; cs.classList.remove("placing-trinket");
       if (e.target.closest(".trinket.lifted")) { cs.querySelectorAll(".trinket.lifted").forEach(x => x.classList.remove("lifted")); return; }
-      const tier = e.target.closest("[data-tier]"); if (tier) move(m, tier, e.clientX); else renderShelf();
+      const tier = e.target.closest("[data-tier]"); if (tier) dropAt(m, tier, e.clientX, m.el); else renderShelf();
     }, true);
   })();
 
@@ -5419,7 +5629,7 @@ body:not(.hall-closed) .hdoor{display:none}
   $("#bookcase").addEventListener("click", e => { const s2 = e.target.closest("[data-sideshelf]"); if (s2) { e.stopPropagation(); openSideShelf(s2.dataset.sideshelf); } });
   { let rt = null, lastW = innerWidth; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (shelfMax === "auto" && Math.abs(innerWidth - lastW) > 80) { lastW = innerWidth; renderShelf(); paintShelfMax(); } }, 300); }); }
   $("#arrange-chips").addEventListener("click", e => { const c = e.target.closest("[data-arr]"); if (!c) return; arrangeBy = c.dataset.arr; lsSet(KEY_ARR, arrangeBy); paintArrange(); renderShelf(); });
-  $("#case-toggle").addEventListener("click", e => { const p = $("#case-panel"); p.hidden = !p.hidden; e.currentTarget.setAttribute("aria-expanded", !p.hidden); e.currentTarget.textContent = p.hidden ? "⚙ Customise bookcase" : "✕ Close settings"; paintSpineNote(); });
+  $("#case-toggle").addEventListener("click", e => { const p = $("#case-panel"); p.hidden = !p.hidden; e.currentTarget.setAttribute("aria-expanded", !p.hidden); e.currentTarget.querySelector(".cil").textContent = p.hidden ? "Customise" : "Close"; paintSpineNote(); });
   let legendAll = false;
   $("#legend-toggle").addEventListener("click", e => { const p = $("#legend-panel"); p.hidden = !p.hidden; e.currentTarget.setAttribute("aria-expanded", !p.hidden); renderGuide(); });
   $("#legend-panel").addEventListener("click", e => { if (e.target.closest("[data-legall]")) { legendAll = !legendAll; renderGuide(); } if (e.target.closest("[data-legclose]")) $("#legend-toggle").click(); });
@@ -6228,7 +6438,7 @@ body:not(.hall-closed) .hdoor{display:none}
         <span class="cushion"></span>${sparkles(6, F.aura, F.spark)}${famArt(familiar)}${S ? `<span class="famprop prop-${S}" aria-hidden="true"></span>` : ""}</button>
       <div class="bubble m-${famMode}" aria-live="polite">
         <span class="bubglow" aria-hidden="true"></span>
-        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Chat with me"}" aria-label="Something else">↻</button><button class="iconbtn" type="button" data-famrec title="Recommend me a book" aria-label="Recommend me a book" aria-pressed="${famMode === "rec"}">📖</button><button class="iconbtn" type="button" data-famjar title="The TBR jar: let me pick your next read" aria-label="TBR jar">🫙</button><button class="iconbtn relbtn" type="button" data-releases title="New and upcoming books from your authors" aria-label="New releases">🔔</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button><button class="iconbtn famdockbtn" type="button" data-famdock title="${famDocked ? "Put me back in the page" : "Let me sit in the corner"}" aria-label="Move familiar">${famDocked ? "⇱" : "⇲"}</button><button class="iconbtn famx" type="button" data-famclose aria-label="Close">✕</button></div>
+        <div class="bubtools"><button class="iconbtn" type="button" data-famnext title="${famMode === "chat" ? "A quote, please" : "Chat with me"}" aria-label="Something else">↻</button><button class="iconbtn" type="button" data-famrec title="Recommend me a book" aria-label="Recommend me a book" aria-pressed="${famMode === "rec"}">📖</button><button class="iconbtn" type="button" data-famjar title="The TBR jar: let me pick your next read" aria-label="TBR jar">🫙</button><button class="iconbtn relbtn" type="button" data-releases title="New and upcoming books from your authors" aria-label="New releases">🔔</button><button class="iconbtn wide" type="button" data-fampick aria-expanded="${famPicking}">${famPicking ? "Close" : "✦ Familiars"}</button><button class="iconbtn famdockbtn" type="button" data-famdock title="${famDocked ? "Put me back in the page" : "Let me sit in the corner"}" aria-label="Move familiar">${famDocked ? "⇱" : "⇲"}</button><button class="iconbtn famx" type="button" data-famclose aria-label="Close"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
         <div class="label famlabel">${esc(famName(familiar))} ${petLine || famMode === "care" ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}${bondPill()}${(() => { let M; try { M = famMood(); } catch { return ""; } return M[0] === "content" ? "" : `<button type="button" class="moodchip m-${M[0]}" data-care="mood" title="${esc(famName(familiar))} is ${esc(M[2])}">${M[1]} ${M[0] === "moody" ? "moody" : M[0]}</button>`; })()}</div>
         ${content}
       </div>
@@ -6994,6 +7204,7 @@ alter publication supabase_realtime add table public.library;`;
       const f = lsGet(KEY_FAM, familiar); if (FAMILIARS[f]) { familiar = f; if (S.v && S.v[KEY_FAM]) { try { famChosen = true; } catch {} if ($("#welcome-scrim")) $("#modal-root").innerHTML = ""; } }
       famDocked = lsGet("reading-ledger-famdock", true); applyDock();
       render(); renderFamiliar(); refreshFigurines();
+      try { plank = lsGet(KEY_PLANK, plank); lightStyle = lsGet(KEY_LIGHTS, lightStyle); paintLights(); paintPlankPanel(); paintPlank(); } catch {}
     } catch (e) { console.warn("settings", e); }
   }
   const Sync = (() => {
@@ -7556,10 +7767,48 @@ alter publication supabase_realtime add table public.library;`;
   const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","authors","friends"];
   // ================= words you learned while reading =================
   const WORD_LANGS = [["en", "English"], ["fr", "French"], ["es", "Spanish"], ["de", "German"], ["it", "Italian"], ["pt", "Portuguese"], ["hu", "Hungarian"], ["sr", "Serbian"], ["hr", "Croatian"], ["nl", "Dutch"], ["la", "Latin"]];
-  let wordOpen = null, wordRes = null, wordBusy = false, wordLang = lsGet("reading-ledger-wordlang", "en");
+  let wordOpen = null, wordRes = null, wordBusy = false, wordLang = lsGet("reading-ledger-wordlang", "en"), wordInEn = false;
   const stripHTML = h => { const d = document.createElement("div"); d.innerHTML = h; return (d.textContent || "").replace(/\s+/g, " ").trim(); };
-  async function lookUpWord(word, lang){
+  // explanations in the word's own language, from that language's Wiktionary
+  const NATIVE_HEAD = { fr: ["français"], es: ["español"], de: ["deutsch"], it: ["italiano"], pt: ["português"], hu: ["magyar"], sr: ["српски", "srpski", "српскохрватски", "srpskohrvatski"], hr: ["hrvatski", "srpskohrvatski", "hrvatskosrpski"], nl: ["nederlands"], la: ["latina", "latinum"] };
+  const MEANING_RE = /^\s*(bedeutungen|značenj|znacenj|значењ|значење|značenje|jelentés|significad|significat|betekenis)/i;
+  const cleanDef = t => String(t || "").replace(/\s+/g, " ").replace(/^\s*(\[\d+[a-z]?\]|\d+[.)]?)\s*/, "").replace(/\s*\[\d+\]\s*/g, " ").trim();
+  async function nativeDefs(w, lang){
+    if (!NATIVE_HEAD[lang]) return null;
+    const tries = [w, w.charAt(0).toUpperCase() + w.slice(1)];
+    for (const page of lang === "de" ? tries.slice().reverse() : tries) {
+      let html = "";
+      try { const r = await fetch(`https://${lang}.wiktionary.org/w/api.php?action=parse&page=${encodeURIComponent(page)}&prop=text&redirects=1&format=json&formatversion=2&origin=*`); if (!r.ok) continue; const d = await r.json(); html = typeof d.parse?.text === "string" ? d.parse.text : d.parse?.text?.["*"] || ""; } catch { continue; }
+      if (!html) continue;
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      doc.querySelectorAll("style,script,.mw-editsection,sup.reference,.reference,.noprint,.navbox,.metadata,.mw-empty-elt,table").forEach(x => x.remove());
+      const all = [...doc.body.querySelectorAll("*")], names = NATIVE_HEAD[lang];
+      const start = all.findIndex(el => el.tagName === "H2" && names.some(n => el.textContent.toLowerCase().includes(n)));
+      let chunk = all;
+      if (start >= 0) { chunk = []; for (let i = start + 1; i < all.length; i++) { if (all[i].tagName === "H2") break; chunk.push(all[i]); } }
+      else if (doc.body.querySelectorAll("h2").length > 1) continue;
+      const headAt = i => { for (let k = i; k >= 0; k--) if (/^H[345]$/.test(chunk[k].tagName)) return chunk[k].textContent.replace(/\[.*?\]/g, "").trim(); return ""; };
+      // 1) numbered definitions: <ol><li> that isn't inside another list item
+      let picks = chunk.map((el, i) => [el, i]).filter(([el]) => el.tagName === "LI" && el.parentElement?.tagName === "OL" && !el.parentElement.closest("li"));
+      // 2) "Meanings:" followed by a list of [1] … (German, Serbian, Croatian, Hungarian)
+      if (!picks.length) { const m = chunk.findIndex(el => /^(P|DT|DIV|B|STRONG|SPAN)$/.test(el.tagName) && MEANING_RE.test(el.textContent)); if (m >= 0) { const dl = chunk.slice(m + 1).find(el => el.tagName === "DL" || el.tagName === "UL" || el.tagName === "OL"); if (dl) picks = [...dl.children].filter(c => c.tagName === "DD" || c.tagName === "LI").map(el => [el, chunk.indexOf(el)]); } }
+      // 3) term / meaning pairs (Spanish)
+      if (!picks.length) picks = chunk.map((el, i) => [el, i]).filter(([el]) => el.tagName === "DD" && el.previousElementSibling?.tagName === "DT");
+      const senses = [];
+      for (const [el, i] of picks) {
+        const c = el.cloneNode(true); const exEl = c.querySelector("ul li, dl dd, .exemple, .example"); const ex = exEl ? cleanDef(exEl.textContent) : "";
+        c.querySelectorAll("ul,dl,ol,.exemple,.example").forEach(x => x.remove());
+        const def = cleanDef(c.textContent); if (def.length < 3 || /^(→|see|voir|véase|siehe)\b/i.test(def)) continue;
+        senses.push({ pos: headAt(i).toLowerCase().slice(0, 40), def: def.slice(0, 320), ex: ex.slice(0, 200) });
+        if (senses.length >= 4) break;
+      }
+      if (senses.length) return { word: w, lang, ph: "", senses, src: `${(WORD_LANGS.find(x => x[0] === lang) || [, lang])[1]} Wiktionary`, url: `https://${lang}.wiktionary.org/wiki/${encodeURIComponent(page)}`, native: true };
+    }
+    return null;
+  }
+  async function lookUpWord(word, lang, inEnglish){
     const w = word.trim().toLowerCase();
+    if (lang !== "en" && !inEnglish) { try { const n = await nativeDefs(w, lang); if (n) return n; } catch {} const e = await lookUpWord(word, lang, true); if (e) e.fallback = true; return e; }
     if (lang === "en") {
       try {
         const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(w)}`);
@@ -7584,6 +7833,7 @@ alter publication supabase_realtime add table public.library;`;
     return `<div class="wordpanel"><form class="wform" data-wform="${esc(b.id)}" autocomplete="off"><input name="w" placeholder="A word you didn't know…" value="${esc(res?.q || "")}" aria-label="Word to look up">
         <select name="lang" aria-label="Language">${WORD_LANGS.map(([k, n]) => `<option value="${k}" ${k === wordLang ? "selected" : ""}>${n}</option>`).join("")}</select><button class="btn small primary" type="submit">${wordBusy ? "…" : "Look up"}</button><button class="iconbtn" type="button" data-wclose aria-label="Close">✕</button></form>
       ${res ? (res.none ? `<div class="wnone">No definition found for “${esc(res.q)}”. Check the spelling or the language.</div>` : `<div class="wres"><div class="whead"><b>${esc(res.r.word)}</b>${res.r.ph ? `<span class="ph">${esc(res.r.ph)}</span>` : ""}<a href="${res.r.url}" target="_blank" rel="noopener" class="wsrc">${esc(res.r.src)} ↗</a></div>
+        ${res.r.lang && res.r.lang !== "en" && res.r.src !== "Saved" ? `<div class="wlangnote">${res.r.native ? `Explained in ${esc((WORD_LANGS.find(x => x[0] === res.r.lang) || [, ""])[1])}` : res.r.fallback ? `No ${esc((WORD_LANGS.find(x => x[0] === res.r.lang) || [, ""])[1])} explanation found, so here it is in English` : "Explained in English"} · <button type="button" class="linkbtn" data-wswap="${esc(b.id)}">${res.r.native ? "Show it in English" : `Try in ${esc((WORD_LANGS.find(x => x[0] === res.r.lang) || [, ""])[1])}`}</button></div>` : ""}
         <ol>${res.r.senses.map(x => `<li><i>${esc(x.pos)}</i> ${esc(x.def)}${x.ex ? `<span class="wex">“${esc(x.ex)}”</span>` : ""}</li>`).join("")}</ol>
         ${saved.some(x => x.w === res.r.word.toLowerCase()) ? `<span class="onshelf">Saved</span>` : `<button class="btn small" type="button" data-wsave="${esc(b.id)}">✦ Save as a word I learned</button>`}</div>`) : ""}
       ${saved.length ? `<div class="wsaved"><span class="label">Learned from this book</span>${saved.slice().reverse().map(x => `<button type="button" class="wchip" data-wshow="${esc(b.id)}|${esc(x.w)}" title="${esc(x.def)}">${esc(x.w)}</button>`).join("")}</div>` : ""}</div>`;
@@ -7591,6 +7841,7 @@ alter publication supabase_realtime add table public.library;`;
   $("#now").addEventListener("click", e => {
     const o = e.target.closest("[data-words]"); if (o) { wordOpen = o.dataset.words; wordRes = null; renderNow(); $("#now .wform input")?.focus(); return; }
     if (e.target.closest("[data-wclose]")) { wordOpen = null; wordRes = null; renderNow(); return; }
+    const ws = e.target.closest("[data-wswap]"); if (ws && wordRes?.r) { const q = wordRes.q, bid = wordRes.bookId, toEn = !!wordRes.r.native; wordBusy = true; renderNow(); lookUpWord(q, wordRes.r.lang, toEn).then(r => { wordBusy = false; wordRes = { bookId: bid, q, r, none: !r }; renderNow(); }); return; }
     const sv = e.target.closest("[data-wsave]"); if (sv) { const b = books.find(x => x.id === sv.dataset.wsave); if (!b || !wordRes?.r) return; const r = wordRes.r, s0 = r.senses[0];
       b.words = [...(b.words || []), { w: r.word.toLowerCase(), lang: r.lang, ph: r.ph, pos: s0.pos, def: s0.def, more: r.senses.slice(1, 3).map(x => `${x.pos ? x.pos + ": " : ""}${x.def}`), ex: s0.ex, at: byChapters(b) ? `chapter ${b.currentChapter || 0}` : b.currentPage ? `page ${b.currentPage}` : "", d: todayISO() }];
       save(); renderNow(); toast(`“${r.word}” saved to your words`); return; }
@@ -7600,7 +7851,7 @@ alter publication supabase_realtime add table public.library;`;
     const f = e.target.closest("[data-wform]"); if (!f) return; e.preventDefault(); e.stopImmediatePropagation();
     const q = f.w.value.trim(); if (!q) return; wordLang = f.lang.value; lsSet("reading-ledger-wordlang", wordLang);
     wordBusy = true; renderNow();
-    const r = await lookUpWord(q, wordLang); wordBusy = false;
+    const r = await lookUpWord(q, wordLang, wordInEn); wordBusy = false;
     wordRes = { bookId: f.dataset.wform, q, r, none: !r }; renderNow();
   }, true);
 
@@ -7954,7 +8205,7 @@ alter publication supabase_realtime add table public.library;`;
   }
   // sigils: what the card shows, picked from who the character is
   const SIGIL_RULES = [
-    [/dragon|wyvern|griffin|gryphon|phoenix|bird|owl|raven|crow|wings?/, "wing"], [/wolf|beast|cat|hound|dog|horse|stag|bear|creature|fox|lion|tiger|elephant|centaur|unicorn|naga|serpent|snake|basilisk/, "paw"],
+    [/dragon|wyvern|griffin|gryphon|phoenix|bird|owls?\b|raven|crows?\b|wings?/, "wing"], [/wolf|beast|cat|hound|dog|horse|stag|bear|creature|fox|lion|tiger|elephant|centaur|unicorn|naga|serpent|snake|basilisk/, "paw"],
     [/witch|moon|night|vampire|werewolf/, "moon"], [/assassin|blade|thief|rogue|spy|smuggler|killer|mercenary|murderer/, "dagger"],
     [/heal|doctor|nurse|potion|apothecar|alchemist|herb|brewer/, "potion"], [/door|key|keeper|lock|gate/, "key"],
     [/queen|king|prince|princess|high lord|high lady|emperor|empress|royal|heir|ruler|monarch|tsar|duke|duchess|chancellor|president|lord of|lady of/, "crown"],
@@ -8025,7 +8276,7 @@ alter publication supabase_realtime add table public.library;`;
     const art = o.cover ? `<span class="ncov">${coverHTML(b)}</span>` : useOwnPic(c) ? `<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : cardArtSVG(c, b, st);
     return `<span class="nc r${r}${o.foil ? " foil" : ""}${o.big ? " big" : ""}" style="--a:${st.a};--g:${st.g};--glow:${st.glow}"><span class="ncin">
       <span class="ncname">${esc(c.name)}</span><span class="ncart">${art}<span class="ncsym">${st.sym}</span></span>
-      <span class="nctype">${esc(o.type || role || "")}</span>
+      ${o.nostats ? "" : (() => { try { return statStrip(statsFor(c, b)); } catch { return ""; } })()}<span class="nctype">${esc(o.type || role || "")}</span>
       <span class="ncfoot"><span>${num ? `${String(num[0]).padStart(2, "0")}/${num[1]}` : esc(o.foot || (b?.seriesName || b?.title || "").slice(0, 22))}</span><span class="ncgems" title="${RAR[r][1]}">${"◆".repeat(r)}${"◇".repeat(3 - r)}</span></span></span>${r === 3 || o.foil ? `<span class="ncholo"></span>` : ""}</span>`;
   }
   const lockedCard = (name, rar, book, set) => { const st = SET_STYLE[set] || { a: "#2A2430", g: "#8A7A60" }; return `<span class="nc locked r${rar}" style="--a:${st.a};--g:${st.g}"><span class="ncin"><span class="ncname">${esc(name)}</span><span class="ncart"><span class="lockq">?</span></span><span class="nctype">Read ${esc(book)}</span><span class="ncfoot"><span></span><span class="ncgems">${"◆".repeat(rar)}${"◇".repeat(3 - rar)}</span></span></span></span>`; };
@@ -8060,7 +8311,7 @@ alter publication supabase_realtime add table public.library;`;
   }
   function bookCardHTML(b, big){
     const bc = b.bookCard || bookCardRarity(b);
-    return `<button type="button" class="ccard ncwrap bookcard" data-open="${esc(b.id)}" title="${esc(RAR[bc.rarity || 1][1])} book card${bc.foil ? " · foil" : ""}">${nookCard({ name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" })}</button>`;
+    return `<button type="button" class="ccard ncwrap bookcard" data-open="${esc(b.id)}" title="${esc(RAR[bc.rarity || 1][1])} book card${bc.foil ? " · foil" : ""}">${nookCard({ id: "bk" + b.id, book: true, name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" })}</button>`;
   }
   const _openPack = openPack;
   openPack = async function(b, quiet){
@@ -8103,13 +8354,27 @@ alter publication supabase_realtime add table public.library;`;
     if (!got.length && !bookCard) { toast("That pack is already open."); return; }
     showPack(b, got, S, S ? sagaBookIdx(S, b) : -1, bookCard);
   }
+  // open every waiting pack at once and show what came out
+  async function openAllPacks(){
+    const list = unopened(); let got = [];
+    for (const b of list) { try { if (!b.castTried) await openPack(b, true); const { got: g, bookCard } = packContents(b); g.forEach(c => got.push({ c, b })); if (bookCard) got.push({ c: { id: "bk" + b.id, book: true, name: b.title, rarity: b.bookCard.rarity || 1, role: b.author || "" }, b }); unseal(b); } catch (e) { console.warn(e); } }
+    if (!got.length) { toast("No packs to open."); return; }
+    got.sort((x, y) => (y.c.rarity || 1) - (x.c.rarity || 1));
+    const leg = got.filter(x => x.c.rarity === 3).length, rare = got.filter(x => x.c.rarity === 2).length;
+    let root = document.getElementById("pack-root"); if (!root) { root = document.createElement("div"); root.id = "pack-root"; document.body.append(root); }
+    root.innerHTML = `<div class="pk2ov" style="--a:#2A1C3A;--g:#E2C27A;--glow:#F2D58E"><div class="pk2"><div class="label">${list.length} packs opened</div><h2>${got.length} new cards</h2><p class="note">${leg ? `${leg} legendary` : "No legendaries this time"}${rare ? ` · ${rare} rare` : ""} · they're all in your binder now.</p>
+      <div class="pk2cards allcards">${got.slice(0, 60).map((x, k) => `<div class="pk2c flipped r${x.c.rarity || 1}" style="--d:${Math.min(k, 30) * .04}s"><span class="flipper"><span class="back">${cardBack(cardStyle(x.c, x.b), x.c.rarity || 1)}</span><span class="face">${nookCard(x.c, x.b, x.c.book ? { cover: true, type: x.c.role, foot: mainGenreOf(x.b) || "Book card" } : {})}</span></span></div>`).join("")}</div>
+      ${got.length > 60 ? `<p class="note">…and ${got.length - 60} more.</p>` : ""}<div class="packacts"><button class="btn primary" type="button" data-packx>Lovely</button></div></div></div>`;
+    paintRecCovers(root);
+    root.onclick = e => { if (e.target.closest("[data-packx]") || e.target.classList.contains("pk2ov")) { root.onclick = null; root.innerHTML = ""; try { renderKeep(); } catch {} } };
+  }
   showPack = function(b, got, S, i, bookCard){
     let root = document.getElementById("pack-root"); if (!root) { root = document.createElement("div"); root.id = "pack-root"; document.body.append(root); }
     if (S && !got.length && !bookCard) { toast(`You already have every ${S[1]} card from ${b.title}.`, 4000); return; }
     got = (got || []).slice().sort((x, y) => (x.rarity || 1) - (y.rarity || 1));
     const st = bookCard ? cardStyle({}, b) : cardStyle(got[0] || {}, b);
     const bc = b.bookCard || bookCardRarity(b);
-    const items = bookCard ? [{ html: nookCard({ name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" }), r: bc.rarity || 1 }]
+    const items = bookCard ? [{ html: nookCard({ id: "bk" + b.id, book: true, name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" }), r: bc.rarity || 1 }]
       : got.map(c => ({ html: nookCard(c, b), r: c.rarity || 1, c }));
     const setName = S ? S[1] : bookCard ? "Book card" : (b.seriesName || b.title);
     let stage = "sealed", turned = 0;
@@ -8125,7 +8390,7 @@ alter publication supabase_realtime add table public.library;`;
         : `<div class="label">${esc(setName)}</div><h2>${stage === "done" ? "Added to your binder" : "Turn them over"}</h2>
           <div class="pk2cards">${items.map((it, k) => `<button type="button" class="pk2c r${it.r}" data-turn="${k}" style="--d:${k * .12}s" aria-label="Turn card ${k + 1}"><span class="flipper"><span class="back">${cardBack(st, it.r)}</span><span class="face">${it.html}</span></span><span class="burst"></span></button>`).join("")}</div>
           <p class="note pk2hint">${stage === "done" ? "" : items.some(it => it.r === 3) ? "One of them is glowing…" : "Tap each card to turn it over."}</p>${progress()}
-          <div class="packacts">${stage === "done" ? `<button class="btn" type="button" data-packx>Lovely</button><button class="btn primary" type="button" data-packgo>See my binder</button>` : `<button class="btn" type="button" data-turnall>Turn them all</button>`}</div>`}
+          <div class="packacts">${stage === "done" ? `<button class="btn" type="button" data-packx>Lovely</button>${unopened().filter(x => x.id !== b.id).length ? `<button class="btn primary" type="button" data-packnext>Open the next pack · ${unopened().filter(x => x.id !== b.id).length} left</button>` : `<button class="btn primary" type="button" data-packgo>See my binder</button>`}` : `<button class="btn" type="button" data-turnall>Turn them all</button>`}</div>`}
       </div></div>`;
       paintRecCovers(root);
     };
@@ -8139,13 +8404,174 @@ alter publication supabase_realtime add table public.library;`;
       const t = e.target.closest("[data-turn]"); if (t) { turn(t); return; }
       if (e.target.closest("[data-turnall]")) { root.querySelectorAll(".pk2c:not(.flipped)").forEach((el, k) => setTimeout(() => turn(el), k * 260)); return; }
       if (e.target.closest("[data-packx]") || (e.target.classList.contains("pk2ov") && stage !== "open")) { close(stage === "sealed"); return; }
+      if (e.target.closest("[data-packnext]")) { close(false); const nb = unopened()[0]; if (nb) setTimeout(() => openPackFor(nb), 120); return; }
       if (e.target.closest("[data-packgo]")) { close(false); keepMode = "chars"; cardView = S ? "sets" : "books"; lsSet("reading-ledger-keepmode", "chars"); lsSet("reading-ledger-cardview", cardView); showTab("keep"); }
     };
   };
+  // ================= card stats: every card has Strength, Magic, Cunning and Heart, plus one ability =================
+  const STATS = [["str", "♞", "Strength"], ["mag", "✦", "Magic"], ["wit", "◈", "Cunning"], ["hrt", "♥", "Heart"]];
+  const STAT_KW = {
+    str: /warrior|general|soldier|guard|knight|fighter|rider|hunt|archer|captain|commander|legion|gladiator|champion|tribute|beast|dragon|wyvern|wolf|bear|giant|ogre|troll|brute|strong|blacksmith|smith|sword|army|marine|boxer|athlete/,
+    mag: /mage|witch|wizard|sorcer|magic|enchant|fae|faerie|fairy|elf|god|goddess|demigod|grisha|summoner|shadow|seer|oracle|prophet|healer|necro|spirit|ghost|vampire|valg|demon|immortal|shapeshift|alchemist|druid|priest|celestial|angel|power/,
+    wit: /assassin|spy|thief|rogue|trickster|smuggler|schem|clever|smart|cunning|scholar|professor|student|librarian|strateg|merchant|gambler|courtesan|lawyer|detective|inventor|genius|advisor|chancellor|spymaster|liar|crime|heist|politic|journalist|reporter/,
+    hrt: /friend|lover|love|sister|brother|mother|father|family|wife|husband|daughter|son|healer|loyal|kind|gentle|nurse|caretaker|mentor|protector|best|sweet|heart|sunshine|hope/,
+  };
+  const ABILITIES = {
+    crown: ["Command", "+1 to every stat when it's your last card", (x) => x.last ? 1 : 0],
+    sword: ["First Strike", "+2 Strength in the first round", (x) => x.round === 0 && x.stat === "str" ? 2 : 0],
+    dagger: ["Backstab", "Wins every tie", () => 0, "tie"],
+    shield: ["Bulwark", "+2 to the stat your opponent picks", (x) => !x.mine ? 2 : 0],
+    staff: ["Arcane Surge", "+2 Magic", (x) => x.stat === "mag" ? 2 : 0],
+    moon: ["Moonlit", "+1 Magic and +1 Cunning", (x) => x.stat === "mag" || x.stat === "wit" ? 1 : 0],
+    book: ["Well Read", "+2 to the stat you choose yourself", (x) => x.mine ? 2 : 0],
+    heart: ["Devotion", "+2 Heart", (x) => x.stat === "hrt" ? 2 : 0],
+    wing: ["Take Flight", "+1 Strength and +1 Magic", (x) => x.stat === "str" || x.stat === "mag" ? 1 : 0],
+    paw: ["Wild Instinct", "+2 Strength", (x) => x.stat === "str" ? 2 : 0],
+    potion: ["Remedy", "+3 when your side is behind", (x) => x.behind ? 3 : 0],
+    key: ["Hidden Door", "+2 Cunning", (x) => x.stat === "wit" ? 2 : 0],
+    skull: ["Dread", "-1 to the other card", () => 0, "dread"],
+    ship: ["Fair Winds", "+1 to every stat in the middle round", (x) => x.round === 1 ? 1 : 0],
+    eye: ["Foresight", "Sees the other card before you choose", () => 0, "peek"],
+    mask: ["Disguise", "+2 Cunning, +1 Heart", (x) => x.stat === "wit" ? 2 : x.stat === "hrt" ? 1 : 0],
+    quill: ["Silver Tongue", "+2 Heart", (x) => x.stat === "hrt" ? 2 : 0],
+    scales: ["Balance", "Its lowest stat counts as 6", () => 0, "floor"],
+    flame: ["Kindle", "+2 Strength or Magic, whichever is higher", (x) => x.stat === x.top && (x.stat === "str" || x.stat === "mag") ? 2 : 0],
+    leaf: ["Deep Roots", "+1 Heart and +1 Strength", (x) => x.stat === "hrt" || x.stat === "str" ? 1 : 0],
+    bow: ["Long Shot", "+2 Cunning", (x) => x.stat === "wit" ? 2 : 0],
+    sun: ["Radiance", "+1 to every stat", () => 1],
+    rose: ["Thorns", "+1 Heart, wins ties", (x) => x.stat === "hrt" ? 1 : 0, "tie"],
+    star: ["Lucky Star", "+1 to every stat", () => 1],
+    book_card: ["Page Turner", "+1 to every stat for each 300 pages", () => 0],
+  };
+  const statCache = new Map();
+  function statsFor(c, b){
+    const isBook = !!c.book, key = (c.id || c.name) + "|" + (c.rarity || 1) + "|" + (isBook ? (b?.pages || 0) + (b?.rating || 0) : "");
+    if (statCache.has(key)) return statCache.get(key);
+    const r = c.rarity || 1, h = hashNum((c.name || "") + (c.set || b?.title || ""), 9973);
+    const total = [0, 16, 21, 27][r] + (h % 3) - 1;
+    let w;
+    if (isBook) {
+      const G = genresOf(b || {}), has = (...g) => g.some(x => G.includes(x));
+      w = { str: 1 + Math.min(3, (Number(b?.pages) || 300) / 220), mag: 1 + (has("Fantasy", "Romantasy", "Science Fiction", "Horror") ? 3 : 0), wit: 1 + (has("Mystery", "Thriller", "Classics", "Literary Fiction", "History", "Science", "Philosophy", "True Crime", "Dystopian") ? 3 : 0), hrt: 1 + (has("Romance", "Romantasy", "Contemporary", "Young Adult", "Poetry") ? 2 : 0) + ((b?.rating || 3) - 3) };
+    } else {
+      const txt = `${c.role || ""} ${charRole(c) || ""} ${c.name || ""} ${(c.personality || "").slice(0, 400)} ${Object.values(c.info || {}).join(" ")}`.toLowerCase();
+      w = {}; for (const [k, re] of Object.entries(STAT_KW)) { const m = txt.match(new RegExp(re.source, "g")); w[k] = 1 + 2.2 * Math.min(3, (m || []).length); }
+      if (/queen|king|prince|princess|emperor|empress|lord|lady|heir|ruler/.test(txt)) { w.wit += 1.2; w.hrt += 1; }
+      if (/villain|dark lord|evil|tyrant|monster/.test(txt)) { w.str += 1.5; w.mag += 1.5; w.hrt = Math.max(.6, w.hrt - 1); }
+    }
+    const keys = STATS.map(s => s[0]); keys.forEach((k, i) => { w[k] = Math.max(.4, w[k] + ((h >> (i * 2)) % 4) * .35); });
+    const sum = keys.reduce((s, k) => s + w[k], 0), out = {};
+    keys.forEach(k => { out[k] = Math.max(1, Math.min(10, Math.round(w[k] / sum * total))); });
+    let diff = total - keys.reduce((s, k) => s + out[k], 0), guard = 0;
+    while (diff !== 0 && guard++ < 20) { const k = diff > 0 ? keys.filter(x => out[x] < 10).sort((a, b) => w[b] - w[a])[0] : keys.filter(x => out[x] > 1).sort((a, b) => w[a] - w[b])[0]; if (!k) break; out[k] += Math.sign(diff); diff -= Math.sign(diff); }
+    const sig = isBook ? "book_card" : sigilOf(c), ab = ABILITIES[sig] || ABILITIES.star;
+    const res = { ...out, power: keys.reduce((s, k) => s + out[k], 0), top: keys.sort((a, b) => out[b] - out[a])[0], ability: { key: sig, name: ab[0], text: ab[1], fn: ab[2], flag: ab[3] || null } };
+    if (isBook) { const pb = Math.floor((Number(b?.pages) || 0) / 300); res.ability.fn = () => Math.min(3, pb); res.ability.text = `+${Math.min(3, pb)} to every stat (for its ${Number(b?.pages) || 0} pages)`; }
+    statCache.set(key, res); return res;
+  }
+  const statStrip = st => `<span class="ncstats">${STATS.map(([k, g]) => `<span class="nst s-${k}" title="${STATS.find(x => x[0] === k)[2]}"><i>${g}</i>${st[k]}</span>`).join("")}</span>`;
+
+  // ================= a fresh start: everyone's cards are re-dealt as sealed packs (once) =================
+  const CARD_ERA = 2;
+  function cardEraReset(){
+    let ch = false;
+    for (const b of books) {
+      if (b.cardEra === CARD_ERA) continue;
+      if ((b.characters || []).some(c => c.reward || c.set)) b.characters = b.characters.filter(c => !c.reward && !c.set);
+      delete b.bookCard; b.castTried = false; b.cardEra = CARD_ERA; ch = true;
+    }
+    if (ch) save({ stamp: false });
+    return ch;
+  }
+  try { cardEraReset(); } catch (e) { console.warn(e); }
+
+  // ================= card duels: three cards each against your familiar, best of three =================
+  const KEY_DUEL = "reading-ledger-cardduel";
+  let duelRec = lsGet(KEY_DUEL, { won: 0, lost: 0, drawn: 0, streak: 0, best: 0 });
+  let duel = null, duelPick = [];
+  function myDuelCards(){
+    const out = [];
+    for (const b of books) for (const c of (b.characters || [])) if (!c.sealed) out.push({ c, b, id: b.id + "|" + c.id });
+    for (const b of readBooks()) if (b.bookCard && !b.bookCard.sealed) out.push({ c: { id: "bk" + b.id, name: b.title, rarity: b.bookCard.rarity || 1, role: b.author || "", book: true }, b, id: b.id + "|bk" });
+    out.forEach(x => { x.st = statsFor(x.c, x.b); });
+    return out.sort((a, b) => b.st.power - a.st.power);
+  }
+  function familiarHand(mine){
+    const avg = mine.reduce((s, x) => s + x.st.power, 0) / Math.max(1, mine.length);
+    const pool = SAGAS.flatMap(S => S[4].map(([name, bi, rar, role]) => ({ c: { id: "f" + S[0] + name, name, rarity: rar, role, set: S[0] }, b: { title: S[3][bi], seriesName: S[1], genres: ["Fantasy"] } })));
+    pool.forEach(x => { x.st = statsFor(x.c, x.b); });
+    const near = pool.filter(x => Math.abs(x.st.power - avg) <= 3 && !mine.some(m => sameName(m.c.name, x.c.name)));
+    const src = near.length >= 6 ? near : pool, hand = [];
+    while (hand.length < 3 && src.length) hand.push(src.splice(Math.floor(Math.random() * src.length), 1)[0]);
+    return hand;
+  }
+  function duelValue(card, stat, ctx){
+    const st = card.st; let v = st[stat];
+    if (st.ability.flag === "floor") v = Math.max(v, 6);
+    v += st.ability.fn({ ...ctx, stat, top: st.top }) || 0;
+    return v;
+  }
+  function startDuel(){
+    const mine = myDuelCards(), hand = duelPick.map(id => mine.find(x => x.id === id)).filter(Boolean);
+    if (hand.length !== 3) { toast("Choose three cards for your hand."); return; }
+    duel = { mine: hand, theirs: familiarHand(hand), round: 0, score: [0, 0], log: [], stage: "pick", chooser: "me" };
+    renderDuel();
+  }
+  function playRound(stat){
+    const d = duel, a = d.mine[d.round], f = d.theirs[d.round], behindMe = d.score[0] < d.score[1], behindF = d.score[1] < d.score[0];
+    const ctxA = { round: d.round, last: d.round === 2, mine: d.chooser === "me", behind: behindMe }, ctxF = { round: d.round, last: d.round === 2, mine: d.chooser !== "me", behind: behindF };
+    let va = duelValue(a, stat, ctxA), vf = duelValue(f, stat, ctxF);
+    if (a.st.ability.flag === "dread") vf -= 1; if (f.st.ability.flag === "dread") va -= 1;
+    let win = va > vf ? 0 : vf > va ? 1 : (a.st.ability.flag === "tie" && f.st.ability.flag !== "tie") ? 0 : (f.st.ability.flag === "tie" && a.st.ability.flag !== "tie") ? 1 : -1;
+    if (win >= 0) d.score[win]++;
+    d.log.push({ stat, va, vf, win, a, f });
+    d.stage = "reveal"; renderDuel();
+  }
+  function nextRound(){
+    const d = duel; d.round++;
+    if (d.round >= 3) { d.stage = "end"; const [x, y] = d.score; const res = x > y ? "won" : y > x ? "lost" : "drawn";
+      duelRec[res]++; duelRec.streak = res === "won" ? duelRec.streak + 1 : 0; duelRec.best = Math.max(duelRec.best, duelRec.streak); lsSet(KEY_DUEL, duelRec); d.result = res; renderDuel(); return; }
+    d.chooser = d.round === 1 ? "fam" : "me"; d.stage = "pick"; renderDuel();
+    if (d.chooser === "fam") setTimeout(() => { if (duel === d && d.stage === "pick") { const f = d.theirs[d.round]; playRound(f.st.top); } }, 1400);
+  }
+  const duelCardHTML = (x, opts = {}) => `<div class="dcard${opts.down ? " down" : ""}${opts.win ? " won" : ""}${opts.lose ? " lost" : ""}">${opts.down ? cardBack(cardStyle(x.c, x.b), 1) : nookCard(x.c, x.b, x.c.book ? { cover: true, type: x.c.role, foot: mainGenreOf(x.b) || "Book card" } : {})}</div>`;
+  function duelPanelHTML(){
+    const famN = famName(familiar);
+    if (!duel) {
+      const mine = myDuelCards();
+      if (mine.length < 3) return `<div class="empty"><span class="fleuron">⚔\uFE0E</span><h3>You need three cards to duel</h3><div>Open your card packs first: every finished book gives you cards. Then come back and challenge ${esc(famN)}.</div></div>`;
+      duelPick = duelPick.filter(id => mine.some(x => x.id === id));
+      return `<div class="duelintro"><div><h3>Duel ${esc(famN)}</h3><p class="note">Pick three cards. Each round both sides play one card and compare one stat: you choose the stat in rounds one and three, ${esc(famN)} chooses in round two. Abilities can tip the balance. Best of three wins.</p>
+          <p class="duelrec">Won <b>${duelRec.won}</b> · Lost <b>${duelRec.lost}</b>${duelRec.drawn ? ` · Drawn <b>${duelRec.drawn}</b>` : ""}${duelRec.best > 1 ? ` · Best streak <b>${duelRec.best}</b>` : ""}</p></div>
+        <div class="duelgo"><span class="note">${duelPick.length}/3 chosen</span><button class="btn small" type="button" data-duelauto>Pick my strongest</button><button class="btn primary" type="button" data-duelstart ${duelPick.length === 3 ? "" : "disabled"}>⚔\uFE0E Start the duel</button></div></div>
+        <div class="cgrid duelgrid">${mine.slice(0, 120).map(x => `<button type="button" class="ccard ncwrap duelpick${duelPick.includes(x.id) ? " on" : ""}" data-duelpick="${esc(x.id)}">${nookCard(x.c, x.b, x.c.book ? { cover: true, type: x.c.role, foot: mainGenreOf(x.b) || "Book card" } : {})}<span class="dppow">Power ${x.st.power}</span>${duelPick.includes(x.id) ? `<span class="dpn">${duelPick.indexOf(x.id) + 1}</span>` : ""}</button>`).join("")}</div>`;
+    }
+    const d = duel, a = d.mine[Math.min(d.round, 2)], f = d.theirs[Math.min(d.round, 2)], L = d.log[d.round], peek = a.st.ability.flag === "peek";
+    const scoreHTML = `<div class="dscore"><span>You <b>${d.score[0]}</b></span><span class="dround">${d.stage === "end" ? "Final" : `Round ${d.round + 1} of 3`}</span><span><b>${d.score[1]}</b> ${esc(famN)}</span></div>`;
+    if (d.stage === "end") { const msg = d.result === "won" ? `You won! ${esc(famN)} bows, a little grumpily.` : d.result === "lost" ? `${esc(famN)} wins this one, and is unbearably smug about it.` : "A draw. You both pretend you weren't trying.";
+      return `${scoreHTML}<div class="dend ${d.result}"><h3>${d.result === "won" ? "✦ Victory" : d.result === "lost" ? "Defeat" : "Draw"}</h3><p>${msg}</p>
+        <div class="dlog">${d.log.map((x, i) => `<div class="dlrow ${x.win === 0 ? "w" : x.win === 1 ? "l" : "d"}"><span>R${i + 1}</span><b>${esc(x.a.c.name)}</b><span>${STATS.find(s => s[0] === x.stat)[1]} ${x.va} : ${x.vf}</span><b>${esc(x.f.c.name)}</b></div>`).join("")}</div>
+        <div class="packacts"><button class="btn" type="button" data-duelnew>New hand</button><button class="btn primary" type="button" data-duelagain>Rematch</button></div></div>`; }
+    const pickBtns = d.chooser === "me" && d.stage === "pick" ? `<div class="dstats">${STATS.map(([k, g, n]) => `<button type="button" class="dstat s-${k}" data-duelstat="${k}"><i>${g}</i><span>${n}</span><b>${a.st[k]}</b></button>`).join("")}</div><p class="note">Choose the stat for this round. ${esc(a.c.name)}'s ability: <b>${esc(a.st.ability.name)}</b>, ${esc(a.st.ability.text)}.</p>`
+      : d.stage === "pick" ? `<p class="note dthink">${esc(famN)} is choosing a stat…</p>` : "";
+    const reveal = d.stage === "reveal" && L ? `<div class="dresult ${L.win === 0 ? "w" : L.win === 1 ? "l" : "d"}"><b>${STATS.find(s => s[0] === L.stat)[1]} ${STATS.find(s => s[0] === L.stat)[2]}${d.chooser === "fam" ? ` (${esc(famN)}'s pick)` : ""}: ${L.va} against ${L.vf}</b><span>${L.win === 0 ? "You take the round!" : L.win === 1 ? `${esc(famN)} takes the round.` : "A tie: nobody scores."}</span></div><div class="packacts"><button class="btn primary" type="button" data-duelnext>${d.round >= 2 ? "See the result" : "Next round"}</button></div>` : "";
+    return `${scoreHTML}<div class="dtable"><div class="dside"><span class="label">Your card</span>${duelCardHTML(a, { win: L?.win === 0, lose: L?.win === 1 })}<span class="dabil"><b>${esc(a.st.ability.name)}</b> ${esc(a.st.ability.text)}</span></div><div class="dvs">VS</div><div class="dside"><span class="label">${esc(famN)}'s card</span>${duelCardHTML(f, { down: d.stage === "pick" && !peek, win: L?.win === 1, lose: L?.win === 0 })}${d.stage === "pick" && !peek ? `<span class="dabil">Face down</span>` : `<span class="dabil"><b>${esc(f.st.ability.name)}</b> ${esc(f.st.ability.text)}</span>`}</div></div>${peek && d.stage === "pick" ? `<p class="note">👁 Foresight: you can see their card.</p>` : ""}${pickBtns}${reveal}`;
+  }
+  function renderDuel(){ const el = $("#duel-panel"); if (el) { el.innerHTML = duelPanelHTML(); paintRecCovers(el); } }
+  document.addEventListener("click", e => {
+    if (!e.target.closest("#duel-panel")) return;
+    const p = e.target.closest("[data-duelpick]"); if (p) { const id = p.dataset.duelpick; duelPick = duelPick.includes(id) ? duelPick.filter(x => x !== id) : duelPick.length < 3 ? [...duelPick, id] : [...duelPick.slice(1), id]; renderDuel(); return; }
+    if (e.target.closest("[data-duelauto]")) { duelPick = myDuelCards().slice(0, 3).map(x => x.id); renderDuel(); return; }
+    if (e.target.closest("[data-duelstart]")) { startDuel(); return; }
+    const s = e.target.closest("[data-duelstat]"); if (s && duel?.stage === "pick" && duel.chooser === "me") { playRound(s.dataset.duelstat); return; }
+    if (e.target.closest("[data-duelnext]")) { nextRound(); return; }
+    if (e.target.closest("[data-duelagain]")) { startDuel(); return; }
+    if (e.target.closest("[data-duelnew]")) { duel = null; renderDuel(); return; }
+  });
   let cardView = lsGet("reading-ledger-cardview", "sets");
   function cardsHeader(){
     const sets = sagaSets(), bookCards = readBooks().filter(b => b.bookCard && !b.bookCard.sealed);
-    return `<div class="seg cardtabs">${[["sets", `Saga sets · ${sets.reduce((s, x) => s + x.have, 0)}`], ["books", `Book cards · ${bookCards.length}`], ["mine", "Your characters"]].map(([k, l]) => `<button type="button" data-cardview="${k}" aria-pressed="${cardView === k}">${l}</button>`).join("")}</div>`;
+    return `<div class="seg cardtabs">${[["sets", `Saga sets · ${sets.reduce((s, x) => s + x.have, 0)}`], ["books", `Book cards · ${bookCards.length}`], ["duel", "⚔\uFE0E Duel"], ["mine", "Your characters"]].map(([k, l]) => `<button type="button" data-cardview="${k}" aria-pressed="${cardView === k}">${l}</button>`).join("")}</div>`;
   }
   function setsHTML(){
     const sets = sagaSets();
@@ -8200,8 +8626,8 @@ alter publication supabase_realtime add table public.library;`;
     const opts = [...books].filter(b => b.shelf !== "want").concat(books.filter(b => b.shelf === "want")).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.seriesName ? ` (${esc(b.seriesName)})` : ""}</option>`).join("");
     const series = [...new Set(chars.map(x => x.b.seriesName || x.b.title))];
     const shown = chars.filter(x => charFilter === "all" || charFilter === "fav" ? (charFilter !== "fav" || x.c.fav) : (x.b.seriesName || x.b.title) === charFilter).sort((a, b) => (b.c.fav ? 1 : 0) - (a.c.fav ? 1 : 0) || (b.c.added || "").localeCompare(a.c.added || ""));
-    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner pk2banner"><div class="pkstack">${packs.slice(0, 4).map((p, k) => { const st = cardStyle({}, p); return `<span class="pkmini" style="--a:${st.a};--g:${st.g};--k:${k}">${st.sym}</span>`; }).join("")}</div><div><b>${packs.length} unopened pack${packs.length > 1 ? "s" : ""}</b><small>Next: <i>${esc(packs[0].title)}</i>${sagaOf(packs[0]) ? ` · ${esc(sagaOf(packs[0])[1])} cards` : " · a book card"}</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : "Open a pack"}</button></div>` : "";
-    if (cardView !== "mine") { el.innerHTML = head + packHTML + `<div class="panel cardspanel">${cardsHeader()}${cardView === "sets" ? setsHTML() : bookCardsHTML()}</div>`; if (cardView === "sets") enrichCards(el); return; }
+    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner pk2banner"><div class="pkstack">${packs.slice(0, 4).map((p, k) => { const st = cardStyle({}, p); return `<span class="pkmini" style="--a:${st.a};--g:${st.g};--k:${k}">${st.sym}</span>`; }).join("")}</div><div><b>${packs.length} unopened pack${packs.length > 1 ? "s" : ""}</b><small>Next: <i>${esc(packs[0].title)}</i>${sagaOf(packs[0]) ? ` · ${esc(sagaOf(packs[0])[1])} cards` : " · a book card"}</small></div><div class="pkbtns"><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : "Open a pack"}</button>${packs.length > 2 ? `<button class="btn small" type="button" data-openall ${packBusy ? "disabled" : ""}>Open all ${packs.length}</button>` : ""}</div></div>` : "";
+    if (cardView !== "mine") { el.innerHTML = head + packHTML + `<div class="panel cardspanel">${cardsHeader()}${cardView === "duel" ? `<div id="duel-panel" class="duelpanel">${duelPanelHTML()}</div>` : cardView === "sets" ? setsHTML() : bookCardsHTML()}</div>`; paintRecCovers(el); if (cardView === "sets") enrichCards(el); return; }
     
 el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
       <form class="charform" id="char-form" autocomplete="off"><input name="n" placeholder="Character name, e.g. Aelin, Rhysand, Hermione" required><select name="b" aria-label="From which book">${opts}</select><button class="btn primary" type="submit">${charBusy ? "Searching…" : "Find them"}</button></form>
@@ -8216,7 +8642,8 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const root = $("#modal-root");
     root.innerHTML = `<div class="scrim" id="char-scrim"><div class="modal charmodal" role="dialog" aria-modal="true" aria-labelledby="c-title" style="--cc:${spineColorOf(b)}">
       ${(() => { const r = RAR[c.rarity || 1], role = charRole(c), blurb = charBlurb(c), tr = charTraits(c), n = allChars().findIndex(x => x.c.id === c.id) + 1;
-        return `<div class="ncbigwrap">${nookCard(c, b, { big: true })}</div>${blurb ? `<p class="tcblurb">${esc(blurb)}</p>` : ""}${tr.length ? `<div class="tctraits">${tr.map(t => `<span>${esc(cap(t))}</span>`).join("")}</div>` : ""}`; })()}
+        const st0 = (() => { try { return statsFor(c, b); } catch { return null; } })();
+        return `<div class="ncbigwrap">${nookCard(c, b, { big: true })}</div>${st0 ? `<div class="cstatbox">${STATS.map(([k, g, n]) => `<div class="cstat s-${k}"><span>${g} ${n}</span><b>${st0[k]}</b><i style="width:${st0[k] * 10}%"></i></div>`).join("")}<div class="cability"><b>✧ ${esc(st0.ability.name)}</b><em>${esc(st0.ability.text)}</em><span>Power ${st0.power}</span></div></div>` : ""}${blurb ? `<p class="tcblurb">${esc(blurb)}</p>` : ""}${tr.length ? `<div class="tctraits">${tr.map(t => `<span>${esc(cap(t))}</span>`).join("")}</div>` : ""}`; })()}
       <div class="cmacts"><button class="btn small${c.fav ? " primary" : ""}" type="button" id="c-fav">${c.fav ? "♥ Most cherished" : "♡ Mark as most cherished"}</button></div>
       ${(c.summary || c.personality || c.appearance || Object.keys(c.info || {}).length) ? `<details class="cmsec"><summary>Their full story</summary>
         <div class="cmbooks">${fam.map(x => `<span class="cmb${x.id === b.id ? " main" : ""}">${esc(x.title)}${x.shelf === "read" ? " ✓" : ""}</span>`).join("")}</div>
@@ -8245,6 +8672,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   }
   let packBusy = false;
   $("#view-keep").addEventListener("click", async e => {
+    if (e.target.closest("[data-openall]")) { if (packBusy) return; packBusy = true; renderKeep(); try { await openAllPacks(); } finally { packBusy = false; renderKeep(); } return; }
     if (e.target.closest("[data-openpack]")) { if (packBusy) return; const b = unopened()[0]; if (!b) return; packBusy = true; renderKeep(); try { await openPackFor(b); } finally { packBusy = false; } return; }
     const k = e.target.closest("[data-keep]"); if (k) { keepMode = k.dataset.keep; lsSet("reading-ledger-keepmode", keepMode); renderKeep(); return; }
     const cf = e.target.closest("[data-cfilter]"); if (cf) { charFilter = cf.dataset.cfilter; renderKeep(); return; }
@@ -8462,6 +8890,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const { read } = D, ach = (icon, name, desc, rarity, have, need, secret) => A.push({ icon, name, desc, rarity, have: Math.min(have, need), need, done: have >= need, secret });
     const pages = read.reduce((s, b) => s + (Number(b.pages) || 0), 0), AT = name => ARCHETYPES.find(a => a.name === name), cntA = name => read.filter(b => AT(name)?.t(b) > 0).length;
     ach("🌟", "Fifty Strong", "Finish 50 books.", "epic", read.length, 50);
+    try { ach("⚔\uFE0E", "First Duel Won", "Beat your familiar in a card duel.", "common", duelRec.won, 1); ach("🏆", "Duelist", "Win 10 card duels.", "epic", duelRec.won, 10); ach("🔥", "Unbeatable", "Win 5 duels in a row.", "legendary", duelRec.best, 5); } catch {}
     ach("🏰", "The Two Hundred", "Finish 200 books.", "legendary", read.length, 200);
     ach("⛰", "Page Mountain", "Read 10,000 pages.", "rare", pages, 10000);
     ach("🗻", "Page Everest", "Read 50,000 pages.", "legendary", pages, 50000);
@@ -9486,8 +9915,21 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.2";
+  const APP_VERSION = "3.3";
   const CHANGELOG = [
+    ["3.3", "23 Oct 2026", "Doors, duels and a name on your bookcase", [
+      "Explore your nook is now a hallway of painted wooden doors that swing open as you step into a room",
+      "Everyone's cards were re-dealt: every finished book is a sealed pack again, with an Open all button",
+      "Every card has Strength, Magic, Cunning and Heart, plus its own ability, shown on the card and in its window",
+      "New: card duels against your familiar, best of three, in Cards → Duel",
+      "A hanging name plank for your bookcase, in English or Serbian (Latin or Cyrillic), with the right name forms",
+      "Fairy lights: warm, plain pearls, candlelight, starlight, fairy dust, rainbow, or off",
+      "Trinkets can be moved past each other, and a faint preview shows where a book or trinket will land",
+      "Words looked up in another language are explained in that language, with a switch to English",
+      "Your Reader DNA fetches missing details for newly finished books and tells you when it shifts",
+      "Fixed: the familiar's close button, a stray scrollbar under its bubble, and blurry words on iPhone",
+      "Smaller, clearer buttons under the bookcase",
+    ]],
     ["3.2", "23 Oct 2026", "The Nook Deck: new cards and sealed packs", [
       "Every card now shares one original design: a framed card with its own painted scene and emblem, the set's colours, a number in the set and rarity gems. No more film photos",
       "Finishing a book sends you a sealed pack: tear it open, then turn the cards over one by one. Legendary cards glow before you flip them",
@@ -9646,6 +10088,85 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   $("#group-by").addEventListener("click", e => { const g = e.target.closest("[data-group]"); if (!g) return; groupBy = g.dataset.group; lsSet("reading-ledger-groupby", groupBy); renderLibrary(); });
   $("#list").addEventListener("click", e => { const j = e.target.closest("[data-jump]"); if (j) { e.preventDefault(); document.getElementById(j.dataset.jump)?.scrollIntoView({ behavior: "smooth", block: "start" }); } });
   for (const k of TABS) $("#tab-" + k).addEventListener("click", () => showTab(k));
+
+  // ================= the hallway: every room behind its own painted door =================
+  const DOORS = { library: ["#6B4426", "oak"], calendar: ["#5E7A5A", "sage"], covers: ["#B8862E", "mustard"], series: ["#2F5A46", "green"], stats: ["#2E4466", "navy"], soul: ["#5A3A72", "plum"], recs: ["#A4505A", "rose"], keep: ["#7A2A32", "claret"], authors: ["#4A3424", "walnut"], friends: ["#3E7A8A", "robin"] };
+  (() => {
+    for (const k of TABS) { const t = $("#tab-" + k); if (!t || t.querySelector(".door")) continue; const [col] = DOORS[k] || ["#6B4426"];
+      t.style.setProperty("--door", col);
+      t.insertAdjacentHTML("afterbegin", `<span class="door" aria-hidden="true"><span class="leaf"><span class="fan">${t.querySelector(".ti")?.textContent || "✦"}</span><span class="plq">${t.querySelector(".tl")?.textContent || ""}</span><i class="knob"></i><i class="pane p1"></i><i class="pane p2"></i></span></span><span class="mat" aria-hidden="true"></span>`); }
+    const nav = $("#room-tabs"); if (nav && !nav.querySelector(".hallsign")) nav.insertAdjacentHTML("afterbegin", `<div class="hallsign" aria-hidden="true"><i class="sconce l"></i><span class="hstxt" id="hall-welcome">Welcome to your nook</span><i class="sconce r"></i></div>`);
+    // a door swings open before you step through it
+    nav?.addEventListener("click", e => {
+      const t = e.target.closest(".tab"); if (!t) return; if (t.dataset.go) { delete t.dataset.go; return; }
+      if (!document.body.classList.contains("hall-grid") || reduceMotion) return;
+      e.stopImmediatePropagation(); e.preventDefault(); if (t.dataset.opening) return; t.dataset.opening = 1; t.classList.add("opening");
+      setTimeout(() => { delete t.dataset.opening; t.classList.remove("opening"); t.dataset.go = 1; t.click(); }, 520);
+    }, true);
+  })();
+  // ================= the name plank: a little wooden sign that says whose bookcase this is =================
+  const KEY_PLANK = "reading-ledger-plank";
+  let plank = lsGet(KEY_PLANK, { on: false, name: "", style: "en-shelf", custom: "" });
+  const CYR = "а б в г д ђ е ж з и ј к л љ м н њ о п р с т ћ у ф х ц ч џ ш".split(" "), LAT = "a b v g d đ e ž z i j k l lj m n nj o p r s t ć u f h c č dž š".split(" ");
+  const toLat = t => [...t].map(ch => { const lo = ch.toLowerCase(), i = CYR.indexOf(lo); if (i < 0) return ch; const l = LAT[i]; return ch === lo ? l : l[0].toUpperCase() + l.slice(1); }).join("");
+  const toCyr = t => { let out = "", i = 0; while (i < t.length) { const two = t.slice(i, i + 2), lo2 = two.toLowerCase(); let k = LAT.indexOf(lo2); if (two.length === 2 && k >= 0 && lo2.length === 2) { out += two[0] === two[0].toUpperCase() && two[0] !== two[0].toLowerCase() ? CYR[k].toUpperCase() : CYR[k]; i += 2; continue; } const ch = t[i], lo = ch.toLowerCase(); k = LAT.indexOf(lo); out += k >= 0 ? (ch === lo ? CYR[k] : CYR[k].toUpperCase()) : ch; i++; } return out; };
+  // Serbian possessive: Bojana → Bojanin, Milica → Miličin, Marko → Markov, Miloš → Milošev, Petar → Petrov, Đorđe → Đorđev
+  function srPossessive(name){
+    const cyr = /[Ѐ-ӿ]/.test(name), n = (cyr ? toLat(name) : name).trim(); if (!n) return "";
+    const lo = n.toLowerCase(), soft = /(j|lj|nj|č|ć|š|ž|đ|dž|c)$/;
+    let out;
+    if (/a$/.test(lo)) { let st = n.slice(0, -1); if (/c$/.test(st)) st = st.slice(0, -1) + "č"; out = st + "in"; }
+    else if (/[oe]$/.test(lo)) { const st = n.slice(0, -1); out = st + (soft.test(st.toLowerCase()) ? "ev" : "ov"); }
+    else if (/[td]ar$/.test(lo)) out = n.slice(0, -2) + "rov";
+    else if (/r$/.test(lo)) out = n + "ev";
+    else if (/i$/.test(lo)) out = n + "jev";
+    else out = n + (soft.test(lo) ? "ev" : "ov");
+    return cyr ? toCyr(out) : out;
+  }
+  const PLANK_STYLES = [
+    ["en-shelf", "English", n => `${n}’s Bookshelf`], ["en-nook", "English", n => `${n}’s Nook`], ["en-library", "English", n => `${n}’s Library`], ["en-exlibris", "English", n => `Ex libris ${n}`],
+    ["sr-polica", "Srpski", n => `${srPossessive(toLat(n))}a polica`], ["sr-biblioteka", "Srpski", n => `${srPossessive(toLat(n))}a biblioteka`], ["sr-kutak", "Srpski", n => `${srPossessive(toLat(n))} kutak`],
+    ["cy-polica", "Српски", n => `${srPossessive(/[Ѐ-ӿ]/.test(n) ? n : toCyr(n))}а полица`], ["cy-kutak", "Српски", n => `${srPossessive(/[Ѐ-ӿ]/.test(n) ? n : toCyr(n))} кутак`],
+    ["custom", "Your own words", () => ""],
+  ];
+  const plankName = () => (plank.name || "").trim() || (lsGet("reading-ledger-readername", "") || "").split(" ")[0] || (() => { try { return (lsGet("reading-ledger-profile", null)?.name || "").split(" ")[0]; } catch { return ""; } })();
+  const plankText = (P = plank) => { if (P.style === "custom") return (P.custom || "").trim(); const n = (P.name || "").trim() || plankName(); if (!n) return ""; const st = PLANK_STYLES.find(x => x[0] === P.style) || PLANK_STYLES[0]; return st[2](n); };
+  function paintPlank(){
+    const bc = $("#bookcase"); if (!bc) return; let el = $("#nameplank"); const txt = plankText();
+    const welcome = $("#hall-welcome"); if (welcome) welcome.textContent = plank.on && txt ? (/^(ex libris)/i.test(txt) ? txt : `Welcome to ${txt.replace(/’s (Bookshelf|Library)$/, "’s nook")}`) : "Welcome to your nook";
+    if (!plank.on || !txt) { el?.remove(); return; }
+    if (!el) { el = document.createElement("div"); el.id = "nameplank"; el.className = "nameplank"; el.setAttribute("aria-label", txt); bc.prepend(el); }
+    el.innerHTML = `<i class="pkrope l"></i><i class="pkrope r"></i><span class="pkboard"><i class="pknail l"></i><span class="pktxt">${esc(txt)}</span><i class="pknail r"></i></span>`;
+    el.setAttribute("aria-label", txt);
+  }
+  function plankPanel(){
+    const n = (plank.name || "").trim() || plankName() || "Bojana";
+    return `<div class="cphead"><h3>Name plank</h3><div class="seg"><button type="button" data-plankon="1" aria-pressed="${!!plank.on}">Show it</button><button type="button" data-plankon="0" aria-pressed="${!plank.on}">Hide</button></div></div>
+      <div class="plankrow"><label class="field"><span class="label">Name</span><input id="plank-name" value="${esc(plank.name || "")}" placeholder="${esc(plankName() || "Your name")}" maxlength="24" autocomplete="off"></label></div>
+      <div class="plankstyles">${PLANK_STYLES.map(([k, lang, f]) => `<button type="button" data-plankstyle="${k}" aria-pressed="${plank.style === k}"><small>${esc(lang)}</small>${k === "custom" ? "Write my own" : esc(f(n))}</button>`).join("")}</div>
+      ${plank.style === "custom" ? `<label class="field"><span class="label">Your words</span><input id="plank-custom" value="${esc(plank.custom || "")}" maxlength="34" placeholder="e.g. Kod Bojane ✦"></label>` : ""}
+      <p class="note">Serbian names get the right form on their own (Bojana → Bojanina polica, Marko → Markova polica, Miloš → Miloševa polica), in Latin or Cyrillic letters.</p>`;
+  }
+  // ================= fairy lights =================
+  const KEY_LIGHTS = "reading-ledger-lights";
+  let lightStyle = lsGet(KEY_LIGHTS, "theme");
+  const LIGHTS = [["theme", "Match the theme"], ["warm", "Warm glow"], ["plain", "Plain pearls"], ["candle", "Candlelight"], ["starlight", "Starlight"], ["fairy", "Fairy dust"], ["rainbow", "Rainbow"], ["off", "Off"]];
+  function paintLights(){ const bc = $("#bookcase"); if (bc) bc.dataset.lights = lightStyle; const el = $("#lights-chips"); if (el) el.innerHTML = LIGHTS.map(([k, l]) => `<button type="button" data-lights="${k}" aria-pressed="${lightStyle === k}"><span class="lprev lp-${k}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${l}</button>`).join(""); }
+  function paintPlankPanel(){ const el = $("#plank-panel"); if (el) el.innerHTML = plankPanel(); }
+  (() => {
+    const panel = $("#case-panel"); if (!panel) return;
+    panel.insertAdjacentHTML("beforeend", `<section class="cp wide"><h3>Fairy lights</h3><div class="chipset lightchips" id="lights-chips"></div></section><section class="cp wide plankcp" id="plank-panel"></section>`);
+    paintLights(); paintPlankPanel(); paintPlank();
+    panel.addEventListener("click", e => {
+      const l = e.target.closest("[data-lights]"); if (l) { lightStyle = l.dataset.lights; lsSet(KEY_LIGHTS, lightStyle); paintLights(); return; }
+      const on = e.target.closest("[data-plankon]"); if (on) { plank.on = on.dataset.plankon === "1"; if (plank.on && !plankText()) { toast("Type your name first ✦"); plank.on = false; } lsSet(KEY_PLANK, plank); paintPlankPanel(); paintPlank(); if (plank.on) $("#nameplank")?.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+      const st = e.target.closest("[data-plankstyle]"); if (st) { plank.style = st.dataset.plankstyle; if (!plank.on) plank.on = !!plankText() || plank.style === "custom"; lsSet(KEY_PLANK, plank); paintPlankPanel(); paintPlank(); if (plank.style === "custom") $("#plank-custom")?.focus(); return; }
+    });
+    panel.addEventListener("input", e => {
+      if (e.target.id === "plank-name") { plank.name = e.target.value; lsSet(KEY_PLANK, plank); paintPlank(); const n = plank.name.trim() || plankName() || "Bojana"; panel.querySelectorAll("[data-plankstyle]").forEach(b => { const s2 = PLANK_STYLES.find(x => x[0] === b.dataset.plankstyle); if (s2 && s2[0] !== "custom") b.innerHTML = `<small>${esc(s2[1])}</small>${esc(s2[2](n))}`; }); }
+      if (e.target.id === "plank-custom") { plank.custom = e.target.value; plank.on = true; lsSet(KEY_PLANK, plank); paintPlank(); }
+    });
+  })();
   $("#view-calendar").addEventListener("click", e => {
     const c = e.target.closest("[data-cal]"); if (!c) return;
     if (c.dataset.cal === "now") { const n = new Date(); calY = n.getFullYear(); calM = n.getMonth() + 1; }
