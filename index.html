@@ -2142,6 +2142,85 @@ body:not(.hall-closed) .hallcta{background:transparent;color:var(--muted);border
 body:not(.hall-closed) .hdoor{display:none}
 @media (max-width:640px){.hallbtn.hb2{padding:12px 18px 14px}.hallbtn.hb2 .hallsub{font-size:13px}.hdoor{font-size:15px}}
 @media (prefers-reduced-motion:reduce){.hdoor i,body.hall-closed .hallcta{animation:none}}
+
+/* v3.2 the Nook Deck: uniform original cards */
+.ncwrap{display:block;width:100%;border:0;background:none;padding:0;margin:0;cursor:pointer;position:relative;font:inherit;color:inherit;text-align:center}
+.ncwrap.locked{cursor:default}
+.nc{--a:#2A2430;--g:#D8B25A;--glow:#F2D58E;container-type:inline-size;position:relative;display:flex;flex-direction:column;width:100%;aspect-ratio:5/7;border-radius:11px;padding:5px;box-sizing:border-box;
+  background:radial-gradient(circle at 30% 0%,rgba(255,255,255,.2),transparent 55%),linear-gradient(160deg,color-mix(in srgb,var(--a) 86%,#fff 14%),color-mix(in srgb,var(--a) 72%,#000));
+  box-shadow:0 8px 18px -8px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.14);color:#F7ECD3;overflow:hidden;text-align:center;transition:transform .25s,box-shadow .25s}
+.ncwrap:not(.locked):hover .nc{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 14px 26px -10px rgba(0,0,0,.6),0 0 18px -4px var(--glow)}
+.ncin{flex:1;display:flex;flex-direction:column;min-height:0;border:1.5px solid var(--g);border-radius:7px;overflow:hidden;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+.ncname{display:block;font-family:var(--f-display);font-weight:700;font-style:italic;font-size:9cqi;line-height:1.15;padding:2.6cqi 3cqi 2cqi;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid color-mix(in srgb,var(--g) 55%,transparent);background:linear-gradient(180deg,rgba(255,255,255,.1),transparent)}
+.ncart{display:block;flex:1;min-height:0;position:relative;overflow:hidden;background:#0c0a10}
+.ncart>svg,.ncart>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ncart .ncov{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle,color-mix(in srgb,var(--glow) 40%,transparent),transparent 70%),color-mix(in srgb,var(--a) 55%,#000)}
+.ncart .ncov .cover{width:58%;--fs:5px;box-shadow:0 8px 16px rgba(0,0,0,.55)}
+.ncsym{position:absolute;right:4%;bottom:4%;width:14cqi;height:14cqi;border-radius:50%;display:grid;place-items:center;font-size:7.5cqi;line-height:1;background:color-mix(in srgb,var(--a) 80%,#000);border:1px solid var(--g);color:var(--g);box-shadow:0 2px 4px rgba(0,0,0,.45)}
+.nctype{display:block;font-family:var(--f-cap);font-size:5.8cqi;letter-spacing:.08em;text-transform:uppercase;padding:2.4cqi 3cqi 1cqi;border-top:1px solid color-mix(in srgb,var(--g) 55%,transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:color-mix(in srgb,var(--g) 65%,#fff)}
+.ncfoot{display:flex;justify-content:space-between;align-items:center;gap:4px;padding:0 3.5cqi 2.4cqi;font-family:var(--f-cap);font-size:5.4cqi;opacity:.92;white-space:nowrap}
+.ncfoot>span:first-child{overflow:hidden;text-overflow:ellipsis}
+.ncgems{color:var(--g);letter-spacing:.06em;flex:0 0 auto}
+.nc.r2 .ncin{border-color:#DCE8F4;box-shadow:inset 0 0 0 2px rgba(0,0,0,.25),inset 0 0 10px rgba(210,230,255,.35)}.nc.r2 .ncgems{color:#DCE8F4}
+.nc.r3{box-shadow:0 8px 18px -8px rgba(0,0,0,.55),0 0 0 1px #F6D77A,0 0 16px -4px var(--glow)}.nc.r3 .ncin{border-color:#F6D77A;border-width:2px}
+.ncholo{position:absolute;inset:0;pointer-events:none;border-radius:inherit;mix-blend-mode:color-dodge;opacity:.5;background:linear-gradient(115deg,transparent 20%,rgba(255,120,200,.55) 32%,rgba(255,240,120,.55) 40%,rgba(120,255,200,.55) 48%,rgba(120,180,255,.55) 56%,transparent 68%) 0 0/260% 260%;animation:holo 6s linear infinite}
+@keyframes holo{0%{background-position:110% 110%}100%{background-position:-60% -60%}}
+.nc.locked{filter:grayscale(.8) brightness(.72);opacity:.8}
+.nc.locked .ncart{display:grid;place-items:center;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px),#17131c}
+.nc.locked .lockq{font-family:var(--f-display);font-size:26cqi;color:var(--g);opacity:.55}
+.nc.locked .nctype{text-transform:none;letter-spacing:0;font-style:italic;font-family:var(--f-display);font-size:6.4cqi}
+.ncwrap .cheart{position:absolute;top:7px;left:9px;z-index:3;color:#FF8FB1;text-shadow:0 0 4px #000}
+.ncbigwrap{width:min(280px,72vw);margin:0 auto 10px}.nc.big .ncname{font-size:8cqi}
+/* card backs */
+.ncback{--a:#2A2430;--g:#D8B25A;--glow:#F2D58E;container-type:inline-size;display:flex;width:100%;aspect-ratio:5/7;border-radius:11px;padding:5px;box-sizing:border-box;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--a) 85%,#fff 12%),color-mix(in srgb,var(--a) 60%,#000));box-shadow:0 10px 22px -8px rgba(0,0,0,.65),inset 0 0 0 1px rgba(255,255,255,.14)}
+.nbin{flex:1;border:1.5px solid var(--g);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4cqi;
+  background:radial-gradient(circle,color-mix(in srgb,var(--glow) 30%,transparent),transparent 62%),repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.06) 0 8deg,transparent 8deg 16deg)}
+.nbsym{font-size:30cqi;line-height:1;color:var(--g);text-shadow:0 0 12px var(--glow)}
+.nbtitle{font-family:var(--f-cap);font-size:6cqi;letter-spacing:.2em;text-transform:uppercase;color:var(--g)}
+.ncback.r2{box-shadow:0 10px 22px -8px rgba(0,0,0,.65),0 0 10px rgba(220,232,244,.55)}
+.ncback.r3{animation:legpulse 1.3s ease-in-out infinite}
+@keyframes legpulse{0%,100%{box-shadow:0 10px 22px -8px rgba(0,0,0,.65),0 0 8px 0 var(--glow)}50%{box-shadow:0 10px 22px -8px rgba(0,0,0,.65),0 0 28px 6px var(--glow)}}
+/* the pack ritual */
+.pk2ov{position:fixed;inset:0;z-index:420;display:grid;place-items:center;padding:16px;overflow:auto;background-color:#0b0710;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);background-image:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--a) 75%,#000),rgba(8,5,12,.95) 75%);animation:rmin .35s ease}
+.pk2{text-align:center;color:#FFF3DC;max-width:960px;width:100%}
+.pk2 h2{font-family:var(--f-display);font-style:italic;font-size:clamp(24px,4vw,34px);margin:4px 0}.pk2 .label{color:var(--g)}.pk2 .note{color:#E5D3B2}
+.packet{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:min(210px,56vw);aspect-ratio:3/4.3;margin:20px auto 12px;border:0;padding:0;cursor:pointer;font:inherit;color:var(--g);border-radius:8px;overflow:hidden;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--a) 70%,#fff 22%),var(--a) 35%,color-mix(in srgb,var(--a) 55%,#000) 62%,color-mix(in srgb,var(--a) 80%,#fff 18%));
+  box-shadow:0 24px 46px -12px rgba(0,0,0,.75),inset 0 0 0 2px var(--g),inset 0 0 0 5px color-mix(in srgb,var(--a) 70%,#000);animation:pkwig 2.8s ease-in-out infinite;transition:transform .5s,opacity .5s}
+.packet::before,.packet::after{content:"";position:absolute;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.35) 0 5px,rgba(255,255,255,.18) 5px 10px);z-index:2}
+.packet::before{top:0}.packet::after{bottom:0}
+.pkfoil{position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 45%,transparent 60%) 0 0/250% 250%;animation:holo 3.5s linear infinite;pointer-events:none}
+.pktop{position:absolute;left:0;right:0;top:0;height:16%;z-index:3;border-bottom:1.5px dashed color-mix(in srgb,var(--g) 70%,transparent);transition:transform .6s cubic-bezier(.3,1.2,.5,1),opacity .6s}
+.pksym{font-size:58px;line-height:1;text-shadow:0 0 18px var(--glow);position:relative}
+.pkname{font-family:var(--f-display);font-style:italic;font-weight:700;font-size:19px;color:#FFF3DC;padding:0 14px;line-height:1.15;position:relative}
+.pkcount{font-family:var(--f-cap);font-size:11px;letter-spacing:.16em;text-transform:uppercase;position:relative}
+.pkseal{position:absolute;bottom:22px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#C8474A,#7A1A1E);color:#F6D7A0;font-size:15px;box-shadow:0 2px 4px rgba(0,0,0,.5)}
+.packet:hover{animation-play-state:paused;transform:translateY(-4px) rotate(-1deg)}
+.packet.torn{animation:none}.packet.torn .pktop{transform:translate(60px,-90px) rotate(24deg);opacity:0}
+.packet.torn{transform:translateY(40px) scale(.9);opacity:0;transition-delay:.25s}
+@keyframes pkwig{0%,100%{transform:rotate(0)}6%{transform:rotate(-3deg)}12%{transform:rotate(3deg)}18%{transform:rotate(0)}}
+.pk2cards{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:18px 0 10px}
+.pk2c{position:relative;width:150px;border:0;background:none;padding:0;cursor:pointer;perspective:1000px;animation:dealin .55s var(--d) cubic-bezier(.3,1.3,.5,1) both}
+.pk2c .flipper{display:block;position:relative;transition:transform .75s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
+.pk2c .back,.pk2c .face{display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.pk2c .face{position:absolute;inset:0;transform:rotateY(180deg)}
+.pk2c.flipped .flipper{transform:rotateY(180deg)}
+.pk2c:not(.flipped):hover .flipper{transform:translateY(-6px) rotate(-1.5deg)}
+.pk2c .burst{position:absolute;inset:-30%;pointer-events:none;border-radius:50%;opacity:0;background:radial-gradient(circle,var(--glow) 0,transparent 60%),repeating-conic-gradient(from 0deg,rgba(255,240,180,.7) 0 4deg,transparent 4deg 18deg);mask:radial-gradient(circle,#000 30%,transparent 70%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%)}
+.pk2c.legend .burst{animation:burst 1.2s .25s ease-out}
+.pk2c.legend .flipper{animation:legshake .3s}
+@keyframes burst{0%{opacity:0;transform:scale(.4) rotate(0)}30%{opacity:1}100%{opacity:0;transform:scale(1.5) rotate(40deg)}}
+@keyframes legshake{0%,100%{translate:0}25%{translate:-3px}75%{translate:3px}}
+@keyframes dealin{from{transform:translateY(-140px) scale(.55) rotate(-10deg);opacity:0}}
+.pk2prog{max-width:320px;margin:4px auto 10px;font-size:13px;color:#E5D3B2}.pk2prog .ssbar{margin-top:6px}
+.pkstack{position:relative;width:64px;height:58px;flex:0 0 auto}
+.pkmini{position:absolute;left:calc(var(--k) * 8px);top:calc(var(--k) * -2px);width:40px;height:56px;border-radius:5px;display:grid;place-items:center;font-size:18px;color:var(--g);background:linear-gradient(135deg,color-mix(in srgb,var(--a) 70%,#fff 22%),var(--a) 40%,color-mix(in srgb,var(--a) 55%,#000));box-shadow:0 4px 8px rgba(0,0,0,.4),inset 0 0 0 1.5px var(--g);transform:rotate(calc(var(--k) * 5deg - 6deg))}
+.pk2banner{align-items:center}
+.suit .sshead h3{display:flex;align-items:center;gap:8px}.suitsym{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--sc);color:#F6E7C4;font-size:14px}
+.suitnext{margin:4px 0 8px;font-size:13px}.suitnote{margin:0 0 12px}
+@media (max-width:640px){.pk2c{width:104px}.pk2cards{gap:8px}.ncbigwrap{width:min(250px,70vw)}}
+@media (prefers-reduced-motion:reduce){.ncholo,.pkfoil,.packet,.ncback.r3{animation:none}}
 </style>
 </head>
 <body>
@@ -2150,7 +2229,7 @@ body:not(.hall-closed) .hdoor{display:none}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.1.1</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.2</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
@@ -2258,7 +2337,7 @@ body:not(.hall-closed) .hdoor{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.1.1 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.2 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -5063,7 +5142,7 @@ body:not(.hall-closed) .hdoor{display:none}
         close();
         if (isNew && lastResults.length) closeResults();
         upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
-        if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb && navigator.onLine !== false) { toast("✦ Opening your card pack…", 2500); openPack(bb); } }, 1400); }
+        if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb) openPack(bb); }, 1400); }
         { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
       }
     });
@@ -7585,12 +7664,10 @@ alter publication supabase_realtime add table public.library;`;
     try { const d = await jget(`https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(f.title)}&prop=text&redirects=1&format=json&origin=*`); const doc = new DOMParser().parseFromString(d.parse?.text?.["*"] || "", "text/html"); doc.querySelectorAll("sup").forEach(x => x.remove()); personality = sectionText(doc, ["personality", "characterization", "character"]); } catch {}
     return { name: s.title, img: s.originalimage?.source || s.thumbnail?.source || "", summary: s.extract || "", personality, appearance: "", info: s.description ? { Description: s.description } : {}, srcName: "Wikipedia", srcUrl: s.content_urls?.desktop?.page || "" };
   }
-  const allChars = () => books.flatMap(b => (b.characters || []).map(c => ({ c, b })));
+  const allChars = () => books.flatMap(b => (b.characters || []).filter(c => !c.sealed).map(c => ({ c, b })));
   const charArt = (c, b) => c.img ? `<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-l="${esc((c.name || "?")[0])}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cmono',textContent:this.dataset.l}))">` : `<span class="cmono">${esc((c.name || "?")[0])}</span>`;
   function charCard(c, b){
-    const col = spineColorOf(b);
-    return `<button type="button" class="ccard${c.fav ? " fav" : ""}" data-char="${esc(b.id)}|${esc(c.id)}" style="--cc:${col}"><span class="cframe"><span class="cimg">${charArt(c, b)}</span><span class="cshine"></span>${c.fav ? `<span class="cheart">♥</span>` : ""}</span>
-      <span class="cname">${esc(c.name)}</span><span class="cbook">${esc(b.seriesName || b.title)}</span>${c.rarity ? `<span class="crar r${c.rarity}">${RAR[c.rarity][0]}</span>` : ""}</button>`;
+    return `<button type="button" class="ccard ncwrap${c.fav ? " fav" : ""}" data-char="${esc(b.id)}|${esc(c.id)}">${nookCard(c, b)}${c.fav ? `<span class="cheart">♥</span>` : ""}</button>`;
   }
   // ================= Authors: who you're reading =================
   const AUTH_KEY = n => "reading-ledger-author:" + norm(n);
@@ -7767,11 +7844,10 @@ alter publication supabase_realtime add table public.library;`;
   }
   const paintCharImgs = () => {};
   function miniCard(c, b){
-    const r = RAR[c.rarity || 1], role = charRole(c);
-    return `<div class="tcard mini r${c.rarity || 1}" style="--cc:${spineColorOf(b)}"><div class="tchead"><b>${esc(c.name)}</b><span class="trar" title="${r[1]}">${r[0]}</span></div><div class="tcimg">${charArt(c, b)}</div>${role ? `<div class="tctype">${esc(role)}</div>` : ""}<div class="tcfoot">${esc(b.seriesName || b.title)}</div></div>`;
+    return nookCard(c, b);
   }
   // books you've finished whose cast you haven't met yet: unopened packs
-  const unopened = () => readBooks().filter(b => !b.castTried && !(b.characters || []).some(c => c.reward)).sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
+  const unopened = () => readBooks().filter(b => (!b.castTried && !(b.characters || []).some(c => c.reward)) || (b.characters || []).some(c => c.sealed) || b.bookCard?.sealed).sort((a, b) => (b.finished || "").localeCompare(a.finished || ""));
   // ================= collectible cards: saga sets you complete by reading, and a card for every other book =================
   // [id, set name, how to recognise the series, books in reading order, [character, book (0-based), rarity 1-3, who they are]]
   const SAGAS = [
@@ -7846,13 +7922,121 @@ alter publication supabase_realtime add table public.library;`;
     return i;
   }
   const sameName = (a, b) => { a = norm(a); b = norm(b); return a === b || a.includes(b) || b.includes(a) || a.split(" ")[0] === b.split(" ")[0] && a.split(" ")[0].length > 3; };
+  // ================= the Nook Deck: one uniform, original card design for every collection =================
+  // every saga set gets its own colours, landscape and sigil; book cards take their genre's colour
+  const SET_STYLE = {
+    tog:      { a: "#16404D", g: "#D8B25A", sky: ["#0E2A35", "#2F6B73"], scene: "castle",   sym: "✧", glow: "#7FE3D6" },
+    acotar:   { a: "#2A1B4A", g: "#E4B9D2", sky: ["#120B2A", "#4A2F78"], scene: "stars",    sym: "❁", glow: "#D9A8FF" },
+    empyrean: { a: "#4A1414", g: "#E8A04A", sky: ["#220909", "#8A2A1A"], scene: "peaks",    sym: "◬", glow: "#FFB070" },
+    cc:       { a: "#1B2A4A", g: "#E8C66A", sky: ["#0B1430", "#3A4F8A"], scene: "city",     sym: "✶", glow: "#9FC4FF" },
+    hp:       { a: "#4A1A1E", g: "#E2BE62", sky: ["#1A0E1A", "#5A2A3A"], scene: "towers",   sym: "✷", glow: "#FFD27A" },
+    thg:      { a: "#3A1F12", g: "#F09A3A", sky: ["#180C08", "#7A3418"], scene: "forest",   sym: "✺", glow: "#FF8A3A" },
+    soc:      { a: "#18322A", g: "#C9B07A", sky: ["#0A1712", "#2D5446"], scene: "harbour",  sym: "♠", glow: "#8FD8B4" },
+    grisha:   { a: "#1C2B44", g: "#D6DCE8", sky: ["#0B1222", "#4C6A92"], scene: "peaks",    sym: "☉", glow: "#BFE0FF" },
+    fota:     { a: "#1E3A22", g: "#D8C27A", sky: ["#0C1A0E", "#3E6A3A"], scene: "forest",   sym: "♛", glow: "#B6F09A" },
+    fbaa:     { a: "#4A0F1A", g: "#E0C07A", sky: ["#1E060B", "#7A1A2A"], scene: "castle",   sym: "♦", glow: "#FF7A8A" },
+    lotr:     { a: "#2E3A1E", g: "#D9B860", sky: ["#141A0C", "#5A6A34"], scene: "peaks",    sym: "◉", glow: "#F2D58E" },
+    pj:       { a: "#103A52", g: "#E8D07A", sky: ["#081C2A", "#2A7AA0"], scene: "sea",      sym: "♆", glow: "#7FDCFF" },
+    mistborn: { a: "#2E2A2A", g: "#D8A060", sky: ["#141212", "#5A4A42"], scene: "city",     sym: "✦", glow: "#FFB27A" },
+    twilight: { a: "#222A30", g: "#C8CCD2", sky: ["#0E1216", "#46525C"], scene: "forest",   sym: "❦", glow: "#E06A6A" },
+    redqueen: { a: "#3A1218", g: "#D6D9E0", sky: ["#16070A", "#6A1E28"], scene: "towers",   sym: "♚", glow: "#FF6A6A" },
+    caraval:  { a: "#3A1240", g: "#F0C25A", sky: ["#1A0820", "#7A2A80"], scene: "stars",    sym: "✵", glow: "#FF9AE6" },
+    divine:   { a: "#3A2E1A", g: "#E6CF8A", sky: ["#18120A", "#6A5430"], scene: "hills",    sym: "✉", glow: "#FFE2A0" },
+  };
+  const GENRE_SCENE = { "Fantasy": "castle", "Romantasy": "stars", "Romance": "hills", "Science Fiction": "stars", "Mystery": "city", "Thriller": "city", "Horror": "forest", "Historical Fiction": "towers", "Classics": "towers", "Adventure": "sea", "Dystopian": "city", "Young Adult": "hills", "Children's": "hills", "Poetry": "stars", "Literary Fiction": "hills" };
+  const darken = (hex, k) => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, s, Math.max(0, l * k)); };
+  const lighten = (hex, k) => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, s, Math.min(.92, l + (1 - l) * k)); };
+  function cardStyle(c, b){
+    const S = SET_STYLE[c?.set] || (c?.set ? null : null) || (() => { const sg = sagaOf(b || {}); return sg ? SET_STYLE[sg[0]] : null; })();
+    if (S) return S;
+    const col = harmonizeG(lookOf(b || {}).color);
+    return { a: darken(col, .62), g: "#E2C27A", sky: [darken(col, .35), lighten(col, .12)], scene: GENRE_SCENE[mainGenreOf(b || {})] || "hills", sym: lookOf(b || {}).motif || "✦", glow: lookOf(b || {}).aura || "#F2D58E" };
+  }
+  // sigils: what the card shows, picked from who the character is
+  const SIGIL_RULES = [
+    [/dragon|wyvern|griffin|gryphon|phoenix|bird|owl|raven|crow|wings?/, "wing"], [/wolf|beast|cat|hound|dog|horse|stag|bear|creature|fox|lion|tiger|elephant|centaur|unicorn|naga|serpent|snake|basilisk/, "paw"],
+    [/witch|moon|night|vampire|werewolf/, "moon"], [/assassin|blade|thief|rogue|spy|smuggler|killer|mercenary|murderer/, "dagger"],
+    [/heal|doctor|nurse|potion|apothecar|alchemist|herb|brewer/, "potion"], [/door|key|keeper|lock|gate/, "key"],
+    [/queen|king|prince|princess|high lord|high lady|emperor|empress|royal|heir|ruler|monarch|tsar|duke|duchess|chancellor|president|lord of|lady of/, "crown"],
+    [/general|warrior|soldier|captain|guard|knight|fighter|rider|commander|legion|sentinel|tribute|gladiator|champion|swords?/, "sword"],
+    [/shield|protector|defender|guardian|bodyguard/, "shield"], [/hunt|archer|ranger|bow/, "bow"],
+    [/professor|headmaster|headmistress|teacher|mentor|scholar|librarian|scribe|historian|student|student|tutor|bookish|wise/, "book"],
+    [/mage|wizard|sorcer|magician|enchant|warlock|grisha|summoner|shadow|fae|faerie|fairy|elf|demigod|god|goddess|spirit|magic/, "staff"],
+    [/villain|dark lord|valg|demon|death|necro|evil|tyrant|lich|undead|ghoul|devil|monster/, "skull"],
+    [/sea|sailor|pirate|ship|captain of the|harbou?r|fisher/, "ship"], [/seer|oracle|prophet|ghost|vision|watcher|inquisitor/, "eye"],
+    [/shapeshift|actor|courtesan|trickster|spymaster|illusion|performer|masked|mask/, "mask"], [/poet|bard|musician|singer|storyteller|writer|reporter|journalist/, "quill"],
+    [/merchant|gambler|banker|trader|judge|lawyer|council/, "scales"], [/sun|light|fire|flame|ember|burn/, "flame"],
+    [/lover|love|friend|sister|brother|mother|father|family|wife|husband|aunt|uncle|cousin|daughter|son|grandmother|grandfather/, "heart"], [/garden|forest|nature|farmer|tree/, "leaf"],
+  ];
+  const sigilOf = (c) => { const t = `${c.role || ""} ${charRole(c) || ""}`.toLowerCase(); for (const [re, k] of SIGIL_RULES) if (new RegExp("\\b(?:" + re.source + ")").test(t)) return k; return ["star", "rose", "key", "quill", "eye"][hashNum(c.name || "x", 5)]; };
+  const SIGILS = {
+    crown: `<path d="M30 60V38l10 10 10-16 10 16 10-10v22z"/><rect x="29" y="61" width="42" height="7" rx="1.5"/><circle cx="30" cy="36" r="3"/><circle cx="50" cy="30" r="3"/><circle cx="70" cy="36" r="3"/>`,
+    sword: `<path d="M50 18l4.5 8v38h-9V26z"/><rect x="36" y="63" width="28" height="5" rx="2.5"/><rect x="47.5" y="68" width="5" height="11" rx="1"/><circle cx="50" cy="82" r="3.6"/>`,
+    dagger: `<g transform="rotate(-28 50 52)"><path d="M50 22l4 7v28h-8V29z"/><rect x="39" y="56" width="22" height="4.5" rx="2.2"/><rect x="47.6" y="60" width="4.8" height="12" rx="1"/><circle cx="50" cy="75" r="3.2"/></g>`,
+    shield: `<path d="M50 22l23 8c0 24-8 38-23 48C35 68 27 54 27 30z"/><path d="M50 30l15 5c-1 16-6 26-15 33-9-7-14-17-15-33z" fill="rgba(0,0,0,.28)"/><path d="M50 38v24M40 48h20" stroke="currentColor" stroke-width="3" fill="none"/>`,
+    staff: `<path d="M41 82l14-46" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M57 18l3.2 8.3 8.8.7-6.8 5.6 2.2 8.6L57 36.4l-7.4 4.8 2.2-8.6-6.8-5.6 8.8-.7z"/><circle cx="57" cy="29" r="15" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>`,
+    book: `<path d="M50 38c-8-6-18-7-25-4v32c7-3 17-2 25 4 8-6 18-7 25-4V34c-7-3-17-2-25 4z"/><path d="M50 38v32" stroke="rgba(0,0,0,.35)" stroke-width="1.6"/><path d="M30 42c5-1 10 0 15 3M30 49c5-1 10 0 15 3M55 45c5-3 10-4 15-3M55 52c5-3 10-4 15-3" stroke="rgba(0,0,0,.3)" stroke-width="1.2" fill="none"/>`,
+    flame: `<path d="M50 20c9 15 19 21 15 38-2 11-8 18-15 18-9 0-17-7-16-18 1-10 9-14 9-23 5 4 7 9 7 13 4-7 3-17 0-28z"/><path d="M50 50c4 6 7 9 5 16-1 4-3 6-5 6-4 0-6-3-6-7 0-5 4-8 6-15z" fill="rgba(255,255,255,.35)"/>`,
+    moon: `<path d="M60 22a28 28 0 1 0 0 56 22 22 0 1 1 0-56z"/><circle cx="66" cy="34" r="1.6"/><circle cx="72" cy="46" r="1.1"/><circle cx="64" cy="62" r="1.3"/>`,
+    rose: `<circle cx="50" cy="42" r="13"/><path d="M50 32c-5 3-6 9-2 12 4 3 9 0 9-4" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none"/><path d="M50 55v26" stroke="currentColor" stroke-width="3" fill="none"/><path d="M50 66c-8-6-14-4-16 1 6 3 12 3 16-1zM50 72c8-6 14-4 16 1-6 3-12 3-16-1z"/>`,
+    key: `<circle cx="50" cy="32" r="10" fill="none" stroke="currentColor" stroke-width="5"/><rect x="47.5" y="41" width="5" height="38" rx="1"/><rect x="52" y="66" width="9" height="4.5"/><rect x="52" y="73.5" width="6.5" height="4.5"/>`,
+    wing: `<path d="M50 70C38 64 26 50 22 30c8 6 14 8 20 8-5-3-8-7-9-12 7 5 12 7 17 7-3-3-4-6-4-9 5 6 10 11 13 18 3 9 2 19-9 28z"/><path d="M50 70c12-6 24-20 28-40-8 6-14 8-20 8 5-3 8-7 9-12-7 5-12 7-17 7 3-3 4-6 4-9" opacity=".55"/>`,
+    paw: `<ellipse cx="50" cy="60" rx="13" ry="11"/><ellipse cx="34" cy="44" rx="5.5" ry="7.5" transform="rotate(-20 34 44)"/><ellipse cx="44" cy="36" rx="5.5" ry="8"/><ellipse cx="56" cy="36" rx="5.5" ry="8"/><ellipse cx="66" cy="44" rx="5.5" ry="7.5" transform="rotate(20 66 44)"/>`,
+    skull: `<path fill-rule="evenodd" d="M50 22c-14 0-23 10-23 22 0 8 4 13 8 16v10h30V60c4-3 8-8 8-16 0-12-9-22-23-22zM40 42a5 6 0 1 0 0 12 5 6 0 1 0 0-12zm20 0a5 6 0 1 0 0 12 5 6 0 1 0 0-12zM50 54l-3 6h6z"/><path d="M41 70v8M47 70v8M53 70v8M59 70v8" stroke="rgba(0,0,0,.4)" stroke-width="1.6"/>`,
+    ship: `<path d="M24 62h52l-8 12H32z"/><path d="M48 24v36M52 28v32" stroke="currentColor" stroke-width="2.4"/><path d="M47 26C36 34 32 46 34 58h13zM53 30c10 6 14 16 13 28H53z"/><path d="M20 80c6-3 10-3 15 0s10 3 15 0 10-3 15 0 10 3 15 0" stroke="currentColor" stroke-width="2" fill="none" opacity=".6"/>`,
+    eye: `<path d="M20 50c8-12 18-18 30-18s22 6 30 18c-8 12-18 18-30 18S28 62 20 50z"/><circle cx="50" cy="50" r="10" fill="rgba(0,0,0,.45)"/><circle cx="50" cy="50" r="4.5"/><path d="M50 22v-6M34 26l-3-5M66 26l3-5" stroke="currentColor" stroke-width="2"/>`,
+    mask: `<path d="M22 40c10-4 20-3 28 2 8-5 18-6 28-2 0 14-6 22-15 22-6 0-10-4-13-8-3 4-7 8-13 8-9 0-15-8-15-22z"/><ellipse cx="38" cy="48" rx="6" ry="4" fill="rgba(0,0,0,.55)"/><ellipse cx="62" cy="48" rx="6" ry="4" fill="rgba(0,0,0,.55)"/><path d="M78 40c4 2 6 6 4 12" stroke="currentColor" stroke-width="2" fill="none"/>`,
+    quill: `<path d="M70 20C52 26 40 42 36 62l4 2c8-16 18-28 30-44z"/><path d="M70 20c-6 14-14 26-26 38" stroke="rgba(0,0,0,.35)" stroke-width="1.2" fill="none"/><path d="M36 62l-6 16 10-12" stroke="currentColor" stroke-width="2.2" fill="none"/>`,
+    scales: `<path d="M50 22v54M34 78h32M30 34h40" stroke="currentColor" stroke-width="3" fill="none"/><path d="M30 34l-8 18h16zM70 34l-8 18h16z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M22 52a8 4 0 0 0 16 0zM62 52a8 4 0 0 0 16 0z"/><circle cx="50" cy="22" r="3.4"/>`,
+    heart: `<path d="M50 74C30 60 22 50 22 39c0-8 6-14 14-14 6 0 11 3 14 9 3-6 8-9 14-9 8 0 14 6 14 14 0 11-8 21-28 35z"/><path d="M34 36c2-3 5-4 8-3" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none"/>`,
+    leaf: `<path d="M26 74C26 44 44 26 76 24 74 56 58 74 26 74z"/><path d="M28 72C42 58 54 46 70 30" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none"/>`,
+    bow: `<path d="M34 20c22 10 22 50 0 60" stroke="currentColor" stroke-width="4" fill="none"/><path d="M34 20v60" stroke="currentColor" stroke-width="1.2"/><path d="M28 50h44" stroke="currentColor" stroke-width="2.4"/><path d="M76 50l-8-5v10z"/><path d="M28 50l-4-4M28 50l-4 4" stroke="currentColor" stroke-width="2"/>`,
+    sun: `<circle cx="50" cy="50" r="13"/><g stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 24v-6M50 82v-6M24 50h-6M82 50h-6M32 32l-4-4M72 72l-4-4M32 68l-4 4M72 28l-4 4"/></g>`,
+    star: `<path d="M50 20l6 20 20 1-16 12 6 20-16-12-16 12 6-20-16-12 20-1z"/><circle cx="50" cy="48" r="26" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>`,
+  };
+  const SCENES = {
+    castle: (d) => `<path fill="${d}" d="M0 110V86h8v-8h6v8h8V70l6-8 6 8v16h10V60l4-10 4 10v26h10V74h6v-6h6v6h6v12h10V78l5-6 5 6v32z"/>`,
+    towers: (d) => `<path fill="${d}" d="M0 110V90h10V66l5-12 5 12v24h12V58l6-14 6 14v32h10V72l7-16 7 16v18h12V62l5-10 5 10v28h10v20z"/>`,
+    peaks: (d) => `<path fill="${d}" d="M0 110V84l18-22 12 12 22-30 20 24 12-10 16 18v34z"/><path fill="rgba(255,255,255,.22)" d="M52 44l-6 8 6-2 5 3zM18 62l-4 5 4-1 3 2z"/>`,
+    forest: (d) => `<path fill="${d}" d="M0 110V88l6-14 6 14 4-20 7 20 5-16 6 16 6-24 7 24 5-18 6 18 6-22 7 22 5-14 6 14 6-20 6 20v22z"/>`,
+    city: (d) => `<path fill="${d}" d="M0 110V82h10V68h8v14h6V60h10v22h6V72h8V54h4v-6h4v6h4v28h8V66h10v16h6V74h8v36z"/><g fill="rgba(255,220,140,.55)"><rect x="12" y="72" width="2" height="2"/><rect x="28" y="66" width="2" height="2"/><rect x="58" y="62" width="2" height="2"/><rect x="74" y="72" width="2" height="2"/></g>`,
+    harbour: (d) => `<path fill="${d}" d="M0 110V80h12V70h8v10h10V64l6-6 6 6v16h14V72h10v8h12V68h10v12h12v30z"/><path d="M0 96c8-3 12-3 18 0s12 3 18 0 12-3 18 0 12 3 18 0 12-3 18 0 8 3 10 2" stroke="rgba(255,255,255,.25)" stroke-width="1.4" fill="none"/>`,
+    sea: (d) => `<path fill="${d}" d="M0 110V86c10-6 16-6 25 0s15 6 25 0 15-6 25 0 15 6 25 0v24z"/><path d="M0 94c10-5 16-5 25 0s15 5 25 0 15-5 25 0 15 5 25 0" stroke="rgba(255,255,255,.3)" stroke-width="1.4" fill="none"/>`,
+    hills: (d) => `<path fill="${d}" d="M0 110V86c18-12 34-14 52-4 16-10 32-10 48 2v26z"/>`,
+    stars: (d) => `<path fill="${d}" d="M0 110V94c20-6 40-8 50-6 14-4 34-2 50 4v18z"/>`,
+  };
+  function cardArtSVG(c, b, st){
+    const h = hashNum((c.name || b?.title || "x") + (c.set || ""), 997), sig = SIGILS[sigilOf(c)] || SIGILS.star, id = "g" + h + (c.id || "").slice(-4);
+    const stars = Array.from({ length: 9 }, (_, i) => { const x = (h * (i + 3) * 37) % 100, y = (h * (i + 7) * 13) % 48; return `<circle cx="${x}" cy="${y + 4}" r="${((h + i) % 3) * .35 + .4}" fill="#fff" opacity="${.35 + ((h + i) % 4) * .12}"/>`; }).join("");
+    const mx = 20 + (h % 60), my = 14 + (h % 10);
+    return `<svg viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${st.sky[0]}"/><stop offset="1" stop-color="${st.sky[1]}"/></linearGradient>
+      <linearGradient id="${id}e" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${lighten(st.g, .45)}"/><stop offset=".55" stop-color="${st.g}"/><stop offset="1" stop-color="${darken(st.g, .6)}"/></linearGradient>
+      <radialGradient id="${id}h"><stop offset="0" stop-color="${st.glow}" stop-opacity=".75"/><stop offset="1" stop-color="${st.glow}" stop-opacity="0"/></radialGradient></defs>
+      <rect width="100" height="110" fill="url(#${id}s)"/>${stars}<circle cx="${mx}" cy="${my}" r="6" fill="${lighten(st.glow, .5)}" opacity=".55"/>
+      ${(SCENES[st.scene] || SCENES.hills)(darken(st.sky[0], .55))}
+      <circle cx="50" cy="50" r="34" fill="url(#${id}h)"/>
+      <g fill="url(#${id}e)" color="${st.g}" stroke="${darken(st.g, .45)}" stroke-width=".6" style="filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))">${sig}</g></svg>`;
+  }
+  // a user's own picture (pasted link or upload) is kept; pictures fetched from wikis (often film stills) are not used on reward cards
+  const useOwnPic = c => c.img && (c.userImg || (!c.reward && !c.set));
+  const setIndex = (c, b) => { const S = c.set ? SAGAS.find(x => x[0] === c.set) : sagaOf(b || {}); if (!S) return null; const i = S[4].findIndex(x => sameName(x[0], c.name)); return i < 0 ? null : [i + 1, S[4].length, S[1]]; };
+  function nookCard(c, b, o = {}){
+    const st = cardStyle(c, b), r = c.rarity || 1, role = charRole(c) || c.role || "", num = setIndex(c, b);
+    const art = o.cover ? `<span class="ncov">${coverHTML(b)}</span>` : useOwnPic(c) ? `<img src="${esc(c.img)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : cardArtSVG(c, b, st);
+    return `<span class="nc r${r}${o.foil ? " foil" : ""}${o.big ? " big" : ""}" style="--a:${st.a};--g:${st.g};--glow:${st.glow}"><span class="ncin">
+      <span class="ncname">${esc(c.name)}</span><span class="ncart">${art}<span class="ncsym">${st.sym}</span></span>
+      <span class="nctype">${esc(o.type || role || "")}</span>
+      <span class="ncfoot"><span>${num ? `${String(num[0]).padStart(2, "0")}/${num[1]}` : esc(o.foot || (b?.seriesName || b?.title || "").slice(0, 22))}</span><span class="ncgems" title="${RAR[r][1]}">${"◆".repeat(r)}${"◇".repeat(3 - r)}</span></span></span>${r === 3 || o.foil ? `<span class="ncholo"></span>` : ""}</span>`;
+  }
+  const lockedCard = (name, rar, book, set) => { const st = SET_STYLE[set] || { a: "#2A2430", g: "#8A7A60" }; return `<span class="nc locked r${rar}" style="--a:${st.a};--g:${st.g}"><span class="ncin"><span class="ncname">${esc(name)}</span><span class="ncart"><span class="lockq">?</span></span><span class="nctype">Read ${esc(book)}</span><span class="ncfoot"><span></span><span class="ncgems">${"◆".repeat(rar)}${"◇".repeat(3 - rar)}</span></span></span></span>`; };
+  const cardBack = (st, r) => `<span class="ncback r${r}" style="--a:${st.a};--g:${st.g};--glow:${st.glow}"><span class="nbin"><span class="nbsym">${st.sym}</span><span class="nbtitle">The Nook Deck</span></span></span>`;
   function setCardsFor(S, idx){ return S[4].filter(c => c[1] === idx); }
   // give each saga book its characters (no internet needed); pictures arrive later when you open a card
   function backfillSagas(){
     let ch = false;
     for (const b of readBooks()) { const S = sagaOf(b); if (!S) continue; const i = sagaBookIdx(S, b); if (i < 0) continue;
       const have = books.filter(x => sagaOf(x) === S).flatMap(x => x.characters || []);
-      const add = setCardsFor(S, i).filter(c => !have.some(h => sameName(h.name, c[0]))).map(c => ({ id: "c" + Math.random().toString(36).slice(2, 9), added: new Date().toISOString(), fav: false, notes: "", quote: "", name: c[0], role: c[3], rarity: c[2], reward: true, set: S[0] }));
+      const add = setCardsFor(S, i).filter(c => !have.some(h => sameName(h.name, c[0]))).map(c => ({ id: "c" + Math.random().toString(36).slice(2, 9), added: new Date().toISOString(), fav: false, notes: "", quote: "", name: c[0], role: c[3], rarity: c[2], reward: true, set: S[0], ...(b.castTried ? {} : { sealed: true }) }));
       if (add.length) { b.characters = [...(b.characters || []), ...add]; ch = true; }
       if (!b.castTried) { b.castTried = true; ch = true; } }
     if (ch) save({ stamp: false });
@@ -7861,7 +8045,7 @@ alter publication supabase_realtime add table public.library;`;
     const out = [];
     for (const S of SAGAS) {
       const mine = books.filter(b => sagaOf(b) === S); if (!mine.length) continue;
-      const got = mine.flatMap(b => (b.characters || []).map(c => ({ c, b })));
+      const got = mine.flatMap(b => (b.characters || []).filter(c => !c.sealed).map(c => ({ c, b })));
       const cards = S[4].map(([name, bi, rar, role]) => { const g = got.find(x => sameName(x.c.name, name)); return { name, bi, rar, role, got: g || null, book: S[3][bi] }; });
       out.push({ S, id: S[0], name: S[1], cards, have: cards.filter(c => c.got).length });
     }
@@ -7875,8 +8059,8 @@ alter publication supabase_realtime add table public.library;`;
     return { rarity: r, foil: b.rating >= 5 || hashNum(b.id + "foil", 100) < 8 };
   }
   function bookCardHTML(b, big){
-    const bc = b.bookCard || bookCardRarity(b), r = RAR[bc.rarity || 1];
-    return `<button type="button" class="ccard bookcard${bc.foil ? " foil" : ""}" style="--cc:${spineColorOf(b)}" data-open="${esc(b.id)}" title="${esc(r[1])} book card${bc.foil ? " · foil" : ""}"><span class="cframe"><span class="cimg bcimg">${coverHTML(b)}</span><span class="cshine"></span></span><span class="cname">${esc(b.title)}</span><span class="cbook">${esc(b.author || "")}${b.rating ? ` · ${"★".repeat(Math.round(b.rating))}` : ""}</span><span class="crar r${bc.rarity || 1}">${r[0]}</span></button>`;
+    const bc = b.bookCard || bookCardRarity(b);
+    return `<button type="button" class="ccard ncwrap bookcard" data-open="${esc(b.id)}" title="${esc(RAR[bc.rarity || 1][1])} book card${bc.foil ? " · foil" : ""}">${nookCard({ name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" })}</button>`;
   }
   const _openPack = openPack;
   openPack = async function(b, quiet){
@@ -7885,9 +8069,9 @@ alter publication supabase_realtime add table public.library;`;
     if (S) { const i = sagaBookIdx(S, b); const before = new Set(books.flatMap(x => (x.characters || []).map(c => c.id)));
       backfillSagas(); const got = (b.characters || []).filter(c => !before.has(c.id));
       if (levelNow() >= 11 && got.length && !got.some(c => c.rarity === 3)) got[0].rarity = 3;
-      if (!got.length) { b.bookCard = b.bookCard || bookCardRarity(b); save(); if (!quiet) showPack(b, [], null, -1, true); return [b.bookCard]; }
+      if (!got.length) { b.bookCard = b.bookCard || { ...bookCardRarity(b), sealed: true }; save(); if (!quiet && b.bookCard.sealed) showPack(b, [], null, -1, true); return [b.bookCard]; }
       save(); if (!quiet) showPack(b, got, S, i); return got; }
-    b.castTried = true; b.bookCard = bookCardRarity(b); if (levelNow() >= 11) b.bookCard.rarity = 3; save();
+    b.castTried = true; b.bookCard = { ...bookCardRarity(b), sealed: true }; if (levelNow() >= 11) b.bookCard.rarity = 3; save();
     if (!quiet) showPack(b, [], null, -1, true);
     return [b.bookCard];
   };
@@ -7904,21 +8088,83 @@ alter publication supabase_realtime add table public.library;`;
       <div class="packacts"><button class="btn" type="button" data-packx>Lovely</button><button class="btn primary" type="button" data-packgo>See my collection</button></div></div></div>`;
     root.onclick = e => { if (e.target.closest("[data-packx]") || e.target.classList.contains("packov")) { root.innerHTML = ""; return; } if (e.target.closest("[data-packgo]")) { root.innerHTML = ""; keepMode = "chars"; cardView = S ? "sets" : "books"; lsSet("reading-ledger-keepmode", "chars"); showTab("keep"); } };
   };
+  // ================= card packs: a sealed packet arrives for every finished book; tear it, then turn the cards over =================
+  const sealedOf = b => (b.characters || []).filter(c => c.sealed);
+  function packContents(b){
+    const S = sagaOf(b), got = sealedOf(b), bc = b.bookCard?.sealed;
+    return { S, got: got.slice().sort((x, y) => (x.rarity || 1) - (y.rarity || 1)), bookCard: !got.length && !!bc };
+  }
+  function unseal(b){ (b.characters || []).forEach(c => { if (c.sealed) delete c.sealed; }); if (b.bookCard?.sealed) delete b.bookCard.sealed; save({ stamp: false }); }
+  // open the next pack for a book: make its cards if needed, then play the ritual
+  async function openPackFor(b){
+    if (!b) return;
+    if (!b.castTried || (!sealedOf(b).length && !b.bookCard?.sealed && !b.bookCard && !sagaOf(b))) { await openPack(b); return; }
+    const { S, got, bookCard } = packContents(b);
+    if (!got.length && !bookCard) { toast("That pack is already open."); return; }
+    showPack(b, got, S, S ? sagaBookIdx(S, b) : -1, bookCard);
+  }
+  showPack = function(b, got, S, i, bookCard){
+    let root = document.getElementById("pack-root"); if (!root) { root = document.createElement("div"); root.id = "pack-root"; document.body.append(root); }
+    if (S && !got.length && !bookCard) { toast(`You already have every ${S[1]} card from ${b.title}.`, 4000); return; }
+    got = (got || []).slice().sort((x, y) => (x.rarity || 1) - (y.rarity || 1));
+    const st = bookCard ? cardStyle({}, b) : cardStyle(got[0] || {}, b);
+    const bc = b.bookCard || bookCardRarity(b);
+    const items = bookCard ? [{ html: nookCard({ name: b.title, rarity: bc.rarity || 1, role: b.author || "" }, b, { cover: true, foil: bc.foil, type: b.author || "", foot: mainGenreOf(b) || "Book card" }), r: bc.rarity || 1 }]
+      : got.map(c => ({ html: nookCard(c, b), r: c.rarity || 1, c }));
+    const setName = S ? S[1] : bookCard ? "Book card" : (b.seriesName || b.title);
+    let stage = "sealed", turned = 0;
+    const close = keep => { root.onclick = null; document.removeEventListener("keydown", onKey); if (!keep) unseal(b); root.innerHTML = ""; try { renderKeep(); } catch {} };
+    const onKey = e => { if (e.key === "Escape") close(stage === "sealed"); };
+    document.addEventListener("keydown", onKey);
+    const progress = () => { if (!S) return ""; const set = sagaSets().find(x => x.id === S[0]); return set ? `<div class="pk2prog"><span>${esc(S[1])} · ${set.have} of ${set.cards.length}</span><div class="ssbar"><span style="width:${Math.round(set.have / set.cards.length * 100)}%"></span></div></div>` : ""; };
+    const draw = () => {
+      root.innerHTML = `<div class="pk2ov" style="--a:${st.a};--g:${st.g};--glow:${st.glow}"><div class="pk2">
+        ${stage === "sealed" ? `<div class="label">A pack for finishing</div><h2><i>${esc(b.title)}</i></h2>
+          <button type="button" class="packet" data-tear aria-label="Tear open the pack"><span class="pktop"></span><span class="pkfoil"></span><span class="pksym">${st.sym}</span><span class="pkname">${esc(setName)}</span><span class="pkcount">${items.length} card${items.length > 1 ? "s" : ""} inside</span><span class="pkseal">✦</span></button>
+          <p class="note">Tap the pack to tear it open.</p><div class="packacts"><button class="btn" type="button" data-pklater>Save it for later</button></div>`
+        : `<div class="label">${esc(setName)}</div><h2>${stage === "done" ? "Added to your binder" : "Turn them over"}</h2>
+          <div class="pk2cards">${items.map((it, k) => `<button type="button" class="pk2c r${it.r}" data-turn="${k}" style="--d:${k * .12}s" aria-label="Turn card ${k + 1}"><span class="flipper"><span class="back">${cardBack(st, it.r)}</span><span class="face">${it.html}</span></span><span class="burst"></span></button>`).join("")}</div>
+          <p class="note pk2hint">${stage === "done" ? "" : items.some(it => it.r === 3) ? "One of them is glowing…" : "Tap each card to turn it over."}</p>${progress()}
+          <div class="packacts">${stage === "done" ? `<button class="btn" type="button" data-packx>Lovely</button><button class="btn primary" type="button" data-packgo>See my binder</button>` : `<button class="btn" type="button" data-turnall>Turn them all</button>`}</div>`}
+      </div></div>`;
+      paintRecCovers(root);
+    };
+    const turn = el => { if (!el || el.classList.contains("flipped")) return; el.classList.add("flipped"); turned++;
+      const r = +el.className.match(/r(\d)/)[1]; if (r === 3) { el.classList.add("legend"); navigator.vibrate?.([20, 40, 30]); try { Sound?.play?.("chime"); } catch {} }
+      if (turned >= items.length) setTimeout(() => { unseal(b); stage = "done"; const flipped = [...root.querySelectorAll(".pk2c")].map(x => x.className); draw(); root.querySelectorAll(".pk2c").forEach((x, k) => { x.className = flipped[k]; x.style.animation = "none"; }); }, 900); };
+    draw();
+    root.onclick = e => {
+      if (e.target.closest("[data-tear]")) { const p = root.querySelector(".packet"); p.classList.add("torn"); navigator.vibrate?.(15); setTimeout(() => { stage = "open"; draw(); }, 650); return; }
+      if (e.target.closest("[data-pklater]")) { close(true); toast("Your pack is waiting in the Cards room ✦"); return; }
+      const t = e.target.closest("[data-turn]"); if (t) { turn(t); return; }
+      if (e.target.closest("[data-turnall]")) { root.querySelectorAll(".pk2c:not(.flipped)").forEach((el, k) => setTimeout(() => turn(el), k * 260)); return; }
+      if (e.target.closest("[data-packx]") || (e.target.classList.contains("pk2ov") && stage !== "open")) { close(stage === "sealed"); return; }
+      if (e.target.closest("[data-packgo]")) { close(false); keepMode = "chars"; cardView = S ? "sets" : "books"; lsSet("reading-ledger-keepmode", "chars"); lsSet("reading-ledger-cardview", cardView); showTab("keep"); }
+    };
+  };
   let cardView = lsGet("reading-ledger-cardview", "sets");
   function cardsHeader(){
-    const sets = sagaSets(), bookCards = readBooks().filter(b => b.bookCard);
+    const sets = sagaSets(), bookCards = readBooks().filter(b => b.bookCard && !b.bookCard.sealed);
     return `<div class="seg cardtabs">${[["sets", `Saga sets · ${sets.reduce((s, x) => s + x.have, 0)}`], ["books", `Book cards · ${bookCards.length}`], ["mine", "Your characters"]].map(([k, l]) => `<button type="button" data-cardview="${k}" aria-pressed="${cardView === k}">${l}</button>`).join("")}</div>`;
   }
   function setsHTML(){
     const sets = sagaSets();
     if (!sets.length) return `<div class="empty"><span class="fleuron">🎴</span><h3>No saga sets yet</h3><div>Famous series have their own card sets: Throne of Glass, A Court of Thorns and Roses, Fourth Wing, Harry Potter, The Hunger Games, Six of Crows, The Lord of the Rings and more. Add one of their books and finish it to start collecting.</div></div>`;
     return sets.map(x => `<section class="sagaset"><div class="sshead"><h3>${esc(x.name)}</h3><span class="sscount">${x.have} / ${x.cards.length}</span>${x.have === x.cards.length ? `<span class="sscomplete">✦ Complete set</span>` : ""}</div><div class="ssbar"><span style="width:${Math.round(x.have / x.cards.length * 100)}%"></span></div>
-      <div class="cgrid ssgrid">${x.cards.map(c => c.got ? charCard(c.got.c, c.got.b) : `<div class="ccard locked" title="Finish ${esc(c.book)} to collect ${esc(c.name)}"><span class="cframe"><span class="cimg"><span class="lockq">?</span></span></span><span class="cname">${esc(c.name)}</span><span class="cbook">Read <i>${esc(c.book)}</i></span><span class="crar r${c.rar}">${RAR[c.rar][0]}</span></div>`).join("")}</div></section>`).join("");
+      <div class="cgrid ssgrid">${x.cards.map(c => c.got ? charCard(c.got.c, c.got.b) : `<div class="ccard ncwrap locked" title="Finish ${esc(c.book)} to collect ${esc(c.name)}">${lockedCard(c.name, c.rar, c.book, x.id)}</div>`).join("")}</div></section>`).join("");
   }
+  const SUIT_STEPS = [[5, "Bronze"], [10, "Silver"], [25, "Gold"], [50, "Legendary"]];
   function bookCardsHTML(){
-    const list = readBooks().filter(b => b.bookCard).sort((a, b) => (b.bookCard.rarity - a.bookCard.rarity) || (b.finished || "").localeCompare(a.finished || ""));
+    const list = readBooks().filter(b => b.bookCard && !b.bookCard.sealed);
     const left = unopened().filter(b => !sagaOf(b)).length;
-    return `${left ? `<p class="note">${left} book${left > 1 ? "s" : ""} still waiting to become cards: open their packs above.</p>` : ""}${list.length ? `<div class="cgrid">${list.map(b => bookCardHTML(b)).join("")}</div>` : `<div class="empty"><span class="fleuron">📚</span><h3>No book cards yet</h3><div>Every book you finish that isn't part of a famous saga becomes a card of its own. The more you loved it, the rarer the card.</div></div>`}`;
+    if (!list.length) return `${left ? `<p class="note">${left} pack${left > 1 ? "s" : ""} waiting above.</p>` : ""}<div class="empty"><span class="fleuron">📚</span><h3>No book cards yet</h3><div>Every book you finish that isn't part of a saga set becomes a card in its genre's suit. The more you loved it, the rarer the card.</div></div>`;
+    const suits = new Map(); list.forEach(b => { const g = mainGenreOf(b) || "Other"; if (!suits.has(g)) suits.set(g, []); suits.get(g).push(b); });
+    return `<p class="note suitnote">Book cards gather in suits, one per genre. Collect 5, 10, 25 and 50 of a suit to earn its Bronze, Silver, Gold and Legendary seals.</p>` + [...suits].sort((a, b) => b[1].length - a[1].length).map(([g, bs]) => {
+      const L = GENRE_LOOK[g] || DEFAULT_LOOK, n = bs.length, got = SUIT_STEPS.filter(([k]) => n >= k), next = SUIT_STEPS.find(([k]) => n < k);
+      bs.sort((a, b) => ((b.bookCard.rarity || 1) - (a.bookCard.rarity || 1)) || (b.finished || "").localeCompare(a.finished || ""));
+      return `<section class="sagaset suit" style="--sc:${harmonizeG(L.color)}"><div class="sshead"><h3><span class="suitsym">${L.motif}</span> ${esc(g)} suit</h3><span class="sscount">${n} card${n > 1 ? "s" : ""}</span>${got.length ? `<span class="sscomplete">${got[got.length - 1][1]} seal</span>` : ""}</div>
+        ${next ? `<div class="ssbar"><span style="width:${Math.round(n / next[0] * 100)}%"></span></div><p class="note suitnext">${next[0] - n} more for the ${next[1]} seal</p>` : ""}
+        <div class="cgrid ssgrid">${bs.map(b => bookCardHTML(b)).join("")}</div></section>`; }).join("");
   }
   document.addEventListener("click", e => { const v = e.target.closest("[data-cardview]"); if (v) { cardView = v.dataset.cardview; lsSet("reading-ledger-cardview", cardView); renderKeep(); } });
   setTimeout(() => { try { backfillSagas(); } catch (e) { console.warn(e); } }, 1500);
@@ -7927,14 +8173,14 @@ alter publication supabase_realtime add table public.library;`;
   async function enrichCards(root){
     const run = ++enrichRun, todo = sagaSets().flatMap(x => x.cards.filter(c => c.got && !c.got.c.img && !c.got.c.imgTried).map(c => c.got)).slice(0, 10);
     let i = 0; const next = async () => { while (i < todo.length && run === enrichRun) { const { c, b } = todo[i++]; c.imgTried = true;
-      try { const f = (await searchCharacter(c.name, b))[0]; if (f) { const data = await fetchCharacter(f); if (data) { Object.assign(c, { img: data.img || c.img, summary: data.summary || c.summary, personality: data.personality || c.personality, info: data.info || c.info, wiki: data.wiki, url: data.url }); save({ stamp: false });
+      try { const f = (await searchCharacter(c.name, b))[0]; if (f) { const data = await fetchCharacter(f); if (data) { Object.assign(c, { summary: data.summary || c.summary, personality: data.personality || c.personality, info: data.info || c.info, wiki: data.wiki, url: data.url }); save({ stamp: false });
         const el = root.querySelector(`[data-char$="|${c.id}"] .cimg`); if (el && c.img) el.innerHTML = charArt(c, b); } } } catch {} } };
     await Promise.all([next(), next()]);
   }
   function renderKeep(){
     const el = $("#view-keep");
     const chars = allChars(), words = books.flatMap(b => (b.words || []).map(w => ({ w, b }))), quotes = books.flatMap(b => (b.quotes || []).map(q => ({ q, b })));
-    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">🎴 Cards <b>${chars.length + readBooks().filter(b => b.bookCard).length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button></div></div>`;
+    const head = `<div class="keephead"><div class="recmodes" role="tablist"><button type="button" data-keep="chars" aria-selected="${keepMode === "chars"}">🎴 Cards <b>${chars.length + readBooks().filter(b => b.bookCard && !b.bookCard.sealed).length}</b></button><button type="button" data-keep="words" aria-selected="${keepMode === "words"}">✎ Words <b>${words.length}</b></button><button type="button" data-keep="quotes" aria-selected="${keepMode === "quotes"}">❝ Quotes <b>${quotes.length}</b></button></div></div>`;
     if (keepMode === "authors") keepMode = "chars";
     if (keepMode === "quotes") {
       el.innerHTML = head + (quotes.length ? `<div class="panel"><div class="phead"><h2>Lines you kept</h2><span class="note">${quotes.length} quote${quotes.length > 1 ? "s" : ""} · add them from a book's ❝ Notes tab</span></div>
@@ -7954,7 +8200,7 @@ alter publication supabase_realtime add table public.library;`;
     const opts = [...books].filter(b => b.shelf !== "want").concat(books.filter(b => b.shelf === "want")).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.seriesName ? ` (${esc(b.seriesName)})` : ""}</option>`).join("");
     const series = [...new Set(chars.map(x => x.b.seriesName || x.b.title))];
     const shown = chars.filter(x => charFilter === "all" || charFilter === "fav" ? (charFilter !== "fav" || x.c.fav) : (x.b.seriesName || x.b.title) === charFilter).sort((a, b) => (b.c.fav ? 1 : 0) - (a.c.fav ? 1 : 0) || (b.c.added || "").localeCompare(a.c.added || ""));
-    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner"><span class="pkicon">✦</span><div><b>${packs.length} unopened card pack${packs.length > 1 ? "s" : ""}</b><small>One for every book you've finished: saga books bring their characters, other books become cards themselves.</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : `Open ${esc(packs[0].title)}`}</button></div>` : "";
+    const packs = unopened(); const packHTML = packs.length ? `<div class="packbanner pk2banner"><div class="pkstack">${packs.slice(0, 4).map((p, k) => { const st = cardStyle({}, p); return `<span class="pkmini" style="--a:${st.a};--g:${st.g};--k:${k}">${st.sym}</span>`; }).join("")}</div><div><b>${packs.length} unopened pack${packs.length > 1 ? "s" : ""}</b><small>Next: <i>${esc(packs[0].title)}</i>${sagaOf(packs[0]) ? ` · ${esc(sagaOf(packs[0])[1])} cards` : " · a book card"}</small></div><button class="btn primary small" type="button" data-openpack ${packBusy ? "disabled" : ""}>${packBusy ? "Opening…" : "Open a pack"}</button></div>` : "";
     if (cardView !== "mine") { el.innerHTML = head + packHTML + `<div class="panel cardspanel">${cardsHeader()}${cardView === "sets" ? setsHTML() : bookCardsHTML()}</div>`; if (cardView === "sets") enrichCards(el); return; }
     
 el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2>Add a cherished character</h2><p class="note">Type a name and pick their book. The nook looks them up on the book's fan wiki and on Wikipedia, with a picture, who they are and their personality.</p>
@@ -7970,10 +8216,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const root = $("#modal-root");
     root.innerHTML = `<div class="scrim" id="char-scrim"><div class="modal charmodal" role="dialog" aria-modal="true" aria-labelledby="c-title" style="--cc:${spineColorOf(b)}">
       ${(() => { const r = RAR[c.rarity || 1], role = charRole(c), blurb = charBlurb(c), tr = charTraits(c), n = allChars().findIndex(x => x.c.id === c.id) + 1;
-        return `<div class="tcard big r${c.rarity || 1}" style="--cc:${spineColorOf(b)}"><div class="tchead"><b id="c-title">${esc(c.name)}</b><span class="trar" title="${r[1]}">${r[0]}</span></div>
-          <div class="tcimg">${charArt(c, b)}</div>${role ? `<div class="tctype">${esc(role)}</div>` : ""}
-          ${blurb ? `<p class="tcblurb">${esc(blurb)}</p>` : ""}${tr.length ? `<div class="tctraits">${tr.map(t => `<span>${esc(cap(t))}</span>`).join("")}</div>` : ""}
-          <div class="tcfoot"><span>${esc(b.seriesName || b.title)}</span><span>${r[1]} · Nº ${n}</span></div></div>`; })()}
+        return `<div class="ncbigwrap">${nookCard(c, b, { big: true })}</div>${blurb ? `<p class="tcblurb">${esc(blurb)}</p>` : ""}${tr.length ? `<div class="tctraits">${tr.map(t => `<span>${esc(cap(t))}</span>`).join("")}</div>` : ""}`; })()}
       <div class="cmacts"><button class="btn small${c.fav ? " primary" : ""}" type="button" id="c-fav">${c.fav ? "♥ Most cherished" : "♡ Mark as most cherished"}</button></div>
       ${(c.summary || c.personality || c.appearance || Object.keys(c.info || {}).length) ? `<details class="cmsec"><summary>Their full story</summary>
         <div class="cmbooks">${fam.map(x => `<span class="cmb${x.id === b.id ? " main" : ""}">${esc(x.title)}${x.shelf === "read" ? " ✓" : ""}</span>`).join("")}</div>
@@ -7992,7 +8235,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       if (id === "char-scrim" || id === "c-cancel") return close();
       if (id === "c-fav") { c.fav = !c.fav; e.target.textContent = c.fav ? "♥ Most cherished" : "♡ Mark as most cherished"; e.target.classList.toggle("primary", c.fav); return; }
       if (id === "c-del") { b.characters = b.characters.filter(x => x.id !== c.id); save(); close(); renderKeep(); toast(`${c.name} left your collection`); return; }
-      if (id === "c-save") { c.notes = $("#c-notes").value.trim(); c.quote = $("#c-quote").value.trim(); c.img = $("#c-img").value.trim(); b.characters = [...b.characters]; save(); close(); renderKeep(); toast("Saved"); }
+      if (id === "c-save") { c.notes = $("#c-notes").value.trim(); c.quote = $("#c-quote").value.trim(); const ni = $("#c-img").value.trim(); if (ni !== (c.img || "")) c.userImg = !!ni; c.img = ni; b.characters = [...b.characters]; save(); close(); renderKeep(); toast("Saved"); }
     });
   }
   function addCharacter(bid, data){
@@ -8002,7 +8245,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   }
   let packBusy = false;
   $("#view-keep").addEventListener("click", async e => {
-    if (e.target.closest("[data-openpack]")) { if (packBusy) return; const b = unopened()[0]; if (!b) return; packBusy = true; renderKeep(); try { await openPack(b); } finally { packBusy = false; renderKeep(); } return; }
+    if (e.target.closest("[data-openpack]")) { if (packBusy) return; const b = unopened()[0]; if (!b) return; packBusy = true; renderKeep(); try { await openPackFor(b); } finally { packBusy = false; } return; }
     const k = e.target.closest("[data-keep]"); if (k) { keepMode = k.dataset.keep; lsSet("reading-ledger-keepmode", keepMode); renderKeep(); return; }
     const cf = e.target.closest("[data-cfilter]"); if (cf) { charFilter = cf.dataset.cfilter; renderKeep(); return; }
     const ch = e.target.closest("[data-char]"); if (ch) { const [bid, cid] = ch.dataset.char.split("|"); openChar(bid, cid); return; }
@@ -9243,8 +9486,15 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.1.1";
+  const APP_VERSION = "3.2";
   const CHANGELOG = [
+    ["3.2", "23 Oct 2026", "The Nook Deck: new cards and sealed packs", [
+      "Every card now shares one original design: a framed card with its own painted scene and emblem, the set's colours, a number in the set and rarity gems. No more film photos",
+      "Finishing a book sends you a sealed pack: tear it open, then turn the cards over one by one. Legendary cards glow before you flip them",
+      "Packs can be saved for later and wait, stacked, in the Cards room",
+      "Book cards now collect into genre suits, with Bronze, Silver, Gold and Legendary seals at 5, 10, 25 and 50 cards",
+      "A picture you paste on a card yourself is still kept",
+    ]],
     ["3.1.1", "22 Oct 2026", "Clearer spines, rainbow books and a genre picker", [
       "Genres have their own tab when you edit a book, grouped into stories, who it's for, and true stories & ideas; the first (main) genre colours the spine",
             "Every genre now has its own clearly different colour, and lighter spines get dark lettering so titles stay readable",
