@@ -2694,6 +2694,89 @@ body.touring .verbanner,body.touring .toast{display:none}
 .fevtxt{flex:1;min-width:0;display:flex;flex-direction:column;font-size:14px;line-height:1.35}.fevtxt small{color:var(--muted);font-size:12px}.fevbook{font-style:italic;text-align:left}
 .fevr{display:flex;gap:4px}.fevreact{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:15px;display:grid;place-items:center;transition:transform .15s}
 .fevreact:hover:not(:disabled){transform:scale(1.12)}.fevreact[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 22%,var(--paper));border-color:var(--accent)}.fevreact:disabled:not([aria-pressed="true"]){opacity:.35}
+/* v4.1 phones: bottom tab bar */
+.mtabbar,#mmore,#mback,#mshelfseg,.mfab{display:none}
+body.mnav[data-mnavtab="find"] .wrap>header{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>header{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>header{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>header{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>.finder{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>.finder{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>.finder{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>.finder{display:none!important}
+body.mnav[data-mnavtab="find"] .wrap>#now,body.mnav[data-mnavtab="find"] .wrap>#home-friends,body.mnav[data-mnavtab="find"] .wrap>#portrait{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>#now,body.mnav[data-mnavtab="friends"] .wrap>#home-friends,body.mnav[data-mnavtab="friends"] .wrap>#portrait{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>#now,body.mnav[data-mnavtab="shelf"] .wrap>#home-friends,body.mnav[data-mnavtab="shelf"] .wrap>#portrait{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>#now,body.mnav[data-mnavtab="more"] .wrap>#home-friends,body.mnav[data-mnavtab="more"] .wrap>#portrait{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>#mshelfseg,body.mnav[data-mnavtab="nook"] .wrap>#bookcase,body.mnav[data-mnavtab="nook"] .wrap>#dnf-shelf,body.mnav[data-mnavtab="nook"] .wrap>.casebar{display:none!important}
+body.mnav[data-mnavtab="find"] .wrap>#mshelfseg,body.mnav[data-mnavtab="find"] .wrap>#bookcase,body.mnav[data-mnavtab="find"] .wrap>#dnf-shelf,body.mnav[data-mnavtab="find"] .wrap>.casebar{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>#mshelfseg,body.mnav[data-mnavtab="friends"] .wrap>#bookcase,body.mnav[data-mnavtab="friends"] .wrap>#dnf-shelf,body.mnav[data-mnavtab="friends"] .wrap>.casebar{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>#mshelfseg,body.mnav[data-mnavtab="more"] .wrap>#bookcase,body.mnav[data-mnavtab="more"] .wrap>#dnf-shelf,body.mnav[data-mnavtab="more"] .wrap>.casebar{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>main{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>main{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>main{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>#mmore{display:none!important}
+body.mnav[data-mnavtab="find"] .wrap>#mmore{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>#mmore{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>#mmore{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>#mback{display:none!important}
+body.mnav[data-mnavtab="find"] .wrap>#mback{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>#mback{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>#mback{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>#mback{display:none!important}
+body.mnav[data-mnavtab="nook"] .wrap>footer,body.mnav[data-mnavtab="nook"] .wrap>.appver{display:none!important}
+body.mnav[data-mnavtab="find"] .wrap>footer,body.mnav[data-mnavtab="find"] .wrap>.appver{display:none!important}
+body.mnav[data-mnavtab="friends"] .wrap>footer,body.mnav[data-mnavtab="friends"] .wrap>.appver{display:none!important}
+body.mnav[data-mnavtab="shelf"] .wrap>footer,body.mnav[data-mnavtab="shelf"] .wrap>.appver{display:none!important}
+body.mnav[data-mnavtab="more"] .wrap>footer,body.mnav[data-mnavtab="more"] .wrap>.appver{display:none!important}
+body.mnav .wrap>.hall,body.mnav .wrap>#room-tabs{display:none!important}
+body.mnav[data-mnavtab="more"]:not([data-mnavroom=""]) .wrap>#mmore{display:none!important}
+body.mnav[data-mnavtab="more"]:not([data-mnavroom=""]) .wrap>main:not([hidden]),body.mnav[data-mnavtab="more"]:not([data-mnavroom=""]) .wrap>#mback{display:flex!important}
+body.mnav[data-mnavtab="more"]:not([data-mnavroom=""]) .wrap>main:not([hidden]){display:block!important}
+body.mnav[data-mnavtab="shelf"][data-mnavshelf="list"] .wrap>#bookcase,body.mnav[data-mnavtab="shelf"][data-mnavshelf="list"] .wrap>#dnf-shelf,body.mnav[data-mnavtab="shelf"][data-mnavshelf="list"] .wrap>.casebar{display:none!important}
+body.mnav[data-mnavtab="shelf"][data-mnavshelf="list"] .wrap>#view-library{display:block!important}
+body.mnav[data-mnavtab="shelf"] .wrap>#mshelfseg{display:flex!important}
+body.mnav[data-mnavtab="find"] .wrap>main#view-recs,body.mnav[data-mnavtab="friends"] .wrap>main#view-friends{display:block!important}
+body.mnav[data-mnavtab="find"] .wrap>main:not(#view-recs),body.mnav[data-mnavtab="friends"] .wrap>main:not(#view-friends){display:none!important}
+body.mnav[data-mnavtab="more"][data-mnavroom=""] .wrap>#mmore{display:block!important}
+body.mnav{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+body.mnav .mtabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:110;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);box-shadow:0 -6px 24px rgba(0,0,0,.08)}
+.mtabbar button{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 0 3px;border:0;background:none;color:var(--muted);font:inherit;cursor:pointer;border-radius:14px;transition:color .2s,background .2s}
+.mtabbar .mti{font-size:20px;line-height:1.1;transition:transform .25s cubic-bezier(.2,1.6,.4,1)}.mtabbar .mtl{font-size:11px;letter-spacing:.02em}
+.mtabbar button[aria-current="page"]{color:var(--accent);background:color-mix(in srgb,var(--accent) 11%,transparent)}.mtabbar button[aria-current="page"] .mti{transform:translateY(-2px) scale(1.12)}.mtabbar button[aria-current="page"] .mtl{font-weight:700}
+.mtabbar .tbadge{top:0;right:calc(50% - 22px)}
+body.mnav[data-mnavtab="nook"] .mfab,body.mnav[data-mnavtab="shelf"] .mfab{display:grid}
+.mfab{position:fixed;left:16px;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:105;width:54px;height:54px;border-radius:50%;place-items:center;border:0;background:var(--accent);color:#fff;font-size:30px;line-height:1;cursor:pointer;box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 45%,rgba(0,0,0,.25))}
+body.mnav .familiar.docked{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+body.mnav .postpill,body.mnav .fbkpill,body.mnav .toast,body.mnav .chcard{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+body.mnav .chcard{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+body.mnav[data-mnavtab="nook"] .postpill,body.mnav[data-mnavtab="shelf"] .postpill{left:84px}
+body.mnav .socchip{display:none}
+.mback{position:sticky;top:0;z-index:20;align-items:center;gap:10px;padding:10px 4px;margin:0 0 6px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.mback b{font-family:var(--f-display);font-size:20px}
+.mshelfseg{justify-content:center;margin:2px auto 12px;width:max-content}
+.mmore{padding:4px 2px 10px}.mmore>.label{margin:14px 4px 8px}
+.mrooms{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mroom{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s}
+.mroom:active{transform:scale(.97)}.mri{font-size:24px;color:var(--accent)}.mroom b{font-family:var(--f-display);font-size:17px}.mroom small{color:var(--muted);font-size:12.5px;line-height:1.3}
+.mlist{display:flex;flex-direction:column;border-radius:16px;border:1px solid var(--line);background:var(--paper);overflow:hidden}
+.mlist button{padding:14px 16px;border:0;border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent);background:none;color:var(--ink);font:inherit;font-size:15.5px;text-align:left;cursor:pointer}.mlist button:first-child{border-top:0}.mlist button:active{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.mfoot2{text-align:center;margin-top:16px}
+@keyframes mswap{from{opacity:0;transform:translateY(8px)}}body.mnav .wrap.mswap{animation:mswap .28s ease-out}
+@media (prefers-reduced-motion:reduce){body.mnav .wrap.mswap{animation:none}}
+body.mnav[data-mnavtab="nook"] .wrap>header{padding-top:58px}
+body.mnav:not([data-mnavtab="nook"]) .wrap{padding-top:58px}
+
+/* v4.1 one look for windows */
+.xclose{font-size:0!important;width:36px;height:36px;min-width:36px;padding:0!important;border-radius:50%!important;display:inline-grid!important;place-items:center;flex:none;align-self:flex-start}
+.xclose::before{content:"✕";font-size:16px;line-height:1}
+body.mnav .scrim{align-items:flex-end;padding:env(safe-area-inset-top,0px) 0 0}
+body.mnav .scrim>.modal{width:100%!important;max-width:none!important;border-radius:22px 22px 0 0;max-height:92vh;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));border-bottom:0;animation:sheetUp .32s cubic-bezier(.2,1,.4,1)}
+body.mnav .scrim>.modal::before{content:"";flex:none;align-self:center;width:42px;height:5px;border-radius:3px;background:color-mix(in srgb,var(--muted) 45%,transparent);margin:-12px auto -4px}
+@keyframes sheetUp{from{transform:translateY(100%)}}
+@media (prefers-reduced-motion:reduce){body.mnav .scrim>.modal{animation:none}}
+#rec-body .rrow,#list>.row,#list .row,.fbooks>.fbook,.ffeed .fev{content-visibility:auto;contain-intrinsic-size:auto 220px}
+body.mnav:has(.scrim) .mtabbar,body.mnav:has(.scrim) .mfab,body.mnav:has(.scrim) .postpill,body.mnav:has(.scrim) .fbkpill{display:none!important}body.mnav:has(.scrim){padding-bottom:0}
+body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab{display:none!important}
 </style>
 </head>
 <body>
@@ -2703,7 +2786,7 @@ body.touring .verbanner,body.touring .toast{display:none}
 <div class="topchips"><button class="topchip stkchip" id="streak-btn" type="button" aria-label="Your reading streak"><span class="stkflame">🔥</span><b>0</b></button><button class="topchip socchip" id="social-btn" type="button" aria-label="Friends"><span aria-hidden="true">♥</span> Friends<i class="tbadge" hidden></i></button></div>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.0</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.1</button>
   <button class="nmitem" type="button" data-starttour>🗝 Take the tour of your nook</button>
   <button class="nmitem" type="button" data-notifyset>🔔 Notifications & daily check-in</button>
   <div class="label">Your nook</div>
@@ -2814,7 +2897,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.0 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.1 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -7861,7 +7944,7 @@ alter publication supabase_realtime add table public.library;`;
       paintBadge();
     }
     function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length), t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); }
-      const sb = $("#social-btn i"); if (sb) { sb.hidden = !n; sb.textContent = n || ""; } paintPost(); try { paintHomeFriends(); } catch {} }
+      const sb = $("#social-btn i"); if (sb) { sb.hidden = !n; sb.textContent = n || ""; } try { mnavBadge(); } catch {} paintPost(); try { paintHomeFriends(); } catch {} }
     const relation = id => friends.some(f => f.id === id) ? "friend" : incoming.some(f => f.id === id) ? "incoming" : outgoing.some(f => f.id === id) ? "outgoing" : id === U()?.id ? "me" : "none";
     async function request(id){ const { error } = await C().from("friendships").insert({ requester: U().id, addressee: id }); if (error && !/duplicate|23505/.test(error.message + error.code)) { toast(error.message); return; } toast("Friend request sent ✦"); await load(true); render(); }
     async function accept(id){ const { error } = await C().from("friendships").update({ status: "accepted" }).eq("requester", id).eq("addressee", U().id); if (error) { toast(error.message); return; } toast("You're friends now ♥"); await pushShare(); await load(true); render(); }
@@ -10616,8 +10699,17 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.0";
+  const APP_VERSION = "4.1";
   const CHANGELOG = [
+    ["4.1", "25 Oct 2026", "A new home on your phone", [
+      "On phones, no more endless scrolling: five tabs at the bottom. 🏠 Nook, 📚 Shelf, ✦ Find, ♥ Friends and ☰ More",
+      "Nook: what you're reading, your friends and your familiar. Shelf: your bookcase, or switch to a list. Find: search and recommendations",
+      "More: stats, your Reader's Soul, keepsakes, calendar, series and authors, plus your account, notifications and backups",
+      "The round + adds a book from anywhere, and your phone's back button goes back between tabs",
+      "Windows on phones now slide up from the bottom; swipe one down to close it",
+      "Every window has the same round ✕ in its corner",
+      "Long lists scroll more smoothly, and the tour now walks you through the new tabs",
+      "Computers and tablets keep the layout you know"]],
     ["4.0", "25 Oct 2026", "Streaks, friends up top and a sweeter check-in", [
       "New: 🔥 your reading streak, top left. Tap it for your last five weeks, an “I read today” button and seven streak badges to earn",
       "New: ♥ Friends, top left, with a badge when letters or requests are waiting",
@@ -10781,7 +10873,11 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     { t: "That's your nook", end: true, x: f => `Now it's yours to fill. Happy reading! ✦ ${f}` },
   ];
   let tourAt = -1, tourEl = null;
-  function tourTarget(st){ if (!st.sel) return null; const el = document.querySelector(st.sel); if (!el) return null; const r = el.getBoundingClientRect(); return r.width && r.height ? el : null; }
+  // on phones the tour walks you through the tabs at the bottom
+  const TOUR_TAB = { ".finder": "find", "#now": "nook", "#portrait": "nook", "#bookcase": "shelf", ".casebtns": "shelf", "#familiar .fambody": "nook", "#season-btn": "nook", "#sync-pill": "nook", "#nook-menu-btn": "nook" };
+  function tourTarget(st){ if (!st.sel) return null;
+    if (document.body.classList.contains("mnav")) { if (st.sel === "#room-tabs") return $("#mtabbar"); const t = TOUR_TAB[st.sel]; if (t && t !== mtab) try { mnavGo(t, null, false); } catch {} }
+    const el = document.querySelector(st.sel); if (!el) return null; const r = el.getBoundingClientRect(); return r.width && r.height ? el : null; }
   function placeTour(){
     if (!tourEl || tourAt < 0) return;
     const st = TOUR[tourAt], el = tourTarget(st), spot = tourEl.querySelector(".tspot"), card = tourEl.querySelector(".tcard");
@@ -10871,6 +10967,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     for (const k of TABS) { $("#tab-" + k).setAttribute("aria-selected", k === t); $("#view-" + k).hidden = k !== t; }
     if (t !== "stats") destroyCharts();
     ({ calendar: renderCalendar, covers: renderCovers, series: renderSeries, stats: renderStats, soul: renderSoul, recs: renderRecs, keep: renderKeep, authors: renderAuthors, friends: () => Social.show() })[t]?.();
+    try { mnavFollow(t); } catch {}
   }
   const openById = id => { const b = books.find(x => x.id === id); if (b) openEditor(b, false); };
   document.addEventListener("keydown", e => { if (e.key === "Escape") ($("#m-cancel") || $("#s-cancel"))?.click(); });
@@ -11270,6 +11367,107 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (e.target.closest("#social-btn")) { showTab("friends"); setTimeout(() => $("#view-friends")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120); }
   });
   setTimeout(paintStreak, 0); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintStreak(); });
+  // ================= phones: a bottom tab bar, so the nook isn't one long scroll =================
+  const MNAV_Q = matchMedia("(max-width: 760px)");
+  const MTABS = [["nook", "🏠", "Nook"], ["shelf", "📚", "Shelf"], ["find", "✦", "Find"], ["friends", "♥", "Friends"], ["more", "☰", "More"]];
+  const MROOMS = [["stats", "❖", "Stats", "Charts, numbers and wrap-ups"], ["soul", "✧", "Reader's Soul", "DNA, levels and achievements"], ["keep", "🎴", "Keepsakes", "Cards, quotes and words"], ["calendar", "▦", "Calendar", "What you read, day by day"],
+    ["covers", "✺", "Year in covers", "Your year, cover by cover"], ["series", "❧", "Series", "Every series and where you are"], ["authors", "✒", "Authors", "The writers you love"]];
+  let mtab = "nook", mroom = null, shelfMode = lsGet("reading-ledger-shelfmode", "case"); const mScroll = {};
+  function mnavBuild(){
+    if (document.getElementById("mtabbar")) return;
+    const bar = document.createElement("nav"); bar.id = "mtabbar"; bar.className = "mtabbar"; bar.setAttribute("aria-label", "Sections");
+    bar.innerHTML = MTABS.map(([k, i, l]) => `<button type="button" data-mtab="${k}" aria-label="${l}"><span class="mti" aria-hidden="true">${i}</span><span class="mtl">${l}</span>${k === "friends" ? `<i class="tbadge" hidden></i>` : ""}</button>`).join("");
+    document.body.append(bar);
+    const wrap = $(".wrap");
+    const back = document.createElement("div"); back.id = "mback"; back.className = "mback"; back.innerHTML = `<button type="button" class="linkbtn" data-mback>‹ More</button><b id="mback-t"></b>`; wrap.prepend(back);
+    const more = document.createElement("section"); more.id = "mmore"; more.className = "mmore"; wrap.append(more);
+    const seg = document.createElement("div"); seg.id = "mshelfseg"; seg.className = "mshelfseg seg"; seg.innerHTML = `<button type="button" data-shelfmode="case">📚 Bookcase</button><button type="button" data-shelfmode="list">▤ List</button>`;
+    $("#bookcase").before(seg);
+    const fab = document.createElement("button"); fab.id = "mfab"; fab.className = "mfab"; fab.type = "button"; fab.setAttribute("aria-label", "Add a book"); fab.innerHTML = "+"; document.body.append(fab);
+  }
+  function paintMore(){
+    const el = $("#mmore"); if (!el) return;
+    el.innerHTML = `<div class="label">Rooms</div><div class="mrooms">${MROOMS.map(([k, i, l, d]) => `<button type="button" class="mroom" data-mroom="${k}"><span class="mri">${i}</span><b>${l}</b><small>${d}</small></button>`).join("")}</div>
+      <div class="label">Your nook</div><div class="mlist">
+        <button type="button" data-mact="account">☁ Account and sync</button><button type="button" data-notifyset>🔔 Notifications & daily check-in</button>
+        <button type="button" data-mact="season">🍂 Seasons and themes</button><button type="button" data-whatsnew>✦ What's new · v${APP_VERSION}</button><button type="button" data-starttour>🗝 Take the tour</button>
+        <button type="button" data-mact="backup">⤓ Save a backup</button><button type="button" data-mact="restore">↺ Restore a backup</button><button type="button" data-mact="goodreads">⇪ Import from Goodreads</button>
+        <button type="button" data-mact="install">📲 Put it on your home screen</button></div>
+      <p class="note mfoot2">My Book Nook v${APP_VERSION}</p>`;
+  }
+  function mnavApply(){
+    const on = MNAV_Q.matches; document.body.classList.toggle("mnav", on);
+    if (!on) { document.body.removeAttribute("data-mnavtab"); return; }
+    mnavBuild();
+    document.body.dataset.mnavtab = mtab; document.body.dataset.mnavroom = mroom || ""; document.body.dataset.mnavshelf = shelfMode;
+    $("#mtabbar").querySelectorAll("[data-mtab]").forEach(b => b.setAttribute("aria-current", b.dataset.mtab === mtab ? "page" : "false"));
+    $("#mshelfseg").querySelectorAll("[data-shelfmode]").forEach(b => b.setAttribute("aria-pressed", b.dataset.shelfmode === shelfMode));
+    const R = MROOMS.find(r => r[0] === mroom); $("#mback-t").textContent = R ? R[2] : "";
+    if (mtab === "more" && !mroom) paintMore();
+    mnavBadge();
+  }
+  function mnavBadge(){ const n = +($("#tab-friends")?.dataset.n || 0), b = $("#mtabbar [data-mtab=friends] i"); if (b) { b.hidden = !n; b.textContent = n || ""; } }
+  let mnavSyncing = false;
+  function mnavGo(t, room = null, push = true){
+    if (!MNAV_Q.matches) return;
+    mScroll[mtab + (mroom || "")] = scrollY;
+    mtab = t; mroom = t === "more" ? room : null;
+    mnavSyncing = true;
+    try { if (t === "find") showTab("recs"); else if (t === "friends") showTab("friends"); else if (t === "more" && room) showTab(room); else if (t === "shelf" && shelfMode === "list") showTab("library"); } finally { mnavSyncing = false; }
+    mnavApply();
+    const w = $(".wrap"); w.classList.remove("mswap"); void w.offsetWidth; w.classList.add("mswap");
+    scrollTo(0, mScroll[t + (mroom || "")] || 0);
+    if (push) try { history.pushState({ mtab: t, mroom }, ""); } catch {}
+  }
+  // other parts of the app open rooms directly (a notification, the friends button…): keep the bar in step
+  function mnavFollow(t){ if (mnavSyncing || !MNAV_Q.matches) return;
+    const nt = t === "recs" ? "find" : t === "friends" ? "friends" : t === "library" ? "shelf" : "more";
+    if (t === "library") { shelfMode = "list"; lsSet("reading-ledger-shelfmode", "list"); }
+    mtab = nt; mroom = nt === "more" ? t : null; mnavApply(); }
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-mtab]"); if (t && t.closest("#mtabbar")) { const k = t.dataset.mtab; if (k === mtab && !mroom) { scrollTo({ top: 0, behavior: "smooth" }); return; } mnavGo(k); return; }
+    const r = e.target.closest("[data-mroom]"); if (r) { mnavGo("more", r.dataset.mroom); return; }
+    if (e.target.closest("[data-mback]")) { mnavGo("more"); return; }
+    const s = e.target.closest("[data-shelfmode]"); if (s) { shelfMode = s.dataset.shelfmode; lsSet("reading-ledger-shelfmode", shelfMode); mnavGo("shelf", null, false); return; }
+    if (e.target.closest("#mfab")) { mnavGo("find"); setTimeout(() => { const q = $("#q"); q?.focus(); q?.scrollIntoView({ block: "center" }); }, 120); return; }
+    const a = e.target.closest("[data-mact]"); if (a) { const k = a.dataset.mact;
+      if (k === "account") $("#sync-pill")?.click(); else if (k === "season") $("#season-btn")?.click(); else if (k === "backup") $("#exp-btn")?.click();
+      else if (k === "restore") $("#imp-json")?.click(); else if (k === "goodreads") $("#imp-gr")?.click(); else if (k === "install") $("#install-btn")?.click(); }
+  });
+  addEventListener("popstate", e => { const s = e.state; if (MNAV_Q.matches && s?.mtab) mnavGo(s.mtab, s.mroom, false); });
+  MNAV_Q.addEventListener?.("change", mnavApply);
+  setTimeout(() => { mnavApply(); try { history.replaceState({ mtab, mroom }, ""); } catch {} }, 0);
+  // ================= one look for every window: round ✕ in the corner, and bottom sheets you can swipe away on phones =================
+  function tidyWindows(root){
+    root.querySelectorAll(".modal, .cheercard, .parch").forEach(m => {
+      [...m.querySelectorAll("button")].forEach(b => {
+        if (b.classList.contains("xclose") || b.classList.contains("mx")) return;
+        const t = b.textContent.trim(), top = b.closest(".phead, .fbitop, .mhead, .fnhead") || (b.parentElement === m);
+        if (top && /^(Close|Done)$/.test(t)) { b.classList.add("xclose"); b.setAttribute("aria-label", t); }
+      });
+      // a window without a corner ✕ gets one that does what its own close button does
+      if (m.matches(".modal") && !m.querySelector(".xclose, .mx, [data-mx]")) {
+        const c = [...m.querySelectorAll("button")].find(b => /^(Close|Done|Cancel|Lovely|Put it away|Not now|Later)$/.test(b.textContent.trim()));
+        const x = document.createElement("button"); x.type = "button"; x.className = "iconbtn mx"; x.setAttribute("aria-label", "Close"); x.textContent = "✕";
+        x.addEventListener("click", ev => { ev.stopPropagation(); if (c?.isConnected) c.click(); else { const sc = m.closest(".scrim"); sc?.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
+        m.prepend(x);
+      }
+    });
+  }
+  new MutationObserver(ms => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType === 1 && (n.matches?.(".scrim, .modal") || n.querySelector?.(".modal"))) tidyWindows(n.matches(".modal") ? n.parentElement || n : n); })
+    .observe(document.body, { childList: true, subtree: true });
+  // swipe a sheet down to close it (phones)
+  let sheetDrag = null;
+  document.addEventListener("touchstart", e => {
+    if (!document.body.classList.contains("mnav")) return;
+    const m = e.target.closest(".scrim > .modal"); if (!m || m.scrollTop > 0) return;
+    const y = e.touches[0].clientY, top = m.getBoundingClientRect().top; if (y - top > 70) return;
+    sheetDrag = { m, y0: y, dy: 0 };
+  }, { passive: true });
+  document.addEventListener("touchmove", e => { if (!sheetDrag) return; sheetDrag.dy = Math.max(0, e.touches[0].clientY - sheetDrag.y0); sheetDrag.m.style.transform = `translateY(${sheetDrag.dy}px)`; sheetDrag.m.style.transition = "none"; }, { passive: true });
+  document.addEventListener("touchend", () => { if (!sheetDrag) return; const { m, dy } = sheetDrag; sheetDrag = null; m.style.transition = "transform .25s ease";
+    if (dy > 110) { m.style.transform = "translateY(100%)"; const s = m.parentElement; setTimeout(() => { if (s?.isConnected) s.dispatchEvent(new MouseEvent("click", { bubbles: true })); }, 200); }
+    else m.style.transform = ""; });
   // ================= bookcase designs =================
   const KEY_DESIGN = "reading-ledger-casedesign";
   let caseDesign = lsGet(KEY_DESIGN, "arch");
