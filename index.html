@@ -2656,15 +2656,54 @@ body.touring .verbanner,body.touring .toast{display:none}
 .chq{font-size:14px;margin-bottom:6px}.chpage{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.chpage input{width:76px;padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit}
 .chacts{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px}.chx{position:absolute;top:6px;right:6px}
 @media (prefers-reduced-motion:reduce){.chcard{transition:none}}
+.toast{pointer-events:none;z-index:400}
+.fphead{display:none}.familiar.docked .fphead{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;position:sticky;top:-12px;z-index:2;background:var(--paper);margin:-12px -12px 4px;padding:10px 12px;border-bottom:1px solid var(--line)}.fphead b{font-family:var(--f-display);font-size:18px}
+.famfold{margin:6px 0;border-radius:14px;border:1px solid color-mix(in srgb,var(--aura) 45%,var(--line));background:color-mix(in srgb,var(--aura) 7%,var(--paper));max-width:100%}
+.famfold summary{list-style:none;display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;cursor:pointer;font-size:13.5px;color:var(--muted)}.famfold summary::-webkit-details-marker{display:none}
+.famfold .famthumb{width:32px;height:32px;flex:none;border-radius:50%;overflow:hidden;display:grid;place-items:center}.famfold .famthumb svg{width:32px;height:32px}
+.famfold[open] summary{color:var(--ink)}.famfold[open] .fftxt i{display:none}.famfold p{margin:0;padding:2px 12px 10px 44px;font-style:italic;font-size:15px;line-height:1.4;animation:chIn .25s ease}
+.modal.quick .famfold{display:block}
+.modal>.mx{position:sticky;top:0;z-index:5;display:grid;place-items:center;width:34px;height:34px;padding:0;margin:-8px -8px -26px auto;align-self:flex-end;background:var(--paper);border-radius:50%}
+
+/* v4.0 top chips: streak and friends */
+.topchips{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:calc(14px + env(safe-area-inset-left,0px));z-index:15;display:flex;gap:6px}
+.topchip{position:relative;display:inline-flex;align-items:center;gap:4px;height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:15px;cursor:pointer;box-shadow:var(--shadow)}
+.topchip b{font-size:16px}.stkchip .stkflame{font-size:17px;filter:grayscale(.85) opacity(.6);transition:filter .3s}.stkchip.lit .stkflame{filter:none;animation:flick 2.4s ease-in-out infinite}.stkchip:not(.lit):not(.cold){border-color:color-mix(in srgb,#E07A2E 55%,var(--line))}
+@keyframes flick{50%{transform:scale(1.12) rotate(-4deg)}}
+.socchip span{color:#D23A6E}.tbadge{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#C2402F;color:#fff;font-size:11px;font-style:normal;font-weight:700;display:grid;place-items:center;box-sizing:border-box}
+@media (max-width:400px){.topchip{padding:0 10px;font-size:14px}}
+.stkmodal{max-width:460px}.stkhero{display:flex;gap:14px;align-items:center;margin:4px 0 10px}.stkbig{font-size:46px;filter:grayscale(.8) opacity(.55)}.stkhero.lit .stkbig{filter:none;animation:flick 2.4s ease-in-out infinite}.stkhero h2{margin:0}.stkhero p{margin:2px 0 0}
+.stkact{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.stkcal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0}.stkh{text-align:center;font-size:11px;color:var(--muted)}
+.stkday{aspect-ratio:1;display:grid;place-items:center;border-radius:8px;font-size:12px;color:var(--muted);background:color-mix(in srgb,var(--muted) 10%,transparent)}
+.stkday.on{background:linear-gradient(160deg,#F2A541,#D9542C);color:#fff;font-weight:700}.stkday.man{background:linear-gradient(160deg,#F2C46A,#E0883A)}.stkday.now{outline:2px solid var(--accent);outline-offset:1px}
+.stkbadges{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:6px 0}
+.stkb{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:10px 6px;border-radius:12px;border:1px solid var(--line);opacity:.55}.stkb.got{opacity:1;border-color:color-mix(in srgb,#E0A526 60%,var(--line));background:color-mix(in srgb,#E0A526 10%,var(--paper))}
+.stkbi{font-size:24px}.stkb b{font-size:12.5px;line-height:1.2}.stkb small{font-size:11px;color:var(--muted)}
+.stkcele{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);z-index:500;display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 30px;border-radius:22px;background:var(--paper);border:2px solid #E0A526;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:chIn .5s cubic-bezier(.2,1.5,.4,1);text-align:center;transition:opacity .5s,transform .5s}
+.stkcele.away{opacity:0;transform:translate(-50%,-70%)}.stkmedal{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:40px;background:radial-gradient(circle at 35% 30%,#FFF1C2,#E0A526 70%,#9A6A10);box-shadow:0 0 30px rgba(224,165,38,.6)}
+.stkcele b{font-family:var(--f-display);font-size:22px}.stkcele small{color:var(--muted)}
+
+/* v4.0 social: friends on the home page, activity feed */
+.homefriends{margin:10px auto 0;max-width:min(100%,var(--maxw,980px));min-width:0;width:100%;box-sizing:border-box;padding:0 4px;overflow:hidden}.hfrow{min-width:0;max-width:100%}.hfhead{display:flex;justify-content:space-between;align-items:center;margin:0 4px 6px}
+.hfrow{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}.hfrow::-webkit-scrollbar{display:none}
+.hfcard{flex:none;display:flex;align-items:center;gap:2px;padding:6px 4px 6px 8px;border-radius:16px;background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);max-width:250px}
+.hfopen{display:flex;align-items:center;gap:8px;background:none;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-width:0;padding:0}
+.hftxt{display:flex;flex-direction:column;min-width:0;max-width:150px}.hftxt b{font-size:13.5px}.hftxt i{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hftxt .frbar{margin-top:3px;width:100%}
+.ffeed .fev{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--line) 60%,transparent)}.ffeed .fev:first-of-type{border-top:0}
+.fevtxt{flex:1;min-width:0;display:flex;flex-direction:column;font-size:14px;line-height:1.35}.fevtxt small{color:var(--muted);font-size:12px}.fevbook{font-style:italic;text-align:left}
+.fevr{display:flex;gap:4px}.fevreact{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--paper);cursor:pointer;font-size:15px;display:grid;place-items:center;transition:transform .15s}
+.fevreact:hover:not(:disabled){transform:scale(1.12)}.fevreact[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 22%,var(--paper));border-color:var(--accent)}.fevreact:disabled:not([aria-pressed="true"]){opacity:.35}
 </style>
 </head>
 <body>
 <div class="drift" id="drift" aria-hidden="true"></div>
 <button class="themebtn seasonbtn" id="season-btn" type="button" title="Seasons and themes" aria-label="Choose a seasonal theme">🍂</button>
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
+<div class="topchips"><button class="topchip stkchip" id="streak-btn" type="button" aria-label="Your reading streak"><span class="stkflame">🔥</span><b>0</b></button><button class="topchip socchip" id="social-btn" type="button" aria-label="Friends"><span aria-hidden="true">♥</span> Friends<i class="tbadge" hidden></i></button></div>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.9</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.0</button>
   <button class="nmitem" type="button" data-starttour>🗝 Take the tour of your nook</button>
   <button class="nmitem" type="button" data-notifyset>🔔 Notifications & daily check-in</button>
   <div class="label">Your nook</div>
@@ -2701,6 +2740,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   </section>
 
   <section class="now" id="now" aria-label="Currently reading"></section>
+  <section class="homefriends" id="home-friends" aria-label="Friends reading now" hidden></section>
   <section class="familiar" id="familiar" aria-label="Your familiar"></section>
 
   <section class="bookcase" id="bookcase" data-case="library" aria-label="Your bookcase">
@@ -2774,7 +2814,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.9 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.0 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2799,7 +2839,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   // look-and-feel settings that follow you between devices with your account
-  const SYNCED_SETTINGS = ["reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel", "reading-ledger-casedesign"];
+  const SYNCED_SETTINGS = ["reading-ledger-readdays", "reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel", "reading-ledger-casedesign"];
   const SETTINGS_T = "reading-ledger-settings-t";
   let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
   setTimeout(() => { settingsReady = true; }, 6000);
@@ -5370,13 +5410,13 @@ body.touring .verbanner,body.touring .toast{display:none}
     const root = $("#modal-root");
     root.onclick = null;
     const quick = isNew && !!b.title && !moveTo;
-    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
         <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
           <div class="summary clamp" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>${b.summary && b.summary.length > 220 ? `<button type="button" class="linkbtn sumtog" id="m-sumtog">Read more</button>` : `<button type="button" class="linkbtn sumtog" id="m-sumtog" hidden>Read more</button>`}
         </div></div>
-      ${famBubble(b)}
+      ${famFold(b)}
       ${moveTo ? `<div class="moving">${moveTo === "read" ? "Finished it? Check the dates and give it a rating, then press Move." : moveTo === "reading" ? "Started it? Set the day you began and your current page, then press Move." : "Press Move to put it back on the Want to read shelf."} Cancel leaves it where it was.</div>` : ""}
       <div class="field"><span class="label">Shelf</span><div class="shelfpick" id="m-shelf">${Object.entries(SHELVES).map(([k, l]) => `<button type="button" data-shelf="${k}" aria-pressed="${b.shelf === k}">${l}</button>`).join("")}</div></div>
       <div id="m-rate"></div>
@@ -5562,7 +5602,7 @@ body.touring .verbanner,body.touring .toast{display:none}
     };
     $("#scrim").addEventListener("click", e => {
       const id = e.target.id;
-      if (id === "scrim" || id === "m-cancel") return close();
+      if (id === "scrim" || id === "m-cancel" || e.target.closest("[data-mx]")) return close();
       const mt = e.target.closest("[data-mtab]"); if (mt) { showMTab(mt.dataset.mtab); return; }
       const gc = e.target.closest("[data-gchip]"); if (gc) { const inp = $("#m-g"), g = gc.dataset.gchip; let list = inp.value.split(",").map(x => x.trim()).filter(Boolean); list = list.includes(g) ? list.filter(x => x !== g) : [...list, g]; inp.value = list.join(", "); paintGenres(); return; }
       const gm = e.target.closest("[data-gmain]"); if (gm) { const inp = $("#m-g"), g = gm.dataset.gmain; inp.value = [g, ...inp.value.split(",").map(x => x.trim()).filter(x => x && x !== g)].join(", "); paintGenres(); return; }
@@ -6179,14 +6219,18 @@ body.touring .verbanner,body.touring .toast{display:none}
       <path d="M46 112l-3 4h7zM70 112l3 4h-7z" fill="#5E3E24"/>
       <g class="arm wave"><path d="M42 82q-10-6-12-16l5-2q4 8 10 12z" fill="#E8C9A0"/><circle cx="31" cy="64" r="3.4" fill="#E8C9A0"/></g>
       <g class="head">
+        <path d="${(() => { let d = ""; for (let i = 0; i <= 16; i++) { const a = Math.PI * (0.92 + i * 0.0725), b = a + 0.036, c = a + 0.0725; d += `${i ? "L" : "M"}${(60 + Math.cos(a) * 25).toFixed(1)} ${(50 + Math.sin(a) * 23).toFixed(1)}L${(60 + Math.cos(b) * 33).toFixed(1)} ${(50 + Math.sin(b) * 31).toFixed(1)}`; } return d + "L60 50z"; })()}" fill="url(#hs${u})"/>
+        <circle cx="38.5" cy="45" r="4.6" fill="#C9A47A"/><circle cx="38.5" cy="45" r="2.3" fill="#E9A99A"/><circle cx="81.5" cy="45" r="4.6" fill="#C9A47A"/><circle cx="81.5" cy="45" r="2.3" fill="#E9A99A"/>
         <path d="M38 50q0-20 22-20t22 20q0 16-22 18q-22-2-22-18z" fill="#E8C9A0"/>
-        <path d="M60 56q14 2 20 8q-8 4-20 0z" fill="#E8C9A0"/><circle class="nose" cx="80" cy="62" r="2.6" fill="#2A1A10"/>
+        <path d="M46 33q6 4 4 9M60 31q2 5-1 9M74 33q-6 4-4 9" stroke="#B88B5E" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
         <g class="hat"><path d="M30 36q30-10 60 0q-4 4-10 4H40q-6 0-10-4z" fill="#B8925A"/><path d="M40 36q2-16 20-16t20 16z" fill="#C9A36A"/><path d="M40 33q20-5 40 0" stroke="#6E4A2A" stroke-width="3"/><path d="M76 30q8-10 12-8q-4 6-10 10z" fill="#3E8A5A"/></g>
         ${EYE("L", 51, 47, { rx: 5.4, ry: 6, iris: "#3A2414", iris2: "#6A4428", pupil: .6, line: "#2A1A10", ri: 4.8 })}
         ${EYE("R", 68, 47, { rx: 5.4, ry: 6, iris: "#3A2414", iris2: "#6A4428", pupil: .6, line: "#2A1A10", ri: 4.8 })}
         ${BROWS([51, 39.4], [68, 39.4], 3.6, "#6E4A2A", 1.6)}
         ${BLUSH([44, 56], [75, 56], "#FF9A7A", 3.6, 2)}
-        ${MOUTH(62, 58, 3.4, { line: "#3A2414" })}
+        <ellipse cx="59.5" cy="58.5" rx="8.5" ry="6" fill="#F6E2C2"/>
+        <g class="nose"><ellipse cx="59.5" cy="55" rx="3.4" ry="2.6" fill="#2A1A10"/><ellipse cx="58.4" cy="54.1" rx="1.1" ry=".7" fill="#fff" opacity=".8"/></g>
+        ${MOUTH(59.5, 60.2, 3, { line: "#3A2414" })}
       </g>${EXTRAS(60, 12, { heart: "#FFD36E" })}`, "hedgehog"); },
 
     // ---- Antonio: a golden lion with a flowing mane, an open ruffled shirt and a red rose ----
@@ -6784,7 +6828,7 @@ body.touring .verbanner,body.touring .toast{display:none}
         <div class="label famlabel">${esc(famName(familiar))} ${petLine || famMode === "care" ? F.verb : famMode === "rec" ? "recommends" : famMode === "chat" ? "says" : F.verb}${bondPill()}${(() => { let M; try { M = famMood(); } catch { return ""; } return M[0] === "content" ? "" : `<button type="button" class="moodchip m-${M[0]}" data-care="mood" title="${esc(famName(familiar))} is ${esc(M[2])}">${M[1]} ${M[0] === "moody" ? "moody" : M[0]}</button>`; })()}</div>
         ${content}
       </div>
-    </div>${famPicking ? `<div class="fampicker">${famOptions()}</div>` : ""}`;
+    </div>${famPicking ? `<div class="fampicker"><div class="fphead"><b>Choose your familiar</b><button class="iconbtn" type="button" data-fampick aria-label="Close">✕</button></div>${famOptions()}</div>` : ""}`;
     if (famMode === "rec" && famRec) paintRecCovers($("#familiar"));
     paintReleaseDot();
     if (said && said !== lastSaid) { lastSaid = said; speak(said, mood); famPeek(); } else setExpr(mood);
@@ -7220,6 +7264,8 @@ body.touring .verbanner,body.touring .toast{display:none}
     if (readBooks().length < 2) return { cat: "Show me a few books you've loved first, darling. Then I'll whisper what to read next.", owl: "Kindly shelve a few completed books first; I cannot advise without evidence.", raven: "Show me your past victories first, then I shall choose your next battle!", fox: "Tell me what you've read first. A fox needs a trail to follow.", toad: "Ribbit! Log a few books you've read so I can study your habitat!", bat: "Um… if you add some books you've read, I could… maybe… help?", hedgehog: "Add some books you've finished so I can draw the map!" }[familiar];
     return familiarRecommend(b);
   }
+  // in a book's page the familiar's thought stays folded: a small avatar you tap to hear it
+  const famFold = b => { if (!famChosen) return ""; const r = familiarReason(b); const F = FAMILIARS[familiar]; return r ? `<details class="famfold" data-fam="${familiar}" style="--aura:${F.aura}"><summary><span class="famthumb">${famArt(familiar)}</span><span class="fftxt">${esc(famName(familiar))} has a thought <i aria-hidden="true">💬</i></span></summary><p>${esc(r)}</p></details>` : ""; };
   const famBubble = b => { if (!famChosen) return ""; const r = familiarReason(b); const F = FAMILIARS[familiar]; return r ? `<div class="famsay" data-fam="${familiar}" style="--aura:${F.aura}"><span class="famthumb">${F.svg}</span><p><b>${esc(famName(familiar))}:</b> ${esc(r)}</p></div>` : ""; };
 
   // ================= Antonio and Wulfila find their voices =================
@@ -7805,13 +7851,17 @@ alter publication supabase_realtime add table public.library;`;
         friends = fr.filter(f => f.status === "accepted").map(f => P(f.requester === me ? f.addressee : f.requester)).filter(Boolean);
         incoming = fr.filter(f => f.status === "pending" && f.addressee === me).map(f => P(f.requester)).filter(Boolean);
         outgoing = fr.filter(f => f.status === "pending" && f.requester === me).map(f => P(f.addressee)).filter(Boolean);
+        try { const was = lsGet("reading-ledger-outgoing", []), yes = friends.filter(f => was.includes(f.id));
+          if (yes.length) setTimeout(() => { toast(`♥ ${yes.map(f => f.name).join(" & ")} accepted your friend request!`, 4200); try { speak(`${yes[0].name} said yes! A new reading friend!`, "happy"); } catch {} }, 900);
+          lsSet("reading-ledger-outgoing", outgoing.map(p => p.id)); } catch {}
         shelves = new Map();
         if (friends.length) { const r = await C().from("shared_shelf").select("*").in("user_id", friends.map(f => f.id)); if (!r.error) (r.data || []).forEach(x => shelves.set(x.user_id, x.data || {})); }
         state = "ok"; err = ""; lastLoad = Date.now();
       } catch (e) { state = "error"; err = String(e?.message || e); }
       paintBadge();
     }
-    function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length), t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); } paintPost(); }
+    function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length), t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); }
+      const sb = $("#social-btn i"); if (sb) { sb.hidden = !n; sb.textContent = n || ""; } paintPost(); try { paintHomeFriends(); } catch {} }
     const relation = id => friends.some(f => f.id === id) ? "friend" : incoming.some(f => f.id === id) ? "incoming" : outgoing.some(f => f.id === id) ? "outgoing" : id === U()?.id ? "me" : "none";
     async function request(id){ const { error } = await C().from("friendships").insert({ requester: U().id, addressee: id }); if (error && !/duplicate|23505/.test(error.message + error.code)) { toast(error.message); return; } toast("Friend request sent ✦"); await load(true); render(); }
     async function accept(id){ const { error } = await C().from("friendships").update({ status: "accepted" }).eq("requester", id).eq("addressee", U().id); if (error) { toast(error.message); return; } toast("You're friends now ♥"); await pushShare(); await load(true); render(); }
@@ -7890,7 +7940,7 @@ alter publication supabase_realtime add table public.library;`;
         el.addEventListener("click", () => { const l = unread()[0]; if (l && el.dataset.kind === "letter") { openEnvelope(l.id, el); return; } showTab("friends"); setTimeout(() => $("#f-post")?.scrollIntoView({ behavior: "smooth", block: "start" }), 250); }); }
       const first = L[0];
       el.dataset.kind = first ? "letter" : "request";
-      el.innerHTML = first ? `${L.length > 1 ? `<span class="envstack" aria-hidden="true"></span>` : ""}${envelopeHTML(first, "mini")}<span class="postcap">${L.length > 1 ? `${L.length} letters for you` : `${first.book?.kind === "cheer" ? "A cheer" : first.book?.kind === "feedback" ? "News about your recommendation" : "A letter"} from ${esc(whoIs(first.sender).name)}`}${R ? ` · ${R} friend request${R > 1 ? "s" : ""}` : ""}</span>`
+      el.innerHTML = first ? `${L.length > 1 ? `<span class="envstack" aria-hidden="true"></span>` : ""}${envelopeHTML(first, "mini")}<span class="postcap">${L.length > 1 ? `${L.length} letters for you` : `${first.book?.kind === "react" ? `${first.book.e || "♥"} A reaction` : first.book?.kind === "cheer" ? "A cheer" : first.book?.kind === "feedback" ? "News about your recommendation" : "A letter"} from ${esc(whoIs(first.sender).name)}`}${R ? ` · ${R} friend request${R > 1 ? "s" : ""}` : ""}</span>`
         : `<span class="callcard" aria-hidden="true"><b>${esc(incoming[0].name)}</b><small>requests the pleasure of your friendship</small></span><span class="postcap">${R > 1 ? `${R} friend requests` : "A friend request"}</span>`;
       el.setAttribute("aria-label", first ? `Open your letter from ${whoIs(first.sender).name}` : "See your friend requests");
       announce();
@@ -7913,7 +7963,7 @@ alter publication supabase_realtime add table public.library;`;
     const sealSVG = (letter = "✦") => `<span class="wseal" aria-hidden="true"><b>${letter}</b></span>`;
     function letterThumb(l, mine){
       const p = whoIs(mine ? l.recipient : l.sender), B = l.book || {}, isNew = !mine && !l.read_at;
-      if (B.kind) { const ch = B.kind === "cheer"; return `<button type="button" class="lthumb lkind${isNew ? " sealed" : ""}" data-lopen="${l.id}"><span class="lstar">${ch ? "✨" : "❦"}</span><span class="ltxt"><b>${mine ? `${ch ? "Cheer" : "Feedback"} to ${esc(p.name)}` : ch ? `A cheer from ${esc(p.name)}` : `${esc(p.name)} finished ${esc(B.t || "your book")}`}</b><small>${esc((l.note || "").slice(0, 60))}${l.reaction ? ` · ${esc(l.reaction)}` : ""} · ${ago(l.created_at)}</small></span></button>`; }
+      if (B.kind) { const ch = B.kind === "cheer", re = B.kind === "react"; return `<button type="button" class="lthumb lkind${isNew ? " sealed" : ""}" data-lopen="${l.id}"><span class="lstar">${re ? esc(B.e || "♥") : ch ? "✨" : "❦"}</span><span class="ltxt"><b>${mine ? `${re ? "Reaction" : ch ? "Cheer" : "Feedback"} to ${esc(p.name)}` : re ? `${esc(p.name)} reacted` : ch ? `A cheer from ${esc(p.name)}` : `${esc(p.name)} finished ${esc(B.t || "your book")}`}</b><small>${esc((l.note || "").slice(0, 60))}${l.reaction ? ` · ${esc(l.reaction)}` : ""} · ${ago(l.created_at)}</small></span></button>`; }
       return `<button type="button" class="lthumb${isNew ? " sealed" : ""}" data-lopen="${l.id}">${isNew ? sealSVG((p.name || "?")[0].toUpperCase()) : `<span class="lmini">${mini(B)}</span>`}
         <span class="ltxt"><b>${mine ? `To ${esc(p.name)}` : isNew ? `A letter from ${esc(p.name)}` : esc(B.t || "A book")}</b><small>${mine ? `${esc(B.t || "")} · ${l.reaction ? `${esc(l.reaction)} ` : ""}${l.added ? "added to their shelf" : l.read_at ? "read" : "not opened yet"}` : isNew ? "Sealed with wax · tap to open" : `from ${esc(p.name)} · ${ago(l.created_at)}${l.added ? " · on your shelf" : ""}`}</small></span></button>`;
     }
@@ -7922,11 +7972,11 @@ alter publication supabase_realtime add table public.library;`;
       const mine = l.sender === U().id, p = whoIs(mine ? l.recipient : l.sender), from = mine ? ME() : p, B = l.book || {};
       const have = books.some(b => tnorm(b.title) === tnorm(B.t || ""));
       const root = $("#modal-root");
-      if (B.kind === "cheer" || B.kind === "feedback") {
+      if (B.kind === "cheer" || B.kind === "feedback" || B.kind === "react") {
         if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
-        const ch = B.kind === "cheer";
+        const ch = B.kind === "cheer" || B.kind === "react";
         root.innerHTML = `<div class="scrim" id="lt-scrim"><div class="cheercard starnote${ch ? "" : " fbknote"}" role="dialog" aria-modal="true" aria-label="${ch ? "A cheer" : "Feedback on your recommendation"}"><div class="chstars" aria-hidden="true">${ch ? "✦ ✧ ✦" : "❦"}</div>
-          <div class="label">${ch ? (mine ? `Your cheer for ${esc(p.name)}` : `A cheer from ${esc(p.name)}`) : mine ? `You told ${esc(p.name)} about` : `${esc(p.name)} finished your recommendation`}</div>
+          <div class="label">${B.kind === "react" ? (mine ? `You reacted ${esc(B.e || "♥")} to ${esc(p.name)}` : `${esc(B.e || "♥")} ${esc(p.name)} reacted`) : ch ? (mine ? `Your cheer for ${esc(p.name)}` : `A cheer from ${esc(p.name)}`) : mine ? `You told ${esc(p.name)} about` : `${esc(p.name)} finished your recommendation`}</div>
           ${!ch || B.t ? `<div class="pbook">${mini(B)}<div><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>${B.r ? `<span class="pstars">${"★".repeat(Math.round(B.r))}<span class="muted">${"★".repeat(5 - Math.round(B.r))}</span></span>` : ""}</div></div>` : ""}
           ${(B.fe || []).length ? `<div class="chchips">${B.fe.map(f => `<span class="chip" aria-pressed="true">${esc(f)}</span>`).join("")}</div>` : ""}
           <p class="chmsg">${esc(l.note || "").replace(/\n/g, "<br>")}</p><p class="psign">— ${esc(from.name)}</p>
@@ -8098,6 +8148,48 @@ alter publication supabase_realtime add table public.library;`;
       el.innerHTML = `<button type="button" class="fbkgo"><span class="fbkic">✉</span><span><b>${esc(p.name)} recommended <i>${esc(b.title)}</i></b><small>You finished it! Tell ${esc(p.name)} what you thought</small></span></button><button type="button" class="iconbtn" data-fbklater aria-label="Not now">✕</button>`;
     }
     setInterval(() => { if (!document.hidden) try { paintFeedback(); } catch {} }, 6000);
+    // ---- friends reading right now, on the home page ----
+    function paintHomeFriends(){
+      const el = $("#home-friends"); if (!el) return;
+      const R = ready() ? friends.map(p => ({ p, x: (shelves.get(p.id)?.reading || [])[0] })).filter(o => o.x) : [];
+      if (!R.length) { el.hidden = true; el.innerHTML = ""; return; }
+      el.hidden = false;
+      el.innerHTML = `<div class="hfhead"><span class="label">♥ Your friends are reading</span><button class="linkbtn" type="button" data-hfall>See all</button></div>
+        <div class="hfrow">${R.slice(0, 8).map(({ p, x }) => { const pct = x.p ? Math.min(100, Math.round((x.cp || 0) / x.p * 100)) : null;
+          return `<div class="hfcard" data-fam="${esc(p.familiar || "cat")}"><button type="button" class="hfopen" data-hfopen="${p.id}">${avatar(p, 34)}<span class="hftxt"><b>${esc(p.name)}</b><i>${esc(x.t)}</i>${pct !== null ? `<span class="frbar"><i style="width:${pct}%"></i></span>` : ""}</span></button>${lettersOff ? "" : `<button type="button" class="iconbtn hfcheer" data-hfcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button>`}</div>`; }).join("")}</div>`;
+    }
+    document.addEventListener("click", e => {
+      if (!e.target.closest("#home-friends")) return;
+      if (e.target.closest("[data-hfall]")) { showTab("friends"); return; }
+      const c = e.target.closest("[data-hfcheer]"); if (c) { cheer(c.dataset.hfcheer); return; }
+      const o = e.target.closest("[data-hfopen]"); if (o) { showTab("friends"); setTimeout(() => openNook(o.dataset.hfopen), 150); }
+    });
+    // ---- what's new with friends, with little reactions ----
+    const REACT = [["♥", "Love"], ["🎉", "Congrats"], ["📚", "Tell me more"]];
+    const reactNote = (ev, e, t) => ({ finished: { "♥": `So happy you finished “${t}”!`, "🎉": `Congrats on finishing “${t}”!`, "📚": `Now tell me everything about “${t}”!` },
+      started: { "♥": `Ooh, “${t}”! Enjoy it!`, "🎉": `A new adventure: “${t}”! Have fun!`, "📚": `Can't wait to hear what you think of “${t}”!` } })[ev][e];
+    function feed(){
+      const out = [], cut = Date.now() - 45 * 864e5, when = d => { const t = Date.parse(String(d || "").slice(0, 10)); return isNaN(t) ? 0 : t; };
+      for (const p of friends) { const S = shelves.get(p.id) || {};
+        for (const x of S.read || []) { const t = when(x.f); if (t >= cut) out.push({ p, ev: "finished", x, t }); }
+        for (const x of S.reading || []) { const t = when(x.st); if (t >= cut) out.push({ p, ev: "started", x, t }); } }
+      return out.sort((a, b) => b.t - a.t).slice(0, 20);
+    }
+    const evKey = o => `${o.p.id}|${o.ev}|${tnorm(o.x.t)}`;
+    function feedHTML(){
+      const F = feed(); if (!F.length) return "";
+      const done = lsGet("reading-ledger-reacted", {});
+      return `<section class="fsec ffeed"><h3>What's new with your friends</h3>${F.map(o => { const k = evKey(o), mine = done[k];
+        return `<div class="fev" data-fam="${esc(o.p.familiar || "cat")}">${avatar(o.p, 34)}<div class="fevtxt"><span><b>${esc(o.p.name)}</b> ${o.ev === "finished" ? "finished" : "started"} <button type="button" class="linkbtn fevbook" data-fevbook="${esc(k)}">${esc(o.x.t)}</button>${o.ev === "finished" && o.x.r ? ` <span class="fstars">${"★".repeat(Math.floor(o.x.r))}${o.x.r % 1 ? "½" : ""}</span>` : ""}</span><small>${ago(new Date(o.t).toISOString())}</small></div>
+          ${lettersOff ? "" : `<div class="fevr">${REACT.map(([e, l]) => `<button type="button" class="fevreact" data-freact="${esc(k)}" data-e="${e}" aria-pressed="${mine === e}" title="${l}" aria-label="${l}"${mine ? " disabled" : ""}>${e}</button>`).join("")}</div>`}</div>`; }).join("")}</section>`;
+    }
+    async function react(k, e){
+      const o = feed().find(z => evKey(z) === k); if (!o || !ready()) return;
+      const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: U().id, recipient: o.p.id, book: { kind: "react", t: o.x.t, a: o.x.a || "", c: o.x.c || "", e, ev: o.ev }, note: `${e} ${reactNote(o.ev, e, o.x.t)}` };
+      const { error } = await C().from("letters").insert(row); if (error) { toast(error.message); return; }
+      letters = [{ ...row, created_at: new Date().toISOString() }, ...letters];
+      lsSet("reading-ledger-reacted", { ...lsGet("reading-ledger-reacted", {}), [k]: e }); toast(`${e} sent to ${o.p.name}`); render();
+    }
     function render(){
       const el = $("#view-friends"); if (!el) return;
       if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
@@ -8112,6 +8204,7 @@ alter publication supabase_realtime add table public.library;`;
           ${unread().length ? `<div class="envrow">${unread().map(l => `<button type="button" class="envbtn" data-lenv="${l.id}" aria-label="Open the letter from ${esc(whoIs(l.sender).name)}">${envelopeHTML(l)}</button>`).join("")}</div>` : ""}</section>` : ""}
         ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
         <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
+        ${feedHTML()}
         ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
           ${letters.some(l => l.sender === U().id) ? `<div class="label" style="margin-top:8px">Sent</div>${letters.filter(l => l.sender === U().id).map(l => letterThumb(l, true)).join("")}` : ""}</details>` : ""}
@@ -8243,6 +8336,8 @@ alter publication supabase_realtime add table public.library;`;
       const le = e.target.closest("[data-lenv]"); if (le) { openEnvelope(le.dataset.lenv, le); return; }
       const lw = e.target.closest("[data-lwrite]"); if (lw) { compose({ to: lw.dataset.lwrite || undefined }); return; }
       const fc = e.target.closest("[data-fcheer]"); if (fc) { cheer(fc.dataset.fcheer); return; }
+      const fr2 = e.target.closest("[data-freact]"); if (fr2) { fr2.closest(".fevr").querySelectorAll("button").forEach(b => b.disabled = true); await react(fr2.dataset.freact, fr2.dataset.e); return; }
+      const fb2 = e.target.closest("[data-fevbook]"); if (fb2) { const o = feed().find(z => evKey(z) === fb2.dataset.fevbook); if (o) openFriendBook(o.x, o.p, o.ev === "finished" ? "read" : "reading"); return; }
       const fg = e.target.closest("[data-fbkgive]"); if (fg) { giveFeedback(fg.dataset.fbkgive); return; }
       if (e.target.closest("[data-fbrowse]")) { search = null; await browse(); return; }
       const rf = e.target.closest("[data-frefresh]"); if (rf) { rf.classList.add("spin"); await refreshShelves(); render(); toast("Friends' progress refreshed ✦", 1600); return; }
@@ -8254,7 +8349,7 @@ alter publication supabase_realtime add table public.library;`;
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
     return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
   })();
-  window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData() };
+  window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData(), famArt: k => famArt(k) };
   // ================= wiring =================
   const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","authors","friends"];
   // ================= words you learned while reading =================
@@ -9531,6 +9626,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const { read, groups } = D, A = [];
     const ach = (icon, name, desc, rarity, have, need, secret) => A.push({ icon, name, desc, rarity, have: Math.min(have, need), need, done: have >= need, secret });
     ach("📖", "First Chapter", "Finish your first book.", "common", read.length, 1);
+    try { const bs = bestStreak(); STREAK_BADGES.forEach(([n, icon, name, r]) => ach(icon, name, `Read ${n} days in a row.`, r, bs, n)); } catch {}
     ach("🐛", "Bookworm", "Finish 10 books.", "common", read.length, 10);
     ach("📚", "Bibliophile", "Finish 25 books.", "rare", read.length, 25);
     ach("🏛", "Living Library", "Finish 100 books.", "legendary", read.length, 100);
@@ -10520,8 +10616,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.9";
+  const APP_VERSION = "4.0";
   const CHANGELOG = [
+    ["4.0", "25 Oct 2026", "Streaks, friends up top and a sweeter check-in", [
+      "New: 🔥 your reading streak, top left. Tap it for your last five weeks, an “I read today” button and seven streak badges to earn",
+      "New: ♥ Friends, top left, with a badge when letters or requests are waiting",
+      "Your friends' current books now show on the home page, with a ✨ to cheer them on",
+      "What's new with your friends: see who started or finished a book and react with ♥, 🎉 or 📚",
+      "Your familiar's daily check-in is now just one little line in their own voice, also on your phone",
+      "You'll hear (and get a notification) when someone accepts your friend request",
+      "In a book's page, your familiar's thought is folded away: tap it to read it",
+      "Bramble the hedgehog has a proper button nose and a crown of spines",
+      "Close buttons fixed: messages at the bottom no longer cover them, books have an ✕ at the top, and the familiar picker can be closed"]],
     ["3.9", "25 Oct 2026", "Your familiar checks in, and notifications", [
       "New: once a day your familiar checks in when you open the app: how you're feeling, how far you got, and your reading streak",
       "Save your page right from the check-in, start reading by candlelight, or pick your next book from the pile",
@@ -10970,12 +11076,12 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     return "ok";
   }
   // days in a row with some reading logged (today, or up to yesterday if not yet today)
-  function readDays(){ const s = new Set(); for (const b of books) { (b.progressLog || []).forEach(x => x.d && s.add(String(x.d).slice(0, 10))); (b.sessions || []).forEach(x => x.d && s.add(String(x.d).slice(0, 10))); if (b.finished && isExact(b.finished)) s.add(b.finished.slice(0, 10)); } return s; }
+  function readDays(){ const s = new Set(); for (const b of books) { (b.progressLog || []).forEach(x => x.d && s.add(String(x.d).slice(0, 10))); (b.sessions || []).forEach(x => { const d = x.s || x.d; if (d) s.add(String(d).slice(0, 10)); }); if (b.finished && isExact(b.finished)) s.add(b.finished.slice(0, 10)); } lsGet(KEY_READDAYS, []).forEach(d => s.add(d)); return s; }
   function streakNow(){ const s = readDays(), d = new Date(); let n = 0; const iso = x => `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`;
     if (!s.has(iso(d))) d.setDate(d.getDate() - 1); while (s.has(iso(d))) { n++; d.setDate(d.getDate() - 1); } return n; }
   const nightBook = () => books.filter(b => b.shelf === "reading").sort((a, b) => String(b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(String(a.progressLog?.slice(-1)[0]?.d || a.started || "")))[0] || null;
   function pushCtx(){ const b = nightBook(), want = books.filter(x => x.shelf === "want"), day = Math.floor(Date.now() / 864e5);
-    return { reading: b ? { t: b.title, p: Number(b.pages) || null, cp: Number(b.currentPage) || 0 } : null, streak: streakNow(), want: want.length ? want[day % want.length].title : "", readOn: readDays().has(todayISO()) ? todayISO() : null }; }
+    return { reading: b ? { t: b.title, p: Number(b.pages) || null, cp: Number(b.currentPage) || 0 } : null, streak: streakNow(), want: want.length ? want[day % want.length].title : "", readOn: readDays().has(todayISO()) ? todayISO() : null, lines: famLines() }; }
   const b64ToBytes = s => { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; return Uint8Array.from(atob(s), c => c.charCodeAt(0)); };
   let pushState = "";
   async function pushSave(sub){
@@ -11058,50 +11164,46 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       if (e.target.id === "nt-hour") { notify.hour = +e.target.value; saveNotify(); lsSet("reading-ledger-pushsig", ""); pushSync(true); toast(`${famName(familiar)} will check in at ${pad(notify.hour)}:00`); draw(); }
     };
   }
-  // ---- the daily check-in card ----
-  const CHECKIN = {
-    cat: ["Hello, darling. I was just thinking about you…", "There you are, darling. Did you miss me?"], owl: ["Good day! A brief check-in, if I may.", "Ah, splendid, you're here. Shall we review your reading?"],
-    raven: ["Report, warrior! How goes the campaign?", "Corvin reporting for the daily inspection!"], fox: ["Psst. Daily check-in. Nobody followed you?", "Right on time. Report, agent."],
-    toad: ["Daily observation time! How are we today?", "Ah! My favourite test subject returns!"], bat: ["H-hi… can I check on you? Just for a second…", "Oh! You came! Um. How are you?"],
-    hedgehog: ["Morning roll call, explorer!", "Explorer! Ready for today's expedition report?"], lion: ["Ay, hola mi amor! How are you today?", "Antonio has been waiting for you all day!"], wolf: ["*soft howl* There you are.", "*sigh* I hoped you'd come by today."] };
-  const MOODS = [["great", "✨ Great"], ["cosy", "😌 Cosy"], ["busy", "🌪 Busy"], ["tired", "😴 Tired"]];
-  const MOOD_REPLY = { great: "Then this is the perfect day for a chapter!", cosy: "Blanket, tea, book. I approve completely.", busy: "Even five pages count. I'll keep your place warm.", tired: "Rest, then. Books wait patiently, and so do I." };
   function checkinBlocked(){ return !!($("#modal-root").innerHTML.trim() || document.querySelector(".scrim, #delivery, .pk2ov, #tour, #ch-card") || document.body.classList.contains("rm-open")); }
   function maybeCheckin(force){
     if (!force && (!notify.checkin || lsGet(KEY_CHECKDAY, "") === todayISO() || !books.length || !FAMILIARS[familiar])) return;
     if (checkinBlocked()) { if (!force) setTimeout(() => maybeCheckin(false), 20000); else setTimeout(() => maybeCheckin(true), 1500); return; }
     lsSet(KEY_CHECKDAY, todayISO()); showCheckin();
   }
+  // ---- the daily check-in: one little line from your familiar, in their own voice ----
+  const FAM_DAILY = {
+    cat: ["Darling, did you sneak in a few pages today? Tell me everything.", "I've been lounging on your books all day. Shall we read something together tonight?", "A candle, a blanket and you with a book… is that tonight's plan, darling?", "Did {t} keep you up last night? I hope it was worth it.", "I missed you today, darling. Come and read me something."],
+    owl: ["Good day! Have we managed a chapter today? Even a short one counts.", "A gentle question from the library: shall we read something this evening?", "I've put the kettle on. A cup of tea and a few pages, perhaps?", "Did {t} teach you anything today? I'm terribly curious.", "Reading is a habit best kept daily, my dear. Fancy a page or two?"],
+    raven: ["Warrior! Have you read today? The pages will not conquer themselves!", "CAW! Corvin demands a report. Did you battle a chapter today?", "Tonight we read! Are you with me?", "Has {t} surrendered yet? Onward!", "Even legends rest. But first: one chapter?"],
+    fox: ["Psst. Did you read today? I won't tell anyone.", "I left a secret bookmark for you. Fancy a chapter tonight?", "Mission for tonight: a few quiet pages. Accept?", "Any new secrets from {t}? Whisper them to me.", "The nook is quiet. Perfect for reading, don't you think?"],
+    toad: ["Daily experiment: did you read today? I must record the results!", "Hypothesis: a chapter tonight makes you 37% happier. Shall we test it?", "Fascinating weather for reading! Shall we?", "Any new discoveries in {t} today?", "My notes say you love books. Want to read something tonight?"],
+    bat: ["H-hi… did you read today? Only if you want to tell me…", "Um… would you like to read something tonight? I saved you a spot.", "I made you a tiny bookmark. It's not very good. Want to use it?", "Is {t} being nice to you? I hope so.", "I m-missed you today. Maybe a little reading?"],
+    hedgehog: ["Ooh! Did you read today? Was it an ADVENTURE?", "Expedition time! Want to read something tonight? I packed snacks!", "I found a super cosy reading spot! Wanna come?", "What happened in {t} today? Tell me tell me tell me!", "Every page is treasure! Shall we dig up a few tonight?"],
+    lion: ["Ay, mi amor! Did you read today? Antonio wants to hear everything!", "A candle, a sofa, a beautiful book… shall we read tonight, sí?", "My heart says: read something tonight! My heart is never wrong.", "Is {t} as romantic as you? Impossible.", "Antonio has missed you all day. Come read with me!"],
+    wolf: ["*soft howl* Did you read today? The moon is asking.", "The night is long. Shall we spend a little of it in a book?", "I kept the fire warm for you. A few pages, maybe?", "Does {t} still haunt you? Good books do.", "*sigh* A quiet evening. Perfect for reading, if you want to."],
+  };
+  const FAM_YES = { cat: "Mmm, that's my darling. 🔥", owl: "Splendid! Most splendid indeed.", raven: "VICTORY! Corvin salutes you!", fox: "Nicely done. I'll note it in the secret file.", toad: "Recorded! The data are delightful!", bat: "Y-you did?! That's so wonderful!", hedgehog: "YAY! Adventure complete!", lion: "¡Olé! Antonio is so proud!", wolf: "*happy howl* Well read." };
+  const FAM_NOTYET = { cat: "There's still time, darling. I'll wait.", owl: "No matter. The evening is young.", raven: "Then the battle awaits tonight!", fox: "Understood. Tonight, then. Quietly.", toad: "Inconclusive! We'll try again later!", bat: "Th-that's okay! Whenever you want…", hedgehog: "That's okay! The adventure can wait a bit!", lion: "No pasa nada, mi amor. Later!", wolf: "The night will wait for you." };
+  // the lines for today and the coming days, ready for the phone notification too
+  function famLines(){ const b = nightBook(); return (FAM_DAILY[familiar] || FAM_DAILY.fox).filter(l => b || !l.includes("{t}")).map(l => l.replace("{t}", b ? `“${b.title}”` : "")); }
   function showCheckin(){
     document.getElementById("ch-card")?.remove();
-    const b = nightBook(), want = books.filter(x => x.shelf === "want"), pick = want.length ? want[Math.floor(Date.now() / 864e5) % want.length] : null, st = streakNow(), readToday = readDays().has(todayISO());
-    const n = famName(familiar), V = CHECKIN[familiar] || CHECKIN.fox, el = document.createElement("div"); el.id = "ch-card"; el.className = "chcard"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", `${n} checks in`);
-    let line = V[Math.floor(Date.now() / 864e5) % V.length], mood = "";
-    const draw = () => {
+    const n = famName(familiar), L = famLines(), line = L[Math.floor(Date.now() / 864e5) % L.length], done = readDays().has(todayISO());
+    const el = document.createElement("div"); el.id = "ch-card"; el.className = "chcard"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", `${n} checks in`);
+    const draw = (reply) => {
       el.innerHTML = `<div class="chfam">${famArt(familiar)}</div>
-        <div class="chbody"><div class="label">${esc(n)} checks in</div><p class="chline">${esc(line)}</p>
-          ${st >= 2 ? `<div class="chstreak">🔥 ${st} days in a row${readToday ? "" : ". Keep it going today!"}</div>` : ""}
-          <div class="chmoods">${MOODS.map(([k, l]) => `<button type="button" class="chip" data-chmood="${k}" aria-pressed="${mood === k}">${l}</button>`).join("")}</div>
-          ${b ? `<div class="chq">How far did you get in <i>${esc(b.title)}</i>?</div><form class="chpage" data-chform><input type="number" inputmode="numeric" min="0" ${b.pages ? `max="${b.pages}"` : ""} value="${Number(b.currentPage) || ""}" aria-label="Page"><span class="muted">${b.pages ? `of ${b.pages}` : "page"}</span><button class="btn small primary" type="submit">Save</button><button class="btn small" type="button" data-chread>🕯 Read now</button></form>`
-            : pick ? `<div class="chq">Nothing on your nightstand. How about <i>${esc(pick.title)}</i>?</div><div class="chacts"><button class="btn small primary" type="button" data-chstart="${esc(pick.id)}">Start it today</button></div>` : ""}
-          <div class="chacts"><button class="linkbtn" type="button" data-chlater>${b ? "Not today" : "Later"}</button>${notify.push || pushSupport() === "unsupported" ? "" : `<button class="linkbtn" type="button" data-chnotify>🔔 Check in on my phone too</button>`}</div></div>
-        <button type="button" class="iconbtn chx" data-chlater aria-label="Close">✕</button>`;
+        <div class="chbody"><div class="label">${esc(n)}</div><p class="chline">${esc(reply || line)}</p>
+          ${reply ? "" : `<div class="chacts">${done ? `<button class="btn small primary" type="button" data-chyes>♥ Yes, I did!</button>` : `<button class="btn small primary" type="button" data-chyes>📖 I read today!</button><button class="btn small" type="button" data-chno>Not yet</button>`}</div>`}</div>
+        <button type="button" class="iconbtn chx" data-chx aria-label="Close">✕</button>`;
     };
     draw(); document.body.append(el); requestAnimationFrame(() => el.classList.add("in"));
     try { speak(line, "happy"); } catch {}
-    const close = (msg) => { if (msg) toast(msg, 2600); el.classList.remove("in"); setTimeout(() => el.remove(), 350); };
+    const close = (ms = 0) => setTimeout(() => { el.classList.remove("in"); setTimeout(() => el.remove(), 350); }, ms);
     el.addEventListener("click", e => {
-      const m = e.target.closest("[data-chmood]"); if (m) { mood = m.dataset.chmood; line = MOOD_REPLY[mood]; draw(); return; }
-      if (e.target.closest("[data-chlater]")) { close(b ? `${n}: “Tomorrow, then. I'll keep your place.”` : ""); return; }
-      if (e.target.closest("[data-chread]")) { close(); startReading(b.id); return; }
-      if (e.target.closest("[data-chnotify]")) { close(); openNotifySettings(); return; }
-      const s = e.target.closest("[data-chstart]"); if (s) { const w = books.find(x => x.id === s.dataset.chstart); if (w) { w.shelf = "reading"; w.started = todayISO(); w.currentPage = 0; save(); render(); } close(`${n}: “A new adventure! I'm so excited.”`); return; }
+      if (e.target.closest("[data-chx]")) { close(); return; }
+      if (e.target.closest("[data-chyes]")) { const r = markReadToday(); draw(`${FAM_YES[familiar] || "Wonderful!"}${r.streak >= 2 ? ` ${r.streak} days in a row!` : ""}`); close(2600); return; }
+      if (e.target.closest("[data-chno]")) { draw(FAM_NOTYET[familiar] || "Later, then."); close(2200); }
     });
-    el.addEventListener("submit", e => { e.preventDefault(); let page = parseInt(el.querySelector("input").value); if (isNaN(page) || page < 0) { toast("Type the page you're on."); return; }
-      if (b.pages && page > b.pages) page = b.pages; const before = Number(b.currentPage) || 0;
-      if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage);
-      b.currentPage = page; logProgress(b, page); save(); render(); try { bondAdd(2, "progress"); } catch {}
-      close(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : page > before ? `${n}: “${page - before} pages! Wonderful.”` : `Page ${page} saved.`); pushSync(); });
   }
   // ---- opening the app from a notification ----
   function openFromNotice(url){
@@ -11115,6 +11217,59 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   navigator.serviceWorker?.addEventListener?.("message", e => { if (e.data?.type === "notice-open") openFromNotice(e.data.url); });
   document.addEventListener("click", e => { if (e.target.closest("[data-notifyset]")) { const m = $("#nook-menu"); if (m) m.hidden = true; openNotifySettings(); } });
   setTimeout(() => pushSync(true), 6000);
+  // ================= reading streak: days in a row, an "I read today" button and streak badges =================
+  const KEY_READDAYS = "reading-ledger-readdays";
+  const STREAK_BADGES = [[3, "🕯", "Kindling", "common"], [7, "🔥", "A Week of Pages", "common"], [14, "🌙", "Fortnight Flame", "rare"], [30, "🌕", "Moon Reader", "rare"], [60, "📜", "Unbroken Spine", "epic"], [100, "🏮", "Hundred Candles", "epic"], [365, "👑", "Year of Wonders", "legendary"]];
+  const isoOf = x => `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`;
+  function bestStreak(){ const days = [...readDays()].filter(d => /^\d{4}-\d\d-\d\d$/.test(d)).sort(); let best = 0, run = 0, prev = null;
+    for (const d of days) { const t = Date.parse(d + "T12:00:00"); run = prev !== null && Math.round((t - prev) / 864e5) === 1 ? run + 1 : 1; prev = t; best = Math.max(best, run); } return best; }
+  function markReadToday(){
+    const t = todayISO(), had = readDays().has(t), before = streakNow();
+    if (!had) { const m = lsGet(KEY_READDAYS, []); m.push(t); lsSet(KEY_READDAYS, [...new Set(m)].slice(-800)); try { bondAdd(1, "streak"); } catch {} }
+    const streak = streakNow(), badge = !had ? STREAK_BADGES.find(([n]) => n === streak && before < n) : null;
+    if (badge) setTimeout(() => celebrateStreak(badge), 400);
+    paintStreak(); try { pushSync(true); } catch {}
+    return { streak, badge, had };
+  }
+  function unmarkToday(){ lsSet(KEY_READDAYS, lsGet(KEY_READDAYS, []).filter(d => d !== todayISO())); paintStreak(); }
+  function celebrateStreak([n, icon, name]){
+    const el = document.createElement("div"); el.className = "stkcele"; el.innerHTML = `<div class="stkmedal"><span>${icon}</span></div><b>${esc(name)}</b><small>${n} days of reading in a row!</small>`;
+    document.body.append(el); navigator.vibrate?.([20, 40, 30]); try { Sound?.play?.("chime"); } catch {}
+    setTimeout(() => el.classList.add("away"), 3200); setTimeout(() => el.remove(), 3800); el.addEventListener("click", () => el.remove());
+  }
+  function paintStreak(){
+    const b = $("#streak-btn"); if (!b) return; const n = streakNow(), today = readDays().has(todayISO());
+    b.innerHTML = `<span class="stkflame" aria-hidden="true">🔥</span><b>${n}</b>`; b.classList.toggle("lit", today); b.classList.toggle("cold", !n);
+    b.title = today ? `${n} day${n === 1 ? "" : "s"} in a row. You've read today ✦` : n ? `${n} day${n === 1 ? "" : "s"} in a row. Read today to keep it going!` : "Start a reading streak";
+    b.setAttribute("aria-label", b.title);
+  }
+  function openStreak(){
+    const root = $("#modal-root");
+    const draw = () => {
+      const days = readDays(), manual = new Set(lsGet(KEY_READDAYS, [])), n = streakNow(), best = bestStreak(), t = todayISO(), today = days.has(t);
+      const start = new Date(); start.setDate(start.getDate() - 34 - ((start.getDay() + 6) % 7 === 6 ? 0 : 0)); const mon = new Date(start); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
+      const cells = []; for (let d = new Date(mon); isoOf(d) <= t; d.setDate(d.getDate() + 1)) { const k = isoOf(d); cells.push(`<span class="stkday${days.has(k) ? " on" : ""}${manual.has(k) && days.has(k) ? " man" : ""}${k === t ? " now" : ""}" title="${k}">${d.getDate()}</span>`); }
+      const next = STREAK_BADGES.find(([x]) => x > best);
+      root.innerHTML = `<div class="scrim" id="stk-scrim"><div class="modal stkmodal" role="dialog" aria-modal="true" aria-labelledby="stk-t"><button type="button" class="iconbtn mx" data-stkx aria-label="Close">✕</button>
+        <div class="stkhero${today ? " lit" : ""}"><span class="stkbig" aria-hidden="true">🔥</span><div><h2 id="stk-t">${n} day${n === 1 ? "" : "s"} in a row</h2><p class="muted">${today ? "You've read today. Lovely ✦" : n ? "Read a little today to keep the flame going." : "Read today to light your first flame."} Best ever: <b>${best}</b>.</p></div></div>
+        <div class="stkact">${today ? (manual.has(t) ? `<span class="onshelf">✓ Read today</span><button class="linkbtn" type="button" data-stkundo>Undo</button>` : `<span class="onshelf">✓ Read today (from your progress)</span>`) : `<button class="btn primary" type="button" data-stkmark>📖 I read today</button>`}</div>
+        <div class="label">The last five weeks</div><div class="stkcal"><span class="stkh">M</span><span class="stkh">T</span><span class="stkh">W</span><span class="stkh">T</span><span class="stkh">F</span><span class="stkh">S</span><span class="stkh">S</span>${cells.join("")}</div>
+        <p class="note">Days count when you update your page, read by candlelight, finish a book, or tap “I read today”.</p>
+        <div class="label">Streak badges</div><div class="stkbadges">${STREAK_BADGES.map(([x, icon, name, r]) => `<div class="stkb ${best >= x ? "got" : ""} r-${r}"><span class="stkbi">${best >= x ? icon : "🔒"}</span><b>${esc(name)}</b><small>${x} days</small></div>`).join("")}</div>
+        ${next ? `<p class="note">Next badge: <b>${next[2]}</b> at ${next[0]} days in a row.</p>` : `<p class="note">You've earned every streak badge. Legendary.</p>`}</div></div>`;
+    };
+    draw();
+    root.onclick = e => {
+      if (e.target.id === "stk-scrim" || e.target.closest("[data-stkx]")) { root.onclick = null; root.innerHTML = ""; return; }
+      if (e.target.closest("[data-stkmark]")) { const r = markReadToday(); toast(`${famName(familiar)}: “${FAM_YES[familiar] || "Wonderful!"}”`, 2600); draw(); return; }
+      if (e.target.closest("[data-stkundo]")) { unmarkToday(); draw(); }
+    };
+  }
+  document.addEventListener("click", e => {
+    if (e.target.closest("#streak-btn")) { openStreak(); return; }
+    if (e.target.closest("#social-btn")) { showTab("friends"); setTimeout(() => $("#view-friends")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120); }
+  });
+  setTimeout(paintStreak, 0); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintStreak(); });
   // ================= bookcase designs =================
   const KEY_DESIGN = "reading-ledger-casedesign";
   let caseDesign = lsGet(KEY_DESIGN, "arch");
