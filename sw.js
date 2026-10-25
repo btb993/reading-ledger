@@ -1,5 +1,5 @@
 // My Book Nook: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v23", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
+const SHELL = "ledger-shell-v24", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon-64.png"];
 // cache each file on its own, so one missing file can never stop the app from installing
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => Promise.all(FILES.map(f => c.add(f).catch(() => null)))).then(() => self.skipWaiting())); });
@@ -45,4 +45,22 @@ self.addEventListener("message", e => {
     }));
   }
   if (d.type === "drop-cover" && d.url) e.waitUntil(caches.open(COVERS).then(c => c.delete(d.url)));
+});
+
+// ---- notifications: the familiar's daily check-in, letters, cheers and friend requests ----
+self.addEventListener("push", e => {
+  let d = {}; try { d = e.data ? e.data.json() : {}; } catch { d = { body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "My Book Nook", {
+    body: d.body || "", icon: "icon-192.png", badge: "favicon-64.png", tag: d.tag || d.kind || "nook",
+    data: { url: d.url || "./" }, renotify: d.kind === "letter" || d.kind === "cheer",
+  }));
+});
+self.addEventListener("notificationclick", e => {
+  e.notification.close();
+  const url = new URL(e.notification.data?.url || "./", self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(list => {
+    const win = list.find(c => c.url.startsWith(self.registration.scope));
+    if (win) { win.postMessage({ type: "notice-open", url }); return win.focus(); }
+    return self.clients.openWindow(url);
+  }));
 });
