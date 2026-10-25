@@ -17,7 +17,7 @@
 <title>My Book Nook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@500;600&family=Pinyon+Script&family=Caveat:wght@500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
@@ -2777,6 +2777,108 @@ body.mnav .scrim>.modal::before{content:"";flex:none;align-self:center;width:42p
 #rec-body .rrow,#list>.row,#list .row,.fbooks>.fbook,.ffeed .fev{content-visibility:auto;contain-intrinsic-size:auto 220px}
 body.mnav:has(.scrim) .mtabbar,body.mnav:has(.scrim) .mfab,body.mnav:has(.scrim) .postpill,body.mnav:has(.scrim) .fbkpill{display:none!important}body.mnav:has(.scrim){padding-bottom:0}
 body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab{display:none!important}
+
+/* v4.2 friends on phones */
+.newlist{display:flex;flex-direction:column;gap:8px}
+.newrow{display:flex;align-items:center;gap:12px;width:100%;padding:10px 12px;border-radius:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 7%,var(--paper));color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-sizing:border-box}
+.newic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:18px;background:radial-gradient(circle at 35% 30%,#D9534F,#8E1F22);color:#FBEFD8;box-shadow:inset 0 -2px 4px rgba(0,0,0,.3)}
+.newtxt{flex:1;min-width:0;display:flex;flex-direction:column}.newtxt b{font-size:15px;line-height:1.25}.newtxt small{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.newgo{color:var(--accent);font-weight:600;font-size:13.5px;flex:none}.newbtns{display:flex;flex-direction:column;align-items:center;gap:2px}
+.frnlist{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.frn{position:relative;display:flex;align-items:stretch;border-radius:16px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);overflow:hidden}
+.frnmain{flex:1;display:flex;gap:12px;padding:12px;background:none;border:0;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-width:0}
+.frncov{width:58px;flex:none}.frncov .cover{width:58px;height:87px}
+.frntxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.frnwho{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:2px}.frnwho .favatar{flex:none}
+.frntxt>i{font-family:var(--f-display);font-size:18px;line-height:1.2;font-weight:600}.frntxt>small{color:var(--muted);font-size:12.5px}
+.frnbar{height:8px;border-radius:5px;background:color-mix(in srgb,var(--muted) 18%,transparent);overflow:hidden;margin-top:8px}.frnbar span{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),#E0A526)}
+.frnpct{font-size:12.5px;color:var(--muted);margin-top:4px}.frnpct b{color:var(--ink);font-size:15px}
+.frncheer{position:absolute;top:8px;right:8px}
+.fmewrap>summary{list-style:none;cursor:pointer}.fmewrap>summary::-webkit-details-marker{display:none}.fmewrap>summary h3::after{content:" ▾";color:var(--muted);font-size:.8em}.fmewrap[open]>summary h3::after{content:" ▴"}
+body.mnav .postpill{display:none!important}
+
+/* v4.2 the letter */
+.letter2{position:relative;width:min(460px,100%);max-height:calc(100% - 30px);overflow:auto;margin-top:28px;padding:34px 26px 18px;box-sizing:border-box;color:#3A2410;border-radius:6px;
+  background:radial-gradient(circle at 15% 8%,rgba(255,255,255,.55),transparent 38%),radial-gradient(circle at 90% 95%,rgba(150,100,40,.22),transparent 45%),radial-gradient(circle at 5% 90%,rgba(160,110,50,.14),transparent 35%),linear-gradient(180deg,#F8EBCF,#F1DFBA);
+  box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 0 0 1px rgba(138,98,52,.25),inset 0 0 40px rgba(150,100,40,.18);animation:l2in .55s cubic-bezier(.2,1.2,.4,1);display:flex;flex-direction:column;gap:12px;overflow:visible}
+@keyframes l2in{from{transform:translateY(40px) rotate(-2deg) scale(.95);opacity:0}}
+.lscrim{overflow:auto}
+.l2seal{position:absolute;top:-28px;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--seal) 70%,#fff 10%),color-mix(in srgb,var(--seal) 55%,#5A0E10) 70%);box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 -4px 8px rgba(0,0,0,.3),0 0 0 4px color-mix(in srgb,var(--seal) 40%,#7A1A1A)}
+.l2seal b{font-family:"Pinyon Script",var(--f-display);font-weight:400;font-size:32px;color:#FBEFD8;text-shadow:0 1px 1px rgba(0,0,0,.4)}
+.l2head{display:flex;justify-content:space-between;align-items:flex-start}.l2stamp{width:42px;height:50px;transform:rotate(4deg);filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}.l2pm{width:74px;height:74px;border-radius:50%;border:2px solid rgba(142,31,34,.45);display:grid;place-items:center;transform:rotate(-12deg);text-align:center}.l2pm i{font-style:normal;font-family:Cinzel,serif;font-size:9.5px;color:rgba(142,31,34,.75);letter-spacing:.06em;line-height:1.2;padding:4px}
+.l2dear{font-family:Caveat,var(--f-display);font-size:28px;margin:0;line-height:1.1}
+.l2note{font-family:Caveat,var(--f-display);font-size:24px;line-height:32px;margin:0;padding:0 2px;background-image:repeating-linear-gradient(transparent 0 31px,rgba(138,98,52,.22) 31px 32px);overflow-wrap:anywhere}
+.l2book{display:flex;gap:14px;align-items:center;margin:4px 0;padding:12px;border-radius:12px;background:rgba(255,250,235,.55);border:1px solid rgba(138,98,52,.3);box-shadow:0 2px 0 rgba(138,98,52,.12)}
+.l2cov{width:76px;flex:none;transform:rotate(-3deg)}.l2cov .cover{width:76px;height:114px;box-shadow:0 8px 16px rgba(0,0,0,.3)}
+.l2book figcaption{display:flex;flex-direction:column;min-width:0;gap:1px}.l2lab{font-family:Cinzel,serif;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A6234}
+.l2book b{font-family:var(--f-display);font-size:21px;line-height:1.15}.l2book i{color:#7A5A34}.l2stars{color:#C08A1E;letter-spacing:2px;font-size:15px;margin-top:3px}.l2off{color:rgba(138,98,52,.3)}.l2stars small{letter-spacing:0;color:#8A6234;font-size:11.5px}.l2meta{color:#8A6234;font-size:12px}
+.l2sign{display:flex;flex-direction:column;align-items:flex-end;position:relative;padding-right:64px;min-height:64px}.l2sign span:first-child{font-family:Caveat,var(--f-display);font-size:22px}.l2sign b{font-family:"Pinyon Script",var(--f-display);font-weight:400;font-size:38px;line-height:1}
+.l2fam{position:absolute;right:0;bottom:-4px;width:58px;height:58px;border-radius:50%;overflow:hidden;background:rgba(255,250,235,.6);border:1px solid rgba(138,98,52,.3)}.l2fam svg{width:58px;height:58px}
+.l2status{font-size:14px;font-style:italic;color:#7A5A34;margin:0;text-align:center}
+.l2acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.l2acts .btn{flex:1 1 40%;justify-content:center}.l2acts .l2main{flex-basis:100%}
+.letter2 .btn{background:rgba(255,250,235,.7);color:#3A2410;border-color:rgba(138,98,52,.5)}.letter2 .btn.primary{background:#8E1F22;color:#FBEFD8;border-color:#8E1F22}
+.l2done{flex:1 1 40%;text-align:center;color:#2E6A3A;font-weight:600;font-size:14px;align-self:center}
+.l2del{align-self:center;color:#8A6234;font-size:13px}
+body.mnav .lscrim{align-items:center;padding:30px 12px 12px}
+.l2x{position:absolute;top:8px;right:8px;background:rgba(255,250,235,.7);color:#3A2410;border-color:rgba(138,98,52,.4)}
+.lscrim{align-items:flex-start}
+@media (min-height:700px){.lscrim{align-items:center}}
+.letter2{padding-top:96px;margin-top:0}
+.l2seal{top:16px;--seal:#9E1B20;background:radial-gradient(circle at 35% 30%,#C8423F,#8E1F22 62%,#5A0E10);box-shadow:0 3px 8px rgba(0,0,0,.35),inset 0 -4px 8px rgba(0,0,0,.3),0 0 0 4px #7A1A1A,0 0 0 6px rgba(122,26,26,.25)}
+.l2head{position:absolute;top:18px;left:22px;display:block;width:120px;height:70px}.l2stamp{position:absolute;left:0;top:0}.l2pm{position:absolute;left:30px;top:6px;width:64px;height:64px;background:none}
+
+/* v4.2 phones: folding rooms, soul chapters as a grid, compact picks */
+body.mnav .pf .pfh{cursor:pointer;display:flex;align-items:center;gap:8px}body.mnav .pf .pfh::after{content:"▴";margin-left:auto;color:var(--muted);font-size:.75em;font-style:normal}
+body.mnav .pf.pfc .pfh::after{content:"▾"}body.mnav .pf.pfc>:not(.pfhwrap){display:none!important}body.mnav .pf.pfc{padding-bottom:10px}
+body.mnav .sagaset:not(.ssopen) .ssgrid>:nth-child(n+7){display:none}.ssmore{display:none}body.mnav .ssmore{display:flex;margin:10px auto 0;justify-content:center}
+body.mnav .soulnav{display:grid!important;grid-template-columns:repeat(3,1fr);gap:6px;overflow:visible!important;margin-top:12px}
+body.mnav .soulnav button{display:flex;flex-direction:column;align-items:center;gap:0;padding:8px 4px;border-radius:12px;font-size:13px;line-height:1.2;text-align:center;min-width:0}
+body.mnav .soulnav button i{margin:0 0 2px;font-size:11px}body.mnav .soulnav button[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+body.mnav .souldet>summary{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}body.mnav .souldet>summary span{grid-column:1}body.mnav .souldet>summary small{grid-column:1;grid-row:2}body.mnav .souldet>summary::after{grid-column:2;grid-row:1/3}
+body.mnav .rgrid{grid-template-columns:1fr!important;gap:10px}
+body.mnav .rcard.big{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:12px;align-items:start}
+body.mnav .rcard.big .rcov{width:76px}body.mnav .rcard.big .rcov .cover{width:76px;height:114px}
+body.mnav .rcard.big .rt{font-size:17px;line-height:1.2}body.mnav .rcard.big .rwhy li:nth-child(n+2){display:none}body.mnav .rcard.big .rank{top:6px;left:6px}
+.rgmore{display:none}body.mnav .rgmore{display:flex;margin:10px auto 4px;justify-content:center}body.mnav .rgrid:not(.rshowall)>.rcard:nth-child(n+6){display:none}
+
+/* v4.2 yearly goal */
+.goalwrap{margin:10px auto 0;max-width:min(100%,var(--maxw,980px));width:100%;box-sizing:border-box;padding:0 4px}.goalwrap:empty{display:none}
+.goalcard,.goalset{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:12px 16px;border-radius:18px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.goalset{cursor:default}.goalset>div{flex:1;display:flex;flex-direction:column}.goalset small{color:var(--muted);font-size:13px}.goalic{font-size:28px}
+.goalring{width:72px;height:72px;flex:none;transform:rotate(-90deg)}.gtrack{fill:none;stroke:color-mix(in srgb,var(--muted) 18%,transparent);stroke-width:7}.gfill{fill:none;stroke:var(--accent);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.goalcard.won .gfill{stroke:#E0A526}.goalnum{position:relative;margin-left:-86px;width:72px;flex:none;display:flex;flex-direction:column;align-items:center;line-height:1}.goalnum b{font-family:var(--f-display);font-size:24px}.goalnum small{font-size:11px;color:var(--muted)}
+.goaltxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;margin-left:14px}.goaltxt b{font-size:15.5px}.goaltxt small{color:var(--muted);font-size:13px}
+.glstep{display:flex;align-items:center;justify-content:center;gap:18px;margin:6px 0}.glstep output{font-family:var(--f-display);font-size:48px;min-width:90px;text-align:center}.glstep .iconbtn{width:44px;height:44px;font-size:22px}
+.glchips{justify-content:center}.glpace{text-align:center}
+body.mnav:not([data-mnavtab="nook"]) .wrap>#goal-card{display:none!important}
+.addchip{display:none}body.mnav .addchip{display:inline-flex;font-weight:600;color:var(--accent)}body.mnav .addchip span{font-size:17px}
+body.mnav[data-mnavtab="nook"] .mfab,body.mnav[data-mnavtab="shelf"] .mfab{display:none}
+.goalwrap,.homefriends{padding:0}
+
+/* v4.3 reading together */
+.blist,.clist{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.bcard,.clubcard{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:16px;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow);color:var(--ink);font:inherit;text-align:left;cursor:pointer;width:100%;box-sizing:border-box}
+.clubcard{align-items:center}.bcov{width:52px;flex:none}.bcov .cover{width:52px;height:78px}.bbody,.cbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.bbody b,.cbody b{font-family:var(--f-display);font-size:17px;line-height:1.2}.bbody small,.cbody small{color:var(--muted);font-size:12.5px}
+.btrack{display:flex;flex-direction:column;gap:6px;margin-top:6px}.btrow{display:grid;grid-template-columns:26px 62px 1fr 46px;align-items:center;gap:6px;font-size:12.5px}.btname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btbar{height:7px;border-radius:4px;background:color-mix(in srgb,var(--muted) 18%,transparent);overflow:hidden}.btbar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#E0A526);border-radius:4px}.btpct{text-align:right;font-weight:600}
+.cemo{font-size:30px;width:48px;height:48px;flex:none;display:grid;place-items:center;border-radius:14px;background:color-mix(in srgb,var(--accent) 12%,var(--paper))}.cemo.big{font-size:36px;width:60px;height:60px}.cav{display:flex;gap:2px;margin:2px 0}
+.togmodal{max-width:560px}.brhead{display:flex;gap:12px;align-items:center}.brhead h2{margin:0;font-size:22px;line-height:1.15}
+.bnotes{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow:auto}.bnote{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--accent) 6%,var(--paper));border:1px solid var(--line)}
+.bnote>div{flex:1;min-width:0}.bnote p{margin:2px 0 0;font-size:14.5px;line-height:1.4}.bnote small{color:var(--muted)}.bnote.mine{background:color-mix(in srgb,#E0A526 9%,var(--paper))}.bnote.locked p{color:var(--muted);font-style:italic}
+.bform{display:flex;flex-direction:column;gap:8px;padding-top:6px;border-top:1px solid var(--line)}.bform textarea,.bform input,.bform select{width:100%;box-sizing:border-box;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit}.bpage{max-width:140px}.bform .btn{align-self:flex-end}
+.cbooks{display:flex;flex-direction:column;gap:10px;max-height:50vh;overflow:auto}.clbook{display:flex;gap:12px;padding:10px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}.cbinfo{flex:1;min-width:0;display:flex;flex-direction:column}.cbinfo b{font-family:var(--f-display);font-size:16.5px}.cbinfo small{color:var(--muted);font-size:12.5px}.cbinfo p{margin:4px 0;font-style:italic;font-size:14px}
+.cbacts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.cblist{display:flex;flex-direction:column;gap:6px}.cbrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}.cbrow span{flex:1;display:flex;flex-direction:column}.cbrow small{color:var(--muted)}
+
+/* v4.3 first steps */
+.startwrap{margin:10px auto 0;max-width:min(100%,var(--maxw,980px));width:100%;box-sizing:border-box}.startwrap:empty{display:none}
+.startcard{position:relative;padding:16px 18px;border-radius:18px;border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));background:radial-gradient(circle at 90% 0%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 60%),var(--paper);box-shadow:var(--shadow)}
+.startcard h3{margin:2px 0 8px}.startx{position:absolute;top:10px;right:10px}
+.startbar{height:8px;border-radius:5px;background:color-mix(in srgb,var(--muted) 18%,transparent);overflow:hidden}.startbar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#E0A526);transition:width .6s}
+.startlist{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}.startlist li{display:flex;align-items:center;gap:10px;padding:6px 4px;border-radius:12px}
+.startlist li.next{background:color-mix(in srgb,var(--accent) 8%,transparent);padding:8px}.stdot{width:24px;height:24px;flex:none;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;color:#fff}
+.startlist li.done .stdot{background:#3E8A5A;border-color:#3E8A5A}.startlist li.done .sttxt{opacity:.55}.startlist li.done b{text-decoration:line-through}
+.sttxt{flex:1;display:flex;flex-direction:column;min-width:0}.sttxt b{font-size:14.5px}.sttxt small{color:var(--muted);font-size:12.5px}
+body.mnav:not([data-mnavtab="nook"]) .wrap>#start-card{display:none!important}
 </style>
 </head>
 <body>
@@ -2786,12 +2888,13 @@ body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab
 <div class="topchips"><button class="topchip stkchip" id="streak-btn" type="button" aria-label="Your reading streak"><span class="stkflame">🔥</span><b>0</b></button><button class="topchip socchip" id="social-btn" type="button" aria-label="Friends"><span aria-hidden="true">♥</span> Friends<i class="tbadge" hidden></i></button></div>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.1</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.3</button>
   <button class="nmitem" type="button" data-starttour>🗝 Take the tour of your nook</button>
   <button class="nmitem" type="button" data-notifyset>🔔 Notifications & daily check-in</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
   <button class="nmitem" id="exp-btn" type="button">⤓ Save a backup</button>
+  <button class="nmitem" type="button" data-cloudbak>☁ Backups in your account</button>
   <label class="nmitem">↺ Restore a backup<input id="imp-json" type="file" accept=".json,application/json" hidden></label>
   <button class="nmitem" id="install-btn" type="button">📲 Put My Book Nook on your home screen</button>
 </div>
@@ -2822,7 +2925,9 @@ body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab
     <div id="results-wrap"></div>
   </section>
 
+  <section class="startwrap" id="start-card" aria-label="Your first steps"></section>
   <section class="now" id="now" aria-label="Currently reading"></section>
+  <section class="goalwrap" id="goal-card" aria-label="Your reading goal"></section>
   <section class="homefriends" id="home-friends" aria-label="Friends reading now" hidden></section>
   <section class="familiar" id="familiar" aria-label="Your familiar"></section>
 
@@ -2897,7 +3002,7 @@ body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.1 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.3 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -2922,7 +3027,7 @@ body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab
   const KEY = "reading-ledger-standalone", KEY_RECS = "reading-ledger-standalone-recs", KEY_THEME = "reading-ledger-theme";
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
   // look-and-feel settings that follow you between devices with your account
-  const SYNCED_SETTINGS = ["reading-ledger-readdays", "reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel", "reading-ledger-casedesign"];
+  const SYNCED_SETTINGS = ["reading-ledger-goal", "reading-ledger-readdays", "reading-ledger-theme", "reading-ledger-season", "reading-ledger-drift", "reading-ledger-case", "reading-ledger-arrange", "reading-ledger-spines", "reading-ledger-decor", "reading-ledger-familiar", "reading-ledger-bond", "reading-ledger-zodiac", "reading-ledger-readername", "reading-ledger-shelfmax", "reading-ledger-famdock", "reading-ledger-ambience", "reading-ledger-ambvol", "reading-ledger-ambmaster", "reading-ledger-plank", "reading-ledger-lights", "reading-ledger-cardduel", "reading-ledger-casedesign"];
   const SETTINGS_T = "reading-ledger-settings-t";
   let applyingSettings = false, settingsReady = false; // start-up writes don't count as "you changed a setting"
   setTimeout(() => { settingsReady = true; }, 6000);
@@ -2934,7 +3039,7 @@ body.mnav.decor-open .mtabbar,body.mnav.decor-open .mfab,body.mnav.touring .mfab
   let snap = null;
   const bodyOf = b => { const { updatedAt, ...r } = b; return JSON.stringify(r); };
   // stamp every changed book with the time it changed, and remember deletions, so two devices can be merged safely
-  function save(opts = {}){
+  function save(opts = {}){ try { setTimeout(() => { paintGoal(); goalCheck(); paintStart(); }, 0); } catch {}
     if (!snap) snap = new Map(books.map(b => [b.id, bodyOf(b)]));
     let changed = false;
     if (opts.stamp !== false) {
@@ -7644,11 +7749,23 @@ create policy "read own library" on public.library for select using (auth.uid() 
 create policy "add own library" on public.library for insert with check (auth.uid() = user_id);
 create policy "change own library" on public.library for update using (auth.uid() = user_id);
 alter publication supabase_realtime add table public.library;`;
+  // the same book changed on two devices: the newer copy wins, but nothing collected on either is lost
+  const unionBy = (a = [], b = [], key) => { const m = new Map(); for (const x of [...(a || []), ...(b || [])]) { const k = key(x); if (k == null) continue; m.set(k, m.has(k) ? { ...m.get(k), ...x } : x); } return [...m.values()]; };
+  function mergeBook(a, b){
+    if ((a.updatedAt || 0) === (b.updatedAt || 0)) return a;
+    const [old, nw] = (b.updatedAt || 0) > (a.updatedAt || 0) ? [a, b] : [b, a], out = { ...nw };
+    const lists = { progressLog: x => x?.d, sessions: x => x?.s || x?.d, quotes: x => x?.q, words: x => (x?.w || "").toLowerCase() || null };
+    for (const [k, key] of Object.entries(lists)) if ((old[k] || []).length || (nw[k] || []).length) { out[k] = unionBy(old[k], nw[k], key); if (k === "progressLog") out[k].sort((x, y) => String(x.d).localeCompare(String(y.d))); }
+    if ((old.characters || []).length || (nw.characters || []).length) {
+      const m = new Map(); for (const c of [...(old.characters || []), ...(nw.characters || [])]) { const k = norm(c.name || ""); const cur = m.get(k); m.set(k, !cur ? c : { ...cur, ...c, sealed: cur.sealed && c.sealed ? true : undefined }); }
+      out.characters = [...m.values()].map(c => { if (!c.sealed) delete c.sealed; return c; }); }
+    return out;
+  }
   function mergeLibraries(L, R){
     const deleted = { ...(R.deleted || {}) };
     for (const [id, t] of Object.entries(L.deleted || {})) deleted[id] = Math.max(t, deleted[id] || 0);
     const map = new Map();
-    for (const b of [...(R.books || []), ...(L.books || [])]) { const cur = map.get(b.id); if (!cur || (b.updatedAt || 0) > (cur.updatedAt || 0)) map.set(b.id, b); }
+    for (const b of [...(R.books || []), ...(L.books || [])]) { const cur = map.get(b.id); map.set(b.id, cur ? mergeBook(cur, b) : b); }
     const cutoff = Date.now() - 90 * 864e5;
     for (const [id, t] of Object.entries(deleted)) if (t < cutoff) delete deleted[id];
     return { books: [...map.values()].filter(b => !(deleted[b.id] && deleted[b.id] >= (b.updatedAt || 0))), deleted };
@@ -7927,6 +8044,7 @@ alter publication supabase_realtime add table public.library;`;
         if (error) throw error;
         const lr = await C().from("letters").select("*").or(`sender.eq.${me},recipient.eq.${me}`).order("created_at", { ascending: false }).limit(200);
         if (lr.error) { lettersOff = tableMissing(lr.error.message) || /letters/i.test(lr.error.message); letters = []; } else { lettersOff = false; letters = lr.data || []; }
+        await loadTogether();
         const ids = [...new Set([...fr.flatMap(f => [f.requester, f.addressee]), ...letters.flatMap(l => [l.sender, l.recipient])].filter(id => id !== me))];
         let profs = [];
         if (ids.length) { const r = await C().from("profiles").select("*").in("id", ids); if (r.error) throw r.error; profs = r.data || []; }
@@ -8046,7 +8164,7 @@ alter publication supabase_realtime add table public.library;`;
     const sealSVG = (letter = "✦") => `<span class="wseal" aria-hidden="true"><b>${letter}</b></span>`;
     function letterThumb(l, mine){
       const p = whoIs(mine ? l.recipient : l.sender), B = l.book || {}, isNew = !mine && !l.read_at;
-      if (B.kind) { const ch = B.kind === "cheer", re = B.kind === "react"; return `<button type="button" class="lthumb lkind${isNew ? " sealed" : ""}" data-lopen="${l.id}"><span class="lstar">${re ? esc(B.e || "♥") : ch ? "✨" : "❦"}</span><span class="ltxt"><b>${mine ? `${re ? "Reaction" : ch ? "Cheer" : "Feedback"} to ${esc(p.name)}` : re ? `${esc(p.name)} reacted` : ch ? `A cheer from ${esc(p.name)}` : `${esc(p.name)} finished ${esc(B.t || "your book")}`}</b><small>${esc((l.note || "").slice(0, 60))}${l.reaction ? ` · ${esc(l.reaction)}` : ""} · ${ago(l.created_at)}</small></span></button>`; }
+      if (B.kind) { const ch = B.kind === "cheer", re = B.kind === "react", bu = B.kind === "buddy", cl = B.kind === "club"; return `<button type="button" class="lthumb lkind${isNew ? " sealed" : ""}" data-lopen="${l.id}"><span class="lstar">${bu ? "📖" : cl ? "📚" : re ? esc(B.e || "♥") : ch ? "✨" : "❦"}</span><span class="ltxt"><b>${mine ? `${bu ? "Buddy read invite" : cl ? "Club invite" : re ? "Reaction" : ch ? "Cheer" : "Feedback"} to ${esc(p.name)}` : bu ? `${esc(p.name)} wants to read with you` : cl ? `${esc(p.name)}'s book club` : re ? `${esc(p.name)} reacted` : ch ? `A cheer from ${esc(p.name)}` : `${esc(p.name)} finished ${esc(B.t || "your book")}`}</b><small>${esc((l.note || "").slice(0, 60))}${l.reaction ? ` · ${esc(l.reaction)}` : ""} · ${ago(l.created_at)}</small></span></button>`; }
       return `<button type="button" class="lthumb${isNew ? " sealed" : ""}" data-lopen="${l.id}">${isNew ? sealSVG((p.name || "?")[0].toUpperCase()) : `<span class="lmini">${mini(B)}</span>`}
         <span class="ltxt"><b>${mine ? `To ${esc(p.name)}` : isNew ? `A letter from ${esc(p.name)}` : esc(B.t || "A book")}</b><small>${mine ? `${esc(B.t || "")} · ${l.reaction ? `${esc(l.reaction)} ` : ""}${l.added ? "added to their shelf" : l.read_at ? "read" : "not opened yet"}` : isNew ? "Sealed with wax · tap to open" : `from ${esc(p.name)} · ${ago(l.created_at)}${l.added ? " · on your shelf" : ""}`}</small></span></button>`;
     }
@@ -8055,6 +8173,10 @@ alter publication supabase_realtime add table public.library;`;
       const mine = l.sender === U().id, p = whoIs(mine ? l.recipient : l.sender), from = mine ? ME() : p, B = l.book || {};
       const have = books.some(b => tnorm(b.title) === tnorm(B.t || ""));
       const root = $("#modal-root");
+      if (B.kind === "buddy" || B.kind === "club") {
+        if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
+        root.onclick = null; root.innerHTML = ""; (B.kind === "buddy" ? buddyRoom : clubRoom)(B.ref); return;
+      }
       if (B.kind === "cheer" || B.kind === "feedback" || B.kind === "react") {
         if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
         const ch = B.kind === "cheer" || B.kind === "react";
@@ -8071,15 +8193,20 @@ alter publication supabase_realtime add table public.library;`;
         };
         return;
       }
-      root.innerHTML = `<div class="scrim" id="lt-scrim"><div class="parch" role="dialog" aria-modal="true" aria-label="A letter">
-        <div class="parchin"><div class="pdate">${new Date(l.created_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}</div>
-          <p class="pdear">Dear ${esc(mine ? p.name : ME().name)},</p>
-          <div class="pbook">${mini(B)}<div><span class="label">${mine ? "You recommended" : "I think you'd love"}</span><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>${B.r ? `<span class="pstars">${"★".repeat(Math.round(B.r))}</span>` : ""}</div></div>
-          <p class="pnote">${esc(l.note || "").replace(/\n/g, "<br>")}</p>
-          <p class="psign">With love,<br><b>${esc(from.name)}</b></p>
-          ${mine ? `<p class="note pstatus">${l.read_at ? `${esc(p.name)} has read your letter${l.reaction ? ` and said ${esc(l.reaction)}` : ""}${l.added ? ", and put the book on their shelf" : ""}.` : `${esc(p.name)} hasn't opened it yet.`}</p>` : ""}
-          <div class="pacts">${mine ? "" : `${have || l.added ? `<span class="onshelf">On your shelves</span>` : `<button class="btn primary small" type="button" data-ladd>+ Want to read</button>`}${l.reaction ? `<span class="onshelf">You said ${esc(l.reaction)}</span>` : `<button class="btn small" type="button" data-lthank>♥ Thank ${esc(p.name)}</button>`}`}
-            <button class="btn small" type="button" data-lclose>Put it away</button><button class="linkbtn" type="button" data-ldel>Throw away</button></div></div></div></div>`;
+      const FM = FAMILIARS[from.familiar] || FAMILIARS.cat, init = (from.name || "?").trim()[0].toUpperCase();
+      root.innerHTML = `<div class="scrim lscrim" id="lt-scrim"><article class="parch letter2" role="dialog" aria-modal="true" aria-label="A letter from ${esc(from.name)}" style="--seal:${FM.aura || "#B8393A"}">
+        <div class="l2seal" aria-hidden="true"><b>${esc(init)}</b></div><button type="button" class="iconbtn l2x" data-lclose aria-label="Close">✕</button>
+        <header class="l2head"><span class="l2stamp">${stampSVG(l.id, FM)}</span><span class="l2pm"><i>${POSTMARK(l.created_at)}</i></span></header>
+        <p class="l2dear">Dear ${esc(mine ? p.name : ME().name)},</p>
+        ${l.note ? `<p class="l2note">${esc(l.note).replace(/\n/g, "<br>")}</p>` : ""}
+        <figure class="l2book"><span class="l2cov">${mini(B)}</span><figcaption><span class="l2lab">${mine ? "You recommended" : "I think you'd love"}</span><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>
+          ${B.r ? `<span class="l2stars">${"★".repeat(Math.round(B.r))}<span class="l2off">${"★".repeat(5 - Math.round(B.r))}</span> <small>${esc(from.name)}'s stars</small></span>` : ""}${B.p ? `<small class="l2meta">${B.p} pages${B.y ? ` · ${B.y}` : ""}</small>` : ""}</figcaption></figure>
+        <footer class="l2sign"><span>With love,</span><b>${esc(from.name)}</b><span class="l2fam" data-fam="${esc(from.familiar || "cat")}">${famArt(FAMILIARS[from.familiar] ? from.familiar : "cat")}</span></footer>
+        ${mine ? `<p class="l2status">${l.read_at ? `${esc(p.name)} has read your letter${l.reaction ? ` and said ${esc(l.reaction)}` : ""}${l.added ? ", and put the book on their shelf" : ""}.` : `${esc(p.name)} hasn't opened it yet.`}</p>` : ""}
+        <div class="l2acts">${mine ? "" : `${have || l.added ? `<span class="l2done">✓ On your shelves</span>` : `<button class="btn primary l2main" type="button" data-ladd>+ Add to Want to read</button>`}
+            ${l.reaction ? `<span class="l2done">You said ${esc(l.reaction)}</span>` : `<button class="btn" type="button" data-lthank>♥ Thank ${esc(p.name)}</button>`}`}
+          <button class="btn" type="button" data-lclose>Put it away</button></div>
+        <button class="linkbtn l2del" type="button" data-ldel>Throw it away</button></article></div>`;
       if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
       root.onclick = async e => {
         if (e.target.id === "lt-scrim" || e.target.closest("[data-lclose]")) { root.onclick = null; root.innerHTML = ""; if (tab === "friends") render(); return; }
@@ -8273,6 +8400,168 @@ alter publication supabase_realtime add table public.library;`;
       letters = [{ ...row, created_at: new Date().toISOString() }, ...letters];
       lsSet("reading-ledger-reacted", { ...lsGet("reading-ledger-reacted", {}), [k]: e }); toast(`${e} sent to ${o.p.name}`); render();
     }
+    // ================= reading together: buddy reads and book clubs =================
+    let buddies = [], clubs = [], togetherOff = false;
+    async function loadTogether(){
+      if (!ready()) return; const me = U().id;
+      try { const a = await C().from("buddy_reads").select("*").order("created_at", { ascending: false }).limit(60);
+        if (a.error) throw a.error; buddies = (a.data || []).filter(r => (r.members || []).includes(me) && r.status !== "ended");
+        const b = await C().from("clubs").select("*").order("created_at", { ascending: false }).limit(40);
+        if (b.error) throw b.error; clubs = (b.data || []).filter(c => (c.members || []).includes(me)); togetherOff = false;
+      } catch (e) { togetherOff = /buddy_reads|clubs|schema cache|does not exist/i.test(String(e?.message || e)); buddies = []; clubs = []; }
+    }
+    const uid = () => U()?.id;
+    const nameOf = id => id === uid() ? "You" : whoIs(id).name;
+    const personOf = id => id === uid() ? { ...(ME() || {}), id } : whoIs(id);
+    // how far someone is in a book, from what they share
+    function progressIn(id, B){
+      const same = t => tnorm(t || "") === tnorm(B.t || "");
+      if (id === uid()) { const b = books.find(x => same(x.title)); if (!b) return { pct: 0, page: 0, state: "not on shelf" };
+        if (b.shelf === "read") return { pct: 100, page: Number(b.pages) || 0, state: "finished" }; if (b.shelf !== "reading") return { pct: 0, page: 0, state: "not started" };
+        const p = Number(b.pages) || B.p || 0, cp = Number(b.currentPage) || 0; return { pct: p ? Math.min(100, Math.round(cp / p * 100)) : 0, page: cp, state: "reading" }; }
+      const S = shelves.get(id) || {}; const r = (S.reading || []).find(x => same(x.t)); if (r) return { pct: r.p ? Math.min(100, Math.round((r.cp || 0) / r.p * 100)) : 0, page: r.cp || 0, state: "reading" };
+      if ((S.read || []).some(x => same(x.t))) return { pct: 100, page: B.p || 0, state: "finished" };
+      return { pct: 0, page: 0, state: "not started" };
+    }
+    const track = (members, B) => `<div class="btrack">${members.map(id => { const P = progressIn(id, B), p = personOf(id);
+      return `<div class="btrow" data-fam="${esc(p.familiar || "cat")}">${avatar(p, 26)}<span class="btname">${esc(nameOf(id))}</span><span class="btbar"><span style="width:${P.pct}%"></span></span><span class="btpct">${P.state === "finished" ? "✓ done" : P.state === "reading" ? `${P.pct}%` : "—"}</span></div>`; }).join("")}</div>`;
+    function buddyHTML(){
+      if (togetherOff || !friends.length) return "";
+      return `<section class="fsec fbuddy"><h3>📖 Buddy reads<button class="btn small fwrite" type="button" data-bstart="">+ Read together</button></h3>
+        ${buddies.length ? `<div class="blist">${buddies.map(r => `<button type="button" class="bcard" data-bopen="${r.id}"><span class="bcov">${mini(r.book)}</span><span class="bbody"><b>${esc(r.book.t)}</b><small>${esc(r.book.a || "")} · with ${esc(r.members.filter(x => x !== uid()).map(nameOf).join(", "))}</small>${track(r.members, r.book)}</span></button>`).join("")}</div>`
+          : `<p class="note">Pick a book to read at the same time as a friend. You'll see each other's progress side by side and can leave notes at a page, hidden until the other reaches it.</p>`}</section>`;
+    }
+    function clubsHTML(){
+      if (togetherOff || !friends.length) return "";
+      return `<section class="fsec fclubs"><h3>📚 Book clubs<button class="btn small fwrite" type="button" data-cnew>+ New club</button></h3>
+        ${clubs.length ? `<div class="clist">${clubs.map(c => `<button type="button" class="clubcard" data-copen="${c.id}"><span class="cemo">${esc(c.emoji || "📚")}</span><span class="cbody"><b>${esc(c.name)}</b><span class="cav">${c.members.slice(0, 6).map(id => avatar(personOf(id), 22)).join("")}</span><small>${c.members.length} member${c.members.length === 1 ? "" : "s"}</small></span><span class="newgo">›</span></button>`).join("")}</div>`
+          : `<p class="note">A shared shelf for a group of friends: suggest books, vote on the next one, then read it together.</p>`}</section>`;
+    }
+    // invitations travel as letters, so they reach the post and the phone
+    async function invite(to, kind, ref, B, pt, pb, note){
+      const rows = to.map(id => ({ id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: uid(), recipient: id, book: { kind, ref, t: B?.t || "", a: B?.a || "", c: B?.c || "", pt, pb }, note: note || pb }));
+      if (!rows.length) return; await Promise.all(rows.map(r => C().from("letters").insert(r))); letters = [...rows.map(r => ({ ...r, created_at: new Date().toISOString() })), ...letters];
+    }
+    function sheet(id, inner, onclick){
+      const root = $("#modal-root"); root.innerHTML = `<div class="scrim" id="${id}"><div class="modal togmodal" role="dialog" aria-modal="true">${inner}</div></div>`; paintRecCovers(root);
+      root.onclick = e => { if (e.target.id === id || e.target.closest("[data-tgx]")) { root.onclick = null; root.innerHTML = ""; if (tab === "friends") render(); return; } onclick?.(e); };
+    }
+    const bookChoices = extra => { const mine = books.filter(b => b.shelf === "reading" || b.shelf === "want").map(b => ({ key: "m:" + b.id, B: bookOf(b), label: `${b.title}${b.shelf === "reading" ? " · reading" : ""}` }));
+      const seen = new Set(mine.map(x => tnorm(x.B.t))); for (const x of extra || []) if (!seen.has(tnorm(x.B.t))) { seen.add(tnorm(x.B.t)); mine.push(x); } return mine; };
+    function buddyStart({ to, B } = {}){
+      if (togetherOff) { toast("Buddy reads need the step 6 SQL in Supabase."); return; }
+      const pick = new Set(to ? [to] : friends.length === 1 ? [friends[0].id] : []); let chosen = B ? { key: "x", B, label: B.t } : null;
+      const draw = () => { const extra = [...pick].flatMap(id => [...(shelves.get(id)?.reading || []), ...(shelves.get(id)?.want || []).slice(0, 10)].map(x => ({ key: "f:" + id + ":" + x.t, B: { t: x.t, a: x.a || "", c: x.c || "", p: x.p || null }, label: `${x.t} · on ${whoIs(id).name}'s shelf` })));
+        const list = bookChoices(extra);
+        sheet("bs-scrim", `<div class="phead"><h2>📖 Read together</h2><button class="btn small" type="button" data-tgx>Close</button></div>
+          <div class="field"><span class="label">With</span><div class="lwto">${friends.map(f => `<button type="button" data-bto="${f.id}" aria-pressed="${pick.has(f.id)}" data-fam="${esc(f.familiar || "cat")}">${avatar(f, 30)}${esc(f.name)}</button>`).join("")}</div></div>
+          <label class="field"><span class="label">The book</span><select id="bs-book"><option value="">Choose a book…</option>${list.map(x => `<option value="${esc(x.key)}" ${chosen && tnorm(chosen.B.t) === tnorm(x.B.t) ? "selected" : ""}>${esc(x.label)}</option>`).join("")}${chosen && !list.some(x => tnorm(x.B.t) === tnorm(chosen.B.t)) ? `<option value="x" selected>${esc(chosen.B.t)}</option>` : ""}</select></label>
+          <p class="note">You'll both see how far everyone is, and notes stay hidden until each reader reaches that page.</p>
+          <div class="mfoot"><div class="r"><button class="btn primary" type="button" data-bgo>📖 Start reading together</button></div></div>`, async e => {
+          const t = e.target.closest("[data-bto]"); if (t) { pick.has(t.dataset.bto) ? pick.delete(t.dataset.bto) : pick.add(t.dataset.bto); draw(); return; }
+          const g = e.target.closest("[data-bgo]"); if (g) { if (!pick.size) { toast("Choose who to read with."); return; } if (!chosen) { toast("Choose the book."); return; }
+            g.disabled = true; const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), created_by: uid(), members: [uid(), ...pick], book: chosen.B, status: "active" };
+            const { error } = await C().from("buddy_reads").insert(row); if (error) { g.disabled = false; toast(tableMissing(error.message) ? "Buddy reads need the step 6 SQL in Supabase." : error.message); return; }
+            buddies = [{ ...row, created_at: new Date().toISOString() }, ...buddies];
+            await invite([...pick], "buddy", row.id, chosen.B, `📖 ${ME()?.name || "A friend"} wants to read with you`, `“${chosen.B.t}”, together. Open your nook to join in.`);
+            toast(`Buddy read started ✦`); buddyRoom(row.id); }
+        });
+        $("#bs-book").onchange = ev => { const v = ev.target.value; chosen = list.find(x => x.key === v) || (v === "x" ? chosen : null); };
+      };
+      draw();
+    }
+    async function buddyRoom(id){
+      const r = buddies.find(x => x.id === id); if (!r) { await loadTogether(); if (!buddies.find(x => x.id === id)) { toast("That buddy read has ended."); return; } return buddyRoom(id); }
+      let notes = null; const me = uid(), myPage = () => progressIn(me, r.book);
+      const draw = () => { const mp = myPage();
+        sheet("br-scrim", `<div class="phead"><div class="brhead"><span class="bcov">${mini(r.book)}</span><div><div class="label">Buddy read</div><h2>${esc(r.book.t)}</h2><i class="muted">${esc(r.book.a || "")}</i></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
+          ${track(r.members, r.book)}
+          ${mp.state === "not on shelf" ? `<button class="btn small primary" type="button" data-badd>+ Put it on my Reading shelf</button>` : ""}
+          <div class="label" style="margin-top:6px">Notes along the way</div>
+          <div class="bnotes">${notes === null ? `<p class="note dots">Gathering notes</p>` : notes.length ? notes.map(n => { const locked = n.user_id !== me && mp.state !== "finished" && n.page > mp.page; const p = personOf(n.user_id);
+            return `<div class="bnote${locked ? " locked" : ""}${n.user_id === me ? " mine" : ""}" data-fam="${esc(p.familiar || "cat")}">${avatar(p, 28)}<div><small><b>${esc(nameOf(n.user_id))}</b> · page ${n.page}</small>${locked ? `<p>🔒 Read to page ${n.page} to unlock this note.</p>` : `<p>${esc(n.note)}</p>`}</div>${n.user_id === me ? `<button class="linkbtn" type="button" data-bdel="${n.id}" aria-label="Delete note">✕</button>` : ""}</div>`; }).join("") : `<p class="note">No notes yet. Leave the first one at the page you're on.</p>`}</div>
+          <div class="bform"><label class="field bpage"><span class="label">At page</span><input id="bn-page" type="number" inputmode="numeric" min="0" value="${mp.page || 0}"></label><textarea id="bn-text" rows="2" maxlength="500" placeholder="A thought, a gasp, a favourite line…"></textarea><button class="btn primary small" type="button" data-bpost>Post note</button></div>
+          <div class="mfoot"><button class="linkbtn" type="button" data-bleave>Leave this buddy read</button></div>`, async e => {
+          if (e.target.closest("[data-badd]")) { upsert({ title: r.book.t, author: r.book.a, cover: r.book.c, pages: r.book.p || null, id: newId(), shelf: "reading", rating: 0, currentPage: 0, started: todayISO(), finished: null, added: new Date().toISOString(), genres: [] }); toast("On your Reading shelf ✦"); draw(); return; }
+          if (e.target.closest("[data-bpost]")) { const text = $("#bn-text").value.trim(); if (!text) { toast("Write a little note first."); return; }
+            const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), read_id: r.id, user_id: me, page: Math.max(0, +$("#bn-page").value || 0), note: text };
+            const { error } = await C().from("buddy_notes").insert(row); if (error) { toast(error.message); return; } notes = [...(notes || []), { ...row, created_at: new Date().toISOString() }].sort((a, b) => a.page - b.page); draw(); return; }
+          const d = e.target.closest("[data-bdel]"); if (d) { await C().from("buddy_notes").delete().eq("id", d.dataset.bdel); notes = notes.filter(n => n.id !== d.dataset.bdel); draw(); return; }
+          const lv = e.target.closest("[data-bleave]"); if (lv) { if (!lv.dataset.sure) { lv.dataset.sure = 1; lv.textContent = "Tap again to leave"; return; }
+            const left = r.members.filter(x => x !== me); await C().from("buddy_reads").update(left.length ? { members: left } : { status: "ended" }).eq("id", r.id);
+            buddies = buddies.filter(x => x.id !== r.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); }
+        });
+      };
+      draw();
+      const q = await C().from("buddy_notes").select("*").eq("read_id", r.id).order("page", { ascending: true }); notes = (q.data || []).sort((a, b) => a.page - b.page); if ($("#br-scrim")) draw();
+    }
+    const CLUB_EMO = ["📚", "☕", "🌙", "🗡️", "🌹", "🔮", "🐉", "🍂", "🕯️", "✨"];
+    function clubNew(){
+      if (togetherOff) { toast("Book clubs need the step 6 SQL in Supabase."); return; }
+      let emo = "📚"; const pick = new Set();
+      const draw = () => sheet("cn-scrim", `<div class="phead"><h2>📚 A new book club</h2><button class="btn small" type="button" data-tgx>Close</button></div>
+        <label class="field"><span class="label">Name</span><input id="cn-name" maxlength="40" placeholder="The Midnight Readers" value="${esc(clubNew.draft || "")}"></label>
+        <div class="field"><span class="label">Its sign</span><div class="chips">${CLUB_EMO.map(x => `<button type="button" class="chip" data-cemo="${x}" aria-pressed="${x === emo}">${x}</button>`).join("")}</div></div>
+        <div class="field"><span class="label">Members</span><div class="lwto">${friends.map(f => `<button type="button" data-cto="${f.id}" aria-pressed="${pick.has(f.id)}" data-fam="${esc(f.familiar || "cat")}">${avatar(f, 30)}${esc(f.name)}</button>`).join("")}</div></div>
+        <div class="mfoot"><div class="r"><button class="btn primary" type="button" data-cgo>Create the club</button></div></div>`, async e => {
+        const keep = () => { clubNew.draft = $("#cn-name")?.value || ""; };
+        const m = e.target.closest("[data-cemo]"); if (m) { keep(); emo = m.dataset.cemo; draw(); return; }
+        const t = e.target.closest("[data-cto]"); if (t) { keep(); pick.has(t.dataset.cto) ? pick.delete(t.dataset.cto) : pick.add(t.dataset.cto); draw(); return; }
+        const g = e.target.closest("[data-cgo]"); if (g) { keep(); const name = clubNew.draft.trim(); if (!name) { toast("Give your club a name."); return; } if (!pick.size) { toast("Invite at least one friend."); return; }
+          g.disabled = true; const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), name, emoji: emo, owner: uid(), members: [uid(), ...pick] };
+          const { error } = await C().from("clubs").insert(row); if (error) { g.disabled = false; toast(tableMissing(error.message) ? "Book clubs need the step 6 SQL in Supabase." : error.message); return; }
+          clubs = [{ ...row, created_at: new Date().toISOString() }, ...clubs]; clubNew.draft = "";
+          await invite([...pick], "club", row.id, null, `${emo} ${ME()?.name || "A friend"} started a book club`, `You're in “${name}”. Suggest a book and vote on what to read next.`);
+          toast(`${emo} ${name} is open!`); clubRoom(row.id); }
+      });
+      draw();
+    }
+    async function clubRoom(id){
+      let c = clubs.find(x => x.id === id); if (!c) { await loadTogether(); c = clubs.find(x => x.id === id); if (!c) { toast("That club isn't there any more."); return; } }
+      let list = null; const me = uid();
+      const draw = () => sheet("cr-scrim", `<div class="phead"><div class="brhead"><span class="cemo big">${esc(c.emoji || "📚")}</span><div><div class="label">Book club</div><h2>${esc(c.name)}</h2><span class="cav">${c.members.map(id => `<span title="${esc(nameOf(id))}">${avatar(personOf(id), 26)}</span>`).join("")}</span></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
+        <div class="label">The club shelf <span class="muted">· ♥ the ones you'd like to read next</span></div>
+        <div class="cbooks">${list === null ? `<p class="note dots">Opening the shelf</p>` : list.length ? list.map(x => { const v = x.votes || [], mineV = v.includes(me);
+          return `<div class="clbook"><span class="bcov">${mini(x.book)}</span><div class="cbinfo"><b>${esc(x.book.t)}</b><small>${esc(x.book.a || "")} · from ${esc(nameOf(x.added_by))}</small>${x.note ? `<p>${esc(x.note)}</p>` : ""}
+            <div class="cbacts"><button type="button" class="chip" data-cvote="${x.id}" aria-pressed="${mineV}">♥ ${v.length}</button><button type="button" class="btn small" data-cread="${x.id}">📖 Read together</button>${x.added_by === me || c.owner === me ? `<button type="button" class="linkbtn" data-cdel="${x.id}">Remove</button>` : ""}</div></div></div>`; }).join("") : `<p class="note">The shelf is empty. Suggest the first book!</p>`}</div>
+        <div class="bform"><select id="cb-book"><option value="">Suggest one of your books…</option>${books.filter(b => b.shelf !== "dnf").sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 200).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.rating ? ` · ${b.rating}★` : ""}</option>`).join("")}</select><input id="cb-note" maxlength="300" placeholder="Why this one? (optional)"><button class="btn primary small" type="button" data-cadd>Add to the shelf</button></div>
+        <div class="mfoot"><button class="linkbtn" type="button" data-cleave>${c.owner === me ? "Close the club" : "Leave the club"}</button></div>`, async e => {
+        const v = e.target.closest("[data-cvote]"); if (v) { const x = list.find(y => y.id === v.dataset.cvote); const votes = (x.votes || []).includes(me) ? x.votes.filter(z => z !== me) : [...(x.votes || []), me];
+          const { error } = await C().from("club_books").update({ votes }).eq("id", x.id); if (error) { toast(error.message); return; } x.votes = votes; list.sort((a, b) => (b.votes || []).length - (a.votes || []).length); draw(); return; }
+        const a = e.target.closest("[data-cadd]"); if (a) { const b = books.find(z => z.id === $("#cb-book").value); if (!b) { toast("Choose a book to suggest."); return; }
+          if (list.some(y => tnorm(y.book.t) === tnorm(b.title))) { toast("It's already on the club shelf."); return; }
+          const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), club_id: c.id, book: bookOf(b), added_by: me, note: $("#cb-note").value.trim() || null, votes: [me] };
+          const { error } = await C().from("club_books").insert(row); if (error) { toast(error.message); return; } list = [...list, row]; draw(); return; }
+        const rd = e.target.closest("[data-cread]"); if (rd) { const x = list.find(y => y.id === rd.dataset.cread);
+          const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), created_by: me, members: [...c.members], book: x.book, status: "active" };
+          const { error } = await C().from("buddy_reads").insert(row); if (error) { toast(error.message); return; } buddies = [{ ...row, created_at: new Date().toISOString() }, ...buddies];
+          await invite(c.members.filter(z => z !== me), "buddy", row.id, x.book, `${c.emoji} ${c.name} is reading together`, `“${x.book.t}”. Open your nook to join in.`); buddyRoom(row.id); return; }
+        const d = e.target.closest("[data-cdel]"); if (d) { await C().from("club_books").delete().eq("id", d.dataset.cdel); list = list.filter(y => y.id !== d.dataset.cdel); draw(); return; }
+        const lv = e.target.closest("[data-cleave]"); if (lv) { if (!lv.dataset.sure) { lv.dataset.sure = 1; lv.textContent = "Tap again to be sure"; return; }
+          if (c.owner === me) await C().from("clubs").delete().eq("id", c.id); else await C().from("clubs").update({ members: c.members.filter(z => z !== me) }).eq("id", c.id);
+          clubs = clubs.filter(z => z.id !== c.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); }
+      });
+      draw();
+      const q = await C().from("club_books").select("*").eq("club_id", c.id).order("created_at", { ascending: true }); list = (q.data || []).sort((a, b) => (b.votes || []).length - (a.votes || []).length); if ($("#cr-scrim")) draw();
+    }
+    // ---- what's new for you: requests, letters, cheers and reactions, as a short list ----
+    function postHTML(){
+      const L = lettersOff ? [] : unread(); if (!incoming.length && !L.length) return "";
+      const lab = l => { const B = l.book || {}, n = esc(whoIs(l.sender).name); return B.kind === "cheer" ? [`✨`, `A cheer from ${n}`, esc((l.note || "").slice(0, 60))] : B.kind === "react" ? [esc(B.e || "♥"), `${n} reacted`, esc((l.note || "").replace(/^\S+\s/, "").slice(0, 60))]
+        : B.kind === "feedback" ? ["❦", `${n} finished your recommendation`, esc(B.t || "")] : B.kind === "buddy" ? ["📖", `${n} wants to read with you`, `<i>${esc(B.t || "")}</i> · tap to join`] : B.kind === "club" ? ["📚", esc(B.pt || `${n} started a book club`), esc(B.pb || "")] : ["✉", `A letter from ${n}`, `About <i>${esc(B.t || "a book")}</i> · sealed with wax`]; };
+      return `<section class="fsec fpost" id="f-post"><h3>✨ New for you <span class="pill">${incoming.length + L.length}</span></h3><div class="newlist">
+        ${incoming.map(p => `<div class="newrow req">${avatar(p, 38)}<span class="newtxt"><b>${esc(p.name)} wants to be friends</b><small>@${esc(p.handle)}</small></span><span class="newbtns"><button class="btn small primary" type="button" data-facc="${p.id}">Accept</button><button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button></span></div>`).join("")}
+        ${L.map(l => { const [ic, t, sub] = lab(l); return `<button type="button" class="newrow" data-lopen="${l.id}"><span class="newic">${ic}</span><span class="newtxt"><b>${t}</b><small>${sub}</small></span><span class="newgo">Open ›</span></button>`; }).join("")}</div></section>`;
+    }
+    // ---- friends reading right now: big and clear, with how far they are ----
+    function readingNowHTML(){
+      const R = friends.map(p => ({ p, S: shelves.get(p.id) || {} })).flatMap(({ p, S }) => (S.reading || []).slice(0, 2).map(x => ({ p, x, at: S.at })));
+      if (!R.length) return "";
+      return `<section class="fsec frnow"><h3>📖 Reading now</h3><div class="frnlist">${R.map(({ p, x, at }) => { const pct = x.p ? Math.min(100, Math.round((x.cp || 0) / x.p * 100)) : null;
+        return `<div class="frn" data-fam="${esc(p.familiar || "cat")}"><button type="button" class="frnmain" data-fopen="${p.id}"><span class="frncov">${mini(x)}</span><span class="frntxt"><span class="frnwho">${avatar(p, 22)}<b>${esc(p.name)}</b></span><i>${esc(x.t)}</i><small>${esc(x.a || "")}</small>
+          ${pct !== null ? `<span class="frnbar"><span style="width:${pct}%"></span></span><span class="frnpct"><b>${pct}%</b>${x.p ? ` · page ${x.cp || 0} of ${x.p}` : ""}${x.up ? ` · ${ago(x.up)}` : ""}</span>` : `<span class="frnpct">${x.up ? ago(x.up) : "Just started"}</span>`}</span></button>
+          ${lettersOff ? "" : `<button type="button" class="iconbtn frncheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button>`}</div>`; }).join("")}</div></section>`;
+    }
     function render(){
       const el = $("#view-friends"); if (!el) return;
       if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
@@ -8280,11 +8569,10 @@ alter publication supabase_realtime add table public.library;`;
       if (state === "error" && tableMissing(err)) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Friends aren't switched on yet</h3><div>For the owner: run the step 2 friends SQL in Supabase, then reload.</div></div>`; return; }
       const me = ME(), invite = `${location.origin}${location.pathname}`;
       el.innerHTML = `<div class="friends">
-        <section class="fme">${personRow(me, `<button class="btn small" type="button" data-fsignin>Edit profile</button>`).replace(/<button class="btn small" type="button" data-freq[^>]*>[^<]*<\/button>|<span class="onshelf">[^<]*<\/span>/, "")}
-          <div class="finvite"><span class="label">Invite a friend</span><p class="note">Send them the app and the invite code. They join, then add you as <b>@${esc(me.handle)}</b>.</p><button class="btn small" type="button" data-finvite>Copy an invitation</button></div></section>
-        ${incoming.length || unread().length ? `<section class="fsec fpost" id="f-post"><h3>✉ Your post <span class="pill">${incoming.length + unread().length}</span></h3>
-          ${incoming.map(p => `<div class="freqcard">${personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button>`).replace('<div class="fperson"', '<div class="fperson"')}<small class="note">wants to be your friend</small></div>`).join("")}
-          ${unread().length ? `<div class="envrow">${unread().map(l => `<button type="button" class="envbtn" data-lenv="${l.id}" aria-label="Open the letter from ${esc(whoIs(l.sender).name)}">${envelopeHTML(l)}</button>`).join("")}</div>` : ""}</section>` : ""}
+        ${postHTML()}
+        ${readingNowHTML()}
+        ${buddyHTML()}
+        ${clubsHTML()}
         ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
         <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
         ${feedHTML()}
@@ -8296,6 +8584,8 @@ alter publication supabase_realtime add table public.library;`;
           ${search ? (search.length ? search.map(p => personRow(p)).join("") : `<p class="note">Nobody by that name yet.</p>`) : ""}
           ${!search && everyone ? `<div class="label" style="margin-top:8px">Everyone in the nook</div>${everyone.length ? everyone.map(p => personRow(p)).join("") : `<p class="note">It's just you so far. Invite someone!</p>`}` : ""}
           ${outgoing.length ? `<div class="label" style="margin-top:10px">Waiting for an answer</div>${outgoing.map(p => personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Cancel</button>`)).join("")}` : ""}</section>
+        <details class="fsec fmewrap"><summary><h3>You and inviting friends</h3></summary>        <section class="fme">${personRow(me, `<button class="btn small" type="button" data-fsignin>Edit profile</button>`).replace(/<button class="btn small" type="button" data-freq[^>]*>[^<]*<\/button>|<span class="onshelf">[^<]*<\/span>/, "")}
+          <div class="finvite"><span class="label">Invite a friend</span><p class="note">Send them the app and the invite code. They join, then add you as <b>@${esc(me.handle)}</b>.</p><button class="btn small" type="button" data-finvite>Copy an invitation</button></div></section></details>
       </div>`;
       paintRecCovers(el);
     }
@@ -8353,7 +8643,7 @@ alter publication supabase_realtime add table public.library;`;
             : why.length ? `<section class="fbisec fbifit"><div class="label">Would you like it?</div><ul>${why.map(w => `<li>${w}</li>`).join("")}</ul></section>` : ""}
           <div class="mfoot">${mineB ? `<button class="btn small" type="button" data-fbiopen="${esc(mineB.id)}">Open your copy</button>` : `<button class="btn small primary" type="button" data-fbiadd>+ Want to read</button>`}
             <a class="btn small" href="https://www.goodreads.com/search?q=${encodeURIComponent(`${x.t} ${x.a || ""}`)}" target="_blank" rel="noopener">Goodreads ↗</a>
-            ${ser && !inLibrary(ser.books[0].title, ser.author) ? `<button class="btn small" type="button" data-fbiser>Add the whole series</button>` : ""}</div></div>`;
+            ${ser && !inLibrary(ser.books[0].title, ser.author) ? `<button class="btn small" type="button" data-fbiser>Add the whole series</button>` : ""}${togetherOff || shelf === "read" ? "" : `<button class="btn small" type="button" data-fbibuddy>📖 Read it together</button>`}</div></div>`;
         paintRecCovers(el);
       };
       draw();
@@ -8363,6 +8653,7 @@ alter publication supabase_realtime add table public.library;`;
       document.addEventListener("keydown", onKey, true);
       el.onclick = e => {
         if (e.target === el || e.target.closest("[data-fbix]")) { close(); return; }
+        if (e.target.closest("[data-fbibuddy]")) { close(); $("#modal-root").onclick = null; buddyStart({ to: p.id, B: { t: x.t, a: x.a || "", c: x.c || "", p: x.p || null } }); return; }
         if (e.target.closest("[data-fbiadd]")) { const R = r || {};
           upsert({ title: x.t, author: x.a, cover: x.c || (R.coverId ? coverById(R.coverId) : ""), coverId: R.coverId || null, olKey: R.olKey || null, pages: x.p || R.pages || null, year: R.year || null, subjects: R.subjects || [], genres: R.genres || [], themes: R.themes || [], tropes: R.tropes || [], category: R.category || null, summary: R.summary || "", seriesName: ser?.name || x.s || null, seriesNum: serNo ?? null,
             id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), recommendedBy: p.name, recFrom: p.id });
@@ -8390,7 +8681,7 @@ alter publication supabase_realtime add table public.library;`;
         root.innerHTML = `<div class="scrim" id="fn-scrim"><div class="modal fnook" role="dialog" aria-modal="true" aria-labelledby="fn-t" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
           <div class="phead"><div class="fnhead">${avatar(p, 72)}<div><div class="label">The nook of</div><h2 id="fn-t">${esc(p.name)}</h2><span class="muted">@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div></div><button class="btn small" type="button" data-fnx>Close</button></div>
           ${tabs.length ? `<div class="mtabs">${tabs.map(([k, l]) => `<button type="button" data-fntab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div>${body}` : `<p class="note">${esc(p.name)} keeps their nook private for now.</p>`}
-          <div class="mfoot">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend a book to ${esc(p.name)}</button><button class="btn small" type="button" data-fcheer="${p.id}">✨ Send a cheer</button>`}<button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
+          <div class="mfoot">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend a book to ${esc(p.name)}</button><button class="btn small" type="button" data-fcheer="${p.id}">✨ Send a cheer</button>${togetherOff ? "" : `<button class="btn small" type="button" data-bstart="${p.id}">📖 Read together</button>`}`}<button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
         paintRecCovers(root);
       };
       draw();
@@ -8402,6 +8693,7 @@ alter publication supabase_realtime add table public.library;`;
         const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recFrom: p.id }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
         const lw = e.target.closest("[data-lwrite]"); if (lw) { root.onclick = null; compose({ to: lw.dataset.lwrite }); return; }
         const fc = e.target.closest("[data-fcheer]"); if (fc) { cheer(fc.dataset.fcheer); return; }
+        const bs = e.target.closest("[data-bstart]"); if (bs) { root.onclick = null; buddyStart({ to: bs.dataset.bstart }); return; }
         const fr = e.target.closest("[data-ftrec]"); if (fr) { root.onclick = null; const w = fr.dataset.ftwhy; compose.draft = draftWhy(w); compose({ bookId: fr.dataset.ftrec, to: p.id }); return; }
         const u = e.target.closest("[data-funfriend]"); if (u) { if (!confirmUnfriend) { confirmUnfriend = true; u.textContent = `Tap again to remove ${p.name}`; return; } confirmUnfriend = false; root.onclick = null; root.innerHTML = ""; await remove(u.dataset.funfriend); toast("Removed from your friends."); }
       };
@@ -8419,6 +8711,10 @@ alter publication supabase_realtime add table public.library;`;
       const le = e.target.closest("[data-lenv]"); if (le) { openEnvelope(le.dataset.lenv, le); return; }
       const lw = e.target.closest("[data-lwrite]"); if (lw) { compose({ to: lw.dataset.lwrite || undefined }); return; }
       const fc = e.target.closest("[data-fcheer]"); if (fc) { cheer(fc.dataset.fcheer); return; }
+      const bs = e.target.closest("[data-bstart]"); if (bs) { buddyStart({ to: bs.dataset.bstart || undefined }); return; }
+      const bo = e.target.closest("[data-bopen]"); if (bo) { buddyRoom(bo.dataset.bopen); return; }
+      if (e.target.closest("[data-cnew]")) { clubNew(); return; }
+      const co = e.target.closest("[data-copen]"); if (co) { clubRoom(co.dataset.copen); return; }
       const fr2 = e.target.closest("[data-freact]"); if (fr2) { fr2.closest(".fevr").querySelectorAll("button").forEach(b => b.disabled = true); await react(fr2.dataset.freact, fr2.dataset.e); return; }
       const fb2 = e.target.closest("[data-fevbook]"); if (fb2) { const o = feed().find(z => evKey(z) === fb2.dataset.fevbook); if (o) openFriendBook(o.x, o.p, o.ev === "finished" ? "read" : "reading"); return; }
       const fg = e.target.closest("[data-fbkgive]"); if (fg) { giveFeedback(fg.dataset.fbkgive); return; }
@@ -9709,6 +10005,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const { read, groups } = D, A = [];
     const ach = (icon, name, desc, rarity, have, need, secret) => A.push({ icon, name, desc, rarity, have: Math.min(have, need), need, done: have >= need, secret });
     ach("📖", "First Chapter", "Finish your first book.", "common", read.length, 1);
+    try { const won = Object.keys(lsGet("reading-ledger-goalwon", {})).length; ach("🎯", "Goal Getter", "Reach your yearly reading goal.", "rare", won, 1); } catch {}
     try { const bs = bestStreak(); STREAK_BADGES.forEach(([n, icon, name, r]) => ach(icon, name, `Read ${n} days in a row.`, r, bs, n)); } catch {}
     ach("🐛", "Bookworm", "Finish 10 books.", "common", read.length, 10);
     ach("📚", "Bibliophile", "Finish 25 books.", "rare", read.length, 25);
@@ -10699,8 +10996,24 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.1";
+  const APP_VERSION = "4.3";
   const CHANGELOG = [
+    ["4.3", "25 Oct 2026", "Buddy reads, book clubs and backups in your account", [
+      "New: 📖 buddy reads. Pick a book with friends, see everyone's progress side by side, and leave notes at a page. They stay locked until each reader gets there, so no spoilers",
+      "Start one from Friends, from a friend's nook, or from any book on a friend's shelf",
+      "New: 📚 book clubs. A shared shelf for a group of friends: suggest books, ♥ the ones you want next, then read the winner together",
+      "Invitations arrive in New for you and on your phone",
+      "New: ☁ weekly backups in your account (the last six are kept). “Bring back” restores missing books and never removes anything",
+      "New readers get a gentle “first steps” checklist on their Nook"]],
+    ["4.2", "25 Oct 2026", "Friendlier on phones, a reading goal and a new letter", [
+      "Friends: “New for you” at the top shows exactly what the red badge is about: letters, cheers, reactions and requests",
+      "Friends: a clear “Reading now” card for each friend, with the cover, a big progress bar, the percent and the page",
+      "Letters from friends got a makeover: a wax seal, stamp and postmark, handwriting, and the book on its own card",
+      "Reader's Soul: the nine chapters are now a simple grid instead of a sideways scroll",
+      "Stats fold into tidy sections, Keepsakes show six cards per set at first, and For you starts with your top five",
+      "New: 🎯 a yearly reading goal on your Nook, with how far ahead or behind you are and a celebration when you reach it",
+      "＋ Add sits at the top now, so nothing floats over your books",
+      "Safer syncing: if you change the same book on two devices, notes, quotes, words, progress and cards from both are kept"]],
     ["4.1", "25 Oct 2026", "A new home on your phone", [
       "On phones, no more endless scrolling: five tabs at the bottom. 🏠 Nook, 📚 Shelf, ✦ Find, ♥ Friends and ☰ More",
       "Nook: what you're reading, your friends and your familiar. Shelf: your bookcase, or switch to a list. Find: search and recommendations",
@@ -11383,7 +11696,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const more = document.createElement("section"); more.id = "mmore"; more.className = "mmore"; wrap.append(more);
     const seg = document.createElement("div"); seg.id = "mshelfseg"; seg.className = "mshelfseg seg"; seg.innerHTML = `<button type="button" data-shelfmode="case">📚 Bookcase</button><button type="button" data-shelfmode="list">▤ List</button>`;
     $("#bookcase").before(seg);
-    const fab = document.createElement("button"); fab.id = "mfab"; fab.className = "mfab"; fab.type = "button"; fab.setAttribute("aria-label", "Add a book"); fab.innerHTML = "+"; document.body.append(fab);
+    const fab = document.createElement("button"); fab.id = "mfab"; fab.className = "topchip addchip"; fab.type = "button"; fab.setAttribute("aria-label", "Add a book"); fab.innerHTML = `<span aria-hidden="true">＋</span> Add`; $(".topchips")?.append(fab);
   }
   function paintMore(){
     const el = $("#mmore"); if (!el) return;
@@ -11391,7 +11704,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       <div class="label">Your nook</div><div class="mlist">
         <button type="button" data-mact="account">☁ Account and sync</button><button type="button" data-notifyset>🔔 Notifications & daily check-in</button>
         <button type="button" data-mact="season">🍂 Seasons and themes</button><button type="button" data-whatsnew>✦ What's new · v${APP_VERSION}</button><button type="button" data-starttour>🗝 Take the tour</button>
-        <button type="button" data-mact="backup">⤓ Save a backup</button><button type="button" data-mact="restore">↺ Restore a backup</button><button type="button" data-mact="goodreads">⇪ Import from Goodreads</button>
+        <button type="button" data-mact="backup">⤓ Save a backup</button><button type="button" data-cloudbak>☁ Backups in your account</button><button type="button" data-mact="restore">↺ Restore a backup</button><button type="button" data-mact="goodreads">⇪ Import from Goodreads</button>
         <button type="button" data-mact="install">📲 Put it on your home screen</button></div>
       <p class="note mfoot2">My Book Nook v${APP_VERSION}</p>`;
   }
@@ -11468,6 +11781,133 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   document.addEventListener("touchend", () => { if (!sheetDrag) return; const { m, dy } = sheetDrag; sheetDrag = null; m.style.transition = "transform .25s ease";
     if (dy > 110) { m.style.transform = "translateY(100%)"; const s = m.parentElement; setTimeout(() => { if (s?.isConnected) s.dispatchEvent(new MouseEvent("click", { bubbles: true })); }, 200); }
     else m.style.transform = ""; });
+  // ================= phones: long rooms fold up into tidy sections =================
+  const $$ = sel => [...document.querySelectorAll(sel)];
+  function phoneFold(){
+    if (!document.body.classList.contains("mnav")) return;
+    // stats: each chart panel folds, the first two stay open
+    $$("#view-stats .panels > .panel").forEach((p, i) => {
+      if (p.classList.contains("pf")) return; const h = p.querySelector("h2, h3"); if (!h) return;
+      let w = h; while (w.parentElement && w.parentElement !== p) w = w.parentElement;
+      p.classList.add("pf"); w.classList.add("pfhwrap"); h.classList.add("pfh"); h.setAttribute("role", "button"); h.tabIndex = 0;
+      if (i >= 2) p.classList.add("pfc");
+    });
+    // picks: the top five first, the rest on request
+    $$("#view-recs .rgrid").forEach(g => { if (g.nextElementSibling?.classList.contains("rgmore") || g.children.length <= 5) return;
+      const b = document.createElement("button"); b.type = "button"; b.className = "btn small rgmore"; b.textContent = `Show ${g.children.length - 5} more picks ▾`; g.after(b); });
+    // keepsakes: show six cards of each set, the rest on request
+    $$("#view-keep .sagaset").forEach(s => {
+      const g = s.querySelector(".ssgrid"); if (!g || s.querySelector(".ssmore")) return; const n = g.children.length; if (n <= 6) return;
+      const b = document.createElement("button"); b.type = "button"; b.className = "btn small ssmore"; b.textContent = `Show all ${n} cards ▾`; g.after(b);
+    });
+  }
+  let foldT = null; new MutationObserver(() => { clearTimeout(foldT); foldT = setTimeout(phoneFold, 60); })
+    .observe(document.querySelector(".wrap") || document.body, { childList: true, subtree: true });
+  document.addEventListener("click", e => {
+    const h = e.target.closest(".pf .pfhwrap"); if (h && document.body.classList.contains("mnav") && !e.target.closest("button:not(.pfh), select, a, input")) { const p = h.closest(".pf"); p.classList.toggle("pfc"); if (!p.classList.contains("pfc")) setTimeout(() => dispatchEvent(new Event("resize")), 30); return; }
+    const rg = e.target.closest(".rgmore"); if (rg) { const g = rg.previousElementSibling; g.classList.add("rshowall"); rg.remove(); return; }
+    const m = e.target.closest(".ssmore"); if (m) { const s = m.closest(".sagaset"); const open = s.classList.toggle("ssopen"); m.textContent = open ? "Show fewer ▴" : `Show all ${s.querySelector(".ssgrid").children.length} cards ▾`; }
+  });
+  // ================= a yearly reading goal =================
+  const KEY_GOAL = "reading-ledger-goal";
+  const goalOf = (y = new Date().getFullYear()) => Number(lsGet(KEY_GOAL, {})[y]) || 0;
+  function goalStats(){
+    const y = new Date().getFullYear(), g = goalOf(y), done = readBooks().filter(b => yearOf(b.finished) === y).length;
+    const start = new Date(y, 0, 1), end = new Date(y + 1, 0, 1), frac = (Date.now() - start) / (end - start), due = g * frac, diff = Math.round((done - due) * 10) / 10;
+    const left = Math.max(0, g - done), weeks = Math.max(1, (end - Date.now()) / (7 * 864e5));
+    return { y, g, done, diff, left, perWeek: left / weeks, pct: g ? Math.min(100, Math.round(done / g * 100)) : 0 };
+  }
+  function paintGoal(){
+    const el = $("#goal-card"); if (!el) return; const G = goalStats();
+    if (!G.g) { el.innerHTML = `<div class="goalset"><span class="goalic">🎯</span><div><b>Set a ${G.y} reading goal</b><small>You've read ${G.done} book${G.done === 1 ? "" : "s"} this year so far.</small></div><button class="btn small primary" type="button" data-goalset>Set goal</button></div>`; return; }
+    const R = 30, C = 2 * Math.PI * R, ahead = G.diff >= 1 ? `${Math.floor(G.diff)} book${Math.floor(G.diff) === 1 ? "" : "s"} ahead of schedule ✦` : G.diff <= -1 ? `${Math.ceil(-G.diff)} book${Math.ceil(-G.diff) === 1 ? "" : "s"} behind, you can catch up` : "Right on schedule";
+    el.innerHTML = `<button type="button" class="goalcard${G.done >= G.g ? " won" : ""}" data-goalset aria-label="Your ${G.y} reading goal"><svg viewBox="0 0 72 72" class="goalring" aria-hidden="true"><circle cx="36" cy="36" r="${R}" class="gtrack"/><circle cx="36" cy="36" r="${R}" class="gfill" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - G.pct / 100)}"/></svg><span class="goalnum"><b>${G.done}</b><small>of ${G.g}</small></span>
+      <span class="goaltxt"><span class="label">${G.y} reading goal</span><b>${G.done >= G.g ? "Goal reached! 🎉" : ahead}</b><small>${G.done >= G.g ? `${G.done - G.g ? `${G.done - G.g} extra so far. ` : ""}Raise the bar?` : `${G.left} to go · about ${G.perWeek < 1 ? `one every ${Math.round(1 / G.perWeek)} weeks` : `${Math.round(G.perWeek * 10) / 10} a week`}`}</small></span></button>`;
+  }
+  function openGoal(){
+    const root = $("#modal-root"), G = goalStats(); let n = G.g || Math.max(12, Math.ceil((readBooks().filter(b => yearOf(b.finished) === G.y - 1).length || 12) / 6) * 6);
+    const draw = () => { root.innerHTML = `<div class="scrim" id="gl-scrim"><div class="modal goalmodal" role="dialog" aria-modal="true" aria-labelledby="gl-t"><div class="phead"><h2 id="gl-t">🎯 ${G.y} reading goal</h2><button class="btn small" type="button" data-glx>Close</button></div>
+      <p class="note">How many books would you like to read this year? You've finished <b>${G.done}</b> so far.</p>
+      <div class="glstep"><button class="iconbtn" type="button" data-gl="-1" aria-label="One fewer">−</button><output>${n}</output><button class="iconbtn" type="button" data-gl="1" aria-label="One more">+</button></div>
+      <div class="chips glchips">${[12, 24, 36, 52, 100].map(x => `<button type="button" class="chip" data-glpick="${x}" aria-pressed="${x === n}">${x}</button>`).join("")}</div>
+      <p class="note glpace">That's ${n >= 52 ? `${Math.round(n / 52 * 10) / 10} a week` : n >= 12 ? `${Math.round(n / 12 * 10) / 10} a month` : `one every ${Math.round(52 / n)} weeks`}.</p>
+      <div class="mfoot">${G.g ? `<button class="linkbtn" type="button" data-gloff>Remove my goal</button>` : ""}<div class="r"><button class="btn primary" type="button" data-glsave>Save goal</button></div></div></div></div>`; };
+    draw();
+    root.onclick = e => {
+      if (e.target.id === "gl-scrim" || e.target.closest("[data-glx]")) { root.onclick = null; root.innerHTML = ""; return; }
+      const s = e.target.closest("[data-gl]"); if (s) { n = Math.max(1, Math.min(500, n + +s.dataset.gl)); draw(); return; }
+      const p = e.target.closest("[data-glpick]"); if (p) { n = +p.dataset.glpick; draw(); return; }
+      if (e.target.closest("[data-gloff]")) { const all = lsGet(KEY_GOAL, {}); delete all[G.y]; lsSet(KEY_GOAL, all); root.onclick = null; root.innerHTML = ""; paintGoal(); return; }
+      if (e.target.closest("[data-glsave]")) { lsSet(KEY_GOAL, { ...lsGet(KEY_GOAL, {}), [G.y]: n }); root.onclick = null; root.innerHTML = ""; paintGoal(); toast(`${famName(familiar)}: “${n} books in ${G.y}! I believe in you.”`, 3000); }
+    };
+  }
+  // when the goal is reached, a little celebration (once a year)
+  function goalCheck(){ const G = goalStats(); if (!G.g || G.done < G.g) return; const seen = lsGet("reading-ledger-goalwon", {}); if (seen[G.y]) return; seen[G.y] = 1; lsSet("reading-ledger-goalwon", seen);
+    try { celebrateStreak([G.g, "🎯", `${G.y} goal reached!`]); } catch {} }
+  document.addEventListener("click", e => { if (e.target.closest("[data-goalset]")) openGoal(); });
+  setTimeout(() => { paintGoal(); goalCheck(); }, 0);
+  // ================= weekly backups in your account =================
+  const KEY_CLOUDBAK = "reading-ledger-cloudbak";
+  async function cloudBackup(force){
+    const C = Sync.client, u = Sync.user; if (!C || !u || !books.length) return "signedout";
+    if (!force && Date.now() - lsGet(KEY_CLOUDBAK, 0) < 7 * 864e5) return "recent";
+    const { error } = await C.from("library_backups").insert({ user_id: u.id, data: JSON.parse(JSON.stringify({ app: "reading-ledger", version: 2, books, deleted, settings: collectSettings(Date.now()) })), books: books.length });
+    if (error) return /library_backups|schema cache|does not exist/i.test(error.message) ? "notready" : "error:" + error.message;
+    lsSet(KEY_CLOUDBAK, Date.now());
+    try { const { data } = await C.from("library_backups").select("id, created_at").eq("user_id", u.id).order("created_at", { ascending: false }); const old = (data || []).slice(6).map(x => x.id); if (old.length) await C.from("library_backups").delete().in("id", old); } catch {}
+    return "ok";
+  }
+  async function openCloudBackups(){
+    const root = $("#modal-root"), C = Sync.client, u = Sync.user; let list = null, msg = "";
+    const draw = () => { root.innerHTML = `<div class="scrim" id="cb-scrim"><div class="modal cbmodal" role="dialog" aria-modal="true" aria-labelledby="cb-t"><div class="phead"><h2 id="cb-t">☁ Backups in your account</h2><button class="btn small" type="button" data-cbx>Close</button></div>
+      ${!u ? `<p class="note">Sign in to keep weekly backups of your library in your account.</p>` : `<p class="note">Once a week, a copy of your whole library is saved in your account. The last six are kept. “Bring back” only adds books that are missing and never removes anything.</p>
+      <div class="cblist">${list === null ? `<p class="note dots">Looking</p>` : list === "notready" ? `<p class="note">Almost there: the owner needs to run the step 6 SQL in Supabase.</p>` : list.length ? list.map(b => `<div class="cbrow"><span><b>${new Date(b.created_at).toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short", year: "numeric" })}</b><small>${b.books} books</small></span><button class="btn small" type="button" data-cbget="${b.id}">Bring back</button><button class="linkbtn" type="button" data-cbdl="${b.id}">Download</button></div>`).join("") : `<p class="note">No backups yet.</p>`}</div>
+      <div class="mfoot"><span class="note">${esc(msg)}</span><div class="r"><button class="btn primary" type="button" data-cbnow>Back up now</button></div></div>`}</div></div>`; };
+    draw();
+    const load = async () => { if (!C || !u) return; const { data, error } = await C.from("library_backups").select("id, created_at, books").eq("user_id", u.id).order("created_at", { ascending: false }).limit(6);
+      list = error ? (/library_backups|schema cache|does not exist/i.test(error.message) ? "notready" : []) : (data || []); draw(); };
+    load();
+    const full = async id => { const { data } = await C.from("library_backups").select("data, created_at").eq("id", id).maybeSingle(); return data; };
+    root.onclick = async e => {
+      if (e.target.id === "cb-scrim" || e.target.closest("[data-cbx]")) { root.onclick = null; root.innerHTML = ""; return; }
+      if (e.target.closest("[data-cbnow]")) { const r = await cloudBackup(true); msg = r === "ok" ? "Saved ✦" : r === "notready" ? "Needs the step 6 SQL." : r.replace(/^error:/, ""); await load(); return; }
+      const g = e.target.closest("[data-cbget]"); if (g) { const d = await full(g.dataset.cbget); if (!d) return; const before = books.length;
+        const merged = mergeLibraries({ books, deleted: {} }, { books: d.data.books || [], deleted: {} }); books = merged.books; save(); render(); msg = `${books.length - before} book${books.length - before === 1 ? "" : "s"} brought back.`; draw(); return; }
+      const dl = e.target.closest("[data-cbdl]"); if (dl) { const d = await full(dl.dataset.cbdl); if (d) download(`my-book-nook-cloud-backup-${d.created_at.slice(0, 10)}.json`, JSON.stringify(d.data, null, 1), "application/json"); }
+    };
+  }
+  document.addEventListener("click", e => { if (e.target.closest("[data-cloudbak]")) { const m = $("#nook-menu"); if (m) m.hidden = true; openCloudBackups(); } });
+  setInterval(() => { if (!document.hidden) cloudBackup(false).catch(() => {}); }, 10 * 60e3); setTimeout(() => cloudBackup(false).catch(() => {}), 20000);
+  // ================= the first steps: a gentle checklist for new readers =================
+  const KEY_START = "reading-ledger-startdone";
+  function startSteps(){
+    return [
+      ["fam", "Choose your familiar", "Your reading companion", () => famChosen, "famopen"],
+      ["add", "Add three books you've read", `${Math.min(3, readBooks().length)} of 3`, () => readBooks().length >= 3, "add"],
+      ["rate", "Rate a book", "Stars teach your familiar what you love", () => books.some(b => b.rating > 0), "shelf"],
+      ["reading", "Start reading something", "It goes on your nightstand", () => books.some(b => b.shelf === "reading"), "shelf"],
+      ["goal", "Set a reading goal for the year", "Even a small one counts", () => { try { return goalOf() > 0; } catch { return false; } }, "goal"],
+      ["friends", "Join your friends", "Letters, cheers and reading together", () => !!(Sync.user && Sync.profile), "account"],
+    ];
+  }
+  function paintStart(){
+    const el = $("#start-card"); if (!el) return; const S = startSteps(), done = S.filter(s => s[3]()).length;
+    if (readBooks().length >= 12 && !el.innerHTML) { el.innerHTML = ""; return; }
+    if (lsGet(KEY_START, false) || done === S.length) { if (done === S.length && !lsGet(KEY_START, false) && el.innerHTML) { lsSet(KEY_START, true); toast(`${famName(familiar)}: “You've settled in beautifully. Welcome home ✦”`, 3500); } el.innerHTML = ""; return; }
+    const next = S.find(s => !s[3]());
+    el.innerHTML = `<div class="startcard"><button type="button" class="iconbtn startx" data-startx aria-label="Hide the first steps">✕</button><div class="label">Your first steps</div><h3>Settling into your nook</h3>
+      <div class="startbar"><span style="width:${Math.round(done / S.length * 100)}%"></span></div><small class="muted">${done} of ${S.length} done</small>
+      <ol class="startlist">${S.map(([k, t, sub, ok, act]) => `<li class="${ok() ? "done" : next[0] === k ? "next" : ""}"><span class="stdot">${ok() ? "✓" : ""}</span><span class="sttxt"><b>${t}</b><small>${sub}</small></span>${!ok() && next[0] === k ? `<button class="btn small primary" type="button" data-startgo="${act}">Go</button>` : ""}</li>`).join("")}</ol></div>`;
+  }
+  document.addEventListener("click", e => {
+    if (e.target.closest("[data-startx]")) { lsSet(KEY_START, true); paintStart(); return; }
+    const g = e.target.closest("[data-startgo]"); if (!g) return; const a = g.dataset.startgo;
+    if (a === "famopen") { const f = $("#familiar"); f?.classList.add("open"); $("[data-fampick]")?.click(); }
+    else if (a === "add") { if (document.body.classList.contains("mnav")) $("#mfab")?.click(); else { $("#q")?.focus(); $(".finder")?.scrollIntoView({ behavior: "smooth", block: "center" }); } }
+    else if (a === "shelf") { if (document.body.classList.contains("mnav")) mnavGo("shelf"); else $("#bookcase")?.scrollIntoView({ behavior: "smooth" }); toast("Tap a book to open it, then give it stars or move it to Reading.", 3500); }
+    else if (a === "goal") openGoal(); else if (a === "account") $("#sync-pill")?.click();
+  });
+  setTimeout(paintStart, 0);
   // ================= bookcase designs =================
   const KEY_DESIGN = "reading-ledger-casedesign";
   let caseDesign = lsGet(KEY_DESIGN, "arch");
