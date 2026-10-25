@@ -2611,6 +2611,31 @@ body.hall-room .roomtabs .tab[aria-selected="true"] .tl{color:#FFF3DC}
 .tcico{font-size:24px;animation:tsp 2.4s ease-in-out infinite}
 body.touring .verbanner,body.touring .toast{display:none}
 @media (prefers-reduced-motion:reduce){.tspot,.tcard{transition:none}.tspot i,.tcico{animation:none}}
+
+.srbtn{font-size:17px;padding:6px 10px;flex:none;line-height:1;opacity:.75;filter:grayscale(.5)}.srbtn[aria-pressed="true"]{opacity:1;filter:none}.srbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 40%,transparent)}
+
+.frcheer{font-size:15px}
+.ftlist{display:grid;gap:10px}.ftpick{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--paper) 85%,transparent)}
+.ftpick .cover{width:48px;height:72px}.fttxt{min-width:0}.fttxt b{display:block;line-height:1.2}.fttxt i{font-size:12.5px;color:var(--muted)}.fttxt ul{margin:4px 0 0;padding-left:16px;font-size:12.5px;color:var(--muted)}
+@media (max-width:520px){.ftpick{grid-template-columns:44px 1fr}.ftpick>.btn{grid-column:2;justify-self:start}}
+.cheerscrim{z-index:160;display:grid;place-items:center;padding:16px}
+.cheercard{position:relative;box-sizing:border-box;width:min(420px,100%);padding:20px 18px 16px;border-radius:18px;background:radial-gradient(circle at 20% 0%,color-mix(in srgb,var(--accent) 22%,var(--paper)),var(--paper) 60%);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 18px 50px rgba(0,0,0,.28);text-align:center;animation:chIn .35s cubic-bezier(.2,1.4,.4,1)}
+.cheercard.sent{animation:chOut .7s ease-in forwards}
+@keyframes chIn{from{transform:scale(.8) translateY(14px);opacity:0}}@keyframes chOut{to{transform:translateY(-70vh) rotate(-8deg) scale(.5);opacity:0}}
+.chstars{font-size:20px;letter-spacing:6px;color:var(--accent);animation:twk 2.4s ease-in-out infinite}@keyframes twk{50%{opacity:.5;transform:scale(1.08)}}
+.chchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.cheercard textarea{width:100%;box-sizing:border-box;margin:4px 0 10px;border-radius:10px;border:1px solid var(--line);padding:8px 10px;font:inherit;background:var(--paper);color:var(--ink)}
+.cheercard .pacts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.chmsg{font-family:var(--serif,Georgia,serif);font-size:20px;line-height:1.35;margin:10px 4px 4px}
+.starnote .pbook{justify-content:center;text-align:left;margin:8px auto}
+.fbktop{display:flex;gap:12px;align-items:center;text-align:left;margin-bottom:10px}.fbktop .cover{width:52px;height:78px;flex:none}.fbktop b{display:block}.fbktop i{font-size:13px;color:var(--muted)}
+.fbkstars{display:flex;gap:4px;justify-content:center;margin:4px 0}.fbkstars button{font-size:28px;line-height:1;background:none;border:0;cursor:pointer;color:color-mix(in srgb,var(--muted) 45%,transparent);padding:2px}.fbkstars button[aria-pressed="true"]{color:#E0A526;text-shadow:0 0 8px rgba(224,165,38,.45)}
+.fbkpill{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;display:flex;align-items:center;gap:4px;max-width:min(440px,calc(100vw - 32px));padding:6px 6px 6px 8px;border-radius:16px;background:var(--paper);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));box-shadow:0 10px 30px rgba(0,0,0,.22);animation:chIn .4s ease}
+.fbkgo{display:flex;gap:10px;align-items:center;text-align:left;background:none;border:0;color:var(--ink);font:inherit;cursor:pointer;min-width:0}.fbkgo b{display:block;font-size:13.5px;line-height:1.25}.fbkgo small{color:var(--muted);font-size:12px}.fbkic{font-size:20px;flex:none}
+.fbkrow{display:flex;gap:10px;align-items:center;padding:6px 0}.fbkrow .cover{width:36px;height:54px;flex:none}.fbkrow span{flex:1;min-width:0}.fbkrow b{display:block;font-size:14px}.fbkrow small{color:var(--muted)}
+.lkind .lstar{width:34px;height:34px;display:grid;place-items:center;font-size:18px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,transparent);flex:none}
+.fnook .mtabs{flex-wrap:wrap}
+@media (max-width:430px){.finder .finderhead h2{grid-column:1/-1}.finder .finderacts{grid-column:1/-1;grid-row:2;width:auto}.finder #search-form{grid-column:1/-1;grid-row:3}.finderacts{flex-wrap:nowrap}.finderacts .btn{flex:1;justify-content:center;padding-left:6px;padding-right:6px;white-space:nowrap}.finder #search-btn{padding-left:13px;padding-right:13px}}
 </style>
 </head>
 <body>
@@ -2619,7 +2644,7 @@ body.touring .verbanner,body.touring .toast{display:none}
 <button class="themebtn" id="theme-btn" type="button" title="Switch light / dark" aria-label="Switch light or dark theme">☾</button>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.7</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v3.8</button>
   <button class="nmitem" type="button" data-starttour>🗝 Take the tour of your nook</button>
   <div class="label">Your nook</div>
   <label class="nmitem">⇪ Import a Goodreads export (.csv)<input id="imp-gr" type="file" accept=".csv,text/csv" hidden></label>
@@ -2649,7 +2674,7 @@ body.touring .verbanner,body.touring .toast{display:none}
       <div class="finderacts"><button class="btn small" id="manual-btn" type="button"><span aria-hidden="true">✎</span> By hand</button><button class="btn small" id="scan-btn" type="button" title="Scan a book's barcode"><span aria-hidden="true">▥</span> Scan</button><button class="btn small" id="series-add-btn" type="button" title="Add a whole series"><span aria-hidden="true">❧</span> Series</button></div></div>
     <form id="search-form" autocomplete="off">
       <input id="q" type="search" placeholder="Title, author or both…" aria-label="Search for a book by title or author">
-      <button class="btn primary" id="search-btn" type="submit">Search</button>
+      <button class="btn srbtn" id="sr-btn" type="button" aria-pressed="false" title="Search Serbian books too">🇷🇸</button><button class="btn primary" id="search-btn" type="submit">Search</button>
     </form>
     <div id="results-wrap"></div>
   </section>
@@ -2728,7 +2753,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.7 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook v3.8 · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
@@ -3130,6 +3155,13 @@ body.touring .verbanner,body.touring .toast{display:none}
     [/psycholog/i, "Psychology"], [/self-help|personal development|success/i, "Self-help"], [/science|physics|biology|evolution/i, "Science"],
     [/economics|business|management/i, "Business"], [/politic/i, "Politics"], [/religion|christian|spiritual/i, "Religion"], [/humor|humorous/i, "Humor"],
     [/classic/i, "Classics"], [/dystopia/i, "Dystopian"], [/adventure/i, "Adventure"], [/literary fiction|psychological fiction/i, "Literary Fiction"],
+    // Serbian subjects, as Google Books and Serbian publishers write them (Latin and Cyrillic)
+    [/fantastik|фантастик|epska fant|епска фант/i, "Fantasy"], [/naučna fantast|научна фантаст/i, "Science Fiction"], [/kriminalist|криминалист|krimić|кримић|detektiv|детектив/i, "Mystery"],
+    [/triler|трилер/i, "Thriller"], [/horor|хорор/i, "Horror"], [/ljubavn|љубавн/i, "Romance"], [/istorijski roman|историјски роман/i, "Historical Fiction"],
+    [/za decu|за децу|dečj|дечј/i, "Children's"], [/poezij|поезиј|pesme|песме/i, "Poetry"], [/biografij|биографиј|memoar|мемоар/i, "Biography & Memoir"],
+    [/^istorij|^историј/i, "History"], [/filozofij|филозофиј/i, "Philosophy"], [/psiholog|психолог/i, "Psychology"], [/samopomoć|самопомоћ|lični razvoj|лични развој/i, "Self-help"],
+    [/medicin|медицин|zdravlj|здравље|nauk[ae]\b|наук[ае]|popularna nauka|популарна наука/i, "Science"], [/religij|религиј|pravoslav|православ/i, "Religion"], [/humor|хумор/i, "Humor"],
+    [/domaći roman|домаћи роман|srpsk[aio] književnost|српск[аио] књижевност|klasici|класици/i, "Classics"], [/savremeni roman|савремени роман|roman$|роман$/i, "Literary Fiction"],
   ];
   const NOISE = /(accessible book|protected daisy|in library|large type|open library|nyt:|reading level|lending library|internet archive|translations|long now|popular print|staff picks|^english|^american|^british|literature$|^general$|ficción|roman|^novela|^fiction$|^novel|award|bestseller|^juvenile|reviewed|^\d|fiction, general|^collectionid|textbooks|open_syllabus|^series:|ebook|^french|^german|^spanish)/i;
   function deriveFromSubjects(subjects = []){
@@ -3210,10 +3242,10 @@ body.touring .verbanner,body.touring .toast{display:none}
   const FINE_GENRES = [
     ["Religion", /\b(bible|biblical|gospels?|scriptures?|psalms?|proverbs|jesus|christ|christian\w*|christianity|church|theolog\w*|spiritual\w*|spirituality|prayers?|devotional\w*|quran|koran|torah|talmud|buddh\w*|zen|dharma|hindu\w*|bhagavad|islam\w*|catholic\w*|orthodox|saints?|holy|religio\w*|faith|god)\b/],
     ["Business", /\b(business\w*|management|managers?|leadership|leaders?|start-?ups?|entrepreneur\w*|marketing|sales|negotiat\w*|strateg\w*|economics?|economy|finance|financial|invest\w*|money|wealth|ceos?|compan(y|ies)|organi[sz]ation\w*|good to great|lean startup|zero to one|corporate|workplace)\b/],
-    ["Psychology", /\b(psycholog\w*|neuroscience|brain|behavio\w*|cognitive|thinking, fast|emotional intelligence|personality|trauma|anxiety|depression|therapy|therapist|persuasion|influence|introverts?|human nature|the body keeps)\b/],
+    ["Psychology", /\b(psiholog\w*|психолог\w*|psycholog\w*|neuroscience|brain|behavio\w*|cognitive|thinking, fast|emotional intelligence|personality|trauma|anxiety|depression|therapy|therapist|persuasion|influence|introverts?|human nature|the body keeps)\b/],
     ["Self-help", /\b(self[- ]help|habits?|productivity|mindset|personal (development|growth)|motivation\w*|confidence|success|how to win|7 habits|atomic|the power of now|subtle art|deep work|grit|purpose|self[- ]improvement|life lessons)\b/],
     ["Philosophy", /\b(philosoph\w*|stoic\w*|stoicism|meditations|ethics|existential\w*|nietzsche|plato|aristotle|seneca|marcus aurelius|epictetus|socrates|kant|camus|sartre|tao te ching|art of war|the prince)\b/],
-    ["Science", /\b(popular science|physics|biology|chemistry|universe|cosmos|cosmology|evolution|genes?|genetics|astronomy|quantum|mathematic\w*|neuroscience|climate|ecology|natural history|brief history of time|selfish gene)\b/],
+    ["Science", /\b(medicine|medical|doctors?|physicians?|surgeons?|surgery|anatomy|physiology|immun\w*|cancer|epidemi\w*|medicin\w*|lekar\w*|lekari|zdravlj\w*|nauka|popularna nauka|popular science|physics|biology|chemistry|universe|cosmos|cosmology|evolution|genes?|genetics|astronomy|quantum|mathematic\w*|neuroscience|climate|ecology|natural history|brief history of time|selfish gene)\b/],
     ["History", /\b(world war|history of|histories|civili[sz]ations?|empires?|ancient (rome|greece|egypt)|medieval|revolution|sapiens|guns, germs)\b/],
     ["Biography & Memoir", /\b(biography|autobiography|memoirs?|a life|my life|diary of|the story of my)\b/],
     ["True Crime", /\b(true crime|serial killers?|in cold blood|murders? of|investigative journalism)\b/],
@@ -3249,6 +3281,9 @@ body.touring .verbanner,body.touring .toast{display:none}
   const isFic = b => b.category === "Fiction" || (b.category !== "Nonfiction" && (hasG(b, "Fantasy", "Romance", "Romantasy", "Mystery", "Thriller", "Horror", "Science Fiction", "Historical Fiction", "Literary Fiction", "Contemporary", "Young Adult", "Classics", "Dystopian", "Adventure") || /\bfiction\b|\bnovel\b/.test(BLOB(b))));
   const nonF = b => !isFic(b);
   const FAITH_RE = /\b(bible|bibles|holy scripture|scriptures?|gospels?|new testament|old testament|psalms?|proverbs|christian\w*|christ|jesus|catholic\w*|orthodox church|protestant|evangelical|theolog\w*|devotion(al|als)?|prayers?|church|apostle|saints?|quran|qur.an|islam\w*|torah|talmud|judaism|buddhis\w*|hindu\w*|bhagavad|sermon|faith|god)\b/;
+  const SR_AUTHORS = /\b(andric|selimovic|crnjanski|kis|pavic|pekic|copic|nusic|sremac|stankovic|kapor|pistalo|petrovic|basara|lengold|majic|bobic mojsilovic|bacic alimpic|lebovic|milasinovic|bulic|ljubenovic|stojiljkovic|kovacevic|habjanovic|gugl|pantic|sajtinac|albahari|velikic|tisma|desnica|kovac|bulatovic|isidora sekulic|maksimovic|dis|njegos|jaksic|zmaj|rakic|popa|ducic|kocic|glisic|matavulj|veljkovic|sapic|nestorovic)\b/;
+  const SR_CY = "абвгдђежзијклљмнњопрстћуфхцчџш", SR_LA = ["a","b","v","g","d","dj","e","z","z","i","j","k","l","lj","m","n","nj","o","p","r","s","t","c","u","f","h","c","c","dz","s"];
+  const srFold = t => [...String(t || "").toLowerCase()].map(ch => { const i = SR_CY.indexOf(ch); return i >= 0 ? SR_LA[i] : ch; }).join("").replace(/đ/g, "dj").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const ARCHETYPES = [
     // ---- stories ----
     { name: "The Fantasy Wanderer", g: "✦", c: "#7A3FC4", d: "You wander through invented worlds, maps and magic systems; the further from home, the better.", s: "magic and far-off worlds",
@@ -3273,6 +3308,8 @@ body.touring .verbanner,body.touring .toast{display:none}
       t: b => hasF(b, "Cozy", "Comforted") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
     { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story: quiet, beautifully written books.", s: "beautiful writing",
       t: b => hasG(b, "Literary Fiction") ? 1 : 0 },
+    { name: "The Homeland Reader", g: "❖", c: "#8A3B3B", d: "Andrić's bridge, Selimović's dervish, Kiš's encyclopaedia: you keep coming home to Serbian and Yugoslav writers.", s: "Serbian and Yugoslav writers",
+      t: b => SR_AUTHORS.test(srFold(b.author)) || /[\u0400-\u04FF]/.test(b.title || "") || /srpsk\w* književn|српск\w* књижевн|domaći roman/i.test(BLOB(b)) ? 1 : 0 },
     { name: "The Classic Soul", g: "❧", c: "#6E2632", d: "Austen, Brontë, Dostoevsky: you keep the great old books alive.", s: "the classics",
       t: b => hasG(b, "Classics") ? 1 : isFic(b) && b.year && b.year < 1920 ? .7 : 0 },
     { name: "The Myth Weaver", g: "✧", c: "#9A62E0", d: "Gods, legends and fairy tales retold are your favourite kind of magic.", s: "myths retold",
@@ -3314,6 +3351,8 @@ body.touring .verbanner,body.touring .toast{display:none}
       t: b => hasG(b, "Psychology") || nonF(b) && rxB(b, /\b(psycholog\w*|neuroscience|behavio\w* science|the brain)\b/) ? 1 : 0 },
     { name: "The Self-Builder", g: "▲", c: "#D08A2C", d: "Every book is a step up: better habits, a stronger mindset and a life on purpose.", s: "becoming a better self",
       t: b => hasG(b, "Self-help") || nonF(b) && rxB(b, /\b(self-help|habits?|productivity|motivation\w*|personal development|success)\b/) ? 1 : 0 },
+    { name: "The Healer", g: "⚕", c: "#2F7F9E", d: "Doctors' stories, the body and how medicine really works: you read like someone who wants to understand and to heal.", s: "doctors, medicine and the human body",
+      t: b => rxB(b, /\b(medicine|medical|doctors?|physicians?|surgeons?|surgery|anatomy|physiology|nurses?|hospital|patients?|diagnos\w*|immun\w*|cancer|epidemi\w*|psychiatr\w*|medicin\w*|lekar\w*|lekari|bolnic\w*|hirurg\w*|zdravlj\w*|медицин\w*|лекар\w*|болниц\w*)\b|gabor mat|when breath becomes air|being mortal|emperor of all maladies|man who mistook/) ? (nonF(b) ? 1 : .55) : 0 },
     { name: "The Wellness Keeper", g: "✚", c: "#3FA08A", d: "Body and mind: you read to feel stronger, eat better and live longer.", s: "health and wellbeing",
       t: b => nonF(b) && rxB(b, /\b(health|nutrition|fitness|diet|wellness|sleep|longevity|medicine)\b/) ? .9 : 0 },
     { name: "The Science Wonderer", g: "⚛", c: "#1E8C7A", d: "From atoms to galaxies, you read to understand how the universe actually works.", s: "how the universe works",
@@ -4294,7 +4333,7 @@ body.touring .verbanner,body.touring .toast{display:none}
     w.innerHTML = `<div class="results">
       <div class="reshead"><span class="label">${list.length ? `${list.length} match${list.length > 1 ? "es" : ""} for “${esc(lastQuery)}”` : `No books found for “${esc(lastQuery)}”`}</span><button class="btn small" type="button" data-close>✕ Close results</button></div>
       ${(() => { const S = catalogExact(lastQuery); return S ? `<button type="button" class="scatbanner" data-scatadd="${esc(S.name)}"><span class="seal">❧ Series</span><span><b>${esc(S.name)}</b> by ${esc(S.author)}: add all ${S.books.length} books in reading order</span><span aria-hidden="true">→</span></button>` : ""; })()}
-      ${list.map((r, i) => { const have = findSame(r); return `<div class="row">${coverHTML({ ...r, cover: coverById(r.coverId, "M") })}
+      ${list.map((r, i) => { const have = findSame(r); return `<div class="row">${coverHTML({ ...r, cover: r.coverId ? coverById(r.coverId, "M") : (r.cover || "") })}
         <div class="meta"><div class="t">${esc(r.title)}</div><div class="a">${esc(r.author)}${r.seriesHint ? ` · ${esc(r.seriesHint)} series` : ""}</div>
           <div class="facts">${r.year ? `<span>${esc(r.year)}</span>` : ""}${r.pages ? `<span>${esc(r.pages)} pages</span>` : ""}${r.genres.length ? `<span>${esc(r.genres.join(" / "))}</span>` : ""}</div>
           ${badges(r)}
@@ -4310,10 +4349,11 @@ body.touring .verbanner,body.touring .toast{display:none}
     searchCtl?.abort(); const ctl = searchCtl = new AbortController();
     $("#search-btn").disabled = true;
     try {
-      const res = await olSearch({ q }, 12, ctl.signal);
+      const sr = srMode || hasSerbian(q);
+      const res = sr ? [...await srSearch(q, ctl.signal), ...await olSearch({ q }, 8, ctl.signal).catch(() => [])] : await olSearch({ q }, 12, ctl.signal);
       const seen = new Map();
-      for (const r of res) { const k = norm(r.title) + "|" + norm(r.author); if (!seen.has(k) || (!seen.get(k).coverId && r.coverId)) seen.set(k, r); }
-      lastResults = [...seen.values()].slice(0, 6);
+      for (const r of res) { const k = norm(r.title) + "|" + norm(r.author); if (!seen.has(k) || (!seen.get(k).coverId && !seen.get(k).cover && (r.coverId || r.cover))) seen.set(k, r); }
+      lastResults = [...seen.values()].slice(0, sr ? 10 : 6);
       renderResultsArea("list");
     } catch (e) { if (e.name !== "AbortError") renderResultsArea("Couldn't reach Open Library. Check your internet connection and try again."); }
     finally { $("#search-btn").disabled = false; }
@@ -4984,7 +5024,7 @@ body.touring .verbanner,body.touring .toast{display:none}
   // ================= recommendations: taste engine =================
   const KEY_DISMISS = "reading-ledger-dismissed", KEY_NYT = "reading-ledger-nytkey", KEY_OLC = "reading-ledger-olcache";
   let dismissed = lsGet(KEY_DISMISS, []), recMode = lsGet("reading-ledger-recmode", "foryou");
-  if (!["foryou", "gr", "nyt"].includes(recMode)) recMode = "foryou";
+  if (!["foryou", "gr", "nyt", "sr"].includes(recMode)) recMode = "foryou";
   let grStrong = 99, recWish = "", grGenre = null, grSort = "popular", nytCat = "fiction";
   const recItems = new Map();
   const tnorm = t => norm(String(t || "").split(/[:(]/)[0]);
@@ -5175,6 +5215,7 @@ body.touring .verbanner,body.touring .toast{display:none}
     const n = readBooks().length;
     if (n < 2 && !recWish) { body.innerHTML = `<div class="empty"><span class="fleuron">❦</span><h3>Rate ${2 - n} more book${2 - n > 1 ? "s" : ""}</h3><div>Recommendations learn from the books you've read and how you rated them. Meanwhile, browse <b>Readers' favourites</b>.</div></div>`; return; }
     const { rows } = recommend();
+    if (!recWish) { try { const fl = Social.friendsLoved(); if (fl.length) rows.splice(Math.min(1, rows.length), 0, { id: "friends", title: "Loved by your friends", sub: "Their favourites, led by the friends whose taste is closest to yours.", items: fl }); } catch {} }
     body.innerHTML = rows.filter(r => r.items.length || r.id === "wish").map(r => `<section class="rrow${r.big ? " bigrow" : ""}"><div class="rhead"><h3>${esc(r.title)}</h3><span class="note">${esc(r.sub)}</span></div>
       <div class="${r.big ? "rgrid" : "rstrip"}">${r.items.map((c, i) => rcard(c, i, r.big)).join("")}</div></section>`).join("") || `<div class="empty"><h3>Nothing new to suggest</h3><div>You've read or dismissed everything the familiar knows about. Try a wish above.</div></div>`;
     paintRecCovers(body);
@@ -5278,12 +5319,13 @@ body.touring .verbanner,body.touring .toast{display:none}
     const el = $("#view-recs");
     if (!$("#rec-modes")) el.innerHTML = `<div class="rectop"><div class="recmodes" id="rec-modes" role="tablist"></div>
       <form class="recform wishform" id="rec-form" autocomplete="off"><span class="wishglyph" aria-hidden="true">✧</span><input id="rec-mood" type="text" placeholder="Make a wish: cozy, spicy, scary, heist, Greek myths…"><button class="btn primary" type="submit">Wish</button></form></div><div id="rec-body"></div>`;
-    $("#rec-modes").innerHTML = [["foryou", "✦ Chosen for you"], ["gr", "❦ Readers' favourites"], ["nyt", "♛ NYT Best Sellers"]].map(([k, l]) => `<button type="button" role="tab" data-recmode="${k}" aria-selected="${recMode === k}">${l}</button>`).join("");
+    $("#rec-modes").innerHTML = [["foryou", "✦ Chosen for you"], ["gr", "❦ Readers' favourites"], ["nyt", "♛ NYT Best Sellers"], ["sr", "🇷🇸 Srpske knjige"]].map(([k, l]) => `<button type="button" role="tab" data-recmode="${k}" aria-selected="${recMode === k}">${l}</button>`).join("");
     $("#rec-form").hidden = recMode !== "foryou";
     if (document.activeElement?.id !== "rec-mood") $("#rec-mood").value = recWish;
     const body = $("#rec-body");
     if (recMode === "gr") return renderGR(body);
     if (recMode === "nyt") return renderNYT(body);
+    if (recMode === "sr") return renderSR(body);
     renderForYou(body);
   }
 
@@ -7792,7 +7834,7 @@ alter publication supabase_realtime add table public.library;`;
       let match = null; try { if (S.soul?.code) match = compareCode(soulData(), S.soul.code); } catch {}
       const pct = x && x.p ? Math.min(100, Math.round(x.cp / x.p * 100)) : null;
       const line = x ? `📖 <i>${esc(x.t)}</i>${pct !== null ? ` · ${pct}%` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1}</span>` : ""}${S.at ? ` <span class="frfresh">· ${fresh(S.at)}</span>` : ""}` : S.counts ? `${S.counts.read} read · ${S.counts.year} this year` : "Hasn't shared anything yet";
-      return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small>${pct !== null ? `<span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span>` : ""}</span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="Your Reader DNA match with ${esc(p.name)}: how alike your reading tastes are"><small>DNA match</small>${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}</div>`;
+      return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small>${pct !== null ? `<span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span>` : ""}</span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="Your Reader DNA match with ${esc(p.name)}: how alike your reading tastes are"><small>DNA match</small>${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frcheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button><button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}</div>`;
     }
     // ---- letters: recommend a book to a friend, on parchment ----
     const bookOf = b => ({ t: b.title, a: b.author || "", c: (b.cover && !b.cover.startsWith("data:")) ? (coverMap[b.cover] || b.cover) : "", p: Number(b.pages) || null, y: b.year || null, r: b.rating || null });
@@ -7827,7 +7869,7 @@ alter publication supabase_realtime add table public.library;`;
         el.addEventListener("click", () => { const l = unread()[0]; if (l && el.dataset.kind === "letter") { openEnvelope(l.id, el); return; } showTab("friends"); setTimeout(() => $("#f-post")?.scrollIntoView({ behavior: "smooth", block: "start" }), 250); }); }
       const first = L[0];
       el.dataset.kind = first ? "letter" : "request";
-      el.innerHTML = first ? `${L.length > 1 ? `<span class="envstack" aria-hidden="true"></span>` : ""}${envelopeHTML(first, "mini")}<span class="postcap">${L.length > 1 ? `${L.length} letters for you` : `A letter from ${esc(whoIs(first.sender).name)}`}${R ? ` · ${R} friend request${R > 1 ? "s" : ""}` : ""}</span>`
+      el.innerHTML = first ? `${L.length > 1 ? `<span class="envstack" aria-hidden="true"></span>` : ""}${envelopeHTML(first, "mini")}<span class="postcap">${L.length > 1 ? `${L.length} letters for you` : `${first.book?.kind === "cheer" ? "A cheer" : first.book?.kind === "feedback" ? "News about your recommendation" : "A letter"} from ${esc(whoIs(first.sender).name)}`}${R ? ` · ${R} friend request${R > 1 ? "s" : ""}` : ""}</span>`
         : `<span class="callcard" aria-hidden="true"><b>${esc(incoming[0].name)}</b><small>requests the pleasure of your friendship</small></span><span class="postcap">${R > 1 ? `${R} friend requests` : "A friend request"}</span>`;
       el.setAttribute("aria-label", first ? `Open your letter from ${whoIs(first.sender).name}` : "See your friend requests");
       announce();
@@ -7850,6 +7892,7 @@ alter publication supabase_realtime add table public.library;`;
     const sealSVG = (letter = "✦") => `<span class="wseal" aria-hidden="true"><b>${letter}</b></span>`;
     function letterThumb(l, mine){
       const p = whoIs(mine ? l.recipient : l.sender), B = l.book || {}, isNew = !mine && !l.read_at;
+      if (B.kind) { const ch = B.kind === "cheer"; return `<button type="button" class="lthumb lkind${isNew ? " sealed" : ""}" data-lopen="${l.id}"><span class="lstar">${ch ? "✨" : "❦"}</span><span class="ltxt"><b>${mine ? `${ch ? "Cheer" : "Feedback"} to ${esc(p.name)}` : ch ? `A cheer from ${esc(p.name)}` : `${esc(p.name)} finished ${esc(B.t || "your book")}`}</b><small>${esc((l.note || "").slice(0, 60))}${l.reaction ? ` · ${esc(l.reaction)}` : ""} · ${ago(l.created_at)}</small></span></button>`; }
       return `<button type="button" class="lthumb${isNew ? " sealed" : ""}" data-lopen="${l.id}">${isNew ? sealSVG((p.name || "?")[0].toUpperCase()) : `<span class="lmini">${mini(B)}</span>`}
         <span class="ltxt"><b>${mine ? `To ${esc(p.name)}` : isNew ? `A letter from ${esc(p.name)}` : esc(B.t || "A book")}</b><small>${mine ? `${esc(B.t || "")} · ${l.reaction ? `${esc(l.reaction)} ` : ""}${l.added ? "added to their shelf" : l.read_at ? "read" : "not opened yet"}` : isNew ? "Sealed with wax · tap to open" : `from ${esc(p.name)} · ${ago(l.created_at)}${l.added ? " · on your shelf" : ""}`}</small></span></button>`;
     }
@@ -7858,6 +7901,22 @@ alter publication supabase_realtime add table public.library;`;
       const mine = l.sender === U().id, p = whoIs(mine ? l.recipient : l.sender), from = mine ? ME() : p, B = l.book || {};
       const have = books.some(b => tnorm(b.title) === tnorm(B.t || ""));
       const root = $("#modal-root");
+      if (B.kind === "cheer" || B.kind === "feedback") {
+        if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
+        const ch = B.kind === "cheer";
+        root.innerHTML = `<div class="scrim" id="lt-scrim"><div class="cheercard starnote${ch ? "" : " fbknote"}" role="dialog" aria-modal="true" aria-label="${ch ? "A cheer" : "Feedback on your recommendation"}"><div class="chstars" aria-hidden="true">${ch ? "✦ ✧ ✦" : "❦"}</div>
+          <div class="label">${ch ? (mine ? `Your cheer for ${esc(p.name)}` : `A cheer from ${esc(p.name)}`) : mine ? `You told ${esc(p.name)} about` : `${esc(p.name)} finished your recommendation`}</div>
+          ${!ch || B.t ? `<div class="pbook">${mini(B)}<div><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>${B.r ? `<span class="pstars">${"★".repeat(Math.round(B.r))}<span class="muted">${"★".repeat(5 - Math.round(B.r))}</span></span>` : ""}</div></div>` : ""}
+          ${(B.fe || []).length ? `<div class="chchips">${B.fe.map(f => `<span class="chip" aria-pressed="true">${esc(f)}</span>`).join("")}</div>` : ""}
+          <p class="chmsg">${esc(l.note || "").replace(/\n/g, "<br>")}</p><p class="psign">— ${esc(from.name)}</p>
+          <div class="pacts">${mine ? (l.reaction ? `<span class="onshelf">${esc(p.name)} said ${esc(l.reaction)}</span>` : "") : l.reaction ? `<span class="onshelf">You said ${esc(l.reaction)}</span>` : `<button class="btn small primary" type="button" data-lthank>♥ ${ch ? "Thanks!" : `Thank ${esc(p.name)}`}</button>`}${!mine && ch ? `<button class="btn small" type="button" data-fcheerback="${esc(p.id)}">✨ Cheer back</button>` : ""}<button class="btn small" type="button" data-lclose>Close</button></div></div></div>`;
+        root.onclick = async e => {
+          if (e.target.id === "lt-scrim" || e.target.closest("[data-lclose]")) { root.onclick = null; root.innerHTML = ""; if (tab === "friends") render(); return; }
+          if (e.target.closest("[data-lthank]")) { l.reaction = "♥"; await C().from("letters").update({ reaction: l.reaction }).eq("id", l.id); toast(`${p.name} will see your ♥`); openLetter(id); return; }
+          const cb = e.target.closest("[data-fcheerback]"); if (cb) { root.onclick = null; root.innerHTML = ""; cheer(cb.dataset.fcheerback); }
+        };
+        return;
+      }
       root.innerHTML = `<div class="scrim" id="lt-scrim"><div class="parch" role="dialog" aria-modal="true" aria-label="A letter">
         <div class="parchin"><div class="pdate">${new Date(l.created_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}</div>
           <p class="pdear">Dear ${esc(mine ? p.name : ME().name)},</p>
@@ -7870,7 +7929,7 @@ alter publication supabase_realtime add table public.library;`;
       if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
       root.onclick = async e => {
         if (e.target.id === "lt-scrim" || e.target.closest("[data-lclose]")) { root.onclick = null; root.innerHTML = ""; if (tab === "friends") render(); return; }
-        if (e.target.closest("[data-ladd]")) { upsert({ title: B.t, author: B.a, cover: B.c, pages: B.p || null, year: B.y || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recNote: l.note });
+        if (e.target.closest("[data-ladd]")) { upsert({ title: B.t, author: B.a, cover: B.c, pages: B.p || null, year: B.y || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recNote: l.note, recFrom: l.sender, recLetter: l.id });
           l.added = true; C().from("letters").update({ added: true }).eq("id", l.id).then(() => {}); toast(`Added to Want to read, recommended by ${p.name} ✦`); openLetter(id); return; }
         if (e.target.closest("[data-lthank]")) { l.reaction = "♥ thank you"; await C().from("letters").update({ reaction: l.reaction }).eq("id", l.id); toast(`${p.name} will see your thank you ♥`); openLetter(id); return; }
         if (e.target.closest("[data-ldel]")) { const b2 = e.target.closest("[data-ldel]"); if (!b2.dataset.sure) { b2.dataset.sure = 1; b2.textContent = "Tap again to throw it away"; return; } await C().from("letters").delete().eq("id", l.id); letters = letters.filter(x => x.id !== l.id); root.onclick = null; root.innerHTML = ""; paintBadge(); if (tab === "friends") render(); }
@@ -7911,6 +7970,113 @@ alter publication supabase_realtime add table public.library;`;
       };
       root.onchange = e => { if (e.target.id === "lw-book") { compose.draft = $("#lw-note").value; book = books.find(b => b.id === e.target.value) || null; draw(); } };
     }
+    // ---- picks for a friend: books from my shelves that suit their shelves and their Reader DNA ----
+    const onTheirs = (S, t) => ["read", "reading", "want"].some(k => (S[k] || []).some(y => tnorm(y.t) === tnorm(t)));
+    function forThem(p){
+      const S = shelves.get(p.id) || {}, theirs = S.read || [], loved = theirs.filter(x => (x.r || 0) >= 4 || x.sf || x.rec), meh = theirs.filter(x => x.r && x.r <= 2);
+      const sent = new Set(letters.filter(l => l.sender === U()?.id && l.recipient === p.id && !l.book?.kind).map(l => tnorm(l.book?.t || "")));
+      const dna = (S.soul?.dna || []).map(x => ({ a: ARCHETYPES.find(z => z.name === x.n), w: (x.p || 0) / 100 })).filter(x => x.a);
+      const cands = readBooks().filter(b => (b.rating || 0) >= 3.5 || b.recommend || b.surpriseFav).filter(b => !onTheirs(S, b.title));
+      const out = [];
+      for (const b of cands) {
+        let sc = ((b.rating || 3.5) - 3) * .7 + (b.surpriseFav ? .4 : 0) + (b.recommend ? .5 : 0); const why = [];
+        let best = null; for (const { a, w } of dna) { const v = w * (+a.t(b) || 0); sc += v * 4; if (v > .04 && (!best || v > best.v)) best = { v, a }; }
+        const au = loved.find(x => norm(x.a) === norm(b.author)); if (au) { sc += 2.2; why.push(`they loved ${au.t} by the same author`); }
+        if (meh.some(x => norm(x.a) === norm(b.author))) sc -= 2;
+        const ser = catalogForBook(b);
+        if (ser) { const no = ser.books.find(z => [z.title, ...z.alts].some(t => tnorm(t) === tnorm(b.title)))?.no;
+          const had = ser.books.filter(z => Number.isInteger(z.no) && z.no < (no || 0) && theirs.some(y => [z.title, ...z.alts].some(t => tnorm(t) === tnorm(y.t))));
+          if (no > 1 && had.some(z => z.no === no - 1)) { sc += 3; why.unshift(`the next ${ser.name} book for them`); }
+          else if (no > 1 && !had.length) sc -= 1.5;
+          if (ser.books.some(z => Number.isInteger(z.no) && z.no > (no || 0) && theirs.some(y => [z.title, ...z.alts].some(t => tnorm(t) === tnorm(y.t))))) continue; }
+        if (best) why.push(`it suits their ${short(best.a).replace(/^The /, "")} side: ${best.a.s}`);
+        if (b.rating >= 4.5) why.push(`you gave it ${b.rating}★`);
+        if (sent.has(tnorm(b.title))) { sc -= 3; why.push("you've already sent them this one"); }
+        if (sc > .6 && why.length) out.push({ b, sc, why });
+      }
+      return out.sort((x, y) => y.sc - x.sc).slice(0, 10);
+    }
+    const draftWhy = w => !w || /already sent/.test(w) ? "" : /^you gave/.test(w) ? `I think you'd love this one. I ${w.slice(4)}!` : /^it suits their .+ side: /.test(w) ? `I think you'd love this one. It's ${w.replace(/^it suits their .+ side: /, "all about ")}, which is so you.` : `I think you'd love this one: ${w.replace(/^they /, "you ").replace(/\btheir /g, "your ").replace(/\bthem\b/g, "you")}.`;
+    function forThemHTML(p){
+      const L = forThem(p);
+      if (!L.length) return `<p class="note">Nothing on your shelves stands out for ${esc(p.name)} yet. Rate a few more of your reads, or wait until they share more of theirs.</p>`;
+      return `<p class="note fbhint">Books you've read that should suit ${esc(p.name)}, picked from what they love.</p><div class="ftlist">${L.map(({ b, why }) => `<div class="ftpick">${coverHTML(b)}<div class="fttxt"><b>${esc(b.title)}</b><i>${esc(b.author || "")}</i><ul>${why.slice(0, 3).map(w => `<li>${esc(w)}</li>`).join("")}</ul></div>${lettersOff ? "" : `<button class="btn small primary" type="button" data-ftrec="${esc(b.id)}" data-ftwhy="${esc(why[0] || "")}">✉ Recommend</button>`}</div>`).join("")}</div>`;
+    }
+    // ---- books friends loved, for my own For you page ----
+    function friendsLoved(){
+      if (!ready() || !friends.length) return [];
+      const D = (() => { try { return soulData(); } catch { return null; } })(), agg = new Map();
+      for (const p of friends) { const S = shelves.get(p.id) || {}; let m = .55; try { if (D && S.soul?.code) m = compareCode(D, S.soul.code).match / 100; } catch {}
+        for (const x of S.read || []) { if (!((x.r || 0) >= 4 || x.sf || x.rec) || inLibrary(x.t, x.a)) continue;
+          const k = ckey(x.t, x.a), o = agg.get(k) || { x, sc: 0, who: [] }; o.sc += ((x.r || 4) - 3) * (.4 + m) + (x.sf ? .5 : 0) + (x.rec ? .6 : 0); o.who.push({ p, r: x.r, rec: x.rec }); agg.set(k, o); } }
+      return [...agg.values()].sort((a, b) => b.sc - a.sc).slice(0, 12).map(({ x, who }) => { const key = ckey(x.t, x.a);
+        const why = [who.length > 1 ? `${who.map(w => w.p.name).slice(0, 3).join(", ")} all loved it` : `${who[0].p.name} ${who[0].rec ? "recommends it" : who[0].r ? `gave it ${who[0].r}★` : "loved it"}`];
+        const c = recItems.get(key) || { key, title: x.t, author: x.a, cover: x.c || "", pages: x.p || null, genres: new Set(), tropes: new Set(), alike: [], why }; c.why = why; c.fromFriend = who[0].p.name; recItems.set(key, c); return c; });
+    }
+    // ---- cheers: a little star note to keep a friend going ----
+    const CHEERS = ["Keep going! 📖", "You've got this ✦", "Almost there!", "Can't wait to hear what you think", "Proud of you for reading so much ♥", "One more chapter? 🌙"];
+    function cheer(id){
+      const p = whoIs(id), S = shelves.get(id) || {}, x = (S.reading || [])[0], root = $("#modal-root"), prev = root.innerHTML, prevClick = root.onclick;
+      if (!ready()) { toast("Sign in first."); return; } if (lettersOff) { toast("Letters aren't switched on yet (step 3 SQL)."); return; }
+      const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "ch-scrim"; document.body.append(box);
+      box.innerHTML = `<div class="cheercard" role="dialog" aria-modal="true" aria-label="Send ${esc(p.name)} a cheer"><div class="chstars" aria-hidden="true">✦ ✧ ✦</div>
+        <div class="label">A cheer for ${esc(p.name)}</div>${x ? `<p class="note">They're reading <i>${esc(x.t)}</i>${x.p ? ` · ${Math.round((x.cp || 0) / x.p * 100)}%` : ""}</p>` : ""}
+        <div class="chchips">${CHEERS.map((c, i) => `<button type="button" class="chip" data-chpick="${i}">${esc(c)}</button>`).join("")}</div>
+        <textarea id="ch-note" rows="2" maxlength="200" placeholder="Or write your own…"></textarea>
+        <div class="pacts"><button class="btn" type="button" data-chx>Cancel</button><button class="btn primary" type="button" data-chsend>✨ Send the cheer</button></div></div>`;
+      const close = () => box.remove();
+      box.onclick = async e => {
+        if (e.target === box || e.target.closest("[data-chx]")) { close(); return; }
+        const c = e.target.closest("[data-chpick]"); if (c) { $("#ch-note").value = CHEERS[+c.dataset.chpick]; box.querySelectorAll("[data-chpick]").forEach(z => z.setAttribute("aria-pressed", z === c)); return; }
+        const s = e.target.closest("[data-chsend]"); if (s) { const note = $("#ch-note").value.trim(); if (!note) { toast("Pick a cheer or write one."); return; }
+          s.disabled = true; const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: U().id, recipient: id, book: { kind: "cheer", t: x?.t || "", a: x?.a || "", c: x?.c || "" }, note };
+          const { error } = await C().from("letters").insert(row); if (error) { s.disabled = false; toast(error.message); return; }
+          letters = [{ ...row, created_at: new Date().toISOString() }, ...letters]; box.querySelector(".cheercard").classList.add("sent"); setTimeout(close, 700); toast(`✨ Your cheer is flying to ${p.name}`); }
+      };
+    }
+    // ---- feedback: tell a friend what you thought of the book they recommended ----
+    const recSource = b => { if (b.recFrom) return whoIs(b.recFrom); const f = b.recommendedBy && friends.find(f => f.name === b.recommendedBy); return f || null; };
+    const feedbackDue = () => ready() && !lettersOff ? books.filter(b => b.shelf === "read" && !b.recFeedback && (b.recFrom || b.recommendedBy) && recSource(b)?.id && b.finished && (new Date() - new Date(b.finished)) < 60 * 864e5) : [];
+    const FB_FEEL = ["Loved it ♥", "Couldn't put it down", "Made me cry", "Made me think", "Not really for me", "Thank you for this one"];
+    function giveFeedback(bookId){
+      const b = books.find(z => z.id === bookId); if (!b) return; const p = recSource(b); if (!p?.id) { toast("I can't find who recommended this one."); return; }
+      let stars = b.rating || 0; const feel = new Set();
+      const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "fbk-scrim"; document.body.append(box);
+      const draw = () => { box.innerHTML = `<div class="cheercard fbkcard" role="dialog" aria-modal="true" aria-label="Tell ${esc(p.name)} what you thought">
+        <div class="fbktop">${coverHTML(b)}<div><div class="label">${esc(p.name)} recommended it</div><b>${esc(b.title)}</b><i>${esc(b.author || "")}</i></div></div>
+        <div class="label">Your stars</div><div class="fbkstars">${[1, 2, 3, 4, 5].map(n => `<button type="button" data-fbkstar="${n}" aria-pressed="${n <= stars}" aria-label="${n} star${n > 1 ? "s" : ""}">★</button>`).join("")}</div>
+        <div class="chchips">${FB_FEEL.map((f, i) => `<button type="button" class="chip" data-fbkfeel="${i}" aria-pressed="${feel.has(i)}">${esc(f)}</button>`).join("")}</div>
+        <textarea id="fbk-note" rows="3" maxlength="500" placeholder="What did you think? What stayed with you?">${esc(giveFeedback.draft || "")}</textarea>
+        <div class="pacts"><button class="btn" type="button" data-fbkx>Later</button><button class="linkbtn" type="button" data-fbkno>Don't ask for this book</button><button class="btn primary" type="button" data-fbksend>✉ Send to ${esc(p.name)}</button></div></div>`; paintRecCovers(box); };
+      draw();
+      box.onclick = async e => {
+        const keep = () => { giveFeedback.draft = $("#fbk-note")?.value || ""; };
+        if (e.target === box || e.target.closest("[data-fbkx]")) { keep(); box.remove(); return; }
+        if (e.target.closest("[data-fbkno]")) { b.recFeedback = "skip"; save({ stamp: false }); box.remove(); paintFeedback(); return; }
+        const st = e.target.closest("[data-fbkstar]"); if (st) { keep(); stars = +st.dataset.fbkstar; draw(); return; }
+        const f = e.target.closest("[data-fbkfeel]"); if (f) { keep(); const i = +f.dataset.fbkfeel; feel.has(i) ? feel.delete(i) : feel.add(i); draw(); return; }
+        const s = e.target.closest("[data-fbksend]"); if (s) { const note = $("#fbk-note").value.trim(); if (!stars && !feel.size && !note) { toast("Give it some stars or a few words first."); return; }
+          s.disabled = true; const ref = b.recLetter || null;
+          const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: U().id, recipient: p.id, book: { kind: "feedback", t: b.title, a: b.author || "", c: bookOf(b).c, r: stars || null, fe: [...feel].map(i => FB_FEEL[i]), ref }, note: note || [...feel].map(i => FB_FEEL[i]).join(" · ") };
+          const { error } = await C().from("letters").insert(row); if (error) { s.disabled = false; toast(error.message); return; }
+          letters = [{ ...row, created_at: new Date().toISOString() }, ...letters];
+          const orig = ref && letters.find(l => l.id === ref); if (orig) { orig.reaction = `${stars ? `★${stars} · ` : ""}finished it`; C().from("letters").update({ reaction: orig.reaction }).eq("id", ref).then(() => {}); }
+          if (stars && !b.rating) b.rating = stars; b.recFeedback = todayISO(); giveFeedback.draft = ""; save({ stamp: false });
+          box.querySelector(".cheercard").classList.add("sent"); setTimeout(() => box.remove(), 700); toast(`${p.name} will hear what you thought ✉`); paintFeedback(); if (tab === "friends") render(); }
+      };
+    }
+    // a small note that appears after you finish a book a friend recommended
+    function paintFeedback(){
+      const due = feedbackDue(), asked = lsGet("reading-ledger-fbkasked", []); let el = document.getElementById("fbk-pill");
+      const b = due.find(z => !asked.includes(z.id));
+      if (!b || document.getElementById("post-pill") || $("#modal-root").innerHTML.trim() || document.body.classList.contains("rm-open")) { if (!b) el?.remove(); return; }
+      const p = recSource(b);
+      if (!el) { el = document.createElement("div"); el.id = "fbk-pill"; el.className = "fbkpill"; document.body.append(el);
+        el.addEventListener("click", e => { const id = el.dataset.id; if (e.target.closest("[data-fbklater]")) { lsSet("reading-ledger-fbkasked", [...lsGet("reading-ledger-fbkasked", []), id].slice(-100)); el.remove(); return; } lsSet("reading-ledger-fbkasked", [...lsGet("reading-ledger-fbkasked", []), id].slice(-100)); el.remove(); giveFeedback(id); }); }
+      el.dataset.id = b.id;
+      el.innerHTML = `<button type="button" class="fbkgo"><span class="fbkic">✉</span><span><b>${esc(p.name)} recommended <i>${esc(b.title)}</i></b><small>You finished it! Tell ${esc(p.name)} what you thought</small></span></button><button type="button" class="iconbtn" data-fbklater aria-label="Not now">✕</button>`;
+    }
+    setInterval(() => { if (!document.hidden) try { paintFeedback(); } catch {} }, 6000);
     function render(){
       const el = $("#view-friends"); if (!el) return;
       if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
@@ -7923,6 +8089,7 @@ alter publication supabase_realtime add table public.library;`;
         ${incoming.length || unread().length ? `<section class="fsec fpost" id="f-post"><h3>✉ Your post <span class="pill">${incoming.length + unread().length}</span></h3>
           ${incoming.map(p => `<div class="freqcard">${personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button>`).replace('<div class="fperson"', '<div class="fperson"')}<small class="note">wants to be your friend</small></div>`).join("")}
           ${unread().length ? `<div class="envrow">${unread().map(l => `<button type="button" class="envbtn" data-lenv="${l.id}" aria-label="Open the letter from ${esc(whoIs(l.sender).name)}">${envelopeHTML(l)}</button>`).join("")}</div>` : ""}</section>` : ""}
+        ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
         <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
         ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
@@ -8001,7 +8168,7 @@ alter publication supabase_realtime add table public.library;`;
         if (e.target === el || e.target.closest("[data-fbix]")) { close(); return; }
         if (e.target.closest("[data-fbiadd]")) { const R = r || {};
           upsert({ title: x.t, author: x.a, cover: x.c || (R.coverId ? coverById(R.coverId) : ""), coverId: R.coverId || null, olKey: R.olKey || null, pages: x.p || R.pages || null, year: R.year || null, subjects: R.subjects || [], genres: R.genres || [], themes: R.themes || [], tropes: R.tropes || [], category: R.category || null, summary: R.summary || "", seriesName: ser?.name || x.s || null, seriesNum: serNo ?? null,
-            id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), recommendedBy: p.name });
+            id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), recommendedBy: p.name, recFrom: p.id });
           toast(`Added to Want to read, thanks to ${p.name}`); close(); document.querySelector('[data-fntab][aria-selected="true"]')?.click(); return; }
         const o = e.target.closest("[data-fbiopen]"); if (o) { const id = o.dataset.fbiopen; close(); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; const b = books.find(z => z.id === id); if (b) openEditor(b, false); return; }
         if (e.target.closest("[data-fbiser]")) { close(); $("#modal-root").onclick = null; openSeriesAdder({ name: ser.name, author: ser.author }); }
@@ -8011,12 +8178,13 @@ alter publication supabase_realtime add table public.library;`;
       const p = friends.find(f => f.id === id); if (!p) return; const S = shelves.get(id) || {};
       const root = $("#modal-root"); let tab = S.reading?.length ? "reading" : S.read ? "read" : "soul";
       const draw = () => {
-        const tabs = [["reading", "Reading now"], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", "Want to read"], ["soul", "Reader's Soul"]].filter(([k]) => S[k] !== undefined);
+        const tabs = [["reading", "Reading now"], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", "Want to read"], ["soul", "Reader's Soul"], ["forthem", "✦ For them"]].filter(([k]) => k === "forthem" ? (S.read || S.soul) && readBooks().length : S[k] !== undefined);
         const book = (x, k, i) => `<div class="fbook"><button type="button" class="fbopen" data-fbi="${k}:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${x.r ? `<span class="fstars">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise favourite</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}${x.fe ? `<small class="muted">${x.fe.map(esc).join(" · ")}</small>` : ""}${x.rv ? `<details class="frv"><summary>Their thoughts</summary><p>${esc(x.rv)}</p></details>` : ""}${x.qt ? `<small class="fqt">“${esc(x.qt)}”</small>` : ""}${!inLibrary(x.t, x.a) ? `<button class="linkbtn" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}">+ Want to read</button>` : `<span class="onshelf">On your shelf</span>`}</div>`;
         let body = "";
         if (tab === "reading") body = (S.reading || []).length ? `<div class="fbooks">${S.reading.map((x, i) => { const pct = x.p ? Math.round(x.cp / x.p * 100) : null; return `<div class="fbook"><button type="button" class="fbopen" data-fbi="reading:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}%${x.up ? ` · ${ago(x.up)}` : ""}${x.min ? ` · ${fmtMins(x.min)} by candlelight` : ""}</small>` : ""}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
         if (tab === "read") body = `<p class="note fbhint">Tap any book to see what it is and what ${esc(p.name)} thought.</p><div class="fbooks">${(S.read || []).map((x, i) => book(x, "read", i)).join("")}</div>`;
         if (tab === "want") body = `<div class="fbooks">${(S.want || []).map((x, i) => book(x, "want", i)).join("")}</div>`;
+        if (tab === "forthem") body = forThemHTML(p);
         if (tab === "soul" && S.soul) { const so = S.soul; let match = null; try { match = compareCode(soulData(), so.code); } catch {}
           body = `<div class="fsoul"><div class="label">Level ${so.level} · ${esc(so.title)}</div><h3>${esc(so.name)}</h3><div class="strand big">${so.dna.map(x => `<span style="flex:${x.p};--c:${x.c}" title="${esc(x.n)} ${x.p}%"></span>`).join("")}</div>
             <div class="soulchips">${so.dna.map(x => `<span class="dnachip" style="--c:${x.c}"><i>${x.g}</i>${esc(x.n.replace(/^The /, ""))}<b>${x.p}%</b></span>`).join("")}</div>
@@ -8025,7 +8193,7 @@ alter publication supabase_realtime add table public.library;`;
         root.innerHTML = `<div class="scrim" id="fn-scrim"><div class="modal fnook" role="dialog" aria-modal="true" aria-labelledby="fn-t" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
           <div class="phead"><div class="fnhead">${avatar(p, 72)}<div><div class="label">The nook of</div><h2 id="fn-t">${esc(p.name)}</h2><span class="muted">@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div></div><button class="btn small" type="button" data-fnx>Close</button></div>
           ${tabs.length ? `<div class="mtabs">${tabs.map(([k, l]) => `<button type="button" data-fntab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div>${body}` : `<p class="note">${esc(p.name)} keeps their nook private for now.</p>`}
-          <div class="mfoot">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend a book to ${esc(p.name)}</button>`}<button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
+          <div class="mfoot">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend a book to ${esc(p.name)}</button><button class="btn small" type="button" data-fcheer="${p.id}">✨ Send a cheer</button>`}<button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
         paintRecCovers(root);
       };
       draw();
@@ -8034,8 +8202,10 @@ alter publication supabase_realtime add table public.library;`;
         if (e.target.id === "fn-scrim" || e.target.closest("[data-fnx]")) { root.onclick = null; root.innerHTML = ""; return; }
         const t = e.target.closest("[data-fntab]"); if (t) { tab = t.dataset.fntab; draw(); return; }
         const fi = e.target.closest("[data-fbi]"); if (fi) { const [k, i] = fi.dataset.fbi.split(":"); const x = (S[k] || [])[+i]; if (x) openFriendBook(x, p, k); return; }
-        const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [] }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
+        const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recFrom: p.id }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
         const lw = e.target.closest("[data-lwrite]"); if (lw) { root.onclick = null; compose({ to: lw.dataset.lwrite }); return; }
+        const fc = e.target.closest("[data-fcheer]"); if (fc) { cheer(fc.dataset.fcheer); return; }
+        const fr = e.target.closest("[data-ftrec]"); if (fr) { root.onclick = null; const w = fr.dataset.ftwhy; compose.draft = draftWhy(w); compose({ bookId: fr.dataset.ftrec, to: p.id }); return; }
         const u = e.target.closest("[data-funfriend]"); if (u) { if (!confirmUnfriend) { confirmUnfriend = true; u.textContent = `Tap again to remove ${p.name}`; return; } confirmUnfriend = false; root.onclick = null; root.innerHTML = ""; await remove(u.dataset.funfriend); toast("Removed from your friends."); }
       };
       let confirmUnfriend = false;
@@ -8051,6 +8221,8 @@ alter publication supabase_realtime add table public.library;`;
       const lo = e.target.closest("[data-lopen]"); if (lo) { openLetter(lo.dataset.lopen); return; }
       const le = e.target.closest("[data-lenv]"); if (le) { openEnvelope(le.dataset.lenv, le); return; }
       const lw = e.target.closest("[data-lwrite]"); if (lw) { compose({ to: lw.dataset.lwrite || undefined }); return; }
+      const fc = e.target.closest("[data-fcheer]"); if (fc) { cheer(fc.dataset.fcheer); return; }
+      const fg = e.target.closest("[data-fbkgive]"); if (fg) { giveFeedback(fg.dataset.fbkgive); return; }
       if (e.target.closest("[data-fbrowse]")) { search = null; await browse(); return; }
       const rf = e.target.closest("[data-frefresh]"); if (rf) { rf.classList.add("spin"); await refreshShelves(); render(); toast("Friends' progress refreshed ✦", 1600); return; }
       if (e.target.closest("[data-finvite]")) { const txt = `Come read with me on My Book Nook 📚✨\n${location.origin}${location.pathname}\nCreate an account with the invite code: booknook26\nThen add me: @${ME().handle}`;
@@ -8059,8 +8231,9 @@ alter publication supabase_realtime add table public.library;`;
     document.addEventListener("submit", e => { if (e.target.id !== "f-find") return; e.preventDefault(); find($("#f-q").value); });
     async function show(){ render(); await load(true); render(); pushShare(); goLive(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
-    return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter };
+    return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
   })();
+  window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData() };
   // ================= wiring =================
   const TABS = ["library","calendar","covers","series","stats","soul","recs","keep","authors","friends"];
   // ================= words you learned while reading =================
@@ -9111,11 +9284,11 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     "Court Intriguer|Romantic Dreamer": "The Royal Romantic", "Saga Devotee|Coming-of-Age Kindred": "The Forever Teen", "Rainbow Romantic|Coming-of-Age Kindred": "The Young Heart", "Court Intriguer|Coming-of-Age Kindred": "The Young Usurper",
     "Saga Devotee|Rainbow Romantic": "The Eternal Rainbow", "Curious Scholar|Literary Adventurer": "The Philosopher of Pages", "Shadow Seeker|Romantic Dreamer": "The Gothic Lover", "Time Traveller|Romantic Dreamer": "The Period Romantic",
   };
-  const ADJ = { "Spellbound Student": "Spellbound", "Fantasy Wanderer": "Enchanted", "Court Intriguer": "Scheming", "Romantic Dreamer": "Lovesick", "Rainbow Romantic": "Rainbow", "Emotional Explorer": "Tender", "Coming-of-Age Kindred": "Young-Hearted", "Saga Devotee": "Devoted", "Tome Conqueror": "Mighty",
+  const ADJ = { "Healer": "Healing", "Homeland Reader": "Homeward", "Spellbound Student": "Spellbound", "Fantasy Wanderer": "Enchanted", "Court Intriguer": "Scheming", "Romantic Dreamer": "Lovesick", "Rainbow Romantic": "Rainbow", "Emotional Explorer": "Tender", "Coming-of-Age Kindred": "Young-Hearted", "Saga Devotee": "Devoted", "Tome Conqueror": "Mighty",
     "Quick-Sip Reader": "Swift", "Literary Adventurer": "Lyrical", "Myth Weaver": "Mythic", "Mystery Hunter": "Sharp-Eyed", "Shadow Seeker": "Shadowed", "Stargazer": "Starbound", "Time Traveller": "Timeworn", "Curious Scholar": "Curious", "Found-Family Seeker": "Loyal",
     "Spiritual Seeker": "Faithful", "Strategist": "Strategic", "Mind Explorer": "Perceptive", "Self-Builder": "Driven", "Philosopher": "Contemplative", "Science Wonderer": "Inquisitive", "Chronicler": "Learned", "Life Collector": "Empathic", "Truth Seeker": "Truth-Bound", "Poet's Heart": "Poetic", "Young at Heart": "Wonder-Filled", "Panel Hopper": "Vivid", "Laughter Seeker": "Merry", "Dragon Rider": "Dragonhearted", "Cozy Soul": "Cosy", "Classic Soul": "Timeless", "Thrill Chaser": "Restless", "Dystopian Rebel": "Rebel", "War Witness": "Brave", "Faithful Pilgrim": "Faithful", "Money Mind": "Shrewd", "Wellness Keeper": "Radiant", "Tech Tinkerer": "Ingenious", "Political Mind": "Principled", "Nature Walker": "Wild", "Globetrotter": "Wandering", "Kitchen Alchemist": "Epicurean", "Artist's Eye": "Artful", "Nurturer": "Gentle", "Wordsmith": "Eloquent" };
   ADJ["Spiritual Seeker"] = "Serene";
-  const RARITY = { "Spellbound Student": 2, "Fantasy Wanderer": 1, "Romantic Dreamer": 1, "Saga Devotee": 1, "Mystery Hunter": 1, "Emotional Explorer": 1, "Coming-of-Age Kindred": 1, "Court Intriguer": 2, "Rainbow Romantic": 2, "Literary Adventurer": 2, "Tome Conqueror": 2, "Quick-Sip Reader": 2, "Found-Family Seeker": 2, "Time Traveller": 3, "Shadow Seeker": 3, "Stargazer": 3, "Myth Weaver": 3, "Curious Scholar": 3, "Self-Builder": 2, "Mind Explorer": 2, "Life Collector": 2, "Strategist": 3, "Spiritual Seeker": 3, "Philosopher": 3, "Science Wonderer": 3, "Chronicler": 3, "Truth Seeker": 3, "Poet's Heart": 3, "Young at Heart": 3, "Panel Hopper": 3, "Laughter Seeker": 3, "Dragon Rider": 2, "Cozy Soul": 2, "Classic Soul": 2, "Thrill Chaser": 1, "Dystopian Rebel": 2, "War Witness": 3, "Faithful Pilgrim": 3, "Money Mind": 3, "Wellness Keeper": 3, "Tech Tinkerer": 3, "Political Mind": 3, "Nature Walker": 3, "Globetrotter": 3, "Kitchen Alchemist": 3, "Artist's Eye": 3, "Nurturer": 3, "Wordsmith": 3 };
+  const RARITY = { "Spellbound Student": 2, "Fantasy Wanderer": 1, "Romantic Dreamer": 1, "Saga Devotee": 1, "Mystery Hunter": 1, "Emotional Explorer": 1, "Coming-of-Age Kindred": 1, "Court Intriguer": 2, "Rainbow Romantic": 2, "Literary Adventurer": 2, "Tome Conqueror": 2, "Quick-Sip Reader": 2, "Found-Family Seeker": 2, "Time Traveller": 3, "Shadow Seeker": 3, "Stargazer": 3, "Myth Weaver": 3, "Curious Scholar": 3, "Self-Builder": 2, "Mind Explorer": 2, "Life Collector": 2, "Strategist": 3, "Spiritual Seeker": 3, "Philosopher": 3, "Science Wonderer": 3, "Chronicler": 3, "Truth Seeker": 3, "Poet's Heart": 3, "Young at Heart": 3, "Panel Hopper": 3, "Laughter Seeker": 3, "Dragon Rider": 2, "Cozy Soul": 2, "Classic Soul": 2, "Thrill Chaser": 1, "Dystopian Rebel": 2, "War Witness": 3, "Faithful Pilgrim": 3, "Money Mind": 3, "Wellness Keeper": 3, "Healer": 3, "Homeland Reader": 2, "Tech Tinkerer": 3, "Political Mind": 3, "Nature Walker": 3, "Globetrotter": 3, "Kitchen Alchemist": 3, "Artist's Eye": 3, "Nurturer": 3, "Wordsmith": 3 };
   const short = a => a.name.replace(/^The /, "");
   function hybridName(a, b){ if (!b) return a.name; return HYBRID[`${short(a)}|${short(b)}`] || HYBRID[`${short(b)}|${short(a)}`] || `The ${ADJ[short(b)] || "Wandering"} ${short(a).split(" ").pop()}`; }
   const W8 = b => b.rating ? .3 + b.rating / 5 : .8;
@@ -10326,8 +10499,16 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "3.7";
+  const APP_VERSION = "3.8";
   const CHANGELOG = [
+    ["3.8", "25 Oct 2026", "Serbian books, cheers and feedback for friends", [
+      "New: 🇷🇸 Srpske knjige in For you, with Serbian classics, today's favourites, and books on medicine, health and science",
+      "Switch on 🇷🇸 next to Search to find Serbian books in Latin or Cyrillic (it switches on by itself when you type č, ć, š, ž, đ or Cyrillic)",
+      "Send a friend a ✨ cheer, like “Keep going!”, from their row or their nook",
+      "Finished a book a friend recommended? You'll be asked to tell them what you thought, with stars and a few words",
+      "Smarter picks, for you and for your friends",
+      "Reader DNA understands Serbian books and doctors' stories, with two new reader types: the Healer and the Homeland Reader",
+      "Find a book fits better on phones"]],
     ["3.7", "24 Oct 2026", "A magical tour, glass doors and Goodreads ratings", [
       "New: a magical tour of your nook, narrated by your familiar. Find it here in What's new, or in the ⋯ menu",
       "The glass cabinet has real glass doors with brass handles: tap a handle to swing them open or shut",
@@ -10680,6 +10861,75 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     lsSet("reading-ledger-ratingsfile", { updated: R.updated, matched: books.filter(b => b.grAuto).length });
   }
   setTimeout(applyRatingsFile, 3000);
+  setTimeout(() => { try { paintSrToggle(); } catch {} }, 0);
+  // ================= Serbian books: built-in shelves and searching in Serbian =================
+  const SR_SHELVES = [
+    ["klasici", "Srpski klasici", "The books every Serbian reader meets sooner or later.", [
+      ["Na Drini ćuprija", "Ivo Andrić"], ["Prokleta avlija", "Ivo Andrić"], ["Travnička hronika", "Ivo Andrić"], ["Derviš i smrt", "Meša Selimović"], ["Tvrđava", "Meša Selimović"],
+      ["Seobe", "Miloš Crnjanski"], ["Roman o Londonu", "Miloš Crnjanski"], ["Hazarski rečnik", "Milorad Pavić"], ["Grobnica za Borisa Davidoviča", "Danilo Kiš"], ["Enciklopedija mrtvih", "Danilo Kiš"],
+      ["Rani jadi", "Danilo Kiš"], ["Bašta, pepeo", "Danilo Kiš"], ["Vreme čuda", "Borislav Pekić"], ["Kako upokojiti vampira", "Borislav Pekić"], ["Nečista krv", "Borisav Stanković"],
+      ["Zona Zamfirova", "Stevan Sremac"], ["Gospođa ministarka", "Branislav Nušić"], ["Autobiografija", "Branislav Nušić"], ["Orlovi rano lete", "Branko Ćopić"], ["Bašta sljezove boje", "Branko Ćopić"],
+      ["Beleške jedne Ane", "Momo Kapor"], ["Tražim pomilovanje", "Desanka Maksimović"], ["Pisma iz Norveške", "Isidora Sekulić"]]],
+    ["savremeni", "Savremeni srpski pisci", "Loved by Serbian readers in recent years: bestsellers and library favourites.", [
+      ["Rudnik", "Miodrag Majić"], ["Deca zla", "Miodrag Majić"], ["Ostrvo pelikana", "Miodrag Majić"], ["Pod tuđim suncem", "Miodrag Majić"],
+      ["Estoril", "Dejan Tiago Stanković"], ["Zamalek", "Dejan Tiago Stanković"], ["Odakle sam bila, više nisam", "Dejan Tiago Stanković"],
+      ["Sazvežđe svitaca", "Mirjana Bobić Mojsilović"], ["Krojač", "Jelena Bačić Alimpić"], ["Poslednji sati", "Jelena Bačić Alimpić"], ["Semper idem", "Đorđe Lebović"],
+      ["Slučaj Vinča", "Goran Milašinović"], ["Milutinov greh", "Vanja Bulić"], ["Srbin kojekude", "Bojan Ljubenović"], ["Zvezda nad prazninom", "Dejan Stojiljković"],
+      ["Reka sa četiri ušća", "Siniša Kovačević"], ["So zemlji", "Ljiljana Habjanović Đurović"], ["Hamlet u paviljonu br. 6", "Goran Marković"], ["Umro sam u petak", "Nenad Gugl"],
+      ["Tesla, portret među maskama", "Vladimir Pištalo"], ["Opsada crkve Svetog Spasa", "Goran Petrović"], ["Lakonogi dan", "Jelena Lengold"], ["Nijedna od sedam", "Mihajlo Pantić"]]],
+    ["nauka", "Nauka, medicina i zdravlje", "Doctors' stories and books about body, mind and science, in Serbian.", [
+      ["Lekari", "Goran Milašinović"], ["Između dva sveta", "Branimir Nestorović"], ["Kada telo kaže ne", "Gabor Mate"], ["Rasuti umovi", "Gabor Mate"], ["U svetu gladnog duha", "Gabor Mate"],
+      ["Emocionalna inteligencija", "Danijel Goleman"]]],
+  ];
+  const SR_TOPICS = [["medicina", "Medicina"], ["zdravlje", "Zdravlje"], ["psihologija", "Psihologija"], ["nauka", "Popularna nauka"], ["istorija", "Istorija"], ["filozofija", "Filozofija"]];
+  const hasSerbian = q => /[Ѐ-ӿ]|[čćžšđČĆŽŠĐ]/.test(q);
+  // Google Books has far more Serbian editions than Open Library, and works without a key for light use
+  async function gbSearch(q, opts = {}, signal){
+    const u = new URLSearchParams({ q, maxResults: String(opts.max || 20), printType: "books", ...(opts.lang ? { langRestrict: opts.lang } : {}) });
+    const r = await fetch(`https://www.googleapis.com/books/v1/volumes?${u}`, { signal }); if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    return (d.items || []).map(it => { const v = it.volumeInfo || {}; const sub = deriveFromSubjects(v.categories || []);
+      const img = (v.imageLinks?.thumbnail || v.imageLinks?.smallThumbnail || "").replace(/^http:/, "https:").replace("&edge=curl", "");
+      const isbn = (v.industryIdentifiers || []).find(x => /ISBN_13/.test(x.type))?.identifier || (v.industryIdentifiers || [])[0]?.identifier || "";
+      return { title: [v.title, v.subtitle && v.subtitle.length < 40 ? "" : ""].filter(Boolean).join(""), author: (v.authors || [])[0] || "", year: v.publishedDate ? +String(v.publishedDate).slice(0, 4) || null : null, pages: v.pageCount || null,
+        cover: img, coverId: null, olKey: null, isbn, subjects: v.categories || [], summary: (v.description || "").replace(/<[^>]+>/g, "").slice(0, 600), gbId: it.id, lang: v.language || "", ...sub, seriesHint: "" }; }).filter(r => r.title);
+  }
+  // search both scripts, in Serbian, on both catalogues
+  async function srSearch(q, signal){
+    const alt = /[Ѐ-ӿ]/.test(q) ? toLat(q) : toCyr(q);
+    const jobs = [gbSearch(q, { lang: "sr" }, signal), olSearch({ q, language: "srp" }, 12, signal)];
+    if (alt !== q) jobs.push(gbSearch(alt, { lang: "sr" }, signal));
+    jobs.push(gbSearch(q, {}, signal));
+    const res = await Promise.allSettled(jobs);
+    const all = res.flatMap(x => x.status === "fulfilled" ? x.value : []);
+    if (!all.length && res.every(x => x.status === "rejected")) throw new Error("offline");
+    return all;
+  }
+  let srMode = lsGet("reading-ledger-srmode", false);
+  function paintSrToggle(){ const b = $("#sr-btn"); if (b) { b.setAttribute("aria-pressed", srMode); b.title = srMode ? "Searching Serbian books too (Latin and Cyrillic)" : "Search Serbian books too"; } }
+  function srItem(t, a, shelf){ const key = ckey(t, a); let c = recItems.get(key); if (!c) { c = { key, title: t, author: a, cover: "", genres: new Set(), tropes: new Set(), alike: [], why: [shelf] }; recItems.set(key, c); } return c; }
+  let srTopic = null, srTopicRes = null, srTopicBusy = false;
+  function renderSR(body){
+    body.innerHTML = `<div class="panel discpanel srpanel"><div class="phead"><h2>🇷🇸 Srpske knjige</h2></div>
+        <div class="note">Classics, today's favourites and Serbian books about medicine, health and science. Tap a cover to look closer, or search any Serbian title above the bookcase with 🇷🇸 switched on.</div>
+        <div class="chips discchips"><span class="label" style="align-self:center;margin-right:4px">Find in Serbian:</span>${SR_TOPICS.map(([k, l]) => `<button class="chip" type="button" data-srtopic="${k}" aria-pressed="${srTopic === k}">${l}</button>`).join("")}</div></div>
+      ${srTopic ? `<section class="rrow"><div class="rhead"><h3>${esc(SR_TOPICS.find(x => x[0] === srTopic)[1])}</h3><span class="note">Books in Serbian, found live on Google Books and Open Library.</span></div>
+        ${srTopicBusy ? `<p class="note dots">Looking through Serbian shelves</p>` : srTopicRes && srTopicRes.length ? `<div class="rstrip">${srTopicRes.map(c => rcard(c, 0, false)).join("")}</div>` : `<p class="note">Nothing found right now. Check your internet connection and try again.</p>`}</section>` : ""}
+      ${SR_SHELVES.map(([k, name, sub, list]) => `<section class="rrow"><div class="rhead"><h3>${esc(name)}</h3><span class="note">${esc(sub)}</span></div><div class="rstrip">${list.map(([t, a]) => rcard(srItem(t, a, name), 0, false)).join("")}</div></section>`).join("")}`;
+    paintRecCovers(body);
+  }
+  async function loadSrTopic(k){
+    srTopic = k; srTopicBusy = true; srTopicRes = null; renderRecs();
+    try { const res = await srSearch(k === "nauka" ? "popularna nauka" : k);
+      const seen = new Map(); for (const r of res) { if (r.lang && r.lang !== "sr" && r.lang !== "hr" && r.lang !== "bs") continue; const kk = ckey(r.title, r.author); if (!seen.has(kk) && r.author) seen.set(kk, r); }
+      srTopicRes = [...seen.values()].slice(0, 18).map(r => { const c = { key: ckey(r.title, r.author), title: r.title, author: r.author, cover: r.cover, year: r.year, pages: r.pages, isbn: r.isbn, genres: new Set(r.genres || []), tropes: new Set(), alike: [], why: [] }; recItems.set(c.key, c); return c; });
+    } catch { srTopicRes = []; }
+    srTopicBusy = false; if (recMode === "sr") renderRecs();
+  }
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-srtopic]"); if (t) { const k = t.dataset.srtopic; if (srTopic === k) { srTopic = null; renderRecs(); } else loadSrTopic(k); return; }
+    if (e.target.closest("#sr-btn")) { srMode = !srMode; lsSet("reading-ledger-srmode", srMode); paintSrToggle(); toast(srMode ? "🇷🇸 Searching Serbian books too, in Latin and Cyrillic" : "Searching the usual catalogue", 2200); const q = $("#q")?.value.trim(); if (q) runSearch(q); }
+  });
   // ================= bookcase designs =================
   const KEY_DESIGN = "reading-ledger-casedesign";
   let caseDesign = lsGet(KEY_DESIGN, "arch");
@@ -10815,7 +11065,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (e.target.id === "nyt-form") { e.preventDefault(); const k = $("#nyt-key").value.trim(); if (!k) return; lsSet(KEY_NYT, k); toast("Key saved. Fetching this week's bestsellers…"); renderRecs(); }
   });
   const recToBook = c => ({ title: c.title, author: c.author, cover: c.cover || "", coverId: c.coverId || null, olKey: c.olKey || null, isbn: c.isbn || "", year: c.year || null, pages: c.pages || null,
-    goodreads: c.gr || null, goodreadsCount: c.cnt || null, genres: [...(c.genres || [])].filter(g => GENRE_LOOK[g]), tropes: [...(c.tropes || [])], summary: c.desc || "" });
+    goodreads: c.gr || null, goodreadsCount: c.cnt || null, genres: [...(c.genres || [])].filter(g => GENRE_LOOK[g]), tropes: [...(c.tropes || [])], summary: c.desc || "", ...(c.fromFriend ? { recommendedBy: c.fromFriend } : {}) });
   $("#view-recs").addEventListener("click", e => {
     const rm = e.target.closest("[data-recmode]"); if (rm) { recMode = rm.dataset.recmode; lsSet("reading-ledger-recmode", recMode); $("#rec-body").innerHTML = ""; renderRecs(); return; }
     const gg = e.target.closest("[data-grg]"); if (gg) { grGenre = gg.dataset.grg; renderRecs(); return; }
