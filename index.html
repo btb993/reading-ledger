@@ -2892,6 +2892,82 @@ svg.a3art{overflow:visible}
 @keyframes a3float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 @keyframes a3spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:no-preference){svg.a3art .a3twinkle{animation:a3twinkle 2.6s ease-in-out infinite}svg.a3art .a3float{animation:a3float 4s ease-in-out infinite}svg.a3art .a3spin{transform-box:fill-box;transform-origin:center;animation:a3spin 9s linear infinite}}
+/* ===== v4.5: companions that blink, breathe, sway and react ===== */
+.a3art .a3m{transform-box:fill-box}
+.a3art .a3lid{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:a3blink var(--a3bp,5.6s) linear infinite;animation-delay:var(--a3bd,-1s)}
+.a3art .a3lidl{opacity:0;animation:a3blinkl var(--a3bp,5.6s) linear infinite;animation-delay:var(--a3bd,-1s)}
+@keyframes a3blink{0%,90%,100%{transform:scaleY(0)}92.4%,93.2%{transform:scaleY(1)}95.4%{transform:scaleY(0)}}
+@keyframes a3blinkl{0%,91.8%,94.4%,100%{opacity:0}92.4%,93.6%{opacity:1}}
+/* idle life: a slow head sway, a lazy tail, the odd wing ruffle */
+[data-expr] .a3art .a3m-head{transform-origin:50% 96%;animation:a3head 7.5s ease-in-out infinite;animation-delay:var(--a3d,0s)}
+[data-expr] .a3art .a3m-tail{animation:a3tail 3.8s ease-in-out infinite;animation-delay:var(--a3d,0s)}
+.a3art.cat .a3m-tail{transform-origin:2% 92%}.a3art.lion .a3m-tail{transform-origin:0% 75%}.a3art.fox .a3m-tail{transform-origin:6% 90%}.a3art.wolf .a3m-tail{transform-origin:100% 20%}
+[data-expr] .a3art .a3m-wing{transform-origin:50% 4%;animation:a3ruffle 6.5s ease-in-out infinite;animation-delay:var(--a3d,0s)}
+.a3art.bat .a3m-wing{transform-origin:100% 30%!important}
+[data-expr] .a3art.bat .a3m-wing{animation:a3flap 2.6s ease-in-out infinite}
+[data-expr] .a3art .a3m-spines{transform-origin:50% 100%;animation:a3bristle 4.6s ease-in-out infinite;animation-delay:var(--a3d,0s)}
+[data-expr] .a3art .a3m-hackles{transform-origin:50% 100%;animation:a3bristle 5.2s ease-in-out infinite;animation-delay:var(--a3d,0s)}
+[data-expr] .a3art .a3m-ruff{transform-origin:50% 0;animation:a3bristle 3.4s ease-in-out infinite}
+@keyframes a3head{0%,100%{transform:rotate(0)}22%{transform:rotate(1.8deg)}48%{transform:rotate(.4deg) translateY(.4px)}72%{transform:rotate(-1.6deg)}}
+@keyframes a3tail{0%,100%{transform:rotate(0)}50%{transform:rotate(6deg)}}
+@keyframes a3ruffle{0%,82%,100%{transform:rotate(0)}87%{transform:rotate(-5deg)}92%{transform:rotate(3deg)}96%{transform:rotate(-1deg)}}
+@keyframes a3flap{0%,100%{transform:rotate(0)}50%{transform:rotate(-9deg)}}
+@keyframes a3bristle{0%,100%{transform:scale(1)}50%{transform:scale(1.025,1.035)}}
+/* moods: nodding along while talking, wagging when happy, tilting when in love, drooping when sleepy or sad, a jolt when surprised */
+[data-expr="talk"] .a3art .a3m-head{animation:a3talk .95s ease-in-out infinite}
+[data-expr="happy"] .a3art .a3m-head,[data-expr="proud"] .a3art .a3m-head,[data-expr="wink"] .a3art .a3m-head{animation:a3bob 1.3s ease-in-out infinite}
+[data-expr="happy"] .a3art .a3m-tail,[data-expr="proud"] .a3art .a3m-tail,[data-expr="wink"] .a3art .a3m-tail{animation:a3wag .6s ease-in-out infinite}
+[data-expr="happy"] .a3art .a3m-wing,[data-expr="proud"] .a3art .a3m-wing{animation:a3ruffle 1.8s ease-in-out infinite}
+[data-expr="love"] .a3art .a3m-head,[data-expr="shy"] .a3art .a3m-head{animation:a3tilt 3.2s ease-in-out infinite}
+[data-expr="love"] .a3art .a3m-tail,[data-expr="shy"] .a3art .a3m-tail{animation:a3wag 1.1s ease-in-out infinite}
+[data-expr="love"] .a3art.bat .a3m-wing,[data-expr="shy"] .a3art.bat .a3m-wing{animation:a3flap 1s ease-in-out infinite}
+[data-expr="surprised"] .a3art .a3m-head{animation:a3jolt .55s cubic-bezier(.3,1.6,.5,1) 1}
+[data-expr="surprised"] .a3art .a3m-tail{animation:a3puff .6s ease-out 1 forwards}
+[data-expr="surprised"] .a3art .a3m-wing,[data-expr="surprised"] .a3art .a3m-spines,[data-expr="surprised"] .a3art .a3m-hackles{animation:a3flare .6s ease-out 1}
+[data-expr="sleepy"] .a3art .a3m-head{animation:a3doze 4.2s ease-in-out infinite}
+[data-expr="sleepy"] .a3art .a3m-tail{animation:a3tail 7s ease-in-out infinite}
+[data-expr="sleepy"] .a3art .a3lid{animation:a3drowse 4.2s ease-in-out infinite}
+[data-expr="sleepy"] .a3art .a3lidl{animation:none}
+[data-expr="sad"] .a3art .a3m-head{animation:a3low 5s ease-in-out infinite}
+[data-expr="sad"] .a3art .a3m-tail{animation:a3limp 6s ease-in-out infinite}
+@keyframes a3talk{0%,100%{transform:rotate(0)}30%{transform:rotate(1.4deg) translateY(.8px)}65%{transform:rotate(-.8deg)}}
+@keyframes a3bob{0%,100%{transform:rotate(0) translateY(0)}25%{transform:rotate(3deg) translateY(-.8px)}75%{transform:rotate(-2.4deg) translateY(-.4px)}}
+@keyframes a3wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(9deg)}}
+@keyframes a3tilt{0%,100%{transform:rotate(4deg)}50%{transform:rotate(6.5deg) translateY(.6px)}}
+@keyframes a3jolt{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-3.5px) scale(1.04)}100%{transform:translateY(0) scale(1)}}
+@keyframes a3puff{0%{transform:rotate(0) scale(1)}40%{transform:rotate(-10deg) scale(1.08)}100%{transform:rotate(-4deg) scale(1.03)}}
+@keyframes a3flare{0%,100%{transform:rotate(0) scale(1)}35%{transform:rotate(-8deg) scale(1.05)}}
+@keyframes a3doze{0%,100%{transform:rotate(2deg) translateY(1px)}55%{transform:rotate(6deg) translateY(2.6px)}62%{transform:rotate(1deg) translateY(0)}}
+@keyframes a3drowse{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(.72)}56%{transform:scaleY(1)}62%{transform:scaleY(.4)}}
+@keyframes a3low{0%,100%{transform:rotate(-2.5deg) translateY(2px)}50%{transform:rotate(-1.5deg) translateY(2.6px)}}
+@keyframes a3limp{0%,100%{transform:rotate(12deg)}50%{transform:rotate(15deg)}}
+/* reactions to what you do: munching a treat, leaning into a scratch, bouncing to play, leaning in for a secret, pondering a mood, melting into a pet */
+.fambody.react-treat .a3art .a3m-head{animation:a3nom .34s ease-in-out 6}
+.fambody.react-treat .a3art .a3m-tail{animation:a3wag .42s ease-in-out 5}
+.fambody.react-treat > svg{animation:a3hop .7s ease-out 1!important}
+.fambody.react-scratch .a3art .a3m-head{animation:a3lean 2.4s ease-in-out 1}
+.fambody.react-scratch .a3art .a3m-tail{animation:a3wag .3s ease-in-out 7}
+.fambody.react-scratch .a3art .a3m-wing,.fambody.react-scratch .a3art .a3m-spines,.fambody.react-scratch .a3art .a3m-hackles{animation:a3flare .5s ease-in-out 3}
+.fambody.react-play > svg{animation:a3play 1.15s cubic-bezier(.3,1.3,.5,1) 1!important}
+.fambody.react-play .a3art .a3m-head{animation:a3bob .5s ease-in-out 4}
+.fambody.react-play .a3art .a3m-tail{animation:a3wag .28s ease-in-out 8}
+.fambody.react-play .a3art .a3m-wing{animation:a3flap .3s ease-in-out 7}
+.fambody.react-secret > svg{animation:a3lure 2.4s ease-in-out 1!important}
+.fambody.react-secret .a3art .a3m-head{animation:a3whisper 2.4s ease-in-out 1}
+.fambody.react-mood .a3art .a3m-head{animation:a3ponder 2.6s ease-in-out 1}
+.fambody.react-pet .a3art .a3m-head{animation:a3nuzzle 2.4s ease-in-out 1}
+.fambody.react-pet .a3art .a3m-tail{animation:a3wag .4s ease-in-out 6}
+.fambody.react-pet .a3art .a3m-wing{animation:a3flap .45s ease-in-out 5}
+.fambody.react-pet .a3art .a3m-spines{animation:a3bristle .5s ease-in-out 4}
+@keyframes a3nom{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-2.5deg) translateY(2.2px)}}
+@keyframes a3hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-9px) scale(1.02,.98)}60%{transform:translateY(0) scale(1.03,.97)}80%{transform:translateY(-2px)}}
+@keyframes a3lean{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(8deg) translateX(1.5px)}35%,65%{transform:rotate(10deg) translateX(2px)}50%{transform:rotate(7deg) translateX(1px)}}
+@keyframes a3play{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-18px) rotate(-8deg)}45%{transform:translateY(0) rotate(4deg) scale(1.04,.95)}65%{transform:translateY(-7px) rotate(-3deg)}82%{transform:translateY(0) scale(1.02,.98)}}
+@keyframes a3lure{0%,100%{transform:scale(1) translateX(0)}25%,75%{transform:scale(1.05) translateX(-3px)}}
+@keyframes a3whisper{0%,100%{transform:rotate(0)}25%,75%{transform:rotate(-7deg) translate(-2px,1px)}50%{transform:rotate(-8deg) translate(-2.4px,1.4px)}}
+@keyframes a3ponder{0%,100%{transform:rotate(0)}30%{transform:rotate(-6deg)}60%{transform:rotate(5deg)}80%{transform:rotate(2deg)}}
+@keyframes a3nuzzle{0%,100%{transform:rotate(0)}20%{transform:rotate(6deg)}40%{transform:rotate(-3deg)}60%{transform:rotate(5deg)}80%{transform:rotate(-1deg)}}
+@media (prefers-reduced-motion:reduce){.a3art .a3m,.a3art .a3lid,.a3art .a3lidl{animation:none!important}}
 </style>
 </head>
 <body>
@@ -3155,7 +3231,9 @@ ART3.eye = function(C, o){
       <circle cx="${ix + ir * .36}" cy="${iy + ir * .3}" r="${(ir * .12).toFixed(2)}" fill="#fff" opacity=".85"/>
       ${o.wet ? `<path d="M${lx + w * .2} ${botY - h * .25}Q${cx} ${botY + h * .05} ${rx - w * .2} ${botY - h * .25}" stroke="#E8F4FF" stroke-width="1.2" fill="none" opacity=".9"/>` : ""}
       ${upperLid}${lowerLid}
+      <rect class="a3lid" transform="scale(1 0)" x="${(lx - 5).toFixed(2)}" y="${(topY - h * 1.2).toFixed(2)}" width="${(w + 10).toFixed(2)}" height="${(botY - topY + h * 1.45).toFixed(2)}" fill="${skin}"/>
     </g>
+    <path class="a3lidl" d="M${lx} ${ly}C${lx + w * .25} ${botY - h * .2} ${rx - w * .2} ${botY - h * .15} ${rx} ${ry}" stroke="${line}" stroke-width="${o.w2 ?? 2}" fill="none" stroke-linecap="round" opacity="0"/>
     <path d="${lowLine}" stroke="${line}" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".6"/>
     <path d="${upLine}" stroke="${line}" stroke-width="${o.w2 ?? 2.1}" fill="none" stroke-linecap="round"/>
     ${o.wing ? `<path d="M${outX} ${outY - (up > .02 ? (upY - topY) * .4 : 0)}q${s * 4} -1 ${s * 6.4} -4.4" stroke="${line}" stroke-width="${(o.w2 ?? 2.1) * .8}" fill="none" stroke-linecap="round"/>` : ""}
@@ -5788,7 +5866,7 @@ ART3.dress = (k, svg, items) => items.reduce((s, it) => s.replace(`<g class="mou
   });
 })();
 
-// ===== Companion art v4.4: the nine companions and their wardrobes (ART3), wired into the app =====
+// ===== Companion art v4.5: the nine companions and their wardrobes (ART3), wired into the app =====
 const A3APP = (() => {
   const KEY = { cat: "natasha", lion: "antonio", owl: "hoot", raven: "corvin", fox: "ember", toad: "wartsworth", bat: "nyx", hedgehog: "bramble", wolf: "wulfila" };
   // the app's moods, drawn with the five painted expressions
@@ -5796,12 +5874,23 @@ const A3APP = (() => {
   const cache = new Map(); let seq = 0;
   // keep the art's inner class names out of reach of the app's older familiar CSS
   const scope = s => s.replace(/class="([^"]*)"/g, (m, c) => `class="${c.split(/\s+/).map(t => !t || t.startsWith("a3") || t.startsWith("w-") ? t : "a3-" + t).join(" ")}"`);
+  // v4.5: give the head, tail, wings and spines a hinge of their own, so they can move without redrawing the picture
+  function hinge(s, tok, cls){ const open = new RegExp(`<g\\b[^>]*class="(?:[^"]*\\s)?${tok}(?:\\s[^"]*)?"[^>]*>`, "g"), at = [];
+    let m; while ((m = open.exec(s))) if (!m[0].endsWith("/>")) at.push(m.index + m[0].length);
+    for (let i = at.length - 1; i >= 0; i--) { const a = at[i], re = /<g\b[^>]*?(\/?)>|<\/g>/g; re.lastIndex = a; let d = 1, b = -1, t;
+      while ((t = re.exec(s))) { if (t[0] === "</g>") { if (--d === 0) { b = t.index; break; } } else if (!t[1]) d++; }
+      if (b > 0) s = s.slice(0, a) + `<g class="a3m ${cls}">` + s.slice(a, b) + "</g>" + s.slice(b); }
+    return s; }
+  const HINGES = [["a3-head", "a3m-head"], ["a3-tail", "a3m-tail"], ["a3-wing", "a3m-wing"], ["a3-spines", "a3m-spines"], ["a3-hackles", "a3m-hackles"], ["a3-ruff", "a3m-ruff"]];
+  const alive = s => HINGES.reduce((x, [t, c]) => hinge(x, t, c), s);
   const raw = (k, ids, ex, lite) => { const key = `${k}|${ids.join(",")}|${ex}|${lite ? 1 : 0}`; let s = cache.get(key);
-    if (!s) { s = scope(ART3.wear(KEY[k] || "natasha", ex, ids, { lite })); if (cache.size > 240) cache.clear(); cache.set(key, s); } return s; };
+    if (!s) { s = alive(scope(ART3.wear(KEY[k] || "natasha", ex, ids, { lite }))); if (cache.size > 240) cache.clear(); cache.set(key, s); } return s; };
+  // each picture blinks and sways on its own clock, so two companions on one screen never move in lockstep
+  const clock = () => `--a3bd:${(-Math.random() * 6).toFixed(2)}s;--a3bp:${(4.6 + Math.random() * 2.6).toFixed(2)}s;--a3d:${(-Math.random() * 8).toFixed(2)}s`;
   function art(k, ids = [], ex = "neutral", lite = false){
     if (!KEY[k]) k = "cat"; const u = "q" + (++seq);
     const s = raw(k, ids, ex, lite).replace(/id="([a-z]+\d+_\d+)"/g, `id="$1${u}"`).replace(/url\(#([a-z]+\d+_\d+)\)/g, `url(#$1${u})`);
-    return s.replace(/^<svg class="[^"]*"/, `<svg class="famart a3art ${k}" data-a3k="${k}" data-a3w="${ids.join(",")}" data-a3x="${ex}"${lite ? ' data-a3l="1"' : ""}`);
+    return s.replace(/^<svg class="[^"]*"/, `<svg class="famart a3art ${k}" style="${clock()}" data-a3k="${k}" data-a3w="${ids.join(",")}" data-a3x="${ex}"${lite ? ' data-a3l="1"' : ""}`);
   }
   const items = k => ART3.itemsFor(KEY[k] || "natasha").map(i => ({ id: i.id, slug: i.slug, lvl: i.lvl, slot: i.slot, name: i.name, lore: i.lore, aliases: i.aliases }));
   const item = id => ART3.ITEMS.find(i => i.id === (ART3.RENAMED[id] || id));
@@ -9618,6 +9707,9 @@ const A3APP = (() => {
   function famPeek(){ const el = famSec(); if (!el || !famDocked || el.classList.contains("open")) return; if (Date.now() - famLastPeek < (innerWidth > 700 ? 150000 : 300000)) return; famLastPeek = Date.now();
     el.classList.add("peek"); clearTimeout(famPeekT); famPeekT = setTimeout(() => el.classList.remove("peek"), 7000); }
   function speak(text, mood = "idle"){ saidMood = mood; const ms = Math.min(5200, 700 + String(text).split(/\s+/).length * 150); setExpr("talk", ms, mood); }
+  let reactT = null;
+  function famReact(act){ const b = $("#familiar .fambody"); if (!b) return; b.classList.remove(...[...b.classList].filter(c => c.startsWith("react-"))); void b.offsetWidth; b.classList.add("react-" + act);
+    clearTimeout(reactT); reactT = setTimeout(() => b.classList.remove("react-" + act), 2600); }
   function famAct(){ const card = famCard(); if (!card) return; card.classList.remove("act"); void card.offsetWidth; card.classList.add("act"); clearTimeout(actT); actT = setTimeout(() => card.classList.remove("act"), 2800); }
   // ================= Gentle new-release alerts =================
   const KEY_REL = "reading-ledger-releases", KEY_FOLLOW = "reading-ledger-follow";
@@ -9820,10 +9912,10 @@ const A3APP = (() => {
   }
   function petFamiliar(){
     lastPoke = Date.now(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1); bondPet();
-    const P = PET[familiar]; let line; do { line = pick(P.lines); } while (line === petLine && P.lines.length > 1);
+    const P = PET[familiar], line = pickFresh(P.lines, familiar + "pet");
     careLine = line; famMode = "care"; petLine = null; lastSaid = ""; renderFamiliar();
     const body = $("#familiar .fambody");
-    body.classList.add("pet-" + P.anim); setExpr(P.expr || "happy", 2600, "talk"); setTimeout(() => speak(line, P.expr === "shy" ? "shy" : "happy"), 1300);
+    body.classList.add("pet-" + P.anim); famReact("pet"); setExpr(P.expr || "happy", 2600, "talk"); setTimeout(() => speak(line, P.expr === "shy" ? "shy" : "happy"), 1300);
     for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + Math.random() * .4, r = 46 + Math.random() * 30; body.insertAdjacentHTML("beforeend", `<i class="pburst" style="--dx:${(Math.cos(a) * r).toFixed(0)}px;--dy:${(Math.sin(a) * r - 20).toFixed(0)}px;color:${FAMILIARS[familiar].aura};animation-delay:${(i * .03).toFixed(2)}s">${P.burst}</i>`); }
     clearTimeout(petTimer); petTimer = setTimeout(() => { if (famMode === "care") { famMode = "chat"; chatLine = makeChat(); lastSaid = "__"; renderFamiliar(); } }, 30000);
   }
@@ -9839,7 +9931,7 @@ const A3APP = (() => {
     if (e.target.closest("[data-pet]")) { petFamiliar(); return; }
     if (e.target.closest("[data-giftopen]")) { openGift(); return; }
     const cr = e.target.closest("[data-care]"); if (cr) { const act = cr.dataset.care; if (act === "pet") { petFamiliar(); return; }
-      const [line, m] = careFor(act); careLine = line; famMode = "care"; lastSaid = ""; renderFamiliar(); setExpr(m, 2600); famAct(); clearTimeout(petTimer); petTimer = setTimeout(() => { if (famMode === "care") { famMode = "chat"; chatLine = makeChat(); lastSaid = "__"; renderFamiliar(); } }, 30000); return; }
+      const [line, m] = careFor(act); careLine = line; famMode = "care"; lastSaid = ""; renderFamiliar(); setExpr(m, 2600); famAct(); if (!(act === "treat" && m === "sleepy")) famReact(act); clearTimeout(petTimer); petTimer = setTimeout(() => { if (famMode === "care") { famMode = "chat"; chatLine = makeChat(); lastSaid = "__"; renderFamiliar(); } }, 30000); return; }
     const fresh = () => { petLine = null; clearTimeout(petTimer); };
     if (e.target.closest("[data-famnext]")) { fresh(); if (famMode === "chat") { famMode = "quote"; newQuote(); } else { famMode = "chat"; chatLine = makeChat(); } renderFamiliar(); return; }
     if (e.target.closest("[data-famrec]")) { fresh(); if (famMode === "rec") { famMode = "chat"; chatLine = makeChat(); } else { famMode = "rec"; famRecs = null; famRec = null; } renderFamiliar(); return; }
@@ -10451,6 +10543,72 @@ const A3APP = (() => {
   };
   const CARE_ACTS = [["pet", "♥", "Pet"], ["scratch", "✋", "Scratch ears"], ["treat", "🍪", "Treat"], ["play", "🎲", "Play"], ["mood", "💬", "How are you?"], ["secret", "🤫", "A secret"]];
   let careLine = null, careT = null;
+  // ---- v4.5: many more things to say when you pet, scratch, feed, play with and ask them ----
+  const PET_MORE = {
+    cat: ["*purrs so low you feel it more than hear it*", "Slower, darling. We have all evening.", "*rolls onto her back, then pretends that was an accident*", "Your hands smell of old paper. Divine.", "If you stop now, I shall sulk. Beautifully.", "Mmm. I've decided you may keep doing that forever.", "*kneads the air with velvet paws*", "Careful. Too much of this and I'll start liking you in public."],
+    owl: ["Hoo… hoo. Most… agreeable.", "*closes his eyes and sways slightly* Purely for academic purposes.", "Gently, gently. These feathers are older than most libraries.", "I shall note this kindness in the margins.", "*a small, undignified coo escapes him* I did not make that sound.", "Ah, the head-feathers. A classic technique.", "You'd make a fine assistant. Steady hands.", "Quite. Quite. …Once more, for thoroughness."],
+    raven: ["*puffs up to twice his size* I ALLOW IT.", "A hero's reward! Continue, loyal one.", "*leans in* …This is a strategic rest. Do not tell my enemies.", "Your hand is braver than most knights.", "CAW! …I mean. Ahem. Acceptable.", "The helm stays ON. The pats may continue.", "*one eye closes. Then the other.* I am merely… scouting the inside of my eyelids.", "Squire, you have earned a medal. It's a bottle cap."],
+    fox: ["*tail sweeps slowly* Don't make it obvious.", "Mm. You found my weak spot. Most people never do.", "Careful, I might start trusting you.", "*flops sideways, entirely by accident*", "If anyone asks, I let you do that.", "You've got thief's hands. Light. Clever. I like it.", "*a tiny, happy chitter she immediately denies*", "Keep going and I'll tell you where I hid the good biscuits."],
+    toad: ["Fascinating! My heart rate has risen 12%!", "*inflates his throat with joy*", "Ribbit! Repeat the experiment! For science!", "Note to self: the human has excellent technique.", "*eyes close slowly, dome by dome*", "Sensors report: maximum contentment.", "That's the spot! Right behind the warts!", "I shall publish a paper on this. Title: 'Pats. Yes.'"],
+    bat: ["*tiny happy squeak* …s-sorry, that slipped out.", "I… I think my ears just went pink.", "*nuzzles your finger very, very gently*", "This is the nicest thing that's happened all week.", "Can I… can I tell the moon about this later?", "*hides her face behind her book, smiling*", "You're very gentle. Thank you for being gentle.", "I'm going to dream about this. Happy dreams."],
+    hedgehog: ["*does a tiny spin* AGAIN AGAIN AGAIN!", "My spikes went all soft! That's how happy I am!", "*snuffles your hand looking for snacks*", "You're the BEST pat-giver in the WHOLE WORLD!", "Wheee! *flops over in the grass that isn't there*", "Pat me and then we go exploring, deal?", "*giggles so hard he hiccups*", "That's going in my adventure journal! Page one!"],
+    lion: ["Ay, ay, ay… you play my mane like a guitar.", "*rumbling purr* My heart, it does the flamenco.", "Mi amor, if you keep this up I will compose a ballad.", "*tosses his mane so it falls perfectly over your hand*", "Olé! …Sorry. It slipped out. Continue.", "Your touch is softer than a rose petal. And I know roses.", "Querida, the whole of Sevilla is jealous of me right now.", "*sighs the sigh of a man in a very long novel*"],
+    wolf: ["*ears go back. Tail does not get the memo.*", "This means nothing. …Don't stop.", "I'm only tolerating this because it's cold.", "*leans her whole weight into your hand*", "Ugh. Fine. You're good at that. I said it once.", "If you post about this I'll never forgive you.", "*a very quiet, very traitorous happy noise*", "Okay. Okay. One more and then I'm being mysterious again."],
+  };
+  const CARE_MORE = {
+    cat: { scratch: ["Under the chin, darling. Where the pearls sit.", "*tilts her head just so* Now you're learning.", "Mmm, the cheek. Slowly. Like turning a page you love.", "Scratch my ears and I'll whisper you a spoiler. A small one.", "*purrs, eyes half-closed* You may be my favourite.", "There. Right there. Don't you dare move.", "Gentle, gorgeous. I'm a lady, not a doormat.", "If you do this every evening I'll stop shredding your bookmarks."],
+      play: ["*pounces on a sliver of moonlight and misses, gracefully*", "I'll pretend to chase the feather. You pretend not to notice I'm enjoying it.", "Throw the ribbon higher. Higher. …Darling, that was magnificent.", "*hides behind a stack of books, tail giving her away*", "Let's play 'who blinks first'. You'll lose. Everyone does.", "A game of cat and reader? I always win.", "*knocks a pencil off the table and watches you, unblinking*", "Hide the bookmark and I'll find it. I always find what I want."],
+      treat: ["Tuna? For me? You remembered.", "*licks one paw, very slowly* Delicious. Like you.", "A treat in the evening is the secret to a long life. And a good figure.", "Mmm. I'll allow you to spoil me. Just this once. Again.", "You feed me like royalty. Which I am, obviously.", "Crumbs on the velvet? Worth it.", "*purrs mid-bite* You do know how to treat a lady.", "Perfection. Same time tomorrow, darling?"],
+      secret: ["I once stole a kiss from a poet. He wrote me a sonnet. It was terrible.", "My emerald gown has a hidden pocket. For love letters.", "I pretend not to like rainy days. I adore them.", "Sometimes I purr at the villains in your books. They're always the best dressed.", "I know which book you're hiding under your pillow.", "The pearls are fake. The attitude is not.", "I was the one who dog-eared that page. Sorry, darling.", "I practise my smouldering look in the window every night."],
+      mood: { moody: ["You've been away, darling. I've been dramatic about it.", "Hmph. A lady waits for no one. …Except you, apparently."], sad: ["Come here. Bad books don't deserve your tears.", "Even the best heroines close a book halfway. Pick a better one."], sleepy: ["Mmm. Wake me when the hero arrives.", "Velvet eyelids, darling. Heavy as a hardback."], happy: ["I'm in a marvellous mood. You may compliment me.", "Purring like a well-tuned motor. Isn't it lovely?"], content: ["Deliciously content. Read to me?", "All is well. I'm wearing pearls, aren't I?"] } },
+    owl: { scratch: ["Behind the ear tufts. Splendid. You have a scholar's precision.", "Hm. Hm-hm. Rather nice, I must admit.", "Mind the spectacles. …Oh, never mind. Carry on.", "A little higher. The bit no textbook covers.", "*feathers fluff up like an armchair*", "I shall allow this for precisely one more minute. Or three.", "Most soothing. Like the hush of a reading room.", "Thank you. I feel ten centuries younger."],
+      play: ["A riddle! What has pages but never reads? A library on a Monday.", "Let us play 'guess the first line'. I'll go first.", "*hides a pencil under his wing* Where could it possibly be?", "Spelling bee! Spell 'onomatopoeia'. …I'll wait.", "Chess? Splendid. I play the bishop. Naturally.", "*rolls a marble across the desk, terribly pleased with himself*", "Hide and seek in the stacks! I'll count in Latin.", "A game of 'which author wrote this'? You'll never beat me. Do try."],
+      treat: ["Shortbread and a cup of tea. Civilisation itself.", "*crumbs on the waistcoat* One must sacrifice for quality.", "Splendid. Shall I read you something while I eat? No? Rude of me.", "A biscuit! I accept with gratitude and very little restraint.", "Lemon. Clever choice. Sharpens the mind.", "Most kind. I'll name a footnote after you.", "*nibbles thoughtfully* Excellent crumb structure.", "Thank you. My tutorials will be thirty percent warmer."],
+      secret: ["I have never actually finished Ulysses.", "My first edition is a reprint. Don't tell the faculty.", "I talk to the books at night. Some of them answer.", "I sleep with a night-light. For reading, of course.", "My bow tie is a clip-on. I gave up on knots in 1987.", "I wrote fan fiction once. It was about Jane Austen's cat.", "I'm afraid of pigeons. Unbecoming, I know.", "I pressed a flower in your favourite book. Look for it."],
+      mood: { moody: ["Four days without a reading? I have drafted a stern letter.", "I've been dusting the same shelf for days. Waiting."], sad: ["Some books don't deserve a second chapter. Very wise.", "Even the greats abandon books. Montaigne did it constantly."], sleepy: ["I am wide awake. *yawns enormously*", "Perhaps a brief nap. A seminar of one."], happy: ["Positively radiant, thank you for asking.", "In excellent spirits. Shall we tackle a classic?"], content: ["Quite well. The tea is warm and the pages are turning.", "Content. A scholar asks for little else."] } },
+    raven: { scratch: ["The wing joint. Yes. Battle-sore. Continue.", "*shakes out every feather at once* GLORIOUS.", "Behind the helm! Where no enemy has ever reached!", "Gently, squire. The Undefeated is also… ticklish.", "Hm. Your technique is worthy of a ballad.", "*closes his eyes* I am merely resting my battle-gaze.", "To the left! The left flank needs reinforcement!", "Tell the troops I was scratched by a hero."],
+      play: ["En garde! *brandishes a teaspoon*", "We shall play 'storm the castle'. You are the castle.", "*marches in a circle, very serious, very small*", "A tournament! First to finish a chapter wins!", "I challenge you to an arm-wrestle. Wing-wrestle. Whatever.", "Hide the treasure and I'll find it! Ravens find everything shiny!", "*cartwheels. Mostly.* I meant to land like that.", "Charge! …Into the cushion! Victory!"],
+      treat: ["A VICTORY CRACKER! The spoils of war!", "*crunches heroically*", "Fuel for the next campaign! Many thanks, quartermaster.", "This is the finest ration I have ever been issued.", "Delicious. Prepare the war drums.", "A feast fit for the Undefeated! A small one. Fine.", "*hides half the cracker for later. Tactically.*", "My strength returns tenfold! …Well. Twofold."],
+      secret: ["My sword is cardboard. Painted with great skill.", "I sing lullabies to my helm.", "The scar? A paper cut. From a very fierce book.", "I'm afraid of the vacuum. It roars like a dragon.", "My war cry was originally a sneeze.", "I keep a list of everyone who's been kind to me. You're first.", "I lost a duel to a pigeon once. A big pigeon.", "Undefeated is technically true. I avoid most fights."],
+      mood: { moody: ["My sword hasn't been lifted in days. Nor my spirits.", "The battlefield is silent. Where were you, comrade?"], sad: ["Retreat is no shame! We'll storm a better book!", "That book fought dirty. We'll have our revenge."], sleepy: ["A warrior rests… with one eye open… *snore*", "I shall guard your sleep. After a tiny nap."], happy: ["TRIUMPHANT! As always!", "Spirits high! Banners raised! Snacks eaten!"], content: ["At ease, soldier. All is well in the kingdom.", "The fortress is calm. Read me a war story?"] } },
+    fox: { scratch: ["Behind the ear. Slowly. Don't get cocky.", "*ear twitches* …Okay, that one was good.", "Mm. You're quieter than most. I appreciate that.", "There. The spot under the hood. Nobody knows that spot.", "*tail curls around your wrist, just for a second*", "Fine, you can stay. For now.", "Shh. If we're quiet, no one will know I'm enjoying this.", "Careful. Get too good at this and I'll never leave."],
+      play: ["Bet you can't find the bookmark I just hid. Hint: it's not in a book.", "*vanishes. Reappears. Grins.*", "Let's play spies. You go first. Act natural.", "Catch! *tosses you a coin she lifted from your pocket*", "Red light, green light. I always win. I cheat.", "*pounces on a moth of light, misses, pretends she meant to*", "Tag. You're it. I'm already gone.", "Heist game: steal the cookie without the owl noticing. Go."],
+      treat: ["Blueberry. You know me too well. Suspicious.", "*eats it in two bites and checks the corners for more*", "I'd have stolen it anyway. But it tastes better this way.", "Mm. Crumbs on the cloak. Evidence.", "You're bribing me. It's working.", "*licks her paw* No one saw that.", "Thanks. I owe you one. I always pay my debts.", "Dangerous move, feeding a fox. I'll keep coming back."],
+      secret: ["I can pick any lock in this house. Even the biscuit tin.", "I've read your diary. Kidding. Mostly.", "My tail is fluffy because I brush it fifty times a night.", "There's a door behind the wardrobe. I'm not telling you where.", "I cried at the end of your last book. Once. Quietly.", "I've got a list of every reader I've ever trusted. It's very short.", "The hood is mostly for bad hair days.", "I once stole the moon's reflection from a puddle. It didn't fit in my pocket."],
+      mood: { moody: ["You went dark on me. I don't like not knowing where you are.", "Four days of silence. I almost picked the lock to your bookcase."], sad: ["Bad book? Walk away and don't look back. Spy rule number one.", "Some stories aren't worth stealing. Leave it."], sleepy: ["Even thieves sleep. Lightly. With one ear up.", "*yawns into her hood* Wake me if anything shiny happens."], happy: ["Feeling quick tonight. Want to see a trick?", "Good mood. Don't get used to it. …Actually, do."], content: ["Quiet night. My favourite kind.", "All clear. Nothing to steal but time."] } },
+    toad: { scratch: ["Behind the left dome, please. Data shows it's itchier.", "*leg kicks involuntarily* Fascinating reflex!", "Ribbit-ribbit! Precision scratching!", "Ahh. Like a warm rain on a lily pad.", "Recording: subject is extremely content.", "My warts thank you. Individually.", "Slightly to the north-east. Perfect coordinates!", "This is better than discovering a new element."],
+      play: ["Experiment! Will this pebble float? *plop* No!", "Let's catch flies! You'll need a longer tongue.", "*hops in a perfect parabola* Physics!", "Hide and seek! I'll be the one under the lily pad.", "Race you to the end of the chapter! Ready, set, ribbit!", "*builds a tiny tower of bottle caps* Engineering!", "Leapfrog? I'm a toad. I'm a natural.", "Let's make a volcano! …Indoors? Fine, a small one."],
+      treat: ["A candied fly! Crunchy exoskeleton, sweet centre!", "*nom* Nutritional value: high. Joy value: higher.", "Excellent specimen. May I have another for science?", "Sugar levels rising! Productivity rising!", "My stomach reports a successful experiment.", "*licks his eyeball* Sorry. Habit.", "Delicious! I'll record this in the snack log.", "You're an excellent lab partner."],
+      secret: ["I can't actually swim. I just sit in the water confidently.", "My goggles have no lenses. They're for style.", "I tried to kiss a princess once. She ran.", "My first experiment exploded. So did my second.", "I keep a bug collection. They're all pen pals.", "I've named every bubble in my flask.", "I sing in the bath. Opera. Badly.", "I think you're the smartest human I've ever studied."],
+      mood: { moody: ["Data gap detected: four days with no reading. Concerning!", "The lab has been very quiet. Too quiet. Ribbit."], sad: ["Failed experiments teach us things! Next book!", "Not every hypothesis works out. On to the next."], sleepy: ["Entering low-power mode… *ribbit*… zzz…", "Brain at 12%. Recharging required."], happy: ["Eureka! Everything is wonderful!", "Mood readings off the chart! Upwards!"], content: ["Stable and satisfied. The bubbles are bubbling.", "All systems nominal. Read me something curious?"] } },
+    bat: { scratch: ["Oh… behind the ears… yes… that's… nice…", "*ears flop down, completely relaxed*", "I-is it okay if I lean on you a bit?", "Your fingers are so warm. Like a little sun.", "*makes a tiny trilling sound and hides*", "Th-thank you. I didn't know I needed that.", "Softly, softly. My ears are very big. And very happy.", "Can we stay like this until the stars come out?"],
+      play: ["Peekaboo! *peeks out from behind her wings*", "Let's play hide the moon! …It's under the blanket.", "*flies a tiny wobbly circle* D-did you see that?", "We could… make shadow puppets? I'm good at bats.", "Catch the firefly! Gently! Don't squish it!", "Tag! …Oh, I tagged you too softly. Sorry. Tag!", "*rolls a blueberry towards you* Your turn!", "Pillow fort? I'll be the guard. A very small guard."],
+      treat: ["Mango! It's my favourite! How did you know?", "*holds it with both wings and nibbles happily*", "Juicy… sticky… perfect…", "I'll save half for tomorrow. …No I won't.", "You're so kind to me. Thank you, thank you.", "*happy wiggle* Best snack in the whole wide night.", "Mm! It tastes like summer.", "I'm going to remember this mango forever."],
+      secret: ["I sleep upside down only on weekends.", "I've drawn you a picture. It's not very good. It's under my book.", "I talk to the moon every night. I told it about you.", "My bow was a gift from a moth. We're friends now.", "I'm scared of thunder. But less when you're reading.", "I wish I were brave like Corvin. But maybe a bit quieter.", "I've learned all your favourite words. 'Cosy' is my favourite too.", "Sometimes I pretend the stars are night-lights just for me."],
+      mood: { moody: ["I missed you. I kept your page warm.", "It was quiet without you. Too quiet. I'm okay though."], sad: ["It's okay to stop. I stop all the time. Then I start again.", "Want a hug? A small one? My wings are very soft."], sleepy: ["*yawns a tiny yawn* Is it bedtime? It feels like bedtime.", "Sleepy… cosy… read me one more page?"], happy: ["I'm so happy I could flutter!", "Today's a good day. You're here."], content: ["I'm cosy and calm. Thank you for asking.", "All snug. Like a bat in a blanket."] } },
+    hedgehog: { scratch: ["Under the chin! Under the chin! YES!", "*leg kicks like a happy puppy*", "Careful of the prickles! …Ooh, you're good at this!", "Hehe! That tickles! Don't stop!", "*rolls onto his back for belly scratches*", "Scratch my ears and I'll show you my secret map!", "My quills are doing the happy wiggle!", "You're officially my BEST friend. Again."],
+      play: ["Adventure time! First stop: under the sofa!", "*rolls into a ball and bounces across the room*", "Treasure hunt! I buried a button somewhere!", "Let's build a fort and defend it from the cat!", "Race you! Ready, set… I already started!", "*pretends a leaf is a dragon and defeats it*", "Let's be explorers! You hold the map, I hold the snacks!", "Hide and seek! I'm in the laundry basket! Oops, I told you."],
+      treat: ["A COOKIE! I'll do a happy dance! *does it*", "*munches loudly* Sorry, it's too good to be quiet!", "Can I share it with my map? No? More for me!", "Best. Snack. In. The. Universe!", "*crumbs everywhere* I'll clean up later! Probably!", "Thank you thank you thank you!", "Cookies are adventure fuel! I'm SO fuelled!", "Yum! This is going in the adventure journal!"],
+      secret: ["I'm scared of the dark. But I pretend it's a cave.", "My hat is too big. I stuff it with socks.", "I've never actually seen the sea. I want to.", "I drew a treasure map. The treasure is you.", "I sleep with a torch under my pillow.", "I once got stuck in a boot for a whole afternoon.", "My middle name is Pumpernickel.", "When I grow up I want to discover a whole new country."],
+      mood: { moody: ["You were GONE! I had to explore all by myself!", "No adventures for four days! My boots are bored!"], sad: ["That book was a dead end! Let's find a new trail!", "Don't be sad! Wanna see me do a somersault?"], sleepy: ["Just… one… more… adventure… zzz…", "*yawns so big his hat falls off*"], happy: ["I'm SO happy I could explode into confetti!", "Best! Day! EVER!"], content: ["Happy and ready! What are we reading?", "All good! Adventure mode: on standby!"] } },
+    lion: { scratch: ["Ay, under the mane… yes, there, mi corazón.", "*leans in like a tango* Do not stop, querida.", "Your fingers in my mane… it is poetry.", "Gently, preciosa, this mane took three hours this morning.", "Mmm. Behind the ears. You know all my secrets.", "*purrs like a guitar being tuned* Perfecto.", "You scratch like a flamenco dancer stamps. With passion!", "I could die happy. But I will not. I have more books to read with you."],
+      play: ["Dance with me! One, two, three, olé!", "*serenades you with an invisible guitar*", "Let us play matador! You be the bull. A very gentle bull.", "I shall recite a poem! Roses are red, mi amor, so are my cheeks.", "*twirls a cape made of a tea towel* Olé!", "Hide and seek? I am too magnificent to hide. Find me anyway.", "Let us waltz around the bookcase!", "A duel of compliments! I begin: your eyes are like a well-kept library."],
+      treat: ["A churro! Ay, sugar and cinnamon, just like your smile.", "*eats with great drama* Delicioso!", "You feed me like the queen of Andalucía!", "Mmm, still warm. Like my heart for you.", "*licks sugar from his whiskers, very elegantly*", "One more and I will sing all night!", "Gracias, mi amor. You spoil this poor lion.", "This churro is a love letter. I accept."],
+      secret: ["I can't actually play the guitar. I just look like I can.", "The rose is plastic. Real ones wilt from my passion.", "I practise my smoulder in the bathroom mirror.", "I'm afraid of mice. A lion! Afraid of mice!", "I cried at the end of Don Quixote. Twice.", "My mane is forty percent hairspray.", "I wrote your name in the stars. Well, on the ceiling. In glow paint.", "My mother calls me 'Toñito'. Never repeat this."],
+      mood: { moody: ["You abandoned me for four days, querida. I wrote twelve tragic poems.", "My heart has been a lonely guitar without you."], sad: ["That book broke your heart? I will break it back!", "Come here, mi amor. Cry on my mane. It's very absorbent."], sleepy: ["Even passion must rest… *dramatic yawn*", "Dream of me, querida. I'll dream of you."], happy: ["I am the happiest lion in all of Spain!", "My heart dances the flamenco tonight!"], content: ["All is beautiful when you are here.", "Content, mi amor. Read to me in your sweet voice?"] } },
+    wolf: { scratch: ["Behind the ears. Don't say anything.", "*eyes close. A tiny smile. Gone again.*", "Okay, that's… actually really nice.", "Keep going. I'm thinking about death. And this.", "*tail thumps once against the floor. Traitor.*", "Ugh. My one weakness. Ears.", "You're not terrible at this. That's a compliment from me.", "Five more seconds. Then I'm brooding again."],
+      play: ["Fetch? I'm not a… fine. One throw.", "*howls along with the radio, very off-key*", "Let's play 'saddest book ever'. I'll win.", "Staring contest. I have practice. I stare into the void daily.", "*chases her own tail, then pretends she didn't*", "Tag. You're it. I'm going back to my room.", "Hide and seek? I hide in the dark. It's easy.", "Let's draw skulls in the margins. Cute ones."],
+      treat: ["Dark chocolate. Bitter. Like my soul.", "*eats it slowly, eyes closed* …Okay. That's good.", "Thanks. You didn't have to. I'm glad you did.", "Sugar doesn't fix everything. It fixes this.", "Don't tell anyone I said 'yum'.", "This is the only good thing about today. Besides you.", "*hides the wrapper in her book as a bookmark*", "Fine. I'll smile. Just this once."],
+      secret: ["I have a pink diary. It has a lock.", "I cried at a commercial about a lost dog.", "My favourite colour is actually yellow.", "I still sleep with a stuffed bat named Gerald.", "I know all the words to a boy band song. All of them.", "My eyeliner takes forty minutes. Every morning.", "I like sunny days. Tell no one.", "You're kind of my best friend. Don't make it a thing."],
+      mood: { moody: ["You disappeared. Like everyone does. …But you came back.", "Four days. I wrote a poem about it. It rhymes with 'abandoned'."], sad: ["Bad books are like bad days. They end.", "Same. Let's be sad together for a bit."], sleepy: ["Night is my time. Unfortunately I'm exhausted.", "*yawns, showing fangs* Not tired. Just… resting my eyes."], happy: ["This is happy. Can't you tell? My left ear moved.", "Okay. Today's not completely terrible."], content: ["Fine. Actually fine. Weird.", "Everything's okay. Don't jinx it."] } },
+  };
+  for (const k of Object.keys(PET_MORE)) if (PET[k]) PET[k].lines = [...PET[k].lines, ...PET_MORE[k]];
+  for (const k of Object.keys(CARE_MORE)) { const C = CARE[k], M = CARE_MORE[k]; if (!C) continue;
+    for (const a of ["scratch", "play", "treat", "secret"]) C[a] = [...(C[a] || []), ...(M[a] || [])];
+    for (const s of Object.keys(M.mood)) C.mood[s] = [C.mood[s], ...M.mood[s]].filter(Boolean); }
+  // say something new: skip the last few lines each companion said for this kind of moment
+  function pickFresh(arr, tag){ const R = pickFresh.r || (pickFresh.r = {}), r = R[tag] || (R[tag] = []), pool = arr.filter(x => !r.includes(x)), x = pick(pool.length ? pool : arr);
+    r.push(x); while (r.length > Math.min(6, arr.length - 1)) r.shift(); return x; }
   function careFor(act){
     const C = CARE[familiar] || CARE.cat, M = famMood();
     if (act === "treat") {
@@ -10458,12 +10616,12 @@ const A3APP = (() => {
       if (n >= 3) return [`${famName(familiar)} is too full for another treat today.`, "sleepy"];
       lsSet("reading-ledger-treatday", { d: todayISO(), n: n + 1 }); lsSet("reading-ledger-treats", lsGet("reading-ledger-treats", 0) + 1);
       const tr = lsGet("reading-ledger-treated", {}); tr[familiar] = todayISO(); lsSet("reading-ledger-treated", tr); bondAdd(2, "treat");
-      return [`*${M[0] === "moody" || M[0] === "sad" ? "perks right up at" : "happily munches"} ${TREATS[familiar]}* ${pick(C.treat)}`, "love"];
+      return [`*${M[0] === "moody" || M[0] === "sad" ? "perks right up at" : "happily munches"} ${TREATS[familiar]}* ${pickFresh(C.treat, familiar + "treat")}`, "love"];
     }
-    if (act === "mood") return [C.mood[M[0]] || C.mood.content, M[0] === "moody" ? "sad" : M[0] === "sad" ? "sad" : M[0] === "sleepy" ? "sleepy" : "happy"];
-    if (act === "secret") { const lv = bondLevel(bondOf(familiar).pts).lvl; return lv >= 2 ? [pick(C.secret), "wink"] : ["Secrets are for friends. Read with me a little more first.", "shy"]; }
+    if (act === "mood") return [pickFresh([].concat(C.mood[M[0]] || C.mood.content), familiar + "mood" + M[0]), M[0] === "moody" ? "sad" : M[0] === "sad" ? "sad" : M[0] === "sleepy" ? "sleepy" : "happy"];
+    if (act === "secret") { const lv = bondLevel(bondOf(familiar).pts).lvl; return lv >= 2 ? [pickFresh(C.secret, familiar + "secret"), "wink"] : ["Secrets are for friends. Read with me a little more first.", "shy"]; }
     bondPet(); lsSet("reading-ledger-pets", lsGet("reading-ledger-pets", 0) + 1);
-    return [pick(C[act] || C.scratch), act === "play" ? "happy" : "love"];
+    return [pickFresh(C[act] || C.scratch, familiar + act), act === "play" ? "happy" : "love"];
   }
   // ---- gifts: now and then your familiar leaves something for you ----
   const GIFT_TRINKETS = {
@@ -13793,8 +13951,13 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.4";
+  const APP_VERSION = "4.5";
   const CHANGELOG = [
+    ["4.5", "27 Oct 2026", "Your companions come alive", [
+      "Companions now blink, and gently sway, breathe and swish their tails while they keep you company",
+      "They nod along when they talk, wag when they're happy, droop when sleepy and jump when surprised",
+      "Every care action has its own reaction: munching a treat, leaning into a scratch, bouncing to play, leaning in to whisper a secret",
+      "Lots more to say: over a hundred new lines for petting, scratching, treats, play, secrets and moods, in each companion's own voice, and they try not to repeat themselves"]],
     ["4.4", "26 Oct 2026", "Your companions, redrawn, with wardrobes of their own", [
       "All nine companions are newly painted, with five expressions each that follow their mood",
       "New: each companion has a wardrobe of ten pieces made just for them, two at every bond level, from small charming accessories to a legendary look",
