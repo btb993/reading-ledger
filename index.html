@@ -2942,23 +2942,23 @@ svg.a3art{overflow:visible}
 @keyframes a3low{0%,100%{transform:rotate(-2.5deg) translateY(2px)}50%{transform:rotate(-1.5deg) translateY(2.6px)}}
 @keyframes a3limp{0%,100%{transform:rotate(12deg)}50%{transform:rotate(15deg)}}
 /* reactions to what you do: munching a treat, leaning into a scratch, bouncing to play, leaning in for a secret, pondering a mood, melting into a pet */
-.fambody.react-treat .a3art .a3m-head{animation:a3nom .34s ease-in-out 6}
-.fambody.react-treat .a3art .a3m-tail{animation:a3wag .42s ease-in-out 5}
-.fambody.react-treat > svg{animation:a3hop .7s ease-out 1!important}
-.fambody.react-scratch .a3art .a3m-head{animation:a3lean 2.4s ease-in-out 1}
-.fambody.react-scratch .a3art .a3m-tail{animation:a3wag .3s ease-in-out 7}
-.fambody.react-scratch .a3art .a3m-wing,.fambody.react-scratch .a3art .a3m-spines,.fambody.react-scratch .a3art .a3m-hackles{animation:a3flare .5s ease-in-out 3}
-.fambody.react-play > svg{animation:a3play 1.15s cubic-bezier(.3,1.3,.5,1) 1!important}
-.fambody.react-play .a3art .a3m-head{animation:a3bob .5s ease-in-out 4}
-.fambody.react-play .a3art .a3m-tail{animation:a3wag .28s ease-in-out 8}
-.fambody.react-play .a3art .a3m-wing{animation:a3flap .3s ease-in-out 7}
-.fambody.react-secret > svg{animation:a3lure 2.4s ease-in-out 1!important}
-.fambody.react-secret .a3art .a3m-head{animation:a3whisper 2.4s ease-in-out 1}
-.fambody.react-mood .a3art .a3m-head{animation:a3ponder 2.6s ease-in-out 1}
-.fambody.react-pet .a3art .a3m-head{animation:a3nuzzle 2.4s ease-in-out 1}
-.fambody.react-pet .a3art .a3m-tail{animation:a3wag .4s ease-in-out 6}
-.fambody.react-pet .a3art .a3m-wing{animation:a3flap .45s ease-in-out 5}
-.fambody.react-pet .a3art .a3m-spines{animation:a3bristle .5s ease-in-out 4}
+.react-treat .a3art .a3m-head{animation:a3nom .34s ease-in-out 6}
+.react-treat .a3art .a3m-tail{animation:a3wag .42s ease-in-out 5}
+.react-treat > svg{animation:a3hop .7s ease-out 1!important}
+.react-scratch .a3art .a3m-head{animation:a3lean 2.4s ease-in-out 1}
+.react-scratch .a3art .a3m-tail{animation:a3wag .3s ease-in-out 7}
+.react-scratch .a3art .a3m-wing,.react-scratch .a3art .a3m-spines,.react-scratch .a3art .a3m-hackles{animation:a3flare .5s ease-in-out 3}
+.react-play > svg{animation:a3play 1.15s cubic-bezier(.3,1.3,.5,1) 1!important}
+.react-play .a3art .a3m-head{animation:a3bob .5s ease-in-out 4}
+.react-play .a3art .a3m-tail{animation:a3wag .28s ease-in-out 8}
+.react-play .a3art .a3m-wing{animation:a3flap .3s ease-in-out 7}
+.react-secret > svg{animation:a3lure 2.4s ease-in-out 1!important}
+.react-secret .a3art .a3m-head{animation:a3whisper 2.4s ease-in-out 1}
+.react-mood .a3art .a3m-head{animation:a3ponder 2.6s ease-in-out 1}
+.react-pet .a3art .a3m-head{animation:a3nuzzle 2.4s ease-in-out 1}
+.react-pet .a3art .a3m-tail{animation:a3wag .4s ease-in-out 6}
+.react-pet .a3art .a3m-wing{animation:a3flap .45s ease-in-out 5}
+.react-pet .a3art .a3m-spines{animation:a3bristle .5s ease-in-out 4}
 @keyframes a3nom{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-2.5deg) translateY(2.2px)}}
 @keyframes a3hop{0%,100%{transform:translateY(0)}30%{transform:translateY(-9px) scale(1.02,.98)}60%{transform:translateY(0) scale(1.03,.97)}80%{transform:translateY(-2px)}}
 @keyframes a3lean{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(8deg) translateX(1.5px)}35%,65%{transform:rotate(10deg) translateX(2px)}50%{transform:rotate(7deg) translateX(1px)}}
@@ -2968,6 +2968,40 @@ svg.a3art{overflow:visible}
 @keyframes a3ponder{0%,100%{transform:rotate(0)}30%{transform:rotate(-6deg)}60%{transform:rotate(5deg)}80%{transform:rotate(2deg)}}
 @keyframes a3nuzzle{0%,100%{transform:rotate(0)}20%{transform:rotate(6deg)}40%{transform:rotate(-3deg)}60%{transform:rotate(5deg)}80%{transform:rotate(-1deg)}}
 @media (prefers-reduced-motion:reduce){.a3art .a3m,.a3art .a3lid,.a3art .a3lidl{animation:none!important}}
+/* ===== v4.6: Halloween costumes, reading mode you can step away from, friendlier buddy reads and clubs ===== */
+.bondmodal .wlvl.wseason{border-radius:14px;padding:8px 8px 4px;background:linear-gradient(135deg,color-mix(in srgb,#E8761A 14%,var(--paper)),color-mix(in srgb,#5A2A7A 10%,var(--paper)));border:1px solid color-mix(in srgb,#E8761A 45%,var(--line))}
+.bondmodal .wlvl.wseason .outfit.seasonal{border-color:color-mix(in srgb,#E8761A 60%,var(--line))}
+.bondmodal .wlvl.wseason .outfit.seasonal.on{box-shadow:0 0 0 2px #E8761A,0 0 18px color-mix(in srgb,#E8761A 45%,transparent)}
+/* reading mode */
+.rmfamart{pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.rmpage{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:12px;color:#F3E6C8;font-size:14px}
+.rmpage[hidden]{display:none}
+.rmpage input{width:86px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,220,160,.35);background:rgba(20,12,10,.55);color:#FFF3DA;font:inherit;font-size:16px;text-align:center}
+body.rm-open .toast{top:auto;bottom:calc(74px + env(safe-area-inset-bottom,0px));width:max-content;max-width:min(92vw,520px);font-size:14px;line-height:1.35;text-align:center}
+.rmpill{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 130px);padding:7px 8px 7px 12px;border-radius:999px;background:linear-gradient(135deg,#2A1A12,#120A10);color:#F8E8C8;box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 0 1px rgba(255,200,120,.25);animation:rmpillin .35s ease-out}
+.rmpill .rmpflame{font-size:18px;animation:rmpflick 2.4s ease-in-out infinite}
+.rmpill .rmptxt{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.rmpill .rmptxt b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.rmpill .rmptxt small{font-size:11.5px;opacity:.75;font-variant-numeric:tabular-nums}
+.rmpill .btn{flex:0 0 auto}.rmpill .btn:not(.primary){background:transparent;color:#F8E8C8;border:1px solid rgba(255,220,160,.45);box-shadow:none}
+@keyframes rmpillin{from{transform:translateY(20px);opacity:0}}
+@keyframes rmpflick{0%,100%{transform:scale(1) rotate(0)}40%{transform:scale(1.08,.94) rotate(-3deg)}70%{transform:scale(.96,1.05) rotate(2deg)}}
+body.rm-open .rmpill{display:none}
+body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:105}
+@media (max-width:640px){.rmpill{max-width:calc(100vw - 100px)}}
+/* buddy reads and clubs */
+.bfam{display:flex;gap:10px;align-items:center;margin:4px 0 8px;padding:8px 12px 8px 6px;border-radius:14px;background:color-mix(in srgb,var(--aura,#C9A24E) 10%,var(--paper));border:1px solid var(--line)}
+.bfam .bfamart{width:58px;height:58px;flex:0 0 auto}.bfam .bfamart svg{width:100%;height:100%;overflow:visible}
+.bfam p{margin:0;font-size:14.5px;line-height:1.35}
+.btrow.wc{grid-template-columns:26px 62px 1fr 52px 30px}.btpct small{display:block;font-size:10.5px;color:var(--muted)}
+.bcheer{width:28px;height:28px;font-size:14px}
+.bupd{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin:8px 0 4px;padding:8px 10px;border-radius:12px;border:1px dashed var(--line)}
+.bupd label{display:flex;flex-direction:column;gap:2px}.bupd input{width:96px;padding:7px 9px;border-radius:9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:16px}
+.bupd small{align-self:center}
+.binvite{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 2px}.binvite .chip{display:inline-flex;align-items:center;gap:5px}
+.mfoot.bleave{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+.clbook.next{border-color:color-mix(in srgb,#E0A526 60%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,#E0A526 35%,transparent)}
+.cnext{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#8A5A06;background:color-mix(in srgb,#E0A526 22%,var(--paper));padding:2px 8px;border-radius:999px;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -5866,7 +5900,103 @@ ART3.dress = (k, svg, items) => items.reduce((s, it) => s.replace(`<g class="mou
   });
 })();
 
-// ===== Companion art v4.5: the nine companions and their wardrobes (ART3), wired into the app =====
+// ===== Halloween costumes: one dress-up per companion, in season only (mid October to early November) =====
+// Each costume is a single piece that takes the other wardrobe pieces off while it's worn.
+(() => {
+  const { ink, lit, shd, W } = ART3, K = ART3.WK, M = ART3.MAT, f1 = K.f1;
+  const ALL = ["head", "torso", "back", "neck", "face", "ears", "held", "arms"];
+  const add = (k, slug, name, lore, draw, replaces) => { K.item(k, 1, 9, slug, "costume", name, lore, draw, { covers: ALL, replaces: replaces || [] }); const it = ART3.ITEMS[ART3.ITEMS.length - 1]; it.season = "halloween"; };
+  const ORA = "#E8761A", ORL = "#FFB04A", ORD = "#8A3A08";
+  // a pumpkin: ribbed, with a curled stem; carved = a lit jack-o'-lantern face
+  const pumpkin = (C, x, y, rx, ry, o = {}) => {
+    const body = C.rad([[0, ORL], [.55, ORA], [1, ORD]], { cx: .4, cy: .35 });
+    const ribs = [-.62, -.25, .25, .62].map(t => `<path d="M${f1(x + t * rx * .55)} ${f1(y - ry * .92)}C${f1(x + t * rx * 1.25)} ${f1(y - ry * .4)} ${f1(x + t * rx * 1.25)} ${f1(y + ry * .45)} ${f1(x + t * rx * .55)} ${f1(y + ry * .95)}" stroke="${ORD}" stroke-width="${f1(Math.max(.6, rx * .045))}" fill="none" opacity=".55"/>`).join("");
+    const shape = `M${f1(x)} ${f1(y - ry)}C${f1(x + rx * 1.12)} ${f1(y - ry * 1.08)} ${f1(x + rx * 1.12)} ${f1(y + ry * 1.04)} ${f1(x)} ${f1(y + ry)}C${f1(x - rx * 1.12)} ${f1(y + ry * 1.04)} ${f1(x - rx * 1.12)} ${f1(y - ry * 1.08)} ${f1(x)} ${f1(y - ry)}Z`;
+    const glowF = C.rad([[0, "#FFF4B0"], [.6, "#FFC23A"], [1, "#E86A10"]]);
+    const face = o.carved ? `<path d="M${f1(x - rx * .52)} ${f1(y - ry * .12)}l${f1(rx * .2)} ${f1(-ry * .36)}l${f1(rx * .2)} ${f1(ry * .36)}Z M${f1(x + rx * .12)} ${f1(y - ry * .12)}l${f1(rx * .2)} ${f1(-ry * .36)}l${f1(rx * .2)} ${f1(ry * .36)}Z M${f1(x - rx * .56)} ${f1(y + ry * .2)}Q${f1(x)} ${f1(y + ry * .78)} ${f1(x + rx * .56)} ${f1(y + ry * .2)}l${f1(-rx * .16)} ${f1(ry * .14)}l${f1(-rx * .14)} ${f1(-ry * .1)}l${f1(-rx * .13)} ${f1(ry * .16)}l${f1(-rx * .13)} ${f1(-ry * .16)}l${f1(-rx * .14)} ${f1(ry * .1)}Z" fill="${glowF}" stroke="#5A2006" stroke-width=".7"/>` : "";
+    const stem = o.stem === false ? "" : `<path d="M${f1(x - rx * .1)} ${f1(y - ry * .9)}C${f1(x - rx * .12)} ${f1(y - ry * 1.3)} ${f1(x + rx * .02)} ${f1(y - ry * 1.5)} ${f1(x + rx * .22)} ${f1(y - ry * 1.42)}L${f1(x + rx * .14)} ${f1(y - ry * .9)}Z" fill="#5A7A2A" stroke="#2A3A10" stroke-width=".7"/>`;
+    return `${stem}${ink(C, shape, body, "#5A2006", { heavy: W.minor })}${`<g clip-path="${C.clip(shape)}">${ribs}</g>`}<path d="M${f1(x - rx * .62)} ${f1(y - ry * .4)}Q${f1(x - rx * .5)} ${f1(y - ry * .8)} ${f1(x - rx * .18)} ${f1(y - ry * .82)}" stroke="#FFE0A8" stroke-width="${f1(Math.max(.7, rx * .07))}" fill="none" opacity=".7" stroke-linecap="round"/>${face}`;
+  };
+  const tinyBat = (x, y, s, col = "#16121E") => `<path transform="translate(${f1(x)} ${f1(y)}) scale(${s})" d="M0 0C-2 -2 -4 -3 -7 -2.6C-6 -1.6 -6 -.6 -6.6 .4C-5 0 -4 .4 -3.4 1.4C-2.4 .6 -1 .8 0 2C1 .8 2.4 .6 3.4 1.4C4 .4 5 0 6.6 .4C6 -.6 6 -1.6 7 -2.6C4 -3 2 -2 0 0Z" fill="${col}"/>`;
+  const moon = (C, x, y, r) => `<path d="M0 ${-r}A${r} ${r} 0 1 0 ${f1(r * .8)} ${f1(r * .6)}A${f1(r * .78)} ${f1(r * .78)} 0 1 1 0 ${-r}Z" transform="translate(${f1(x)} ${f1(y)}) rotate(-20)" fill="${K.goldF(C)}" stroke="${K.GL}" stroke-width=".5"/>`;
+
+  // ---- Natasha: the Midnight Witch ----
+  add("natasha", "midnightwitch", "Midnight Witch", "A hat with a crescent charm and a cape that swishes on purpose. Her familiar, naturally, is herself.",
+    (C, F) => ({
+      back: K.cape(C, F, { col: "#2A1A3E", spread: 2.3, hem: 202, waves: 5, lining: "#169A6A", pattern: [[70, 150], [130, 160], [92, 186], [150, 190]].map(([x, y]) => K.star(x, y, 2.2, "#E8D8FF")).join("") }),
+      body: K.capeClasp(C, F, "#C9A24E", "#169A6A"),
+      head: `<g transform="translate(101 40) rotate(-10) scale(1.22) translate(-101 -38)">${K.pointyHat(C, F, { col: "#241A34", h: 27, bend: 11, wk: .95, band: "#169A6A" })}${moon(C, 111, 30, 3)}${K.star(93, 24, 1.5, "#E8D8FF")}</g>` }));
+
+  // ---- Antonio: El Conde de la Noche ----
+  add("antonio", "condenoche", "El Conde de la Noche", "A vampire count with a velvet cape and red silk lining. He bites only metaphorically. Mostly hearts.",
+    (C, F) => { const col = `M60 104C52 86 52 64 60 50C68 62 74 80 80 98ZM140 104C148 86 148 64 140 50C132 62 126 80 120 98Z`;
+      return {
+        back: K.cape(C, F, { col: "#18121E", spread: 2.15, hem: 206, waves: 6, lining: "#B01830" }) + ink(C, col, M.velvet(C, "#1E1626"), "#06040A", { heavy: W.minor }) + `<path d="M62 100C56 84 56 66 61 55M138 100C144 84 144 66 139 55" stroke="#C8203A" stroke-width="2.2" fill="none"/>`,
+        body: `<path d="M86 100Q100 112 114 100" stroke="#C9A24E" stroke-width="1" fill="none" stroke-dasharray="1.6 .8"/>${K.gem(C, 100, 110, 3.4, "#C8102A")}<circle cx="100" cy="110" r="5" fill="none" stroke="${K.goldF(C)}" stroke-width="1.6"/>` }; });
+
+  // ---- Hoot: the Haunted Librarian ----
+  add("hoot", "hauntedlibrarian", "The Haunted Librarian", "A cobweb shawl and a very polite ghost who shushes people. They met in the reference section.",
+    (C, F) => { const [x, y] = F.neck;
+      const web = `M${x - 30} ${y - 2}Q${x} ${y + 14} ${x + 30} ${y - 2}L${x + 26} ${y + 14}Q${x} ${y + 32} ${x - 26} ${y + 14}Z`;
+      const rad = [-26, -14, 0, 14, 26].map(dx => `<path d="M${x} ${y - 4}L${x + dx} ${y + 16 + (26 - Math.abs(dx)) * .4}" stroke="#E8E4F0" stroke-width=".55" opacity=".85"/>`).join("") + [6, 12, 18].map(r => `<path d="M${x - 28 + r * .2} ${y + 2 + r * .55}Q${x} ${y + 10 + r} ${x + 28 - r * .2} ${y + 2 + r * .55}" stroke="#E8E4F0" stroke-width=".5" fill="none" opacity=".8"/>`).join("");
+      const ghost = `M0 -12C-8 -12 -11 -5 -11 2L-11 12Q-8 9 -5.5 12Q-3 15 0 11Q3 15 5.5 12Q8 9 11 12L11 2C11 -5 8 -12 0 -12Z`;
+      return {
+        body: ink(C, web, "#2A2238", "#0E0A16", { heavy: 1 }) + `<g clip-path="${C.clip(web)}" opacity=".95">${rad}</g>` + `<path d="M${x + 18} ${y + 14}v8" stroke="#E8E4F0" stroke-width=".5"/><circle cx="${x + 18}" cy="${y + 23}" r="1.6" fill="#16121E"/>`
+          + `<g class="a3float"><g transform="translate(156 74)">${K.glow(C, 0, 0, 20, "#DDE8FF", .4)}${ink(C, ghost, C.rad([[0, "#FFFFFF"], [.7, "#F2F0FA"], [1, "#C8C4DC"]], { cx: .4, cy: .3 }), "#8A86A0", { heavy: 1 })}<ellipse cx="-3.6" cy="-2" rx="1.5" ry="2" fill="#1A1622"/><ellipse cx="3.6" cy="-2" rx="1.5" ry="2" fill="#1A1622"/><ellipse cx="0" cy="3" rx="1.6" ry="1.2" fill="#1A1622"/><ellipse cx="-6.4" cy="1.6" rx="1.8" ry="1" fill="#FFB0C8" opacity=".7"/><ellipse cx="6.4" cy="1.6" rx="1.8" ry="1" fill="#FFB0C8" opacity=".7"/></g></g>` }; });
+
+  // ---- Corvin: Knight of the Hollow Pumpkin ----
+  add("corvin", "pumpkinknight", "Knight of the Hollow Pumpkin", "A carved pumpkin helm and a cape the colour of bonfires. He insists the pumpkin is terrifying. It is adorable.",
+    (C, F) => ({
+      back: K.cape(C, F, { col: "#1A1410", spread: 2.2, hem: 206, waves: 6, lining: ORA, pattern: tinyBat(100, 150, 1.6, ORA) }),
+      head: `<g>${pumpkin(C, 101, 30, 26, 19, { carved: true })}<path d="M78 44Q101 54 124 44" stroke="#3A1A06" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M112 12C118 2 128 0 134 4C126 5 120 9 116 14Z" fill="#6A8A3A" stroke="#2A3A10" stroke-width=".7"/></g>` }), ["helm", "cape"]);
+
+  // ---- Ember: Not-So-Little Red ----
+  add("ember", "notsolittlered", "Not-So-Little Red", "A red riding hood, worn by the fox. The basket is for cookies. Whose cookies is a separate question.",
+    (C, F) => ({
+      back: K.cape(C, F, { col: "#B0182A", spread: 2.2, hem: 200, waves: 5, lining: "#F2D8A8" }),
+      head: K.hood(C, F, { col: "#B0182A", trim: "#F2D8A8" }),
+      body: `<g transform="translate(100 ${F.neck[1] + 2})">${K.bow(C, 0, 0, .5, "#F4EEE6")}</g>`,
+      held: (C2, e) => { const [x, y] = e; return `<g transform="translate(${f1(x + 2)} ${f1(y + 6)})"><path d="M-9 -2Q0 -16 9 -2" stroke="#7A4A1A" stroke-width="1.8" fill="none"/>${ink(C2, "M-11 -2L11 -2L8 9Q0 11 -8 9Z", C2.lin([[0, "#D8A060"], [1, "#7A4A1A"]], [0, 0, 0, 1]), "#3A1A06", { heavy: 1 })}<path d="M-10 1h20M-9 4.5h18" stroke="#5A3010" stroke-width=".6"/><path d="M-9 -2L-3 -6L2 -2L8 -6L11 -2Z" fill="#E8E0D8" stroke="#8A2A2A" stroke-width=".5"/><circle cx="-2" cy="-4" r="2.4" fill="#C88A4A" stroke="#6A3A10" stroke-width=".5"/><circle cx="-2.6" cy="-4.4" r=".5" fill="#3A1A06"/></g>`; } }), ["hood", "cloak-back", "cloak", "clasp"]);
+
+  // ---- Sir Wartsworth: Dr. Frankentoad ----
+  add("wartsworth", "frankentoad", "Dr. Frankentoad", "Neck bolts, a flat-top and one heroic stitch. IT'S ALIVE! (It was always alive. He's a toad.)",
+    (C, F) => { const [x, y] = F.neck;
+      const hair = `M78 70L78 58Q100 52 122 58L122 70L118 66L114 71L110 66L106 71L102 66L98 71L94 66L90 71L86 66L82 71Z`;
+      const bolt = s => `<g transform="translate(${100 + s * 38} 104)">${ink(C, `M${s * -6} -2.4H${s * 4}V2.4H${s * -6}Z`, M.steel(C, [0, 0, 0, 1]), "#1A202C", { heavy: .9 })}${ink(C, `M${s * 3} -4.4H${s * 7}V4.4H${s * 3}Z`, M.steel(C, [0, 0, 0, 1]), "#1A202C", { heavy: .9 })}</g>`;
+      return {
+        head: ink(C, hair, C.lin([[0, "#3A3A42"], [1, "#0E0E12"]], [0, 0, 0, 1]), "#000", { heavy: W.minor }) + `<path d="M84 57.4Q100 54 116 57.4" stroke="#6A6A78" stroke-width="1" fill="none" opacity=".7"/><path d="M88 76l7 -2" stroke="#2A3A20" stroke-width="1"/>${[0, 1, 2].map(i => `<path d="M${89 + i * 2.4} ${73.6 - i * .6}l.5 2.4" stroke="#2A3A20" stroke-width=".8"/>`).join("")}` + bolt(-1) + bolt(1),
+        body: "" }; }, ["goggles"]);
+
+  // ---- Nyx: Little Pumpkin ----
+  add("nyx", "littlepumpkin", "Little Pumpkin", "A pumpkin hat with a leaf, and a candy pail she is far too shy to hold out. You may have one. Two if you ask nicely.",
+    (C, F) => { const [x, y] = F.head.top;
+      const cap = `M${x - 22} ${y + 6}C${x - 22} ${y - 14} ${x + 22} ${y - 14} ${x + 22} ${y + 6}Q${x} ${y + 10} ${x - 22} ${y + 6}Z`;
+      return {
+        head: ink(C, cap, C.rad([[0, ORL], [.6, ORA], [1, ORD]], { cx: .4, cy: .3 }), "#5A2006", { heavy: W.minor }) + `<g clip-path="${C.clip(cap)}">${[-12, -4, 4, 12].map(dx => `<path d="M${x + dx * .6} ${y - 9}Q${x + dx * 1.15} ${y - 2} ${x + dx} ${y + 9}" stroke="${ORD}" stroke-width=".8" fill="none" opacity=".55"/>`).join("")}</g>`
+          + `<path d="M${x - 1} ${y - 8}C${x - 2} ${y - 14} ${x + 2} ${y - 17} ${x + 5} ${y - 15}" stroke="#4A6A20" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M${x + 3} ${y - 10}C${x + 10} ${y - 16} ${x + 16} ${y - 12} ${x + 15} ${y - 7}C${x + 10} ${y - 6} ${x + 6} ${y - 7} ${x + 3} ${y - 10}Z" fill="#6A9A3A" stroke="#2A3A10" stroke-width=".6"/>`,
+        body: `<g transform="translate(140 186) scale(1.5)"><path d="M-8 -6Q0 -18 8 -6" stroke="#3A3A42" stroke-width="1.2" fill="none"/>${pumpkin(C, 0, 0, 9, 7.4, { carved: true, stem: false })}<circle cx="-3" cy="-7" r="1.8" fill="#E84A8A"/><circle cx="2" cy="-7.6" r="1.6" fill="#4AC8E8"/><rect x="4" y="-9" width="2" height="4" rx=".8" fill="#FFD84A" transform="rotate(20 5 -7)"/></g>` }; }, ["bow"]);
+
+  // ---- Bramble: the Fearsome Dragon (very small) ----
+  add("bramble", "tinydragon", "Fearsome Dragon (Very Small)", "Felt horns, felt wings, and a ROAR that is mostly giggling. Treasure hoard: one button.",
+    (C, F) => { const [x, y] = F.head.top;
+      const horn = s => `M${x + s * 13} ${y + 6}C${x + s * 14} ${y - 8} ${x + s * 22} ${y - 17} ${x + s * 30} ${y - 18}C${x + s * 25} ${y - 11} ${x + s * 23} ${y - 2} ${x + s * 22} ${y + 7}Z`;
+      const spikes = [-9, 0, 9].map(dx => `M${x + dx - 4} ${y + 2}L${x + dx} ${y - 7 - (dx ? 0 : 2)}L${x + dx + 4} ${y + 2}Z`).join("");
+      return {
+        back: [-1, 1].map(s => { const m = v => 100 + s * v, d = `M${m(12)} 168C${m(24)} 150 ${m(40)} 140 ${m(56)} 138C${m(52)} 146 ${m(54)} 152 ${m(58)} 158C${m(50)} 158 ${m(46)} 162 ${m(46)} 168C${m(40)} 166 ${m(34)} 168 ${m(32)} 174C${m(26)} 172 ${m(18)} 174 ${m(12)} 176Z`;
+          return ink(C, d, C.lin([[0, "#6AC87A"], [1, "#1E5A2A"]], [0, 0, 1, 1]), "#0E2A14", { heavy: W.minor }) + `<path d="M${m(14)} 170L${m(54)} 140M${m(16)} 172L${m(46)} 162M${m(16)} 174L${m(32)} 172" stroke="#0E2A14" stroke-width=".8" fill="none" opacity=".55"/>`; }).join(""),
+        head: K.hood(C, F, { col: "#3A8A4A", trim: "#F2D86A", deco: () => "" }) + [-1, 1].map(s => ink(C, horn(s), C.lin([[0, "#FFF2C8"], [1, "#C8A860"]], [0, 0, 0, 1]), "#6A5420", { heavy: 1 })).join("") + ink(C, spikes, "#F2D86A", "#8A6A10", { heavy: .9 }) }; }, ["hat"]);
+
+  // ---- Wulfila: Wolf in Sheep's Clothing ----
+  add("wulfila", "sheepsclothing", "Wolf in Sheep's Clothing", "A fluffy fleece hood with tiny sheep ears. It's ironic. She has worn it every day this week.",
+    (C, F) => { const [x, y] = F.head.top, [nx, ny, nw] = F.neck;
+      const arc = Array.from({ length: 9 }, (_, i) => { const t = i / 8, a = Math.PI * (1.08 - t * 1.16); return [x + Math.cos(a) * 30, y + 12 - Math.sin(a) * 16]; });
+      const ear = s => `<g transform="translate(${x + s * 30} ${y + 14}) rotate(${s * 28})">${ink(C, `M0 0C${s * 4} -3 ${s * 12} -2 ${s * 13} 2C${s * 12} 6 ${s * 4} 6 0 3Z`, C.lin([[0, "#FFF6F0"], [1, "#E8C8C0"]], [0, 0, 1, 0]), "#8A6A6A", { heavy: .9 })}<path d="M${s * 3} 1.6C${s * 6} 0 ${s * 10} .6 ${s * 11} 2.2" stroke="#F0A0B0" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;
+      return {
+        head: M.fluff(C, arc, 11, "#F8F4EE") + ear(-1) + ear(1),
+        body: M.fluff(C, [[nx - nw * .7, ny - 1], [nx - nw * .3, ny + 4], [nx + nw * .3, ny + 4], [nx + nw * .7, ny - 1]], 8, "#F8F4EE") + `<path d="M${nx - 3} ${ny + 6}h6" stroke="#8A3AC8" stroke-width="1.6"/><g transform="translate(${nx} ${ny + 10})">${ink(C, "M-3.4 2.6C-3.4 -1.6 -2.2 -3.6 0 -3.6C2.2 -3.6 3.4 -1.6 3.4 2.6Z", K.goldF(C), K.GL, { heavy: .8 })}<circle cy="3" r=".9" fill="${K.GL}"/></g>` }; });
+})();
+
+// ===== Companion art v4.6: the nine companions and their wardrobes (ART3), wired into the app =====
 const A3APP = (() => {
   const KEY = { cat: "natasha", lion: "antonio", owl: "hoot", raven: "corvin", fox: "ember", toad: "wartsworth", bat: "nyx", hedgehog: "bramble", wolf: "wulfila" };
   // the app's moods, drawn with the five painted expressions
@@ -5892,7 +6022,7 @@ const A3APP = (() => {
     const s = raw(k, ids, ex, lite).replace(/id="([a-z]+\d+_\d+)"/g, `id="$1${u}"`).replace(/url\(#([a-z]+\d+_\d+)\)/g, `url(#$1${u})`);
     return s.replace(/^<svg class="[^"]*"/, `<svg class="famart a3art ${k}" style="${clock()}" data-a3k="${k}" data-a3w="${ids.join(",")}" data-a3x="${ex}"${lite ? ' data-a3l="1"' : ""}`);
   }
-  const items = k => ART3.itemsFor(KEY[k] || "natasha").map(i => ({ id: i.id, slug: i.slug, lvl: i.lvl, slot: i.slot, name: i.name, lore: i.lore, aliases: i.aliases }));
+  const items = k => ART3.itemsFor(KEY[k] || "natasha").map(i => ({ id: i.id, slug: i.slug, lvl: i.lvl, slot: i.slot, name: i.name, lore: i.lore, aliases: i.aliases, season: i.season }));
   const item = id => ART3.ITEMS.find(i => i.id === (ART3.RENAMED[id] || id));
   // turn whatever is saved (old outfit names such as "cape", or piece ids) into this companion's pieces
   function normalize(k, wear){ const ch = KEY[k] || "natasha", ids = [];
@@ -9800,10 +9930,15 @@ const A3APP = (() => {
   const bondOf = k => { const B = bondAll()[k] || {}; return { pts: B.pts || 0, wear: B.wear || [], day: B.day || "", pets: B.pets || 0 }; };
   function bondLevel(pts){ let i = 0; BOND_LEVELS.forEach(([p], j) => { if (pts >= p) i = j; }); const next = BOND_LEVELS[i + 1]; return { lvl: i + 1, name: BOND_LEVELS[i][1], next: next ? { at: next[0], name: next[1], pct: Math.round((pts - BOND_LEVELS[i][0]) / (next[0] - BOND_LEVELS[i][0]) * 100) } : null }; }
   // ---- wardrobe (v4.4): ten pieces of their own for every companion, two at each bond level ----
-  const wItems = k => A3APP.items(k);
+  // seasonal pieces (Halloween costumes) come out only in their season, for everyone, at any bond level
+  const COSTUME_SEASONS = { halloween: { name: "Halloween", icon: "🎃", from: [10, 15], to: [11, 7] } };
+  const inSeason = s => { const S = COSTUME_SEASONS[s]; if (!S) return false; const d = new Date(), md = (d.getMonth() + 1) * 100 + d.getDate(); return md >= S.from[0] * 100 + S.from[1] && md <= S.to[0] * 100 + S.to[1]; };
+  const seasonEnds = s => { const S = COSTUME_SEASONS[s]; return new Date(new Date().getFullYear(), S.to[0] - 1, S.to[1]).toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
+  const wItems = k => A3APP.items(k).filter(i => !i.season);
+  const wSeason = k => A3APP.items(k).filter(i => i.season && inSeason(i.season));
   const wItem = id => A3APP.item(id);
   const wearOf = k => A3APP.normalize(k, bondOf(k).wear);
-  const wornNow = k => { const lv = bondLevel(bondOf(k).pts).lvl; return wearOf(k).filter(id => (wItem(id)?.lvl || 9) <= lv); };
+  const wornNow = k => { const lv = bondLevel(bondOf(k).pts).lvl; return wearOf(k).filter(id => { const it = wItem(id); return !!it && (it.season ? inSeason(it.season) : it.lvl <= lv); }); };
   function bondUnlocks(k, lv){ const n = wItems(k).filter(i => i.lvl === lv).map(i => "the " + i.name), two = n.join(" and ");
     return { 1: two, 2: `Warmer words, plus ${two}`, 3: `${two.charAt(0).toUpperCase() + two.slice(1)}, and a little figurine of them for your shelves`, 4: `${two.charAt(0).toUpperCase() + two.slice(1)}, and secrets they only tell close friends`, 5: `Their legendary look: ${two}` }[lv] || ""; }
   const BOND_UNLOCKS = new Proxy({}, { get: (_, lv) => bondUnlocks(familiar, +lv) });
@@ -9813,6 +9948,9 @@ const A3APP = (() => {
   (function migrateWardrobe(){ try { const all = bondAll(); let changed = false;
     for (const k of Object.keys(all)) { const B = all[k]; if (!B || !Array.isArray(B.wear) || !B.wear.some(id => !String(id).includes("."))) continue; B.wear = A3APP.normalize(k, B.wear); changed = true; }
     if (changed) lsSet(KEY_BOND, all); } catch (e) {} })();
+  // in season, mention the costume once
+  setTimeout(() => { try { if (!famChosen) return; for (const sn of Object.keys(COSTUME_SEASONS)) { const key = `reading-ledger-season-${sn}-${new Date().getFullYear()}`;
+    if (inSeason(sn) && !lsGet(key, false) && wSeason(familiar).length) { lsSet(key, true); toast(`${COSTUME_SEASONS[sn].icon} ${famName(familiar)} has a ${COSTUME_SEASONS[sn].name} costume! Tap the hearts beside them to try it on.`, 6500); } } } catch (e) {} }, 6000);
   function bondAdd(n, why){
     const all = bondAll(), k = familiar, B = { pts: 0, wear: [], ...(all[k] || {}) };
     const before = bondLevel(B.pts).lvl; B.pts = Math.round((B.pts + n) * 10) / 10; all[k] = B; lsSet(KEY_BOND, all);
@@ -9851,6 +9989,8 @@ const A3APP = (() => {
   function bondPill(){ const B = bondOf(familiar), L = bondLevel(B.pts); return `<button type="button" class="bondpill" data-bond title="Your bond with ${esc(famName(familiar))}">${"♥".repeat(L.lvl)}${"♡".repeat(5 - L.lvl)}<span>${esc(L.name)}</span></button>`; }
   function openBond(){
     const k = familiar, B = bondOf(k), L = bondLevel(B.pts), F = FAMILIARS[k], root = $("#modal-root"), worn = wearOf(k);
+    const wBtn = o => { const open = !!o.season || L.lvl >= o.lvl, on = worn.includes(o.id); return `<button type="button" class="outfit${on ? " on" : ""}${o.lvl === 5 && !o.season ? " legendary" : ""}${o.season ? " seasonal" : ""}${open ? "" : " locked"}" ${open ? `data-wear="${o.id}"` : "disabled"} aria-pressed="${on}"><span class="wprev famcard" data-fam="${k}" data-expr="idle">${open ? A3APP.art(k, [o.id], "neutral", true) : `<span class="wlock">♡ ${o.lvl}</span>`}</span><b>${esc(o.name)}</b><small>${open ? (on ? "Wearing it · tap to take off" : esc(o.lore)) : `Unlocks at ${esc(BOND_LEVELS[o.lvl - 1][1])}`}</small>${o.lvl === 5 && !o.season ? `<span class="wleg">Legendary</span>` : ""}</button>`; };
+    const SZ = wSeason(k), SN = SZ.length ? COSTUME_SEASONS[SZ[0].season] : null;
     root.innerHTML = `<div class="scrim" id="bond-scrim"><div class="modal bondmodal" role="dialog" aria-modal="true" aria-labelledby="bond-t" style="--aura:${F.aura}">
       <div class="phead"><div><div class="label">Your bond with</div><h2 id="bond-t">${esc(famName(k))}</h2></div><button class="btn small" type="button" data-bondx>Close</button></div>
       <div class="bondtop"><div class="bondart famcard${isKindred(k) ? " kindred" : ""}" data-fam="${k}" data-expr="love">${famArt(k)}</div>
@@ -9859,7 +9999,8 @@ const A3APP = (() => {
           <p class="note">Your bond grows when you read together: updating your page, reading sessions, finishing books, rating them, visiting each day and the occasional pat.</p></div></div>
       <div class="label">Wardrobe · ${wItems(k).filter(o => L.lvl >= o.lvl).length} of ${wItems(k).length} unlocked</div>
       <div class="wfitbar"><button type="button" class="btn small" data-wfinest>Wear the finest I've unlocked</button><button type="button" class="btn small" data-wnone>Back to their usual outfit</button></div>
-      ${[1, 2, 3, 4, 5].map(lv => `<div class="wlvl"><div class="wlvh"><span class="wlvhearts">${"♥".repeat(lv)}${"♡".repeat(5 - lv)}</span> <b>${esc(BOND_LEVELS[lv - 1][1])}</b>${L.lvl >= lv ? "" : ` <span class="muted">· unlocks at ${BOND_LEVELS[lv - 1][0]} bond</span>`}</div><div class="outfits wardrobe wpair">${wItems(k).filter(o => o.lvl === lv).map(o => { const open = L.lvl >= o.lvl, on = worn.includes(o.id); return `<button type="button" class="outfit${on ? " on" : ""}${o.lvl === 5 ? " legendary" : ""}${open ? "" : " locked"}" ${open ? `data-wear="${o.id}"` : "disabled"} aria-pressed="${on}"><span class="wprev famcard" data-fam="${k}" data-expr="idle">${open ? A3APP.art(k, [o.id], "neutral", true) : `<span class="wlock">♡ ${o.lvl}</span>`}</span><b>${esc(o.name)}</b><small>${open ? (on ? "Wearing it · tap to take off" : esc(o.lore)) : `Unlocks at ${esc(BOND_LEVELS[o.lvl - 1][1])}`}</small>${o.lvl === 5 ? `<span class="wleg">Legendary</span>` : ""}</button>`; }).join("")}</div></div>`).join("")}
+      ${SN ? `<div class="wlvl wseason"><div class="wlvh"><span class="wlvhearts">${SN.icon}</span> <b>${esc(SN.name)} costume</b> <span class="muted">· for everyone, until ${esc(seasonEnds(SZ[0].season))}</span></div><div class="outfits wardrobe wpair">${SZ.map(wBtn).join("")}</div></div>` : ""}
+      ${[1, 2, 3, 4, 5].map(lv => `<div class="wlvl"><div class="wlvh"><span class="wlvhearts">${"♥".repeat(lv)}${"♡".repeat(5 - lv)}</span> <b>${esc(BOND_LEVELS[lv - 1][1])}</b>${L.lvl >= lv ? "" : ` <span class="muted">· unlocks at ${BOND_LEVELS[lv - 1][0]} bond</span>`}</div><div class="outfits wardrobe wpair">${wItems(k).filter(o => o.lvl === lv).map(wBtn).join("")}</div></div>`).join("")}
       <div class="label" style="margin-top:12px">${esc(famName(k))}'s treasures</div><div class="treasures">${famTreasures(k).map(t => `<div class="treasure ${t.rarity}${t.got ? " got" : ""}"><span class="tic">${t.got ? t.icon : "?"}</span><b>${t.got ? esc(t.name) : "Locked"}</b><small>${t.got ? esc(t.desc) : `Bond level ${t.lvl}: ${esc(BOND_LEVELS[t.lvl - 1][1])}`}</small><span class="trar">${t.rarity}</span></div>`).join("")}</div>
       <div class="label" style="margin-top:12px">What you unlock</div><ol class="bondsteps">${BOND_LEVELS.map(([p, n], i) => `<li class="${L.lvl > i ? "done" : ""}"><b>${esc(n)}</b>${i ? ` · ${esc(BOND_UNLOCKS[i + 1])}` : ` · where every friendship starts, with ${esc(bondUnlocks(k, 1))}`}</li>`).join("")}</ol>
     </div></div>`;
@@ -10606,6 +10747,18 @@ const A3APP = (() => {
   for (const k of Object.keys(CARE_MORE)) { const C = CARE[k], M = CARE_MORE[k]; if (!C) continue;
     for (const a of ["scratch", "play", "treat", "secret"]) C[a] = [...(C[a] || []), ...(M[a] || [])];
     for (const s of Object.keys(M.mood)) C.mood[s] = [C.mood[s], ...M.mood[s]].filter(Boolean); }
+  // ---- in Halloween season, treats come with a little trick-or-treat ----
+  const HALLOWEEN_TREAT = {
+    cat: ["Trick or treat, darling? I'll take both.", "A witch never refuses a sweet. It's in the contract.", "*hides a toffee in her hat for later*", "Happy Halloween. I dressed up as myself, only spookier."],
+    owl: ["Trick or treat! An ancient custom, from the Celtic Samhain, you know.", "A sweet for the haunted librarian? Most kind. Boo. Ahem.", "Even ghosts deserve biscuits. Especially polite ones.", "I shall share this with my ghost. He's very small."],
+    raven: ["TRICK OR TREAT! I demand tribute!", "The Pumpkin Knight accepts your offering!", "A sweet! For the bravest gourd in the land!", "No foe can resist a knight in a pumpkin. Not even sugar."],
+    fox: ["Trick or treat. I already did the trick. Check your pockets.", "Sweets for Little Red? How suspicious. I'll take them.", "*puts it in the basket* For grandma. Obviously.", "Happy Halloween. Best night of the year for sneaking."],
+    toad: ["IT'S ALIVE! And it's hungry! Ribbit!", "Trick or treat! Experiment: how many sweets fit in a toad?", "Sugar levels: monstrous! Mwahaha! Ribbit.", "A treat for Dr. Frankentoad! The bolts are purely decorative."],
+    bat: ["T-trick or treat? Only if that's okay…", "*holds out her little pumpkin pail, very shyly*", "Halloween is my favourite! Bats are allowed out!", "Thank you! I'll put it in my pail. With the others. There are two."],
+    hedgehog: ["TRICK OR TREAT! RAAAWR! Did I scare you?!", "The fearsome dragon accepts your CANDY!", "Dragons LOVE sweets! It's true! I read it!", "Best Halloween EVER! Can I have another? For the hoard?"],
+    lion: ["Trick or treat, querida! The count only bites sweets.", "Ay, a treat for el Conde! Muchas gracias.", "*swirls his cape* I vant to eat… this caramel.", "Happy Halloween, mi amor. You don't need a costume. You're already a dream."],
+    wolf: ["Trick or treat. I'm a sheep. Ironically.", "Halloween's the only day I blend in. Thanks for the sweet.", "Baa. …Don't laugh. Give me the chocolate.", "Best holiday. Dark, spooky, and free candy."],
+  };
   // say something new: skip the last few lines each companion said for this kind of moment
   function pickFresh(arr, tag){ const R = pickFresh.r || (pickFresh.r = {}), r = R[tag] || (R[tag] = []), pool = arr.filter(x => !r.includes(x)), x = pick(pool.length ? pool : arr);
     r.push(x); while (r.length > Math.min(6, arr.length - 1)) r.shift(); return x; }
@@ -10616,7 +10769,7 @@ const A3APP = (() => {
       if (n >= 3) return [`${famName(familiar)} is too full for another treat today.`, "sleepy"];
       lsSet("reading-ledger-treatday", { d: todayISO(), n: n + 1 }); lsSet("reading-ledger-treats", lsGet("reading-ledger-treats", 0) + 1);
       const tr = lsGet("reading-ledger-treated", {}); tr[familiar] = todayISO(); lsSet("reading-ledger-treated", tr); bondAdd(2, "treat");
-      return [`*${M[0] === "moody" || M[0] === "sad" ? "perks right up at" : "happily munches"} ${TREATS[familiar]}* ${pickFresh(C.treat, familiar + "treat")}`, "love"];
+      return [`*${M[0] === "moody" || M[0] === "sad" ? "perks right up at" : "happily munches"} ${TREATS[familiar]}* ${inSeason("halloween") && HALLOWEEN_TREAT[familiar] && Math.random() < .45 ? pickFresh(HALLOWEEN_TREAT[familiar], familiar + "hw") : pickFresh(C.treat, familiar + "treat")}`, "love"];
     }
     if (act === "mood") return [pickFresh([].concat(C.mood[M[0]] || C.mood.content), familiar + "mood" + M[0]), M[0] === "moody" ? "sad" : M[0] === "sad" ? "sad" : M[0] === "sleepy" ? "sleepy" : "happy"];
     if (act === "secret") { const lv = bondLevel(bondOf(familiar).pts).lvl; return lv >= 2 ? [pickFresh(C.secret, familiar + "secret"), "wink"] : ["Secrets are for friends. Read with me a little more first.", "shy"]; }
@@ -11360,9 +11513,9 @@ alter publication supabase_realtime add table public.library;`;
     async function loadTogether(){
       if (!ready()) return; const me = U().id;
       try { const a = await C().from("buddy_reads").select("*").order("created_at", { ascending: false }).limit(60);
-        if (a.error) throw a.error; buddies = (a.data || []).filter(r => (r.members || []).includes(me) && r.status !== "ended");
+        if (a.error) throw a.error; const gone = leftIds(); buddies = (a.data || []).filter(r => (r.members || []).includes(me) && r.status !== "ended" && !gone.includes(r.id));
         const b = await C().from("clubs").select("*").order("created_at", { ascending: false }).limit(40);
-        if (b.error) throw b.error; clubs = (b.data || []).filter(c => (c.members || []).includes(me)); togetherOff = false;
+        if (b.error) throw b.error; clubs = (b.data || []).filter(c => (c.members || []).includes(me) && !gone.includes(c.id)); togetherOff = false;
       } catch (e) { togetherOff = /buddy_reads|clubs|schema cache|does not exist/i.test(String(e?.message || e)); buddies = []; clubs = []; }
     }
     const uid = () => U()?.id;
@@ -11425,26 +11578,65 @@ alter publication supabase_realtime add table public.library;`;
       };
       draw();
     }
+    // ---- leaving a buddy read or club: the database does it (step 7), because members may only edit a group they're still in ----
+    const KEY_LEFT = "reading-ledger-left";
+    const leftIds = () => { const v = lsGet(KEY_LEFT, []); return Array.isArray(v) ? v : []; };
+    async function leaveGroup(kind, row){
+      let r; try { r = await C().rpc(kind === "buddy" ? "leave_buddy_read" : "leave_club", { rid: row.id }); } catch (e) { r = { error: e }; }
+      if (!r || !r.error) return true;
+      // no step 7 yet: hide it on this device so it stops coming back
+      lsSet(KEY_LEFT, [...leftIds(), row.id].slice(-200)); return false;
+    }
+    // what your companion makes of the standings in a buddy read
+    function standLine(r){
+      const me = uid(), R = RA[familiar] || RA.cat, mp = progressIn(me, r.book);
+      const others = r.members.filter(x => x !== me).map(id => ({ n: nameOf(id), ...progressIn(id, r.book) }));
+      if (!others.length) return "It's just us now. That's fine. More snacks for me.";
+      if (mp.state === "finished") return others.every(o => o.state === "finished") ? "You've all finished it! Now the best part: talking about that ending." : "You finished first. Leave a note at your favourite page for the others to find.";
+      const done = others.find(o => o.state === "finished"); if (done) return R.theyDone(done.n);
+      const lead = others.filter(o => o.state === "reading").sort((a, b) => b.page - a.page)[0];
+      if (!lead) return mp.page ? R.ahead(others[0].n, mp.page) : "Nobody has started yet. Shall we go first?";
+      const d = lead.page - (mp.page || 0); return Math.abs(d) < 3 ? R.tied(lead.n) : d > 0 ? R.behind(lead.n, d) : R.ahead(lead.n, -d);
+    }
+    const trackRoom = (members, B) => `<div class="btrack">${members.map(id => { const P = progressIn(id, B), p = personOf(id), mine = id === uid();
+      return `<div class="btrow wc" data-fam="${esc(p.familiar || "cat")}">${avatar(p, 26)}<span class="btname">${esc(nameOf(id))}</span><span class="btbar"><span style="width:${P.pct}%"></span></span><span class="btpct">${P.state === "finished" ? "✓ done" : P.state === "reading" ? `${P.pct}%${P.page ? `<small>p. ${P.page}</small>` : ""}` : "—"}</span>${mine || lettersOff ? "<span></span>" : `<button type="button" class="iconbtn bcheer" data-bcheer="${id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button>`}</div>`; }).join("")}</div>`;
+    const inviteRow = (members, attr) => { const more = friends.filter(f => !members.includes(f.id)); return more.length ? `<div class="binvite"><span class="label">Invite</span>${more.map(f => `<button type="button" class="chip" ${attr}="${f.id}" data-fam="${esc(f.familiar || "cat")}">${avatar(f, 20)}${esc(f.name)}</button>`).join("")}</div>` : ""; };
     async function buddyRoom(id){
       const r = buddies.find(x => x.id === id); if (!r) { await loadTogether(); if (!buddies.find(x => x.id === id)) { toast("That buddy read has ended."); return; } return buddyRoom(id); }
-      let notes = null; const me = uid(), myPage = () => progressIn(me, r.book);
-      const draw = () => { const mp = myPage();
-        sheet("br-scrim", `<div class="phead"><div class="brhead"><span class="bcov">${mini(r.book)}</span><div><div class="label">Buddy read</div><h2>${esc(r.book.t)}</h2><i class="muted">${esc(r.book.a || "")}</i></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
-          ${track(r.members, r.book)}
-          ${mp.state === "not on shelf" ? `<button class="btn small primary" type="button" data-badd>+ Put it on my Reading shelf</button>` : ""}
+      let notes = null; const me = uid(), myPage = () => progressIn(me, r.book), myBook = () => books.find(x => tnorm(x.title) === tnorm(r.book.t));
+      const club = r.book.club ? clubs.find(c => c.id === r.book.club) : null;
+      const draw = () => { const mp = myPage(), b = myBook();
+        sheet("br-scrim", `<div class="phead"><div class="brhead"><span class="bcov">${mini(r.book)}</span><div><div class="label">${club ? `${esc(club.emoji || "📚")} ${esc(club.name)} · ` : ""}Buddy read</div><h2>${esc(r.book.t)}</h2><i class="muted">${esc(r.book.a || "")}</i></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
+          <div class="bfam famcard" data-fam="${familiar}" data-expr="happy"><span class="bfamart">${famArt(familiar)}</span><p><b>${esc(famName(familiar))}</b> ${esc(standLine(r))}</p></div>
+          ${trackRoom(r.members, r.book)}
+          ${mp.state === "not on shelf" ? `<button class="btn small primary" type="button" data-badd>+ Put it on my Reading shelf</button>`
+            : mp.state === "not started" ? `<button class="btn small primary" type="button" data-bbegin>📖 Start reading it now</button>`
+            : mp.state === "reading" && b && !byChapters(b) ? `<div class="bupd"><label><span class="label">I'm on page</span><input id="bu-page" type="number" inputmode="numeric" min="0" ${b.pages ? `max="${b.pages}"` : ""} value="${mp.page || 0}"></label>${b.pages ? `<small class="muted">of ${b.pages}</small>` : ""}<button class="btn small primary" type="button" data-bupd>Update</button><button class="btn small candle" type="button" data-bcandle title="Read by candlelight">🕯 Read now</button></div>` : ""}
+          ${inviteRow(r.members, "data-binv")}
           <div class="label" style="margin-top:6px">Notes along the way</div>
           <div class="bnotes">${notes === null ? `<p class="note dots">Gathering notes</p>` : notes.length ? notes.map(n => { const locked = n.user_id !== me && mp.state !== "finished" && n.page > mp.page; const p = personOf(n.user_id);
             return `<div class="bnote${locked ? " locked" : ""}${n.user_id === me ? " mine" : ""}" data-fam="${esc(p.familiar || "cat")}">${avatar(p, 28)}<div><small><b>${esc(nameOf(n.user_id))}</b> · page ${n.page}</small>${locked ? `<p>🔒 Read to page ${n.page} to unlock this note.</p>` : `<p>${esc(n.note)}</p>`}</div>${n.user_id === me ? `<button class="linkbtn" type="button" data-bdel="${n.id}" aria-label="Delete note">✕</button>` : ""}</div>`; }).join("") : `<p class="note">No notes yet. Leave the first one at the page you're on.</p>`}</div>
           <div class="bform"><label class="field bpage"><span class="label">At page</span><input id="bn-page" type="number" inputmode="numeric" min="0" value="${mp.page || 0}"></label><textarea id="bn-text" rows="2" maxlength="500" placeholder="A thought, a gasp, a favourite line…"></textarea><button class="btn primary small" type="button" data-bpost>Post note</button></div>
-          <div class="mfoot"><button class="linkbtn" type="button" data-bleave>Leave this buddy read</button></div>`, async e => {
+          <div class="mfoot bleave"><button class="linkbtn" type="button" data-bleave>Leave this buddy read</button>${r.created_by === me && r.members.length > 1 ? `<button class="linkbtn" type="button" data-bend>End it for everyone</button>` : ""}</div>`, async e => {
           if (e.target.closest("[data-badd]")) { upsert({ title: r.book.t, author: r.book.a, cover: r.book.c, pages: r.book.p || null, id: newId(), shelf: "reading", rating: 0, currentPage: 0, started: todayISO(), finished: null, added: new Date().toISOString(), genres: [] }); toast("On your Reading shelf ✦"); draw(); return; }
+          if (e.target.closest("[data-bbegin]")) { const bk = myBook(); if (bk) { bk.shelf = "reading"; if (!bk.started) bk.started = todayISO(); bk.currentPage = bk.currentPage || 0; save(); toast("Moved to your Reading shelf ✦"); } draw(); return; }
+          if (e.target.closest("[data-bupd]")) { const bk = myBook(); let v = parseInt($("#bu-page").value); if (!bk) return; if (isNaN(v) || v < 0) { toast("Type the page you're on."); return; }
+            if (bk.pages && v > bk.pages) v = Number(bk.pages); if (!bk.started) bk.started = todayISO(); if (!(bk.progressLog || []).length && bk.currentPage) logProgress(bk, bk.currentPage);
+            bk.currentPage = v; logProgress(bk, v); save(); bondAdd(2, "progress"); toast(bk.pages && v >= bk.pages ? "Last page! Press “I finished it” on your Reading page to shelve it." : `Page ${v} saved. Notes up to here are unlocked.`); draw(); return; }
+          if (e.target.closest("[data-bcandle]")) { const bk = myBook(); if (!bk) return; $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; startReading(bk.id); return; }
+          const ch = e.target.closest("[data-bcheer]"); if (ch) { cheer(ch.dataset.bcheer); return; }
+          const iv = e.target.closest("[data-binv]"); if (iv) { const fid = iv.dataset.binv; iv.disabled = true;
+            const { error } = await C().from("buddy_reads").update({ members: [...r.members, fid] }).eq("id", r.id); if (error) { iv.disabled = false; toast(error.message); return; }
+            r.members = [...r.members, fid]; await invite([fid], "buddy", r.id, r.book, `📖 ${ME()?.name || "A friend"} wants to read with you`, `“${r.book.t}”, together. Open your nook to join in.`); toast(`${whoIs(fid).name} is invited ✦`); draw(); return; }
           if (e.target.closest("[data-bpost]")) { const text = $("#bn-text").value.trim(); if (!text) { toast("Write a little note first."); return; }
             const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), read_id: r.id, user_id: me, page: Math.max(0, +$("#bn-page").value || 0), note: text };
             const { error } = await C().from("buddy_notes").insert(row); if (error) { toast(error.message); return; } notes = [...(notes || []), { ...row, created_at: new Date().toISOString() }].sort((a, b) => a.page - b.page); draw(); return; }
           const d = e.target.closest("[data-bdel]"); if (d) { await C().from("buddy_notes").delete().eq("id", d.dataset.bdel); notes = notes.filter(n => n.id !== d.dataset.bdel); draw(); return; }
+          const done = msg => { buddies = buddies.filter(x => x.id !== r.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); toast(msg); };
+          const en = e.target.closest("[data-bend]"); if (en) { if (!en.dataset.sure) { en.dataset.sure = 1; en.textContent = "Tap again to end it for everyone"; return; }
+            const { error } = await C().from("buddy_reads").delete().eq("id", r.id); if (error) { toast(error.message); return; } done("The buddy read has ended."); return; }
           const lv = e.target.closest("[data-bleave]"); if (lv) { if (!lv.dataset.sure) { lv.dataset.sure = 1; lv.textContent = "Tap again to leave"; return; }
-            const left = r.members.filter(x => x !== me); await C().from("buddy_reads").update(left.length ? { members: left } : { status: "ended" }).eq("id", r.id);
-            buddies = buddies.filter(x => x.id !== r.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); }
+            lv.disabled = true; const ok = await leaveGroup("buddy", r); done(ok ? "You've left the buddy read." : "You've left the buddy read on this device. It leaves for good once your nook has the step 7 update."); }
         });
       };
       draw();
@@ -11474,28 +11666,39 @@ alter publication supabase_realtime add table public.library;`;
     async function clubRoom(id){
       let c = clubs.find(x => x.id === id); if (!c) { await loadTogether(); c = clubs.find(x => x.id === id); if (!c) { toast("That club isn't there any more."); return; } }
       let list = null; const me = uid();
-      const draw = () => sheet("cr-scrim", `<div class="phead"><div class="brhead"><span class="cemo big">${esc(c.emoji || "📚")}</span><div><div class="label">Book club</div><h2>${esc(c.name)}</h2><span class="cav">${c.members.map(id => `<span title="${esc(nameOf(id))}">${avatar(personOf(id), 26)}</span>`).join("")}</span></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
-        <div class="label">The club shelf <span class="muted">· ♥ the ones you'd like to read next</span></div>
-        <div class="cbooks">${list === null ? `<p class="note dots">Opening the shelf</p>` : list.length ? list.map(x => { const v = x.votes || [], mineV = v.includes(me);
-          return `<div class="clbook"><span class="bcov">${mini(x.book)}</span><div class="cbinfo"><b>${esc(x.book.t)}</b><small>${esc(x.book.a || "")} · from ${esc(nameOf(x.added_by))}</small>${x.note ? `<p>${esc(x.note)}</p>` : ""}
-            <div class="cbacts"><button type="button" class="chip" data-cvote="${x.id}" aria-pressed="${mineV}">♥ ${v.length}</button><button type="button" class="btn small" data-cread="${x.id}">📖 Read together</button>${x.added_by === me || c.owner === me ? `<button type="button" class="linkbtn" data-cdel="${x.id}">Remove</button>` : ""}</div></div></div>`; }).join("") : `<p class="note">The shelf is empty. Suggest the first book!</p>`}</div>
+      const reads = () => buddies.filter(r => r.book.club === c.id);
+      const draw = () => { const R = reads(), top = list && list.length && (list[0].votes || []).length ? list[0].id : null;
+        sheet("cr-scrim", `<div class="phead"><div class="brhead"><span class="cemo big">${esc(c.emoji || "📚")}</span><div><div class="label">Book club</div><h2>${esc(c.name)}</h2><span class="cav">${c.members.map(id => `<span title="${esc(nameOf(id))}${id === c.owner ? " · started the club" : ""}">${avatar(personOf(id), 26)}</span>`).join("")}</span></div></div><button class="btn small" type="button" data-tgx>Close</button></div>
+        ${R.length ? `<div class="label">Reading together now</div><div class="blist">${R.map(r => `<button type="button" class="bcard" data-bopen="${r.id}"><span class="bcov">${mini(r.book)}</span><span class="bbody"><b>${esc(r.book.t)}</b><small>${esc(r.book.a || "")} · ${r.members.length} reading</small>${track(r.members, r.book)}</span></button>`).join("")}</div>` : ""}
+        <div class="label" style="margin-top:6px">The club shelf <span class="muted">· ♥ the ones you'd like to read next</span></div>
+        <div class="cbooks">${list === null ? `<p class="note dots">Opening the shelf</p>` : list.length ? list.map(x => { const v = x.votes || [], mineV = v.includes(me), going = R.find(r => tnorm(r.book.t) === tnorm(x.book.t));
+          return `<div class="clbook${x.id === top ? " next" : ""}"><span class="bcov">${mini(x.book)}</span><div class="cbinfo">${x.id === top ? `<span class="cnext">★ Next up</span>` : ""}<b>${esc(x.book.t)}</b><small>${esc(x.book.a || "")} · from ${esc(nameOf(x.added_by))}</small>${x.note ? `<p>${esc(x.note)}</p>` : ""}
+            <div class="cbacts"><button type="button" class="chip" data-cvote="${x.id}" aria-pressed="${mineV}" title="${esc(v.map(nameOf).join(", "))}">♥ ${v.length}</button><button type="button" class="btn small${going ? "" : " primary"}" data-cread="${x.id}">${going ? "📖 Open the buddy read" : "📖 Read it together"}</button>${x.added_by === me || c.owner === me ? `<button type="button" class="linkbtn" data-cdel="${x.id}">Remove</button>` : ""}</div></div></div>`; }).join("") : `<p class="note">The shelf is empty. Suggest the first book!</p>`}</div>
         <div class="bform"><select id="cb-book"><option value="">Suggest one of your books…</option>${books.filter(b => b.shelf !== "dnf").sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 200).map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.rating ? ` · ${b.rating}★` : ""}</option>`).join("")}</select><input id="cb-note" maxlength="300" placeholder="Why this one? (optional)"><button class="btn primary small" type="button" data-cadd>Add to the shelf</button></div>
-        <div class="mfoot"><button class="linkbtn" type="button" data-cleave>${c.owner === me ? "Close the club" : "Leave the club"}</button></div>`, async e => {
+        ${inviteRow(c.members, "data-cinv")}
+        <div class="mfoot bleave"><button class="linkbtn" type="button" data-cleave>Leave the club</button>${c.owner === me ? `<button class="linkbtn" type="button" data-cclose>Close the club for everyone</button>` : ""}</div>`, async e => {
+        const bo = e.target.closest("[data-bopen]"); if (bo) { buddyRoom(bo.dataset.bopen); return; }
         const v = e.target.closest("[data-cvote]"); if (v) { const x = list.find(y => y.id === v.dataset.cvote); const votes = (x.votes || []).includes(me) ? x.votes.filter(z => z !== me) : [...(x.votes || []), me];
           const { error } = await C().from("club_books").update({ votes }).eq("id", x.id); if (error) { toast(error.message); return; } x.votes = votes; list.sort((a, b) => (b.votes || []).length - (a.votes || []).length); draw(); return; }
         const a = e.target.closest("[data-cadd]"); if (a) { const b = books.find(z => z.id === $("#cb-book").value); if (!b) { toast("Choose a book to suggest."); return; }
           if (list.some(y => tnorm(y.book.t) === tnorm(b.title))) { toast("It's already on the club shelf."); return; }
           const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), club_id: c.id, book: bookOf(b), added_by: me, note: $("#cb-note").value.trim() || null, votes: [me] };
           const { error } = await C().from("club_books").insert(row); if (error) { toast(error.message); return; } list = [...list, row]; draw(); return; }
-        const rd = e.target.closest("[data-cread]"); if (rd) { const x = list.find(y => y.id === rd.dataset.cread);
-          const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), created_by: me, members: [...c.members], book: x.book, status: "active" };
-          const { error } = await C().from("buddy_reads").insert(row); if (error) { toast(error.message); return; } buddies = [{ ...row, created_at: new Date().toISOString() }, ...buddies];
+        const rd = e.target.closest("[data-cread]"); if (rd) { const x = list.find(y => y.id === rd.dataset.cread), going = reads().find(r => tnorm(r.book.t) === tnorm(x.book.t)); if (going) { buddyRoom(going.id); return; }
+          rd.disabled = true; const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), created_by: me, members: [...c.members], book: { ...x.book, club: c.id }, status: "active" };
+          const { error } = await C().from("buddy_reads").insert(row); if (error) { rd.disabled = false; toast(error.message); return; } buddies = [{ ...row, created_at: new Date().toISOString() }, ...buddies];
           await invite(c.members.filter(z => z !== me), "buddy", row.id, x.book, `${c.emoji} ${c.name} is reading together`, `“${x.book.t}”. Open your nook to join in.`); buddyRoom(row.id); return; }
         const d = e.target.closest("[data-cdel]"); if (d) { await C().from("club_books").delete().eq("id", d.dataset.cdel); list = list.filter(y => y.id !== d.dataset.cdel); draw(); return; }
-        const lv = e.target.closest("[data-cleave]"); if (lv) { if (!lv.dataset.sure) { lv.dataset.sure = 1; lv.textContent = "Tap again to be sure"; return; }
-          if (c.owner === me) await C().from("clubs").delete().eq("id", c.id); else await C().from("clubs").update({ members: c.members.filter(z => z !== me) }).eq("id", c.id);
-          clubs = clubs.filter(z => z.id !== c.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); }
+        const iv = e.target.closest("[data-cinv]"); if (iv) { const fid = iv.dataset.cinv; iv.disabled = true;
+          const { error } = await C().from("clubs").update({ members: [...c.members, fid] }).eq("id", c.id); if (error) { iv.disabled = false; toast(error.message); return; }
+          c.members = [...c.members, fid]; await invite([fid], "club", c.id, null, `${c.emoji} ${ME()?.name || "A friend"} invited you to a book club`, `You're in “${c.name}”. Suggest a book and vote on what to read next.`); toast(`${whoIs(fid).name} is in the club ✦`); draw(); return; }
+        const done = msg => { clubs = clubs.filter(z => z.id !== c.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); toast(msg); };
+        const cl = e.target.closest("[data-cclose]"); if (cl) { if (!cl.dataset.sure) { cl.dataset.sure = 1; cl.textContent = "Tap again to close it for everyone"; return; }
+          const { error } = await C().from("clubs").delete().eq("id", c.id); if (error) { toast(error.message); return; } done(`${c.name} is closed.`); return; }
+        const lv = e.target.closest("[data-cleave]"); if (lv) { if (!lv.dataset.sure) { lv.dataset.sure = 1; lv.textContent = c.owner === me && c.members.length > 1 ? "Tap again to leave (the club passes to another member)" : "Tap again to leave"; return; }
+          lv.disabled = true; const ok = await leaveGroup("club", c); done(ok ? `You've left ${c.name}.` : `You've left ${c.name} on this device. It leaves for good once your nook has the step 7 update.`); }
       });
+      };
       draw();
       const q = await C().from("club_books").select("*").eq("club_id", c.id).order("created_at", { ascending: true }); list = (q.data || []).sort((a, b) => (b.votes || []).length - (a.votes || []).length); if ($("#cr-scrim")) draw();
     }
@@ -11681,7 +11884,9 @@ alter publication supabase_realtime add table public.library;`;
     document.addEventListener("submit", e => { if (e.target.id !== "f-find") return; e.preventDefault(); find($("#f-q").value); });
     async function show(){ render(); await load(true); render(); pushShare(); goLive(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
-    return { show, render, load, queueShare, pushShare, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
+    // for the reading-mode companion: how your buddy-read friends are doing in this book
+    function buddyFor(title){ try { if (!ready()) return []; const me = uid(); return buddies.filter(r => tnorm(r.book.t || "") === tnorm(title || "")).flatMap(r => r.members.filter(id => id !== me).map(id => ({ name: whoIs(id).name, ...progressIn(id, r.book) }))); } catch (e) { return []; } }
+    return { show, render, load, queueShare, pushShare, buddyFor, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
   })();
   window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData(), famArt: k => famArt(k) };
   // ================= wiring =================
@@ -13282,7 +13487,65 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     wolf: (m, p) => `${fmtMins(m)}${p ? `, ${p} pages` : ""}. Not bad. For a human.`
   };
 
-  let rmTick = null, rmWhisper = null, wakeLock = null;
+  // ---- v4.6: your companion reads along: milestones, pauses, page check-ins, buddy-read news ----
+  const RA = {
+    cat: { start: ["Mm, candlelight. I'll take the cushion, darling.", "Settle in. I'll purr when it gets good."],
+      mins: m => pick([`${m} minutes already. Time flies when you're this lovely.`, `${m} minutes, darling. I've barely blinked.`, `*stretches* ${m} minutes. Don't stop on my account.`]),
+      pause: ["A pause? I'll guard your page.", "Go on, darling. I'll keep the chair warm."], resume: ["Back so soon? Good. I missed the drama.", "Mm, there you are. Turn the page."],
+      doze: ["*has fallen asleep, elegantly*", "Wake me for the kissing scene."], tap: ["Yes, darling? Read, don't pet. …Fine, both.", "*purrs without looking up*", "I'm reading over your shoulder. Don't mind me."],
+      half: ["Halfway, darling. The middle is where everyone gets interesting.", "Half of it gone. Like a good dessert."], near: ["The last pages. Don't rush, darling. Savour them.", "Nearly the end. I always cry a little. Elegantly."],
+      pages: n => `${n} pages since the candle was lit. Marvellous.`, ahead: (w, n) => `You're ${n} pages ahead of ${w}, darling. Don't gloat. Gloat a little.`, behind: (w, n) => `${w} is ${n} pages ahead. Shall we catch up? In style.`, tied: w => `Neck and neck with ${w}. How thrilling.`, theyDone: w => `${w} has finished it already. No spoilers, darling.` },
+    owl: { start: ["Excellent. Candle lit, spectacles on. Let us begin.", "A reading session! Splendid. I shall take notes."],
+      mins: m => pick([`${m} minutes of study. Most commendable.`, `${m} minutes in. Your concentration is exemplary.`, `Ahem. ${m} minutes. Do stretch your neck, young scholar.`]),
+      pause: ["A short recess. I shall mark the page.", "Do take a moment. Tea, perhaps?"], resume: ["Ah, resuming. Where were we… page and line.", "Welcome back. Onward, with rigour."],
+      doze: ["*has dozed off on an open dictionary*", "*snores in Latin*"], tap: ["Hm? Ah. Yes. Splendid sentence, that one.", "*peers at your page* Footnote seven is excellent.", "Mind the candle, if you please."],
+      half: ["Halfway through. The thesis is established; now the argument.", "The midpoint! A natural place for a brief summary. Mentally."], near: ["The final pages. Read slowly; endings repay attention.", "Nearly concluded. I do love a good denouement."],
+      pages: n => `${n} pages this sitting. A respectable bibliography.`, ahead: (w, n) => `You lead ${w} by ${n} pages. Do be gracious.`, behind: (w, n) => `${w} is ${n} pages ahead. A spot of diligence will remedy that.`, tied: w => `You and ${w} are on the very same page. Fascinating synchrony.`, theyDone: w => `${w} has completed it. Do not ask them how it ends.` },
+    raven: { start: ["To the page, squire! The campaign begins!", "Candle lit! Banners raised! READ!"],
+      mins: m => pick([`${m} MINUTES! The enemy trembles!`, `${m} minutes of glorious battle!`, `Hold the line! ${m} minutes and no retreat!`]),
+      pause: ["A tactical pause. I shall guard the page with my life.", "Rest, warrior. The book will wait."], resume: ["The battle resumes! CHARGE!", "Back to the front! Victory awaits!"],
+      doze: ["*sleeps standing up, sword in wing*", "*mutters 'victory' in his sleep*"], tap: ["I AM ON WATCH. …Yes, that tickles.", "No foe shall pass! Except you. You may pass.", "Read on, squire! I've got your back!"],
+      half: ["HALFWAY! The tide of battle turns!", "Half the kingdom conquered!"], near: ["The final charge! Into the last pages!", "The castle gates! The end is in sight!"],
+      pages: n => `${n} pages conquered this sitting! A mighty tally!`, ahead: (w, n) => `You lead ${w} by ${n} pages! Glory!`, behind: (w, n) => `${w} has the advantage by ${n} pages! To arms!`, tied: w => `Shoulder to shoulder with ${w}! As true allies should be!`, theyDone: w => `${w} has already won the war! We march on regardless!` },
+    fox: { start: ["Lights low. Perfect. Nobody knows we're here.", "Quiet now. Let's slip into the story."],
+      mins: m => pick([`${m} minutes. Still unseen. Nice work.`, `${m} minutes in. Nobody's noticed we're gone.`, `*whispers* ${m} minutes. Keep going.`]),
+      pause: ["Taking five? I'll keep watch.", "Pause noted. I'll mark the page with a knife. Kidding. A ribbon."], resume: ["And we're back in. Smoothly.", "Back already? Good. The plot was getting interesting."],
+      doze: ["*dozes with one ear up*", "*asleep, but she'll claim she wasn't*"], tap: ["Shh. I'm listening to the page.", "*flicks her tail at you, pleased*", "You found me. Don't tell."],
+      half: ["Halfway. Now's when the twist usually sneaks in.", "Half done. I've got a theory. Not telling."], near: ["Last pages. Careful, endings bite.", "Nearly out. Slow down. Savour the getaway."],
+      pages: n => `${n} pages this sitting. Clean work.`, ahead: (w, n) => `You're ${n} pages ahead of ${w}. Stay quiet about it.`, behind: (w, n) => `${w}'s ${n} pages ahead. We can close that gap.`, tied: w => `You and ${w}, same page. Suspicious.`, theyDone: w => `${w}'s finished. Keep your ears covered for spoilers.` },
+    toad: { start: ["Session started! Recording all variables. Ribbit!", "Excellent conditions. Beginning observation."],
+      mins: m => pick([`${m} minutes logged. Data looking beautiful.`, `T plus ${m} minutes. Focus levels: optimal!`, `${m} minutes! Hypothesis confirmed: you are excellent.`]),
+      pause: ["Experiment paused. Do not touch the flask.", "Intermission! Hydration recommended."], resume: ["Resuming observation. Ribbit!", "Back online! Continuing the experiment."],
+      doze: ["*entered power-saving mode*", "*snores in bubbles*"], tap: ["Ribbit? Oh, hello! Carry on, I'm taking notes.", "*adjusts goggles* Fascinating paragraph.", "Data point: you are reading well."],
+      half: ["50.0% complete! Statistically, it only gets better.", "Halfway point reached! Plotting the curve…"], near: ["Approaching 100%! Brace for results!", "Final pages! The conclusion is imminent!"],
+      pages: n => `${n} pages this session. Excellent yield!`, ahead: (w, n) => `Data: you lead ${w} by ${n} pages.`, behind: (w, n) => `Data: ${w} leads by ${n} pages. Correctable!`, tied: w => `Data: you and ${w} are perfectly synchronised. Remarkable!`, theyDone: w => `${w} has completed the experiment. Results pending for you!` },
+    bat: { start: ["Oh, a reading night! Can I stay? I'll be quiet.", "*settles in beside the candle* This is my favourite."],
+      mins: m => pick([`${m} minutes… it's so cosy here.`, `It's been ${m} minutes. I'm still very happy.`, `${m} minutes. Is it okay if I stay longer?`]),
+      pause: ["Oh, a little break? I'll wait. I'm good at waiting.", "I'll keep your place. Promise."], resume: ["You're back! Yay. *tiny flap*", "Oh good, more story!"],
+      doze: ["*fell asleep holding her own wings*", "*tiny snores*"], tap: ["Oh! Hi. *happy squeak*", "I'm reading along. Very slowly. Your pages are big.", "*hides behind her wings, smiling*"],
+      half: ["Halfway already! You're doing so well.", "Half the book… I hope they're okay."], near: ["The end is close… I'm a bit nervous.", "Last pages. Can I hold your sleeve?"],
+      pages: n => `${n} pages… you're so good at this.`, ahead: (w, n) => `You're ${n} pages ahead of ${w}. Maybe… wait for them a bit?`, behind: (w, n) => `${w} is ${n} pages ahead. It's okay, we'll get there.`, tied: w => `You and ${w} are on the same page! That's so sweet.`, theyDone: w => `${w} finished it already. Don't tell me the ending either, okay?` },
+    hedgehog: { start: ["READING TIME! I'm SO ready!", "Candle on! Adventure on! Let's GO!"],
+      mins: m => pick([`${m} MINUTES! That's so many!`, `We've been reading for ${m} minutes! Best day!`, `${m} minutes!! Are we nearly at the dragon?`]),
+      pause: ["Snack break? Is it a snack break?!", "Pause! I'll do a lap!"], resume: ["YAY we're back!", "More story more story more story!"],
+      doze: ["*fell asleep mid-cheer*", "*curled into a sleepy ball*"], tap: ["Hehe! Hi! What's happening? Tell me!", "*bounces* Is it exciting yet?!", "I'm guarding the snacks!"],
+      half: ["HALFWAY!! We're explorers!", "Half the map done! Woohoo!"], near: ["We're nearly at the treasure! THE END!", "Last pages!! I can't look! I'm looking!"],
+      pages: n => `${n} WHOLE pages! Record!`, ahead: (w, n) => `We're ${n} pages ahead of ${w}! RACE!`, behind: (w, n) => `${w}'s ${n} pages ahead! Let's catch them!`, tied: w => `Same page as ${w}! TEAM!`, theyDone: w => `${w} finished already! We're still on the adventure!` },
+    lion: { start: ["Ay, candlelight and a book. Romance, mi amor.", "Let us read, querida. I'll lounge magnificently."],
+      mins: m => pick([`${m} minutes together, mi amor. A love song.`, `${m} minutes… and still you dazzle.`, `Ay, ${m} minutes of passion for the page.`]),
+      pause: ["A pause, querida? I'll serenade the candle.", "Rest, mi amor. The book will miss you, like I do."], resume: ["She returns! Olé!", "Back to the story, mi corazón."],
+      doze: ["*sleeps dramatically, one paw on his heart*", "*dreams of Sevilla*"], tap: ["Ay, you can't resist me. I understand.", "*tosses his mane* Read on, preciosa.", "Mi amor, I'm listening to every word."],
+      half: ["Halfway, querida! The second act is where hearts break.", "Half the novel! Like half a tango."], near: ["The final pages… ay, my heart.", "Nearly the end. Hold my paw."],
+      pages: n => `${n} pages, mi amor! What passion!`, ahead: (w, n) => `You lead ${w} by ${n} pages, querida! Ay, so fast!`, behind: (w, n) => `${w} is ${n} pages ahead. Let us chase them, like lovers in a film.`, tied: w => `You and ${w}, the same page. Destiny!`, theyDone: w => `${w} has finished! No spoilers, or I faint.` },
+    wolf: { start: ["Candle. Book. Silence. Finally.", "Okay. Reading. This is actually nice."],
+      mins: m => pick([`${m} minutes. Not bad.`, `${m} minutes in. The night's still young.`, `${m} minutes. I'm not impressed. (I'm impressed.)`]),
+      pause: ["Break. Cool. I'll brood.", "I'll be here. In the dark. Waiting."], resume: ["You're back. Good. I mean, whatever.", "Back to it."],
+      doze: ["*fell asleep in the shadows*", "*asleep. Looks peaceful. Will deny it.*"], tap: ["What. …Okay, hi.", "*pretends not to notice you, tail wags*", "Read. I'm vibing."],
+      half: ["Halfway. Now it gets dark. Hopefully.", "Half done. Like my homework."], near: ["Last pages. If anyone dies I'm leaving. (I'm staying.)", "Almost over. That's tragic, actually."],
+      pages: n => `${n} pages. Respect.`, ahead: (w, n) => `You're ${n} pages ahead of ${w}. Cool. Don't be weird about it.`, behind: (w, n) => `${w}'s ${n} pages ahead. Whatever. Read faster.`, tied: w => `Same page as ${w}. Creepy. In a good way.`, theyDone: w => `${w} finished it. Don't let them spoil it.` },
+  };
+  const raOf = () => RA[familiar] || RA.cat;
+  let rmTick = null, rmWhisper = null, wakeLock = null, rmSay = () => {}, rmPillT = null;
   const sessGet = () => lsGet(KEY_SESS, null), sessSet = s => s ? lsSet(KEY_SESS, s) : localStorage.removeItem(KEY_SESS);
   const sessElapsed = s => Math.max(0, Date.now() - s.t0 - (s.paused || 0) - (s.pauseAt ? Date.now() - s.pauseAt : 0));
   const clock = ms => { const t = Math.floor(ms / 1000), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = t % 60; return (h ? h + ":" + pad(m) : String(m).padStart(2, "0")) + ":" + pad(s); };
@@ -13299,11 +13562,12 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   }
   function openReadMode(){
     const s = sessGet(); if (!s) return; const b = books.find(x => x.id === s.id); if (!b) { sessSet(null); return; }
-    document.getElementById("rmode")?.remove();
+    document.getElementById("rmode")?.remove(); document.getElementById("rmpill")?.remove(); clearInterval(rmPillT);
+    if (s.min) { delete s.min; sessSet(s); } const openedAt = Date.now(), fresh = sessElapsed(s) < 30000; let dozed = false;
     const ch = byChapters(b), amb = ambSaved();
     const el = document.createElement("div"); el.id = "rmode"; el.className = "rmode"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Reading mode");
     el.innerHTML = `<div class="rmglow"></div><div class="rmmotes">${Array.from({ length: 14 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${6 + (i * 7) % 9}s;--t:${(i * 1.3) % 7}s"></i>`).join("")}</div>
-      <div class="rmtop"><span class="label">Reading mode</span><button type="button" class="rmghost" data-rm="hide" title="Leave it running and look around the nook">Minimise</button></div>
+      <div class="rmtop"><span class="label">Reading mode</span><button type="button" class="rmghost" data-rm="hide" title="Leave reading mode. The timer keeps running until you finish, and you can come back any time">✕ Step away</button></div>
       <div class="rmcenter">
         <svg class="rmcandle" viewBox="0 0 80 150" aria-hidden="true"><defs><radialGradient id="rmh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE7A8" stop-opacity=".9"/><stop offset=".4" stop-color="#FFB347" stop-opacity=".35"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient><linearGradient id="rmw" x1="0" x2="1"><stop offset="0" stop-color="#E9DCC0"/><stop offset=".5" stop-color="#FFF7E6"/><stop offset="1" stop-color="#D9C8A6"/></linearGradient></defs>
           <circle class="halo" cx="40" cy="36" r="34" fill="url(#rmh)"/>
@@ -13315,9 +13579,10 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
         <div class="rmtitle">${esc(b.title)}</div><div class="rmauthor">${esc(b.author || "")}</div>
         <div class="rmtime" id="rm-time" aria-live="off">00:00</div>
         <div class="rmsub" id="rm-sub"></div>
-        <div class="rmbtns"><button type="button" class="rmbtn" data-rm="pause" id="rm-pause">Pause</button><button type="button" class="rmbtn primary" data-rm="end">I'm done for now</button></div>
+        <div class="rmbtns"><button type="button" class="rmbtn" data-rm="pause" id="rm-pause">Pause</button><button type="button" class="rmbtn" data-rm="page">📖 ${ch ? "Chapter" : "Page"}</button><button type="button" class="rmbtn primary" data-rm="end">I'm done for now</button></div>
+        <form class="rmpage" id="rm-page" hidden autocomplete="off"><label for="rm-pg">${ch ? "I just finished chapter" : "I'm on page"}</label><input type="number" min="0" inputmode="numeric" id="rm-pg" value="${ch ? (b.currentChapter || 0) : (b.currentPage || 0)}" ${!ch && b.pages ? `max="${b.pages}"` : ""}><button type="submit" class="rmbtn primary">Save</button></form>
       </div>
-      <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart">${famArt(familiar)}</div><div class="rmwhisper" id="rm-whisper"></div></div>
+      <div class="rmfam famcard" data-expr="idle" data-fam="${familiar}"><div class="rmfamart" data-rm="pet" role="button" tabindex="0" aria-label="Pat ${esc(famName(familiar))}">${famArt(familiar)}</div><div class="rmwhisper" id="rm-whisper"></div></div>
       <div class="rmamb"><button type="button" class="rmambtog" data-ambopen aria-expanded="false">♪ Sounds<span id="rm-ambnow">${ambIcons(amb)}</span></button></div>
       <div class="sroom" id="rm-ambpanel" role="dialog" aria-label="Sounds" hidden>${soundRoomHTML()}</div>
       <form class="rmend" id="rm-end" hidden autocomplete="off"><h3>Where did you stop?</h3>
@@ -13327,16 +13592,50 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     el.addEventListener("click", rmClick);
     el.addEventListener("input", e => { if (e.target.id === "rm-vol") Ambience.volume(+e.target.value); const lv = e.target.closest?.("[data-amblvl]"); if (lv) Ambience.level(lv.dataset.amblvl, +lv.value); });
     el.querySelector("#rm-end").addEventListener("submit", e => { e.preventDefault(); finishSession(+el.querySelector("#rm-to").value); });
+    el.querySelector("#rm-page").addEventListener("submit", e => { e.preventDefault(); rmCheckIn(parseInt(el.querySelector("#rm-pg").value)); });
+    el.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.closest?.(".rmfamart")) { e.preventDefault(); e.target.click(); } });
     if (amb.length) Ambience.set(amb);
     paintRoom();
     keepAwake(true);
     const paint = () => { const s2 = sessGet(); if (!s2) return; $("#rm-time").textContent = clock(sessElapsed(s2)); const st = new Date(s2.t0);
       $("#rm-sub").textContent = `${s2.pauseAt ? "Paused · " : ""}Started at ${pad(st.getHours())}:${pad(st.getMinutes())}${ch ? (s2.c0 ? ` after chapter ${s2.c0}` : "") : ` on page ${s2.p0}`}`;
-      $("#rm-pause").textContent = s2.pauseAt ? "Resume" : "Pause"; el.classList.toggle("paused", !!s2.pauseAt); };
+      $("#rm-pause").textContent = s2.pauseAt ? "Resume" : "Pause"; el.classList.toggle("paused", !!s2.pauseAt);
+      const mm = Math.floor(sessElapsed(s2) / 60000), hit = [10, 25, 45, 60, 90, 120, 180].filter(x => mm >= x && !(s2.ms || []).includes(x));
+      if (hit.length) { s2.ms = [...(s2.ms || []), ...hit]; sessSet(s2); if (!s2.pauseAt && Date.now() - openedAt > 4000) { const m = hit[hit.length - 1]; rmSay(raOf().mins(m), m >= 90 ? "sleepy" : "happy"); } }
+      if (s2.pauseAt && !dozed && Date.now() - openedAt > 4000 && Date.now() - s2.pauseAt > 90000) { dozed = true; rmSay(pick(raOf().doze), "sleepy", 3600e3); } else if (!s2.pauseAt) dozed = false; };
     paint(); clearInterval(rmTick); rmTick = setInterval(paint, 1000);
-    const whisper = () => { const w = $("#rm-whisper"); if (!w) return; w.textContent = pick(RM_LINES[familiar] || RM_LINES.cat); w.classList.remove("show"); void w.offsetWidth; w.classList.add("show");
-      const card = el.querySelector(".rmfam"); card.dataset.expr = pick(["idle", "idle", "sleepy", "happy", "love"].concat(familiar === "bat" ? ["shy"] : familiar === "wolf" ? ["sad"] : ["wink"])); setTimeout(() => card.isConnected && (card.dataset.expr = "idle"), 3200); };
-    clearInterval(rmWhisper); setTimeout(whisper, 2500); rmWhisper = setInterval(whisper, 150000);
+    const card = el.querySelector(".rmfam"), idleExpr = () => { const s2 = sessGet(); return s2 && s2.pauseAt && dozed ? "sleepy" : s2 && sessElapsed(s2) > 3600e3 && Math.random() < .4 ? "sleepy" : "idle"; };
+    let sayT = null;
+    rmSay = (line, ex, ms = 3400) => { const w = $("#rm-whisper"); if (!w || !line) return; w.textContent = line; w.classList.remove("show"); void w.offsetWidth; w.classList.add("show");
+      if (ex) { card.dataset.expr = ex; clearTimeout(sayT); sayT = setTimeout(() => card.isConnected && (card.dataset.expr = idleExpr()), ms); } };
+    const whisper = () => { const s2 = sessGet(); if (!s2 || s2.pauseAt) return; const bud = buddyLine(); if (bud && Math.random() < .45) { rmSay(bud, "happy"); return; }
+      rmSay(pick(RM_LINES[familiar] || RM_LINES.cat), pick(["idle", "idle", "sleepy", "happy", "love"].concat(familiar === "bat" ? ["shy"] : familiar === "wolf" ? ["sad"] : ["wink"]))); };
+    clearInterval(rmWhisper); setTimeout(() => { if (!el.isConnected) return; const bud = buddyLine(); rmSay(fresh ? pick(raOf().start) : bud || pick(RM_LINES[familiar] || RM_LINES.cat), fresh ? "happy" : "idle"); }, 2500); rmWhisper = setInterval(whisper, 150000);
+  }
+  // how your buddy-read friends are doing in this book, in your companion's words
+  function buddyLine(){ try { const s = sessGet(), b = s && books.find(x => x.id === s.id); if (!b) return ""; const L = (Social.buddyFor && Social.buddyFor(b.title)) || []; if (!L.length) return "";
+    const f = pick(L), R = raOf(), mine = Number(b.currentPage) || 0; if (f.state === "finished") return R.theyDone(f.name); if (f.state !== "reading") return "";
+    const d = (f.page || 0) - mine; return Math.abs(d) < 3 ? R.tied(f.name) : d > 0 ? R.behind(f.name, d) : R.ahead(f.name, -d); } catch (e) { return ""; } }
+  // a quick page check-in without ending the session
+  function rmCheckIn(v){ const s = sessGet(), b = s && books.find(x => x.id === s.id); if (!b) return; const ch = byChapters(b);
+    if (isNaN(v) || v < 0) return toast(ch ? "Type the chapter you just finished." : "Type the page you're on.");
+    const P = Number(b.pages) || 0, tot = ch ? Number(b.chapters) || 0 : P, before = ch ? Number(b.currentChapter) || 0 : Number(b.currentPage) || 0;
+    if (!b.started) b.started = todayISO();
+    if (ch) { if (tot) v = Math.min(v, tot); b.currentChapter = v; if (P && tot) b.currentPage = Math.round(P * v / tot); logProgress(b, b.currentPage || 0, v); }
+    else { if (P && v > P) v = P; if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage); b.currentPage = v; logProgress(b, v); }
+    save(); bondAdd(2, "progress"); const f = $("#rm-page"); if (f) f.hidden = true;
+    const R = raOf(), pb = tot ? before / tot : 0, pa = tot ? v / tot : 0, n = ch ? 0 : Math.max(0, v - (s.p0 || 0)); let line;
+    if (tot && pa >= 1) line = "That's the last page! Press “I'm done for now” and then shelve it."; else if (tot && pb < .5 && pa >= .5) line = pick(R.half);
+    else if (tot && pa >= .9) line = pick(R.near); else if (n) line = R.pages(n); else line = pick(R.tap);
+    rmSay(line, "happy"); }
+  // the session keeps running when you step away: a small candle in the corner brings you back
+  function rmPill(){ document.getElementById("rmpill")?.remove(); clearInterval(rmPillT); const s = sessGet(); if (!s) return; const b = books.find(x => x.id === s.id); if (!b) return;
+    const p = document.createElement("div"); p.id = "rmpill"; p.className = "rmpill"; p.setAttribute("role", "status");
+    p.innerHTML = `<span class="rmpflame" aria-hidden="true">🕯</span><span class="rmptxt"><b>${esc(b.title)}</b><small id="rmp-time"></small></span><button type="button" class="btn small primary" data-rmp="back">Back</button><button type="button" class="btn small" data-rmp="end">Finish</button>`;
+    document.body.append(p);
+    const tick = () => { const s2 = sessGet(); if (!s2) { p.remove(); clearInterval(rmPillT); return; } const t = p.querySelector("#rmp-time"); if (t) t.textContent = `${s2.pauseAt ? "Paused · " : "Reading · "}${clock(sessElapsed(s2))}`; };
+    tick(); rmPillT = setInterval(tick, 1000);
+    p.addEventListener("click", e => { const a = e.target.closest("[data-rmp]"); if (!a) return; openReadMode(); if (a.dataset.rmp === "end") { $("#rm-end").hidden = false; $("#rmode").classList.add("ending"); $("#rm-to")?.focus(); } });
   }
   function closeReadMode(){ clearInterval(rmTick); clearInterval(rmWhisper); Ambience.set([]); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); }
   function rmClick(e){
@@ -13354,8 +13653,10 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const a = e.target.closest("[data-rm]"); if (!a) return;
     const s = sessGet(); if (!s) return closeReadMode();
     const act = a.dataset.rm;
-    if (act === "pause") { if (s.pauseAt) { s.paused += Date.now() - s.pauseAt; s.pauseAt = null; } else s.pauseAt = Date.now(); sessSet(s); return; }
-    if (act === "hide") { clearInterval(rmTick); clearInterval(rmWhisper); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); toast("Your session keeps running. Tap “Back to reading” on your book to return."); return; }
+    if (act === "pause") { const was = !!s.pauseAt; if (s.pauseAt) { s.paused += Date.now() - s.pauseAt; s.pauseAt = null; } else s.pauseAt = Date.now(); sessSet(s); rmSay(pick(was ? raOf().resume : raOf().pause), was ? "happy" : "idle"); return; }
+    if (act === "pet") { const art = this.querySelector(".rmfamart"); art.classList.remove("react-pet"); void art.offsetWidth; art.classList.add("react-pet"); setTimeout(() => art.classList.remove("react-pet"), 2400); rmSay(pick(raOf().tap), familiar === "bat" ? "shy" : "love"); return; }
+    if (act === "page") { const f = this.querySelector("#rm-page"); f.hidden = !f.hidden; if (!f.hidden) { const i = f.querySelector("input"); i.focus(); i.select?.(); } return; }
+    if (act === "hide") { s.min = 1; sessSet(s); clearInterval(rmTick); clearInterval(rmWhisper); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); rmPill(); toast("Your timer keeps running. Tap the candle in the corner to come back, or Finish to log it."); return; }
     if (act === "end") { this.querySelector("#rm-end").hidden = false; this.classList.add("ending"); this.querySelector("#rm-to").focus(); this.querySelector("#rm-to").select?.(); return; }
     if (act === "back") { this.querySelector("#rm-end").hidden = true; this.classList.remove("ending"); return; }
     if (act === "discard") { sessSet(null); closeReadMode(); toast("Session discarded."); return; }
@@ -13385,6 +13686,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     toast(`${FAMILIARS[familiar].name}: ${line}`);
     const done = b.pages && b.currentPage >= b.pages || ch && b.chapters && to >= b.chapters;
     if (done) setTimeout(() => toast("That was the end of the book! Press “I finished it” to shelve it."), 2600);
+    else { const sp = readingSpeed(), left = b.pages && !ch ? Number(b.pages) - (Number(b.currentPage) || 0) : 0; if (sp && left > 0) setTimeout(() => toast(`${famName(familiar)}: at your pace (about ${Math.round(sp)} pages an hour), ${fmtMins(left / sp * 60)} of reading left.`, 4500), 3000); }
   }
   // reading-mode stats for the Statistics room
   function sessionsPanel(){
@@ -13406,7 +13708,8 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       <div class="rmslots"><div class="label">When you read · your favourite hour is <b>${fav[0].toLowerCase()}</b></div>${bySlot.map(([n, m]) => `<div class="rmslot"><span>${n}</span><i><b style="width:${Math.round(m / max * 100)}%"></b></i><small>${fmtMins(m)}</small></div>`).join("")}</div></div>`;
   }
   // a session left running (the page was closed or minimised) comes back
-  setTimeout(() => { const s = sessGet(); if (s && books.some(b => b.id === s.id && b.shelf === "reading")) { if (Date.now() - s.t0 < 12 * 3600e3) openReadMode(); else { openReadMode(); $("#rm-end").hidden = false; $("#rmode").classList.add("ending"); } } else if (s) sessSet(null); }, 600);
+  // (it only reopens by itself if the app closed while you were reading; after you step away it waits in the corner)
+  setTimeout(() => { const s = sessGet(); if (s && books.some(b => b.id === s.id && b.shelf === "reading")) { if (!s.min && Date.now() - s.t0 < 3 * 3600e3) openReadMode(); else rmPill(); } else if (s) sessSet(null); }, 600);
   // ================= Shareable cards (story-sized images) =================
   const SC = { W: 1080, H: 1920, gold: "#E9C77E", cream: "#FBEFD8", muted: "#C8B193", ink: "#170C14" };
   const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -13951,8 +14254,15 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.5";
+  const APP_VERSION = "4.6";
   const CHANGELOG = [
+    ["4.6", "29 Oct 2026", "Halloween costumes, and reading together made easier", [
+      "🎃 Every companion has a Halloween costume until 7 November: Natasha's midnight witch, Antonio's vampire count, Hoot's haunted librarian, Corvin's pumpkin knight, Ember as Little Red, Dr. Frankentoad, Nyx's little pumpkin, Bramble's very small dragon and Wulfila as a wolf in sheep's clothing. Open their bond (the hearts) to try it on",
+      "Fixed: you can step away from a reading session. It no longer jumps back every time you open the app; a small candle in the corner keeps your timer and takes you back, or lets you finish",
+      "Your companion reads along: they notice how long you've been reading, doze off if you pause, react to your page check-ins (new 📖 Page button) and tell you how your buddy-read friends are doing",
+      "Fixed: leaving a buddy read or a book club now really works (with the step 7 database update)",
+      "Buddy reads: your companion comments on who's ahead, update your page right there, send a friend a cheer, invite more friends, or start a candlelight session for that book",
+      "Book clubs: see what the club is reading together right now, a ★ Next up for the most-loved book, invite more friends, and the club passes on when its founder leaves"]],
     ["4.5", "27 Oct 2026", "Your companions come alive", [
       "Companions now blink, and gently sway, breathe and swish their tails while they keep you company",
       "They nod along when they talk, wag when they're happy, droop when sleepy and jump when surprised",
