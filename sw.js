@@ -1,6 +1,6 @@
 // My Book Nook: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v31", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
-const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon-64.png"];
+const SHELL = "ledger-shell-v32", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
+const FILES = ["./", "index.html", "art.ee75d41ea6.js", "app.f9f60b9473.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon-64.png"];
 // cache each file on its own, so one missing file can never stop the app from installing
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => Promise.all(FILES.map(f => c.add(f).catch(() => null)))).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => ![SHELL, COVERS, SOUNDS].includes(k)).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
@@ -13,8 +13,24 @@ self.addEventListener("fetch", e => {
     e.respondWith(caches.open(SOUNDS).then(async c => { const hit = await c.match(req, { ignoreSearch: true }); if (hit) return hit; const r = await fetch(req); if (r.ok) c.put(req, r.clone()); return r; }));
     return;
   }
+  // the app's code files carry their version in the name, so a saved copy is always the right one
+  if (url.origin === location.origin && /\/(art|app)\.[\w.-]+\.js$/.test(url.pathname)) {
+    e.respondWith(caches.open(SHELL).then(async c => { const hit = await c.match(req, { ignoreSearch: true }); if (hit) return hit; const r = await fetch(req); if (r.ok) c.put(req, r.clone()); return r; }));
+    return;
+  }
+  // the page itself: open straight from the saved copy (no waiting on the network), then quietly check for a newer one
+  const isPage = req.mode === "navigate" || url.pathname.endsWith("/") || url.pathname.endsWith("/index.html");
+  if (url.origin === location.origin && isPage) {
+    e.respondWith(caches.open(SHELL).then(async c => {
+      const hit = await c.match("index.html");
+      const fresh = refreshPage(c, hit ? hit.clone() : null);
+      if (hit) { e.waitUntil(fresh.catch(() => null)); return hit; }
+      try { return await fresh; } catch { return Response.error(); }
+    }));
+    return;
+  }
   if (url.origin === location.origin) {
-    e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(SHELL).then(c => c.put(req, copy)); return r; }).catch(() => caches.match(req).then(r => r || caches.match("index.html"))));
+    e.respondWith(fetch(req).then(r => { const copy = r.clone(); if (r.ok) caches.open(SHELL).then(c => c.put(req, copy)); return r; }).catch(() => caches.match(req).then(r => r || caches.match("index.html"))));
     return;
   }
   // covers, fonts and chart/sync libraries: use the saved copy if there is one,
@@ -64,3 +80,16 @@ self.addEventListener("notificationclick", e => {
     return self.clients.openWindow(url);
   }));
 });
+
+// fetch the newest page; if it changed, save it with the code files it needs, then let open windows offer a reload
+async function refreshPage(c, hit){
+  const r = await fetch("index.html", { cache: "no-cache" }); if (!r.ok) { if (hit) return hit; throw new Error("offline"); }
+  const text = await r.clone().text(), old = hit ? await hit.clone().text() : null;
+  if (old !== text) {
+    const need = [...text.matchAll(/src="((?:art|app)\.[\w.-]+\.js)"/g)].map(m => m[1]);
+    await Promise.all(need.map(async f => { if (!(await c.match(f))) { const x = await fetch(f, { cache: "no-cache" }); if (x.ok) await c.put(f, x); } }));
+    await c.put("index.html", r.clone());
+    if (old !== null) { const v = (text.match(/data-ver="([\d.]+)"/) || [])[1]; (await self.clients.matchAll({ type: "window" })).forEach(w => w.postMessage({ type: "update-ready", v })); }
+  }
+  return r;
+}
