@@ -2837,6 +2837,7 @@
         if (isNew && lastResults.length) closeResults();
         upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
         if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb) openPack(bb); }, 1400); }
+        if (out.shelf === "read" && book.shelf !== "read") { const id = out.id; setTimeout(() => { try { Social.offerShare(id); } catch {} }, 2600); }
         { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
       }
     });
@@ -3679,9 +3680,10 @@
   function bondLevel(pts){ let i = 0; BOND_LEVELS.forEach(([p], j) => { if (pts >= p) i = j; }); const next = BOND_LEVELS[i + 1]; return { lvl: i + 1, name: BOND_LEVELS[i][1], next: next ? { at: next[0], name: next[1], pct: Math.round((pts - BOND_LEVELS[i][0]) / (next[0] - BOND_LEVELS[i][0]) * 100) } : null }; }
   // ---- wardrobe (v4.4): ten pieces of their own for every companion, two at each bond level ----
   // seasonal pieces (Halloween costumes) come out only in their season, for everyone, at any bond level
-  const COSTUME_SEASONS = { halloween: { name: "Halloween", icon: "🎃", from: [10, 15], to: [11, 7] } };
-  const inSeason = s => { const S = COSTUME_SEASONS[s]; if (!S) return false; const d = new Date(), md = (d.getMonth() + 1) * 100 + d.getDate(); return md >= S.from[0] * 100 + S.from[1] && md <= S.to[0] * 100 + S.to[1]; };
-  const seasonEnds = s => { const S = COSTUME_SEASONS[s]; return new Date(new Date().getFullYear(), S.to[0] - 1, S.to[1]).toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
+  const COSTUME_SEASONS = { halloween: { name: "Halloween", icon: "🎃", from: [10, 15], to: [11, 7] }, winter: { name: "Winter", icon: "❄️", from: [11, 6], to: [2, 29] } };
+  const inSeason = s => { const S = COSTUME_SEASONS[s]; if (!S) return false; const d = new Date(), md = (d.getMonth() + 1) * 100 + d.getDate(), a = S.from[0] * 100 + S.from[1], b = S.to[0] * 100 + S.to[1]; return a <= b ? md >= a && md <= b : md >= a || md <= b; };
+  const seasonEnds = s => { const S = COSTUME_SEASONS[s], now = new Date(), wrap = S.from[0] > S.to[0], y = now.getFullYear() + (wrap && now.getMonth() + 1 >= S.from[0] ? 1 : 0), last = new Date(y, S.to[0], 0).getDate();
+    return new Date(y, S.to[0] - 1, Math.min(S.to[1], last)).toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
   const wItems = k => A3APP.items(k).filter(i => !i.season);
   const wSeason = k => A3APP.items(k).filter(i => i.season && inSeason(i.season));
   const wItem = id => A3APP.item(id);
@@ -3747,7 +3749,7 @@
           <p class="note">Your bond grows when you read together: updating your page, reading sessions, finishing books, rating them, visiting each day and the occasional pat.</p></div></div>
       <div class="label">Wardrobe · ${wItems(k).filter(o => L.lvl >= o.lvl).length} of ${wItems(k).length} unlocked</div>
       <div class="wfitbar"><button type="button" class="btn small" data-wfinest>Wear the finest I've unlocked</button><button type="button" class="btn small" data-wnone>Back to their usual outfit</button></div>
-      ${SN ? `<div class="wlvl wseason"><div class="wlvh"><span class="wlvhearts">${SN.icon}</span> <b>${esc(SN.name)} costume</b> <span class="muted">· for everyone, until ${esc(seasonEnds(SZ[0].season))}</span></div><div class="outfits wardrobe wpair">${SZ.map(wBtn).join("")}</div></div>` : ""}
+      ${[...new Set(SZ.map(o => o.season))].map(sn => { const S = COSTUME_SEASONS[sn]; return `<div class="wlvl wseason s-${sn}"><div class="wlvh"><span class="wlvhearts">${S.icon}</span> <b>${esc(S.name)} costume</b> <span class="muted">· for everyone, until ${esc(seasonEnds(sn))}</span></div><div class="outfits wardrobe wpair">${SZ.filter(o => o.season === sn).map(wBtn).join("")}</div></div>`; }).join("")}
       ${[1, 2, 3, 4, 5].map(lv => `<div class="wlvl"><div class="wlvh"><span class="wlvhearts">${"♥".repeat(lv)}${"♡".repeat(5 - lv)}</span> <b>${esc(BOND_LEVELS[lv - 1][1])}</b>${L.lvl >= lv ? "" : ` <span class="muted">· unlocks at ${BOND_LEVELS[lv - 1][0]} bond</span>`}</div><div class="outfits wardrobe wpair">${wItems(k).filter(o => o.lvl === lv).map(wBtn).join("")}</div></div>`).join("")}
       <div class="label" style="margin-top:12px">${esc(famName(k))}'s treasures</div><div class="treasures">${famTreasures(k).map(t => `<div class="treasure ${t.rarity}${t.got ? " got" : ""}"><span class="tic">${t.got ? t.icon : "?"}</span><b>${t.got ? esc(t.name) : "Locked"}</b><small>${t.got ? esc(t.desc) : `Bond level ${t.lvl}: ${esc(BOND_LEVELS[t.lvl - 1][1])}`}</small><span class="trar">${t.rarity}</span></div>`).join("")}</div>
       <div class="label" style="margin-top:12px">What you unlock</div><ol class="bondsteps">${BOND_LEVELS.map(([p, n], i) => `<li class="${L.lvl > i ? "done" : ""}"><b>${esc(n)}</b>${i ? ` · ${esc(BOND_UNLOCKS[i + 1])}` : ` · where every friendship starts, with ${esc(bondUnlocks(k, 1))}`}</li>`).join("")}</ol>
@@ -3796,7 +3798,7 @@
       </div>
     </div>${famPicking ? `<div class="fampicker"><div class="fphead"><b>Choose your familiar</b><button class="iconbtn" type="button" data-fampick aria-label="Close">✕</button></div>${famOptions()}</div>` : ""}`;
     if (famMode === "rec" && famRec) paintRecCovers($("#familiar"));
-    paintReleaseDot();
+    paintReleaseDot(); try { Social.paintVisit(); } catch {}
     if (said && said !== lastSaid) { lastSaid = said; speak(said, mood); famPeek(); } else setExpr(mood);
   }
   function petFamiliar(){
@@ -4532,6 +4534,19 @@
     giftstone: ["A wishing stone", () => `<div class="trinket" style="width:36px;height:26px" aria-hidden="true">${glowDiv(-10, -12, 56, "pulse")}<svg viewBox="0 0 36 26" width="36" height="26"><ellipse cx="18" cy="15" rx="15" ry="10" fill="#7FA8C8"/><ellipse cx="13" cy="11" rx="5" ry="2.6" fill="#CFE6F7" opacity=".7"/><path d="M8 17q10 5 20-2" stroke="#E9F4FF" stroke-width="1.2" fill="none" opacity=".7"/></svg></div>`],
   };
   Object.entries(GIFT_TRINKETS).forEach(([k, [n, f]]) => { TRINKETS[k] = f; TRINKET_NAMES[k] = n; });
+  // ---- v4.9: souvenirs companions bring back from visiting a friend's nook ----
+  const VISIT_TRINKETS = {
+    visitpearl: ["A pearl hairpin, from Natasha", () => `<div class="trinket" style="width:40px;height:40px" aria-hidden="true"><svg viewBox="0 0 40 40" width="40" height="40"><path d="M8 34L30 10" stroke="#C9A24E" stroke-width="2" stroke-linecap="round"/><circle cx="31" cy="9" r="6" fill="url(#vp1)"/><circle cx="29" cy="7" r="1.8" fill="#fff" opacity=".9"/><defs><radialGradient id="vp1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F2E8EE"/><stop offset="1" stop-color="#B8A8B8"/></radialGradient></defs><circle cx="22" cy="19" r="2.2" fill="#E8F6FF" stroke="#8AA0B8" stroke-width=".5"/></svg></div>`],
+    visitrose: ["A pressed red rose, from Antonio", () => `<div class="trinket" style="width:36px;height:46px" aria-hidden="true"><svg viewBox="0 0 36 46" width="36" height="46"><rect x="3" y="3" width="30" height="40" rx="2" fill="#F6ECDA" stroke="#C9A86A"/><path d="M18 40C17 32 18 26 18 20" stroke="#3A7A2A" stroke-width="1.4" fill="none"/><path d="M18 30c-5 -1 -7 -4 -7 -6c4 0 6 2 7 6Z" fill="#4A8A3A"/><path d="M18 20C10 20 9 12 13 9C16 6 21 6 23 9C26 13 24 20 18 20Z" fill="#B8102A"/><path d="M14 13q4 -3 8 0M15 16q3 2 6 -1" stroke="#6A0410" stroke-width=".8" fill="none"/></svg></div>`],
+    visitbookplate: ["A tiny brass bookplate, from Hoot", () => `<div class="trinket" style="width:44px;height:30px" aria-hidden="true"><svg viewBox="0 0 44 30" width="44" height="30"><rect x="2" y="3" width="40" height="24" rx="4" fill="url(#vb1)" stroke="#7A5410"/><defs><linearGradient id="vb1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFE6A0"/><stop offset=".5" stop-color="#D8A040"/><stop offset="1" stop-color="#8A6420"/></linearGradient></defs><rect x="6" y="7" width="32" height="16" rx="2" fill="none" stroke="#7A5410" stroke-width=".7"/><text x="22" y="18" text-anchor="middle" font-family="Cinzel,serif" font-size="6" fill="#5A3A0A">EX LIBRIS</text></svg></div>`],
+    visitmedal: ["A toy medal of valour, from Corvin", () => `<div class="trinket" style="width:34px;height:46px" aria-hidden="true"><svg viewBox="0 0 34 46" width="34" height="46"><path d="M9 2L17 20L25 2" fill="#B8102A" stroke="#5A0410"/><path d="M13 2L17 12L21 2" fill="#2A4A9A"/><circle cx="17" cy="30" r="11" fill="url(#vm1)" stroke="#7A5410"/><defs><radialGradient id="vm1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".6" stop-color="#E2B04A"/><stop offset="1" stop-color="#8A6420"/></radialGradient></defs><path d="M17 23l2 4.4 4.8 .5-3.6 3.2 1 4.7-4.2-2.4-4.2 2.4 1-4.7-3.6-3.2 4.8-.5Z" fill="#FFF6D8" stroke="#8A6420" stroke-width=".5"/></svg></div>`],
+    visitkey: ["A little silver key, from Ember", () => `<div class="trinket" style="width:44px;height:26px" aria-hidden="true"><svg viewBox="0 0 44 26" width="44" height="26"><circle cx="10" cy="13" r="7" fill="none" stroke="#C8D2DE" stroke-width="3"/><circle cx="10" cy="13" r="7" fill="none" stroke="#6A7488" stroke-width=".6"/><path d="M17 13H40M34 13v6M28 13v4" stroke="#C8D2DE" stroke-width="3" stroke-linecap="round"/><path d="M17 12H40" stroke="#FFFFFF" stroke-width=".8" opacity=".8"/></svg></div>`],
+    visitbubble: ["A bubble in a bottle, from Sir Wartsworth", () => `<div class="trinket" style="width:30px;height:46px" aria-hidden="true"><svg viewBox="0 0 30 46" width="30" height="46"><rect x="11" y="2" width="8" height="6" rx="1" fill="#A8784A"/><path d="M11 8H19V14C26 17 28 24 27 32C26 40 20 44 15 44C10 44 4 40 3 32C2 24 4 17 11 14Z" fill="#E8F4FF" fill-opacity=".45" stroke="#6A8AA8"/><circle cx="15" cy="30" r="7" fill="url(#vbb)" stroke="#FFFFFF" stroke-width=".6"/><defs><radialGradient id="vbb" cx=".35" cy=".3"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset=".5" stop-color="#9AE8D8" stop-opacity=".4"/><stop offset="1" stop-color="#C89AFF" stop-opacity=".6"/></radialGradient></defs></svg></div>`],
+    visitmoon: ["A jar of moonlight, from Nyx", () => `<div class="trinket" style="width:32px;height:42px" aria-hidden="true">${glowDiv(-12, -10, 56, "pulse")}<svg viewBox="0 0 32 42" width="32" height="42"><rect x="8" y="2" width="16" height="5" rx="1.4" fill="#B8A0E8" stroke="#4A3A86"/><rect x="5" y="7" width="22" height="32" rx="6" fill="#2A2050" fill-opacity=".55" stroke="#8A7AC8"/><path d="M18 15A7 7 0 1 0 22 27A5.6 5.6 0 1 1 18 15Z" fill="#FFF3C4"/><circle cx="11" cy="31" r=".9" fill="#FFF3C4"/><circle cx="21" cy="12" r=".7" fill="#FFF3C4"/></svg></div>`],
+    visitcompass: ["A pocket compass, from Bramble", () => `<div class="trinket" style="width:38px;height:40px" aria-hidden="true"><svg viewBox="0 0 38 40" width="38" height="40"><circle cx="19" cy="7" r="3.4" fill="none" stroke="#C9A24E" stroke-width="2"/><circle cx="19" cy="23" r="15" fill="url(#vc1)" stroke="#7A5410"/><defs><radialGradient id="vc1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".6" stop-color="#D8A040"/><stop offset="1" stop-color="#8A6420"/></radialGradient></defs><circle cx="19" cy="23" r="11" fill="#FBF3E0" stroke="#7A5410" stroke-width=".7"/><path d="M19 14L22 23L19 32L16 23Z" fill="#C0303A"/><path d="M19 23L22 23L19 32L16 23Z" fill="#3A4A6A"/><circle cx="19" cy="23" r="1.2" fill="#7A5410"/></svg></div>`],
+    visitribbon: ["A black velvet ribbon, from Wulfila", () => `<div class="trinket" style="width:44px;height:34px" aria-hidden="true"><svg viewBox="0 0 44 34" width="44" height="34"><path d="M22 14C14 4 4 4 4 12C4 20 14 20 22 14Z M22 14C30 4 40 4 40 12C40 20 30 20 22 14Z" fill="#1A1622" stroke="#000"/><path d="M20 14L12 32L18 28L20 34L24 15Z M24 14L32 31L26 28L24 33Z" fill="#14121A" stroke="#000" stroke-width=".6"/><rect x="18.6" y="10.6" width="6.8" height="7" rx="2" fill="#2A2632" stroke="#000" stroke-width=".6"/><path d="M8 10q4 -3 9 1" stroke="#6A2AA8" stroke-width=".8" fill="none"/></svg></div>`],
+  };
+  Object.entries(VISIT_TRINKETS).forEach(([k, [n, f]]) => { TRINKETS[k] = f; TRINKET_NAMES[k] = n; });
   const giftsGot = () => lsGet("reading-ledger-famgifts", []) || [];
   const paintGiftDrawer = () => { const got = [...new Set(giftsGot().filter(g => g.tk).map(g => g.tk))], cat = TRINKET_DRAWER.find(c => c[0] === "Gifts"); if (got.length) { if (cat) cat[1] = got; else TRINKET_DRAWER.push(["Gifts", got]); } };
   paintGiftDrawer();
@@ -4880,7 +4895,7 @@ alter publication supabase_realtime add table public.library;`;
       if (pr.soul !== false) { try { const D = soulData(); if (D.dna.length) { const L = readerLevel(), AL = alignment(D); out.soul = { name: hybridName(D.dna[0], D.dna[1]), level: L.level, title: L.title, dna: D.dna.slice(0, 5).map(x => ({ n: x.name, p: x.pct, g: x.g, c: x.c })), align: AL.name, code: myCode(D), trait: hiddenTrait(D)[0] }; } } catch {} }
       return out;
     }
-    function queueShare(){ if (!ready()) return; clearTimeout(shareT); shareT = setTimeout(pushShare, 4000); }
+    function queueShare(){ if (!ready()) return; clearTimeout(shareT); shareT = setTimeout(pushShare, 4000); setTimeout(() => { try { checkBuddyProgress(); } catch {} }, 1500); }
     async function pushShare(){
       if (!ready()) return;
       const snap = snapshot(), sig = U().id + ":" + JSON.stringify({ ...snap, at: 0 });
@@ -4913,11 +4928,12 @@ alter publication supabase_realtime add table public.library;`;
           lsSet("reading-ledger-outgoing", outgoing.map(p => p.id)); } catch {}
         shelves = new Map();
         if (friends.length) { const r = await C().from("shared_shelf").select("*").in("user_id", friends.map(f => f.id)); if (!r.error) (r.data || []).forEach(x => shelves.set(x.user_id, x.data || {})); }
+        await loadSocial2(); await loadVisits(); try { checkBuddyProgress(); } catch {}
         state = "ok"; err = ""; lastLoad = Date.now();
       } catch (e) { state = "error"; err = String(e?.message || e); }
-      paintBadge();
+      paintBadge(); try { goLive2(); goLive9(); paintVisit(); } catch {}
     }
-    function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length), t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); }
+    function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length) + newEvents().length, t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); }
       const sb = $("#social-btn i"); if (sb) { sb.hidden = !n; sb.textContent = n || ""; } try { mnavBadge(); } catch {} paintPost(); try { paintHomeFriends(); } catch {} }
     const relation = id => friends.some(f => f.id === id) ? "friend" : incoming.some(f => f.id === id) ? "incoming" : outgoing.some(f => f.id === id) ? "outgoing" : id === U()?.id ? "me" : "none";
     async function request(id){ const { error } = await C().from("friendships").insert({ requester: U().id, addressee: id }); if (error && !/duplicate|23505/.test(error.message + error.code)) { toast(error.message); return; } toast("Friend request sent ✦"); await load(true); render(); }
@@ -4962,7 +4978,7 @@ alter publication supabase_realtime add table public.library;`;
       let match = null; try { if (S.soul?.code) match = compareCode(soulData(), S.soul.code); } catch {}
       const pct = x && x.p ? Math.min(100, Math.round(x.cp / x.p * 100)) : null;
       const line = x ? `📖 <i>${esc(x.t)}</i>${pct !== null ? ` · ${pct}%` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1}</span>` : ""}${S.at ? ` <span class="frfresh">· ${fresh(S.at)}</span>` : ""}` : S.counts ? `${S.counts.read} read · ${S.counts.year} this year` : "Hasn't shared anything yet";
-      return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small>${pct !== null ? `<span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span>` : ""}</span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="Your Reader DNA match with ${esc(p.name)}: how alike your reading tastes are"><small>DNA match</small>${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frcheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button><button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}</div>`;
+      return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small>${pct !== null ? `<span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span>` : ""}</span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="Your Reader DNA match with ${esc(p.name)}: how alike your reading tastes are"><small>DNA match</small>${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frcheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button><button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}${visitsOff ? "" : `<button type="button" class="iconbtn frvisit" data-fvisit="${p.id}" title="Send ${esc(famName(familiar))} to visit ${esc(p.name)}" aria-label="Send ${esc(famName(familiar))} to visit ${esc(p.name)}">🧳</button>`}</div>`;
     }
     // ---- letters: recommend a book to a friend, on parchment ----
     const bookOf = b => ({ t: b.title, a: b.author || "", c: (b.cover && !b.cover.startsWith("data:")) ? (coverMap[b.cover] || b.cover) : "", p: Number(b.pages) || null, y: b.year || null, r: b.rating || null });
@@ -4972,13 +4988,14 @@ alter publication supabase_realtime add table public.library;`;
     const POSTMARK = d => new Date(d || Date.now()).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }).toUpperCase();
     function envelopeHTML(l, size = ""){
       const p = whoIs(l.sender), F = FAMILIARS[p.familiar] || FAMILIARS.cat, init = (p.name || "?").trim()[0].toUpperCase(), tilt = ((l.id || "").charCodeAt(0) % 5) - 2;
-      return `<div class="env ${size}" style="--tilt:${tilt}deg"><div class="envbody">
+      return `<div class="env ${size}" style="--tilt:${tilt}deg;--seal:${F.aura || "#B8393A"}"><div class="envbody">
         <div class="envflap"></div>
+        ${size === "mini" ? "" : `<div class="envret"><span class="envcameo" data-fam="${esc(p.familiar || "cat")}">${A3APP.art(FAMILIARS[p.familiar] ? p.familiar : "cat", [], "happy", true)}</span><span class="envretx"><small>From</small><b>${esc(p.name)}</b>${p.handle ? `<i>@${esc(p.handle)}</i>` : ""}</span></div>`}
         <div class="envstamp">${stampSVG(l.id, F)}</div>
         <div class="envmark"><i>${POSTMARK(l.created_at)}</i></div>
         <div class="envaddr"><small>To</small><b>${esc(ME()?.name || "you")}</b><span>The Book Nook</span></div>
         <div class="envseal"><b>${esc(init)}</b></div></div>
-        <div class="envfrom">from ${esc(p.name)}</div></div>`;
+        <div class="envfrom">from <b>${esc(p.name)}</b></div></div>`;
     }
     // a postage stamp with a real perforated edge
     const stampSVG = (id, F) => { const m = "stp" + String(id).replace(/\W/g, ""), holes = []; for (let x = 0; x <= 40; x += 4) holes.push([x, 0], [x, 48]); for (let y = 4; y < 48; y += 4) holes.push([0, y], [40, y]);
@@ -5008,7 +5025,8 @@ alter publication supabase_realtime add table public.library;`;
       const seen = lsGet("reading-ledger-announced", []), fresh = unread().filter(x => !seen.includes(x.id)), l = fresh[0]; if (!l) return;
       lsSet("reading-ledger-announced", [...seen, ...fresh.map(x => x.id)].slice(-200));
       const p = whoIs(l.sender), more = fresh.length - 1, d = document.createElement("div"); d.id = "delivery"; d.className = "delivery";
-      d.innerHTML = `<div class="dlvin" role="dialog" aria-label="A letter has arrived"><div class="dlvcap">The post has come<small>${more ? `${fresh.length} letters have arrived for you. The first is sealed by ${esc(p.name)}` : `A letter has arrived for you, sealed by ${esc(p.name)}`}</small></div>
+      const B0 = l.book || {}, what = B0.kind === "cheer" ? `${p.name} sent you a cheer` : B0.kind === "react" ? `${p.name} reacted ${B0.e || "♥"}` : B0.kind === "feedback" ? `${p.name} finished the book you recommended` : B0.kind === "buddy" ? `${p.name} wants to read with you` : B0.kind === "club" ? `${p.name} invited you to a book club` : `${p.name} recommends a book for you`;
+      d.innerHTML = `<div class="dlvin" role="dialog" aria-label="A letter from ${esc(p.name)}"><div class="dlvcap"><span class="dlvwho" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">${avatar(p, 72)}</span>A letter from ${esc(p.name)}<small>${esc(what)}${more ? ` · and ${more} more letter${more > 1 ? "s" : ""} for you` : ""}</small></div>
         <button type="button" class="dlvenv${more ? " bundle" : ""}" aria-label="Break the seal and read it">${envelopeHTML(l, "big")}</button>
         <div class="dlvacts"><button type="button" class="btn primary" data-dlvopen>Break the seal</button><button type="button" class="btn" data-dlvlater>Later</button></div></div>`;
       document.body.append(d);
@@ -5037,6 +5055,7 @@ alter publication supabase_realtime add table public.library;`;
         if (!mine && !l.read_at) { l.read_at = new Date().toISOString(); C().from("letters").update({ read_at: l.read_at }).eq("id", l.id).then(() => {}); paintBadge(); }
         const ch = B.kind === "cheer" || B.kind === "react";
         root.innerHTML = `<div class="scrim" id="lt-scrim"><div class="cheercard starnote${ch ? "" : " fbknote"}" role="dialog" aria-modal="true" aria-label="${ch ? "A cheer" : "Feedback on your recommendation"}"><div class="chstars" aria-hidden="true">${ch ? "✦ ✧ ✦" : "❦"}</div>
+          <div class="chfrom" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">${avatar(p, 52)}<b>${esc(p.name)}</b></div>
           <div class="label">${B.kind === "react" ? (mine ? `You reacted ${esc(B.e || "♥")} to ${esc(p.name)}` : `${esc(B.e || "♥")} ${esc(p.name)} reacted`) : ch ? (mine ? `Your cheer for ${esc(p.name)}` : `A cheer from ${esc(p.name)}`) : mine ? `You told ${esc(p.name)} about` : `${esc(p.name)} finished your recommendation`}</div>
           ${!ch || B.t ? `<div class="pbook">${mini(B)}<div><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>${B.r ? `<span class="pstars">${"★".repeat(Math.round(B.r))}<span class="muted">${"★".repeat(5 - Math.round(B.r))}</span></span>` : ""}</div></div>` : ""}
           ${(B.fe || []).length ? `<div class="chchips">${B.fe.map(f => `<span class="chip" aria-pressed="true">${esc(f)}</span>`).join("")}</div>` : ""}
@@ -5053,6 +5072,7 @@ alter publication supabase_realtime add table public.library;`;
       root.innerHTML = `<div class="scrim lscrim" id="lt-scrim"><article class="parch letter2" role="dialog" aria-modal="true" aria-label="A letter from ${esc(from.name)}" style="--seal:${FM.aura || "#B8393A"}">
         <div class="l2seal" aria-hidden="true"><b>${esc(init)}</b></div><button type="button" class="iconbtn l2x" data-lclose aria-label="Close">✕</button>
         <header class="l2head"><span class="l2stamp">${stampSVG(l.id, FM)}</span><span class="l2pm"><i>${POSTMARK(l.created_at)}</i></span></header>
+        <div class="l2from" data-fam="${esc((mine ? p : from).familiar || "cat")}">${avatar(mine ? p : from, 44)}<div><small>${mine ? "Your letter to" : "A letter from"}</small><b>${esc((mine ? p : from).name)}</b>${(mine ? p : from).handle ? `<i>@${esc((mine ? p : from).handle)} · ${esc(ago(l.created_at))}</i>` : ""}</div></div>
         <p class="l2dear">Dear ${esc(mine ? p.name : ME().name)},</p>
         ${l.note ? `<p class="l2note">${esc(l.note).replace(/\n/g, "<br>")}</p>` : ""}
         <figure class="l2book"><span class="l2cov">${mini(B)}</span><figcaption><span class="l2lab">${mine ? "You recommended" : "I think you'd love"}</span><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>
@@ -5079,12 +5099,18 @@ alter publication supabase_realtime add table public.library;`;
       if (!friends.length) { toast("Add a friend first, then you can send them books."); return; }
       const mine = readBooks().slice().sort((a, b) => (b.rating || 0) - (a.rating || 0) || (b.finished || "").localeCompare(a.finished || ""));
       let book = books.find(b => b.id === bookId) || null; const pick = new Set(to ? [to] : friends.length === 1 ? [friends[0].id] : []);
-      const root = $("#modal-root");
+      const root = $("#modal-root"); let found = null, busy = false, lwq = "";
+      const lwFind = async () => { const q = ($("#lw-q")?.value || "").trim(); if (q.length < 2) { toast("Type a title or an author."); return; } compose.draft = $("#lw-note")?.value || compose.draft || ""; lwq = q; busy = true; found = null; draw();
+        try { let r = []; try { r = await gbSearch(q, { max: 8 }); } catch {} if (!r.length) r = await olSearch({ q }, 8); const seen = new Set(); found = r.filter(x => x.title && !seen.has(tnorm(x.title) + norm(x.author || "")) && seen.add(tnorm(x.title) + norm(x.author || ""))).slice(0, 8); }
+        catch { found = []; } busy = false; if (document.getElementById("lw-scrim")) draw(); };
       const draw = () => {
         root.innerHTML = `<div class="scrim" id="lw-scrim"><div class="parch writing" role="dialog" aria-modal="true" aria-label="Recommend a book"><div class="parchin">
           <div class="label">A letter to a friend</div><h2 class="ptitle">Recommend a book</h2>
           ${book ? `<div class="pbook">${coverHTML(book)}<div><span class="label">The book</span><b>${esc(book.title)}</b><i>${esc(book.author || "")}</i>${!bookId ? `<button class="linkbtn" type="button" data-lwbook="">Choose another</button>` : ""}</div></div>`
-            : `<label class="field"><span class="label">Which book?</span><select id="lw-book"><option value="">Choose from your shelves…</option>${mine.map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.rating ? ` · ${b.rating}★` : ""}</option>`).join("")}${books.filter(b => b.shelf !== "read").length ? `<optgroup label="Other shelves">${books.filter(b => b.shelf !== "read").map(b => `<option value="${esc(b.id)}">${esc(b.title)}</option>`).join("")}</optgroup>` : ""}</select></label>`}
+            : `<label class="field"><span class="label">Which book?</span><select id="lw-book"><option value="">Choose from your shelves…</option>${mine.map(b => `<option value="${esc(b.id)}">${esc(b.title)}${b.rating ? ` · ${b.rating}★` : ""}</option>`).join("")}${books.filter(b => b.shelf !== "read").length ? `<optgroup label="Other shelves">${books.filter(b => b.shelf !== "read").map(b => `<option value="${esc(b.id)}">${esc(b.title)}</option>`).join("")}</optgroup>` : ""}</select></label>
+            <div class="lwor">or any book at all</div>
+            <div class="field"><div class="lwsearch"><input id="lw-q" placeholder="Search by title or author" value="${esc(lwq)}" enterkeyhint="search"><button class="btn small" type="button" data-lwsearch>Search</button></div>
+              ${busy ? `<p class="note dots">Looking through the world's shelves</p>` : found ? (found.length ? `<div class="lwres">${found.map((r, i) => `<button type="button" class="lwhit" data-lwpick="${i}">${coverHTML(r)}<span><b>${esc(r.title)}</b><i>${esc(r.author || "")}</i>${r.year ? `<small>${r.year}${r.pages ? ` · ${r.pages} pages` : ""}</small>` : ""}</span></button>`).join("")}</div>` : `<p class="note">Nothing found. Try the title and the author's surname.</p>`) : ""}</div>`}
           <div class="field"><span class="label">To</span><div class="lwto">${friends.map(f => `<button type="button" data-lwto="${f.id}" aria-pressed="${pick.has(f.id)}" data-fam="${esc(f.familiar || "cat")}">${avatar(f, 30)}${esc(f.name)}</button>`).join("")}</div></div>
           <label class="field"><span class="label">Why they'll love it</span><textarea id="lw-note" rows="4" maxlength="600" placeholder="It has your favourite kind of slow burn, and the ending made me cry on the bus…">${esc(compose.draft || "")}</textarea></label>
           <div class="pacts"><button class="btn" type="button" data-lwx>Cancel</button><button class="btn primary sealbtn" type="button" data-lwsend>${sealSVG("✉")}Seal & send</button></div></div></div></div>`;
@@ -5092,9 +5118,11 @@ alter publication supabase_realtime add table public.library;`;
       };
       draw();
       root.onclick = async e => {
-        if (e.target.id === "lw-scrim" || e.target.closest("[data-lwx]")) { compose.draft = $("#lw-note")?.value || ""; root.onclick = null; root.innerHTML = ""; return; }
+        if (e.target.id === "lw-scrim" || e.target.closest("[data-lwx]")) { compose.draft = $("#lw-note")?.value || ""; root.onclick = null; root.onkeydown = null; root.innerHTML = ""; return; }
         const t = e.target.closest("[data-lwto]"); if (t) { compose.draft = $("#lw-note").value; pick.has(t.dataset.lwto) ? pick.delete(t.dataset.lwto) : pick.add(t.dataset.lwto); t.setAttribute("aria-pressed", pick.has(t.dataset.lwto)); return; }
         if (e.target.closest("[data-lwbook]")) { compose.draft = $("#lw-note").value; book = null; draw(); return; }
+        if (e.target.closest("[data-lwsearch]")) { lwFind(); return; }
+        const pk = e.target.closest("[data-lwpick]"); if (pk && found) { const r = found[+pk.dataset.lwpick]; compose.draft = $("#lw-note").value; book = { title: r.title, author: r.author || "", cover: r.cover || "", coverId: r.coverId || null, pages: r.pages || null, year: r.year || null, rating: 0 }; found = null; draw(); return; }
         const s = e.target.closest("[data-lwsend]"); if (s) {
           const note = $("#lw-note").value.trim();
           if (!book) { toast("Choose the book first."); return; } if (!pick.size) { toast("Choose who it's for."); return; } if (note.length < 3) { toast("Add a line about why they'll love it."); $("#lw-note").focus(); return; }
@@ -5105,6 +5133,7 @@ alter publication supabase_realtime add table public.library;`;
           const sheet = root.querySelector(".parch"); sheet.classList.add("sent"); setTimeout(() => { root.onclick = null; root.innerHTML = ""; if (tab === "friends") render(); }, 900);
           toast(`Your letter is on its way to ${[...pick].map(id => whoIs(id).name).join(" & ")} ✉`); return; }
       };
+      root.onkeydown = e => { if (e.target.id === "lw-q" && e.key === "Enter") { e.preventDefault(); lwFind(); } };
       root.onchange = e => { if (e.target.id === "lw-book") { compose.draft = $("#lw-note").value; book = books.find(b => b.id === e.target.value) || null; draw(); } };
     }
     // ---- picks for a friend: books from my shelves that suit their shelves and their Reader DNA ----
@@ -5378,7 +5407,8 @@ alter publication supabase_realtime add table public.library;`;
             r.members = [...r.members, fid]; await invite([fid], "buddy", r.id, r.book, `📖 ${ME()?.name || "A friend"} wants to read with you`, `“${r.book.t}”, together. Open your nook to join in.`); toast(`${whoIs(fid).name} is invited ✦`); draw(); return; }
           if (e.target.closest("[data-bpost]")) { const text = $("#bn-text").value.trim(); if (!text) { toast("Write a little note first."); return; }
             const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), read_id: r.id, user_id: me, page: Math.max(0, +$("#bn-page").value || 0), note: text };
-            const { error } = await C().from("buddy_notes").insert(row); if (error) { toast(error.message); return; } notes = [...(notes || []), { ...row, created_at: new Date().toISOString() }].sort((a, b) => a.page - b.page); draw(); return; }
+            const { error } = await C().from("buddy_notes").insert(row); if (error) { toast(error.message); return; } notes = [...(notes || []), { ...row, created_at: new Date().toISOString() }].sort((a, b) => a.page - b.page); draw();
+            notify(r.members, "buddy-note", `📝 ${myName()} left a note in “${r.book.t}”`, `At page ${row.page}. It unlocks when you get there.`, r.id); return; }
           const d = e.target.closest("[data-bdel]"); if (d) { await C().from("buddy_notes").delete().eq("id", d.dataset.bdel); notes = notes.filter(n => n.id !== d.dataset.bdel); draw(); return; }
           const done = msg => { buddies = buddies.filter(x => x.id !== r.id); $("#modal-root").onclick = null; $("#modal-root").innerHTML = ""; render(); toast(msg); };
           const en = e.target.closest("[data-bend]"); if (en) { if (!en.dataset.sure) { en.dataset.sure = 1; en.textContent = "Tap again to end it for everyone"; return; }
@@ -5431,7 +5461,8 @@ alter publication supabase_realtime add table public.library;`;
         const a = e.target.closest("[data-cadd]"); if (a) { const b = books.find(z => z.id === $("#cb-book").value); if (!b) { toast("Choose a book to suggest."); return; }
           if (list.some(y => tnorm(y.book.t) === tnorm(b.title))) { toast("It's already on the club shelf."); return; }
           const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), club_id: c.id, book: bookOf(b), added_by: me, note: $("#cb-note").value.trim() || null, votes: [me] };
-          const { error } = await C().from("club_books").insert(row); if (error) { toast(error.message); return; } list = [...list, row]; draw(); return; }
+          const { error } = await C().from("club_books").insert(row); if (error) { toast(error.message); return; } list = [...list, row]; draw();
+          notify(c.members, "club-pick", `📚 ${myName()} suggested “${row.book.t}”`, `For ${c.emoji || "📚"} ${c.name}. Give it a ♥ if you'd like to read it next.`, c.id); return; }
         const rd = e.target.closest("[data-cread]"); if (rd) { const x = list.find(y => y.id === rd.dataset.cread), going = reads().find(r => tnorm(r.book.t) === tnorm(x.book.t)); if (going) { buddyRoom(going.id); return; }
           rd.disabled = true; const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), created_by: me, members: [...c.members], book: { ...x.book, club: c.id }, status: "active" };
           const { error } = await C().from("buddy_reads").insert(row); if (error) { rd.disabled = false; toast(error.message); return; } buddies = [{ ...row, created_at: new Date().toISOString() }, ...buddies];
@@ -5452,12 +5483,12 @@ alter publication supabase_realtime add table public.library;`;
     }
     // ---- what's new for you: requests, letters, cheers and reactions, as a short list ----
     function postHTML(){
-      const L = lettersOff ? [] : unread(); if (!incoming.length && !L.length) return "";
+      const L = lettersOff ? [] : unread(); const EVN = newEvents(); if (!incoming.length && !L.length && !EVN.length) return "";
       const lab = l => { const B = l.book || {}, n = esc(whoIs(l.sender).name); return B.kind === "cheer" ? [`✨`, `A cheer from ${n}`, esc((l.note || "").slice(0, 60))] : B.kind === "react" ? [esc(B.e || "♥"), `${n} reacted`, esc((l.note || "").replace(/^\S+\s/, "").slice(0, 60))]
         : B.kind === "feedback" ? ["❦", `${n} finished your recommendation`, esc(B.t || "")] : B.kind === "buddy" ? ["📖", `${n} wants to read with you`, `<i>${esc(B.t || "")}</i> · tap to join`] : B.kind === "club" ? ["📚", esc(B.pt || `${n} started a book club`), esc(B.pb || "")] : ["✉", `A letter from ${n}`, `About <i>${esc(B.t || "a book")}</i> · sealed with wax`]; };
-      return `<section class="fsec fpost" id="f-post"><h3>✨ New for you <span class="pill">${incoming.length + L.length}</span></h3><div class="newlist">
+      return `<section class="fsec fpost" id="f-post"><h3>✨ New for you <span class="pill">${incoming.length + L.length + EVN.length}</span></h3><div class="newlist">
         ${incoming.map(p => `<div class="newrow req">${avatar(p, 38)}<span class="newtxt"><b>${esc(p.name)} wants to be friends</b><small>@${esc(p.handle)}</small></span><span class="newbtns"><button class="btn small primary" type="button" data-facc="${p.id}">Accept</button><button class="linkbtn" type="button" data-fdel="${p.id}">Decline</button></span></div>`).join("")}
-        ${L.map(l => { const [ic, t, sub] = lab(l); return `<button type="button" class="newrow" data-lopen="${l.id}"><span class="newic">${ic}</span><span class="newtxt"><b>${t}</b><small>${sub}</small></span><span class="newgo">Open ›</span></button>`; }).join("")}</div></section>`;
+        ${L.map(l => { const [ic, t, sub] = lab(l); return `<button type="button" class="newrow" data-lopen="${l.id}"><span class="newic">${ic}</span><span class="newtxt"><b>${t}</b><small>${sub}</small></span><span class="newgo">Open ›</span></button>`; }).join("")}${eventRows()}</div></section>`;
     }
     // ---- friends reading right now: big and clear, with how far they are ----
     function readingNowHTML(){
@@ -5476,12 +5507,13 @@ alter publication supabase_realtime add table public.library;`;
       const me = ME(), invite = `${location.origin}${location.pathname}`;
       el.innerHTML = `<div class="friends">
         ${postHTML()}
+        ${liveHTML()}
         ${readingNowHTML()}
         ${buddyHTML()}
         ${clubsHTML()}
         ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
         <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
-        ${feedHTML()}
+        ${feedHTML2()}
         ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
           ${letters.some(l => l.sender === U().id) ? `<div class="label" style="margin-top:8px">Sent</div>${letters.filter(l => l.sender === U().id).map(l => letterThumb(l, true)).join("")}` : ""}</details>` : ""}
@@ -5630,11 +5662,362 @@ alter publication supabase_realtime add table public.library;`;
         try { if (navigator.share) await navigator.share({ text: txt }); else { await navigator.clipboard.writeText(txt); toast("Invitation copied. Paste it into a message."); } } catch { try { await navigator.clipboard.writeText(txt); toast("Invitation copied."); } catch {} } return; }
     });
     document.addEventListener("submit", e => { if (e.target.id !== "f-find") return; e.preventDefault(); find($("#f-q").value); });
-    async function show(){ render(); await load(true); render(); pushShare(); goLive(); }
+    // ================= v4.8: notices, reading together live, and the feed of finished books (step 8) =================
+    let s8events = [], s8posts = [], s8reacts = new Map(), s8replies = new Map(), s8now = [], eventsOff = true, feedOff = true, nowOff = true, s8live = false;
+    const s8open = new Set(), s8peek = new Set();
+    const myName = () => ME()?.name || "A friend";
+    const s8miss = e => /schema cache|does not exist|relation|not find/i.test(String(e?.message || e || ""));
+    async function loadSocial2(){
+      if (!ready()) return; const me = uid();
+      try { const r = await C().from("nook_events").select("*").eq("recipient", me).order("created_at", { ascending: false }).limit(60);
+        if (r.error) throw r.error; s8events = r.data || []; eventsOff = false; } catch (e) { eventsOff = true; s8events = []; }
+      try { const r = await C().from("feed_posts").select("*").order("created_at", { ascending: false }).limit(50);
+        if (r.error) throw r.error; const ok = new Set([me, ...friends.map(f => f.id)]); s8posts = (r.data || []).filter(p => ok.has(p.user_id)); feedOff = false;
+        const ids = s8posts.map(p => p.id); s8reacts = new Map(); s8replies = new Map();
+        if (ids.length) { const [ra, rp] = await Promise.all([C().from("feed_reactions").select("*").in("post_id", ids), C().from("feed_replies").select("*").in("post_id", ids)]);
+          (ra.data || []).forEach(x => s8reacts.set(x.post_id, [...(s8reacts.get(x.post_id) || []), x])); (rp.data || []).forEach(x => s8replies.set(x.post_id, [...(s8replies.get(x.post_id) || []), x].sort((a, b) => String(a.created_at).localeCompare(String(b.created_at))))); }
+      } catch (e) { feedOff = true; s8posts = []; }
+      try { const r = await C().from("reading_now").select("*"); if (r.error) throw r.error; s8now = r.data || []; nowOff = false; } catch (e) { nowOff = true; s8now = []; }
+    }
+    // ---- notices: each one is also a phone notification (sent by the database, through step 5) ----
+    const SENT_KEY = "reading-ledger-evsent";
+    async function notify(to, kind, title, body, ref, once){
+      if (!ready() || eventsOff) return; const me = uid(), sent = lsGet(SENT_KEY, {});
+      const ids = [...new Set(to)].filter(id => id && id !== me && friends.some(f => f.id === id) && !(once && sent[`${once}:${id}`]));
+      if (!ids.length) return;
+      const rows = ids.map(id => ({ id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: me, recipient: id, kind, title: String(title).slice(0, 90), body: String(body || "").slice(0, 200), ref: ref ? String(ref).slice(0, 80) : null }));
+      const res = await Promise.all(rows.map(r => C().from("nook_events").insert(r))).catch(() => []);
+      if (once && res.some(x => x && !x.error)) { const s2 = lsGet(SENT_KEY, {}); ids.forEach(id => s2[`${once}:${id}`] = Date.now()); const cut = Date.now() - 14 * 864e5; for (const k of Object.keys(s2)) if (s2[k] < cut) delete s2[k]; lsSet(SENT_KEY, s2); }
+    }
+    const newEvents = () => s8events.filter(e => !e.seen_at);
+    const EV_ICON = { visit: "🧳", "buddy-note": "📝", "buddy-pass": "🏃", "buddy-done": "🎉", "club-pick": "📚", "feed-react": "♥", "feed-reply": "💬", "live": "🕯", "live-join": "🕯" };
+    async function openEvent(id){
+      const ev = s8events.find(x => x.id === id); if (!ev) return;
+      if (!ev.seen_at) { ev.seen_at = new Date().toISOString(); C().from("nook_events").update({ seen_at: ev.seen_at }).eq("id", ev.id).then(() => {}); paintBadge(); }
+      if (ev.kind === "visit" && ev.ref) { if (!s9visits.some(v => v.id === ev.ref)) await loadVisits(); openVisit(ev.ref); return; }
+      if (/^buddy/.test(ev.kind) && ev.ref) { buddyRoom(ev.ref); return; }
+      if (/^club/.test(ev.kind) && ev.ref) { clubRoom(ev.ref); return; }
+      if (/^feed/.test(ev.kind) && ev.ref) { s8open.add(ev.ref); render(); setTimeout(() => document.querySelector(`[data-post="${CSS.escape(ev.ref)}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120); return; }
+      render(); setTimeout(() => $("#f-live")?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
+    }
+    const eventRows = () => newEvents().map(ev => `<button type="button" class="newrow evrow" data-evopen="${esc(ev.id)}"><span class="newic">${esc(EV_ICON[ev.kind] || "✦")}</span><span class="newtxt"><b>${esc(ev.title)}</b><small>${esc(ev.body || "")}</small></span><span class="newgo">Open ›</span></button>`).join("");
+    // ---- buddy reads: tell the others when you pass them or finish (once a day per person, never with spoilers) ----
+    const SEEN_KEY = "reading-ledger-buddyseen";
+    function checkBuddyProgress(){
+      if (!ready() || eventsOff || !buddies.length) return; const me = uid(), seen = lsGet(SEEN_KEY, {}), out = { ...seen };
+      for (const r of buddies) { const mp = progressIn(me, r.book), was = seen[r.id], others = r.members.filter(id => id !== me);
+        out[r.id] = { page: mp.page || 0, done: mp.state === "finished" };
+        if (!was) continue;
+        if (mp.state === "finished" && !was.done) { notify(others, "buddy-done", `🎉 ${myName()} finished “${r.book.t}”`, "No spoilers here. Open the buddy read to see their notes when you get there.", r.id, `done:${r.id}`); continue; }
+        if ((mp.page || 0) > (was.page || 0)) for (const id of others) { const P = progressIn(id, r.book);
+          if (P.state === "reading" && P.page >= (was.page || 0) && P.page < mp.page) notify([id], "buddy-pass", `🏃 ${myName()} just passed you in “${r.book.t}”`, `They're on page ${mp.page}. Catch up? 📖`, r.id, `pass:${r.id}:${todayISO()}`); } }
+      lsSet(SEEN_KEY, out);
+    }
+    // ---- who's reading by candlelight right now ----
+    const LIVE_MS = 15 * 60000;
+    const liveRows = () => s8now.filter(x => x.user_id !== uid() && friends.some(f => f.id === x.user_id) && Date.now() - Date.parse(x.updated_at) < LIVE_MS);
+    const minsSince = t => Math.max(1, Math.round((Date.now() - Date.parse(t)) / 60000));
+    function liveHTML(){
+      if (nowOff) return ""; const L = liveRows(); if (!L.length) return "";
+      return `<section class="fsec flive" id="f-live"><h3>🕯 Reading right now</h3><div class="flivelist">${L.map(x => { const p = whoIs(x.user_id), B = x.book || {};
+        return `<div class="flv" data-fam="${esc(p.familiar || "cat")}" data-expr="happy"><span class="flvart">${avatar(p, 44)}<i class="flvflame" aria-hidden="true"></i></span><span class="flvtxt"><b>${esc(p.name)}</b><i>${esc(B.t || "a book")}</i><small>by candlelight for ${fmtMinsS(minsSince(x.started_at))}${x.pages_read ? ` · ${x.pages_read} pages so far` : ""}${x.with_user === uid() ? " · with you" : ""}</small></span><button type="button" class="btn small primary" data-livejoin="${esc(x.user_id)}">🕯 Read together</button></div>`; }).join("")}</div></section>`;
+    }
+    const fmtMinsS = m => m < 60 ? `${m} min` : `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}`;
+    let beatAt = 0;
+    async function presenceStart(b, s, fresh){
+      if (!ready() || nowOff || !b) return; const me = uid(); beatAt = Date.now();
+      const row = { user_id: me, book: bookOf(b), started_at: new Date(s.t0).toISOString(), updated_at: new Date().toISOString(), page: Number(b.currentPage) || 0, pages_read: Math.max(0, (Number(b.currentPage) || 0) - (s.p0 || 0)), with_user: s.with || null };
+      const { error } = await C().from("reading_now").upsert(row); if (error) { if (s8miss(error)) nowOff = true; return; }
+      s8now = [...s8now.filter(x => x.user_id !== me), row];
+      if (fresh) { const partners = buddies.filter(r => tnorm(r.book.t || "") === tnorm(b.title)).flatMap(r => r.members);
+        notify(partners, "live", `🕯 ${myName()} is reading “${b.title}” right now`, "Light your candle and read together?", null, `live:${Math.floor(Date.now() / (3 * 3600e3))}`); }
+      if (s.with) notify([s.with], "live-join", `🕯 ${myName()} is reading with you`, `“${b.title}”, by candlelight. Cosy.`, null, `join:${s.t0}`);
+    }
+    function presenceBeat(b, s, force){ if (!ready() || nowOff || !b || (!force && Date.now() - beatAt < 120000)) return; beatAt = Date.now();
+      C().from("reading_now").update({ updated_at: new Date().toISOString(), page: Number(b.currentPage) || 0, pages_read: Math.max(0, (Number(b.currentPage) || 0) - (s.p0 || 0)), with_user: s.with || null }).eq("user_id", uid()).then(() => {}); }
+    function presenceEnd(){ if (!ready() || nowOff) return; const me = uid(); s8now = s8now.filter(x => x.user_id !== me); C().from("reading_now").delete().eq("user_id", me).then(() => {}); }
+    // the friend you're reading with (or anyone reading right now), for the reading-mode chip
+    function withNow(fid){ const x = s8now.find(r => r.user_id === fid); const p = whoIs(fid); if (!x) return { name: p.name, familiar: p.familiar, live: false };
+      return { name: p.name, familiar: p.familiar, live: Date.now() - Date.parse(x.updated_at) < LIVE_MS, book: x.book || {}, mins: minsSince(x.started_at), pages: x.pages_read || 0 }; }
+    const liveFriends = () => liveRows().map(x => ({ id: x.user_id, ...withNow(x.user_id) }));
+    async function refreshNow(){ if (!ready() || nowOff) return; try { const r = await C().from("reading_now").select("*"); if (!r.error) s8now = r.data || []; } catch {} }
+    // ---- the feed: finished books, with a line, reactions and replies; spoilers stay covered until you've read it ----
+    const EMO = ["❤️", "😱", "😭", "🔥", "🤯", "📚"];
+    const haveRead = t => books.some(b => b.shelf === "read" && tnorm(b.title) === tnorm(t || ""));
+    const haveBook = t => books.some(b => tnorm(b.title) === tnorm(t || ""));
+    const postTime = p => Date.parse(p.created_at) || 0;
+    function feedHTML2(){
+      if (feedOff) return feedHTML();
+      const me = uid(), cut = Date.now() - 45 * 864e5, items = s8posts.filter(p => postTime(p) >= cut).map(p => ({ kind: "post", p, t: postTime(p) }));
+      // friends who finished or started something without posting it (or on an older version of the app)
+      const posted = new Set(s8posts.map(p => p.user_id + "|" + tnorm(p.book?.t || "")));
+      for (const o of feed()) if (!(o.ev === "finished" && posted.has(o.p.id + "|" + tnorm(o.x.t)))) items.push({ kind: "ev", o, t: o.t });
+      // your own recent finishes, waiting to be shared
+      const mine = books.filter(b => b.shelf === "read" && b.finished && !b.feedPosted && !b.feedSkip && Date.now() - Date.parse(b.finished) < 14 * 864e5 && !posted.has(me + "|" + tnorm(b.title))).slice(0, 2);
+      const list = items.sort((a, b) => b.t - a.t).slice(0, 25);
+      if (!list.length && !mine.length) return "";
+      return `<section class="fsec ffeed ffeed2"><h3>📰 Finished lately</h3>
+        ${mine.map(b => `<div class="fpmine">${coverHTML(b)}<span><b>You finished ${esc(b.title)}</b><small>Tell your friends what you thought?</small></span><button type="button" class="btn small primary" data-fpshare="${esc(b.id)}">📣 Share</button><button type="button" class="linkbtn" data-fpskip="${esc(b.id)}">Not this one</button></div>`).join("")}
+        ${list.map(it => it.kind === "post" ? postCard(it.p) : evRow(it.o)).join("")}</section>`;
+    }
+    function evRow(o){ const k = evKey(o), done = lsGet("reading-ledger-reacted", {})[k];
+      return `<div class="fev" data-fam="${esc(o.p.familiar || "cat")}">${avatar(o.p, 34)}<div class="fevtxt"><span><b>${esc(o.p.name)}</b> ${o.ev === "finished" ? "finished" : "started"} <button type="button" class="linkbtn fevbook" data-fevbook="${esc(k)}">${esc(o.x.t)}</button>${o.ev === "finished" && o.x.r ? ` <span class="fstars">${starsTxt(o.x.r)}</span>` : ""}</span><small>${esc(ago(new Date(o.t).toISOString()))}</small>
+        ${lettersOff ? "" : `<div class="fevr">${REACT.map(([e, l]) => `<button type="button" class="fevreact" data-freact="${esc(k)}" data-e="${e}" aria-pressed="${done === e}" title="${l}" aria-label="${l}"${done ? " disabled" : ""}>${e}</button>`).join("")}</div>`}</div></div>`; }
+    const starsTxt = r => `${"★".repeat(Math.floor(r))}${r % 1 ? "½" : ""}`;
+    function postCard(post){
+      const me = uid(), p = post.user_id === me ? { ...(ME() || {}), id: me } : whoIs(post.user_id), B = post.book || {}, mineP = post.user_id === me;
+      const locked = !mineP && !haveRead(B.t) && !s8peek.has(post.id), R = s8reacts.get(post.id) || [], RP = s8replies.get(post.id) || [], open = s8open.has(post.id);
+      const count = e => R.filter(x => x.emoji === e).length, minePick = e => R.some(x => x.emoji === e && x.user_id === me);
+      const spoil = (txt, id) => `<button type="button" class="fpspoil" data-fppeek="${esc(id)}"><b>🔒 Spoiler cover</b><small>Hidden until you've read it yourself · tap to peek anyway</small></button>`;
+      return `<article class="fdpost" data-post="${esc(post.id)}" data-fam="${esc(p.familiar || "cat")}">
+        <div class="fphead">${avatar(p, 40)}<div><span><b>${mineP ? "You" : esc(p.name)}</b> finished a book</span><small>${esc(ago(post.created_at))}</small></div>${mineP ? `<button type="button" class="linkbtn fpdel" data-fpdel="${esc(post.id)}">Delete</button>` : ""}</div>
+        <div class="fpbody"><span class="fpcov">${mini(B)}</span><div class="fptxt"><b>${esc(B.t || "")}</b><i>${esc(B.a || "")}</i>${post.rating ? `<span class="fpstars" aria-label="${post.rating} stars">${starsTxt(post.rating)}<span class="fpoff">${"★".repeat(5 - Math.ceil(post.rating))}</span></span>` : ""}
+          ${post.note ? (locked ? spoil(post.note, post.id) : `<p class="fpnote">“${esc(post.note)}”</p>`) : ""}
+          ${!mineP && !haveBook(B.t) ? `<button type="button" class="btn small fpwant" data-fpwant="${esc(post.id)}">+ Want to read</button>` : ""}</div></div>
+        <div class="fpreacts">${EMO.map(e => `<button type="button" class="fpemo" data-fpreact="${esc(post.id)}" data-e="${e}" aria-pressed="${minePick(e)}" title="${R.filter(x => x.emoji === e).map(x => x.user_id === me ? "You" : whoIs(x.user_id).name).join(", ")}">${e}${count(e) ? `<small>${count(e)}</small>` : ""}</button>`).join("")}
+          <button type="button" class="fpemo fpthread" data-fpthread="${esc(post.id)}" aria-expanded="${open}">💬${RP.length ? `<small>${RP.length}</small>` : ""}</button></div>
+        ${open ? `<div class="fpreplies">${RP.map(x => { const q = x.user_id === me ? { ...(ME() || {}), id: me } : whoIs(x.user_id), lk = x.user_id !== me && !haveRead(B.t) && !s8peek.has(post.id);
+            return `<div class="fprep" data-fam="${esc(q.familiar || "cat")}">${avatar(q, 26)}<div><b>${x.user_id === me ? "You" : esc(q.name)}</b>${lk ? `<span class="fprepl">🔒 hidden until you've read it</span>` : `<p>${esc(x.note)}</p>`}</div>${x.user_id === me || mineP ? `<button type="button" class="linkbtn" data-fprdel="${esc(x.id)}" data-pid="${esc(post.id)}" aria-label="Delete reply">✕</button>` : ""}</div>`; }).join("") || `<p class="note">No replies yet.</p>`}
+          <div class="fpform"><input id="fpr-${esc(post.id)}" maxlength="280" placeholder="Reply… (friends who haven't read it won't see it)"><button type="button" class="btn small primary" data-fpsend="${esc(post.id)}">Send</button></div></div>` : ""}
+      </article>`;
+    }
+    async function toggleReact(pid, e){
+      const me = uid(), R = s8reacts.get(pid) || [], has = R.some(x => x.emoji === e && x.user_id === me), post = s8posts.find(p => p.id === pid); if (!post) return;
+      if (has) { const { error } = await C().from("feed_reactions").delete().eq("post_id", pid).eq("user_id", me).eq("emoji", e); if (error) { toast(error.message); return; } s8reacts.set(pid, R.filter(x => !(x.emoji === e && x.user_id === me))); }
+      else { const row = { post_id: pid, user_id: me, emoji: e, created_at: new Date().toISOString() }; const { error } = await C().from("feed_reactions").insert(row); if (error && !/duplicate|23505/.test(error.message + error.code)) { toast(error.message); return; }
+        s8reacts.set(pid, [...R, row]); if (post.user_id !== me) notify([post.user_id], "feed-react", `${e} ${myName()} reacted to “${post.book?.t || "your book"}”`, "On the book you finished. Open your nook to see.", pid, `react:${pid}:${e}`); }
+      render();
+    }
+    async function sendReply(pid){
+      const inp = document.getElementById("fpr-" + pid), note = (inp?.value || "").trim(), post = s8posts.find(p => p.id === pid); if (!note || !post) { inp?.focus(); return; }
+      const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), post_id: pid, user_id: uid(), note, created_at: new Date().toISOString() };
+      const { error } = await C().from("feed_replies").insert(row); if (error) { toast(error.message); return; }
+      s8replies.set(pid, [...(s8replies.get(pid) || []), row]);
+      const others = [post.user_id, ...(s8replies.get(pid) || []).map(x => x.user_id)];
+      notify(others, "feed-reply", `💬 ${myName()} replied about “${post.book?.t || "a book"}”`, "Open your nook to read it. Spoilers stay covered until you've read the book.", pid);
+      render(); setTimeout(() => document.getElementById("fpr-" + pid)?.focus(), 30);
+    }
+    // ---- after you finish a book: share it with friends (when the card pack and editor are out of the way) ----
+    function offerShare(bookId){
+      if (!ready() || feedOff || !friends.length) return; const b = books.find(x => x.id === bookId); if (!b || b.shelf !== "read" || b.feedPosted || b.feedSkip) return;
+      let tries = 0; const t = setInterval(() => { tries++; if (tries > 240) { clearInterval(t); return; }
+        if ($("#modal-root").innerHTML.trim() || document.getElementById("pack-root")?.innerHTML.trim() || document.querySelector(".scrim, .delivery, #rmode")) return; clearInterval(t); shareSheet(bookId); }, 750);
+    }
+    function shareSheet(bookId){
+      const b = books.find(x => x.id === bookId); if (!b || document.getElementById("sf-scrim")) return;
+      const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "sf-scrim"; document.body.append(box);
+      box.innerHTML = `<div class="cheercard sharefin" role="dialog" aria-modal="true" aria-label="Share that you finished it"><div class="chstars" aria-hidden="true">✦ ✧ ✦</div><div class="label">You finished it!</div>
+        <div class="pbook">${coverHTML(b)}<div><b>${esc(b.title)}</b><i>${esc(b.author || "")}</i>${b.rating ? `<span class="pstars">${starsTxt(b.rating)}</span>` : ""}</div></div>
+        <p class="note">Tell your friends? It goes into their feed. Whatever you write stays covered for anyone who hasn't read it yet.</p>
+        <textarea id="sf-note" rows="2" maxlength="280" placeholder="One line about it… “I screamed at chapter 30”"></textarea>
+        <div class="pacts"><button class="btn" type="button" data-sfno>Not this one</button><button class="btn primary" type="button" data-sfgo>📣 Share with friends</button></div></div>`;
+      box.onclick = async e => {
+        if (e.target === box) { box.remove(); return; }
+        if (e.target.closest("[data-sfno]")) { b.feedSkip = true; save(); box.remove(); return; }
+        const g = e.target.closest("[data-sfgo]"); if (!g) return; g.disabled = true;
+        const ok = await sharePost(b, $("#sf-note").value.trim()); if (!ok) { g.disabled = false; return; }
+        box.querySelector(".cheercard").classList.add("sent"); setTimeout(() => box.remove(), 700);
+      };
+      setTimeout(() => $("#sf-note")?.focus({ preventScroll: true }), 60);
+    }
+    async function sharePost(b, note){
+      const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), user_id: uid(), book: bookOf(b), rating: b.rating || null, note: note || null, created_at: new Date().toISOString() };
+      const { error } = await C().from("feed_posts").insert(row); if (error) { toast(s8miss(error) ? "The feed needs the step 8 update in Supabase." : error.message); return false; }
+      s8posts = [row, ...s8posts]; b.feedPosted = row.id; save(); toast("📣 Shared with your friends"); if (tab === "friends") render(); return true;
+    }
+    // ---- live: candles lighting up, new posts and notices, as they happen ----
+    function liveBanner(x){
+      if (document.querySelector(".verbanner.livebanner") || document.body.classList.contains("rm-open")) return; const p = whoIs(x.user_id);
+      const el = document.createElement("div"); el.className = "verbanner livebanner"; el.innerHTML = `<span>🕯 <b>${esc(p.name)}</b> just lit a candle${x.book?.t ? ` · <i>${esc(x.book.t)}</i>` : ""}</span><button type="button" class="btn small primary" data-livejoin="${esc(x.user_id)}">Read together</button><button type="button" class="iconbtn" aria-label="Not now">✕</button>`;
+      el.addEventListener("click", ev => { if (ev.target.closest("[data-livejoin]")) { el.remove(); readWith(x.user_id); } else if (ev.target.closest(".iconbtn")) el.remove(); });
+      document.body.append(el); setTimeout(() => el.remove(), 16000);
+    }
+    function goLive2(){
+      if (s8live || !ready()) return; const cl = C(); if (!cl || typeof cl.channel !== "function") return; s8live = true; const me = uid();
+      try { cl.channel("nook-now").on("postgres_changes", { event: "*", schema: "public", table: "reading_now" }, pl => { const r = pl.new && pl.new.user_id ? pl.new : null, old = pl.old;
+          if (pl.eventType === "DELETE") { s8now = s8now.filter(x => x.user_id !== old?.user_id); } else if (r && friends.some(f => f.id === r.user_id)) { const was = s8now.find(x => x.user_id === r.user_id); s8now = [...s8now.filter(x => x.user_id !== r.user_id), r]; if (!was && Date.now() - Date.parse(r.started_at) < 5 * 60000) liveBanner(r); }
+          try { paintWith(); } catch {} if (canRender()) render(); }).subscribe(); } catch {}
+      try { cl.channel("nook-feed").on("postgres_changes", { event: "INSERT", schema: "public", table: "feed_posts" }, pl => { const r = pl.new; if (!r || !friends.some(f => f.id === r.user_id) || s8posts.some(p => p.id === r.id)) return; s8posts = [r, ...s8posts]; if (canRender()) render(); }).subscribe(); } catch {}
+      try { cl.channel("nook-events-" + me).on("postgres_changes", { event: "INSERT", schema: "public", table: "nook_events", filter: `recipient=eq.${me}` }, pl => { const r = pl.new; if (!r || s8events.some(x => x.id === r.id)) return; s8events = [r, ...s8events]; paintBadge(); toast(r.title, 4200); if (canRender()) render(); }).subscribe(); } catch {}
+    }
+    setInterval(() => { if (ready() && !document.hidden && !nowOff) refreshNow().then(() => { try { paintWith(); } catch {} if (canRender() && liveRows().length) render(); }); }, 60000);
+    document.addEventListener("click", async e => {
+      const ev = e.target.closest("[data-evopen]"); if (ev) { openEvent(ev.dataset.evopen); return; }
+      const lj = e.target.closest("[data-livejoin]"); if (lj && !lj.closest(".livebanner")) { readWith(lj.dataset.livejoin); return; }
+      if (!e.target.closest("#view-friends")) return;
+      const fr = e.target.closest("[data-fpreact]"); if (fr) { fr.disabled = true; await toggleReact(fr.dataset.fpreact, fr.dataset.e); return; }
+      const th = e.target.closest("[data-fpthread]"); if (th) { const id = th.dataset.fpthread; s8open.has(id) ? s8open.delete(id) : s8open.add(id); render(); if (s8open.has(id)) setTimeout(() => document.getElementById("fpr-" + id)?.focus({ preventScroll: true }), 30); return; }
+      const pk = e.target.closest("[data-fppeek]"); if (pk) { s8peek.add(pk.dataset.fppeek); render(); return; }
+      const sd = e.target.closest("[data-fpsend]"); if (sd) { sd.disabled = true; await sendReply(sd.dataset.fpsend); return; }
+      const rd = e.target.closest("[data-fprdel]"); if (rd) { await C().from("feed_replies").delete().eq("id", rd.dataset.fprdel); s8replies.set(rd.dataset.pid, (s8replies.get(rd.dataset.pid) || []).filter(x => x.id !== rd.dataset.fprdel)); render(); return; }
+      const dl = e.target.closest("[data-fpdel]"); if (dl) { if (!dl.dataset.sure) { dl.dataset.sure = 1; dl.textContent = "Tap again to delete"; return; } await C().from("feed_posts").delete().eq("id", dl.dataset.fpdel); s8posts = s8posts.filter(p => p.id !== dl.dataset.fpdel); render(); return; }
+      const wn = e.target.closest("[data-fpwant]"); if (wn) { const post = s8posts.find(p => p.id === wn.dataset.fpwant); if (!post) return; const B = post.book || {}, p = whoIs(post.user_id);
+        upsert({ title: B.t, author: B.a, cover: B.c, pages: B.p || null, year: B.y || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recFrom: post.user_id });
+        toast(`Added to Want to read, thanks to ${p.name} ✦`); render(); return; }
+      const sh = e.target.closest("[data-fpshare]"); if (sh) { shareSheet(sh.dataset.fpshare); return; }
+      const sk = e.target.closest("[data-fpskip]"); if (sk) { const b = books.find(x => x.id === sk.dataset.fpskip); if (b) { b.feedSkip = true; save(); } render(); return; }
+    });
+    document.addEventListener("keydown", e => { const i = e.target.closest?.("[id^='fpr-']"); if (i && e.key === "Enter") { e.preventDefault(); sendReply(i.id.slice(4)); } });
+  // ---- v4.9: what happens when two companions spend the afternoon together (a = first in this order, b = second) ----
+  const VISIT_ORDER = ["cat", "lion", "owl", "raven", "fox", "toad", "bat", "hedgehog", "wolf"];
+  const BANTER = {
+    "cat|cat": [["a", "Darling. Love the pearls.", "happy"], ["b", "They're real. Unlike yours.", "wink"], ["a", "*gasps* …I like you.", "surprised"], ["b", "Champagne, then?", "love"], "They spent the afternoon judging everyone's bookshelves together. Instant best friends."],
+    "cat|lion": [["a", "Antonio. Your mane is… a lot.", "wink"], ["b", "Ay, Natasha! You noticed!", "love"], ["a", "Everyone notices. From space.", "happy"], ["b", "*kisses her paw* For you, the whole mane.", "love"], "He serenaded her; she pretended to hate it. She hummed the tune all the way home."],
+    "cat|owl": [["b", "Madam, you are sitting on my first edition.", "surprised"], ["a", "And it's never looked better, darling.", "wink"], ["b", "Hoo… I suppose that is true.", "happy"], ["a", "Read me something scandalous.", "love"], "Hoot read her Byron's letters aloud. She was scandalised. Delighted, but scandalised."],
+    "cat|raven": [["b", "HALT! Who goes there?", "surprised"], ["a", "A lady, darling. Lower the sword.", "wink"], ["b", "…Yes, my lady. Sorry, my lady.", "sad"], ["a", "Good knight. Now fetch me a cushion.", "happy"], "Corvin guarded her cushion for three hours. He calls it his finest campaign."],
+    "cat|fox": [["a", "I know you took my earring.", "wink"], ["b", "Took? Borrowed. With style.", "happy"], ["a", "Keep it. It suits you.", "love"], ["b", "…Nobody's ever said that to me.", "surprised"], "They traded secrets and one earring. Neither will say which secrets."],
+    "cat|toad": [["b", "Fascinating! Your purr is at 26 hertz!", "surprised"], ["a", "Darling, don't measure me.", "wink"], ["b", "Sorry. …27 now.", "happy"], ["a", "*purrs louder* Write that down.", "love"], "Wartsworth wrote a paper called 'On the Purr'. She signed every copy."],
+    "cat|bat": [["b", "H-hi… I like your dress.", "love"], ["a", "Oh, sweetheart. Come here.", "happy"], ["b", "*hides behind her wings*", "sad"], ["a", "A little glitter. Just a dab. There.", "wink"], "Nyx came home with a tiny bit of glitter and a lot more confidence."],
+    "cat|hedgehog": [["b", "HI! Can I pet your tail?!", "surprised"], ["a", "Absolutely not.", "wink"], ["b", "…Can I LOOK at it?", "sad"], ["a", "Fine. Admire from there, darling.", "happy"], "Bramble explored every room; Natasha pretended not to follow him around making sure he was all right."],
+    "cat|wolf": [["a", "That eyeliner, darling. Who did it?", "surprised"], ["b", "Me. In the dark. Angrily.", "sad"], ["a", "Wing it a little higher next time.", "wink"], ["b", "…Okay. Thanks. Don't make it weird.", "love"], "They sat in the window critiquing each other's eyeliner. Both secretly took notes."],
+    "lion|lion": [["a", "¡Hermano!", "surprised"], ["b", "¡Hermano! Your mane!", "love"], ["a", "No, YOUR mane!", "happy"], ["b", "We sing. Now.", "love"], "Two lions, one guitar, four hours of serenades. The neighbours applauded. Eventually."],
+    "lion|owl": [["a", "Profesor! Teach me the poems of love!", "love"], ["b", "Ahem. We might begin with Neruda.", "happy"], ["a", "Ay, Neruda! He understood me!", "surprised"], ["b", "He was rather before your time.", "wink"], "Antonio learned three sonnets by heart and recited them at every door on the way home."],
+    "lion|raven": [["b", "Stand and fight, lion!", "surprised"], ["a", "I fight only for love, caballero.", "love"], ["b", "Then… I challenge your LOVE!", "happy"], ["a", "That is the most romantic thing anyone has ever said to me.", "love"], "The duel became a dance-off. Corvin insists he won. Antonio insists everyone won."],
+    "lion|fox": [["b", "Your rose. I lifted it from your pocket.", "wink"], ["a", "Keep it, querida. Thieves need beauty too.", "love"], ["b", "…That's annoyingly charming.", "surprised"], ["a", "I know.", "happy"], "Ember came back with a rose and a faint blush she blames on the cold."],
+    "lion|toad": [["b", "Hypothesis: your mane is ninety percent hairspray.", "happy"], ["a", "Ninety-five, amigo. Passion needs support.", "wink"], ["b", "Fascinating! May I take a sample?", "surprised"], ["a", "Only with love.", "love"], "They invented a new hair tonic. It smells of roses and very slightly of ozone."],
+    "lion|bat": [["a", "Little one! Why do you hide?", "surprised"], ["b", "I-I'm just shy…", "sad"], ["a", "Then I shall be loud enough for both of us!", "happy"], ["b", "*tiny giggle*", "love"], "Antonio taught Nyx one flamenco step. She did it once, then hid for an hour, glowing."],
+    "lion|hedgehog": [["b", "Are you a REAL lion?!", "surprised"], ["a", "The most real, pequeño!", "happy"], ["b", "Can you ROAR?!", "happy"], ["a", "I can roar a love song!", "love"], "Bramble rode on Antonio's back around the nook. Twice. Then four more times."],
+    "lion|wolf": [["a", "Ay, such dark beauty! Like a moonless night!", "love"], ["b", "Ew. No. Stop.", "sad"], ["a", "Like a sad song on a Spanish guitar!", "happy"], ["b", "…Okay, that one was kind of good.", "love"], "He wrote her a tragic poem. She pretended to hate it and kept it in her diary."],
+    "owl|owl": [["a", "Ah, colleague! Have you read the new edition?", "happy"], ["b", "Annotated it twice.", "wink"], ["a", "Splendid. Tea?", "love"], ["b", "Earl Grey, naturally.", "happy"], "Two owls, one pot of tea and a three-hour debate about semicolons. Both left extremely satisfied."],
+    "owl|raven": [["b", "Old bird! Tell me tales of great battles!", "surprised"], ["a", "Thermopylae, 480 BC. Do sit down.", "happy"], ["b", "*sits immediately*", "love"], ["a", "And mind your sword on the furniture.", "wink"], "Hoot lectured; Corvin took notes on the inside of his shield. A historic partnership."],
+    "owl|fox": [["b", "Your library has three secret passages.", "wink"], ["a", "Four, actually. You'll never find the fourth.", "happy"], ["b", "Challenge accepted.", "happy"], ["a", "Do put the books back when you're done.", "wink"], "Ember found the fourth passage. Hoot quietly moved it. The game continues."],
+    "owl|toad": [["a", "Ah, a man of science!", "happy"], ["b", "And you, a man of books!", "happy"], ["a", "Together we are…", "surprised"], ["b", "…a very well-referenced experiment!", "love"], "They co-wrote a paper. The footnotes are longer than the paper. Both are thrilled."],
+    "owl|bat": [["a", "Hello, little reader. Which book is that?", "happy"], ["b", "It's… about the moon.", "love"], ["a", "Splendid choice. May I read it with you?", "happy"], ["b", "*nods very, very quickly*", "love"], "They read under one blanket until both fell asleep. Hoot's spectacles slipped off his beak."],
+    "owl|hedgehog": [["b", "Professor! Where's the edge of the map?", "surprised"], ["a", "There isn't one, young explorer. That's rather the point of maps.", "happy"], ["b", "WHOA.", "surprised"], ["a", "Indeed. Whoa.", "wink"], "Bramble came home with a reading list and a hand-drawn map of 'everywhere books go'."],
+    "owl|wolf": [["a", "Ah, Poe. Excellent taste.", "happy"], ["b", "Finally. Someone gets it.", "surprised"], ["a", "Shall we discuss The Raven?", "wink"], ["b", "Only if Corvin isn't listening.", "happy"], "They read gothic poetry by candlelight. Wulfila smiled twice. Hoot counted."],
+    "raven|raven": [["a", "SIR!", "surprised"], ["b", "SIR!", "surprised"], ["a", "A duel?", "happy"], ["b", "A DUEL!", "happy"], "Six hours, zero winners and two very tired knights. They are sworn brothers now."],
+    "raven|fox": [["a", "Thief! Return my helm!", "surprised"], ["b", "This helm? Couldn't be me.", "wink"], ["a", "It is ON YOUR HEAD.", "sad"], ["b", "Huh. Would you look at that.", "happy"], "Corvin chased Ember round the nook until they both collapsed laughing. The helm came home. Mostly."],
+    "raven|toad": [["b", "May I test your armour's tensile strength?", "happy"], ["a", "Strike! It cannot be pierced!", "happy"], ["b", "*taps it with a spoon*", "wink"], ["a", "…It has been pierced.", "sad"], "Wartsworth invented shock-absorbing snack armour. Corvin ate half of it."],
+    "raven|bat": [["a", "Fear not, small one! I shall protect you!", "happy"], ["b", "F-from what?", "surprised"], ["a", "From… EVERYTHING!", "happy"], ["b", "…That's actually really nice.", "love"], "Corvin stood guard all afternoon while Nyx napped. He calls it the Siege of the Blanket."],
+    "raven|hedgehog": [["b", "I challenge you to a DUEL!", "happy"], ["a", "Ha! A worthy foe!", "happy"], ["b", "*throws a pinecone*", "wink"], ["a", "OOF. Well struck, squire!", "surprised"], "The pinecone duel lasted all afternoon. Bramble was knighted, then knighted Corvin back."],
+    "raven|wolf": [["b", "You're loud.", "sad"], ["a", "I AM VALIANT.", "happy"], ["b", "You're loud and valiant.", "wink"], ["a", "…Thank you!", "love"], "Wulfila tried to teach Corvin to brood. He was terrible at it. She liked him more for it."],
+    "fox|fox": [["a", "Nice cloak.", "wink"], ["b", "Nice tail.", "wink"], ["a", "Want to rob a biscuit tin?", "happy"], ["b", "Thought you'd never ask.", "happy"], "The biscuit tin is empty. Nobody saw anything. Two foxes look extremely innocent."],
+    "fox|toad": [["b", "Could you pick this lock? For science.", "happy"], ["a", "For science? Obviously.", "wink"], ["b", "*scribbles* Fascinating technique!", "surprised"], ["a", "Don't publish that.", "wink"], "Ember picked forty locks. Wartsworth catalogued every one. The paper is classified."],
+    "fox|bat": [["a", "Psst. Want to learn to be invisible?", "wink"], ["b", "I… I'm already pretty good at hiding.", "sad"], ["a", "Then you're a natural.", "happy"], ["b", "*shy little smile*", "love"], "Nyx learned to tiptoe without a sound, and practised on Ember. Ember was genuinely impressed."],
+    "fox|hedgehog": [["b", "Are you a SPY?!", "surprised"], ["a", "Shh. Maybe.", "wink"], ["b", "Can I be a spy?!", "happy"], ["a", "Rule one: no shouting.", "wink"], "Bramble's spy career lasted twelve minutes, until he shouted 'I'M BEING SNEAKY'. Ember adored it."],
+    "fox|wolf": [["a", "We're basically cousins, you know.", "wink"], ["b", "Ugh. Don't.", "sad"], ["a", "Same tail energy.", "happy"], ["b", "…Okay, the tail thing is fair.", "love"], "They sat on the roof at midnight, not talking. Both say it was the best visit ever."],
+    "toad|toad": [["a", "Colleague! Your hypothesis?", "surprised"], ["b", "Bubbles!", "happy"], ["a", "BUBBLES!", "happy"], ["b", "RIBBIT!", "love"], "Two scientists, one lab, zero explosions. Well, one small explosion. A beautiful one."],
+    "toad|bat": [["a", "Hello! May I measure your ears?", "happy"], ["b", "M-measure them?", "surprised"], ["a", "For science! They're magnificent!", "love"], ["b", "*ears turn pink*", "love"], "Nyx found out her ears can hear the moon hum. Wartsworth believes it. So does Nyx."],
+    "toad|hedgehog": [["b", "Can we make a VOLCANO?!", "surprised"], ["a", "I thought you'd never ask!", "happy"], ["b", "BIGGER!", "happy"], ["a", "BIGGER!", "happy"], "The volcano worked. The kitchen is now 'a field site'. Both are extremely proud."],
+    "toad|wolf": [["a", "Hypothesis: you are secretly happy.", "happy"], ["b", "Wrong.", "sad"], ["a", "Your tail is wagging.", "wink"], ["b", "…Inconclusive data.", "love"], "Wartsworth recorded seven smiles. Wulfila demanded the data be destroyed. He kept a copy."],
+    "bat|bat": [["a", "H-hi…", "love"], ["b", "H-hi…", "love"], ["a", "*they both hide*", "sad"], ["b", "…I like your bow.", "happy"], "Two shy bats, one blanket, three whole sentences. A record. They're inseparable now."],
+    "bat|hedgehog": [["b", "Hi hi hi! Wanna play?!", "happy"], ["a", "Um… quietly?", "sad"], ["b", "*whispers* WANNA PLAY QUIETLY?", "wink"], ["a", "*giggles* Okay.", "love"], "They built a blanket fort and whispered stories until dark. Bramble's whisper is still very loud."],
+    "bat|wolf": [["a", "I… I like your eyeliner.", "love"], ["b", "…Thanks. I like your… wings.", "surprised"], ["a", "*happy squeak*", "happy"], ["b", "Don't tell anyone I was nice.", "wink"], "Wulfila let Nyx sit with her in the dark corner. She called it babysitting. She smiled the whole time."],
+    "hedgehog|hedgehog": [["a", "EXPEDITION?", "surprised"], ["b", "EXPEDITION!", "happy"], ["a", "To the kitchen!", "happy"], ["b", "TO THE KITCHEN!", "love"], "They discovered the biscuit cupboard, mapped it, and named it Crumb Mountain."],
+    "hedgehog|wolf": [["a", "Why are you sad?!", "surprised"], ["b", "I'm not sad. I'm mysterious.", "wink"], ["a", "Can I be mysterious too?!", "happy"], ["b", "…Sure, kid. Stand in the corner and sigh.", "happy"], "Bramble sighed so dramatically he fell over. Wulfila laughed out loud. There were witnesses."],
+    "wolf|wolf": [["a", "Nice boots.", "wink"], ["b", "Nice phase.", "wink"], ["a", "It's not a phase.", "sad"], ["b", "Same.", "love"], "Two wolves, one playlist, zero words. The best afternoon either of them has had all year."],
+  };
+  // what each companion leaves as a souvenir
+  const VISIT_GIFT = { cat: "visitpearl", lion: "visitrose", owl: "visitbookplate", raven: "visitmedal", fox: "visitkey", toad: "visitbubble", bat: "visitmoon", hedgehog: "visitcompass", wolf: "visitribbon" };
+  // the script for a visit: lines in order, each spoken by the guest ("g") or the host ("h")
+  function visitStory(gk, hk){
+    const ia = VISIT_ORDER.indexOf(gk), ib = VISIT_ORDER.indexOf(hk), key = ia <= ib ? `${gk}|${hk}` : `${hk}|${gk}`, guestIsA = ia <= ib;
+    const B = BANTER[key] || BANTER["cat|cat"], lines = B.slice(0, -1).map(([w, t, e]) => [(w === "a") === guestIsA ? "g" : "h", t, e]);
+    return { lines, outcome: B[B.length - 1] };
+  }
+    // ================= v4.9: companions visiting each other's nooks (step 9) =================
+    let s9visits = [], visitsOff = true, s9live = false;
+    const VISIT_HOURS = 6, vnow = () => Date.now(), vEnd = v => Date.parse(v.ends_at), compOf = k => famName(FAMILIARS[k] ? k : "cat");
+    async function loadVisits(){
+      if (!ready()) return; try { const r = await C().from("visits").select("*").order("started_at", { ascending: false }).limit(40);
+        if (r.error) throw r.error; const me = uid(); s9visits = (r.data || []).filter(v => v.guest === me || v.host === me); visitsOff = false; } catch (e) { visitsOff = true; s9visits = []; }
+    }
+    const outgoing9 = () => s9visits.find(v => v.guest === uid() && vnow() < vEnd(v));
+    const hosting9 = () => s9visits.filter(v => v.host === uid() && vnow() < vEnd(v));
+    const returned9 = () => s9visits.find(v => v.guest === uid() && vnow() >= vEnd(v) && !v.guest_seen);
+    const departed9 = () => s9visits.find(v => v.host === uid() && vnow() >= vEnd(v) && !v.host_seen);
+    const hhmm = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+    function sendVisit(fid){
+      if (!ready()) { toast("Sign in first."); return; } if (visitsOff) { toast("Visits need the step 9 update in Supabase."); return; }
+      if (!famChosen) { toast("Choose your companion first."); return; }
+      const out = outgoing9(); if (out) { toast(`${compOf(out.guest_fam)} is already visiting ${whoIs(out.host).name} until ${hhmm(vEnd(out))}.`); return; }
+      const p = whoIs(fid), hk = FAMILIARS[p.familiar] ? p.familiar : "cat", gk = familiar;
+      const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "vs-scrim"; document.body.append(box);
+      box.innerHTML = `<div class="cheercard visitask" role="dialog" aria-modal="true" aria-label="Send ${esc(compOf(gk))} to visit"><div class="label">A visit</div>
+        <div class="vpair"><span class="vp g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, wornNow(gk), "happy")}</span><span class="vbag" aria-hidden="true">🧳</span><span class="vp h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, [], "neutral")}</span></div>
+        <p class="vq">Send <b>${esc(compOf(gk))}</b> to spend the afternoon with <b>${esc(p.name)}'s ${esc(compOf(hk))}</b>?</p>
+        <p class="note">They'll hang out for ${VISIT_HOURS} hours. Peek in any time; when ${esc(compOf(gk))} comes home you'll hear how it went, and they'll bring back a souvenir.</p>
+        <div class="pacts"><button class="btn" type="button" data-vsno>Not now</button><button class="btn primary" type="button" data-vsgo>🧳 Off you go</button></div></div>`;
+      box.onclick = async e => {
+        if (e.target === box || e.target.closest("[data-vsno]")) { box.remove(); return; }
+        const g = e.target.closest("[data-vsgo]"); if (!g) return; g.disabled = true;
+        const now = new Date(), row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), guest: uid(), host: fid, guest_fam: gk, host_fam: hk, guest_wear: wornNow(gk), host_wear: [], story: visitStory(gk, hk), started_at: now.toISOString(), ends_at: new Date(now.getTime() + VISIT_HOURS * 3600e3).toISOString(), guest_seen: false, host_seen: false };
+        const { error } = await C().from("visits").insert(row); if (error) { g.disabled = false; toast(s8miss(error) ? "Visits need the step 9 update in Supabase." : error.message); return; }
+        s9visits = [row, ...s9visits];
+        notify([fid], "visit", `🧳 ${myName()}'s ${compOf(gk)} is visiting your nook!`, `They're spending the afternoon with your ${compOf(hk)}. Say hello!`, row.id);
+        box.querySelector(".cheercard").classList.add("sent"); setTimeout(() => box.remove(), 700);
+        toast(`🧳 ${compOf(gk)} is off to ${p.name}'s nook. Back at ${hhmm(vEnd(row))}.`, 4200); try { speak(`Off to ${p.name}'s! I'll bring you something back.`, "happy"); } catch {} paintVisit(); if (tab === "friends") render();
+      };
+    }
+    async function callHome(id){ const v = s9visits.find(x => x.id === id); if (!v) return; v.ends_at = new Date().toISOString();
+      await C().from("visits").update({ ends_at: v.ends_at }).eq("id", id); paintVisit(); openVisit(id); }
+    // the scene: both companions on a rug, the afternoon so far (or the whole story, once it's over), and the souvenir
+    let sceneT = [];
+    function openVisit(id){
+      const v = s9visits.find(x => x.id === id); if (!v) return; const me = uid(), amGuest = v.guest === me, over = vnow() >= vEnd(v);
+      const gk = v.guest_fam, hk = v.host_fam, gName = compOf(gk), hName = compOf(hk), gOwner = amGuest ? "your" : `${whoIs(v.guest).name}'s`, hOwner = amGuest ? `${whoIs(v.host).name}'s` : "your";
+      const gWear = Array.isArray(v.guest_wear) ? v.guest_wear : [], hWear = amGuest ? (Array.isArray(v.host_wear) ? v.host_wear : []) : wornNow(hk);
+      if (!amGuest && hk === familiar && JSON.stringify(v.host_wear || []) !== JSON.stringify(hWear)) { v.host_wear = hWear; C().from("visits").update({ host_wear: hWear }).eq("id", v.id).then(() => {}); }
+      const S = v.story || {}, L = S.lines || [], frac = Math.min(1, Math.max(0, (vnow() - Date.parse(v.started_at)) / Math.max(1, vEnd(v) - Date.parse(v.started_at))));
+      const shown = over ? L.length : Math.max(1, Math.ceil(frac * L.length));
+      const tk = amGuest ? VISIT_GIFT[hk] : VISIT_GIFT[gk], have = giftsGot().some(g => g.tk === tk && g.from === "visit" && g.vid === v.id);
+      const root = $("#modal-root"); sceneT.forEach(clearTimeout); sceneT = [];
+      root.innerHTML = `<div class="scrim" id="vz-scrim"><div class="modal visitmodal" role="dialog" aria-modal="true" aria-label="${esc(gName)} visiting ${esc(hName)}">
+        <div class="phead"><div><div class="label">${over ? "How the visit went" : "A visit, right now"}</div><h2>${esc(gName)} <span class="muted">&</span> ${esc(hName)}</h2><small class="muted">${esc(gOwner)} ${esc(gName)} at ${esc(hOwner)} nook · ${over ? `${amGuest ? "home again" : "gone home"}` : `until ${hhmm(vEnd(v))}`}</small></div><button class="btn small" type="button" data-vzx>Close</button></div>
+        <div class="vstage"><span class="vglow" aria-hidden="true"></span><span class="vrug" aria-hidden="true"></span>
+          <span class="vp g" id="vz-g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, gWear, "happy")}</span><span class="vp h" id="vz-h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, hWear, "neutral")}</span>
+          <span class="vtea" aria-hidden="true">☕</span></div>
+        <div class="vlines" id="vz-lines"></div>
+        ${over ? `<div class="voutcome" id="vz-out" hidden><b>How it went</b><p>${esc(S.outcome || "They had a lovely time.")}</p></div>
+          <div class="vgift" id="vz-gift" hidden><div class="vgiftart">${(TRINKETS[tk] || (() => ""))()}</div><div><b>${esc(TRINKET_NAMES[tk] || "A souvenir")}</b><small>${amGuest ? `${esc(hName)} sent it home with ${esc(gName)}.` : `${esc(gName)} left it for you.`}</small></div>${have ? `<span class="onshelf">✓ On your shelf</span>` : `<button class="btn small primary" type="button" data-vgift="${esc(v.id)}">Put it on my shelf</button>`}</div>`
+          : `<p class="note vwait">They're still together. ${shown < L.length ? "More to come; peek in again later." : "Nearly home time."}</p>${amGuest ? `<div class="pacts"><button class="btn small" type="button" data-vhome="${esc(v.id)}">Call ${esc(gName)} home early</button></div>` : ""}`}
+      </div></div>`;
+      const box = $("#vz-lines"), gEl = $("#vz-g"), hEl = $("#vz-h");
+      L.slice(0, shown).forEach(([who, text, ex], i) => sceneT.push(setTimeout(() => { if (!box.isConnected) return; const isG = who === "g";
+        box.insertAdjacentHTML("beforeend", `<div class="vline ${isG ? "lg" : "lh"}"><b>${esc(isG ? gName : hName)}</b><span>${esc(text)}</span></div>`);
+        (isG ? gEl : hEl).dataset.expr = ex || "happy"; (isG ? hEl : gEl).dataset.expr = "idle"; (isG ? gEl : hEl).classList.remove("talk"); void gEl.offsetWidth; (isG ? gEl : hEl).classList.add("talk");
+        box.scrollTop = box.scrollHeight; }, 500 + i * 1500)));
+      if (over) sceneT.push(setTimeout(() => { const o = $("#vz-out"), g = $("#vz-gift"); if (o) o.hidden = false; if (g) g.hidden = false; gEl.dataset.expr = "love"; hEl.dataset.expr = "love"; }, 500 + shown * 1500));
+      if (over && (amGuest ? !v.guest_seen : !v.host_seen)) { const f = amGuest ? "guest_seen" : "host_seen"; v[f] = true; C().from("visits").update({ [f]: true }).eq("id", v.id).then(() => {}); setTimeout(paintVisit, 50); }
+      root.onclick = e => {
+        if (e.target.id === "vz-scrim" || e.target.closest("[data-vzx]")) { sceneT.forEach(clearTimeout); root.onclick = null; root.innerHTML = ""; paintVisit(); return; }
+        const hm = e.target.closest("[data-vhome]"); if (hm) { callHome(hm.dataset.vhome); return; }
+        const gf = e.target.closest("[data-vgift]"); if (gf) { lsSet("reading-ledger-famgifts", [...giftsGot(), { d: todayISO() + "v", fam: familiar, type: "trinket", tk, from: "visit", vid: v.id }].slice(-80)); paintGiftDrawer(); bondAdd(4, "visit");
+          gf.outerHTML = `<span class="onshelf">✓ On your Decorate drawer, under Gifts</span>`; toast(`${TRINKET_NAMES[tk] || "A souvenir"}: it's in your Decorate drawer now ✦`, 3600); }
+      };
+    }
+    // on your nook: a visitor beside your companion, or a note that yours is out visiting
+    function paintVisit(){
+      const card = document.querySelector("#familiar .famcard"); if (!card) return;
+      card.querySelectorAll(".famguest, .famvisits, .famvbadge").forEach(x => x.remove());
+      if (!ready() || visitsOff || !famChosen) return;
+      const host = hosting9()[0], out = outgoing9(), back = returned9(), gone = departed9(), body = card.querySelector(".fambody");
+      if (host && body) body.insertAdjacentHTML("beforeend", `<span class="famguest" data-visitopen="${esc(host.id)}" data-fam="${esc(host.guest_fam)}" data-expr="happy" role="button" aria-label="${esc(compOf(host.guest_fam))} is visiting. See what they're up to">${A3APP.art(host.guest_fam, Array.isArray(host.guest_wear) ? host.guest_wear : [], "happy", true)}<i aria-hidden="true">🧳</i></span>`);
+      const chips = [];
+      if (back) chips.push(`<button type="button" class="vchip glow" data-visitopen="${esc(back.id)}"><i>🎁</i><span><b>${esc(compOf(back.guest_fam))}</b> is back from ${esc(whoIs(back.host).name)}'s! See how it went</span></button>`);
+      else if (out) chips.push(`<button type="button" class="vchip" data-visitopen="${esc(out.id)}"><i>🧳</i><span><b>${esc(compOf(out.guest_fam))}</b> is at ${esc(whoIs(out.host).name)}'s until ${hhmm(vEnd(out))} · Peek</span></button>`);
+      if (host) chips.push(`<button type="button" class="vchip" data-visitopen="${esc(host.id)}"><i>🧳</i><span><b>${esc(whoIs(host.guest).name)}'s ${esc(compOf(host.guest_fam))}</b> is visiting! See what they're up to</span></button>`);
+      if (gone) chips.push(`<button type="button" class="vchip glow" data-visitopen="${esc(gone.id)}"><i>🎁</i><span><b>${esc(compOf(gone.guest_fam))}</b> went home and left you something</span></button>`);
+      const lab = card.querySelector(".famlabel"); if (chips.length && lab) lab.insertAdjacentHTML("afterend", `<div class="famvisits">${chips.join("")}</div>`);
+      if ((back || gone || out) && body) body.insertAdjacentHTML("beforeend", `<span class="famvbadge" data-visitopen="${esc((back || gone || out).id)}" aria-hidden="true">${back || gone ? "🎁" : "🧳"}</span>`);
+      if (back && !lsGet("reading-ledger-vtold", []).includes(back.id)) { lsSet("reading-ledger-vtold", [...lsGet("reading-ledger-vtold", []), back.id].slice(-40)); setTimeout(() => toast(`🎁 ${compOf(back.guest_fam)} is back from ${whoIs(back.host).name}'s nook!`, 4200), 1200); }
+    }
+    function goLive9(){
+      if (s9live || !ready()) return; const cl = C(); if (!cl || typeof cl.channel !== "function") return; s9live = true; const me = uid();
+      try { cl.channel("nook-visits-" + me).on("postgres_changes", { event: "*", schema: "public", table: "visits", filter: `host=eq.${me}` }, pl => { const r = pl.new; if (!r || !r.id) return; const was = s9visits.some(v => v.id === r.id);
+          s9visits = [r, ...s9visits.filter(v => v.id !== r.id)]; paintVisit(); if (!was && vnow() < vEnd(r)) toast(`🧳 ${whoIs(r.guest).name}'s ${compOf(r.guest_fam)} just arrived for a visit!`, 4200); }).subscribe(); } catch {}
+    }
+    setInterval(() => { if (ready() && !visitsOff) paintVisit(); }, 60000);
+    // a visitor or souvenir chip, anywhere; the companion's own click handlers must not treat it as a pat
+    document.addEventListener("click", e => {
+      const vo = e.target.closest("[data-visitopen]"); if (vo) { e.stopPropagation(); e.preventDefault(); openVisit(vo.dataset.visitopen); return; }
+      const fv = e.target.closest("[data-fvisit]"); if (fv) { e.stopPropagation(); sendVisit(fv.dataset.fvisit); }
+    }, true);
+    async function show(){ render(); await load(true); render(); pushShare(); goLive(); goLive2(); goLive9(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
     // for the reading-mode companion: how your buddy-read friends are doing in this book
     function buddyFor(title){ try { if (!ready()) return []; const me = uid(); return buddies.filter(r => tnorm(r.book.t || "") === tnorm(title || "")).flatMap(r => r.members.filter(id => id !== me).map(id => ({ name: whoIs(id).name, ...progressIn(id, r.book) }))); } catch (e) { return []; } }
-    return { show, render, load, queueShare, pushShare, buddyFor, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
+    return { show, render, load, queueShare, pushShare, buddyFor, paintVisit, offerShare, presenceStart, presenceBeat, presenceEnd, withNow, liveFriends, goLive2, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
   })();
   window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData(), famArt: k => famArt(k) };
   // ================= wiring =================
@@ -7302,11 +7685,31 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   }
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && $("#rmode")) keepAwake(true); });
 
-  function startReading(id){
+  function startReading(id, withId){
     const b = books.find(x => x.id === id); if (!b) return;
     let s = sessGet();
     if (!s || s.id !== id) { s = { id, t0: Date.now(), paused: 0, pauseAt: null, p0: Number(b.currentPage) || 0, c0: Number(b.currentChapter) || 0 }; sessSet(s); }
+    if (withId) { s.with = withId; sessSet(s); }
     openReadMode();
+  }
+  // read with a friend who has a candle lit: your own book (theirs, if it's on your Reading shelf too), side by side
+  function readWith(fid){
+    const s = sessGet();
+    if (s) { s.with = fid; sessSet(s); openReadMode(); return; }
+    let f = null; try { f = Social.withNow(fid); } catch {}
+    const reading = books.filter(b => b.shelf === "reading");
+    const b = (f && f.book && reading.find(x => tnorm(x.title) === tnorm(f.book.t || ""))) || reading.slice().sort((a, c) => (btTouch(c) || "").localeCompare(btTouch(a) || ""))[0];
+    if (!b) { toast("Put a book on your Reading shelf first, then you can read together."); return; }
+    startReading(b.id, fid);
+  }
+  // the little chip at the top of reading mode: who you're reading with, or who else has a candle lit
+  function paintWith(){
+    const el = document.getElementById("rm-with"), s = sessGet(); if (!el || !s) return; let html = "";
+    try {
+      if (s.with) { const w = Social.withNow(s.with); html = `<span class="rmwav">${A3APP.art(FAMILIARS[w.familiar] ? w.familiar : "cat", [], "happy", true)}</span><span><b>Reading with ${esc(w.name)}</b><small>${w.live ? `${esc(w.book?.t || "")} · ${w.mins} min${w.pages ? ` · ${w.pages} pages` : ""}` : "their candle is out for now"}</small></span><button type="button" class="rmghost" data-rm="unwith" aria-label="Stop reading together">✕</button>`; }
+      else { const L = Social.liveFriends(); if (L.length) { const f = L[0]; html = `<span class="rmwav">${A3APP.art(FAMILIARS[f.familiar] ? f.familiar : "cat", [], "happy", true)}</span><span><b>${esc(f.name)} is reading too</b><small>${esc(f.book?.t || "")} · ${f.mins} min</small></span><button type="button" class="rmghost" data-rm="with" data-fid="${esc(f.id)}">🕯 Read together</button>`; } }
+    } catch {}
+    el.hidden = !html; el.innerHTML = html;
   }
   function openReadMode(){
     const s = sessGet(); if (!s) return; const b = books.find(x => x.id === s.id); if (!b) { sessSet(null); return; }
@@ -7316,6 +7719,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const el = document.createElement("div"); el.id = "rmode"; el.className = "rmode"; el.setAttribute("role", "dialog"); el.setAttribute("aria-label", "Reading mode");
     el.innerHTML = `<div class="rmglow"></div><div class="rmmotes">${Array.from({ length: 14 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${6 + (i * 7) % 9}s;--t:${(i * 1.3) % 7}s"></i>`).join("")}</div>
       <div class="rmtop"><span class="label">Reading mode</span><button type="button" class="rmghost" data-rm="hide" title="Leave reading mode. The timer keeps running until you finish, and you can come back any time">✕ Step away</button></div>
+      <div class="rmwith" id="rm-with" hidden></div>
       <div class="rmcenter">
         <svg class="rmcandle" viewBox="0 0 80 150" aria-hidden="true"><defs><radialGradient id="rmh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFE7A8" stop-opacity=".9"/><stop offset=".4" stop-color="#FFB347" stop-opacity=".35"/><stop offset="1" stop-color="#FF8A00" stop-opacity="0"/></radialGradient><linearGradient id="rmw" x1="0" x2="1"><stop offset="0" stop-color="#E9DCC0"/><stop offset=".5" stop-color="#FFF7E6"/><stop offset="1" stop-color="#D9C8A6"/></linearGradient></defs>
           <circle class="halo" cx="40" cy="36" r="34" fill="url(#rmh)"/>
@@ -7351,7 +7755,8 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
       const mm = Math.floor(sessElapsed(s2) / 60000), hit = [10, 25, 45, 60, 90, 120, 180].filter(x => mm >= x && !(s2.ms || []).includes(x));
       if (hit.length) { s2.ms = [...(s2.ms || []), ...hit]; sessSet(s2); if (!s2.pauseAt && Date.now() - openedAt > 4000) { const m = hit[hit.length - 1]; rmSay(raOf().mins(m), m >= 90 ? "sleepy" : "happy"); } }
       if (s2.pauseAt && !dozed && Date.now() - openedAt > 4000 && Date.now() - s2.pauseAt > 90000) { dozed = true; rmSay(pick(raOf().doze), "sleepy", 3600e3); } else if (!s2.pauseAt) dozed = false; };
-    paint(); clearInterval(rmTick); rmTick = setInterval(paint, 1000);
+    paint(); clearInterval(rmTick); rmTick = setInterval(() => { paint(); const s3 = sessGet(); if (s3) { try { Social.presenceBeat(books.find(x => x.id === s3.id), s3); } catch {} if (Date.now() % 30000 < 1000) paintWith(); } }, 1000);
+    try { Social.presenceStart(b, s, fresh); } catch {} paintWith(); setTimeout(paintWith, 2500);
     const card = el.querySelector(".rmfam"), idleExpr = () => { const s2 = sessGet(); return s2 && s2.pauseAt && dozed ? "sleepy" : s2 && sessElapsed(s2) > 3600e3 && Math.random() < .4 ? "sleepy" : "idle"; };
     let sayT = null;
     rmSay = (line, ex, ms = 3400) => { const w = $("#rm-whisper"); if (!w || !line) return; w.textContent = line; w.classList.remove("show"); void w.offsetWidth; w.classList.add("show");
@@ -7371,7 +7776,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (!b.started) b.started = todayISO();
     if (ch) { if (tot) v = Math.min(v, tot); b.currentChapter = v; if (P && tot) b.currentPage = Math.round(P * v / tot); logProgress(b, b.currentPage || 0, v); }
     else { if (P && v > P) v = P; if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage); b.currentPage = v; logProgress(b, v); }
-    save(); bondAdd(2, "progress"); const f = $("#rm-page"); if (f) f.hidden = true;
+    save(); bondAdd(2, "progress"); const f = $("#rm-page"); if (f) f.hidden = true; try { Social.presenceBeat(b, s, true); } catch {}
     const R = raOf(), pb = tot ? before / tot : 0, pa = tot ? v / tot : 0, n = ch ? 0 : Math.max(0, v - (s.p0 || 0)); let line;
     if (tot && pa >= 1) line = "That's the last page! Press “I'm done for now” and then shelve it."; else if (tot && pb < .5 && pa >= .5) line = pick(R.half);
     else if (tot && pa >= .9) line = pick(R.near); else if (n) line = R.pages(n); else line = pick(R.tap);
@@ -7381,7 +7786,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const p = document.createElement("div"); p.id = "rmpill"; p.className = "rmpill"; p.setAttribute("role", "status");
     p.innerHTML = `<span class="rmpflame" aria-hidden="true">🕯</span><span class="rmptxt"><b>${esc(b.title)}</b><small id="rmp-time"></small></span><button type="button" class="btn small primary" data-rmp="back">Back</button><button type="button" class="btn small" data-rmp="end">Finish</button>`;
     document.body.append(p);
-    const tick = () => { const s2 = sessGet(); if (!s2) { p.remove(); clearInterval(rmPillT); return; } const t = p.querySelector("#rmp-time"); if (t) t.textContent = `${s2.pauseAt ? "Paused · " : "Reading · "}${clock(sessElapsed(s2))}`; };
+    const tick = () => { const s2 = sessGet(); if (!s2) { p.remove(); clearInterval(rmPillT); return; } try { Social.presenceBeat(books.find(x => x.id === s2.id), s2); } catch {} const t = p.querySelector("#rmp-time"); if (t) t.textContent = `${s2.pauseAt ? "Paused · " : "Reading · "}${clock(sessElapsed(s2))}`; };
     tick(); rmPillT = setInterval(tick, 1000);
     p.addEventListener("click", e => { const a = e.target.closest("[data-rmp]"); if (!a) return; openReadMode(); if (a.dataset.rmp === "end") { $("#rm-end").hidden = false; $("#rmode").classList.add("ending"); $("#rm-to")?.focus(); } });
   }
@@ -7407,7 +7812,9 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (act === "hide") { s.min = 1; sessSet(s); clearInterval(rmTick); clearInterval(rmWhisper); keepAwake(false); document.getElementById("rmode")?.remove(); document.body.classList.remove("rm-open"); renderNow(); rmPill(); toast("Your timer keeps running. Tap the candle in the corner to come back, or Finish to log it."); return; }
     if (act === "end") { this.querySelector("#rm-end").hidden = false; this.classList.add("ending"); this.querySelector("#rm-to").focus(); this.querySelector("#rm-to").select?.(); return; }
     if (act === "back") { this.querySelector("#rm-end").hidden = true; this.classList.remove("ending"); return; }
-    if (act === "discard") { sessSet(null); closeReadMode(); toast("Session discarded."); return; }
+    if (act === "discard") { sessSet(null); try { Social.presenceEnd(); } catch {} closeReadMode(); toast("Session discarded."); return; }
+    if (act === "with") { s.with = a.dataset.fid; sessSet(s); try { Social.presenceStart(books.find(x => x.id === s.id), s, false); } catch {} paintWith(); const w = Social.withNow(s.with); rmSay(`*makes room by the candle for ${w.name}'s companion*`, "love"); return; }
+    if (act === "unwith") { delete s.with; sessSet(s); try { Social.presenceBeat(books.find(x => x.id === s.id), s, true); } catch {} paintWith(); return; }
   }
   function finishSession(to){
     const s = sessGet(); if (!s) return closeReadMode();
@@ -7429,12 +7836,14 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const end = new Date();
     if (end.getHours() < 4 || new Date(s.t0).getHours() < 4) lsSet("reading-ledger-midnight", 1);
     if (mins >= 1) b.sessions = [...(b.sessions || []), { s: new Date(s.t0).toISOString(), m: mins, p: pages, ...(ch ? { c: to } : {}) }].slice(-300);
-    sessSet(null); save(); closeReadMode(); render(); if (mins >= 1) bondAdd(2 + Math.min(24, mins / 5), "session");
+    let together = null; try { if (s.with) together = Social.withNow(s.with); } catch {}
+    sessSet(null); try { Social.presenceEnd(); } catch {} save(); closeReadMode(); render(); if (mins >= 1) bondAdd(2 + Math.min(24, mins / 5), "session");
+    if (together && mins >= 1) setTimeout(() => toast(`🕯 You and ${together.name} read together for ${fmtMins(mins)}${pages ? `: you read ${pages} pages` : ""}${together.pages ? `, ${together.name} read ${together.pages}` : ""}. Cosy.`, 5000), 3000);
     const line = mins >= 1 ? (RM_END[familiar] || RM_END.cat)(mins, pages) : "Too short to log as a session, but your page is saved.";
     toast(`${FAMILIARS[familiar].name}: ${line}`);
     const done = b.pages && b.currentPage >= b.pages || ch && b.chapters && to >= b.chapters;
     if (done) setTimeout(() => toast("That was the end of the book! Press “I finished it” to shelve it."), 2600);
-    else { const sp = readingSpeed(), left = b.pages && !ch ? Number(b.pages) - (Number(b.currentPage) || 0) : 0; if (sp && left > 0) setTimeout(() => toast(`${famName(familiar)}: at your pace (about ${Math.round(sp)} pages an hour), ${fmtMins(left / sp * 60)} of reading left.`, 4500), 3000); }
+    else { const sp = readingSpeed(), left = b.pages && !ch ? Number(b.pages) - (Number(b.currentPage) || 0) : 0; if (sp && left > 0) setTimeout(() => toast(`${famName(familiar)}: at your pace (about ${Math.round(sp)} pages an hour), ${fmtMins(left / sp * 60)} of reading left.`, 4500), together ? 8200 : 3000); }
   }
   // reading-mode stats for the Statistics room
   function sessionsPanel(){
@@ -8002,8 +8411,20 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.7";
+  const APP_VERSION = "4.9";
   const CHANGELOG = [
+    ["4.9", "30 Oct 2026", "Companions visit each other, and winter costumes are on the way", [
+      "🧳 Companions can visit each other: tap 🧳 beside a friend to send yours over for the afternoon. They appear beside your friend's companion, the two get up to something very in character, and you can peek in any time",
+      "When they come home you'll hear how it went, and they bring back a souvenir for your shelves (and leave one for your friend)",
+      "❄️ Winter costumes arrive on 6 November and stay until the end of February: the Snow-Kissed Diva, the Winter Casanova, the Fireside Scholar, the Frostguard Knight, the Snowshadow Operative, the Cosy Alchemist, the Little Snowmallow, the Little Snow Explorer and the Frostbitten Goth",
+      "For the owner: visits need the step 9 update in Supabase"]],
+    ["4.8", "29 Oct 2026", "Reading together, live", [
+      "🕯 Read together, live: see which friends are reading by candlelight right now and join them with your own book. Reading mode shows who you're reading with, and at the end you'll see how much you both read",
+      "📰 Finished lately: when you finish a book you can tell your friends in one line. They react with emojis and reply, and anything about the story stays under a spoiler cover until they've read it too",
+      "Phone notifications for reading together: a note left in your buddy read, a friend passing you or finishing, a new suggestion in your book club, reactions and replies, and a friend lighting a candle on the book you're both reading",
+      "Letters now show who they're from at a glance: the sender's name and companion on the envelope, a seal in their colour, and a proper greeting when it arrives",
+      "Recommend any book in a letter, not only ones on your own shelves: search for it right in the letter",
+      "For the owner: these need the step 8 update in Supabase"]],
     ["4.7", "29 Oct 2026", "Your companion notices your books, and the nook opens faster", [
       "Your companion now talks about your actual shelves: the genre you're reading (and when it's your third in a row), a doorstopper you've just begun, a book you've left waiting, the next book of a series sitting unread, and the author you keep coming back to. Every line is in their own voice",
       "Corvin's Halloween costume is now the Grim Reader: a reaper's hood, an hourglass, and a scythe with a bookmark tied to it",

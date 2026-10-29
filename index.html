@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ver="4.8">
+<html lang="en" data-ver="4.9">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3064,6 +3064,42 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 .fprep{display:flex;gap:8px;align-items:flex-start}.fprep>div{flex:1;min-width:0}.fprep p{margin:1px 0 0;font-size:14.5px;line-height:1.35}.fprepl{display:block;font-size:12.5px;color:var(--muted);font-style:italic}
 .fpform{display:flex;gap:6px}.fpform input{flex:1;min-width:0;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:16px}
 .sharefin textarea{width:100%;box-sizing:border-box;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:16px}
+/* ===== v4.9: companions visiting each other ===== */
+.famguest{position:absolute;left:-44%;bottom:-2%;width:66%;height:66%;z-index:3;cursor:pointer;animation:vguest 3.6s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.famguest svg{width:100%;height:100%;overflow:visible}.famguest i{position:absolute;right:-6%;bottom:2%;font-style:normal;font-size:14px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+@keyframes vguest{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+.familiar.docked .famguest{left:-58%;width:72%;height:72%}
+.famvbadge{position:absolute;right:-4px;top:-4px;z-index:4;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--paper);box-shadow:0 0 0 1.5px #C9A24E,0 2px 6px rgba(0,0,0,.25);cursor:pointer;animation:vbadge 2.4s ease-in-out infinite}
+@keyframes vbadge{50%{transform:scale(1.12)}}
+.famvisits{display:flex;flex-direction:column;gap:6px;margin:4px 0 6px}
+.vchip{display:flex;align-items:center;gap:6px;text-align:left;padding:7px 12px;border-radius:12px;border:1px solid color-mix(in srgb,var(--aura,#C9A24E) 45%,var(--line));background:color-mix(in srgb,var(--aura,#C9A24E) 10%,var(--paper));color:var(--ink);font:inherit;font-size:13.5px;line-height:1.3;cursor:pointer}
+.vchip.glow{box-shadow:0 0 0 2px color-mix(in srgb,#E0A526 55%,transparent),0 0 16px color-mix(in srgb,#E0A526 35%,transparent);animation:vglowc 2.4s ease-in-out infinite}
+@keyframes vglowc{50%{box-shadow:0 0 0 2px color-mix(in srgb,#E0A526 75%,transparent),0 0 22px color-mix(in srgb,#E0A526 55%,transparent)}}
+.frvisit{font-size:16px}
+.vchip>i{font-style:normal;font-size:16px;flex:0 0 auto}.vchip>span{flex:1;min-width:0;display:block}.vchip b{display:inline!important}
+/* asking to send them */
+.vpair{display:flex;align-items:flex-end;justify-content:center;gap:4px;margin:6px 0 4px}.vpair .vp{width:110px;height:120px}.vpair .vp svg{width:100%;height:100%;overflow:visible}.vpair .vp.h svg{transform:scaleX(-1)}
+.vbag{font-size:24px;margin-bottom:22px;animation:vguest 2.4s ease-in-out infinite}.vq{margin:4px 0;text-align:center;font-size:16px}
+/* the visit scene */
+.visitmodal{max-width:520px}
+.vstage{position:relative;height:220px;margin:4px -4px 6px;border-radius:16px;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,#FFE0A0 32%,var(--paper)),color-mix(in srgb,#5A3A2A 14%,var(--paper)) 75%)}
+.vglow{position:absolute;left:50%;top:18%;width:180px;height:180px;margin-left:-90px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,140,.55),transparent 70%)}
+.vrug{position:absolute;left:8%;right:8%;bottom:10px;height:44px;border-radius:50%;background:repeating-radial-gradient(ellipse at center,#9A3A2E 0 6px,#C8603A 6px 10px,#E8A050 10px 13px);opacity:.75;box-shadow:inset 0 0 12px rgba(0,0,0,.25)}
+.vstage .vp{position:absolute;bottom:14px;width:46%;height:200px;transition:transform .3s}.vstage .vp svg{width:100%;height:100%;overflow:visible}
+.vstage .vp.g{left:2%}.vstage .vp.h{right:2%}.vstage .vp.h svg{transform:scaleX(-1)}
+.vstage .vp.talk{animation:vtalk .5s ease-out}@keyframes vtalk{40%{transform:translateY(-6px)}}
+.vtea{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:22px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.vlines{display:flex;flex-direction:column;gap:6px;max-height:34vh;overflow:auto;padding:2px}
+.vline{max-width:82%;padding:7px 11px;border-radius:14px;font-size:14.5px;line-height:1.35;animation:vlinein .35s ease-out both}
+.vline b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:1px}
+.vline.lg{align-self:flex-start;background:color-mix(in srgb,var(--accent) 9%,var(--paper));border:1px solid var(--line);border-bottom-left-radius:4px}
+.vline.lh{align-self:flex-end;text-align:right;background:color-mix(in srgb,#E0A526 12%,var(--paper));border:1px solid var(--line);border-bottom-right-radius:4px}
+@keyframes vlinein{from{opacity:0;transform:translateY(6px)}}
+.voutcome{margin-top:10px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#E0A526 10%,var(--paper));border:1px dashed color-mix(in srgb,#E0A526 50%,var(--line));animation:vlinein .5s ease-out both}
+.voutcome b{font-family:var(--f-display);font-style:italic;font-size:17px}.voutcome p{margin:3px 0 0;line-height:1.4}
+.vgift{display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);animation:vlinein .5s ease-out both}
+.vgift>div:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.vgift small{color:var(--muted)}.vgiftart{width:48px;height:48px;display:grid;place-items:center}
+.vwait{text-align:center;margin-top:8px}
 </style>
 </head>
 <body>
@@ -3191,7 +3227,7 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 </div>
 <div id="modal-root"></div>
 
-<script defer src="art.ee75d41ea6.js"></script>
-<script defer src="app.5beb9792d7.js"></script>
+<script defer src="art.eef59d257e.js"></script>
+<script defer src="app.a6087a1060.js"></script>
 </body>
 </html>
