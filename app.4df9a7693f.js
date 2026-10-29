@@ -3680,9 +3680,10 @@
   function bondLevel(pts){ let i = 0; BOND_LEVELS.forEach(([p], j) => { if (pts >= p) i = j; }); const next = BOND_LEVELS[i + 1]; return { lvl: i + 1, name: BOND_LEVELS[i][1], next: next ? { at: next[0], name: next[1], pct: Math.round((pts - BOND_LEVELS[i][0]) / (next[0] - BOND_LEVELS[i][0]) * 100) } : null }; }
   // ---- wardrobe (v4.4): ten pieces of their own for every companion, two at each bond level ----
   // seasonal pieces (Halloween costumes) come out only in their season, for everyone, at any bond level
-  const COSTUME_SEASONS = { halloween: { name: "Halloween", icon: "🎃", from: [10, 15], to: [11, 7] } };
-  const inSeason = s => { const S = COSTUME_SEASONS[s]; if (!S) return false; const d = new Date(), md = (d.getMonth() + 1) * 100 + d.getDate(); return md >= S.from[0] * 100 + S.from[1] && md <= S.to[0] * 100 + S.to[1]; };
-  const seasonEnds = s => { const S = COSTUME_SEASONS[s]; return new Date(new Date().getFullYear(), S.to[0] - 1, S.to[1]).toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
+  const COSTUME_SEASONS = { halloween: { name: "Halloween", icon: "🎃", from: [10, 15], to: [11, 7] }, winter: { name: "Winter", icon: "❄️", from: [11, 6], to: [2, 29] } };
+  const inSeason = s => { const S = COSTUME_SEASONS[s]; if (!S) return false; const d = new Date(), md = (d.getMonth() + 1) * 100 + d.getDate(), a = S.from[0] * 100 + S.from[1], b = S.to[0] * 100 + S.to[1]; return a <= b ? md >= a && md <= b : md >= a || md <= b; };
+  const seasonEnds = s => { const S = COSTUME_SEASONS[s], now = new Date(), wrap = S.from[0] > S.to[0], y = now.getFullYear() + (wrap && now.getMonth() + 1 >= S.from[0] ? 1 : 0), last = new Date(y, S.to[0], 0).getDate();
+    return new Date(y, S.to[0] - 1, Math.min(S.to[1], last)).toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
   const wItems = k => A3APP.items(k).filter(i => !i.season);
   const wSeason = k => A3APP.items(k).filter(i => i.season && inSeason(i.season));
   const wItem = id => A3APP.item(id);
@@ -3748,7 +3749,7 @@
           <p class="note">Your bond grows when you read together: updating your page, reading sessions, finishing books, rating them, visiting each day and the occasional pat.</p></div></div>
       <div class="label">Wardrobe · ${wItems(k).filter(o => L.lvl >= o.lvl).length} of ${wItems(k).length} unlocked</div>
       <div class="wfitbar"><button type="button" class="btn small" data-wfinest>Wear the finest I've unlocked</button><button type="button" class="btn small" data-wnone>Back to their usual outfit</button></div>
-      ${SN ? `<div class="wlvl wseason"><div class="wlvh"><span class="wlvhearts">${SN.icon}</span> <b>${esc(SN.name)} costume</b> <span class="muted">· for everyone, until ${esc(seasonEnds(SZ[0].season))}</span></div><div class="outfits wardrobe wpair">${SZ.map(wBtn).join("")}</div></div>` : ""}
+      ${[...new Set(SZ.map(o => o.season))].map(sn => { const S = COSTUME_SEASONS[sn]; return `<div class="wlvl wseason s-${sn}"><div class="wlvh"><span class="wlvhearts">${S.icon}</span> <b>${esc(S.name)} costume</b> <span class="muted">· for everyone, until ${esc(seasonEnds(sn))}</span></div><div class="outfits wardrobe wpair">${SZ.filter(o => o.season === sn).map(wBtn).join("")}</div></div>`; }).join("")}
       ${[1, 2, 3, 4, 5].map(lv => `<div class="wlvl"><div class="wlvh"><span class="wlvhearts">${"♥".repeat(lv)}${"♡".repeat(5 - lv)}</span> <b>${esc(BOND_LEVELS[lv - 1][1])}</b>${L.lvl >= lv ? "" : ` <span class="muted">· unlocks at ${BOND_LEVELS[lv - 1][0]} bond</span>`}</div><div class="outfits wardrobe wpair">${wItems(k).filter(o => o.lvl === lv).map(wBtn).join("")}</div></div>`).join("")}
       <div class="label" style="margin-top:12px">${esc(famName(k))}'s treasures</div><div class="treasures">${famTreasures(k).map(t => `<div class="treasure ${t.rarity}${t.got ? " got" : ""}"><span class="tic">${t.got ? t.icon : "?"}</span><b>${t.got ? esc(t.name) : "Locked"}</b><small>${t.got ? esc(t.desc) : `Bond level ${t.lvl}: ${esc(BOND_LEVELS[t.lvl - 1][1])}`}</small><span class="trar">${t.rarity}</span></div>`).join("")}</div>
       <div class="label" style="margin-top:12px">What you unlock</div><ol class="bondsteps">${BOND_LEVELS.map(([p, n], i) => `<li class="${L.lvl > i ? "done" : ""}"><b>${esc(n)}</b>${i ? ` · ${esc(BOND_UNLOCKS[i + 1])}` : ` · where every friendship starts, with ${esc(bondUnlocks(k, 1))}`}</li>`).join("")}</ol>
@@ -3797,7 +3798,7 @@
       </div>
     </div>${famPicking ? `<div class="fampicker"><div class="fphead"><b>Choose your familiar</b><button class="iconbtn" type="button" data-fampick aria-label="Close">✕</button></div>${famOptions()}</div>` : ""}`;
     if (famMode === "rec" && famRec) paintRecCovers($("#familiar"));
-    paintReleaseDot();
+    paintReleaseDot(); try { Social.paintVisit(); } catch {}
     if (said && said !== lastSaid) { lastSaid = said; speak(said, mood); famPeek(); } else setExpr(mood);
   }
   function petFamiliar(){
@@ -4533,6 +4534,19 @@
     giftstone: ["A wishing stone", () => `<div class="trinket" style="width:36px;height:26px" aria-hidden="true">${glowDiv(-10, -12, 56, "pulse")}<svg viewBox="0 0 36 26" width="36" height="26"><ellipse cx="18" cy="15" rx="15" ry="10" fill="#7FA8C8"/><ellipse cx="13" cy="11" rx="5" ry="2.6" fill="#CFE6F7" opacity=".7"/><path d="M8 17q10 5 20-2" stroke="#E9F4FF" stroke-width="1.2" fill="none" opacity=".7"/></svg></div>`],
   };
   Object.entries(GIFT_TRINKETS).forEach(([k, [n, f]]) => { TRINKETS[k] = f; TRINKET_NAMES[k] = n; });
+  // ---- v4.9: souvenirs companions bring back from visiting a friend's nook ----
+  const VISIT_TRINKETS = {
+    visitpearl: ["A pearl hairpin, from Natasha", () => `<div class="trinket" style="width:40px;height:40px" aria-hidden="true"><svg viewBox="0 0 40 40" width="40" height="40"><path d="M8 34L30 10" stroke="#C9A24E" stroke-width="2" stroke-linecap="round"/><circle cx="31" cy="9" r="6" fill="url(#vp1)"/><circle cx="29" cy="7" r="1.8" fill="#fff" opacity=".9"/><defs><radialGradient id="vp1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F2E8EE"/><stop offset="1" stop-color="#B8A8B8"/></radialGradient></defs><circle cx="22" cy="19" r="2.2" fill="#E8F6FF" stroke="#8AA0B8" stroke-width=".5"/></svg></div>`],
+    visitrose: ["A pressed red rose, from Antonio", () => `<div class="trinket" style="width:36px;height:46px" aria-hidden="true"><svg viewBox="0 0 36 46" width="36" height="46"><rect x="3" y="3" width="30" height="40" rx="2" fill="#F6ECDA" stroke="#C9A86A"/><path d="M18 40C17 32 18 26 18 20" stroke="#3A7A2A" stroke-width="1.4" fill="none"/><path d="M18 30c-5 -1 -7 -4 -7 -6c4 0 6 2 7 6Z" fill="#4A8A3A"/><path d="M18 20C10 20 9 12 13 9C16 6 21 6 23 9C26 13 24 20 18 20Z" fill="#B8102A"/><path d="M14 13q4 -3 8 0M15 16q3 2 6 -1" stroke="#6A0410" stroke-width=".8" fill="none"/></svg></div>`],
+    visitbookplate: ["A tiny brass bookplate, from Hoot", () => `<div class="trinket" style="width:44px;height:30px" aria-hidden="true"><svg viewBox="0 0 44 30" width="44" height="30"><rect x="2" y="3" width="40" height="24" rx="4" fill="url(#vb1)" stroke="#7A5410"/><defs><linearGradient id="vb1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#FFE6A0"/><stop offset=".5" stop-color="#D8A040"/><stop offset="1" stop-color="#8A6420"/></linearGradient></defs><rect x="6" y="7" width="32" height="16" rx="2" fill="none" stroke="#7A5410" stroke-width=".7"/><text x="22" y="18" text-anchor="middle" font-family="Cinzel,serif" font-size="6" fill="#5A3A0A">EX LIBRIS</text></svg></div>`],
+    visitmedal: ["A toy medal of valour, from Corvin", () => `<div class="trinket" style="width:34px;height:46px" aria-hidden="true"><svg viewBox="0 0 34 46" width="34" height="46"><path d="M9 2L17 20L25 2" fill="#B8102A" stroke="#5A0410"/><path d="M13 2L17 12L21 2" fill="#2A4A9A"/><circle cx="17" cy="30" r="11" fill="url(#vm1)" stroke="#7A5410"/><defs><radialGradient id="vm1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".6" stop-color="#E2B04A"/><stop offset="1" stop-color="#8A6420"/></radialGradient></defs><path d="M17 23l2 4.4 4.8 .5-3.6 3.2 1 4.7-4.2-2.4-4.2 2.4 1-4.7-3.6-3.2 4.8-.5Z" fill="#FFF6D8" stroke="#8A6420" stroke-width=".5"/></svg></div>`],
+    visitkey: ["A little silver key, from Ember", () => `<div class="trinket" style="width:44px;height:26px" aria-hidden="true"><svg viewBox="0 0 44 26" width="44" height="26"><circle cx="10" cy="13" r="7" fill="none" stroke="#C8D2DE" stroke-width="3"/><circle cx="10" cy="13" r="7" fill="none" stroke="#6A7488" stroke-width=".6"/><path d="M17 13H40M34 13v6M28 13v4" stroke="#C8D2DE" stroke-width="3" stroke-linecap="round"/><path d="M17 12H40" stroke="#FFFFFF" stroke-width=".8" opacity=".8"/></svg></div>`],
+    visitbubble: ["A bubble in a bottle, from Sir Wartsworth", () => `<div class="trinket" style="width:30px;height:46px" aria-hidden="true"><svg viewBox="0 0 30 46" width="30" height="46"><rect x="11" y="2" width="8" height="6" rx="1" fill="#A8784A"/><path d="M11 8H19V14C26 17 28 24 27 32C26 40 20 44 15 44C10 44 4 40 3 32C2 24 4 17 11 14Z" fill="#E8F4FF" fill-opacity=".45" stroke="#6A8AA8"/><circle cx="15" cy="30" r="7" fill="url(#vbb)" stroke="#FFFFFF" stroke-width=".6"/><defs><radialGradient id="vbb" cx=".35" cy=".3"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset=".5" stop-color="#9AE8D8" stop-opacity=".4"/><stop offset="1" stop-color="#C89AFF" stop-opacity=".6"/></radialGradient></defs></svg></div>`],
+    visitmoon: ["A jar of moonlight, from Nyx", () => `<div class="trinket" style="width:32px;height:42px" aria-hidden="true">${glowDiv(-12, -10, 56, "pulse")}<svg viewBox="0 0 32 42" width="32" height="42"><rect x="8" y="2" width="16" height="5" rx="1.4" fill="#B8A0E8" stroke="#4A3A86"/><rect x="5" y="7" width="22" height="32" rx="6" fill="#2A2050" fill-opacity=".55" stroke="#8A7AC8"/><path d="M18 15A7 7 0 1 0 22 27A5.6 5.6 0 1 1 18 15Z" fill="#FFF3C4"/><circle cx="11" cy="31" r=".9" fill="#FFF3C4"/><circle cx="21" cy="12" r=".7" fill="#FFF3C4"/></svg></div>`],
+    visitcompass: ["A pocket compass, from Bramble", () => `<div class="trinket" style="width:38px;height:40px" aria-hidden="true"><svg viewBox="0 0 38 40" width="38" height="40"><circle cx="19" cy="7" r="3.4" fill="none" stroke="#C9A24E" stroke-width="2"/><circle cx="19" cy="23" r="15" fill="url(#vc1)" stroke="#7A5410"/><defs><radialGradient id="vc1" cx=".35" cy=".3"><stop offset="0" stop-color="#FFF2BE"/><stop offset=".6" stop-color="#D8A040"/><stop offset="1" stop-color="#8A6420"/></radialGradient></defs><circle cx="19" cy="23" r="11" fill="#FBF3E0" stroke="#7A5410" stroke-width=".7"/><path d="M19 14L22 23L19 32L16 23Z" fill="#C0303A"/><path d="M19 23L22 23L19 32L16 23Z" fill="#3A4A6A"/><circle cx="19" cy="23" r="1.2" fill="#7A5410"/></svg></div>`],
+    visitribbon: ["A black velvet ribbon, from Wulfila", () => `<div class="trinket" style="width:44px;height:34px" aria-hidden="true"><svg viewBox="0 0 44 34" width="44" height="34"><path d="M22 14C14 4 4 4 4 12C4 20 14 20 22 14Z M22 14C30 4 40 4 40 12C40 20 30 20 22 14Z" fill="#1A1622" stroke="#000"/><path d="M20 14L12 32L18 28L20 34L24 15Z M24 14L32 31L26 28L24 33Z" fill="#14121A" stroke="#000" stroke-width=".6"/><rect x="18.6" y="10.6" width="6.8" height="7" rx="2" fill="#2A2632" stroke="#000" stroke-width=".6"/><path d="M8 10q4 -3 9 1" stroke="#6A2AA8" stroke-width=".8" fill="none"/></svg></div>`],
+  };
+  Object.entries(VISIT_TRINKETS).forEach(([k, [n, f]]) => { TRINKETS[k] = f; TRINKET_NAMES[k] = n; });
   const giftsGot = () => lsGet("reading-ledger-famgifts", []) || [];
   const paintGiftDrawer = () => { const got = [...new Set(giftsGot().filter(g => g.tk).map(g => g.tk))], cat = TRINKET_DRAWER.find(c => c[0] === "Gifts"); if (got.length) { if (cat) cat[1] = got; else TRINKET_DRAWER.push(["Gifts", got]); } };
   paintGiftDrawer();
@@ -4914,10 +4928,10 @@ alter publication supabase_realtime add table public.library;`;
           lsSet("reading-ledger-outgoing", outgoing.map(p => p.id)); } catch {}
         shelves = new Map();
         if (friends.length) { const r = await C().from("shared_shelf").select("*").in("user_id", friends.map(f => f.id)); if (!r.error) (r.data || []).forEach(x => shelves.set(x.user_id, x.data || {})); }
-        await loadSocial2(); try { checkBuddyProgress(); } catch {}
+        await loadSocial2(); await loadVisits(); try { checkBuddyProgress(); } catch {}
         state = "ok"; err = ""; lastLoad = Date.now();
       } catch (e) { state = "error"; err = String(e?.message || e); }
-      paintBadge(); try { goLive2(); } catch {}
+      paintBadge(); try { goLive2(); goLive9(); paintVisit(); } catch {}
     }
     function paintBadge(){ const n = incoming.length + (lettersOff ? 0 : unread().length) + newEvents().length, t = $("#tab-friends"); if (t) { t.dataset.n = n || ""; t.classList.toggle("hasnew", n > 0); }
       const sb = $("#social-btn i"); if (sb) { sb.hidden = !n; sb.textContent = n || ""; } try { mnavBadge(); } catch {} paintPost(); try { paintHomeFriends(); } catch {} }
@@ -4961,10 +4975,12 @@ alter publication supabase_realtime add table public.library;`;
     document.addEventListener("visibilitychange", onBack); addEventListener("focus", onBack);
     function friendCard(p){
       const S = shelves.get(p.id) || {}, R = S.reading || [], x = R[0];
-      let match = null; try { if (S.soul?.code) match = compareCode(soulData(), S.soul.code); } catch {}
-      const pct = x && x.p ? Math.min(100, Math.round(x.cp / x.p * 100)) : null;
-      const line = x ? `📖 <i>${esc(x.t)}</i>${pct !== null ? ` · ${pct}%` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1}</span>` : ""}${S.at ? ` <span class="frfresh">· ${fresh(S.at)}</span>` : ""}` : S.counts ? `${S.counts.read} read · ${S.counts.year} this year` : "Hasn't shared anything yet";
-      return `<div class="frow" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 42)}<span class="frtxt"><b>${esc(p.name)}</b><small>${line}</small>${pct !== null ? `<span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span>` : ""}</span>${x ? `<span class="frcov">${mini(x)}${pct !== null ? `<i style="--p:${pct}%"></i>` : ""}</span>` : ""}${match ? `<span class="frmatch" title="Your Reader DNA match with ${esc(p.name)}: how alike your reading tastes are"><small>DNA match</small>${match.match}%</span>` : ""}</button>${lettersOff ? "" : `<button type="button" class="iconbtn frcheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button><button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}</div>`;
+      const pct = x && x.p ? Math.min(100, Math.round((x.cp || 0) / x.p * 100)) : null;
+      const acts = `${lettersOff ? "" : `<button type="button" class="iconbtn frcheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button><button type="button" class="iconbtn frletter" data-lwrite="${p.id}" title="Recommend a book to ${esc(p.name)}" aria-label="Recommend a book to ${esc(p.name)}">✉</button>`}${visitsOff ? "" : `<button type="button" class="iconbtn frvisit" data-fvisit="${p.id}" title="Send ${esc(famName(familiar))} to visit ${esc(p.name)}" aria-label="Send ${esc(famName(familiar))} to visit ${esc(p.name)}">🧳</button>`}`;
+      const reading = x ? `<span class="frbook">📖 <i>${esc(x.t)}</i>${x.a ? ` <span class="frauth">· ${esc(x.a)}</span>` : ""}${R.length > 1 ? ` <span class="muted">+${R.length - 1} more</span>` : ""}</span>
+          ${pct !== null ? `<span class="frprog"><span class="frbar" title="${esc(p.name)} is ${pct}% through"><i style="width:${pct}%"></i></span><small><b>${pct}%</b>${x.p ? ` · p. ${x.cp || 0} of ${x.p}` : ""}</small></span>` : `<small class="frnone">Just started</small>`}`
+        : `<small class="frnone">${S.counts ? `Not reading anything right now · ${S.counts.read} read, ${S.counts.year} this year` : "Hasn't shared anything yet"}</small>`;
+      return `<div class="frow frow2" data-fam="${esc(p.familiar || "cat")}" data-expr="idle"><button type="button" class="frmain" data-fopen="${p.id}">${avatar(p, 44)}<span class="frtxt"><span class="frname"><b>${esc(p.name)}</b>${S.at ? `<small class="frfresh">${fresh(S.at)}</small>` : ""}</span>${reading}</span>${x ? `<span class="frcov">${mini(x)}</span>` : ""}</button>${acts ? `<div class="fracts">${acts}</div>` : ""}</div>`;
     }
     // ---- letters: recommend a book to a friend, on parchment ----
     const bookOf = b => ({ t: b.title, a: b.author || "", c: (b.cover && !b.cover.startsWith("data:")) ? (coverMap[b.cover] || b.cover) : "", p: Number(b.pages) || null, y: b.year || null, r: b.rating || null });
@@ -5676,10 +5692,11 @@ alter publication supabase_realtime add table public.library;`;
       if (once && res.some(x => x && !x.error)) { const s2 = lsGet(SENT_KEY, {}); ids.forEach(id => s2[`${once}:${id}`] = Date.now()); const cut = Date.now() - 14 * 864e5; for (const k of Object.keys(s2)) if (s2[k] < cut) delete s2[k]; lsSet(SENT_KEY, s2); }
     }
     const newEvents = () => s8events.filter(e => !e.seen_at);
-    const EV_ICON = { "buddy-note": "📝", "buddy-pass": "🏃", "buddy-done": "🎉", "club-pick": "📚", "feed-react": "♥", "feed-reply": "💬", "live": "🕯", "live-join": "🕯" };
+    const EV_ICON = { visit: "🧳", "buddy-note": "📝", "buddy-pass": "🏃", "buddy-done": "🎉", "club-pick": "📚", "feed-react": "♥", "feed-reply": "💬", "live": "🕯", "live-join": "🕯" };
     async function openEvent(id){
       const ev = s8events.find(x => x.id === id); if (!ev) return;
       if (!ev.seen_at) { ev.seen_at = new Date().toISOString(); C().from("nook_events").update({ seen_at: ev.seen_at }).eq("id", ev.id).then(() => {}); paintBadge(); }
+      if (ev.kind === "visit" && ev.ref) { if (!s9visits.some(v => v.id === ev.ref)) await loadVisits(); openVisit(ev.ref); return; }
       if (/^buddy/.test(ev.kind) && ev.ref) { buddyRoom(ev.ref); return; }
       if (/^club/.test(ev.kind) && ev.ref) { clubRoom(ev.ref); return; }
       if (/^feed/.test(ev.kind) && ev.ref) { s8open.add(ev.ref); render(); setTimeout(() => document.querySelector(`[data-post="${CSS.escape(ev.ref)}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120); return; }
@@ -5843,11 +5860,166 @@ alter publication supabase_realtime add table public.library;`;
       const sk = e.target.closest("[data-fpskip]"); if (sk) { const b = books.find(x => x.id === sk.dataset.fpskip); if (b) { b.feedSkip = true; save(); } render(); return; }
     });
     document.addEventListener("keydown", e => { const i = e.target.closest?.("[id^='fpr-']"); if (i && e.key === "Enter") { e.preventDefault(); sendReply(i.id.slice(4)); } });
-    async function show(){ render(); await load(true); render(); pushShare(); goLive(); goLive2(); }
+  // ---- v4.9: what happens when two companions spend the afternoon together (a = first in this order, b = second) ----
+  const VISIT_ORDER = ["cat", "lion", "owl", "raven", "fox", "toad", "bat", "hedgehog", "wolf"];
+  const BANTER = {
+    "cat|cat": [["a", "Darling. Love the pearls.", "happy"], ["b", "They're real. Unlike yours.", "wink"], ["a", "*gasps* …I like you.", "surprised"], ["b", "Champagne, then?", "love"], "They spent the afternoon judging everyone's bookshelves together. Instant best friends."],
+    "cat|lion": [["a", "Antonio. Your mane is… a lot.", "wink"], ["b", "Ay, Natasha! You noticed!", "love"], ["a", "Everyone notices. From space.", "happy"], ["b", "*kisses her paw* For you, the whole mane.", "love"], "He serenaded her; she pretended to hate it. She hummed the tune all the way home."],
+    "cat|owl": [["b", "Madam, you are sitting on my first edition.", "surprised"], ["a", "And it's never looked better, darling.", "wink"], ["b", "Hoo… I suppose that is true.", "happy"], ["a", "Read me something scandalous.", "love"], "Hoot read her Byron's letters aloud. She was scandalised. Delighted, but scandalised."],
+    "cat|raven": [["b", "HALT! Who goes there?", "surprised"], ["a", "A lady, darling. Lower the sword.", "wink"], ["b", "…Yes, my lady. Sorry, my lady.", "sad"], ["a", "Good knight. Now fetch me a cushion.", "happy"], "Corvin guarded her cushion for three hours. He calls it his finest campaign."],
+    "cat|fox": [["a", "I know you took my earring.", "wink"], ["b", "Took? Borrowed. With style.", "happy"], ["a", "Keep it. It suits you.", "love"], ["b", "…Nobody's ever said that to me.", "surprised"], "They traded secrets and one earring. Neither will say which secrets."],
+    "cat|toad": [["b", "Fascinating! Your purr is at 26 hertz!", "surprised"], ["a", "Darling, don't measure me.", "wink"], ["b", "Sorry. …27 now.", "happy"], ["a", "*purrs louder* Write that down.", "love"], "Wartsworth wrote a paper called 'On the Purr'. She signed every copy."],
+    "cat|bat": [["b", "H-hi… I like your dress.", "love"], ["a", "Oh, sweetheart. Come here.", "happy"], ["b", "*hides behind her wings*", "sad"], ["a", "A little glitter. Just a dab. There.", "wink"], "Nyx came home with a tiny bit of glitter and a lot more confidence."],
+    "cat|hedgehog": [["b", "HI! Can I pet your tail?!", "surprised"], ["a", "Absolutely not.", "wink"], ["b", "…Can I LOOK at it?", "sad"], ["a", "Fine. Admire from there, darling.", "happy"], "Bramble explored every room; Natasha pretended not to follow him around making sure he was all right."],
+    "cat|wolf": [["a", "That eyeliner, darling. Who did it?", "surprised"], ["b", "Me. In the dark. Angrily.", "sad"], ["a", "Wing it a little higher next time.", "wink"], ["b", "…Okay. Thanks. Don't make it weird.", "love"], "They sat in the window critiquing each other's eyeliner. Both secretly took notes."],
+    "lion|lion": [["a", "¡Hermano!", "surprised"], ["b", "¡Hermano! Your mane!", "love"], ["a", "No, YOUR mane!", "happy"], ["b", "We sing. Now.", "love"], "Two lions, one guitar, four hours of serenades. The neighbours applauded. Eventually."],
+    "lion|owl": [["a", "Profesor! Teach me the poems of love!", "love"], ["b", "Ahem. We might begin with Neruda.", "happy"], ["a", "Ay, Neruda! He understood me!", "surprised"], ["b", "He was rather before your time.", "wink"], "Antonio learned three sonnets by heart and recited them at every door on the way home."],
+    "lion|raven": [["b", "Stand and fight, lion!", "surprised"], ["a", "I fight only for love, caballero.", "love"], ["b", "Then… I challenge your LOVE!", "happy"], ["a", "That is the most romantic thing anyone has ever said to me.", "love"], "The duel became a dance-off. Corvin insists he won. Antonio insists everyone won."],
+    "lion|fox": [["b", "Your rose. I lifted it from your pocket.", "wink"], ["a", "Keep it, querida. Thieves need beauty too.", "love"], ["b", "…That's annoyingly charming.", "surprised"], ["a", "I know.", "happy"], "Ember came back with a rose and a faint blush she blames on the cold."],
+    "lion|toad": [["b", "Hypothesis: your mane is ninety percent hairspray.", "happy"], ["a", "Ninety-five, amigo. Passion needs support.", "wink"], ["b", "Fascinating! May I take a sample?", "surprised"], ["a", "Only with love.", "love"], "They invented a new hair tonic. It smells of roses and very slightly of ozone."],
+    "lion|bat": [["a", "Little one! Why do you hide?", "surprised"], ["b", "I-I'm just shy…", "sad"], ["a", "Then I shall be loud enough for both of us!", "happy"], ["b", "*tiny giggle*", "love"], "Antonio taught Nyx one flamenco step. She did it once, then hid for an hour, glowing."],
+    "lion|hedgehog": [["b", "Are you a REAL lion?!", "surprised"], ["a", "The most real, pequeño!", "happy"], ["b", "Can you ROAR?!", "happy"], ["a", "I can roar a love song!", "love"], "Bramble rode on Antonio's back around the nook. Twice. Then four more times."],
+    "lion|wolf": [["a", "Ay, such dark beauty! Like a moonless night!", "love"], ["b", "Ew. No. Stop.", "sad"], ["a", "Like a sad song on a Spanish guitar!", "happy"], ["b", "…Okay, that one was kind of good.", "love"], "He wrote her a tragic poem. She pretended to hate it and kept it in her diary."],
+    "owl|owl": [["a", "Ah, colleague! Have you read the new edition?", "happy"], ["b", "Annotated it twice.", "wink"], ["a", "Splendid. Tea?", "love"], ["b", "Earl Grey, naturally.", "happy"], "Two owls, one pot of tea and a three-hour debate about semicolons. Both left extremely satisfied."],
+    "owl|raven": [["b", "Old bird! Tell me tales of great battles!", "surprised"], ["a", "Thermopylae, 480 BC. Do sit down.", "happy"], ["b", "*sits immediately*", "love"], ["a", "And mind your sword on the furniture.", "wink"], "Hoot lectured; Corvin took notes on the inside of his shield. A historic partnership."],
+    "owl|fox": [["b", "Your library has three secret passages.", "wink"], ["a", "Four, actually. You'll never find the fourth.", "happy"], ["b", "Challenge accepted.", "happy"], ["a", "Do put the books back when you're done.", "wink"], "Ember found the fourth passage. Hoot quietly moved it. The game continues."],
+    "owl|toad": [["a", "Ah, a man of science!", "happy"], ["b", "And you, a man of books!", "happy"], ["a", "Together we are…", "surprised"], ["b", "…a very well-referenced experiment!", "love"], "They co-wrote a paper. The footnotes are longer than the paper. Both are thrilled."],
+    "owl|bat": [["a", "Hello, little reader. Which book is that?", "happy"], ["b", "It's… about the moon.", "love"], ["a", "Splendid choice. May I read it with you?", "happy"], ["b", "*nods very, very quickly*", "love"], "They read under one blanket until both fell asleep. Hoot's spectacles slipped off his beak."],
+    "owl|hedgehog": [["b", "Professor! Where's the edge of the map?", "surprised"], ["a", "There isn't one, young explorer. That's rather the point of maps.", "happy"], ["b", "WHOA.", "surprised"], ["a", "Indeed. Whoa.", "wink"], "Bramble came home with a reading list and a hand-drawn map of 'everywhere books go'."],
+    "owl|wolf": [["a", "Ah, Poe. Excellent taste.", "happy"], ["b", "Finally. Someone gets it.", "surprised"], ["a", "Shall we discuss The Raven?", "wink"], ["b", "Only if Corvin isn't listening.", "happy"], "They read gothic poetry by candlelight. Wulfila smiled twice. Hoot counted."],
+    "raven|raven": [["a", "SIR!", "surprised"], ["b", "SIR!", "surprised"], ["a", "A duel?", "happy"], ["b", "A DUEL!", "happy"], "Six hours, zero winners and two very tired knights. They are sworn brothers now."],
+    "raven|fox": [["a", "Thief! Return my helm!", "surprised"], ["b", "This helm? Couldn't be me.", "wink"], ["a", "It is ON YOUR HEAD.", "sad"], ["b", "Huh. Would you look at that.", "happy"], "Corvin chased Ember round the nook until they both collapsed laughing. The helm came home. Mostly."],
+    "raven|toad": [["b", "May I test your armour's tensile strength?", "happy"], ["a", "Strike! It cannot be pierced!", "happy"], ["b", "*taps it with a spoon*", "wink"], ["a", "…It has been pierced.", "sad"], "Wartsworth invented shock-absorbing snack armour. Corvin ate half of it."],
+    "raven|bat": [["a", "Fear not, small one! I shall protect you!", "happy"], ["b", "F-from what?", "surprised"], ["a", "From… EVERYTHING!", "happy"], ["b", "…That's actually really nice.", "love"], "Corvin stood guard all afternoon while Nyx napped. He calls it the Siege of the Blanket."],
+    "raven|hedgehog": [["b", "I challenge you to a DUEL!", "happy"], ["a", "Ha! A worthy foe!", "happy"], ["b", "*throws a pinecone*", "wink"], ["a", "OOF. Well struck, squire!", "surprised"], "The pinecone duel lasted all afternoon. Bramble was knighted, then knighted Corvin back."],
+    "raven|wolf": [["b", "You're loud.", "sad"], ["a", "I AM VALIANT.", "happy"], ["b", "You're loud and valiant.", "wink"], ["a", "…Thank you!", "love"], "Wulfila tried to teach Corvin to brood. He was terrible at it. She liked him more for it."],
+    "fox|fox": [["a", "Nice cloak.", "wink"], ["b", "Nice tail.", "wink"], ["a", "Want to rob a biscuit tin?", "happy"], ["b", "Thought you'd never ask.", "happy"], "The biscuit tin is empty. Nobody saw anything. Two foxes look extremely innocent."],
+    "fox|toad": [["b", "Could you pick this lock? For science.", "happy"], ["a", "For science? Obviously.", "wink"], ["b", "*scribbles* Fascinating technique!", "surprised"], ["a", "Don't publish that.", "wink"], "Ember picked forty locks. Wartsworth catalogued every one. The paper is classified."],
+    "fox|bat": [["a", "Psst. Want to learn to be invisible?", "wink"], ["b", "I… I'm already pretty good at hiding.", "sad"], ["a", "Then you're a natural.", "happy"], ["b", "*shy little smile*", "love"], "Nyx learned to tiptoe without a sound, and practised on Ember. Ember was genuinely impressed."],
+    "fox|hedgehog": [["b", "Are you a SPY?!", "surprised"], ["a", "Shh. Maybe.", "wink"], ["b", "Can I be a spy?!", "happy"], ["a", "Rule one: no shouting.", "wink"], "Bramble's spy career lasted twelve minutes, until he shouted 'I'M BEING SNEAKY'. Ember adored it."],
+    "fox|wolf": [["a", "We're basically cousins, you know.", "wink"], ["b", "Ugh. Don't.", "sad"], ["a", "Same tail energy.", "happy"], ["b", "…Okay, the tail thing is fair.", "love"], "They sat on the roof at midnight, not talking. Both say it was the best visit ever."],
+    "toad|toad": [["a", "Colleague! Your hypothesis?", "surprised"], ["b", "Bubbles!", "happy"], ["a", "BUBBLES!", "happy"], ["b", "RIBBIT!", "love"], "Two scientists, one lab, zero explosions. Well, one small explosion. A beautiful one."],
+    "toad|bat": [["a", "Hello! May I measure your ears?", "happy"], ["b", "M-measure them?", "surprised"], ["a", "For science! They're magnificent!", "love"], ["b", "*ears turn pink*", "love"], "Nyx found out her ears can hear the moon hum. Wartsworth believes it. So does Nyx."],
+    "toad|hedgehog": [["b", "Can we make a VOLCANO?!", "surprised"], ["a", "I thought you'd never ask!", "happy"], ["b", "BIGGER!", "happy"], ["a", "BIGGER!", "happy"], "The volcano worked. The kitchen is now 'a field site'. Both are extremely proud."],
+    "toad|wolf": [["a", "Hypothesis: you are secretly happy.", "happy"], ["b", "Wrong.", "sad"], ["a", "Your tail is wagging.", "wink"], ["b", "…Inconclusive data.", "love"], "Wartsworth recorded seven smiles. Wulfila demanded the data be destroyed. He kept a copy."],
+    "bat|bat": [["a", "H-hi…", "love"], ["b", "H-hi…", "love"], ["a", "*they both hide*", "sad"], ["b", "…I like your bow.", "happy"], "Two shy bats, one blanket, three whole sentences. A record. They're inseparable now."],
+    "bat|hedgehog": [["b", "Hi hi hi! Wanna play?!", "happy"], ["a", "Um… quietly?", "sad"], ["b", "*whispers* WANNA PLAY QUIETLY?", "wink"], ["a", "*giggles* Okay.", "love"], "They built a blanket fort and whispered stories until dark. Bramble's whisper is still very loud."],
+    "bat|wolf": [["a", "I… I like your eyeliner.", "love"], ["b", "…Thanks. I like your… wings.", "surprised"], ["a", "*happy squeak*", "happy"], ["b", "Don't tell anyone I was nice.", "wink"], "Wulfila let Nyx sit with her in the dark corner. She called it babysitting. She smiled the whole time."],
+    "hedgehog|hedgehog": [["a", "EXPEDITION?", "surprised"], ["b", "EXPEDITION!", "happy"], ["a", "To the kitchen!", "happy"], ["b", "TO THE KITCHEN!", "love"], "They discovered the biscuit cupboard, mapped it, and named it Crumb Mountain."],
+    "hedgehog|wolf": [["a", "Why are you sad?!", "surprised"], ["b", "I'm not sad. I'm mysterious.", "wink"], ["a", "Can I be mysterious too?!", "happy"], ["b", "…Sure, kid. Stand in the corner and sigh.", "happy"], "Bramble sighed so dramatically he fell over. Wulfila laughed out loud. There were witnesses."],
+    "wolf|wolf": [["a", "Nice boots.", "wink"], ["b", "Nice phase.", "wink"], ["a", "It's not a phase.", "sad"], ["b", "Same.", "love"], "Two wolves, one playlist, zero words. The best afternoon either of them has had all year."],
+  };
+  // what each companion leaves as a souvenir
+  const VISIT_GIFT = { cat: "visitpearl", lion: "visitrose", owl: "visitbookplate", raven: "visitmedal", fox: "visitkey", toad: "visitbubble", bat: "visitmoon", hedgehog: "visitcompass", wolf: "visitribbon" };
+  // the script for a visit: lines in order, each spoken by the guest ("g") or the host ("h")
+  function visitStory(gk, hk){
+    const ia = VISIT_ORDER.indexOf(gk), ib = VISIT_ORDER.indexOf(hk), key = ia <= ib ? `${gk}|${hk}` : `${hk}|${gk}`, guestIsA = ia <= ib;
+    const B = BANTER[key] || BANTER["cat|cat"], lines = B.slice(0, -1).map(([w, t, e]) => [(w === "a") === guestIsA ? "g" : "h", t, e]);
+    return { lines, outcome: B[B.length - 1] };
+  }
+    // ================= v4.9: companions visiting each other's nooks (step 9) =================
+    let s9visits = [], visitsOff = true, s9live = false;
+    const VISIT_HOURS = 6, vnow = () => Date.now(), vEnd = v => Date.parse(v.ends_at), compOf = k => famName(FAMILIARS[k] ? k : "cat");
+    async function loadVisits(){
+      if (!ready()) return; try { const r = await C().from("visits").select("*").order("started_at", { ascending: false }).limit(40);
+        if (r.error) throw r.error; const me = uid(); s9visits = (r.data || []).filter(v => v.guest === me || v.host === me); visitsOff = false; } catch (e) { visitsOff = true; s9visits = []; }
+    }
+    const outgoing9 = () => s9visits.find(v => v.guest === uid() && vnow() < vEnd(v));
+    const hosting9 = () => s9visits.filter(v => v.host === uid() && vnow() < vEnd(v));
+    const returned9 = () => s9visits.find(v => v.guest === uid() && vnow() >= vEnd(v) && !v.guest_seen);
+    const departed9 = () => s9visits.find(v => v.host === uid() && vnow() >= vEnd(v) && !v.host_seen);
+    const hhmm = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+    function sendVisit(fid){
+      if (!ready()) { toast("Sign in first."); return; } if (visitsOff) { toast("Visits need the step 9 update in Supabase."); return; }
+      if (!famChosen) { toast("Choose your companion first."); return; }
+      const out = outgoing9(); if (out) { toast(`${compOf(out.guest_fam)} is already visiting ${whoIs(out.host).name} until ${hhmm(vEnd(out))}.`); return; }
+      const p = whoIs(fid), hk = FAMILIARS[p.familiar] ? p.familiar : "cat", gk = familiar;
+      const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "vs-scrim"; document.body.append(box);
+      box.innerHTML = `<div class="cheercard visitask" role="dialog" aria-modal="true" aria-label="Send ${esc(compOf(gk))} to visit"><div class="label">A visit</div>
+        <div class="vpair"><span class="vp g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, wornNow(gk), "happy")}</span><span class="vbag" aria-hidden="true">🧳</span><span class="vp h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, [], "neutral")}</span></div>
+        <p class="vq">Send <b>${esc(compOf(gk))}</b> to spend the afternoon with <b>${esc(p.name)}'s ${esc(compOf(hk))}</b>?</p>
+        <p class="note">They'll hang out for ${VISIT_HOURS} hours. Peek in any time; when ${esc(compOf(gk))} comes home you'll hear how it went, and they'll bring back a souvenir.</p>
+        <div class="pacts"><button class="btn" type="button" data-vsno>Not now</button><button class="btn primary" type="button" data-vsgo>🧳 Off you go</button></div></div>`;
+      box.onclick = async e => {
+        if (e.target === box || e.target.closest("[data-vsno]")) { box.remove(); return; }
+        const g = e.target.closest("[data-vsgo]"); if (!g) return; g.disabled = true;
+        const now = new Date(), row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), guest: uid(), host: fid, guest_fam: gk, host_fam: hk, guest_wear: wornNow(gk), host_wear: [], story: visitStory(gk, hk), started_at: now.toISOString(), ends_at: new Date(now.getTime() + VISIT_HOURS * 3600e3).toISOString(), guest_seen: false, host_seen: false };
+        const { error } = await C().from("visits").insert(row); if (error) { g.disabled = false; toast(s8miss(error) ? "Visits need the step 9 update in Supabase." : error.message); return; }
+        s9visits = [row, ...s9visits];
+        notify([fid], "visit", `🧳 ${myName()}'s ${compOf(gk)} is visiting your nook!`, `They're spending the afternoon with your ${compOf(hk)}. Say hello!`, row.id);
+        box.querySelector(".cheercard").classList.add("sent"); setTimeout(() => box.remove(), 700);
+        toast(`🧳 ${compOf(gk)} is off to ${p.name}'s nook. Back at ${hhmm(vEnd(row))}.`, 4200); try { speak(`Off to ${p.name}'s! I'll bring you something back.`, "happy"); } catch {} paintVisit(); if (tab === "friends") render();
+      };
+    }
+    async function callHome(id){ const v = s9visits.find(x => x.id === id); if (!v) return; v.ends_at = new Date().toISOString();
+      await C().from("visits").update({ ends_at: v.ends_at }).eq("id", id); paintVisit(); openVisit(id); }
+    // the scene: both companions on a rug, the afternoon so far (or the whole story, once it's over), and the souvenir
+    let sceneT = [];
+    function openVisit(id){
+      const v = s9visits.find(x => x.id === id); if (!v) return; const me = uid(), amGuest = v.guest === me, over = vnow() >= vEnd(v);
+      const gk = v.guest_fam, hk = v.host_fam, gName = compOf(gk), hName = compOf(hk), gOwner = amGuest ? "your" : `${whoIs(v.guest).name}'s`, hOwner = amGuest ? `${whoIs(v.host).name}'s` : "your";
+      const gWear = Array.isArray(v.guest_wear) ? v.guest_wear : [], hWear = amGuest ? (Array.isArray(v.host_wear) ? v.host_wear : []) : wornNow(hk);
+      if (!amGuest && hk === familiar && JSON.stringify(v.host_wear || []) !== JSON.stringify(hWear)) { v.host_wear = hWear; C().from("visits").update({ host_wear: hWear }).eq("id", v.id).then(() => {}); }
+      const S = v.story || {}, L = S.lines || [], frac = Math.min(1, Math.max(0, (vnow() - Date.parse(v.started_at)) / Math.max(1, vEnd(v) - Date.parse(v.started_at))));
+      const shown = over ? L.length : Math.max(1, Math.ceil(frac * L.length));
+      const tk = amGuest ? VISIT_GIFT[hk] : VISIT_GIFT[gk], have = giftsGot().some(g => g.tk === tk && g.from === "visit" && g.vid === v.id);
+      const root = $("#modal-root"); sceneT.forEach(clearTimeout); sceneT = [];
+      root.innerHTML = `<div class="scrim" id="vz-scrim"><div class="modal visitmodal" role="dialog" aria-modal="true" aria-label="${esc(gName)} visiting ${esc(hName)}">
+        <div class="phead"><div><div class="label">${over ? "How the visit went" : "A visit, right now"}</div><h2>${esc(gName)} <span class="muted">&</span> ${esc(hName)}</h2><small class="muted">${esc(gOwner)} ${esc(gName)} at ${esc(hOwner)} nook · ${over ? `${amGuest ? "home again" : "gone home"}` : `until ${hhmm(vEnd(v))}`}</small></div><button class="btn small" type="button" data-vzx>Close</button></div>
+        <div class="vstage"><span class="vglow" aria-hidden="true"></span><span class="vrug" aria-hidden="true"></span>
+          <span class="vp g" id="vz-g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, gWear, "happy")}</span><span class="vp h" id="vz-h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, hWear, "neutral")}</span>
+          <span class="vtea" aria-hidden="true">☕</span></div>
+        <div class="vlines" id="vz-lines"></div>
+        ${over ? `<div class="voutcome" id="vz-out" hidden><b>How it went</b><p>${esc(S.outcome || "They had a lovely time.")}</p></div>
+          <div class="vgift" id="vz-gift" hidden><div class="vgiftart">${(TRINKETS[tk] || (() => ""))()}</div><div><b>${esc(TRINKET_NAMES[tk] || "A souvenir")}</b><small>${amGuest ? `${esc(hName)} sent it home with ${esc(gName)}.` : `${esc(gName)} left it for you.`}</small></div>${have ? `<span class="onshelf">✓ On your shelf</span>` : `<button class="btn small primary" type="button" data-vgift="${esc(v.id)}">Put it on my shelf</button>`}</div>`
+          : `<p class="note vwait">They're still together. ${shown < L.length ? "More to come; peek in again later." : "Nearly home time."}</p>${amGuest ? `<div class="pacts"><button class="btn small" type="button" data-vhome="${esc(v.id)}">Call ${esc(gName)} home early</button></div>` : ""}`}
+      </div></div>`;
+      const box = $("#vz-lines"), gEl = $("#vz-g"), hEl = $("#vz-h");
+      L.slice(0, shown).forEach(([who, text, ex], i) => sceneT.push(setTimeout(() => { if (!box.isConnected) return; const isG = who === "g";
+        box.insertAdjacentHTML("beforeend", `<div class="vline ${isG ? "lg" : "lh"}"><b>${esc(isG ? gName : hName)}</b><span>${esc(text)}</span></div>`);
+        (isG ? gEl : hEl).dataset.expr = ex || "happy"; (isG ? hEl : gEl).dataset.expr = "idle"; (isG ? gEl : hEl).classList.remove("talk"); void gEl.offsetWidth; (isG ? gEl : hEl).classList.add("talk");
+        box.scrollTop = box.scrollHeight; }, 500 + i * 1500)));
+      if (over) sceneT.push(setTimeout(() => { const o = $("#vz-out"), g = $("#vz-gift"); if (o) o.hidden = false; if (g) g.hidden = false; gEl.dataset.expr = "love"; hEl.dataset.expr = "love"; }, 500 + shown * 1500));
+      if (over && (amGuest ? !v.guest_seen : !v.host_seen)) { const f = amGuest ? "guest_seen" : "host_seen"; v[f] = true; C().from("visits").update({ [f]: true }).eq("id", v.id).then(() => {}); setTimeout(paintVisit, 50); }
+      root.onclick = e => {
+        if (e.target.id === "vz-scrim" || e.target.closest("[data-vzx]")) { sceneT.forEach(clearTimeout); root.onclick = null; root.innerHTML = ""; paintVisit(); return; }
+        const hm = e.target.closest("[data-vhome]"); if (hm) { callHome(hm.dataset.vhome); return; }
+        const gf = e.target.closest("[data-vgift]"); if (gf) { lsSet("reading-ledger-famgifts", [...giftsGot(), { d: todayISO() + "v", fam: familiar, type: "trinket", tk, from: "visit", vid: v.id }].slice(-80)); paintGiftDrawer(); bondAdd(4, "visit");
+          gf.outerHTML = `<span class="onshelf">✓ On your Decorate drawer, under Gifts</span>`; toast(`${TRINKET_NAMES[tk] || "A souvenir"}: it's in your Decorate drawer now ✦`, 3600); }
+      };
+    }
+    // on your nook: a visitor beside your companion, or a note that yours is out visiting
+    function paintVisit(){
+      const card = document.querySelector("#familiar .famcard"); if (!card) return;
+      card.querySelectorAll(".famguest, .famvisits, .famvbadge").forEach(x => x.remove());
+      if (!ready() || visitsOff || !famChosen) return;
+      const host = hosting9()[0], out = outgoing9(), back = returned9(), gone = departed9(), body = card.querySelector(".fambody");
+      if (host && body) body.insertAdjacentHTML("beforeend", `<span class="famguest" data-visitopen="${esc(host.id)}" data-fam="${esc(host.guest_fam)}" data-expr="happy" role="button" aria-label="${esc(compOf(host.guest_fam))} is visiting. See what they're up to">${A3APP.art(host.guest_fam, Array.isArray(host.guest_wear) ? host.guest_wear : [], "happy", true)}<i aria-hidden="true">🧳</i></span>`);
+      const chips = [];
+      if (back) chips.push(`<button type="button" class="vchip glow" data-visitopen="${esc(back.id)}"><i>🎁</i><span><b>${esc(compOf(back.guest_fam))}</b> is back from ${esc(whoIs(back.host).name)}'s! See how it went</span></button>`);
+      else if (out) chips.push(`<button type="button" class="vchip" data-visitopen="${esc(out.id)}"><i>🧳</i><span><b>${esc(compOf(out.guest_fam))}</b> is at ${esc(whoIs(out.host).name)}'s until ${hhmm(vEnd(out))} · Peek</span></button>`);
+      if (host) chips.push(`<button type="button" class="vchip" data-visitopen="${esc(host.id)}"><i>🧳</i><span><b>${esc(whoIs(host.guest).name)}'s ${esc(compOf(host.guest_fam))}</b> is visiting! See what they're up to</span></button>`);
+      if (gone) chips.push(`<button type="button" class="vchip glow" data-visitopen="${esc(gone.id)}"><i>🎁</i><span><b>${esc(compOf(gone.guest_fam))}</b> went home and left you something</span></button>`);
+      const lab = card.querySelector(".famlabel"); if (chips.length && lab) lab.insertAdjacentHTML("afterend", `<div class="famvisits">${chips.join("")}</div>`);
+      if ((back || gone || out) && body) body.insertAdjacentHTML("beforeend", `<span class="famvbadge" data-visitopen="${esc((back || gone || out).id)}" aria-hidden="true">${back || gone ? "🎁" : "🧳"}</span>`);
+      if (back && !lsGet("reading-ledger-vtold", []).includes(back.id)) { lsSet("reading-ledger-vtold", [...lsGet("reading-ledger-vtold", []), back.id].slice(-40)); setTimeout(() => toast(`🎁 ${compOf(back.guest_fam)} is back from ${whoIs(back.host).name}'s nook!`, 4200), 1200); }
+    }
+    function goLive9(){
+      if (s9live || !ready()) return; const cl = C(); if (!cl || typeof cl.channel !== "function") return; s9live = true; const me = uid();
+      try { cl.channel("nook-visits-" + me).on("postgres_changes", { event: "*", schema: "public", table: "visits", filter: `host=eq.${me}` }, pl => { const r = pl.new; if (!r || !r.id) return; const was = s9visits.some(v => v.id === r.id);
+          s9visits = [r, ...s9visits.filter(v => v.id !== r.id)]; paintVisit(); if (!was && vnow() < vEnd(r)) toast(`🧳 ${whoIs(r.guest).name}'s ${compOf(r.guest_fam)} just arrived for a visit!`, 4200); }).subscribe(); } catch {}
+    }
+    setInterval(() => { if (ready() && !visitsOff) paintVisit(); }, 60000);
+    // a visitor or souvenir chip, anywhere; the companion's own click handlers must not treat it as a pat
+    document.addEventListener("click", e => {
+      const vo = e.target.closest("[data-visitopen]"); if (vo) { e.stopPropagation(); e.preventDefault(); openVisit(vo.dataset.visitopen); return; }
+      const fv = e.target.closest("[data-fvisit]"); if (fv) { e.stopPropagation(); sendVisit(fv.dataset.fvisit); }
+    }, true);
+    async function show(){ render(); await load(true); render(); pushShare(); goLive(); goLive2(); goLive9(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
     // for the reading-mode companion: how your buddy-read friends are doing in this book
     function buddyFor(title){ try { if (!ready()) return []; const me = uid(); return buddies.filter(r => tnorm(r.book.t || "") === tnorm(title || "")).flatMap(r => r.members.filter(id => id !== me).map(id => ({ name: whoIs(id).name, ...progressIn(id, r.book) }))); } catch (e) { return []; } }
-    return { show, render, load, queueShare, pushShare, buddyFor, offerShare, presenceStart, presenceBeat, presenceEnd, withNow, liveFriends, goLive2, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
+    return { show, render, load, queueShare, pushShare, buddyFor, paintVisit, offerShare, presenceStart, presenceBeat, presenceEnd, withNow, liveFriends, goLive2, compose: o => { if (!ready()) { toast("Sign in first to send letters to friends."); return; } (friends.length || lettersOff ? Promise.resolve() : load(true)).then(() => compose(o)); }, openLetter, friendsLoved };
   })();
   window.__nookTest = { Social, get books(){ return books; }, save: () => save(), soul: () => soulData(), famArt: k => famArt(k) };
   // ================= wiring =================
@@ -8241,8 +8413,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.8";
+  const APP_VERSION = "4.9.1";
   const CHANGELOG = [
+    ["4.9.1", "30 Oct 2026", "A calmer friends list and an easier What's new", [
+      "Friends on your phone: each friend now shows what they're reading and how far they are, in full, with a bigger progress bar. Cheer, letter and visit sit neatly in the corner",
+      "The DNA match moved off the list; you'll still find it in each friend's nook",
+      "What's new is easier to read: the latest update opens first, older ones fold away until you tap them, and the tour is a small link at the bottom",
+      "The menu now always shows the version you're on"]],
+    ["4.9", "30 Oct 2026", "Companions visit each other, and winter costumes are on the way", [
+      "🧳 Companions can visit each other: tap 🧳 beside a friend to send yours over for the afternoon. They appear beside your friend's companion, the two get up to something very in character, and you can peek in any time",
+      "When they come home you'll hear how it went, and they bring back a souvenir for your shelves (and leave one for your friend)",
+      "❄️ Winter costumes arrive on 6 November and stay until the end of February: the Snow-Kissed Diva, the Winter Casanova, the Fireside Scholar, the Frostguard Knight, the Snowshadow Operative, the Cosy Alchemist, the Little Snowmallow, the Little Snow Explorer and the Frostbitten Goth",
+      "For the owner: visits need the step 9 update in Supabase"]],
     ["4.8", "29 Oct 2026", "Reading together, live", [
       "🕯 Read together, live: see which friends are reading by candlelight right now and join them with your own book. Reading mode shows who you're reading with, and at the end you'll see how much you both read",
       "📰 Finished lately: when you finish a book you can tell your friends in one line. They react with emojis and reply, and anything about the story stays under a spoiler cover until they've read it too",
@@ -8511,15 +8693,16 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   function endTour(done){ if (!tourEl) return; tourEl.remove(); tourEl = null; tourAt = -1; document.body.classList.remove("touring"); removeEventListener("resize", placeTour); removeEventListener("scroll", placeTour); document.removeEventListener("keydown", tourKey); if (done) { try { hallState("closed"); } catch {} scrollTo({ top: 0, behavior: "smooth" }); toast("✦ Enjoy your nook", 2000); } }
   document.addEventListener("click", e => { if (e.target.closest("[data-starttour]")) { e.preventDefault(); startTour(); } });
   const KEY_SEENVER = "reading-ledger-seenver";
+  document.querySelectorAll("[data-appv]").forEach(x => x.textContent = "v" + APP_VERSION);
   function openChangelog(){
     const root = $("#modal-root");
     root.innerHTML = `<div class="scrim" id="cl-scrim"><div class="modal clmodal" role="dialog" aria-modal="true" aria-labelledby="cl-title">
-      <div class="label">My Book Nook · version ${APP_VERSION}</div><h2 id="cl-title">What's new</h2>
-      <button type="button" class="tourcta" data-starttour><span class="tcico">🗝</span><span><b>Take the magical tour</b><small>${esc(famName(familiar))} shows you everything your nook can do, in a minute</small></span><span aria-hidden="true">→</span></button>
-      <div class="cllist">${CHANGELOG.map(([v, d, t, items], i) => `<section class="clv${i === 0 ? " now" : ""}"><div class="clhead"><span class="clnum">v${v}</span><b>${esc(t)}</b>${d ? `<small>${d}</small>` : ""}</div><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}</div>
-      <p class="note">Tip: if a friend's nook looks different from yours, compare version numbers. Closing and reopening the app picks up the newest one.</p>
-      <div class="mfoot"><button class="btn primary" type="button" id="cl-done">Lovely</button></div></div></div>`;
-    $("#cl-scrim").addEventListener("click", e => { if (e.target.id === "cl-scrim" || e.target.id === "cl-done") root.innerHTML = ""; });
+      <div class="clhd"><div><div class="label">My Book Nook · version ${APP_VERSION}</div><h2 id="cl-title">What's new</h2></div><button type="button" class="iconbtn" id="cl-x" aria-label="Close">✕</button></div>
+      <div class="cllist">${CHANGELOG.slice(0, 1).map(([v, d, t, items]) => `<section class="clv now"><div class="clhead"><span class="clnum">v${v}</span><b>${esc(t)}</b>${d ? `<small>${d}</small>` : ""}</div><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></section>`).join("")}
+        <div class="label clolder">Earlier updates</div>${CHANGELOG.slice(1).map(([v, d, t, items]) => `<details class="clv old clold"><summary class="clhead"><span class="clnum">v${v}</span><b>${esc(t)}</b>${d ? `<small>${d}</small>` : ""}</summary><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></details>`).join("")}</div>
+      <div class="clfoot"><button type="button" class="linkbtn" data-starttour>🗝 Take the magical tour</button><button class="btn primary small" type="button" id="cl-done">Lovely</button></div>
+      <p class="note cltip">If a friend's nook looks different, compare version numbers: closing and reopening the app picks up the newest one.</p></div></div>`;
+    $("#cl-scrim").addEventListener("click", e => { if (e.target.id === "cl-scrim" || e.target.id === "cl-done" || e.target.closest("#cl-x") || e.target.closest("[data-starttour]")) root.innerHTML = ""; });
     lsSet(KEY_SEENVER, APP_VERSION);
   }
   document.addEventListener("click", e => { const r = e.target.closest("[data-recommend]"); if (r) { const id = r.dataset.recommend; $("#modal-root").innerHTML = ""; Social.compose({ bookId: id }); } });

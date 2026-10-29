@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ver="4.9">
+<html lang="en" data-ver="4.9.1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3100,6 +3100,27 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 .vgift{display:flex;align-items:center;gap:12px;margin-top:8px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);animation:vlinein .5s ease-out both}
 .vgift>div:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column}.vgift small{color:var(--muted)}.vgiftart{width:48px;height:48px;display:grid;place-items:center}
 .vwait{text-align:center;margin-top:8px}
+
+/* ===== v4.9.1: a calmer friends list and a readable What's new on phones ===== */
+.frow.frow2{position:relative;display:block;padding:8px 10px 10px 8px}
+.frow2 .frmain{display:flex;align-items:flex-start;gap:10px;width:100%;padding:2px;text-align:left}
+.frow2 .frtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.frow2 .frname{display:flex;align-items:baseline;gap:8px;padding-right:112px;min-height:28px}.frow2 .frname b{font-size:16.5px}.frow2 .frname small{font-size:12px;color:var(--muted);white-space:nowrap}
+.frow2 .frbook{font-size:15px;line-height:1.3;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.frow2 .frbook i{font-style:italic}.frow2 .frauth{color:var(--muted);font-size:13px}
+.frow2 .frprog{display:flex;align-items:center;gap:8px}.frow2 .frbar{flex:1;max-width:none;height:7px;margin:0}.frow2 .frprog small{font-size:12.5px;color:var(--muted);white-space:nowrap}.frow2 .frprog small b{color:var(--ink)}
+.frow2 .frnone{font-size:13px;color:var(--muted);white-space:normal;overflow:visible}
+.frow2 .frcov{width:40px;flex:0 0 40px;margin-top:30px}
+.frow2 .fracts{position:absolute;top:6px;right:6px;display:flex;gap:2px}.frow2 .fracts .iconbtn{width:34px;height:34px;font-size:15px}
+@media (max-width:560px){.frow2 .frcov{display:none}.frow2 .frname{padding-right:108px}}
+.clmodal .clhd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.clmodal .clhd h2{margin:2px 0 0}
+.clmodal .cllist{max-height:none;overflow:visible;margin:8px 0}
+.clmodal .clolder{margin-top:6px}
+.clmodal details.clv{border-radius:12px}.clmodal details.clv>summary{cursor:pointer;list-style:none}.clmodal details.clv>summary::-webkit-details-marker{display:none}
+.clmodal details.clv>summary::after{content:"›";margin-left:auto;color:var(--muted);transition:transform .2s}.clmodal details.clv[open]>summary::after{transform:rotate(90deg)}
+.clmodal .clfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;bottom:-1px;padding:10px 0 6px;background:linear-gradient(transparent,var(--paper) 30%)}
+.clmodal .clv.now .clhead b{font-size:18px;flex:1 1 60%}.clmodal .clv.now .clhead small{margin-left:0}
+.clmodal details.clv{padding:8px 12px}.clmodal details.clv>summary{flex-wrap:nowrap;align-items:center}.clmodal details.clv>summary b{font-size:15px;flex:1;min-width:0;line-height:1.25}.clmodal details.clv>summary small{margin-left:0;font-size:12px;white-space:nowrap}.clmodal .clold+.clold{margin-top:6px}.clmodal details.clv:not([open])+details.clv{margin-top:6px}
+.clmodal .cltip{font-size:12.5px;margin:2px 0 0}
 </style>
 </head>
 <body>
@@ -3109,7 +3130,7 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 <div class="topchips"><button class="topchip stkchip" id="streak-btn" type="button" aria-label="Your reading streak"><span class="stkflame">🔥</span><b>0</b></button><button class="topchip socchip" id="social-btn" type="button" aria-label="Friends"><span aria-hidden="true">♥</span> Friends<i class="tbadge" hidden></i></button></div>
 <button class="themebtn menubtn" id="nook-menu-btn" type="button" title="Import, backups and app" aria-label="More options" aria-expanded="false">⋯</button>
 <div class="nookmenu" id="nook-menu" hidden>
-  <button class="nmitem" type="button" data-whatsnew>✦ What's new · v4.4</button>
+  <button class="nmitem" type="button" data-whatsnew>✦ What's new · <span data-appv>v4.4</span></button>
   <button class="nmitem" type="button" data-starttour>🗝 Take the tour of your nook</button>
   <button class="nmitem" type="button" data-notifyset>🔔 Notifications & daily check-in</button>
   <div class="label">Your nook</div>
@@ -3223,11 +3244,11 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
   <main id="view-friends" hidden></main>
 
   <footer class="muted"><div class="divider">✦</div><span>Your library is saved in this browser on this computer. Use “Save a backup” now and then to keep a copy.</span></footer>
-  <div class="appver"><button type="button" data-whatsnew>My Book Nook v4.4 · What's new</button></div>
+  <div class="appver"><button type="button" data-whatsnew>My Book Nook <span data-appv>v4.4</span> · What's new</button></div>
 </div>
 <div id="modal-root"></div>
 
 <script defer src="art.eef59d257e.js"></script>
-<script defer src="app.a6087a1060.js"></script>
+<script defer src="app.4df9a7693f.js"></script>
 </body>
 </html>
