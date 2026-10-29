@@ -1,5 +1,5 @@
 // My Book Nook: keeps the app opening offline and remembers book covers.
-const SHELL = "ledger-shell-v35", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
+const SHELL = "ledger-shell-v36", COVERS = "ledger-covers-v2", SOUNDS = "ledger-sounds-v1";
 const FILES = ["./", "index.html", "art.eef59d257e.js", "app.4df9a7693f.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "favicon-64.png"];
 // cache each file on its own, so one missing file can never stop the app from installing
 self.addEventListener("install", e => { e.waitUntil(caches.open(SHELL).then(c => Promise.all(FILES.map(f => c.add(f).catch(() => null)))).then(() => self.skipWaiting())); });
