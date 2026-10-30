@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ver="4.9.1">
+<html lang="en" data-ver="4.10">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3121,6 +3121,47 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 .clmodal .clv.now .clhead b{font-size:18px;flex:1 1 60%}.clmodal .clv.now .clhead small{margin-left:0}
 .clmodal details.clv{padding:8px 12px}.clmodal details.clv>summary{flex-wrap:nowrap;align-items:center}.clmodal details.clv>summary b{font-size:15px;flex:1;min-width:0;line-height:1.25}.clmodal details.clv>summary small{margin-left:0;font-size:12px;white-space:nowrap}.clmodal .clold+.clold{margin-top:6px}.clmodal details.clv:not([open])+details.clv{margin-top:6px}
 .clmodal .cltip{font-size:12.5px;margin:2px 0 0}
+
+/* ===== v4.10: each companion's home, where visits happen ===== */
+.vplace{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vstage.vstage2{height:260px;flex:0 0 auto;min-height:260px;background:#2A1E18;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.vstage2 .vp{bottom:4px;width:40%;height:180px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
+.vstage2 .vp.g{left:5%}.vstage2 .vp.h{right:5%}
+.vstage2 .vp::after{content:"";position:absolute;left:18%;right:18%;bottom:2px;height:12px;border-radius:50%;background:rgba(0,0,0,.28);filter:blur(3px);z-index:-1}
+.vstage2 .vp.g.arrive{animation:varrive 1.3s cubic-bezier(.3,.7,.4,1) both}
+@keyframes varrive{0%{transform:translateX(-130%)}20%{transform:translateX(-95%) translateY(-8px)}40%{transform:translateX(-60%)}60%{transform:translateX(-30%) translateY(-6px)}80%{transform:translateX(-8%)}100%{transform:none}}
+.vplacecap{position:absolute;left:10px;top:10px;z-index:2;padding:3px 10px;border-radius:999px;font-size:12.5px;line-height:1.4;color:#FFF6E4;background:rgba(30,18,10,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+@media (max-width:560px){.vstage.vstage2{height:230px;min-height:230px}.vstage2 .vp{height:158px;width:44%}.vstage2 .vp.g{left:1%}.vstage2 .vp.h{right:1%}}
+/* the little moving parts of each place */
+.vplace .vtw{animation:vtw 2.6s ease-in-out infinite}@keyframes vtw{50%{opacity:.35}}
+.vplace .vfl{transform-box:fill-box;transform-origin:50% 100%;animation:vfl .9s ease-in-out infinite alternate}@keyframes vfl{0%{transform:scale(1,1) skewX(0)}50%{transform:scale(.92,1.1) skewX(3deg)}100%{transform:scale(1.04,.94) skewX(-3deg)}}
+.vplace .vglowc{animation:vglowc2 1.8s ease-in-out infinite alternate}@keyframes vglowc2{to{opacity:.12}}
+.vplace .vsnow{animation:vsnow 5s linear infinite}@keyframes vsnow{0%{transform:translate(0,0);opacity:0}10%{opacity:1}100%{transform:translate(8px,130px);opacity:0}}
+.vplace .vsnow.big{animation-name:vsnowb}@keyframes vsnowb{0%{transform:translate(0,0);opacity:0}8%{opacity:.9}100%{transform:translate(-14px,270px);opacity:.6}}
+.vplace .vbub{animation:vbub 2.8s ease-in infinite}@keyframes vbub{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
+.vplace .vsteam{animation:vsteam 3s ease-out infinite}@keyframes vsteam{0%{transform:translateY(4px);opacity:0}30%{opacity:.6}100%{transform:translateY(-10px);opacity:0}}
+.vplace .vsw{transform-box:view-box;animation:vsw 4s ease-in-out infinite alternate}@keyframes vsw{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+.vplace .vff{animation:vff 6s ease-in-out infinite}@keyframes vff{0%,100%{transform:translate(0,0);opacity:.2}25%{transform:translate(10px,-8px);opacity:1}50%{transform:translate(18px,4px);opacity:.4}75%{transform:translate(6px,10px);opacity:1}}
+.vplace .vspl{animation:vspl 1.4s ease-in-out infinite alternate}@keyframes vspl{to{opacity:.55}}
+.vplace .vnote{animation:vnote 3s ease-out infinite}@keyframes vnote{0%{transform:translate(0,0);opacity:0}30%{opacity:1}100%{transform:translate(14px,-22px);opacity:0}}
+.vplace .vbatf{animation:vbatf 7s ease-in-out infinite}@keyframes vbatf{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-6px)}}
+@media (prefers-reduced-motion:reduce){.vplace *,.vstage2 .vp.g.arrive{animation:none!important}}
+/* sending: a peek at where they're going */
+.vpreview{position:relative;height:170px;flex:0 0 auto;margin:6px -4px 8px;border-radius:14px;overflow:hidden;background:#2A1E18}
+.vpreview .vpair{position:absolute;left:0;right:0;bottom:0;margin:0;gap:0}.vpreview .vpair .vp{width:116px;height:128px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
+.vpreview .vbag{margin-bottom:14px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+.valink{text-align:center;margin-top:8px}
+/* the postcard album */
+.valbum{max-width:620px}
+.vpcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px}
+.vpc{display:flex;flex-direction:column;padding:6px 6px 8px;border:0;border-radius:4px;background:#FFFDF6;color:#2A1E18;box-shadow:0 3px 10px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.05);transform:rotate(var(--tilt,0deg));cursor:pointer;font:inherit;text-align:left;transition:transform .2s}
+.vpc:hover,.vpc:focus-visible{transform:rotate(0) scale(1.03)}
+.vpcs{position:relative;display:block;height:118px;border-radius:2px;overflow:hidden;background:#2A1E18}
+.vpcs .vp{position:absolute;bottom:0;width:44%;height:84px}.vpcs .vp svg{width:100%;height:100%;overflow:visible}.vpcs .vp.g{left:4%}.vpcs .vp.h{right:4%}.vpcs .vp.h svg{transform:scaleX(-1)}
+.vpcstamp{position:absolute;right:5px;top:5px;width:26px;height:30px;display:grid;place-items:center;font-size:14px;background:#FFFDF6;outline:2px dashed #C9A24E;outline-offset:-4px}
+.vpccap{display:flex;flex-direction:column;gap:1px;padding:6px 2px 0}.vpccap b{font-family:var(--f-display);font-style:italic;font-size:15px}.vpccap small{font-size:11.5px;color:#7A6A5A}
+@media (max-width:420px){.vpcards{gap:10px}.vpcs{height:96px}.vpcs .vp{height:68px}}
+.visitmodal>*,.valbum>*{flex-shrink:0}
 </style>
 </head>
 <body>
@@ -3249,6 +3290,6 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 <div id="modal-root"></div>
 
 <script defer src="art.eef59d257e.js"></script>
-<script defer src="app.4df9a7693f.js"></script>
+<script defer src="app.cd5c06f19d.js"></script>
 </body>
 </html>
