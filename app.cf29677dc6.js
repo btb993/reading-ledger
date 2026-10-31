@@ -4667,6 +4667,8 @@ alter publication supabase_realtime add table public.library;`;
     } catch (e) { console.warn("settings", e); }
   }
   const Sync = (() => {
+    const AUTH_HASH = location.hash, BADLINK = /error_code=(otp_expired|access_denied)|error=access_denied/.test(AUTH_HASH);
+    let resetSent = "", RECOVERING = /type=recovery/.test(AUTH_HASH);
     let cfg = (() => { const c = lsGet(KEY_SYNC, null); if (c && c.url) c.url = c.url.replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, ""); return c && c.url && c.key ? c : DEFAULT_SYNC; })(), client = null, user = null, state = "off", detail = "", lastSync = null, prof = lsGet(KEY_PROF, null), profState = "unknown", authMode = "in", timer = null, chan = null, lastPushAt = null, busy = false, again = false;
     const pill = () => $("#sync-pill");
     function paint(){
@@ -4685,7 +4687,10 @@ alter publication supabase_realtime add table public.library;`;
       try { client = window.supabase.createClient(cfg.url, cfg.key, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "reading-ledger-auth" } }); }
       catch (e) { return set("error", "That project URL or key doesn't look right."); }
       const { data } = await client.auth.getSession(); user = data.session?.user || null;
-      client.auth.onAuthStateChange((_e, s) => { const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); loadProfile(); } else { prof = null; lsSet(KEY_PROF, null); set("signedout"); } } });
+      client.auth.onAuthStateChange((_e, s) => { if (_e === "PASSWORD_RECOVERY") { authMode = "newpw"; setTimeout(openPanel, 300); }
+        const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); loadProfile(); } else { prof = null; lsSet(KEY_PROF, null); set("signedout"); } } });
+      if (RECOVERING && user && authMode !== "newpw") { authMode = "newpw"; setTimeout(openPanel, 600); }
+      if (BADLINK) { history.replaceState(null, "", location.pathname + location.search); setTimeout(() => { authMode = "forgot"; openPanel(); toast("That reset link has expired or was already used. Ask for a new one here.", 6000); }, 900); }
       if (user) { subscribe(); loadProfile(); await pull(); } else set("signedout");
     }
     function readLink(){
@@ -4784,9 +4789,26 @@ alter publication supabase_realtime add table public.library;`;
           if (key.length < 30) { toast("Paste the long “anon public” key."); return; }
           cfg = { url, key }; lsSet(KEY_SYNC, cfg); await connect(); panel(); return;
         }
-        if (t.closest("[data-authmode]")) { authMode = t.closest("[data-authmode]").dataset.authmode; panel(); return; }
+        if (t.closest("[data-resetagain]")) { resetSent = ""; panel(); return; }
+        if (t.closest("[data-authmode]")) { const em = $("#s-email")?.value; authMode = t.closest("[data-authmode]").dataset.authmode; resetSent = ""; panel(); if (em && $("#s-email") && !$("#s-email").value) $("#s-email").value = em; return; }
         if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Saved, ${prof.name}!`); panel(); try { Social.queueShare(); if (tab === "friends") Social.show(); } catch {} } return; }
         const pv = t.closest("[data-privacy]"); if (pv) { const k = pv.dataset.privacy, v = !(prof?.privacy?.[k] !== false); await setPrivacy(k, v); panel(); return; }
+        if (t.closest("[data-sendreset]")) {
+          const email = $("#s-email").value.trim(), b = t.closest("[data-sendreset]");
+          if (!/^\S+@\S+\.\S+$/.test(email)) { toast("Enter the email you signed up with."); return; }
+          b.disabled = true; const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname }); b.disabled = false;
+          if (error) { toast(/not authori[sz]ed/i.test(error.message) ? "Reset emails aren't switched on for this nook yet. Ask whoever runs the app to give you a temporary password." : /rate limit|too many|security purposes/i.test(error.message) ? "Too many tries for now. Wait a few minutes, then ask again." : error.message, 7000); return; }
+          resetSent = email; panel(); return;
+        }
+        if (t.closest("[data-savepw]")) {
+          const a = $("#s-npw").value, b2 = $("#s-npw2").value, b = t.closest("[data-savepw]");
+          if (a.length < 6) { toast("Choose a password of at least 6 characters."); return; }
+          if (a !== b2) { toast("The two passwords don't match."); return; }
+          b.disabled = true; const { error } = await client.auth.updateUser({ password: a }); b.disabled = false;
+          if (error) { toast(/different from the old/i.test(error.message) ? "That's your current password. Pick a new one." : /session|jwt|expired/i.test(error.message) ? "That reset link has expired. Ask for a new one." : error.message, 6000); return; }
+          authMode = "in"; if (RECOVERING) { RECOVERING = false; history.replaceState(null, "", location.pathname + location.search); }
+          toast("Password changed ✦ Use it next time you sign in.", 4500); panel(); return;
+        }
         if (t.closest("[data-auth]")) {
           const mode = t.closest("[data-auth]").dataset.auth, email = $("#s-email").value.trim(), pw = $("#s-pw").value;
           if (!email || pw.length < 6) { toast("Enter your email and a password of at least 6 characters."); return; }
@@ -4801,7 +4823,7 @@ alter publication supabase_realtime add table public.library;`;
           t.disabled = true;
           const fn = mode === "up" ? client.auth.signUp({ email, password: pw, options: { data: meta } }) : client.auth.signInWithPassword({ email, password: pw });
           const { data, error } = await fn; t.disabled = false;
-          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /invalid login/i.test(error.message) ? "That email and password don't match." : error.message, 5000); return; }
+          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /invalid login/i.test(error.message) ? "That email and password don't match. Forgot it? Tap “Forgot your password?”" : error.message, 5000); return; }
           if (mode === "up" && !data.session) { toast("Account created. Check your email to confirm it, then sign in. (Or turn off “Confirm email” in Supabase, step 3.)", 6000); return; }
           toast(mode === "up" ? "Account created. Your library is syncing." : "Signed in. Your library is syncing."); panel(); return;
         }
@@ -4832,6 +4854,22 @@ alter publication supabase_realtime add table public.library;`;
         el.innerHTML = head + `<div class="confirm">${esc(detail || "Sync couldn't start.")}</div><div class="mfoot"><button class="linkbtn" type="button" data-forget>Use a different project</button><div class="r"><button class="btn primary" type="button" onclick="location.reload()">Reload</button></div></div>`;
         return;
       }
+      if (user && authMode === "newpw") {
+        el.innerHTML = head.replace("Sync between your devices", RECOVERING ? "Choose a new password" : "Change your password") + `<p class="note" style="margin:0">${RECOVERING ? "You're signed in from the reset link. Pick a new password to use from now on." : `For ${esc(user.email || "your account")}. Use it on all your devices from now on.`}</p>
+          <div class="fields"><label class="field full"><span class="label">New password</span><input id="s-npw" type="password" autocomplete="new-password" placeholder="at least 6 characters"></label>
+          <label class="field full"><span class="label">Once more, to be sure</span><input id="s-npw2" type="password" autocomplete="new-password"></label></div>
+          <div class="mfoot">${RECOVERING ? `<span></span>` : `<button class="linkbtn" type="button" data-authmode="in">Cancel</button>`}<div class="r"><button class="btn primary" type="button" data-savepw>Save new password</button></div></div>`;
+        return;
+      }
+      if (!user && authMode === "forgot") {
+        el.innerHTML = head.replace("Sync between your devices", "Forgot your password?") + (resetSent ? `<div class="resetok"><b>✉ Check your email</b><p>If there's an account for <b>${esc(resetSent)}</b>, a reset link is on its way. Open it on this device, then choose a new password. It can take a minute, and sometimes lands in spam.</p></div>
+          <div class="mfoot"><button class="linkbtn" type="button" data-resetagain>Send it again</button><div class="r"><button class="btn primary" type="button" data-authmode="in">Back to sign in</button></div></div>`
+          : `<p class="note" style="margin:0">Nobody can look up your old password, not even whoever runs the app. Enter your email and we'll send you a link to choose a new one.</p>
+          <div class="fields"><label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email" value="${esc($("#s-email")?.value || "")}"></label></div>
+          <p class="note" style="margin:0">No email? Whoever runs your nook can give you a temporary password instead.</p>
+          <div class="mfoot"><button class="linkbtn" type="button" data-authmode="in">Back to sign in</button><div class="r"><button class="btn primary" type="button" data-sendreset>Email me a reset link</button></div></div>`);
+        return;
+      }
       if (!user) {
         const up = authMode === "up";
         el.innerHTML = head.replace("Sync between your devices", up ? "Join My Book Nook" : "Sign in to My Book Nook") + `${state === "error" ? `<div class="confirm">${esc(detail)}</div>` : ""}
@@ -4842,6 +4880,7 @@ alter publication supabase_realtime add table public.library;`;
             <label class="field"><span class="label">@handle · how friends find you</span><input id="s-handle" autocomplete="username" maxlength="21" placeholder="e.g. bojana.reads" autocapitalize="none" spellcheck="false"></label>` : ""}
             <label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email"></label>
             <label class="field full"><span class="label">Password</span><input id="s-pw" type="password" autocomplete="${up ? "new-password" : "current-password"}" placeholder="at least 6 characters"></label>
+            ${up ? "" : `<div class="full forgotrow"><button class="linkbtn" type="button" data-authmode="forgot">Forgot your password?</button></div>`}
             ${up ? `<label class="field full"><span class="label">Invite code</span><input id="s-invite" autocomplete="off" autocapitalize="none" placeholder="from whoever shared the app with you"></label>` : ""}</div>
           <div class="mfoot"><span class="note">Your books stay on this device until you sign in.</span><div class="r"><button class="btn primary" type="button" data-auth="${up ? "up" : "in"}">${up ? "Create my account" : "Sign in"}</button></div></div>`;
         return;
@@ -4869,7 +4908,7 @@ alter publication supabase_realtime add table public.library;`;
             <li>Sign in with the same email and password.</li>
             <li>Add it to your home screen. <b>iPhone:</b> Safari's Share button → <b>Add to Home Screen</b>. <b>Android:</b> Chrome's ⋮ menu → <b>Install app</b>.</li></ol></div>`
           : `<p class="note">You're using the file version on this computer. To connect your phone, open your hosted My Book Nook web address (see the setup guide) and use this panel there.</p>`}
-        <div class="mfoot"><button class="linkbtn" type="button" data-signout>Sign out on this device</button><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
+        <div class="mfoot"><span class="acctlinks"><button class="linkbtn" type="button" data-authmode="newpw">Change password</button><button class="linkbtn" type="button" data-signout>Sign out on this device</button></span><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
       if (isHosted()) loadQR().then(() => { const q = $("#qr"); if (q && !q.firstChild) new QRCode(q, { text: phoneLink(), width: 168, height: 168, colorDark: "#1D1824", colorLight: "#ffffff" }); }).catch(() => { const q = $("#qr"); if (q) q.textContent = "QR code needs internet."; });
     }
     return { init, schedule, openPanel, paint, get profile(){ return prof; }, get user(){ return user; }, get client(){ return client; }, touchProfile };
@@ -5514,7 +5553,7 @@ alter publication supabase_realtime add table public.library;`;
         ${buddyHTML()}
         ${clubsHTML()}
         ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
-        <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
+        <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
         ${feedHTML2()}
         ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
@@ -5917,6 +5956,263 @@ alter publication supabase_realtime add table public.library;`;
     const B = BANTER[key] || BANTER["cat|cat"], lines = B.slice(0, -1).map(([w, t, e]) => [(w === "a") === guestIsA ? "g" : "h", t, e]);
     return { lines, outcome: B[B.length - 1] };
   }
+    // ================= v4.10: each companion's home, where visitors go =================
+    // a drawn place per host companion · daylight or night by the clock · Halloween and winter touches in season
+    const VP = (() => {
+      let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+      const R = (a, b) => a + rnd() * (b - a);
+      // a window onto the sky outside: day, golden hour or night, with snow in winter and a bat at Halloween
+      function sky(id, x, y, w, h, o){
+        const { night, dusk, win, hal } = o;
+        const top = night ? "#0E1640" : dusk ? "#F29A5A" : "#8FC4EA", bot = night ? "#33306A" : dusk ? "#FFD79A" : "#DCEFF8";
+        let s = `<defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bot}"/></linearGradient></defs><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#${id})"/>`;
+        if (night) { seed = x + y; for (let i = 0; i < Math.max(3, w * h / 900); i++) s += `<circle class="vtw" style="animation-delay:${R(0, 3).toFixed(1)}s" cx="${R(x + 3, x + w - 3).toFixed(1)}" cy="${R(y + 3, y + h * .7).toFixed(1)}" r="${R(.6, 1.4).toFixed(1)}" fill="#FFF6D8"/>`;
+          s += `<circle cx="${x + w * .7}" cy="${y + h * .3}" r="${Math.min(w, h) * .14}" fill="${hal ? "#FFB45A" : "#FFF3C4"}"/><circle cx="${x + w * .7 + Math.min(w, h) * .07}" cy="${y + h * .3 - Math.min(w, h) * .04}" r="${Math.min(w, h) * .12}" fill="${top}" opacity="${hal ? 0 : .9}"/>`; }
+        else s += `<circle cx="${x + w * .25}" cy="${y + h * .28}" r="${Math.min(w, h) * .12}" fill="${dusk ? "#FFE6A0" : "#FFF8DA"}" opacity=".9"/><path d="M${x + w * .45} ${y + h * .3}q6 -6 14 -2q6 -6 14 0q8 0 6 6h-34Z" fill="#fff" opacity=".85"/>`;
+        if (hal) s += `<path class="vbatf" d="M${x + w * .35} ${y + h * .45}q3 -4 6 -1q2 -3 3 0q1 -3 3 0q3 -3 6 1q-4 0 -6 3q-3 -2 -6 0q-2 -3 -6 -3Z" fill="#1A1020"/>`;
+        if (win) { seed = x * 3 + 1; for (let i = 0; i < 7; i++) s += `<circle class="vsnow" style="animation-delay:${R(0, 4).toFixed(1)}s;animation-duration:${R(3.5, 6).toFixed(1)}s" cx="${R(x + 2, x + w - 2).toFixed(1)}" cy="${y + 2}" r="${R(.9, 1.8).toFixed(1)}" fill="#fff"/>`;
+          s += `<path d="M${x} ${y + h}q${w * .25} -${h * .1} ${w * .5} -${h * .04}t${w * .5} 0v${h * .04}h-${w}Z" fill="#F4FAFF"/>`; }
+        return `<g>${s}</g>`;
+      }
+      const flame = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><circle class="vglowc" r="13" fill="#FFC86A" opacity=".28"/><path class="vfl" d="M0 -11C4 -6 5 -2 3 2C2 4 -2 4 -3 2C-5 -2 -4 -6 0 -11Z" fill="#FFB43A"/><path class="vfl" d="M0 -6C2 -3 2 -1 1 1C0 2 -1 2 -1 1C-2 -1 -2 -3 0 -6Z" fill="#FFF3B0"/></g>`;
+      const pumpkin = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="13" ry="10" fill="#E8762A"/><path d="M-6 -9q-4 9 0 18M6 -9q4 9 0 18M0 -10v20" stroke="#B4501A" stroke-width="1.2" fill="none"/><path d="M0 -10q1 -5 4 -6" stroke="#4A6A2A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M-7 -2l3 -3 2 3Z M7 -2l-3 -3 -2 3Z M-7 3q7 5 14 0l-2 -1-2 2-2 -2-2 2-2 -2-2 2Z" fill="#FFD25A" class="vfl"/></g>`;
+      const bunting = (x1, y1, x2, y2) => { let s = `<path d="M${x1} ${y1}Q${(x1 + x2) / 2} ${Math.max(y1, y2) + 14} ${x2} ${y2}" stroke="#2A1A10" stroke-width="1" fill="none"/>`; for (let i = 1; i < 8; i++) { const t = i / 8, x = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * (x1 + x2) / 2 + t * t * x2, y = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * (Math.max(y1, y2) + 14) + t * t * y2; s += i % 2 ? `<path d="M${x - 5} ${y}l5 9 5 -9Z" fill="#E8762A"/>` : `<path class="vsw" d="M${x} ${y + 1}q3 -4 6 -1q-3 2 -6 6q-3 -4 -6 -6q3 -3 6 1Z" fill="#1A1020"/>`; } return s; };
+      const garland = (x1, x2, y) => { let s = `<path d="M${x1} ${y}Q${(x1 + x2) / 2} ${y + 16} ${x2} ${y}" stroke="#2E5A30" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M${x1} ${y}Q${(x1 + x2) / 2} ${y + 16} ${x2} ${y}" stroke="#4A7A3A" stroke-width="3" stroke-dasharray="2 4" fill="none"/>`; const c = ["#FF5A5A", "#FFD25A", "#7AD0FF", "#9AE87A"]; for (let i = 1; i < 10; i++) { const t = i / 10, x = x1 + (x2 - x1) * t, yy = y + 16 * 2 * t * (1 - t) * 1 + 1; s += `<circle class="vtw" style="animation-delay:${(i * .37 % 2).toFixed(2)}s" cx="${x}" cy="${yy + 3}" r="2.2" fill="${c[i % 4]}"/>`; } return s; };
+      const books = (x, y, w, h, pal) => { let s = "", cx = x; while (cx < x + w - 4) { const bw = R(4, 8), bh = R(h * .7, h), c = pal[Math.floor(rnd() * pal.length)]; if (cx + bw > x + w) break; s += rnd() < .12 ? `<rect x="${cx}" y="${y + h - bw * 1.6}" width="${bh}" height="${bw}" fill="${c}" transform="rotate(-8 ${cx} ${y + h})"/>` : `<rect x="${cx.toFixed(1)}" y="${(y + h - bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" fill="${c}"/><rect x="${cx.toFixed(1)}" y="${(y + h - bh + 3).toFixed(1)}" width="${bw.toFixed(1)}" height="1.2" fill="#F2D896" opacity=".55"/>`; cx += bw + .6; } return s; };
+      const steam = (x, y) => `<path class="vsteam" d="M${x} ${y}q-3 -5 0 -9t0 -9" stroke="#fff" stroke-width="1.6" fill="none" opacity=".6" stroke-linecap="round"/><path class="vsteam" style="animation-delay:.8s" d="M${x + 5} ${y}q-3 -5 0 -9t0 -9" stroke="#fff" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>`;
+      const cup = (x, y, c = "#F6EEE4", d = "#C8A880") => `<path d="M${x - 6} ${y - 9}h12l-1.5 9h-9Z" fill="${c}" stroke="${d}"/><path d="M${x + 6} ${y - 7}q5 0 3 4t-4 2" stroke="${d}" fill="none" stroke-width="1.4"/><ellipse cx="${x}" cy="${y + .5}" rx="9" ry="2" fill="${c}" stroke="${d}" stroke-width=".8"/>`;
+      const fireflies = (n, x, y, w, h) => { let s = ""; seed = n * 11; for (let i = 0; i < n; i++) s += `<circle class="vff" style="animation-delay:${R(0, 5).toFixed(1)}s;animation-duration:${R(4, 7).toFixed(1)}s" cx="${R(x, x + w).toFixed(0)}" cy="${R(y, y + h).toFixed(0)}" r="1.8" fill="#FFF0A0"/>`; return s; };
+
+      const P = {
+        // ---------- Natasha: a Parisian boudoir ----------
+        cat: { name: "Natasha's boudoir", where: "in Natasha's pink boudoir", draw: o => { seed = 3;
+          let s = `<defs><linearGradient id="vpc-w" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F3C9CF"/><stop offset="1" stop-color="#DE9AA8"/></linearGradient><pattern id="vpc-st" width="22" height="10" patternUnits="userSpaceOnUse"><rect width="11" height="10" fill="#fff" opacity=".13"/><circle cx="16.5" cy="5" r="1.1" fill="#fff" opacity=".35"/></pattern><radialGradient id="vpc-rug"><stop offset="0" stop-color="#F7D6DE"/><stop offset=".75" stop-color="#E7A9B8"/><stop offset="1" stop-color="#C77890"/></radialGradient></defs>
+          <rect width="520" height="260" fill="url(#vpc-w)"/><rect width="520" height="200" fill="url(#vpc-st)"/><rect y="186" width="520" height="8" fill="#F8E6D0"/><rect y="194" width="520" height="66" fill="#9A6448"/>`;
+          for (let i = 0; i < 26; i++) s += `<path d="M${i * 22 - 10} 194l14 66" stroke="#7A4A34" stroke-width="1" opacity=".5"/>`;
+          s += `<ellipse cx="260" cy="236" rx="200" ry="22" fill="url(#vpc-rug)"/><ellipse cx="260" cy="236" rx="186" ry="18" fill="none" stroke="#fff" stroke-width="1.4" stroke-dasharray="3 5" opacity=".7"/>`;
+          // the window, with Paris and its tower outside, and swagged velvet drapes
+          s += sky("vpc-sky", 370, 30, 110, 130, o) + `<path d="M412 160l13 -78 13 78M418 128h14M415 145h20M425 82v-12" stroke="${o.night ? "#2A2A50" : "#7A6A7A"}" stroke-width="2.4" fill="none"/><path d="M370 160h110v-24q-20 -6 -34 2t-30 0t-46 4Z" fill="${o.night ? "#2A2448" : "#B8A8C0"}" opacity=".85"/>${o.night ? `<g fill="#FFE08A">${[[380, 150], [392, 146], [460, 150], [470, 144], [448, 152]].map(([a, b]) => `<rect x="${a}" y="${b}" width="2" height="3"/>`).join("")}</g>` : ""}
+          <rect x="366" y="26" width="118" height="138" fill="none" stroke="#F8E6D0" stroke-width="8"/><path d="M425 26v138M366 95h118" stroke="#F8E6D0" stroke-width="4"/><rect x="358" y="162" width="134" height="7" rx="2" fill="#F8E6D0"/>
+          <path d="M350 14C360 70 356 120 342 190h30C380 140 372 80 384 34Q370 30 350 14Z" fill="#B8325A"/><path d="M500 14C490 70 494 120 508 190h-30C470 140 478 80 466 34Q480 30 500 14Z" fill="#B8325A"/><path d="M344 10Q425 70 506 10v14Q425 84 344 24Z" fill="#9A2048"/><path d="M356 60q8 4 18 0M476 60q-8 4 -18 0" stroke="#E8C060" stroke-width="3" stroke-linecap="round"/><rect x="340" y="6" width="170" height="6" rx="3" fill="#C9A24E"/>`;
+          // the vanity: an oval mirror ringed with bulbs, perfume and a powder puff
+          s += `<rect x="18" y="140" width="112" height="10" rx="3" fill="#F8E6D0"/><path d="M24 150h100l-4 46h-92Z" fill="#F1D9C4"/><path d="M30 156h88" stroke="#C9A24E" stroke-width="1.2"/><circle cx="74" cy="176" r="2.6" fill="#C9A24E"/><path d="M28 196v14M120 196v14" stroke="#C9A24E" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="74" cy="84" rx="40" ry="52" fill="#C9A24E"/><ellipse cx="74" cy="84" rx="34" ry="46" fill="#E8F0F6"/><path d="M52 62q10 -16 30 -14" stroke="#fff" stroke-width="5" opacity=".7" fill="none" stroke-linecap="round"/>${[...Array(10)].map((_, i) => { const a = Math.PI * (1.05 + i * .1); return `<circle class="vtw" style="animation-delay:${(i * .2).toFixed(1)}s" cx="${(74 + Math.cos(a + Math.PI) * 44).toFixed(1)}" cy="${(84 + Math.sin(a + Math.PI) * 56).toFixed(1)}" r="3.4" fill="#FFF3C4" stroke="#E8C060"/>`; }).join("")}
+          <path d="M36 140v-8h8v8ZM38 132v-4h4v4Z" fill="#F6A8C8" stroke="#B8325A" stroke-width=".8"/><path d="M100 140q-2 -12 6 -14q8 2 6 14Z" fill="#C8E8F6" stroke="#6A8AB8" stroke-width=".8"/><circle cx="106" cy="124" r="2.4" fill="#C9A24E"/><ellipse cx="60" cy="138" rx="8" ry="3.4" fill="#FFF0F4"/>`;
+          // a chandelier
+          s += `<path d="M260 0v22" stroke="#C9A24E" stroke-width="2"/><path d="M228 32q32 16 64 0" stroke="#C9A24E" stroke-width="3" fill="none"/><circle cx="260" cy="26" r="6" fill="#C9A24E"/>${[230, 245, 260, 275, 290].map((x, i) => `<path d="M${x} ${33 + (i === 2 ? 6 : i % 2 ? 4 : 0)}l-2.4 6 2.4 4 2.4 -4Z" class="vtw" style="animation-delay:${i * .4}s" fill="#E8F6FF" stroke="#9AB8D0" stroke-width=".5"/>`).join("")}${[232, 260, 288].map(x => flame(x, 30, .55)).join("")}`;
+          // between them: a little round table with champagne
+          s += `<ellipse cx="260" cy="200" rx="26" ry="5" fill="#F8E6D0" stroke="#C9A24E"/><path d="M260 205v22M248 230q12 -6 24 0" stroke="#C9A24E" stroke-width="3" fill="none"/><path d="M250 198l-4 -18h10Z M270 198l-4 -18h10Z" fill="#FFF3C4" fill-opacity=".7" stroke="#C9A24E" stroke-width=".7"/><circle class="vbub" cx="251" cy="190" r=".9" fill="#fff"/><circle class="vbub" style="animation-delay:.6s" cx="271" cy="190" r=".9" fill="#fff"/><path d="M251 198v4M271 198v4" stroke="#C9A24E"/>`;
+          if (o.hal) s += pumpkin(150, 214, .9) + bunting(150, 14, 330, 14);
+          if (o.win) s += garland(140, 340, 10) + `<path d="M24 140q14 -6 24 0" stroke="#2E5A30" stroke-width="5" stroke-linecap="round"/><circle cx="36" cy="138" r="2" fill="#FF5A5A"/>`;
+          return s; } },
+
+        // ---------- Antonio: a sunny Spanish courtyard ----------
+        lion: { name: "Antonio's courtyard", where: "in Antonio's Spanish courtyard", draw: o => { seed = 5;
+          let s = sky("vpl-sky", 0, 0, 520, 200, o) + `<defs><pattern id="vpl-az" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#F4F0E6"/><path d="M8 1L15 8L8 15L1 8Z" fill="#2E5AA8"/><circle cx="8" cy="8" r="2.6" fill="#F2C14A"/><path d="M0 0h3M13 0h3M0 16h3M13 16h3" stroke="#2E5AA8" stroke-width="2"/></pattern><pattern id="vpl-tile" width="40" height="16" patternUnits="userSpaceOnUse"><rect width="40" height="16" fill="#C8683A"/><path d="M0 0h40M0 0v16M20 8v8M0 8h40" stroke="#9A4A28" stroke-width="1"/></pattern></defs>`;
+          // whitewashed arcade with horseshoe arches opening onto the sky
+          s += `<path d="M0 0H520V196H0Z M70 196V96C70 56 140 56 140 96V196Z M225 196V84C225 40 295 40 295 84V196Z M380 196V96C380 56 450 56 450 96V196Z" fill="${o.night ? "#C8C0D8" : "#FBF3E4"}" fill-rule="evenodd"/>
+          ${[[105, 96, 35], [260, 84, 35], [415, 96, 35]].map(([x, y, r]) => `<path d="M${x - r} 196V${y}C${x - r} ${y - 40} ${x + r} ${y - 40} ${x + r} ${y}V196" fill="none" stroke="#E2C89A" stroke-width="5"/>`).join("")}
+          <rect y="150" width="520" height="16" fill="url(#vpl-az)"/><rect y="148" width="520" height="2" fill="#2E5AA8"/><rect y="166" width="520" height="2" fill="#2E5AA8"/><rect y="196" width="520" height="64" fill="url(#vpl-tile)"/><rect y="194" width="520" height="4" fill="#E2C89A"/>`;
+          // a fountain through the middle arch, splashing
+          s += `<ellipse cx="260" cy="190" rx="34" ry="7" fill="#E2C89A"/><path d="M226 190v-12h68v12" fill="#D8BC8A"/><ellipse cx="260" cy="178" rx="34" ry="6" fill="#7AC0E0"/><path d="M256 178v-26h8v26" fill="#E2C89A"/><ellipse cx="260" cy="152" rx="14" ry="3.4" fill="#E2C89A"/><path class="vspl" d="M260 150q-14 -20 -24 24M260 150q14 -20 24 24M260 150v-14" stroke="#BFE8FA" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+          // bougainvillea tumbling over the top left, an orange tree in a pot on the right
+          s += `<path d="M0 0q60 10 92 46q10 14 4 30" stroke="#5A7A2A" stroke-width="3" fill="none"/>`; for (let i = 0; i < 46; i++) { const t = rnd(), x = t * 100 + R(-14, 14), y = t * 70 + R(-8, 14) - 6; s += `<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${R(4, 7).toFixed(1)}" fill="${["#D6287A", "#E84A96", "#B81A62", "#5A8A2E"][i % 4]}"/>`; }
+          s += `<path d="M454 238h46l-6 -36h-34Z" fill="#B85A2E"/><rect x="456" y="198" width="42" height="7" rx="2" fill="#C8683A"/><path d="M477 198v-40" stroke="#6A4A2A" stroke-width="5"/><circle cx="477" cy="130" r="38" fill="#3A7A2E"/><circle cx="460" cy="120" r="22" fill="#4A8A36"/><circle cx="494" cy="136" r="20" fill="#2E6A26"/>${[[462, 118], [488, 112], [470, 144], [496, 140], [454, 138], [480, 128]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#F2922A"/><circle cx="${x - 1.4}" cy="${y - 1.6}" r="1.4" fill="#FFD08A"/>`).join("")}`;
+          // a guitar leaning on the wall
+          s += `<g transform="rotate(-14 40 200)"><path d="M40 120v60" stroke="#6A3A1A" stroke-width="6"/><rect x="35" y="104" width="10" height="18" rx="2" fill="#4A2A10"/><path d="M40 160c-14 0 -18 12 -12 20c-8 6 -6 24 12 24s20 -18 12 -24c6 -8 2 -20 -12 -20Z" fill="#D8963A" stroke="#8A5A1A"/><circle cx="40" cy="184" r="5" fill="#2A1A0A"/><path d="M38 124v74M42 124v74" stroke="#F2E6C8" stroke-width=".5"/></g>`;
+          // churros and chocolate
+          s += `<rect x="236" y="206" width="48" height="5" rx="2" fill="#F4F0E6" stroke="#2E5AA8"/>${[0, 1, 2].map(i => `<path d="M${242 + i * 3} 205q8 -${10 + i * 2} 22 -${6 + i}" stroke="#D8963A" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="2 1"/>`).join("")}${cup(276, 205, "#F4F0E6", "#2E5AA8")}<ellipse cx="276" cy="196" rx="5" ry="1.2" fill="#5A2A10"/>${steam(274, 192)}`;
+          if (o.night) s += `<path d="M0 30Q130 56 260 30T520 30" stroke="#3A2A1A" stroke-width="1" fill="none"/>${[...Array(12)].map((_, i) => { const x = 20 + i * 42, y = 30 + Math.sin((x / 520) * Math.PI * 2) * -2 + (i % 2 ? 9 : 6); return `<circle class="vtw" style="animation-delay:${i * .3}s" cx="${x}" cy="${y}" r="3" fill="#FFE08A"/>`; }).join("")}`;
+          if (o.hal) s += pumpkin(210, 222, .9) + pumpkin(330, 224, .75);
+          if (o.win) s += `<path d="M0 148h520" stroke="#fff" stroke-width="3" opacity=".9"/>` + garland(210, 310, 6);
+          return s; } },
+
+        // ---------- Hoot: the library tower ----------
+        owl: { name: "Hoot's library", where: "in Hoot's library tower", draw: o => { seed = 11;
+          const pal = ["#7A1E2A", "#2E4A7A", "#2E5A3A", "#8A6420", "#4A2A5A", "#A8502A", "#1E3A4A", "#6A4A2A"];
+          let s = `<defs><linearGradient id="vpo-w" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4A2E1E"/><stop offset="1" stop-color="#6A4630"/></linearGradient></defs><rect width="520" height="260" fill="url(#vpo-w)"/>`;
+          // round window high in the middle
+          s += `<circle cx="260" cy="64" r="44" fill="#3A2214"/>` + `<clipPath id="vpo-c"><circle cx="260" cy="64" r="38"/></clipPath><g clip-path="url(#vpo-c)">${sky("vpo-sky", 222, 26, 76, 76, o)}</g><circle cx="260" cy="64" r="38" fill="none" stroke="#8A6420" stroke-width="5"/><path d="M260 26v76M222 64h76" stroke="#8A6420" stroke-width="3"/>`;
+          // two tall bookcases full of books
+          for (const bx of [0, 380]) { s += `<rect x="${bx}" y="0" width="140" height="200" fill="#3A2214"/>`; for (let r = 0; r < 5; r++) { const y = 8 + r * 38; s += books(bx + 8, y, 124, 32, pal) + `<rect x="${bx + 2}" y="${y + 32}" width="136" height="5" fill="#5A3A22"/>`; } s += `<rect x="${bx}" y="0" width="7" height="200" fill="#5A3A22"/><rect x="${bx + 133}" y="0" width="7" height="200" fill="#5A3A22"/>`; }
+          // the rolling ladder
+          s += `<path d="M396 0l34 206M426 0l34 206" stroke="#A8783A" stroke-width="4"/>${[...Array(9)].map((_, i) => `<path d="M${399 + i * 5} ${20 + i * 22}h30" stroke="#A8783A" stroke-width="3"/>`).join("")}<path d="M390 4h80" stroke="#C9A24E" stroke-width="2"/>`;
+          // floor, rug and a globe
+          s += `<rect y="200" width="520" height="60" fill="#3A2214"/>${[...Array(14)].map((_, i) => `<path d="M0 ${206 + i * 4.4}h520" stroke="#2A160C" stroke-width=".6" opacity=".6"/>`).join("")}<rect x="120" y="214" width="280" height="38" rx="4" fill="#7A1E2A"/><rect x="128" y="219" width="264" height="28" rx="3" fill="none" stroke="#C9A24E" stroke-width="1.4"/><path d="M168 233h184" stroke="#C9A24E" stroke-dasharray="4 6"/>
+          <path d="M150 214l-4 -16M162 214l4 -16M146 198h20" stroke="#8A6420" stroke-width="3"/><circle cx="156" cy="178" r="20" fill="#3A7AA8"/><path d="M144 168q6 -4 10 2t8 -2q6 4 4 10t-8 2q-6 8 -12 0Z M150 186q6 -2 10 2" fill="#5A8A3A"/><path d="M136 178a20 20 0 0 0 40 0" stroke="#C9A24E" stroke-width="2" fill="none"/>`;
+          // candles on the shelves
+          s += `<rect x="114" y="104" width="6" height="14" fill="#F8EEDC"/>${flame(117, 104, .7)}<rect x="400" y="180" width="6" height="14" fill="#F8EEDC"/>${flame(403, 180, .7)}`;
+          // tea on a stack of books
+          s += `<rect x="236" y="200" width="48" height="8" fill="#2E4A7A"/><rect x="240" y="192" width="42" height="8" fill="#7A1E2A"/><rect x="238" y="185" width="44" height="7" fill="#2E5A3A"/><path d="M246 185q0 -16 12 -16q12 0 12 16Z" fill="#F4ECDC" stroke="#8A6420"/><path d="M270 178q8 -2 8 -8" stroke="#8A6420" stroke-width="2" fill="none"/><circle cx="258" cy="168" r="2" fill="#8A6420"/>${steam(276, 168)}`;
+          if (o.hal) s += pumpkin(190, 210, .8) + `<path d="M140 42q20 30 40 4q14 26 34 6" stroke="#E8E8E8" stroke-width=".6" fill="none" opacity=".6"/>`;
+          if (o.win) s += garland(150, 370, 6) + `<path d="M224 104q36 6 72 0" stroke="#fff" stroke-width="3" fill="none"/>`;
+          return s; } },
+
+        // ---------- Corvin: the castle hall ----------
+        raven: { name: "Corvin's castle hall", where: "in Corvin's castle hall", draw: o => { seed = 13;
+          let s = `<rect width="520" height="260" fill="#7A7A86"/>`;
+          for (let r = 0; r < 10; r++) for (let c = -1; c < 14; c++) { const x = c * 40 + (r % 2 ? 20 : 0), y = r * 20; s += `<rect x="${x + 1}" y="${y + 1}" width="38" height="18" rx="2" fill="${["#8A8A96", "#7E7E8C", "#92929E", "#868694"][(r * 3 + c) & 3]}"/>`; }
+          // a tall arched window
+          s += `<path d="M232 170V70Q260 30 288 70V170Z" fill="#4A4A56"/>${`<clipPath id="vpr-c"><path d="M238 166V72Q260 40 282 72V166Z"/></clipPath><g clip-path="url(#vpr-c)">${sky("vpr-sky", 236, 40, 48, 130, o)}</g>`}<path d="M260 44v122M238 110h44" stroke="#4A4A56" stroke-width="3"/><rect x="226" y="166" width="68" height="8" fill="#5A5A66"/>`;
+          // banners with a raven on them, swaying
+          for (const bx of [130, 360]) s += `<path d="M${bx - 4} 14h40" stroke="#5A3A1A" stroke-width="4" stroke-linecap="round"/><g class="vsw" style="transform-origin:${bx + 16}px 14px"><path d="M${bx} 16h32v96l-16 -12l-16 12Z" fill="#9A1A2A"/><path d="M${bx + 2} 18h28v4h-28Z M${bx + 2} 100" fill="#C9A24E"/><path d="M${bx + 16} 44q-10 4 -8 16q6 -2 8 4q2 -6 8 -4q2 -12 -8 -16Z M${bx + 16} 44l3 -4" fill="#1A1A22" stroke="#1A1A22"/><circle cx="${bx + 18}" cy="48" r="1" fill="#C9A24E"/></g>`;
+          // torches with live flames
+          for (const tx of [60, 460]) s += `<path d="M${tx - 6} 112h12l-3 22h-6Z" fill="#4A3A2A"/><path d="M${tx - 8} 110h16" stroke="#3A2A1A" stroke-width="4"/>${flame(tx, 104, 1.3)}`;
+          // a shield with crossed swords
+          s += `<path d="M18 52l60 60M78 52l-60 60" stroke="#C8D2DE" stroke-width="4"/><path d="M16 50l6 6M80 50l-6 6" stroke="#8A6420" stroke-width="6"/><path d="M30 60h36v24q0 18 -18 26q-18 -8 -18 -26Z" fill="#2E4A9A" stroke="#C9A24E" stroke-width="2.4"/><path d="M48 62v46M32 80h32" stroke="#C9A24E" stroke-width="2"/>`;
+          // flagstones and a red runner
+          s += `<rect y="196" width="520" height="64" fill="#5E5E6A"/>${[...Array(4)].map((_, r) => [...Array(9)].map((_, c) => `<rect x="${c * 62 - (r % 2) * 30}" y="${198 + r * 16}" width="60" height="14" rx="3" fill="#6A6A76"/>`).join("")).join("")}<path d="M200 260L230 196h60L320 260Z" fill="#9A1A2A"/><path d="M206 260L234 196M314 260L286 196" stroke="#C9A24E" stroke-width="2"/>`;
+          // goblets on a barrel
+          s += `<path d="M242 228q-4 -16 0 -30h36q4 14 0 30Z" fill="#8A5A2A"/><path d="M240 204h40M240 220h40" stroke="#4A3A2A" stroke-width="2.4"/><ellipse cx="260" cy="198" rx="18" ry="3.4" fill="#A8783A"/>${[250, 270].map(x => `<path d="M${x - 5} 182h10l-2 7h-6Z M${x} 189v6M${x - 4} 196h8" fill="#C9A24E" stroke="#8A6420" stroke-width=".8"/>`).join("")}`;
+          if (o.hal) s += pumpkin(330, 214, .9) + `<path d="M100 0q4 14 0 20M100 20q-6 2 0 6t0 -6" stroke="#ddd" stroke-width=".7" fill="#1A1A22"/>`;
+          if (o.win) s += garland(150, 370, 4) + `<path d="M226 166h68" stroke="#fff" stroke-width="3"/>`;
+          return s; } },
+
+        // ---------- Ember: up on the rooftops ----------
+        fox: { name: "Ember's rooftop", where: "up on Ember's rooftop", draw: o => { seed = 17; const dusk = !o.night;
+          let s = sky("vpf-sky", 0, 0, 520, 220, { ...o, dusk });
+          // the city skyline, lit windows at night
+          let x = -10; while (x < 530) { const w = R(30, 60), h = R(50, 120), c = o.night ? "#1E2244" : "#7A4A5A"; s += `<rect x="${x.toFixed(0)}" y="${(180 - h).toFixed(0)}" width="${w.toFixed(0)}" height="${(h + 40).toFixed(0)}" fill="${c}"/>`; if (rnd() < .3) s += `<path d="M${(x + w / 2).toFixed(0)} ${(180 - h).toFixed(0)}v-${R(10, 24).toFixed(0)}" stroke="${c}" stroke-width="2"/>`; for (let wy = 180 - h + 8; wy < 176; wy += 12) for (let wx = x + 5; wx < x + w - 6; wx += 10) if (rnd() < (o.night ? .4 : .15)) s += `<rect x="${wx.toFixed(0)}" y="${wy.toFixed(0)}" width="4" height="6" fill="${o.night ? "#FFD86A" : "#F2B47A"}" opacity=".9"/>`; x += w + R(2, 10); }
+          // a water tower
+          s += `<path d="M440 150v-30M470 150v-30M436 150l38 -30M474 150l-38 -30" stroke="#3A2A2A" stroke-width="2"/><path d="M430 120v-40q25 -10 50 0v40Z" fill="#6A4030"/><path d="M426 82l29 -18 29 18Z" fill="#4A2A20"/><path d="M430 92h50M430 104h50" stroke="#4A2A20" stroke-width="1.4"/>`;
+          // the roof they're sitting on
+          s += `<path d="M0 196L520 186V260H0Z" fill="#3A3448"/>${[...Array(5)].map((_, r) => [...Array(18)].map((_, c) => `<path d="M${c * 30 + (r % 2) * 15} ${198 + r * 13 - c * .55}q15 8 30 0" stroke="#272236" stroke-width="2" fill="none"/>`).join("")).join("")}
+          <rect x="40" y="130" width="40" height="62" fill="#8A3A2A"/>${[...Array(5)].map((_, r) => `<path d="M40 ${138 + r * 12}h40" stroke="#5A2218" stroke-width="1.2"/>`).join("")}<rect x="36" y="124" width="48" height="8" fill="#6A2A1E"/><path class="vsteam" d="M54 122q-6 -10 2 -18t0 -18" stroke="#ccc" stroke-width="6" fill="none" opacity=".35" stroke-linecap="round"/><path class="vsteam" style="animation-delay:1.2s" d="M66 122q-6 -10 2 -18t0 -18" stroke="#ccc" stroke-width="5" fill="none" opacity=".3" stroke-linecap="round"/>`;
+          // a string of paper lanterns, glowing
+          s += `<path d="M80 136Q260 176 520 120" stroke="#2A1A1A" stroke-width="1" fill="none"/>${[130, 190, 250, 310, 370, 430].map((lx, i) => { const t = (lx - 80) / 440, ly = (1 - t) * (1 - t) * 136 + 2 * (1 - t) * t * 176 + t * t * 120; return `<g class="vsw" style="transform-origin:${lx}px ${ly}px"><ellipse class="vtw" style="animation-delay:${i * .4}s" cx="${lx}" cy="${ly + 9}" rx="7" ry="8" fill="${["#E8502A", "#F2A22A", "#E8502A"][i % 3]}"/><path d="M${lx - 4} ${ly + 1}h8M${lx - 4} ${ly + 17}h8" stroke="#2A1A1A" stroke-width="1.6"/></g>`; }).join("")}`;
+          // a blanket, a thermos and a map of where the shiny things are
+          s += `<path d="M196 206l130 -4 6 22 -142 6Z" fill="#2E4A6A"/><path d="M200 210l124 -4M198 222l130 -5" stroke="#E8C060" stroke-width="1.2" stroke-dasharray="5 4"/><rect x="290" y="186" width="10" height="20" rx="3" fill="#C8302A"/><rect x="291" y="182" width="8" height="5" fill="#8A8A96"/>${cup(272, 206, "#E8E0D0", "#8A7A6A")}${steam(270, 194)}<path d="M216 204l26 -3 2 -14 -26 3Z" fill="#F2E2B8" stroke="#8A6A3A" stroke-width=".7"/><path d="M222 196l6 -3 6 2 4 -4" stroke="#C0303A" stroke-width=".9" stroke-dasharray="1.5 1.5" fill="none"/><path d="M237 189l2 2m0 -2l-2 2" stroke="#C0303A"/>`;
+          if (o.hal) s += pumpkin(110, 214, .9) + pumpkin(392, 208, .7);
+          if (o.win) s += `<path d="M0 194L520 184" stroke="#F4FAFF" stroke-width="5"/><path d="M36 124h48" stroke="#F4FAFF" stroke-width="4"/><path d="M426 82l29 -18 29 18" stroke="#F4FAFF" stroke-width="3" fill="none"/>`;
+          return s; } },
+
+        // ---------- Sir Wartsworth: the laboratory ----------
+        toad: { name: "Wartsworth's laboratory", where: "in Sir Wartsworth's laboratory", draw: o => { seed = 19;
+          let s = `<defs><linearGradient id="vpt-w" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3E5A48"/><stop offset="1" stop-color="#2E4636"/></linearGradient></defs><rect width="520" height="260" fill="url(#vpt-w)"/>${[...Array(12)].map((_, i) => `<path d="M${i * 46} 0v196" stroke="#2A3E30" stroke-width="2" opacity=".6"/>`).join("")}`;
+          // a chalkboard of very important sums
+          s += `<rect x="20" y="30" width="150" height="96" rx="3" fill="#2A3430" stroke="#8A6420" stroke-width="6"/><g fill="none" stroke="#E8F0E8" stroke-width="1.4" opacity=".85"><path d="M34 52q8 -10 14 0t14 0M70 50h12M88 44l8 14M96 44l-8 14"/><path d="M36 78h30M42 72v12M76 76q6 -8 12 0q-6 8 -12 0Z M98 78h14"/><circle cx="140" cy="62" r="14"/><path d="M126 62h28M140 48v28"/><path d="M34 104q20 -10 40 0t40 0t40 -6"/></g><text x="118" y="118" fill="#F6C8E0" font-size="9" font-family="cursive">eureka!</text>`;
+          // shelves of glowing potions
+          for (const [sy, n] of [[46, 7], [92, 6]]) { s += `<rect x="330" y="${sy + 34}" width="170" height="6" fill="#6A4A2A"/>`; for (let i = 0; i < n; i++) { const px = 338 + i * 24 + R(-2, 2), c = ["#7AE8A8", "#C89AFF", "#FF8AB8", "#7AD0FF", "#FFD86A"][i % 5], h = R(14, 26); s += rnd() < .5 ? `<path d="M${px - 2} ${sy + 34 - h}h6v${h * .4}l6 ${h * .6 - 2}q0 2 -2 2h-14q-2 0 -2 -2l6 -${h * .6 - 2}Z" fill="${c}" fill-opacity=".55" stroke="#E8F4FF" stroke-opacity=".7"/>` : `<rect x="${px - 6}" y="${sy + 34 - h}" width="13" height="${h}" rx="4" fill="${c}" fill-opacity=".55" stroke="#E8F4FF" stroke-opacity=".7"/><rect x="${px - 3}" y="${sy + 30 - h}" width="7" height="5" fill="#A8784A"/>`; s += `<circle class="vtw" style="animation-delay:${i * .5}s" cx="${px + 1}" cy="${sy + 28}" r="3" fill="${c}" opacity=".7"/>`; } }
+          // dried herbs hanging
+          s += `<path d="M190 8h120" stroke="#5A3A1A" stroke-width="2.4"/>${[200, 222, 246, 270, 296].map((hx, i) => `<g class="vsw" style="transform-origin:${hx}px 8px;animation-delay:${i * .5}s"><path d="M${hx} 8v${16 + i % 2 * 8}" stroke="#7A5A2A"/>${[...Array(5)].map((_, j) => `<ellipse cx="${hx + (j % 2 ? 4 : -4)}" cy="${18 + j * 4 + i % 2 * 8}" rx="4" ry="1.8" fill="${["#6A8A3A", "#8AA84A", "#A87ABA"][i % 3]}" transform="rotate(${j % 2 ? 30 : -30} ${hx} ${18 + j * 4})"/>`).join("")}</g>`).join("")}`;
+          // a brass telescope by the round porthole window
+          s += `<circle cx="250" cy="90" r="30" fill="#5A4428"/><clipPath id="vpt-c"><circle cx="250" cy="90" r="25"/></clipPath><g clip-path="url(#vpt-c)">${sky("vpt-sky", 225, 65, 50, 50, o)}</g><circle cx="250" cy="90" r="25" fill="none" stroke="#C9A24E" stroke-width="4"/>${[0, 60, 120, 180, 240, 300].map(a => `<circle cx="${250 + Math.cos(a * Math.PI / 180) * 28}" cy="${90 + Math.sin(a * Math.PI / 180) * 28}" r="1.6" fill="#E8C060"/>`).join("")}
+          <path d="M196 130l40 -26" stroke="#C9A24E" stroke-width="8" stroke-linecap="round"/><path d="M190 134l10 -6" stroke="#8A6420" stroke-width="10" stroke-linecap="round"/><path d="M206 128l-10 60M206 128l8 60M206 128l-2 60" stroke="#6A4A2A" stroke-width="2"/>`;
+          // floor, and the cauldron bubbling away
+          s += `<rect y="196" width="520" height="64" fill="#4A3A2E"/>${[...Array(10)].map((_, i) => `<path d="M${i * 58} 196l-10 64" stroke="#3A2A20" stroke-width="2"/>`).join("")}
+          <path d="M408 214l-6 30M462 214l6 30" stroke="#2A2A2A" stroke-width="4"/>${flame(422, 246, .8)}${flame(448, 246, .9)}<path d="M396 190q0 34 39 34t39 -34Z" fill="#2A2A30"/><ellipse cx="435" cy="190" rx="41" ry="8" fill="#3A3A44"/><ellipse cx="435" cy="190" rx="35" ry="5.6" fill="#7AE8A8"/>${[...Array(6)].map((_, i) => `<circle class="vbub" style="animation-delay:${(i * .5).toFixed(1)}s;animation-duration:${(2.4 + i % 3 * .6).toFixed(1)}s" cx="${414 + i * 8}" cy="186" r="${2 + i % 3}" fill="#9AF2C0" stroke="#E8FFF4" stroke-width=".6"/>`).join("")}`;
+          // tea, made in a beaker, naturally
+          s += `<path d="M240 204h40v6h-40Z" fill="#6A4A2A"/><path d="M248 204v-18h10v18Z" fill="#E8F4FF" fill-opacity=".5" stroke="#B8D4E8"/><rect x="249" y="194" width="8" height="10" fill="#C8783A" opacity=".8"/><path d="M264 204l4 -16h8l4 16Z" fill="#E8F4FF" fill-opacity=".5" stroke="#B8D4E8"/><path d="M265 203l3 -8h8l3 8Z" fill="#C8783A" opacity=".8"/>${steam(252, 184)}`;
+          if (o.hal) s += pumpkin(120, 216, .9) + `<path d="M20 30l150 0" stroke="none"/>` + bunting(190, 40, 320, 40);
+          if (o.win) s += garland(330, 500, 44) + `<path d="M14 26q40 -6 80 0" stroke="#2E5A30" stroke-width="5" fill="none"/>`;
+          return s; } },
+
+        // ---------- Nyx: the attic under the moon ----------
+        bat: { name: "Nyx's attic", where: "up in Nyx's moonlit attic", draw: o => { seed = 23;
+          let s = `<defs><linearGradient id="vpb-w" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3A2A5A"/><stop offset="1" stop-color="#5A3E78"/></linearGradient></defs><rect width="520" height="260" fill="url(#vpb-w)"/>`;
+          // a big round window with the moon, always night-ish here
+          s += `<circle cx="260" cy="82" r="62" fill="#2A1E44"/><clipPath id="vpb-c"><circle cx="260" cy="82" r="54"/></clipPath><g clip-path="url(#vpb-c)">${sky("vpb-sky", 206, 28, 108, 108, { ...o, night: true })}</g><circle cx="260" cy="82" r="54" fill="none" stroke="#8A6AB8" stroke-width="5"/><path d="M260 28v108M206 82h108" stroke="#8A6AB8" stroke-width="3"/>`;
+          // sloping roof beams
+          s += `<path d="M0 0L150 0L0 120Z M520 0L370 0L520 120Z" fill="#2A1C40"/><path d="M150 0L0 120M370 0L520 120" stroke="#6A4A2A" stroke-width="12"/><path d="M110 0L0 88M410 0L520 88" stroke="#4A3220" stroke-width="5"/>`;
+          // fairy lights draped across
+          s += `<path d="M20 110Q140 150 200 70M320 70Q380 150 500 110" stroke="#1A1028" stroke-width="1" fill="none"/>${[[40, 120], [70, 128], [100, 132], [130, 128], [160, 114], [185, 90], [335, 90], [360, 114], [390, 128], [420, 132], [450, 128], [480, 118]].map(([a, b], i) => `<circle class="vtw" style="animation-delay:${(i * .27).toFixed(2)}s" cx="${a}" cy="${b}" r="3" fill="${["#FFE08A", "#F6A8E8", "#A8D8FF"][i % 3]}"/>`).join("")}`;
+          // a star-and-moon mobile
+          s += `<path d="M430 0v28M410 28h40M410 28v20M450 28v14M430 28v30" stroke="#C8B8E8" stroke-width="1"/><g class="vsw" style="transform-origin:430px 0px"><path d="M410 48l2 5h5l-4 3 2 5-5 -3-5 3 2 -5-4 -3h5Z" fill="#FFE08A"/><path d="M450 42a6 6 0 1 0 4 10a4.6 4.6 0 1 1 -4 -10Z" fill="#FFF3C4"/><circle cx="430" cy="62" r="4" fill="#C89AFF"/></g>`;
+          // hanging plants
+          s += `<path d="M86 0v40M76 40h20l-3 12h-14Z" stroke="#C8B8E8" fill="#A8784A"/>${[...Array(7)].map((_, i) => `<path d="M${80 + i * 2} 50q${(i - 3) * 4} 16 ${(i - 3) * 6} ${20 + i % 3 * 8}" stroke="#5A9A5A" stroke-width="2.4" fill="none"/>`).join("")}`;
+          // a pile of cushions and a quilt on the floorboards
+          s += `<rect y="192" width="520" height="68" fill="#4A3048"/>${[...Array(9)].map((_, i) => `<path d="M${i * 62} 192v68" stroke="#38223A" stroke-width="2"/>`).join("")}<ellipse cx="260" cy="236" rx="210" ry="20" fill="#6A4A8A"/>${[...Array(8)].map((_, i) => `<rect x="${78 + i * 46}" y="224" width="40" height="22" fill="${["#8A6AB8", "#C88AB8", "#6A8AC8", "#B87AA8"][i % 4]}" opacity=".7"/>`).join("")}
+          <ellipse cx="54" cy="196" rx="38" ry="18" fill="#C88AB8"/><ellipse cx="470" cy="198" rx="40" ry="18" fill="#8A6AB8"/><ellipse cx="490" cy="178" rx="26" ry="14" fill="#6A8AC8"/><path d="M38 192q16 -6 32 0M456 194q14 -6 30 0" stroke="#fff" stroke-width="1" opacity=".4" fill="none"/>`;
+          // cocoa with marshmallows and a plate of star biscuits
+          s += `${cup(248, 206, "#E8D8F8", "#6A4A8A")}<circle cx="246" cy="196" r="2" fill="#fff"/><circle cx="250" cy="195.5" r="1.8" fill="#FFE0F0"/>${steam(246, 192)}<ellipse cx="276" cy="205" rx="13" ry="3" fill="#E8D8F8" stroke="#6A4A8A" stroke-width=".8"/><path d="M270 202l1.4 2.6h2.8l-2.2 1.8.8 2.8-2.8 -1.6-2.8 1.6.8 -2.8-2.2 -1.8h2.8Z M280 200l1.4 2.6h2.8l-2.2 1.8.8 2.8-2.8 -1.6-2.8 1.6.8 -2.8-2.2 -1.8h2.8Z" fill="#E8B060"/>`;
+          if (o.hal) s += pumpkin(130, 214, .85) + `<path class="vbatf" d="M150 40q4 -5 8 -1q2 -4 4 0q2 -4 4 0q4 -4 8 1q-5 0 -8 4q-4 -3 -8 0q-3 -4 -8 -4Z" fill="#1A1020"/>`;
+          if (o.win) s += `<path d="M206 104q54 -8 108 0v8h-108Z" fill="#F4FAFF" opacity=".9"/>` + garland(200, 320, 140);
+          return s; } },
+
+        // ---------- Bramble: the burrow under the roots ----------
+        hedgehog: { name: "Bramble's burrow", where: "down in Bramble's burrow", draw: o => { seed = 29;
+          let s = `<defs><radialGradient id="vph-w" cx=".5" cy=".55" r=".8"><stop offset="0" stop-color="#C8946A"/><stop offset="1" stop-color="#6A4630"/></radialGradient></defs><rect width="520" height="260" fill="#4A2E1E"/><path d="M0 260V60Q260 -40 520 60V260Z" fill="url(#vph-w)"/>`;
+          // roots poking through the ceiling
+          for (let i = 0; i < 9; i++) { const rx = 30 + i * 58 + R(-10, 10); s += `<path d="M${rx} ${i % 2 ? 14 : 30}q${R(-10, 10).toFixed(0)} 18 ${R(-6, 6).toFixed(0)} ${R(30, 50).toFixed(0)}" stroke="#5A3A22" stroke-width="${R(2, 4).toFixed(1)}" fill="none" stroke-linecap="round"/>`; }
+          // the round green door with a brass knob
+          s += `<circle cx="66" cy="150" r="50" fill="#5A3A22"/><circle cx="66" cy="150" r="44" fill="#3E7A3A"/>${[-30, -15, 0, 15, 30].map(d => `<path d="M${66 + d} 108v${84}" stroke="#2E5A2A" stroke-width="1.4"/>`).join("")}<rect x="16" y="190" width="100" height="10" fill="#4A2E1E"/><circle cx="66" cy="150" r="5" fill="#E8C060" stroke="#8A6420"/>`;
+          // a round window onto the woods
+          s += `<circle cx="260" cy="80" r="40" fill="#5A3A22"/><clipPath id="vph-c"><circle cx="260" cy="80" r="33"/></clipPath><g clip-path="url(#vph-c)">${sky("vph-sky", 227, 47, 66, 66, o)}<path d="M227 113l10 -30 8 30Z M250 113l12 -40 12 40Z M272 113l9 -26 10 26Z" fill="${o.night ? "#1E3A2A" : "#3A7A3A"}"/></g><path d="M227 80h66M260 47v66" stroke="#5A3A22" stroke-width="3"/>`;
+          // a shelf of acorn jars and a pinned map
+          s += `<rect x="370" y="76" width="120" height="6" fill="#5A3A22"/>${[384, 410, 436, 462].map((jx, i) => `<rect x="${jx - 8}" y="54" width="16" height="22" rx="4" fill="#E8F4FF" fill-opacity=".35" stroke="#B8D0D8"/><rect x="${jx - 7}" y="52" width="14" height="4" fill="#A8784A"/>${i % 2 ? `<ellipse cx="${jx}" cy="68" rx="4" ry="5" fill="#A8683A"/><path d="M${jx - 4} 64h8" stroke="#6A3A1A" stroke-width="2.4"/>` : `<circle cx="${jx - 2}" cy="70" r="3" fill="#C02A3A"/><circle cx="${jx + 3}" cy="68" r="3" fill="#2A2A6A"/>`}`).join("")}
+          <path d="M376 100l96 -4 4 64 -98 4Z" fill="#F2E2B8" stroke="#8A6A3A"/><path d="M392 140q14 -30 30 -10t36 -20" stroke="#C0303A" stroke-dasharray="3 3" fill="none"/><path d="M454 108l4 4m0 -4l-4 4" stroke="#C0303A" stroke-width="2"/><circle cx="380" cy="102" r="2.4" fill="#C0303A"/><circle cx="470" cy="98" r="2.4" fill="#C0303A"/>${[[400, 116], [430, 150]].map(([a, b]) => `<path d="M${a} ${b}l5 -8 5 8Z" fill="#3A7A3A"/>`).join("")}`;
+          // a hanging lantern
+          s += `<path d="M180 0v34" stroke="#3A2A1A"/><path d="M172 34h16l-2 22h-12Z" fill="#E8C060" fill-opacity=".3" stroke="#3A2A1A" stroke-width="1.6"/>${flame(180, 52, .7)}<path d="M170 34h20M172 56h16" stroke="#3A2A1A" stroke-width="2"/>`;
+          // earth floor, mushrooms and a tree-stump table
+          s += `<path d="M0 196q260 -10 520 0V260H0Z" fill="#5A3A26"/>${[...Array(18)].map(() => `<circle cx="${R(0, 520).toFixed(0)}" cy="${R(204, 256).toFixed(0)}" r="${R(1, 2.4).toFixed(1)}" fill="#3E2618"/>`).join("")}
+          ${[[140, 206, 1], [158, 210, .7], [470, 214, 1.1], [490, 218, .7]].map(([mx, my, k]) => `<g transform="translate(${mx} ${my}) scale(${k})"><path d="M-3 0v-10h6v10Z" fill="#F4ECDC"/><path d="M-12 -9q12 -18 24 0Z" fill="#C83A2A"/><circle cx="-4" cy="-13" r="1.8" fill="#fff"/><circle cx="4" cy="-12" r="1.4" fill="#fff"/></g>`).join("")}
+          <path d="M238 228v-26h44v26Z" fill="#8A5A34"/><ellipse cx="260" cy="202" rx="24" ry="6" fill="#C8946A"/><ellipse cx="260" cy="202" rx="16" ry="3.6" fill="none" stroke="#8A5A34"/><ellipse cx="260" cy="202" rx="8" ry="1.8" fill="none" stroke="#8A5A34"/>
+          ${[250, 270].map(x => `<path d="M${x - 5} 198q0 -8 5 -8t5 8Z" fill="#A8683A"/><path d="M${x - 6} 190h12" stroke="#6A3A1A" stroke-width="2.4" stroke-linecap="round"/>`).join("")}<circle cx="260" cy="196" r="2.4" fill="#5A2A7A"/><circle cx="263" cy="194" r="2.2" fill="#C02A3A"/>`;
+          s += fireflies(9, 120, 110, 280, 80);
+          if (o.hal) s += pumpkin(330, 214, .9) + pumpkin(110, 218, .7);
+          if (o.win) s += garland(20, 112, 102) + `<path d="M227 113q33 -8 66 0" stroke="#fff" stroke-width="4"/>`;
+          return s; } },
+
+        // ---------- Wulfila: the gothic parlour ----------
+        wolf: { name: "Wulfila's parlour", where: "in Wulfila's gothic parlour", draw: o => { seed = 31;
+          let s = `<defs><pattern id="vpw-dm" width="36" height="44" patternUnits="userSpaceOnUse"><rect width="36" height="44" fill="#2A1A2E"/><path d="M18 4q8 10 0 18q-8 -8 0 -18Z M18 26q10 4 8 14q-8 0 -8 -14Z M18 26q-10 4 -8 14q8 0 8 -14Z" fill="#3A2440"/><circle cx="0" cy="22" r="2" fill="#3A2440"/><circle cx="36" cy="22" r="2" fill="#3A2440"/></pattern><linearGradient id="vpw-gl" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${o.night ? "#3A1A4A" : "#8A2A5A"}"/><stop offset="1" stop-color="${o.night ? "#1A1030" : "#4A1A6A"}"/></linearGradient></defs><rect width="520" height="260" fill="url(#vpw-dm)"/>`;
+          // a pointed stained-glass window
+          s += `<path d="M216 176V76Q260 6 304 76V176Z" fill="#141018"/><path d="M222 172V78Q260 18 298 78V172Z" fill="url(#vpw-gl)"/>${[[240, 60, "#C02A4A"], [280, 60, "#6A2AA8"], [236, 100, "#2A4AA8"], [284, 100, "#C02A4A"], [236, 140, "#6A2AA8"], [284, 140, "#2A4AA8"]].map(([a, b, c]) => `<path d="M${a} ${b}l10 14 -10 14 -10 -14Z" fill="${c}" opacity=".85"/>`).join("")}<circle cx="260" cy="108" r="22" fill="none" stroke="#141018" stroke-width="3"/><path d="M260 86v44M238 108h44M244 92l32 32M276 92l-32 32" stroke="#141018" stroke-width="2"/><circle cx="260" cy="108" r="7" fill="#C02A4A"/><path d="M260 30v142M222 78l76 0" stroke="#141018" stroke-width="2.4"/><path d="M210 176h100v6h-100Z" fill="#3A2440"/>`;
+          if (o.night) s += `<path d="M222 78Q260 18 298 78V172H222Z" fill="#fff" opacity=".04"/>`;
+          // an old portrait in a heavy frame
+          s += `<rect x="36" y="36" width="80" height="100" rx="4" fill="#8A6420"/><rect x="44" y="44" width="64" height="84" fill="#1E1A22"/><ellipse cx="76" cy="78" rx="14" ry="17" fill="#C8B8B0"/><path d="M60 128q16 -30 32 0Z" fill="#1A1020"/><path d="M62 66q14 -16 28 0l-2 -10q-12 -8 -24 0Z" fill="#1A1020"/><path d="M68 80h4M80 80h4" stroke="#1A1020" stroke-width="1.6"/>`;
+          // a gramophone, playing something sad and beautiful
+          s += `<rect x="388" y="146" width="56" height="28" rx="3" fill="#4A2A1E" stroke="#C9A24E"/><path d="M416 146l18 -40" stroke="#C9A24E" stroke-width="3"/><path d="M430 112q-30 -60 40 -80q40 30 -10 82Z" fill="#C9A24E" stroke="#8A6420"/><path d="M432 110q-18 -46 30 -66" stroke="#8A6420" fill="none"/><text class="vnote" x="466" y="60" fill="#C8B8E8" font-size="13">♪</text><text class="vnote" style="animation-delay:1.3s" x="480" y="80" fill="#C8B8E8" font-size="11">♫</text><path d="M392 174v22M440 174v22" stroke="#4A2A1E" stroke-width="5"/>`;
+          // a candelabra with three flames
+          s += `<path d="M150 196h28l-6 -6h-16Z" fill="#8A8A96"/><path d="M164 190v-36M146 154q18 14 36 0M146 154v-10M182 154v-10M164 154v-14" stroke="#8A8A96" stroke-width="3" fill="none"/>${[146, 164, 182].map(x => `<rect x="${x - 2.4}" y="${x === 164 ? 126 : 130}" width="5" height="${x === 164 ? 14 : 14}" fill="#EDE6F0"/>${flame(x, x === 164 ? 126 : 130, .6)}`).join("")}`;
+          // floor and a deep velvet rug
+          s += `<rect y="196" width="520" height="64" fill="#1E1418"/>${[...Array(9)].map((_, i) => `<path d="M${i * 62} 196v64" stroke="#120C10" stroke-width="2"/>`).join("")}<ellipse cx="260" cy="234" rx="210" ry="22" fill="#5A1A2E"/><ellipse cx="260" cy="234" rx="196" ry="18" fill="none" stroke="#C9A24E" stroke-width="1" opacity=".6"/>`;
+          // black tea and a black-iced cake
+          s += `${cup(246, 206, "#2A2232", "#8A7A9A")}${steam(244, 192)}<ellipse cx="276" cy="206" rx="13" ry="3" fill="#C8B8C8"/><path d="M266 205v-10h20v10Z" fill="#1A1020"/><ellipse cx="276" cy="195" rx="10" ry="2.4" fill="#2A1A30"/><circle cx="276" cy="192" r="2.6" fill="#C02A4A"/>`;
+          // roses in a vase
+          s += `<path d="M98 196q-8 -10 -4 -26h20q4 16 -4 26Z" fill="#2A2232" stroke="#8A7A9A"/>${[[96, 150], [106, 144], [116, 152]].map(([a, b], i) => `<path d="M${104} 172L${a} ${b}" stroke="#2A4A2A" stroke-width="1.6"/><circle cx="${a}" cy="${b}" r="5" fill="${i === 1 ? "#1A1020" : "#8A102A"}"/><path d="M${a - 3} ${b}q3 -3 6 0" stroke="#000" stroke-width=".8" fill="none" opacity=".5"/>`).join("")}`;
+          if (o.hal) s += pumpkin(350, 214, .9) + `<path d="M0 0q30 20 60 0M20 0l20 40" stroke="#C8C8D0" stroke-width=".6" fill="none" opacity=".6"/>`;
+          if (o.win) s += garland(30, 130, 30) + `<path d="M216 176h88" stroke="#fff" stroke-width="3"/>`;
+          return s; } },
+      };
+      // the clock and the calendar decide how the place looks right now
+      const seasonOn = (k, d) => { const S = COSTUME_SEASONS[k], md = (d.getMonth() + 1) * 100 + d.getDate(), a = S.from[0] * 100 + S.from[1], b = S.to[0] * 100 + S.to[1]; return a <= b ? md >= a && md <= b : md >= a || md <= b; };
+      function opts(when){ const d = when ? new Date(when) : new Date(), h = d.getHours(); return { night: h >= 19 || h < 7, dusk: h >= 17 && h < 19, hal: seasonOn("halloween", d), win: seasonOn("winter", d) }; }
+      const OUTDOORS = { lion: 1, fox: 1 };
+      const tod = o => o.night ? "night" : o.dusk ? "evening" : "afternoon";
+      return {
+        has: k => !!P[k],
+        name: k => (P[k] || P.cat).name,
+        where: k => (P[k] || P.cat).where,
+        svg: (k, o = opts()) => { let s = (P[k] || P.cat).draw(o); if (o.win && OUTDOORS[k]) { seed = 41; for (let i = 0; i < 26; i++) s += `<circle class="vsnow big" style="animation-delay:${R(0, 6).toFixed(1)}s;animation-duration:${R(5, 9).toFixed(1)}s" cx="${R(0, 520).toFixed(0)}" cy="-4" r="${R(1.2, 2.6).toFixed(1)}" fill="#fff" opacity=".9"/>`; }
+          return `<svg class="vplace" viewBox="0 0 520 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${s}</svg>`; },
+        opts, tod,
+      };
+    })();
+    // arriving: the host says hello the way only they would, and the guest takes the place in
+    const VISIT_HELLO = {
+      cat: ["Welcome to my boudoir, darling. Shoes off, sparkle on.", "wink"],
+      lion: ["¡Bienvenido! Mi casa es tu casa, amigo!", "love"],
+      owl: ["Welcome, welcome. Mind the ladder. And the first editions.", "happy"],
+      raven: ["HALT! …Oh, a guest! Welcome to my hall, friend!", "surprised"],
+      fox: ["Psst. Up here. Best view in the city, and nobody knows it's mine.", "wink"],
+      toad: ["Come in! Don't touch the green one. Or the purple one. Touch nothing!", "surprised"],
+      bat: ["Oh! You came… I tidied the attic. Well, I moved the blanket.", "love"],
+      hedgehog: ["WELCOME TO MY BURROW!! Wipe your paws! Or don't, it's all mud anyway!", "happy"],
+      wolf: ["Come in. Close the door. The sun is so loud today.", "sad"],
+    };
+    const VISIT_WOW = {
+      cat: ["Hmm. Not bad, darling. Not bad at all.", "wink"],
+      lion: ["¡Qué bonito! I shall write a song about this place!", "love"],
+      owl: ["Hoo! What a fascinating little dwelling.", "surprised"],
+      raven: ["A fine stronghold! I shall guard it with my life!", "happy"],
+      fox: ["Nice place. Good exits. I always check the exits.", "wink"],
+      toad: ["Remarkable! I must take a sample of the… everything.", "surprised"],
+      bat: ["*peeks out from behind its wings* …it's so pretty in here.", "love"],
+      hedgehog: ["WOW! Can I explore EVERYTHING?!", "surprised"],
+      wolf: ["…It's fine. I mean, it's actually really nice. Don't tell anyone.", "sad"],
+    };
+    const visitIntro = (gk, hk) => [["h", ...(VISIT_HELLO[hk] || VISIT_HELLO.cat)], ["g", ...(VISIT_WOW[gk] || VISIT_WOW.cat)]];
     // ================= v4.9: companions visiting each other's nooks (step 9) =================
     let s9visits = [], visitsOff = true, s9live = false;
     const VISIT_HOURS = 6, vnow = () => Date.now(), vEnd = v => Date.parse(v.ends_at), compOf = k => famName(FAMILIARS[k] ? k : "cat");
@@ -5936,8 +6232,8 @@ alter publication supabase_realtime add table public.library;`;
       const p = whoIs(fid), hk = FAMILIARS[p.familiar] ? p.familiar : "cat", gk = familiar;
       const box = document.createElement("div"); box.className = "scrim cheerscrim"; box.id = "vs-scrim"; document.body.append(box);
       box.innerHTML = `<div class="cheercard visitask" role="dialog" aria-modal="true" aria-label="Send ${esc(compOf(gk))} to visit"><div class="label">A visit</div>
-        <div class="vpair"><span class="vp g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, wornNow(gk), "happy")}</span><span class="vbag" aria-hidden="true">🧳</span><span class="vp h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, [], "neutral")}</span></div>
-        <p class="vq">Send <b>${esc(compOf(gk))}</b> to spend the afternoon with <b>${esc(p.name)}'s ${esc(compOf(hk))}</b>?</p>
+        <div class="vpreview">${VP.svg(hk)}<span class="vplacecap">📍 ${esc(VP.name(hk))}</span><div class="vpair"><span class="vp g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, wornNow(gk), "happy")}</span><span class="vbag" aria-hidden="true">🧳</span><span class="vp h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, [], "neutral")}</span></div></div>
+        <p class="vq">Send <b>${esc(compOf(gk))}</b> to spend the ${VP.tod(VP.opts())} with <b>${esc(p.name)}'s ${esc(compOf(hk))}</b>, ${esc(VP.where(hk))}?</p>
         <p class="note">They'll hang out for ${VISIT_HOURS} hours. Peek in any time; when ${esc(compOf(gk))} comes home you'll hear how it went, and they'll bring back a souvenir.</p>
         <div class="pacts"><button class="btn" type="button" data-vsno>Not now</button><button class="btn primary" type="button" data-vsgo>🧳 Off you go</button></div></div>`;
       box.onclick = async e => {
@@ -5960,26 +6256,26 @@ alter publication supabase_realtime add table public.library;`;
       const gk = v.guest_fam, hk = v.host_fam, gName = compOf(gk), hName = compOf(hk), gOwner = amGuest ? "your" : `${whoIs(v.guest).name}'s`, hOwner = amGuest ? `${whoIs(v.host).name}'s` : "your";
       const gWear = Array.isArray(v.guest_wear) ? v.guest_wear : [], hWear = amGuest ? (Array.isArray(v.host_wear) ? v.host_wear : []) : wornNow(hk);
       if (!amGuest && hk === familiar && JSON.stringify(v.host_wear || []) !== JSON.stringify(hWear)) { v.host_wear = hWear; C().from("visits").update({ host_wear: hWear }).eq("id", v.id).then(() => {}); }
-      const S = v.story || {}, L = S.lines || [], frac = Math.min(1, Math.max(0, (vnow() - Date.parse(v.started_at)) / Math.max(1, vEnd(v) - Date.parse(v.started_at))));
+      const S = v.story || {}, L = [...visitIntro(gk, hk), ...(S.lines || [])], frac = Math.min(1, Math.max(0, (vnow() - Date.parse(v.started_at)) / Math.max(1, vEnd(v) - Date.parse(v.started_at))));
       const shown = over ? L.length : Math.max(1, Math.ceil(frac * L.length));
       const tk = amGuest ? VISIT_GIFT[hk] : VISIT_GIFT[gk], have = giftsGot().some(g => g.tk === tk && g.from === "visit" && g.vid === v.id);
       const root = $("#modal-root"); sceneT.forEach(clearTimeout); sceneT = [];
       root.innerHTML = `<div class="scrim" id="vz-scrim"><div class="modal visitmodal" role="dialog" aria-modal="true" aria-label="${esc(gName)} visiting ${esc(hName)}">
-        <div class="phead"><div><div class="label">${over ? "How the visit went" : "A visit, right now"}</div><h2>${esc(gName)} <span class="muted">&</span> ${esc(hName)}</h2><small class="muted">${esc(gOwner)} ${esc(gName)} at ${esc(hOwner)} nook · ${over ? `${amGuest ? "home again" : "gone home"}` : `until ${hhmm(vEnd(v))}`}</small></div><button class="btn small" type="button" data-vzx>Close</button></div>
-        <div class="vstage"><span class="vglow" aria-hidden="true"></span><span class="vrug" aria-hidden="true"></span>
-          <span class="vp g" id="vz-g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, gWear, "happy")}</span><span class="vp h" id="vz-h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, hWear, "neutral")}</span>
-          <span class="vtea" aria-hidden="true">☕</span></div>
+        <div class="phead"><div><div class="label">${over ? "How the visit went" : "A visit, right now"}</div><h2>${esc(gName)} <span class="muted">&</span> ${esc(hName)}</h2><small class="muted">${esc(gOwner)} ${esc(gName)} at ${esc(hOwner)} nook, ${esc(VP.where(hk))} · ${over ? `${amGuest ? "home again" : "gone home"}` : `until ${hhmm(vEnd(v))}`}</small></div><button class="btn small" type="button" data-vzx>Close</button></div>
+        <div class="vstage vstage2">${VP.svg(hk, VP.opts(over ? v.started_at : null))}<span class="vplacecap">📍 ${esc(VP.name(hk))} · ${VP.tod(VP.opts(over ? v.started_at : null))}</span>
+          <span class="vp h" id="vz-h" data-fam="${hk}" data-expr="idle">${A3APP.art(hk, hWear, "neutral")}</span><span class="vp g arrive" id="vz-g" data-fam="${gk}" data-expr="happy">${A3APP.art(gk, gWear, "happy")}</span></div>
         <div class="vlines" id="vz-lines"></div>
         ${over ? `<div class="voutcome" id="vz-out" hidden><b>How it went</b><p>${esc(S.outcome || "They had a lovely time.")}</p></div>
           <div class="vgift" id="vz-gift" hidden><div class="vgiftart">${(TRINKETS[tk] || (() => ""))()}</div><div><b>${esc(TRINKET_NAMES[tk] || "A souvenir")}</b><small>${amGuest ? `${esc(hName)} sent it home with ${esc(gName)}.` : `${esc(gName)} left it for you.`}</small></div>${have ? `<span class="onshelf">✓ On your shelf</span>` : `<button class="btn small primary" type="button" data-vgift="${esc(v.id)}">Put it on my shelf</button>`}</div>`
           : `<p class="note vwait">They're still together. ${shown < L.length ? "More to come; peek in again later." : "Nearly home time."}</p>${amGuest ? `<div class="pacts"><button class="btn small" type="button" data-vhome="${esc(v.id)}">Call ${esc(gName)} home early</button></div>` : ""}`}
+        <div class="valink"><button type="button" class="linkbtn" data-valbum>📮 All your visit postcards</button></div>
       </div></div>`;
       const box = $("#vz-lines"), gEl = $("#vz-g"), hEl = $("#vz-h");
       L.slice(0, shown).forEach(([who, text, ex], i) => sceneT.push(setTimeout(() => { if (!box.isConnected) return; const isG = who === "g";
         box.insertAdjacentHTML("beforeend", `<div class="vline ${isG ? "lg" : "lh"}"><b>${esc(isG ? gName : hName)}</b><span>${esc(text)}</span></div>`);
         (isG ? gEl : hEl).dataset.expr = ex || "happy"; (isG ? hEl : gEl).dataset.expr = "idle"; (isG ? gEl : hEl).classList.remove("talk"); void gEl.offsetWidth; (isG ? gEl : hEl).classList.add("talk");
-        box.scrollTop = box.scrollHeight; }, 500 + i * 1500)));
-      if (over) sceneT.push(setTimeout(() => { const o = $("#vz-out"), g = $("#vz-gift"); if (o) o.hidden = false; if (g) g.hidden = false; gEl.dataset.expr = "love"; hEl.dataset.expr = "love"; }, 500 + shown * 1500));
+        box.scrollTop = box.scrollHeight; }, 1300 + i * 1500)));
+      if (over) sceneT.push(setTimeout(() => { const o = $("#vz-out"), g = $("#vz-gift"); if (o) o.hidden = false; if (g) g.hidden = false; gEl.dataset.expr = "love"; hEl.dataset.expr = "love"; }, 1300 + shown * 1500));
       if (over && (amGuest ? !v.guest_seen : !v.host_seen)) { const f = amGuest ? "guest_seen" : "host_seen"; v[f] = true; C().from("visits").update({ [f]: true }).eq("id", v.id).then(() => {}); setTimeout(paintVisit, 50); }
       root.onclick = e => {
         if (e.target.id === "vz-scrim" || e.target.closest("[data-vzx]")) { sceneT.forEach(clearTimeout); root.onclick = null; root.innerHTML = ""; paintVisit(); return; }
@@ -5987,6 +6283,18 @@ alter publication supabase_realtime add table public.library;`;
         const gf = e.target.closest("[data-vgift]"); if (gf) { lsSet("reading-ledger-famgifts", [...giftsGot(), { d: todayISO() + "v", fam: familiar, type: "trinket", tk, from: "visit", vid: v.id }].slice(-80)); paintGiftDrawer(); bondAdd(4, "visit");
           gf.outerHTML = `<span class="onshelf">✓ On your Decorate drawer, under Gifts</span>`; toast(`${TRINKET_NAMES[tk] || "A souvenir"}: it's in your Decorate drawer now ✦`, 3600); }
       };
+    }
+    // every visit you've had or sent, as postcards from the places they went
+    function openAlbum(){
+      const me = uid(), past = s9visits.filter(v => vnow() >= vEnd(v)).slice(0, 12), root = $("#modal-root"); sceneT.forEach(clearTimeout); sceneT = [];
+      root.innerHTML = `<div class="scrim" id="va-scrim"><div class="modal valbum" role="dialog" aria-modal="true" aria-label="Visit postcards">
+        <div class="phead"><div><div class="label">Visit postcards</div><h2>Where your companions have been</h2></div><button class="btn small" type="button" data-vax>Close</button></div>
+        ${past.length ? `<div class="vpcards">${past.map((v, i) => { const amG = v.guest === me, o = VP.opts(v.started_at), d = new Date(v.started_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+          return `<button type="button" class="vpc" style="--tilt:${[-2, 1.5, -1, 2][i % 4]}deg" data-visitopen="${esc(v.id)}"><span class="vpcs">${VP.svg(v.host_fam, o)}<span class="vp h" data-fam="${esc(v.host_fam)}" data-expr="happy">${A3APP.art(v.host_fam, Array.isArray(v.host_wear) ? v.host_wear : [], "happy", true)}</span><span class="vp g" data-fam="${esc(v.guest_fam)}" data-expr="happy">${A3APP.art(v.guest_fam, Array.isArray(v.guest_wear) ? v.guest_wear : [], "happy", true)}</span><span class="vpcstamp" aria-hidden="true">${o.hal ? "🎃" : o.win ? "❄️" : o.night ? "🌙" : "☀️"}</span></span>
+            <span class="vpccap"><b>${esc(compOf(v.guest_fam))} & ${esc(compOf(v.host_fam))}</b><small>${esc(VP.name(v.host_fam))} · ${amG ? `at ${esc(whoIs(v.host).name)}'s` : `from ${esc(whoIs(v.guest).name)}`} · ${d}</small></span></button>`; }).join("")}</div>`
+          : `<p class="note">No postcards yet. Send your companion to visit a friend with the 🧳 beside their name, and when they come home their postcard lands here.</p>`}
+      </div></div>`;
+      root.onclick = e => { if (e.target.id === "va-scrim" || e.target.closest("[data-vax]")) { root.onclick = null; root.innerHTML = ""; } };
     }
     // on your nook: a visitor beside your companion, or a note that yours is out visiting
     function paintVisit(){
@@ -6013,7 +6321,8 @@ alter publication supabase_realtime add table public.library;`;
     // a visitor or souvenir chip, anywhere; the companion's own click handlers must not treat it as a pat
     document.addEventListener("click", e => {
       const vo = e.target.closest("[data-visitopen]"); if (vo) { e.stopPropagation(); e.preventDefault(); openVisit(vo.dataset.visitopen); return; }
-      const fv = e.target.closest("[data-fvisit]"); if (fv) { e.stopPropagation(); sendVisit(fv.dataset.fvisit); }
+      const fv = e.target.closest("[data-fvisit]"); if (fv) { e.stopPropagation(); sendVisit(fv.dataset.fvisit); return; }
+      if (e.target.closest("[data-valbum]")) { e.stopPropagation(); e.preventDefault(); sceneT.forEach(clearTimeout); openAlbum(); }
     }, true);
     async function show(){ render(); await load(true); render(); pushShare(); goLive(); goLive2(); goLive9(); }
     setInterval(() => { if (ready() && !document.hidden) load().then(() => tab === "friends" && !$("#modal-root").innerHTML.trim() && render()); }, 90000);
@@ -8413,8 +8722,20 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.9.1";
+  const APP_VERSION = "4.11";
   const CHANGELOG = [
+    ["4.11", "31 Oct 2026", "Forgot your password?", [
+      "Signing in now has a “Forgot your password?” link: enter your email and you'll get a link to choose a new password",
+      "Opening that link takes you straight to choosing a new password",
+      "Signed in, you can change your password any time under Sync → Change password",
+      "No email arriving? Whoever runs your nook can now give you a temporary password"]],
+    ["4.10", "30 Oct 2026", "Visits go somewhere now", [
+      "Every companion has a home of their own for visitors: Natasha's pink boudoir, Antonio's Spanish courtyard, Hoot's library tower, Corvin's castle hall, Ember's rooftop, Sir Wartsworth's laboratory, Nyx's moonlit attic, Bramble's burrow and Wulfila's gothic parlour",
+      "Homes follow the clock, turning to evening and night with real stars and moonlight, and dress up for Halloween and winter",
+      "Candles flicker, cauldrons bubble, lanterns sway and fireflies drift; on outdoor visits in winter it snows",
+      "Your guest walks in, the host says hello in their own way and the guest reacts to the place",
+      "When you send a visit you can see where your companion is going",
+      "📮 Visit postcards: every visit you've sent or hosted, kept as a postcard you can open again"]],
     ["4.9.1", "30 Oct 2026", "A calmer friends list and an easier What's new", [
       "Friends on your phone: each friend now shows what they're reading and how far they are, in full, with a bigger progress bar. Cheer, letter and visit sit neatly in the corner",
       "The DNA match moved off the list; you'll still find it in each friend's nook",
