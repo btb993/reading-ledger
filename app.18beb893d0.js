@@ -4667,6 +4667,8 @@ alter publication supabase_realtime add table public.library;`;
     } catch (e) { console.warn("settings", e); }
   }
   const Sync = (() => {
+    const AUTH_HASH = location.hash, BADLINK = /error_code=(otp_expired|access_denied)|error=access_denied/.test(AUTH_HASH);
+    let resetSent = "", RECOVERING = /type=recovery/.test(AUTH_HASH);
     let cfg = (() => { const c = lsGet(KEY_SYNC, null); if (c && c.url) c.url = c.url.replace(/\/rest\/v1\/?$/, "").replace(/\/+$/, ""); return c && c.url && c.key ? c : DEFAULT_SYNC; })(), client = null, user = null, state = "off", detail = "", lastSync = null, prof = lsGet(KEY_PROF, null), profState = "unknown", authMode = "in", timer = null, chan = null, lastPushAt = null, busy = false, again = false;
     const pill = () => $("#sync-pill");
     function paint(){
@@ -4685,7 +4687,10 @@ alter publication supabase_realtime add table public.library;`;
       try { client = window.supabase.createClient(cfg.url, cfg.key, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "reading-ledger-auth" } }); }
       catch (e) { return set("error", "That project URL or key doesn't look right."); }
       const { data } = await client.auth.getSession(); user = data.session?.user || null;
-      client.auth.onAuthStateChange((_e, s) => { const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); loadProfile(); } else { prof = null; lsSet(KEY_PROF, null); set("signedout"); } } });
+      client.auth.onAuthStateChange((_e, s) => { if (_e === "PASSWORD_RECOVERY") { authMode = "newpw"; setTimeout(openPanel, 300); }
+        const u = s?.user || null; const changed = (u?.id || null) !== (user?.id || null); user = u; if (changed) { if (user) { subscribe(); pull(); loadProfile(); } else { prof = null; lsSet(KEY_PROF, null); set("signedout"); } } });
+      if (RECOVERING && user && authMode !== "newpw") { authMode = "newpw"; setTimeout(openPanel, 600); }
+      if (BADLINK) { history.replaceState(null, "", location.pathname + location.search); setTimeout(() => { authMode = "forgot"; openPanel(); toast("That reset link has expired or was already used. Ask for a new one here.", 6000); }, 900); }
       if (user) { subscribe(); loadProfile(); await pull(); } else set("signedout");
     }
     function readLink(){
@@ -4711,13 +4716,14 @@ alter publication supabase_realtime add table public.library;`;
     }
     async function loadProfile(){
       if (!client || !user) return;
+      const ac = new AbortController(), slow = setTimeout(() => ac.abort(), 12000);
       try {
-        const { data, error } = await client.from("profiles").select("*").eq("id", user.id).maybeSingle();
-        if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = error.message; paint(); return; }
+        const { data, error } = await client.from("profiles").select("*").eq("id", user.id).abortSignal(ac.signal).maybeSingle(); clearTimeout(slow);
+        if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = ac.signal.aborted || /abort/i.test(error.message) ? "It's taking too long. Check your connection and try again." : error.message; paint(); return; }
         if (data) { prof = data; profState = "ok"; lsSet(KEY_PROF, prof); touchProfile(); try { Social.load(true).then(() => { if (tab === "friends") Social.render(); }); Social.queueShare(); } catch {} }
         else { const m = user.user_metadata || {}; profState = "none";
           if (m.name && handleOk(cleanHandle(m.handle))) { await saveProfile({ name: m.name, handle: cleanHandle(m.handle) }, true); } }
-      } catch (e) { profState = "error"; }
+      } catch (e) { clearTimeout(slow); profState = "error"; detail = ac.signal.aborted ? "It's taking too long. Check your connection and try again." : String(e?.message || e); }
       paint();
     }
     async function saveProfile(p, quiet){
@@ -4784,9 +4790,27 @@ alter publication supabase_realtime add table public.library;`;
           if (key.length < 30) { toast("Paste the long “anon public” key."); return; }
           cfg = { url, key }; lsSet(KEY_SYNC, cfg); await connect(); panel(); return;
         }
-        if (t.closest("[data-authmode]")) { authMode = t.closest("[data-authmode]").dataset.authmode; panel(); return; }
+        if (t.closest("[data-profretry]")) { profState = "unknown"; detail = ""; panel(); loadProfile(); return; }
+        if (t.closest("[data-resetagain]")) { resetSent = ""; panel(); return; }
+        if (t.closest("[data-authmode]")) { const em = $("#s-email")?.value; authMode = t.closest("[data-authmode]").dataset.authmode; resetSent = ""; panel(); if (em && $("#s-email") && !$("#s-email").value) $("#s-email").value = em; return; }
         if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Saved, ${prof.name}!`); panel(); try { Social.queueShare(); if (tab === "friends") Social.show(); } catch {} } return; }
         const pv = t.closest("[data-privacy]"); if (pv) { const k = pv.dataset.privacy, v = !(prof?.privacy?.[k] !== false); await setPrivacy(k, v); panel(); return; }
+        if (t.closest("[data-sendreset]")) {
+          const email = $("#s-email").value.trim(), b = t.closest("[data-sendreset]");
+          if (!/^\S+@\S+\.\S+$/.test(email)) { toast("Enter the email you signed up with."); return; }
+          b.disabled = true; const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname }); b.disabled = false;
+          if (error) { toast(/not authori[sz]ed/i.test(error.message) ? "Reset emails aren't switched on for this nook yet. Ask whoever runs the app to give you a temporary password." : /rate limit|too many|security purposes/i.test(error.message) ? "Too many tries for now. Wait a few minutes, then ask again." : error.message, 7000); return; }
+          resetSent = email; panel(); return;
+        }
+        if (t.closest("[data-savepw]")) {
+          const a = $("#s-npw").value, b2 = $("#s-npw2").value, b = t.closest("[data-savepw]");
+          if (a.length < 6) { toast("Choose a password of at least 6 characters."); return; }
+          if (a !== b2) { toast("The two passwords don't match."); return; }
+          b.disabled = true; const { error } = await client.auth.updateUser({ password: a }); b.disabled = false;
+          if (error) { toast(/different from the old/i.test(error.message) ? "That's your current password. Pick a new one." : /session|jwt|expired/i.test(error.message) ? "That reset link has expired. Ask for a new one." : error.message, 6000); return; }
+          authMode = "in"; if (RECOVERING) { RECOVERING = false; history.replaceState(null, "", location.pathname + location.search); }
+          toast("Password changed ✦ Use it next time you sign in.", 4500); panel(); return;
+        }
         if (t.closest("[data-auth]")) {
           const mode = t.closest("[data-auth]").dataset.auth, email = $("#s-email").value.trim(), pw = $("#s-pw").value;
           if (!email || pw.length < 6) { toast("Enter your email and a password of at least 6 characters."); return; }
@@ -4801,8 +4825,8 @@ alter publication supabase_realtime add table public.library;`;
           t.disabled = true;
           const fn = mode === "up" ? client.auth.signUp({ email, password: pw, options: { data: meta } }) : client.auth.signInWithPassword({ email, password: pw });
           const { data, error } = await fn; t.disabled = false;
-          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /invalid login/i.test(error.message) ? "That email and password don't match." : error.message, 5000); return; }
-          if (mode === "up" && !data.session) { toast("Account created. Check your email to confirm it, then sign in. (Or turn off “Confirm email” in Supabase, step 3.)", 6000); return; }
+          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /email not confirmed/i.test(error.message) ? "Your account still needs to be confirmed. Ask whoever runs your nook to confirm it for you, then sign in again." : /invalid login/i.test(error.message) ? "That email and password don't match. Forgot it? Tap “Forgot your password?”" : error.message, 5000); return; }
+          if (mode === "up" && !data.session) { toast("Account created! It needs to be confirmed before you can sign in: check your email, or ask whoever runs your nook to confirm it for you.", 8000); return; }
           toast(mode === "up" ? "Account created. Your library is syncing." : "Signed in. Your library is syncing."); panel(); return;
         }
         if (t.closest("[data-syncnow]")) { pull(); return; }
@@ -4832,6 +4856,22 @@ alter publication supabase_realtime add table public.library;`;
         el.innerHTML = head + `<div class="confirm">${esc(detail || "Sync couldn't start.")}</div><div class="mfoot"><button class="linkbtn" type="button" data-forget>Use a different project</button><div class="r"><button class="btn primary" type="button" onclick="location.reload()">Reload</button></div></div>`;
         return;
       }
+      if (user && authMode === "newpw") {
+        el.innerHTML = head.replace("Sync between your devices", RECOVERING ? "Choose a new password" : "Change your password") + `<p class="note" style="margin:0">${RECOVERING ? "You're signed in from the reset link. Pick a new password to use from now on." : `For ${esc(user.email || "your account")}. Use it on all your devices from now on.`}</p>
+          <div class="fields"><label class="field full"><span class="label">New password</span><input id="s-npw" type="password" autocomplete="new-password" placeholder="at least 6 characters"></label>
+          <label class="field full"><span class="label">Once more, to be sure</span><input id="s-npw2" type="password" autocomplete="new-password"></label></div>
+          <div class="mfoot">${RECOVERING ? `<span></span>` : `<button class="linkbtn" type="button" data-authmode="in">Cancel</button>`}<div class="r"><button class="btn primary" type="button" data-savepw>Save new password</button></div></div>`;
+        return;
+      }
+      if (!user && authMode === "forgot") {
+        el.innerHTML = head.replace("Sync between your devices", "Forgot your password?") + (resetSent ? `<div class="resetok"><b>✉ Check your email</b><p>If there's an account for <b>${esc(resetSent)}</b>, a reset link is on its way. Open it on this device, then choose a new password. It can take a minute, and sometimes lands in spam.</p></div>
+          <div class="mfoot"><button class="linkbtn" type="button" data-resetagain>Send it again</button><div class="r"><button class="btn primary" type="button" data-authmode="in">Back to sign in</button></div></div>`
+          : `<p class="note" style="margin:0">Nobody can look up your old password, not even whoever runs the app. Enter your email and we'll send you a link to choose a new one.</p>
+          <div class="fields"><label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email" value="${esc($("#s-email")?.value || "")}"></label></div>
+          <p class="note" style="margin:0">No email? Whoever runs your nook can give you a temporary password instead.</p>
+          <div class="mfoot"><button class="linkbtn" type="button" data-authmode="in">Back to sign in</button><div class="r"><button class="btn primary" type="button" data-sendreset>Email me a reset link</button></div></div>`);
+        return;
+      }
       if (!user) {
         const up = authMode === "up";
         el.innerHTML = head.replace("Sync between your devices", up ? "Join My Book Nook" : "Sign in to My Book Nook") + `${state === "error" ? `<div class="confirm">${esc(detail)}</div>` : ""}
@@ -4842,6 +4882,7 @@ alter publication supabase_realtime add table public.library;`;
             <label class="field"><span class="label">@handle · how friends find you</span><input id="s-handle" autocomplete="username" maxlength="21" placeholder="e.g. bojana.reads" autocapitalize="none" spellcheck="false"></label>` : ""}
             <label class="field full"><span class="label">Email</span><input id="s-email" type="email" autocomplete="email"></label>
             <label class="field full"><span class="label">Password</span><input id="s-pw" type="password" autocomplete="${up ? "new-password" : "current-password"}" placeholder="at least 6 characters"></label>
+            ${up ? "" : `<div class="full forgotrow"><button class="linkbtn" type="button" data-authmode="forgot">Forgot your password?</button></div>`}
             ${up ? `<label class="field full"><span class="label">Invite code</span><input id="s-invite" autocomplete="off" autocapitalize="none" placeholder="from whoever shared the app with you"></label>` : ""}</div>
           <div class="mfoot"><span class="note">Your books stay on this device until you sign in.</span><div class="r"><button class="btn primary" type="button" data-auth="${up ? "up" : "in"}">${up ? "Create my account" : "Sign in"}</button></div></div>`;
         return;
@@ -4861,7 +4902,7 @@ alter publication supabase_realtime add table public.library;`;
           <div class="profedit" id="prof-edit" hidden><div class="fields"><label class="field"><span class="label">Your name</span><input id="p-name" maxlength="40" value="${esc(P.name)}"></label><label class="field"><span class="label">@handle</span><input id="p-handle" maxlength="21" value="${esc(P.handle)}" autocapitalize="none" spellcheck="false"></label></div><div class="r" style="display:flex;justify-content:flex-end"><button class="btn small primary" type="button" data-saveprof>Save</button></div></div>
           <div class="label" style="margin-top:6px">What friends will be able to see</div>
           <div class="privlist">${PRIVACY.map(([k, l, d]) => `<button type="button" class="privrow" data-privacy="${k}" aria-pressed="${pr[k] !== false}"><span class="tog"><i></i></span><span><b>${l}</b><small>${d}</small></span></button>`).join("")}</div>
-          <p class="note" style="margin:4px 0 10px">Friends are coming next: once they arrive, only friends you accept will see these, and only the ones switched on.</p>` : profState === "error" ? `<div class="confirm">Couldn't load your profile right now. ${esc(detail)}</div>` : "") + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
+          <p class="note" style="margin:4px 0 10px">Friends are coming next: once they arrive, only friends you accept will see these, and only the ones switched on.</p>` : profState === "error" ? `<div class="confirm profwait">Couldn't load your reader profile, so friends can't find you yet. ${esc(detail)} <button class="btn small" type="button" data-profretry>Try again</button></div>` : `<div class="confirm profwait"><span class="progress dots">Loading your reader profile</span> <button class="linkbtn" type="button" data-profretry>Try again</button></div>`) + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
           <span class="note">${state === "error" ? esc(detail) : `Signed in as ${esc(user.email || "")}${lastSync ? ` · last synced ${new Date(lastSync).toLocaleTimeString()}` : ""}`}</span></div>
         <div class="label" style="margin-top:4px">Connect your phone</div>
         ${isHosted() ? `<div class="phone"><div id="qr" class="qr"></div><ol class="setup" style="margin:0">
@@ -4869,7 +4910,7 @@ alter publication supabase_realtime add table public.library;`;
             <li>Sign in with the same email and password.</li>
             <li>Add it to your home screen. <b>iPhone:</b> Safari's Share button → <b>Add to Home Screen</b>. <b>Android:</b> Chrome's ⋮ menu → <b>Install app</b>.</li></ol></div>`
           : `<p class="note">You're using the file version on this computer. To connect your phone, open your hosted My Book Nook web address (see the setup guide) and use this panel there.</p>`}
-        <div class="mfoot"><button class="linkbtn" type="button" data-signout>Sign out on this device</button><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
+        <div class="mfoot"><span class="acctlinks"><button class="linkbtn" type="button" data-authmode="newpw">Change password</button><button class="linkbtn" type="button" data-signout>Sign out on this device</button></span><div class="r"><button class="btn primary" type="button" data-syncnow>Sync now</button></div></div>`;
       if (isHosted()) loadQR().then(() => { const q = $("#qr"); if (q && !q.firstChild) new QRCode(q, { text: phoneLink(), width: 168, height: 168, colorDark: "#1D1824", colorLight: "#ffffff" }); }).catch(() => { const q = $("#qr"); if (q) q.textContent = "QR code needs internet."; });
     }
     return { init, schedule, openPanel, paint, get profile(){ return prof; }, get user(){ return user; }, get client(){ return client; }, touchProfile };
@@ -8683,8 +8724,17 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.10";
+  const APP_VERSION = "4.11.1";
   const CHANGELOG = [
+    ["4.11.1", "31 Oct 2026", "No more missing profiles", [
+      "If your reader profile is slow to load, your account now says so, with a Try again button, instead of quietly showing nothing",
+      "If it can't load at all, you'll see why, so friends aren't left unable to find you",
+      "New accounts waiting to be confirmed now say so clearly when you try to sign in, instead of a confusing error"]],
+    ["4.11", "31 Oct 2026", "Forgot your password?", [
+      "Signing in now has a “Forgot your password?” link: enter your email and you'll get a link to choose a new password",
+      "Opening that link takes you straight to choosing a new password",
+      "Signed in, you can change your password any time under Sync → Change password",
+      "No email arriving? Whoever runs your nook can now give you a temporary password"]],
     ["4.10", "30 Oct 2026", "Visits go somewhere now", [
       "Every companion has a home of their own for visitors: Natasha's pink boudoir, Antonio's Spanish courtyard, Hoot's library tower, Corvin's castle hall, Ember's rooftop, Sir Wartsworth's laboratory, Nyx's moonlit attic, Bramble's burrow and Wulfila's gothic parlour",
       "Homes follow the clock, turning to evening and night with real stars and moonlight, and dress up for Halloween and winter",
