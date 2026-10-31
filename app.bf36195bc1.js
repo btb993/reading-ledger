@@ -389,7 +389,7 @@
   const FIELDS = "key,title,author_name,first_publish_year,number_of_pages_median,cover_i,subject,ratings_average,ratings_count,isbn";
   const GENRES = [
     [/science fiction|sci-fi/i, "Science Fiction"], [/fantasy|magic|wizards|dragons/i, "Fantasy"], [/detective|mystery|crime/i, "Mystery"],
-    [/thriller|suspense/i, "Thriller"], [/horror|ghost stor/i, "Horror"], [/love stor|romance/i, "Romance"], [/historical fiction/i, "Historical Fiction"],
+    [/thriller|suspense|serial (killer|murder)|psychopath/i, "Thriller"], [/horror|ghost stor|haunted (house|houses|places)|occult|zombies?\b|demonic possession|exorcism/i, "Horror"], [/love stor|romance/i, "Romance"], [/historical fiction/i, "Historical Fiction"],
     [/young adult/i, "Young Adult"], [/juvenile|children/i, "Children's"], [/graphic novel|comic/i, "Graphic Novel"], [/poetry|poems/i, "Poetry"],
     [/biography|autobiography|memoir/i, "Biography & Memoir"], [/^history|world history|history,/i, "History"], [/philosophy/i, "Philosophy"],
     [/psycholog/i, "Psychology"], [/self-help|personal development|success/i, "Self-help"], [/science|physics|biology|evolution/i, "Science"],
@@ -397,16 +397,22 @@
     [/classic/i, "Classics"], [/dystopia/i, "Dystopian"], [/adventure/i, "Adventure"], [/literary fiction|psychological fiction/i, "Literary Fiction"],
     // Serbian subjects, as Google Books and Serbian publishers write them (Latin and Cyrillic)
     [/fantastik|фантастик|epska fant|епска фант/i, "Fantasy"], [/naučna fantast|научна фантаст/i, "Science Fiction"], [/kriminalist|криминалист|krimić|кримић|detektiv|детектив/i, "Mystery"],
-    [/triler|трилер/i, "Thriller"], [/horor|хорор/i, "Horror"], [/ljubavn|љубавн/i, "Romance"], [/istorijski roman|историјски роман/i, "Historical Fiction"],
+    [/triler|трилер|serijsk\w* ubic|серијск\w* убиц|psihopat|психопат/i, "Thriller"], [/horor|хорор|natprirodn|натприродн|ukleti|уклет/i, "Horror"], [/ljubavn|љубавн/i, "Romance"], [/istorijski roman|историјски роман/i, "Historical Fiction"],
     [/za decu|за децу|dečj|дечј/i, "Children's"], [/poezij|поезиј|pesme|песме/i, "Poetry"], [/biografij|биографиј|memoar|мемоар/i, "Biography & Memoir"],
     [/^istorij|^историј/i, "History"], [/filozofij|филозофиј/i, "Philosophy"], [/psiholog|психолог/i, "Psychology"], [/samopomoć|самопомоћ|lični razvoj|лични развој/i, "Self-help"],
     [/medicin|медицин|zdravlj|здравље|nauk[ae]\b|наук[ае]|popularna nauka|популарна наука/i, "Science"], [/religij|религиј|pravoslav|православ/i, "Religion"], [/humor|хумор/i, "Humor"],
     [/domaći roman|домаћи роман|srpsk[aio] književnost|српск[аио] књижевност|klasici|класици/i, "Classics"], [/savremeni roman|савремени роман|roman$|роман$/i, "Literary Fiction"],
   ];
+  // every genre the subjects point to; the rarer, darker ones first so a horror novel isn't filed as just "mystery"
+  const GENRE_FIRST = ["Horror", "Thriller"];
+  function subjGenres(subjects = []){
+    const g = [];
+    for (const s of subjects) for (const [re, x] of GENRES) if (re.test(s) && !g.includes(x)) g.push(x);
+    return g.sort((a, b) => (GENRE_FIRST.includes(b) ? 1 : 0) - (GENRE_FIRST.includes(a) ? 1 : 0));
+  }
   const NOISE = /(accessible book|protected daisy|in library|large type|open library|nyt:|reading level|lending library|internet archive|translations|long now|popular print|staff picks|^english|^american|^british|literature$|^general$|ficción|roman|^novela|^fiction$|^novel|award|bestseller|^juvenile|reviewed|^\d|fiction, general|^collectionid|textbooks|open_syllabus|^series:|ebook|^french|^german|^spanish)/i;
   function deriveFromSubjects(subjects = []){
-    const genres = [];
-    for (const s of subjects) for (const [re, g] of GENRES) if (re.test(s) && !genres.includes(g)) genres.push(g);
+    const genres = subjGenres(subjects);
     const themes = [];
     for (const s0 of subjects) {
       let s = String(s0).split("--")[0].split(" (")[0].trim().replace(/[.,]$/, "").replace(/,?\s*fiction$/i, "").trim().toLowerCase();
@@ -508,9 +514,17 @@
     if (out.size && !fic) out.add("Nonfiction");
     fineCache.set(k, out); return out;
   }
-  const allG = b => { let s; try { s = new Set(bookGenres(b)); } catch { s = new Set(); } (b.genres || []).forEach(x => s.add(x)); fineGenres(b).forEach(x => s.add(x)); return s; };
+  const allG = b => { let s; try { s = new Set(bookGenres(b)); } catch { s = new Set(); } (b.genres || []).forEach(x => s.add(x)); fineGenres(b).forEach(x => s.add(x)); subjGenres(b.subjects || []).forEach(x => s.add(x));
+    const au = srFold(b.author), tt = srFold(b.title); if (HORROR_AU.test(au) || HORROR_TT.test(tt)) s.add("Horror"); if (CRIME_AU.test(au) || CRIME_TT.test(tt)) s.add("Thriller"); if (TRUECRIME_AU.test(au) || TRUECRIME_TT.test(tt)) s.add("True Crime"); return s; };
   const hasG = (b, ...g) => { if ((b.genres || []).some(x => g.includes(x))) return true; const k = b.id + "|" + b.title + "|" + (b.genres || []).join() + "|" + (b.subjects || []).length + "|" + (b.summary || "").length; let s = bgCache.get(k); if (!s) { s = allG(b); bgCache.set(k, s); } return g.some(x => s.has(x)); };
   const hasT = (b, ...t) => (b.tropes || []).some(x => t.includes(x));
+  // writers whose books are horror, dark crime or true crime, in English and in Serbian spelling (matched without accents)
+  const HORROR_AU = /\b(stephen king|stiven king|shirley jackson|sirli dzekson|clive barker|klajv barker|dean koontz|din kunc|anne rice|en rajs|lovecraft|lavkraft|edgar allan poe|edgar alan po|bram stoker|brem stoker|peter straub|piter straub|paul tremblay|grady hendrix|joe hill|dzo hil|josh malerman|silvia moreno-garcia|stephen graham jones|adam nevill|ania ahlborn|richard laymon|jack ketchum|junji ito|koji suzuki|catriona ward|darcy coates|ira levin|william peter blatty|vilijam piter blati|john ajvide lindqvist|susan hill|jennifer mcmahon|t\.? kingfisher|nick cutter|ronald malfi|tananarive due|jonathan janz|riley sager|rajli sejger)\b/;
+  const HORROR_TT = /\b(the shining|isijavanje|pet sematary|groblje kucnih ljubimaca|the exorcist|egzorcista|dracula|drakula|frankenstein|frankenstajn|the haunting of hill house|rosemary.?s baby|mexican gothic|bird box|the amityville|hell house|house of leaves)\b/;
+  const CRIME_AU = /\b(thomas harris|tomas haris|gillian flynn|dzilijan flin|karin slaughter|karin slotar|jo nesb\w*|ju nesb\w*|stieg larsson|stig larson|tess gerritsen|tes geritsen|chris carter|kris karter|michael connelly|majkl koneli|patricia cornwell|patricija kornvel|james patterson|dzejms paterson|jeffery deaver|dzefri diver|mo hayder|val mcdermid|lisa gardner|freida mcfadden|frida makfaden|alex michaelides|aleks mihaelides|bret easton ellis|bret iston elis|caroline kepnes|jeff lindsay|sebastian fitzek|sebastijan ficek|cody mcfadyen|j\.? ?d\.? barker|lars kepler|camilla lackberg|kamila lekberg|m\.? ?w\.? craven|robert bryndza|angela marsons|jessica knoll|tana french|tana frenc|ruth ware|rut ver|lisa jewell|liza dzuel|shari lapena|sari lapena|b\.? ?a\.? paris|harlan coben|harlan koben|donato carrisi|donato karizi|joel dicker|zoel diker|jean-christophe grange|zan-kristof granze)\b/;
+  const CRIME_TT = /\b(silence of the lambs|kad jaganjci utihnu|red dragon|crveni zmaj|hannibal|hanibal|american psycho|americki psiho|the girl with the dragon tattoo|devojka sa tetovazom zmaja|gone girl|nestala|sharp objects|ostri predmeti|darkly dreaming dexter|dexter|the snowman|sneski|you\b.*kepnes)\b/;
+  const TRUECRIME_AU = /\b(truman capote|truman kapote|michelle mcnamara|mishel maknamara|ann rule|en rul|john douglas|dzon daglas|harold schechter|patrick radden keefe|robert kolker|vincent bugliosi|erik larson|david grann|dejvid gren|billy jensen|elon green|gregg olsen)\b/;
+  const TRUECRIME_TT = /\b(in cold blood|hladnokrvno|i.?ll be gone in the dark|mindhunter|lovac na umove|helter skelter|the stranger beside me|killers of the flower moon|ubice cvetnog meseca|say nothing|the devil in the white city)\b/;
   const hasF = (b, ...f) => (b.feelings || []).some(x => f.includes(x));
   // ================= Reader DNA, version 2: what you read (taste), read fairly, refreshed with every book =================
   // everything we know about a book, as one lower-case text, cached until the book changes
@@ -555,11 +569,14 @@
     { name: "The Myth Weaver", g: "✧", c: "#9A62E0", d: "Gods, legends and fairy tales retold are your favourite kind of magic.", s: "myths retold",
       t: b => hasT(b, "Myth retelling", "Fairy tale", "Gods & goddesses") ? 1 : rxB(b, /\b(mytholog\w*|greek gods|norse|legends?|fairy tales?|retelling|achilles|troy|trojan|odyss\w*)\b/) ? .7 : 0 },
     { name: "The Mystery Hunter", g: "◆", c: "#B8860B", d: "You can't resist a puzzle, a body in the library or a detective with a hunch.", s: "puzzles and detectives",
-      t: b => hasG(b, "Mystery") ? 1 : hasT(b, "Whodunit", "Locked room") ? .8 : rxB(b, /\b(detective|murder mystery|whodunit|sleuth)\b/) ? .6 : 0 },
+      t: b => { const v = hasG(b, "Mystery") ? 1 : hasT(b, "Whodunit", "Locked room") ? .8 : rxB(b, /\b(detective|murder mystery|whodunit|sleuth)\b/) ? .6 : 0;
+        // a horror novel or a true-crime book filed under "detective and mystery stories" is not really a puzzle to solve
+        return v && hasG(b, "Horror", "True Crime") && !hasT(b, "Whodunit", "Locked room") && !rxB(b, /\b(whodunit|sleuth|poirot|sherlock|miss marple|private (eye|investigator)|inspector \w+|detective (novel|series|fiction))\b/) ? Math.min(v, .25) : v; } },
     { name: "The Thrill Chaser", g: "⚡", c: "#C2402F", d: "Twists, unreliable narrators and the next-chapter-at-2am feeling: you live for suspense.", s: "twists and suspense",
-      t: b => hasG(b, "Thriller") ? 1 : hasT(b, "Unreliable narrator", "Plot twist", "Serial killer") ? .8 : rxB(b, /\b(suspense|psychological thriller|thrillers?)\b/) ? .6 : 0 },
-    { name: "The Shadow Seeker", g: "☾", c: "#8E2A3A", d: "You're drawn to the dark: gothic houses, monsters and the thrill of fear.", s: "dark, gothic shadows",
-      t: b => hasG(b, "Horror") ? 1 : hasT(b, "Gothic", "Vampires & monsters") ? .8 : rxB(b, /\b(gothic|haunted|ghosts?|vampires?|demons?)\b/) ? .5 : 0 },
+      t: b => { const v = hasG(b, "Thriller") ? 1 : hasT(b, "Unreliable narrator", "Plot twist", "Serial killer") ? .8 : rxB(b, /\b(suspense|psychological thriller|thrillers?|trileri?|psiholoski triler|kidnapp\w*|stalker|obsession)\b/) ? .6 : 0;
+        return v && hasG(b, "True Crime") && nonF(b) ? Math.min(v, .3) : v; } },
+    { name: "The Shadow Seeker", g: "☾", c: "#8E2A3A", d: "You're drawn to the dark: haunted houses, monsters, curses and the delicious thrill of fear.", s: "horror and dark, gothic shadows",
+      t: b => hasG(b, "Horror") ? 1 : hasT(b, "Gothic", "Vampires & monsters") ? .8 : rxB(b, /\b(horror|haunt\w*|ghosts?|demons?|demonic|possess(ed|ion)|exorcis\w*|occult|evil spirits?|poltergeist|zombies?|terror|macabre|eerie|creepy|gothic|horor\w*|натприродн\w*|natprirodn\w*|uklet\w*|demon\w*)\b/) ? .7 : rxB(b, /\b(vampires?|werewol\w*|witch(es|craft)?)\b/) && !hasG(b, "Romance", "Romantasy") ? .5 : 0 },
     { name: "The Stargazer", g: "◈", c: "#0F98AE", d: "You look up and ahead: other planets, strange futures and big what-ifs.", s: "the stars and the future",
       t: b => hasG(b, "Science Fiction") ? 1 : hasT(b, "Artificial intelligence", "Time travel") || rxB(b, /\b(space opera|spaceships?|aliens?|galax\w*|cyberpunk)\b/) ? .7 : 0 },
     { name: "The Dystopian Rebel", g: "✕", c: "#5E6A3A", d: "Broken worlds, cruel regimes and the people who refuse to accept them.", s: "rebellion against broken worlds",
@@ -620,7 +637,10 @@
     { name: "The Wordsmith", g: "Ꞷ", c: "#6A5A8A", d: "Language, writing and the craft of words themselves.", s: "words and writing",
       t: b => nonF(b) && rxB(b, /\b(language|linguistic\w*|writing|grammar|words|literature)\b/) ? .8 : 0 },
     { name: "The Curious Scholar", g: "☉", c: "#3C5A8A", d: "You read to understand how the world and people actually work.", s: "real-world ideas",
-      t: b => nonF(b) && (b.category === "Nonfiction" || rxB(b, /\bnonfiction|non-fiction\b/)) ? .35 : 0 },
+      t: b => nonF(b) && (b.category === "Nonfiction" || rxB(b, /\bnonfiction|non-fiction\b/)) ? .35 : 0 },,
+    { name: "The Cold Case Reader", g: "⚰", c: "#6E1A26", d: "Murders, serial killers and true crime: you want to know who did it, how, and above all why.", s: "murder and true crime",
+      t: b => hasG(b, "True Crime") ? 1 : hasT(b, "Serial killer") || rxB(b, /\b(serial (killers?|murder\w*)|psychopaths?|sociopaths?|true crime|forensic\w*|criminal profil\w*|profilers?|crime scenes?|cold case|homicide|serijsk\w* ubic\w*|psihopat\w*|серијск\w* убиц\w*|психопат\w*)\b/) ? .9
+        : hasG(b, "Thriller") && (CRIME_AU.test(srFold(b.author)) || CRIME_TT.test(srFold(b.title))) ? .8 : rxB(b, /\b(murder(s|ed|er|ers|ous)?|killers?|killings?|bod(y|ies) (found|of)|ubistv\w*|ubic\w*|ubijen\w*|убиств\w*|убиц\w*|убијен\w*)\b/) ? .6 : 0 }
   ];
   // how you read (not what): shown as habits beside the DNA
   const HABITS = [
@@ -4716,13 +4736,14 @@ alter publication supabase_realtime add table public.library;`;
     }
     async function loadProfile(){
       if (!client || !user) return;
+      const ac = new AbortController(), slow = setTimeout(() => ac.abort(), 12000);
       try {
-        const { data, error } = await client.from("profiles").select("*").eq("id", user.id).maybeSingle();
-        if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = error.message; paint(); return; }
+        const { data, error } = await client.from("profiles").select("*").eq("id", user.id).abortSignal(ac.signal).maybeSingle(); clearTimeout(slow);
+        if (error) { profState = /profiles|schema cache|does not exist/i.test(error.message) ? "missingtable" : "error"; detail = ac.signal.aborted || /abort/i.test(error.message) ? "It's taking too long. Check your connection and try again." : error.message; paint(); return; }
         if (data) { prof = data; profState = "ok"; lsSet(KEY_PROF, prof); touchProfile(); try { Social.load(true).then(() => { if (tab === "friends") Social.render(); }); Social.queueShare(); } catch {} }
         else { const m = user.user_metadata || {}; profState = "none";
           if (m.name && handleOk(cleanHandle(m.handle))) { await saveProfile({ name: m.name, handle: cleanHandle(m.handle) }, true); } }
-      } catch (e) { profState = "error"; }
+      } catch (e) { clearTimeout(slow); profState = "error"; detail = ac.signal.aborted ? "It's taking too long. Check your connection and try again." : String(e?.message || e); }
       paint();
     }
     async function saveProfile(p, quiet){
@@ -4789,6 +4810,7 @@ alter publication supabase_realtime add table public.library;`;
           if (key.length < 30) { toast("Paste the long “anon public” key."); return; }
           cfg = { url, key }; lsSet(KEY_SYNC, cfg); await connect(); panel(); return;
         }
+        if (t.closest("[data-profretry]")) { profState = "unknown"; detail = ""; panel(); loadProfile(); return; }
         if (t.closest("[data-resetagain]")) { resetSent = ""; panel(); return; }
         if (t.closest("[data-authmode]")) { const em = $("#s-email")?.value; authMode = t.closest("[data-authmode]").dataset.authmode; resetSent = ""; panel(); if (em && $("#s-email") && !$("#s-email").value) $("#s-email").value = em; return; }
         if (t.closest("[data-saveprof]")) { const b2 = t.closest("[data-saveprof]"); b2.disabled = true; const ok = await saveProfile({ name: $("#p-name").value, handle: $("#p-handle").value }); b2.disabled = false; if (ok) { toast(`Saved, ${prof.name}!`); panel(); try { Social.queueShare(); if (tab === "friends") Social.show(); } catch {} } return; }
@@ -4823,8 +4845,8 @@ alter publication supabase_realtime add table public.library;`;
           t.disabled = true;
           const fn = mode === "up" ? client.auth.signUp({ email, password: pw, options: { data: meta } }) : client.auth.signInWithPassword({ email, password: pw });
           const { data, error } = await fn; t.disabled = false;
-          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /invalid login/i.test(error.message) ? "That email and password don't match. Forgot it? Tap “Forgot your password?”" : error.message, 5000); return; }
-          if (mode === "up" && !data.session) { toast("Account created. Check your email to confirm it, then sign in. (Or turn off “Confirm email” in Supabase, step 3.)", 6000); return; }
+          if (error) { toast(/database error saving new user|invite/i.test(error.message) ? "That invite code isn't right. Ask whoever sent you the app." : /already registered/i.test(error.message) ? "That email already has an account. Sign in instead." : /email not confirmed/i.test(error.message) ? "Your account still needs to be confirmed. Ask whoever runs your nook to confirm it for you, then sign in again." : /invalid login/i.test(error.message) ? "That email and password don't match. Forgot it? Tap “Forgot your password?”" : error.message, 5000); return; }
+          if (mode === "up" && !data.session) { toast("Account created! It needs to be confirmed before you can sign in: check your email, or ask whoever runs your nook to confirm it for you.", 8000); return; }
           toast(mode === "up" ? "Account created. Your library is syncing." : "Signed in. Your library is syncing."); panel(); return;
         }
         if (t.closest("[data-syncnow]")) { pull(); return; }
@@ -4900,7 +4922,7 @@ alter publication supabase_realtime add table public.library;`;
           <div class="profedit" id="prof-edit" hidden><div class="fields"><label class="field"><span class="label">Your name</span><input id="p-name" maxlength="40" value="${esc(P.name)}"></label><label class="field"><span class="label">@handle</span><input id="p-handle" maxlength="21" value="${esc(P.handle)}" autocapitalize="none" spellcheck="false"></label></div><div class="r" style="display:flex;justify-content:flex-end"><button class="btn small primary" type="button" data-saveprof>Save</button></div></div>
           <div class="label" style="margin-top:6px">What friends will be able to see</div>
           <div class="privlist">${PRIVACY.map(([k, l, d]) => `<button type="button" class="privrow" data-privacy="${k}" aria-pressed="${pr[k] !== false}"><span class="tog"><i></i></span><span><b>${l}</b><small>${d}</small></span></button>`).join("")}</div>
-          <p class="note" style="margin:4px 0 10px">Friends are coming next: once they arrive, only friends you accept will see these, and only the ones switched on.</p>` : profState === "error" ? `<div class="confirm">Couldn't load your profile right now. ${esc(detail)}</div>` : "") + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
+          <p class="note" style="margin:4px 0 10px">Friends are coming next: once they arrive, only friends you accept will see these, and only the ones switched on.</p>` : profState === "error" ? `<div class="confirm profwait">Couldn't load your reader profile, so friends can't find you yet. ${esc(detail)} <button class="btn small" type="button" data-profretry>Try again</button></div>` : `<div class="confirm profwait"><span class="progress dots">Loading your reader profile</span> <button class="linkbtn" type="button" data-profretry>Try again</button></div>`) + `<div class="syncstate" data-state="${state}"><b>${{ ok: "Everything is synced", syncing: "Syncing…", pending: "Saving your changes…", offline: "You're offline. Changes will sync when you're back.", error: "Sync problem" }[state] || "Connected"}</b>
           <span class="note">${state === "error" ? esc(detail) : `Signed in as ${esc(user.email || "")}${lastSync ? ` · last synced ${new Date(lastSync).toLocaleTimeString()}` : ""}`}</span></div>
         <div class="label" style="margin-top:4px">Connect your phone</div>
         ${isHosted() ? `<div class="phone"><div id="qr" class="qr"></div><ol class="setup" style="margin:0">
@@ -7372,7 +7394,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   const HYBRID = {
     "Faithful Pilgrim|Curious Scholar": "The Seeker of Wisdom", "Faithful Pilgrim|Life Collector": "The Keeper of Testimonies", "Faithful Pilgrim|Philosopher": "The Contemplative", "Faithful Pilgrim|Self-Builder": "The Purposeful Soul",
     "Fantasy Wanderer|Dragon Rider": "The Dragonbound", "Romantic Dreamer|Dragon Rider": "The Dragon's Heart", "Romantic Dreamer|Court Intriguer": "The Royal Romantic", "Cozy Soul|Fantasy Wanderer": "The Hearthside Mage", "Cozy Soul|Mystery Hunter": "The Teacup Sleuth",
-    "Thrill Chaser|Mystery Hunter": "The Midnight Detective", "Classic Soul|Romantic Dreamer": "The Regency Heart", "Dystopian Rebel|Coming-of-Age Kindred": "The Young Revolutionary", "Strategist|Self-Builder": "The Empire Builder", "Strategist|Money Mind": "The Tycoon",
+    "Thrill Chaser|Mystery Hunter": "The Midnight Detective", "Cold Case Reader|Shadow Seeker": "The Midnight Ripper", "Shadow Seeker|Cold Case Reader": "The Bone Collector", "Cold Case Reader|Thrill Chaser": "The Mind Hunter", "Thrill Chaser|Cold Case Reader": "The Killer Instinct", "Cold Case Reader|Mystery Hunter": "The Crime Scene Sleuth", "Mystery Hunter|Cold Case Reader": "The Last Witness", "Shadow Seeker|Thrill Chaser": "The Nightmare Chaser", "Thrill Chaser|Shadow Seeker": "The Midnight Scream", "Cold Case Reader|Mind Explorer": "The Criminal Profiler", "Mind Explorer|Cold Case Reader": "The Profiler", "Classic Soul|Romantic Dreamer": "The Regency Heart", "Dystopian Rebel|Coming-of-Age Kindred": "The Young Revolutionary", "Strategist|Self-Builder": "The Empire Builder", "Strategist|Money Mind": "The Tycoon",
     "Saga Devotee|Romantic Dreamer": "The Eternal Heart", "Saga Devotee|Court Intriguer": "The Throne Chaser", "Saga Devotee|Fantasy Wanderer": "The Keeper of Worlds", "Fantasy Wanderer|Romantic Dreamer": "The Starlit Romantic",
     "Fantasy Wanderer|Court Intriguer": "The Crown Seeker", "Fantasy Wanderer|Mystery Hunter": "The Arcane Detective", "Romantic Dreamer|Emotional Explorer": "The Tender Heart", "Rainbow Romantic|Emotional Explorer": "The Brave Heart",
     "Rainbow Romantic|Saga Devotee": "The Eternal Rainbow", "Mystery Hunter|Shadow Seeker": "The Midnight Sleuth", "Shadow Seeker|Fantasy Wanderer": "The Dark Enchanter", "Literary Adventurer|Emotional Explorer": "The Quiet Poet",
@@ -7382,7 +7404,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     "Saga Devotee|Rainbow Romantic": "The Eternal Rainbow", "Curious Scholar|Literary Adventurer": "The Philosopher of Pages", "Shadow Seeker|Romantic Dreamer": "The Gothic Lover", "Time Traveller|Romantic Dreamer": "The Period Romantic",
   };
   const ADJ = { "Healer": "Healing", "Homeland Reader": "Homeward", "Spellbound Student": "Spellbound", "Fantasy Wanderer": "Enchanted", "Court Intriguer": "Scheming", "Romantic Dreamer": "Lovesick", "Rainbow Romantic": "Rainbow", "Emotional Explorer": "Tender", "Coming-of-Age Kindred": "Young-Hearted", "Saga Devotee": "Devoted", "Tome Conqueror": "Mighty",
-    "Quick-Sip Reader": "Swift", "Literary Adventurer": "Lyrical", "Myth Weaver": "Mythic", "Mystery Hunter": "Sharp-Eyed", "Shadow Seeker": "Shadowed", "Stargazer": "Starbound", "Time Traveller": "Timeworn", "Curious Scholar": "Curious", "Found-Family Seeker": "Loyal",
+    "Quick-Sip Reader": "Swift", "Literary Adventurer": "Lyrical", "Myth Weaver": "Mythic", "Mystery Hunter": "Sharp-Eyed", "Shadow Seeker": "Shadowed", "Cold Case Reader": "Blood-Stained", "Thrill Chaser": "Breathless", "Stargazer": "Starbound", "Time Traveller": "Timeworn", "Curious Scholar": "Curious", "Found-Family Seeker": "Loyal",
     "Spiritual Seeker": "Faithful", "Strategist": "Strategic", "Mind Explorer": "Perceptive", "Self-Builder": "Driven", "Philosopher": "Contemplative", "Science Wonderer": "Inquisitive", "Chronicler": "Learned", "Life Collector": "Empathic", "Truth Seeker": "Truth-Bound", "Poet's Heart": "Poetic", "Young at Heart": "Wonder-Filled", "Panel Hopper": "Vivid", "Laughter Seeker": "Merry", "Dragon Rider": "Dragonhearted", "Cozy Soul": "Cosy", "Classic Soul": "Timeless", "Thrill Chaser": "Restless", "Dystopian Rebel": "Rebel", "War Witness": "Brave", "Faithful Pilgrim": "Faithful", "Money Mind": "Shrewd", "Wellness Keeper": "Radiant", "Tech Tinkerer": "Ingenious", "Political Mind": "Principled", "Nature Walker": "Wild", "Globetrotter": "Wandering", "Kitchen Alchemist": "Epicurean", "Artist's Eye": "Artful", "Nurturer": "Gentle", "Wordsmith": "Eloquent" };
   ADJ["Spiritual Seeker"] = "Serene";
   const RARITY = { "Spellbound Student": 2, "Fantasy Wanderer": 1, "Romantic Dreamer": 1, "Saga Devotee": 1, "Mystery Hunter": 1, "Emotional Explorer": 1, "Coming-of-Age Kindred": 1, "Court Intriguer": 2, "Rainbow Romantic": 2, "Literary Adventurer": 2, "Tome Conqueror": 2, "Quick-Sip Reader": 2, "Found-Family Seeker": 2, "Time Traveller": 3, "Shadow Seeker": 3, "Stargazer": 3, "Myth Weaver": 3, "Curious Scholar": 3, "Self-Builder": 2, "Mind Explorer": 2, "Life Collector": 2, "Strategist": 3, "Spiritual Seeker": 3, "Philosopher": 3, "Science Wonderer": 3, "Chronicler": 3, "Truth Seeker": 3, "Poet's Heart": 3, "Young at Heart": 3, "Panel Hopper": 3, "Laughter Seeker": 3, "Dragon Rider": 2, "Cozy Soul": 2, "Classic Soul": 2, "Thrill Chaser": 1, "Dystopian Rebel": 2, "War Witness": 3, "Faithful Pilgrim": 3, "Money Mind": 3, "Wellness Keeper": 3, "Healer": 3, "Homeland Reader": 2, "Tech Tinkerer": 3, "Political Mind": 3, "Nature Walker": 3, "Globetrotter": 3, "Kitchen Alchemist": 3, "Artist's Eye": 3, "Nurturer": 3, "Wordsmith": 3 };
@@ -8722,8 +8744,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.11";
+  const APP_VERSION = "4.12";
   const CHANGELOG = [
+    ["4.12", "31 Oct 2026", "Your darker side, in your Reader DNA", [
+      "A new reader type, ⚰ The Cold Case Reader: murders, serial killers and true crime",
+      "☾ The Shadow Seeker now recognises far more horror: hauntings, possession, curses, monsters and the occult",
+      "Horror, dark crime and true crime writers are recognised by name (Stephen King, Thomas Harris, Jo Nesbø, Truman Capote and many more, in Serbian spellings too), even when a book has no description",
+      "Horror novels are no longer filed as just “mystery”. Books already on your shelves count again too",
+      "New pairings for dark readers, like The Mind Hunter, The Midnight Ripper and The Bone Collector"]],
+    ["4.11.1", "31 Oct 2026", "No more missing profiles", [
+      "If your reader profile is slow to load, your account now says so, with a Try again button, instead of quietly showing nothing",
+      "If it can't load at all, you'll see why, so friends aren't left unable to find you",
+      "New accounts waiting to be confirmed now say so clearly when you try to sign in, instead of a confusing error"]],
     ["4.11", "31 Oct 2026", "Forgot your password?", [
       "Signing in now has a “Forgot your password?” link: enter your email and you'll get a link to choose a new password",
       "Opening that link takes you straight to choosing a new password",
