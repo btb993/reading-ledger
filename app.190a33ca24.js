@@ -3115,6 +3115,87 @@
     const daysLeft = Math.max(0, Math.ceil((total - cur) / pace));
     return { total, cur, pace, daysIn, basis, daysLeft, unit, ch, exact, finish: new Date(today.getTime() + daysLeft * dayMs) };
   }
+  // ================= v4.14: Empire of Storms & Tower of Dawn, read together in story order =================
+  // the order follows T. L. Branson's alternating, chronological checklist: E = Empire of Storms, T = Tower of Dawn
+  const TANDEM = { k: "eos-tod", a: { name: "Empire of Storms", short: "EoS", rx: /empire of storms|carstvo oluj/, ch: 75 }, b: { name: "Tower of Dawn", short: "ToD", rx: /tower of dawn|kula zor/, ch: 68 },
+    order: "N E1 E2 E3 E4 E5 T1 E6 E7 E8 T2 T3 E9 E10 T4 T5 T6 E11 T7 E12 E13 T8 T9 T10 E14 E15 E16 T11 T12 E17 E18 T13 T14 T15 T16 E19 T17 E20 E21 E22 E23 T18 T19 T20 T21 E24 E25 T22 T23 E26 T24 E27 E28 E29 T25 T26 T27 T28 E30 T29 T30 T31 E31 T32 E32 T33 T34 T35 E33 E34 E35 E36 E37 E38 E39 E40 E41 E42 E43 E44 E45 E46 E47 E48 E49 E50 E51 T36 T37 E52 T38 T39 T40 E53 T41 T42 E54 E55 E56 T43 E57 E58 E59 T44 T45 T46 T47 T48 E60 E61 T49 T50 T51 E62 E63 T52 T53 E64 E65 T54 T55 T56 E66 E67 T57 E68 E69 E70 E71 E72 E73 E74 E75 T58 T59 T60 T61 T62 T63 T64 T65 T66 T67 T68 F".split(" ") };
+  const tdLabel = x => x === "N" ? ["a", "Nightfall"] : x === "F" ? ["b", "Fireheart"] : [x[0] === "E" ? "a" : "b", "Chapter " + x.slice(1)];
+  const tdName = i => { const [sd, l] = tdLabel(TANDEM.order[i]); return `${TANDEM[sd].name} · ${l}`; };
+  function tandemBooks(){ const R = books.filter(b => b.shelf === "reading"), A = R.find(b => TANDEM.a.rx.test(srFold(b.title))), B = R.find(b => TANDEM.b.rx.test(srFold(b.title))); return A && B ? [A, B] : null; }
+  const tdOn = A => !!(A && A.tandem && A.tandem.k === TANDEM.k);
+  const tdState = A => String(tdOn(A) ? A.tandem.d || "" : "").padEnd(TANDEM.order.length, "0").slice(0, TANDEM.order.length);
+  const tdCount = (d, sd) => TANDEM.order.reduce((n, x, i) => n + (d[i] === "1" && /^[ET]\d/.test(x) && (x[0] === "E") === (sd === "a") ? 1 : 0), 0);
+  // ticking chapters moves both books on: chapter tracking, page estimate, progress log, friends' activity
+  function tdApply(A, B, d){
+    A.tandem = { k: TANDEM.k, d, at: new Date().toISOString() };
+    for (const [bk, sd] of [[A, "a"], [B, "b"]]) {
+      const n = tdCount(d, sd), tot = TANDEM[sd].ch;
+      if (!bk.started && n) bk.started = todayISO();
+      bk.trackBy = "chapters"; bk.chapters = tot;
+      if (Number(bk.currentChapter) !== n) { bk.currentChapter = n; if (bk.pages) bk.currentPage = Math.round(bk.pages * n / tot); logProgress(bk, bk.currentPage || 0, n); }
+    }
+    save(); render();
+  }
+  function tdTick(i){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T, d = [...tdState(A)]; if (d[i] === "1") return; d[i] = "1";
+    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); bondAdd(2, "progress");
+    const nd = tdState(A), nx = nd.indexOf("0"), [sd] = tdLabel(TANDEM.order[i]), now = tdCount(nd, sd);
+    if (now >= TANDEM[sd].ch && was[sd === "a" ? 0 : 1] < TANDEM[sd].ch) toast(`That was the last chapter of ${TANDEM[sd].name}! Press “I finished it” to shelve it.`, 6000);
+    else toast(nx < 0 ? "⚔ The whole tandem read is done. What a journey!" : `✓ Ticked. Up next: ${tdName(nx)}`, 4000);
+  }
+  function tdStart(){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T;
+    // chapters you've already read count straight away: from your chapter count, or worked out from your page
+    const already = (bk, sd) => { const tot = TANDEM[sd].ch; if (bk.trackBy === "chapters" && Number(bk.currentChapter)) return Math.min(tot, Number(bk.currentChapter)); return bk.pages && bk.currentPage ? Math.min(tot, Math.floor(tot * bk.currentPage / bk.pages)) : 0; };
+    const ea = already(A, "a"), tb = already(B, "b");
+    const d = TANDEM.order.map(x => x === "N" ? (ea ? "1" : "0") : x === "F" ? "0" : (x[0] === "E" ? +x.slice(1) <= ea : +x.slice(1) <= tb) ? "1" : "0").join("");
+    A.tandem = { k: TANDEM.k, d, at: new Date().toISOString() }; save(); render(); openTandem();
+    toast(ea || tb ? `Started! Chapters you'd already read are ticked (Empire of Storms ${ea}, Tower of Dawn ${tb}). Fix any by tapping them.` : "Started! Tick each chapter as you finish it.", 6500);
+  }
+  function tandemBlock(b){
+    const T = tandemBooks(); if (!T || !T.includes(b)) return ""; const [A] = T;
+    if (!tdOn(A)) return `<div class="tdoffer"><span>⚔ <i>Empire of Storms</i> and <i>Tower of Dawn</i> happen at the same time. Read them together, chapter by chapter, in story order?</span><button class="btn small primary" type="button" data-tdstart>Start the tandem read</button></div>`;
+    const d = tdState(A), i = d.indexOf("0"), done = [...d].filter(x => x === "1").length;
+    if (i < 0) return `<div class="tdnext"><button type="button" class="tdmain" data-tdopen><span class="label">⚔ Tandem read</span><span class="tdup">All ${d.length} parts read ✦</span></button></div>`;
+    const [sd, lab] = tdLabel(TANDEM.order[i]);
+    return `<div class="tdnext"><button type="button" class="tdmain" data-tdopen aria-label="Open the tandem read checklist"><span class="label">⚔ Tandem read · ${done} of ${d.length}</span><span class="tdup">Up next: <b class="tdname td-${sd}">${TANDEM[sd].name}</b> · ${lab}</span><span class="tdbar"><i style="width:${(done / d.length * 100).toFixed(1)}%"></i></span></button><button class="btn small primary tddone" type="button" data-tdtick="${i}" title="I read ${esc(tdName(i))}">✓ Read it</button></div>`;
+  }
+  let tdUpTo = false;
+  function openTandem(){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T, root = $("#modal-root");
+    const draw = keep => {
+      const d = tdState(A), nx = d.indexOf("0"), done = [...d].filter(x => x === "1").length, m0 = root.querySelector(".tdmodal"), st = m0 ? m0.scrollTop : 0;
+      root.innerHTML = `<div class="scrim" id="td-scrim"><div class="modal tdmodal" role="dialog" aria-modal="true" aria-labelledby="td-t"><button class="iconbtn mx" type="button" data-tdx aria-label="Close">✕</button>
+        <div class="tdhd"><div><div class="label">⚔ Tandem read · in story order</div><h2 id="td-t">Empire of Storms <span class="muted">&amp;</span> Tower of Dawn</h2></div></div>
+        <div class="tdprog">${["a", "b"].map(sd => { const c = tdCount(d, sd); return `<div class="tdp"><b class="tdname td-${sd}">${TANDEM[sd].name}</b><span class="tdbar td-${sd}"><i style="width:${(c / TANDEM[sd].ch * 100).toFixed(1)}%"></i></span><small>chapter ${c} of ${TANDEM[sd].ch}</small></div>`; }).join("")}</div>
+        <div class="tdupnext">${nx >= 0 ? `<span class="label">Up next · ${done} of ${d.length} done</span><b class="tdname td-${tdLabel(TANDEM.order[nx])[0]}">${esc(tdName(nx))}</b>${TANDEM.order[nx + 1] ? `<small class="muted">then ${esc(tdName(nx + 1))}</small>` : ""}<button class="btn primary" type="button" data-tdtick="${nx}">✓ Read it</button>` : `<b>All ${d.length} parts read ✦</b><small class="muted">Shelve both books with “I finished it”.</small>`}${done ? `<button class="linkbtn tdundo" type="button" data-tdundo>↶ Undo last</button>` : ""}</div>
+        <div class="tdtools"><label class="tdupto"><input type="checkbox" data-tdupto${tdUpTo ? " checked" : ""}> Tap a chapter to tick everything up to it</label></div>
+        <div class="tdgrid" role="group" aria-label="All chapters in reading order">${TANDEM.order.map((x, i) => { const [sd, lab] = tdLabel(x); return `<button type="button" class="tdc td-${sd}${d[i] === "1" ? " on" : ""}${i === nx ? " nx" : ""}" data-tdc="${i}" aria-pressed="${d[i] === "1"}" aria-label="${esc(TANDEM[sd].name)} ${esc(lab)}"><small>${TANDEM[sd].short}</small><span>${/^[ET]/.test(x) ? x.slice(1) : lab}</span></button>`; }).join("")}</div>
+        <div class="tdfoot"><span class="tdkey"><i class="td-a"></i>Empire of Storms <i class="td-b"></i>Tower of Dawn</span><button class="linkbtn" type="button" data-tdstop>Stop the tandem read</button></div>
+      </div></div>`;
+      const m = root.querySelector(".tdmodal"), n = root.querySelector(".tdc.nx");
+      if (keep) m.scrollTop = st; else if (n) m.scrollTop = Math.max(0, n.offsetTop - m.clientHeight / 2);
+    };
+    draw(false);
+    const close = () => { root.onclick = null; root.onchange = null; root.innerHTML = ""; };
+    root.onchange = e => { if (e.target.matches("[data-tdupto]")) tdUpTo = e.target.checked; };
+    root.onclick = e => {
+      if (e.target.id === "td-scrim" || e.target.closest("[data-tdx]")) return close();
+      const tk = e.target.closest("[data-tdtick]"); if (tk) { tdTick(+tk.dataset.tdtick); return draw(true); }
+      const c = e.target.closest("[data-tdc]"); if (c) { const i = +c.dataset.tdc, d = [...tdState(A)];
+        if (tdUpTo) { for (let j = 0; j <= i; j++) d[j] = "1"; tdUpTo = false; } else d[i] = d[i] === "1" ? "0" : "1";
+        tdApply(A, B, d.join("")); return draw(true); }
+      if (e.target.closest("[data-tdundo]")) { const d = [...tdState(A)], j = d.lastIndexOf("1"); if (j >= 0) { d[j] = "0"; tdApply(A, B, d.join("")); toast(`Unticked ${tdName(j)}.`); } return draw(true); }
+      if (e.target.closest("[data-tdstop]")) { if (!confirmSoft()) return; delete A.tandem; save(); render(); close(); toast("Tandem read stopped. Your chapter progress in both books stays."); }
+    };
+  }
+  let tdStopArmed = 0; const confirmSoft = () => { if (Date.now() - tdStopArmed < 4000) return true; tdStopArmed = Date.now(); toast("Tap “Stop the tandem read” again to stop. Your chapter progress stays either way."); return false; };
+  document.addEventListener("click", e => {
+    if (e.target.closest("#modal-root")) return;
+    if (e.target.closest("[data-tdstart]")) { tdStart(); return; }
+    if (e.target.closest("[data-tdopen]")) { openTandem(); return; }
+    const tk = e.target.closest("[data-tdtick]"); if (tk) { tdTick(+tk.dataset.tdtick); return; }
+  });
   let nowMore = null;
   function renderNow(){
     const el = $("#now"), list = books.filter(b => b.shelf === "reading").sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""));
@@ -3144,6 +3225,7 @@
           <h2>${esc(b.title)}</h2><div class="nowauthor"><button type="button" class="authlink" data-author="${esc(b.author)}">${esc(b.author)}</button></div>
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
           <div class="nowline" title="${esc(eta.replace(/<[^>]+>/g, ""))}">${e.total ? `${u} ${e.cur} of ${e.total}` : `${u} ${e.cur}`} · ${short}</div>
+          ${tandemBlock(b)}
           <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form2}<button class="btn small primary" type="submit">Update</button><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}" title="${on ? "Back to your reading session" : "Read by candlelight: timer and sounds"}">🕯 ${on ? "Back" : "Read"}</button><button class="btn small nowmorebtn" type="button" data-nowmore="${esc(b.id)}" aria-expanded="${more}" title="More">⋯</button></form>
           ${more ? `<div class="nowmore"><button class="btn small" type="button" data-finish="${esc(b.id)}">✓ I finished it</button><button class="btn small" type="button" data-abandon="${esc(b.id)}" title="Put it on the Abandoned Shelf">🕸 Not for me</button><div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div><button class="btn small" type="button" data-words="${esc(b.id)}">✎ Look up a word${(b.words || []).length ? ` · ${(b.words || []).length}` : ""}</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button>${todayMins(b) ? `<button class="btn small" type="button" data-share="session">⤴ Today's reading</button>` : ""}
             <div class="nowfull">${eta}${nowSessionLine(b)}</div></div>` : ""}
@@ -4951,7 +5033,7 @@ alter publication supabase_realtime add table public.library;`;
       if (pr.reading !== false) out.reading = books.filter(b => b.shelf === "reading").map(b => { const last = (b.progressLog || []).slice(-1)[0]; return { ...base(b), cp: Number(b.currentPage) || 0, st: b.started || null, up: last?.d || b.started || null, min: (b.sessions || []).reduce((t, s) => t + (s.m || 0), 0) }; });
       if (pr.shelves !== false) {
         out.read = readBooks().slice().sort((a, b) => (b.finished || "").localeCompare(a.finished || "")).slice(0, 400).map(b => { const o = { ...base(b), f: b.finished || null }; if (pr.ratings !== false) { if (b.rating) o.r = b.rating; if ((b.feelings || []).length) o.fe = b.feelings.slice(0, 4); if (b.recommend) o.rec = b.recommendTo || true; if (b.surpriseFav) o.sf = 1; if (b.hype) o.hy = b.hype; if (b.review) o.rv = b.review.slice(0, 500); if ((b.quotes || []).length) o.qt = b.quotes[0].q.slice(0, 240); } return o; });
-        out.want = books.filter(b => b.shelf === "want").slice(0, 300).map(base);
+        out.want = books.filter(b => b.shelf === "want").slice().sort((a, b) => String(b.added || "").localeCompare(String(a.added || ""))).slice(0, 300).map(b => ({ ...base(b), ad: String(b.added || "").slice(0, 10) || null }));
       }
       if (pr.soul !== false) { try { const D = soulData(); if (D.dna.length) { const L = readerLevel(), AL = alignment(D); out.soul = { name: hybridName(D.dna[0], D.dna[1]), level: L.level, title: L.title, dna: D.dna.slice(0, 5).map(x => ({ n: x.name, p: x.pct, g: x.g, c: x.c })), align: AL.name, code: myCode(D), trait: hiddenTrait(D)[0] }; } } catch {} }
       return out;
@@ -5318,7 +5400,7 @@ alter publication supabase_realtime add table public.library;`;
     }
     document.addEventListener("click", e => {
       if (!e.target.closest("#home-friends")) return;
-      if (e.target.closest("[data-hfall]")) { showTab("friends"); return; }
+      if (e.target.closest("[data-hfall]")) { fseg = "friends"; showTab("friends"); return; }
       const c = e.target.closest("[data-hfcheer]"); if (c) { cheer(c.dataset.hfcheer); return; }
       const o = e.target.closest("[data-hfopen]"); if (o) { showTab("friends"); setTimeout(() => openNook(o.dataset.hfopen), 150); }
     });
@@ -5334,6 +5416,47 @@ alter publication supabase_realtime add table public.library;`;
       return out.sort((a, b) => b.t - a.t).slice(0, 20);
     }
     const evKey = o => `${o.p.id}|${o.ev}|${tnorm(o.x.t)}`;
+    const dayT = d => { const m = String(d || "").match(/^(\d{4})-(\d{2})-(\d{2})(T.*)?$/); if (!m) return 0; const t = m[4] ? Date.parse(d) : new Date(+m[1], +m[2] - 1, +m[3], 12).getTime(); return isNaN(t) ? 0 : t; };
+    function activity(pid){
+      const out = [], cut = Date.now() - 60 * 864e5, now = Date.now() + 864e5;
+      for (const p of friends) { if (pid && p.id !== pid) continue; const S = shelves.get(p.id) || {};
+        for (const x of S.read || []) { const t = dayT(x.f); if (t >= cut && t < now) out.push({ p, ev: "finished", x, t }); }
+        for (const x of S.reading || []) { const ts = dayT(x.st), tu = dayT(x.up);
+          if (ts >= cut && ts < now) out.push({ p, ev: "started", x, t: ts });
+          if (tu >= cut && tu < now && tu - ts > 36 * 3600e3 && x.cp) out.push({ p, ev: "progress", x, t: tu }); }
+        for (const x of S.want || []) { const t = dayT(x.ad); if (t >= cut && t < now) out.push({ p, ev: "wanted", x, t }); } }
+      return out.sort((a, b) => b.t - a.t).slice(0, pid ? 40 : 80);
+    }
+    const dayLabel = t => { const d = new Date(t), a = new Date(); a.setHours(0, 0, 0, 0); const k = Math.round((a - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+      return k <= 0 ? "Today" : k === 1 ? "Yesterday" : k < 7 ? d.toLocaleDateString("en-GB", { weekday: "long" }) : d.toLocaleDateString("en-GB", { day: "numeric", month: "long" }); };
+    function actRow(o, one){
+      const k = evKey(o), done = lsGet("reading-ledger-reacted", {})[k], x = o.x, pct = x.p ? Math.min(100, Math.round((x.cp || 0) / x.p * 100)) : null;
+      const what = { finished: "finished", started: "started", progress: pct !== null ? `is ${pct}% into` : "is reading", wanted: "wants to read" }[o.ev];
+      const extra = o.ev === "finished" && x.r ? ` <span class="fstars">${starsTxt(x.r)}</span>` : "";
+      return `<div class="actrow" data-ev="${o.ev}">${one ? `<span class="acticon" aria-hidden="true">${{ finished: "✓", started: "📖", progress: "➜", wanted: "♡" }[o.ev]}</span>` : `<button type="button" class="actav" data-fopen="${o.p.id}" aria-label="Open ${esc(o.p.name)}'s nook">${avatar(o.p, 30)}</button>`}
+        <span class="acttxt">${one ? "" : `<b>${esc(o.p.name)}</b> `}${what} <button type="button" class="linkbtn fevbook" data-fevbook="${esc(k)}">${esc(x.t)}</button>${extra}${o.ev === "finished" && x.rec ? ` <span class="ftag">♥ recommends</span>` : ""}</span>
+        ${!lettersOff && !one && (o.ev === "finished" || o.ev === "started") ? `<span class="fevr actreact">${REACT.map(([e, l]) => `<button type="button" class="fevreact" data-freact="${esc(k)}" data-e="${e}" aria-pressed="${done === e}" title="${l}" aria-label="${l}"${done ? " disabled" : ""}>${e}</button>`).join("")}</span>` : ""}
+        <span class="actcov" aria-hidden="true">${mini(x)}</span></div>`;
+    }
+    function actList(list, one){
+      if (!list.length) return "";
+      let last = "", h = "";
+      for (const o of list) { const L = dayLabel(o.t); if (L !== last) { h += `<div class="actday">${L}</div>`; last = L; } h += o.kind === "post" ? postCard(o.post) : actRow(o, one); }
+      return `<div class="actlist">${h}</div>`;
+    }
+    let actWho = "", actShow = 25;
+    function activityHTML(){
+      const me = uid(), posts = feedOff ? [] : s8posts.filter(p => p.user_id !== me && postTime(p) >= Date.now() - 60 * 864e5 && (!actWho || p.user_id === actWho));
+      const posted = new Set(posts.map(p => p.user_id + "|" + tnorm(p.book?.t || "")));
+      const evs = activity(actWho || undefined).filter(o => !(o.ev === "finished" && posted.has(o.p.id + "|" + tnorm(o.x.t))));
+      const all = [...evs, ...posts.map(p => ({ kind: "post", post: p, t: postTime(p) }))].sort((a, b) => b.t - a.t).slice(0, 80), list = all.slice(0, actShow);
+      const mine = feedOff ? [] : books.filter(b => b.shelf === "read" && b.finished && !b.feedPosted && !b.feedSkip && Date.now() - Date.parse(b.finished) < 14 * 864e5 && !s8posts.some(p => p.user_id === me && tnorm(p.book?.t || "") === tnorm(b.title))).slice(0, 2);
+      const who = friends.length > 1 ? `<div class="actwho" role="group" aria-label="Whose activity"><button type="button" class="chipbtn" data-actwho="" aria-pressed="${!actWho}">Everyone</button>${friends.map(p => `<button type="button" class="chipbtn" data-actwho="${p.id}" aria-pressed="${actWho === p.id}">${avatar(p, 20)}${esc(p.name)}</button>`).join("")}</div>` : "";
+      return `<section class="fsec factivity">${who}
+        ${mine.map(b => `<div class="fpmine">${coverHTML(b)}<span><b>You finished ${esc(b.title)}</b><small>Tell your friends what you thought?</small></span><button type="button" class="btn small primary" data-fpshare="${esc(b.id)}">📣 Share</button><button type="button" class="linkbtn" data-fpskip="${esc(b.id)}">Not this one</button></div>`).join("")}
+        ${list.length ? actList(list) + (all.length > list.length ? `<button type="button" class="btn small actmore" data-actmore>Show ${Math.min(25, all.length - list.length)} more</button>` : "") : `<p class="note">Nothing new in the last two months${actWho ? ` from ${esc(whoIs(actWho).name)}` : ""}. When friends start, finish or add books, it shows up here.</p>`}</section>`;
+    }
+    const actNewCount = () => { const seen = lsGet("reading-ledger-actseen", 0); return activity().filter(o => o.t > seen && o.t <= Date.now()).length + (feedOff ? 0 : s8posts.filter(p => p.user_id !== uid() && postTime(p) > seen).length); };
     function feedHTML(){
       const F = feed(); if (!F.length) return "";
       const done = lsGet("reading-ledger-reacted", {});
@@ -5342,7 +5465,7 @@ alter publication supabase_realtime add table public.library;`;
           ${lettersOff ? "" : `<div class="fevr">${REACT.map(([e, l]) => `<button type="button" class="fevreact" data-freact="${esc(k)}" data-e="${e}" aria-pressed="${mine === e}" title="${l}" aria-label="${l}"${mine ? " disabled" : ""}>${e}</button>`).join("")}</div>`}</div>`; }).join("")}</section>`;
     }
     async function react(k, e){
-      const o = feed().find(z => evKey(z) === k); if (!o || !ready()) return;
+      const o = activity().find(z => evKey(z) === k) || feed().find(z => evKey(z) === k); if (!o || !ready()) return;
       const row = { id: (crypto.randomUUID ? crypto.randomUUID() : newId()), sender: U().id, recipient: o.p.id, book: { kind: "react", t: o.x.t, a: o.x.a || "", c: o.x.c || "", e, ev: o.ev }, note: `${e} ${reactNote(o.ev, e, o.x.t)}` };
       const { error } = await C().from("letters").insert(row); if (error) { toast(error.message); return; }
       letters = [{ ...row, created_at: new Date().toISOString() }, ...letters];
@@ -5562,31 +5685,38 @@ alter publication supabase_realtime add table public.library;`;
           ${pct !== null ? `<span class="frnbar"><span style="width:${pct}%"></span></span><span class="frnpct"><b>${pct}%</b>${x.p ? ` · page ${x.cp || 0} of ${x.p}` : ""}${x.up ? ` · ${ago(x.up)}` : ""}</span>` : `<span class="frnpct">${x.up ? ago(x.up) : "Just started"}</span>`}</span></button>
           ${lettersOff ? "" : `<button type="button" class="iconbtn frncheer" data-fcheer="${p.id}" title="Send ${esc(p.name)} a cheer" aria-label="Send ${esc(p.name)} a cheer">✨</button>`}</div>`; }).join("")}</div></section>`;
     }
+    let fseg = lsGet("reading-ledger-fseg", "friends");
     function render(){
       const el = $("#view-friends"); if (!el) return;
       if (!Sync.user) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Read together</h3><div>Create a free account (tap <b>☁ Sign in / join</b> at the top) to add friends, see what they're reading and visit their nooks.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Sign in or join</button></div>`; return; }
       if (!ME()) { el.innerHTML = `<div class="empty"><span class="fleuron">✦</span><h3>One small step first</h3><div>Choose your name and @handle so friends can find you.</div><button class="btn primary" type="button" data-fsignin style="margin-top:12px">Set up my profile</button></div>`; return; }
       if (state === "error" && tableMissing(err)) { el.innerHTML = `<div class="empty"><span class="fleuron">♥</span><h3>Friends aren't switched on yet</h3><div>For the owner: run the step 2 friends SQL in Supabase, then reload.</div></div>`; return; }
       const me = ME(), invite = `${location.origin}${location.pathname}`;
-      el.innerHTML = `<div class="friends">
-        ${postHTML()}
-        ${liveHTML()}
-        ${readingNowHTML()}
-        ${buddyHTML()}
-        ${clubsHTML()}
-        ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
-        <section class="fsec"><h3>Your friends${friends.length ? ` <span class="muted fcount">${friends.length}</span><button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend a book</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || a.name.localeCompare(b.name)).map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle below, or send an invitation.</p>`}</section>
-        ${feedHTML2()}
-        ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
+      const nAct = fseg === "activity" ? 0 : actNewCount();
+      if (fseg === "activity") lsSet("reading-ledger-actseen", Date.now());
+      const SEGS = [["friends", "♥", "Friends", friends.length || ""], ["activity", "📰", "Activity", nAct ? `<i class="segnew">${nAct > 9 ? "9+" : nAct}</i>` : ""], ["together", "📖", "Together", togetherOff ? "" : (buddies.length + clubs.length) || ""], ["find", "＋", "Find", outgoing.length ? `<i class="segnew soft">${outgoing.length}</i>` : ""]];
+      const sorted = friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || String(shelves.get(b.id)?.at || "").localeCompare(String(shelves.get(a.id)?.at || "")) || a.name.localeCompare(b.name));
+      const part = {
+        friends: () => `${liveHTML()}<section class="fsec"><h3 class="fsech">Your friends${friends.length ? `<button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}<span class="fsacts">${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</span></h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${sorted.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle under <button type="button" class="linkbtn" data-fseg="find">＋ Find</button>, or send an invitation.</p>`}</section>`,
+        activity: () => activityHTML(),
+        together: () => `${togetherOff || !friends.length ? `<p class="note">${friends.length ? "Buddy reads and book clubs need the step 6 update in Supabase." : "Add a friend first, then read a book together or start a club."}</p>` : ""}${buddyHTML()}${clubsHTML()}
+          ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
           ${letters.filter(l => l.recipient === U().id && l.read_at).length ? `<div class="label">Received</div>${letters.filter(l => l.recipient === U().id && l.read_at).map(l => letterThumb(l, false)).join("")}` : ""}
           ${letters.some(l => l.sender === U().id) ? `<div class="label" style="margin-top:8px">Sent</div>${letters.filter(l => l.sender === U().id).map(l => letterThumb(l, true)).join("")}` : ""}</details>` : ""}
-        ${lettersOff && friends.length ? `<p class="note">✉ Book letters between friends are almost ready: the owner needs to run the step 3 letters SQL in Supabase.</p>` : ""}
-        <section class="fsec"><h3>Find readers</h3><form class="ffind" id="f-find" autocomplete="off"><input id="f-q" placeholder="Name or @handle" value=""><button class="btn small primary" type="submit">Search</button><button class="btn small" type="button" data-fbrowse>See everyone</button></form>
+          ${lettersOff && friends.length ? `<p class="note">✉ Book letters between friends are almost ready: the owner needs to run the step 3 letters SQL in Supabase.</p>` : ""}`,
+        find: () => `<section class="fsec"><h3>Find readers</h3><form class="ffind" id="f-find" autocomplete="off"><input id="f-q" placeholder="Name or @handle" value=""><button class="btn small primary" type="submit">Search</button><button class="btn small" type="button" data-fbrowse>See everyone</button></form>
           ${search ? (search.length ? search.map(p => personRow(p)).join("") : `<p class="note">Nobody by that name yet.</p>`) : ""}
           ${!search && everyone ? `<div class="label" style="margin-top:8px">Everyone in the nook</div>${everyone.length ? everyone.map(p => personRow(p)).join("") : `<p class="note">It's just you so far. Invite someone!</p>`}` : ""}
           ${outgoing.length ? `<div class="label" style="margin-top:10px">Waiting for an answer</div>${outgoing.map(p => personRow(p, `<button class="linkbtn" type="button" data-fdel="${p.id}">Cancel</button>`)).join("")}` : ""}</section>
-        <details class="fsec fmewrap"><summary><h3>You and inviting friends</h3></summary>        <section class="fme">${personRow(me, `<button class="btn small" type="button" data-fsignin>Edit profile</button>`).replace(/<button class="btn small" type="button" data-freq[^>]*>[^<]*<\/button>|<span class="onshelf">[^<]*<\/span>/, "")}
-          <div class="finvite"><span class="label">Invite a friend</span><p class="note">Send them the app and the invite code. They join, then add you as <b>@${esc(me.handle)}</b>.</p><button class="btn small" type="button" data-finvite>Copy an invitation</button></div></section></details>
+          <section class="fsec fme"><h3>You and inviting friends</h3>${personRow(me, `<button class="btn small" type="button" data-fsignin>Edit profile</button>`).replace(/<button class="btn small" type="button" data-freq[^>]*>[^<]*<\/button>|<span class="onshelf">[^<]*<\/span>/, "")}
+          <div class="finvite"><span class="label">Invite a friend</span><p class="note">Send them the app and the invite code. They join, then add you as <b>@${esc(me.handle)}</b>.</p><button class="btn small" type="button" data-finvite>Copy an invitation</button></div></section>`,
+      };
+      if (!part[fseg]) fseg = "friends";
+      el.innerHTML = `<div class="friends friends2">
+        ${postHTML()}
+        ${feedbackDue().length ? `<section class="fsec fbkdue"><h3>✉ Tell them what you thought</h3>${feedbackDue().map(b => `<div class="fbkrow">${coverHTML(b)}<span><b>${esc(b.title)}</b><small>recommended by ${esc(recSource(b).name)}</small></span><button class="btn small primary" type="button" data-fbkgive="${esc(b.id)}">Give feedback</button></div>`).join("")}</section>` : ""}
+        <nav class="fseg" role="tablist" aria-label="Friends">${SEGS.map(([k, i, l, n]) => `<button type="button" role="tab" data-fseg="${k}" aria-selected="${fseg === k}"><span class="fsi" aria-hidden="true">${i}</span><span class="fsl">${l}</span>${n !== "" && n !== 0 ? (String(n).startsWith("<") ? n : `<span class="fsn">${n}</span>`) : ""}</button>`).join("")}</nav>
+        <div class="fsegbody" data-seg="${fseg}">${part[fseg]()}</div>
       </div>`;
       paintRecCovers(el);
     }
@@ -5665,31 +5795,48 @@ alter publication supabase_realtime add table public.library;`;
     }
     function openNook(id){
       const p = friends.find(f => f.id === id); if (!p) return; const S = shelves.get(id) || {};
-      const root = $("#modal-root"); let tab = S.reading?.length ? "reading" : S.read ? "read" : "soul";
+      const root = $("#modal-root"); let tab = S.reading?.length ? "reading" : S.read ? "read" : "soul", fnSort = "recent";
       const draw = () => {
-        const tabs = [["reading", "Reading now"], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", "Want to read"], ["soul", "Reader's Soul"], ["forthem", "✦ For them"]].filter(([k]) => k === "forthem" ? (S.read || S.soul) && readBooks().length : S[k] !== undefined);
-        const book = (x, k, i) => `<div class="fbook"><button type="button" class="fbopen" data-fbi="${k}:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${x.r ? `<span class="fstars">${"★".repeat(Math.floor(x.r))}${x.r % 1 ? "½" : ""}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise favourite</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends${x.rec !== true ? ` to ${esc(x.rec)}` : ""}</span>` : ""}${x.fe ? `<small class="muted">${x.fe.map(esc).join(" · ")}</small>` : ""}${x.rv ? `<details class="frv"><summary>Their thoughts</summary><p>${esc(x.rv)}</p></details>` : ""}${x.qt ? `<small class="fqt">“${esc(x.qt)}”</small>` : ""}${!inLibrary(x.t, x.a) ? `<button class="linkbtn" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}">+ Want to read</button>` : `<span class="onshelf">On your shelf</span>`}</div>`;
+        const nA = activity(p.id).length;
+        const tabs = [["reading", `Reading${S.reading?.length ? ` · ${S.reading.length}` : ""}`], ["read", `Read${S.read ? ` · ${S.read.length}` : ""}`], ["want", `Want${S.want?.length ? ` · ${S.want.length}` : ""}`], ["activity", "Activity"], ["soul", "Soul"], ["forthem", "✦ For them"]].filter(([k]) => k === "forthem" ? (S.read || S.soul) && readBooks().length : k === "activity" ? nA > 0 : S[k] !== undefined);
+        const pctOf = x => x.p ? Math.min(100, Math.round((x.cp || 0) / x.p * 100)) : null;
+        const want = x => !inLibrary(x.t, x.a) ? `<button class="iconbtn fnwant" type="button" data-fwant="${esc(x.t)}" data-fa="${esc(x.a)}" data-fc="${esc(x.c || "")}" data-fp="${x.p || ""}" title="Add to my Want to read" aria-label="Add ${esc(x.t)} to my Want to read">＋</button>` : `<span class="fnhave" title="On your shelf" aria-label="On your shelf">✓</span>`;
+        const row = (x, k, i) => `<div class="fnrow" data-q="${esc(srFold(x.t + " " + x.a))}"><button type="button" class="fnopen" data-fbi="${k}:${i}" aria-label="About ${esc(x.t)}"><span class="fncov">${mini(x)}</span><span class="fntxt"><b>${esc(x.t)}</b><small>${esc(x.a)}${k === "read" && x.f ? ` · ${esc(fmtShort(x.f))}` : ""}</small>
+            <span class="fnmeta">${x.r ? `<span class="fstars">${starsTxt(x.r)}</span>` : ""}${x.sf ? `<span class="ftag">✷ surprise fave</span>` : ""}${x.rec ? `<span class="ftag">♥ recommends</span>` : ""}${x.rv ? `<span class="ftag">❝ wrote about it</span>` : ""}</span></span></button>${want(x)}</div>`;
+        const sorts = { recent: (a, b) => String(b.f || b.ad || "").localeCompare(String(a.f || a.ad || "")), top: (a, b) => (b.r || 0) - (a.r || 0) || String(b.f || "").localeCompare(String(a.f || "")), rec: (a, b) => (b.rec ? 1 : 0) + (b.sf ? 1 : 0) - (a.rec ? 1 : 0) - (a.sf ? 1 : 0) || (b.r || 0) - (a.r || 0) };
+        const shelfList = k => { const L = (S[k] || []).map((x, i) => [x, i]); if (!L.length) return `<p class="note">${k === "read" ? "No finished books shared yet." : "Nothing on the wish list yet."}</p>`;
+          const srt = k === "read" ? sorts[fnSort] || sorts.recent : sorts.recent; L.sort((a, b) => srt(a[0], b[0]));
+          return `<div class="fntools">${L.length > 8 ? `<input type="search" class="fnsearch" placeholder="Search ${L.length} books" aria-label="Search ${esc(p.name)}'s books">` : ""}${k === "read" ? `<span class="fnsorts" role="group" aria-label="Sort">${[["recent", "Recent"], ["top", "Top rated"], ["rec", "Favourites"]].map(([v, l]) => `<button type="button" class="chipbtn" data-fnsort="${v}" aria-pressed="${fnSort === v}">${l}</button>`).join("")}</span>` : ""}</div>
+            <div class="fnlist">${L.map(([x, i]) => row(x, k, i)).join("")}</div><p class="note fnnone" hidden>No books match.</p>`; };
         let body = "";
-        if (tab === "reading") body = (S.reading || []).length ? `<div class="fbooks">${S.reading.map((x, i) => { const pct = x.p ? Math.round(x.cp / x.p * 100) : null; return `<div class="fbook"><button type="button" class="fbopen" data-fbi="reading:${i}" aria-label="About ${esc(x.t)}">${mini(x)}<b>${esc(x.t)}</b></button><span class="muted">${esc(x.a)}</span>${pct !== null ? `<div class="bigbar"><span style="width:${pct}%"></span></div><small>${pct}%${x.up ? ` · ${ago(x.up)}` : ""}${x.min ? ` · ${fmtMins(x.min)} by candlelight` : ""}</small>` : ""}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
-        if (tab === "read") body = `<p class="note fbhint">Tap any book to see what it is and what ${esc(p.name)} thought.</p><div class="fbooks">${(S.read || []).map((x, i) => book(x, "read", i)).join("")}</div>`;
-        if (tab === "want") body = `<div class="fbooks">${(S.want || []).map((x, i) => book(x, "want", i)).join("")}</div>`;
+        if (tab === "reading") body = (S.reading || []).length ? `<div class="fnlist">${S.reading.map((x, i) => { const pct = pctOf(x); return `<div class="fnrow reading"><button type="button" class="fnopen" data-fbi="reading:${i}" aria-label="About ${esc(x.t)}"><span class="fncov">${mini(x)}</span><span class="fntxt"><b>${esc(x.t)}</b><small>${esc(x.a)}</small>${pct !== null ? `<span class="fnprog"><span class="frbar"><i style="width:${pct}%"></i></span><small><b>${pct}%</b> · p. ${x.cp || 0} of ${x.p}</small></span>` : `<small>Just started</small>`}<small class="muted">${[x.up ? `updated ${ago(x.up)}` : "", x.min ? `${fmtMins(x.min)} by candlelight` : ""].filter(Boolean).join(" · ")}</small></span></button>${want(x)}</div>`; }).join("")}</div>` : `<p class="note">Nothing on the go right now.</p>`;
+        if (tab === "read") body = shelfList("read");
+        if (tab === "want") body = shelfList("want");
+        if (tab === "activity") { const L = activity(p.id); body = L.length ? actList(L, true) : `<p class="note">Nothing in the last two months. When ${esc(p.name)} starts, finishes or adds a book, it shows up here.</p>`; }
         if (tab === "forthem") body = forThemHTML(p);
         if (tab === "soul" && S.soul) { const so = S.soul; let match = null; try { match = compareCode(soulData(), so.code); } catch {}
           body = `<div class="fsoul"><div class="label">Level ${so.level} · ${esc(so.title)}</div><h3>${esc(so.name)}</h3><div class="strand big">${so.dna.map(x => `<span style="flex:${x.p};--c:${x.c}" title="${esc(x.n)} ${x.p}%"></span>`).join("")}</div>
             <div class="soulchips">${so.dna.map(x => `<span class="dnachip" style="--c:${x.c}"><i>${x.g}</i>${esc(x.n.replace(/^The /, ""))}<b>${x.p}%</b></span>`).join("")}</div>
             ${so.trait ? `<blockquote class="hidden-trait"><div class="label">Their hidden reading trait</div>“${esc(so.trait)}”</blockquote>` : ""}<p><b>Alignment:</b> ${esc(so.align)}</p>
             ${match ? `<div class="materes"><span class="matepct">${match.match}%</span><div><b>You and ${esc(p.name)}</b><p>${match.match >= 85 ? "Literary soulmates. Start a two-person book club immediately." : match.match >= 65 ? "Kindred spirits with just enough difference to recommend each other books." : match.match >= 45 ? "Different shelves, overlapping hearts. Swap your favourites." : "Opposites. You will broaden each other's horizons, whether you like it or not."}</p></div></div>` : ""}</div>`; }
-        root.innerHTML = `<div class="scrim" id="fn-scrim"><div class="modal fnook" role="dialog" aria-modal="true" aria-labelledby="fn-t" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
-          <div class="phead"><div class="fnhead">${avatar(p, 72)}<div><div class="label">The nook of</div><h2 id="fn-t">${esc(p.name)}</h2><span class="muted">@${esc(p.handle)}${p.title ? ` · ${esc(p.title)}` : ""}</span></div></div><button class="btn small" type="button" data-fnx>Close</button></div>
-          ${tabs.length ? `<div class="mtabs">${tabs.map(([k, l]) => `<button type="button" data-fntab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div>${body}` : `<p class="note">${esc(p.name)} keeps their nook private for now.</p>`}
-          <div class="mfoot">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend a book to ${esc(p.name)}</button><button class="btn small" type="button" data-fcheer="${p.id}">✨ Send a cheer</button>${togetherOff ? "" : `<button class="btn small" type="button" data-bstart="${p.id}">📖 Read together</button>`}`}<button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
+        const so = S.soul, C = S.counts || {};
+        root.innerHTML = `<div class="scrim" id="fn-scrim"><div class="modal fnook fnook2" role="dialog" aria-modal="true" aria-labelledby="fn-t" data-fam="${esc(p.familiar || "cat")}" data-expr="happy">
+          <div class="fnhd">${avatar(p, 52)}<div class="fnwho"><h2 id="fn-t">${esc(p.name)}</h2><small class="muted">@${esc(p.handle)}${so?.name ? ` · ${esc(so.name)}` : p.title ? ` · ${esc(p.title)}` : ""}</small>${C.read !== undefined ? `<small class="fncounts">${C.read} read · ${C.year || 0} this year${S.at ? ` · active ${esc(fresh(S.at))}` : ""}</small>` : ""}</div><button class="iconbtn xclose" type="button" data-fnx aria-label="Close">✕</button></div>
+          <div class="fnacts">${lettersOff ? "" : `<button class="btn small primary" type="button" data-lwrite="${p.id}">✉ Recommend</button><button class="btn small" type="button" data-fcheer="${p.id}">✨ Cheer</button>${togetherOff ? "" : `<button class="btn small" type="button" data-bstart="${p.id}">📖 Read together</button>`}`}${visitsOff ? "" : `<button class="btn small" type="button" data-fvisit="${p.id}">🧳 Visit</button>`}</div>
+          ${tabs.length ? `<div class="mtabs fntabs">${tabs.map(([k, l]) => `<button type="button" data-fntab="${k}" aria-selected="${k === tab}">${l}</button>`).join("")}</div><div class="fnbody">${body}</div>` : `<p class="note">${esc(p.name)} keeps their nook private for now.</p>`}
+          <div class="fnfoot"><button class="linkbtn" type="button" data-funfriend="${p.id}">Remove friend</button></div></div></div>`;
+        const st = root.querySelector(".fntabs [aria-selected=true]"), tb = root.querySelector(".fntabs"); if (st && tb) tb.scrollLeft = st.offsetLeft - tb.clientWidth / 2 + st.clientWidth / 2;
         paintRecCovers(root);
       };
       draw();
       $("#fn-scrim").onclick = null;
+      root.oninput = e => { const q = e.target.closest(".fnsearch"); if (!q) return; const v = srFold(q.value.trim()); let n = 0;
+        root.querySelectorAll(".fnlist .fnrow").forEach(r => { const hit = !v || r.dataset.q.includes(v); r.hidden = !hit; if (hit) n++; }); const none = root.querySelector(".fnnone"); if (none) none.hidden = n > 0; };
       root.onclick = async e => {
-        if (e.target.id === "fn-scrim" || e.target.closest("[data-fnx]")) { root.onclick = null; root.innerHTML = ""; return; }
+        if (e.target.id === "fn-scrim" || e.target.closest("[data-fnx]")) { root.onclick = null; root.oninput = null; root.innerHTML = ""; return; }
         const t = e.target.closest("[data-fntab]"); if (t) { tab = t.dataset.fntab; draw(); return; }
+        const so2 = e.target.closest("[data-fnsort]"); if (so2) { fnSort = so2.dataset.fnsort; draw(); return; }
+        const fe = e.target.closest("[data-fevbook]"); if (fe) { const o = activity(p.id).find(z => evKey(z) === fe.dataset.fevbook); if (o) openFriendBook(o.x, p, o.ev === "finished" ? "read" : o.ev === "wanted" ? "want" : "reading"); return; }
         const fi = e.target.closest("[data-fbi]"); if (fi) { const [k, i] = fi.dataset.fbi.split(":"); const x = (S[k] || [])[+i]; if (x) openFriendBook(x, p, k); return; }
         const w = e.target.closest("[data-fwant]"); if (w) { upsert({ title: w.dataset.fwant, author: w.dataset.fa, cover: w.dataset.fc, pages: +w.dataset.fp || null, id: newId(), shelf: "want", rating: 0, currentPage: 0, started: null, finished: null, added: new Date().toISOString(), genres: [], recommendedBy: p.name, recFrom: p.id }); toast(`Added to Want to read, thanks to ${p.name}`); draw(); return; }
         const lw = e.target.closest("[data-lwrite]"); if (lw) { root.onclick = null; compose({ to: lw.dataset.lwrite }); return; }
@@ -5717,7 +5864,10 @@ alter publication supabase_realtime add table public.library;`;
       if (e.target.closest("[data-cnew]")) { clubNew(); return; }
       const co = e.target.closest("[data-copen]"); if (co) { clubRoom(co.dataset.copen); return; }
       const fr2 = e.target.closest("[data-freact]"); if (fr2) { fr2.closest(".fevr").querySelectorAll("button").forEach(b => b.disabled = true); await react(fr2.dataset.freact, fr2.dataset.e); return; }
-      const fb2 = e.target.closest("[data-fevbook]"); if (fb2) { const o = feed().find(z => evKey(z) === fb2.dataset.fevbook); if (o) openFriendBook(o.x, o.p, o.ev === "finished" ? "read" : "reading"); return; }
+      const fb2 = e.target.closest("[data-fevbook]"); if (fb2) { const o = activity().find(z => evKey(z) === fb2.dataset.fevbook) || feed().find(z => evKey(z) === fb2.dataset.fevbook); if (o) openFriendBook(o.x, o.p, o.ev === "finished" ? "read" : o.ev === "wanted" ? "want" : "reading"); return; }
+      const aw = e.target.closest("[data-actwho]"); if (aw) { actWho = aw.dataset.actwho; actShow = 25; render(); return; }
+      if (e.target.closest("[data-actmore]")) { actShow += 25; render(); return; }
+      const sg = e.target.closest("[data-fseg]"); if (sg) { fseg = sg.dataset.fseg; lsSet("reading-ledger-fseg", fseg); render(); const v = $("#view-friends"); if (v && v.getBoundingClientRect().top < 0) v.scrollIntoView({ block: "start" }); return; }
       const fg = e.target.closest("[data-fbkgive]"); if (fg) { giveFeedback(fg.dataset.fbkgive); return; }
       if (e.target.closest("[data-fbrowse]")) { search = null; await browse(); return; }
       const rf = e.target.closest("[data-frefresh]"); if (rf) { rf.classList.add("spin"); await refreshShelves(); render(); toast("Friends' progress refreshed ✦", 1600); return; }
@@ -5761,7 +5911,7 @@ alter publication supabase_realtime add table public.library;`;
       if (/^buddy/.test(ev.kind) && ev.ref) { buddyRoom(ev.ref); return; }
       if (/^club/.test(ev.kind) && ev.ref) { clubRoom(ev.ref); return; }
       if (/^feed/.test(ev.kind) && ev.ref) { s8open.add(ev.ref); render(); setTimeout(() => document.querySelector(`[data-post="${CSS.escape(ev.ref)}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120); return; }
-      render(); setTimeout(() => $("#f-live")?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
+      fseg = "friends"; render(); setTimeout(() => $("#f-live")?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
     }
     const eventRows = () => newEvents().map(ev => `<button type="button" class="newrow evrow" data-evopen="${esc(ev.id)}"><span class="newic">${esc(EV_ICON[ev.kind] || "✦")}</span><span class="newtxt"><b>${esc(ev.title)}</b><small>${esc(ev.body || "")}</small></span><span class="newgo">Open ›</span></button>`).join("");
     // ---- buddy reads: tell the others when you pass them or finish (once a day per person, never with spoilers) ----
@@ -8744,8 +8894,19 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.12";
+  const APP_VERSION = "4.14";
   const CHANGELOG = [
+    ["4.14", "9 Nov 2026", "Empire of Storms & Tower of Dawn, together", [
+      "Reading both Empire of Storms and Tower of Dawn? Your Reading card now offers a ⚔ tandem read: both books chapter by chapter, alternating in story order",
+      "The card always shows what to read next, with a ✓ Read it button; the checklist shows all 145 parts, colour-coded by book",
+      "Ticking chapters moves both books on by themselves: chapter count, page estimate, finish date and your friends' activity",
+      "Already partway through? Chapters you've read are ticked when you start, and “tick everything up to here” catches you up in one tap"]],
+    ["4.13", "5 Nov 2026", "Friends, at a glance", [
+      "The Friends page is now four short tabs instead of one long page: ♥ Friends, 📰 Activity, 📖 Together and ＋ Find",
+      "📰 Activity: one log of everything your friends do, by day: who started, finished (with their stars), moved on in, or wants to read what. Tap a name to see just theirs; a badge shows what's new",
+      "Each friend shows once, with what they're reading and how far, sorted by who's reading and who was active most recently",
+      "A friend's nook is much more compact: a small header with their counts, one row of buttons (recommend, cheer, read together, visit) and their own Activity tab",
+      "Their shelves are now a tidy list instead of big covers: search them, sort by recent, top rated or favourites, and add any book to your own list with one tap"]],
     ["4.12", "31 Oct 2026", "Your darker side, in your Reader DNA", [
       "A new reader type, ⚰ The Cold Case Reader: murders, serial killers and true crime",
       "☾ The Shadow Seeker now recognises far more horror: hauntings, possession, curses, monsters and the occult",
