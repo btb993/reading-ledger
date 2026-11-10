@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ver="4.14">
+<html lang="en" data-ver="4.15">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3260,6 +3260,16 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 .tdmodal{width:100%;max-width:min(620px,100%);box-sizing:border-box}.tdmodal *{min-width:0}
 .tdupnext>b,.tdupnext>small{overflow-wrap:anywhere}
 .nowcard .upd:has(.nowin.small){flex-wrap:wrap}
+
+/* ===== v4.15: other languages ===== */
+.langbtn{display:inline-block;margin:2px 0 2px;font-size:13px}.langbtn i{font-style:italic}
+.langpanel{margin:10px 0 4px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:color-mix(in srgb,var(--accent) 4%,var(--paper))}
+.langopts{display:flex;flex-direction:column;gap:4px;margin:6px 0 8px;font-size:13px}.langopts label{display:flex;align-items:center;gap:7px;cursor:pointer}.langopts input{width:17px;height:17px;accent-color:var(--accent)}
+.langlist{display:flex;flex-direction:column;gap:4px;max-height:min(46vh,380px);overflow-y:auto}
+.langrow{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:10px;border:1px solid transparent;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.langrow:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}.langrow.on{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 9%,var(--paper))}
+.langcov{flex:0 0 32px;width:32px;height:46px;display:grid;place-items:center;border-radius:3px;overflow:hidden;background:color-mix(in srgb,var(--line) 50%,transparent)}.langcov img{width:100%;height:100%;object-fit:cover}.langcov i{font-style:normal;font-size:15px}
+.langtxt{flex:1;min-width:0;display:flex;flex-direction:column}.langtxt b{font-family:var(--f-display);font-style:italic;font-size:16px;line-height:1.2}.langtxt small{font-size:11.5px;letter-spacing:.02em;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -3388,6 +3398,6 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 <div id="modal-root"></div>
 
 <script defer src="art.eef59d257e.js"></script>
-<script defer src="app.190a33ca24.js"></script>
+<script defer src="app.1a243427c3.js"></script>
 </body>
 </html>

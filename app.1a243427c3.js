@@ -2614,10 +2614,11 @@
     const quick = isNew && !!b.title && !moveTo;
     root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
-        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
+        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.title ? `<button type="button" class="linkbtn langbtn" id="m-langbtn">🌐 ${b.origTitle && b.origTitle !== b.title ? `Originally <i>${esc(b.origTitle)}</i> · other languages` : "Other languages"}</button>` : ""}${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
           <div class="summary clamp" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>${b.summary && b.summary.length > 220 ? `<button type="button" class="linkbtn sumtog" id="m-sumtog">Read more</button>` : `<button type="button" class="linkbtn sumtog" id="m-sumtog" hidden>Read more</button>`}
         </div></div>
+      <div id="m-langs" class="langpanel" hidden></div>
       ${famFold(b)}
       ${moveTo ? `<div class="moving">${moveTo === "read" ? "Finished it? Check the dates and give it a rating, then press Move." : moveTo === "reading" ? "Started it? Set the day you began and your current page, then press Move." : "Press Move to put it back on the Want to read shelf."} Cancel leaves it where it was.</div>` : ""}
       <div class="field"><span class="label">Shelf</span><div class="shelfpick" id="m-shelf">${Object.entries(SHELVES).map(([k, l]) => `<button type="button" data-shelf="${k}" aria-pressed="${b.shelf === k}">${l}</button>`).join("")}</div></div>
@@ -2739,6 +2740,57 @@
     shelfFields = () => { _sf(); paintStars(b.rating || 0); const box = $("#m-stars"); if (box) { box.addEventListener("mouseover", e => { const s = e.target.closest("[data-star]"); if (s) paintStars(+s.dataset.star); }); box.addEventListener("mouseleave", () => paintStars(b.rating || 0)); } };
     shelfFields();
     const setCover = src => { newCover = src; $("#m-cover").innerHTML = coverHTML({ ...b, cover: src, coverPicked: true }); };
+    // ---- v4.15: the same book in another language: every edition Open Library knows, grouped by language ----
+    let langPick = null, langGroups = [];
+    const LANG3 = { eng: "en", fre: "fr", fra: "fr", ger: "de", deu: "de", spa: "es", ita: "it", por: "pt", dut: "nl", nld: "nl", srp: "sr", scc: "sr", hrv: "hr", scr: "hr", bos: "bs", slv: "sl", mac: "mk", bul: "bg", rus: "ru", ukr: "uk", pol: "pl", cze: "cs", ces: "cs", slo: "sk", slk: "sk", hun: "hu", rum: "ro", ron: "ro", gre: "el", ell: "el", tur: "tr", swe: "sv", nor: "no", nob: "nb", dan: "da", fin: "fi", ice: "is", isl: "is", jpn: "ja", chi: "zh", zho: "zh", kor: "ko", ara: "ar", heb: "he", per: "fa", hin: "hi", cat: "ca", lit: "lt", lav: "lv", est: "et", alb: "sq", vie: "vi", ind: "id", tha: "th", glg: "gl", baq: "eu", eus: "eu", wel: "cy", gle: "ga" };
+    const langName = c => { try { return new Intl.DisplayNames(["en"], { type: "language" }).of(c) || c; } catch { return c.toUpperCase(); } };
+    const LANG_FIRST = ["en", "sr", "hr", "bs"];
+    async function findLangs(){
+      const box = $("#m-langs"); box.hidden = false;
+      const head = `<div class="galhead"><span class="label">🌐 This book in other languages</span><button class="btn small" type="button" data-langclose>Close</button></div>`;
+      box.innerHTML = head + `<div class="progress dots">Looking through every edition</div>`;
+      box.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      const t = ($("#m-t")?.value || b.title || "").trim(), a = ($("#m-a")?.value || b.author || "").trim(), cur = tnorm(t);
+      try {
+        let key = b.olKey; if (!key) { const r = await olSearch({ title: t, author: a }, 3); key = r[0]?.olKey; }
+        if (!key) throw new Error("none");
+        const ed = await olJSON(`${OL}${key}/editions.json?limit=400`), by = new Map();
+        for (const e of ed.entries || []) { const c = LANG3[(e.languages || []).map(l => String(l.key || "").split("/").pop())[0]]; const tt = String(e.title || "").trim(); if (!c || !tt) continue;
+          const g = by.get(c) || { code: c, n: 0, eds: [] }; g.n++; g.eds.push({ t: tt, cover: (e.covers || []).find(x => x > 0) || null, isbn: [...(e.isbn_13 || []), ...(e.isbn_10 || [])][0] || "" }); by.set(c, g); }
+        langGroups = [...by.values()].map(g => { const cnt = new Map(); g.eds.forEach(x => cnt.set(x.t, (cnt.get(x.t) || 0) + 1 + (x.cover ? .5 : 0))); const title = [...cnt.entries()].sort((p, q) => q[1] - p[1])[0][0];
+          const best = g.eds.find(x => x.t === title && x.cover) || g.eds.find(x => x.cover) || g.eds[0], isbn = (g.eds.find(x => x.t === title && x.isbn) || {}).isbn || "";
+          return { code: g.code, n: g.n, title, cover: best.cover, isbn, others: [...new Set(g.eds.map(x => x.t))].filter(x => x !== title).slice(0, 2) }; })
+          .sort((p, q) => (LANG_FIRST.includes(q.code) ? 1 : 0) - (LANG_FIRST.includes(p.code) ? 1 : 0) || LANG_FIRST.indexOf(p.code) - LANG_FIRST.indexOf(q.code) || q.n - p.n);
+        const only = langGroups.length < 2;
+        box.innerHTML = head + (langGroups.length ? `<div class="langopts"><label><input type="checkbox" id="m-langcov" checked> Use that edition's cover</label><label><input type="checkbox" id="m-langsum" checked> Description in that language, when there is one</label></div>
+          <div class="langlist">${langGroups.map((g, i) => { const on = tnorm(g.title) === cur; return `<button type="button" class="langrow${on ? " on" : ""}" data-langi="${i}" aria-pressed="${on}"><span class="langcov">${g.cover ? `<img src="${coverById(g.cover, "S")}" alt="" loading="lazy" referrerpolicy="no-referrer">` : `<i aria-hidden="true">📖</i>`}</span><span class="langtxt"><small>${esc(langName(g.code))} · ${g.n} edition${g.n > 1 ? "s" : ""}${on ? " · showing now" : ""}</small><b>${esc(g.title)}</b>${g.others.length ? `<small class="muted">also ${g.others.map(esc).join(", ")}</small>` : ""}</span></button>`; }).join("")}</div>` : "")
+          + `<p class="note">${only ? "Open Library only knows this book in one language. " : ""}Not listed, or want it your way? <button type="button" class="linkbtn" data-langtype>Type the title yourself</button></p>`;
+      } catch { box.innerHTML = head + `<p class="note">Couldn't find other editions right now. <button type="button" class="linkbtn" data-langtype>Type the title yourself</button></p>`; }
+    }
+    async function gbDescription(g, author){
+      const get = async q => { try { const r = await fetch(`https://www.googleapis.com/books/v1/volumes?${q}&maxResults=5&printType=books&fields=items(volumeInfo(title,description,language))`, { signal: AbortSignal.timeout(9000) }); if (!r.ok) return null; return (await r.json()).items || []; } catch { return null; } };
+      const clean = d => String(d || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 1200);
+      if (g.isbn) { const it = await get(`q=isbn:${encodeURIComponent(g.isbn)}`); const d = (it || []).find(x => x.volumeInfo?.description); if (d) return clean(d.volumeInfo.description); }
+      const last = (author || "").split(/\s+/).pop() || "";
+      const it = await get(`q=${encodeURIComponent(`intitle:"${g.title}"${last ? ` inauthor:${last}` : ""}`)}&langRestrict=${g.code}`);
+      const d = (it || []).find(x => x.volumeInfo?.description && (!x.volumeInfo.language || x.volumeInfo.language.startsWith(g.code)));
+      return d ? clean(d.volumeInfo.description) : "";
+    }
+    async function pickLang(i){
+      const g = langGroups[i]; if (!g) return; const box = $("#m-langs");
+      const prev = ($("#m-t")?.value || b.title || "").trim();
+      if ($("#m-t")) $("#m-t").value = g.title; $("#m-title").textContent = g.title;
+      if ($("#m-langcov")?.checked && g.cover) setCover(coverById(g.cover));
+      langPick = { from: b.origTitle || prev, code: g.code, summary: null };
+      box.querySelectorAll(".langrow").forEach(r => { const on = +r.dataset.langi === i; r.classList.toggle("on", on); r.setAttribute("aria-pressed", on); });
+      if ($("#m-langsum")?.checked) { const sm = $("#m-sum"), was = sm.textContent; sm.textContent = `Looking for a description in ${langName(g.code)}…`;
+        const d = await gbDescription(g, ($("#m-a")?.value || b.author || "").trim());
+        if (langPick?.code !== g.code) return;
+        if (d) { langPick.summary = d; sm.textContent = d; const tg = $("#m-sumtog"); if (tg) tg.hidden = d.length <= 220; }
+        else { sm.textContent = was; toast(`No ${langName(g.code)} description found, so the old one stays.`, 4000); }
+      }
+      toast(`Showing it as “${g.title}”. Press Save to keep it.`, 4500);
+    }
     const takeFile = async file => { if (!file) return toast("That isn't an image. Copy the image itself, not its link."); try { setCover(await downscale(file)); } catch { toast("Couldn't read that image."); } };
     const close = () => { document.removeEventListener("paste", onPaste); root.innerHTML = ""; };
     const onPaste = e => { if (e.target.matches?.("input:not([type=file])")) return; const f = imageFrom(e); if (f) { e.preventDefault(); takeFile(f); } };
@@ -2774,7 +2826,8 @@
     const readFields = () => {
       const v = id => $(id)?.value?.trim();
       const list = s => (s || "").split(",").map(x => x.trim()).filter(Boolean);
-      b.title = v("#m-t"); b.author = v("#m-a"); b.pages = parseInt(v("#m-p")) || null; b.year = parseInt(v("#m-y")) || null;
+      b.title = v("#m-t"); b.author = v("#m-a");
+      if (langPick) { if (!b.origTitle) b.origTitle = langPick.from; if (tnorm(b.origTitle) === tnorm(b.title)) delete b.origTitle; b.titleLang = langPick.code; if (langPick.summary) { b.summary = langPick.summary; b.descChecked = true; } } b.pages = parseInt(v("#m-p")) || null; b.year = parseInt(v("#m-y")) || null;
       const g = parseFloat(v("#m-gr")), oldGr = b.goodreads; b.goodreads = g > 0 && g <= 5 ? Math.round(g * 100) / 100 : null; if (b.grAuto && b.goodreads !== oldGr) delete b.grAuto;
       b.goodreadsCount = parseInt(v("#m-grc")) || null;
       b.category = v("#m-cat") || null;
@@ -2814,6 +2867,10 @@
       if (e.target.closest("#m-coverbtn")) { showMTab("cover"); $("#m-pane-cover").scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
       if (id === "m-findcov") return findCovers();
       if (e.target.closest("[data-galclose]")) { $("#m-gallery").hidden = true; return; }
+      if (e.target.closest("#m-langbtn")) { const box = $("#m-langs"); if (!box.hidden) { box.hidden = true; return; } findLangs(); return; }
+      if (e.target.closest("[data-langclose]")) { $("#m-langs").hidden = true; return; }
+      const lr = e.target.closest("[data-langi]"); if (lr) { pickLang(+lr.dataset.langi); return; }
+      if (e.target.closest("[data-langtype]")) { showMTab("details"); const x = $("#m-t"); if (x) { x.scrollIntoView({ block: "center", behavior: "smooth" }); setTimeout(() => { x.focus(); x.select(); }, 350); } return; }
       if (id === "m-rmcover") { setCover(""); e.target.remove(); return; }
       if (id === "m-addseries") { readFields(); const seed = { name: b.seriesName, author: b.author }; close(); openSeriesAdder(seed); return; }
       const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; fe.setAttribute("aria-pressed", feelPick.includes(n)); return; }
@@ -3115,6 +3172,87 @@
     const daysLeft = Math.max(0, Math.ceil((total - cur) / pace));
     return { total, cur, pace, daysIn, basis, daysLeft, unit, ch, exact, finish: new Date(today.getTime() + daysLeft * dayMs) };
   }
+  // ================= v4.14: Empire of Storms & Tower of Dawn, read together in story order =================
+  // the order follows T. L. Branson's alternating, chronological checklist: E = Empire of Storms, T = Tower of Dawn
+  const TANDEM = { k: "eos-tod", a: { name: "Empire of Storms", short: "EoS", rx: /empire of storms|carstvo oluj/, ch: 75 }, b: { name: "Tower of Dawn", short: "ToD", rx: /tower of dawn|kula zor/, ch: 68 },
+    order: "N E1 E2 E3 E4 E5 T1 E6 E7 E8 T2 T3 E9 E10 T4 T5 T6 E11 T7 E12 E13 T8 T9 T10 E14 E15 E16 T11 T12 E17 E18 T13 T14 T15 T16 E19 T17 E20 E21 E22 E23 T18 T19 T20 T21 E24 E25 T22 T23 E26 T24 E27 E28 E29 T25 T26 T27 T28 E30 T29 T30 T31 E31 T32 E32 T33 T34 T35 E33 E34 E35 E36 E37 E38 E39 E40 E41 E42 E43 E44 E45 E46 E47 E48 E49 E50 E51 T36 T37 E52 T38 T39 T40 E53 T41 T42 E54 E55 E56 T43 E57 E58 E59 T44 T45 T46 T47 T48 E60 E61 T49 T50 T51 E62 E63 T52 T53 E64 E65 T54 T55 T56 E66 E67 T57 E68 E69 E70 E71 E72 E73 E74 E75 T58 T59 T60 T61 T62 T63 T64 T65 T66 T67 T68 F".split(" ") };
+  const tdLabel = x => x === "N" ? ["a", "Nightfall"] : x === "F" ? ["b", "Fireheart"] : [x[0] === "E" ? "a" : "b", "Chapter " + x.slice(1)];
+  const tdName = i => { const [sd, l] = tdLabel(TANDEM.order[i]); return `${TANDEM[sd].name} · ${l}`; };
+  function tandemBooks(){ const R = books.filter(b => b.shelf === "reading"), A = R.find(b => TANDEM.a.rx.test(srFold(b.title))), B = R.find(b => TANDEM.b.rx.test(srFold(b.title))); return A && B ? [A, B] : null; }
+  const tdOn = A => !!(A && A.tandem && A.tandem.k === TANDEM.k);
+  const tdState = A => String(tdOn(A) ? A.tandem.d || "" : "").padEnd(TANDEM.order.length, "0").slice(0, TANDEM.order.length);
+  const tdCount = (d, sd) => TANDEM.order.reduce((n, x, i) => n + (d[i] === "1" && /^[ET]\d/.test(x) && (x[0] === "E") === (sd === "a") ? 1 : 0), 0);
+  // ticking chapters moves both books on: chapter tracking, page estimate, progress log, friends' activity
+  function tdApply(A, B, d){
+    A.tandem = { k: TANDEM.k, d, at: new Date().toISOString() };
+    for (const [bk, sd] of [[A, "a"], [B, "b"]]) {
+      const n = tdCount(d, sd), tot = TANDEM[sd].ch;
+      if (!bk.started && n) bk.started = todayISO();
+      bk.trackBy = "chapters"; bk.chapters = tot;
+      if (Number(bk.currentChapter) !== n) { bk.currentChapter = n; if (bk.pages) bk.currentPage = Math.round(bk.pages * n / tot); logProgress(bk, bk.currentPage || 0, n); }
+    }
+    save(); render();
+  }
+  function tdTick(i){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T, d = [...tdState(A)]; if (d[i] === "1") return; d[i] = "1";
+    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); bondAdd(2, "progress");
+    const nd = tdState(A), nx = nd.indexOf("0"), [sd] = tdLabel(TANDEM.order[i]), now = tdCount(nd, sd);
+    if (now >= TANDEM[sd].ch && was[sd === "a" ? 0 : 1] < TANDEM[sd].ch) toast(`That was the last chapter of ${TANDEM[sd].name}! Press “I finished it” to shelve it.`, 6000);
+    else toast(nx < 0 ? "⚔ The whole tandem read is done. What a journey!" : `✓ Ticked. Up next: ${tdName(nx)}`, 4000);
+  }
+  function tdStart(){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T;
+    // chapters you've already read count straight away: from your chapter count, or worked out from your page
+    const already = (bk, sd) => { const tot = TANDEM[sd].ch; if (bk.trackBy === "chapters" && Number(bk.currentChapter)) return Math.min(tot, Number(bk.currentChapter)); return bk.pages && bk.currentPage ? Math.min(tot, Math.floor(tot * bk.currentPage / bk.pages)) : 0; };
+    const ea = already(A, "a"), tb = already(B, "b");
+    const d = TANDEM.order.map(x => x === "N" ? (ea ? "1" : "0") : x === "F" ? "0" : (x[0] === "E" ? +x.slice(1) <= ea : +x.slice(1) <= tb) ? "1" : "0").join("");
+    A.tandem = { k: TANDEM.k, d, at: new Date().toISOString() }; save(); render(); openTandem();
+    toast(ea || tb ? `Started! Chapters you'd already read are ticked (Empire of Storms ${ea}, Tower of Dawn ${tb}). Fix any by tapping them.` : "Started! Tick each chapter as you finish it.", 6500);
+  }
+  function tandemBlock(b){
+    const T = tandemBooks(); if (!T || !T.includes(b)) return ""; const [A] = T;
+    if (!tdOn(A)) return `<div class="tdoffer"><span>⚔ <i>Empire of Storms</i> and <i>Tower of Dawn</i> happen at the same time. Read them together, chapter by chapter, in story order?</span><button class="btn small primary" type="button" data-tdstart>Start the tandem read</button></div>`;
+    const d = tdState(A), i = d.indexOf("0"), done = [...d].filter(x => x === "1").length;
+    if (i < 0) return `<div class="tdnext"><button type="button" class="tdmain" data-tdopen><span class="label">⚔ Tandem read</span><span class="tdup">All ${d.length} parts read ✦</span></button></div>`;
+    const [sd, lab] = tdLabel(TANDEM.order[i]);
+    return `<div class="tdnext"><button type="button" class="tdmain" data-tdopen aria-label="Open the tandem read checklist"><span class="label">⚔ Tandem read · ${done} of ${d.length}</span><span class="tdup">Up next: <b class="tdname td-${sd}">${TANDEM[sd].name}</b> · ${lab}</span><span class="tdbar"><i style="width:${(done / d.length * 100).toFixed(1)}%"></i></span></button><button class="btn small primary tddone" type="button" data-tdtick="${i}" title="I read ${esc(tdName(i))}">✓ Read it</button></div>`;
+  }
+  let tdUpTo = false;
+  function openTandem(){
+    const T = tandemBooks(); if (!T) return; const [A, B] = T, root = $("#modal-root");
+    const draw = keep => {
+      const d = tdState(A), nx = d.indexOf("0"), done = [...d].filter(x => x === "1").length, m0 = root.querySelector(".tdmodal"), st = m0 ? m0.scrollTop : 0;
+      root.innerHTML = `<div class="scrim" id="td-scrim"><div class="modal tdmodal" role="dialog" aria-modal="true" aria-labelledby="td-t"><button class="iconbtn mx" type="button" data-tdx aria-label="Close">✕</button>
+        <div class="tdhd"><div><div class="label">⚔ Tandem read · in story order</div><h2 id="td-t">Empire of Storms <span class="muted">&amp;</span> Tower of Dawn</h2></div></div>
+        <div class="tdprog">${["a", "b"].map(sd => { const c = tdCount(d, sd); return `<div class="tdp"><b class="tdname td-${sd}">${TANDEM[sd].name}</b><span class="tdbar td-${sd}"><i style="width:${(c / TANDEM[sd].ch * 100).toFixed(1)}%"></i></span><small>chapter ${c} of ${TANDEM[sd].ch}</small></div>`; }).join("")}</div>
+        <div class="tdupnext">${nx >= 0 ? `<span class="label">Up next · ${done} of ${d.length} done</span><b class="tdname td-${tdLabel(TANDEM.order[nx])[0]}">${esc(tdName(nx))}</b>${TANDEM.order[nx + 1] ? `<small class="muted">then ${esc(tdName(nx + 1))}</small>` : ""}<button class="btn primary" type="button" data-tdtick="${nx}">✓ Read it</button>` : `<b>All ${d.length} parts read ✦</b><small class="muted">Shelve both books with “I finished it”.</small>`}${done ? `<button class="linkbtn tdundo" type="button" data-tdundo>↶ Undo last</button>` : ""}</div>
+        <div class="tdtools"><label class="tdupto"><input type="checkbox" data-tdupto${tdUpTo ? " checked" : ""}> Tap a chapter to tick everything up to it</label></div>
+        <div class="tdgrid" role="group" aria-label="All chapters in reading order">${TANDEM.order.map((x, i) => { const [sd, lab] = tdLabel(x); return `<button type="button" class="tdc td-${sd}${d[i] === "1" ? " on" : ""}${i === nx ? " nx" : ""}" data-tdc="${i}" aria-pressed="${d[i] === "1"}" aria-label="${esc(TANDEM[sd].name)} ${esc(lab)}"><small>${TANDEM[sd].short}</small><span>${/^[ET]/.test(x) ? x.slice(1) : lab}</span></button>`; }).join("")}</div>
+        <div class="tdfoot"><span class="tdkey"><i class="td-a"></i>Empire of Storms <i class="td-b"></i>Tower of Dawn</span><button class="linkbtn" type="button" data-tdstop>Stop the tandem read</button></div>
+      </div></div>`;
+      const m = root.querySelector(".tdmodal"), n = root.querySelector(".tdc.nx");
+      if (keep) m.scrollTop = st; else if (n) m.scrollTop = Math.max(0, n.offsetTop - m.clientHeight / 2);
+    };
+    draw(false);
+    const close = () => { root.onclick = null; root.onchange = null; root.innerHTML = ""; };
+    root.onchange = e => { if (e.target.matches("[data-tdupto]")) tdUpTo = e.target.checked; };
+    root.onclick = e => {
+      if (e.target.id === "td-scrim" || e.target.closest("[data-tdx]")) return close();
+      const tk = e.target.closest("[data-tdtick]"); if (tk) { tdTick(+tk.dataset.tdtick); return draw(true); }
+      const c = e.target.closest("[data-tdc]"); if (c) { const i = +c.dataset.tdc, d = [...tdState(A)];
+        if (tdUpTo) { for (let j = 0; j <= i; j++) d[j] = "1"; tdUpTo = false; } else d[i] = d[i] === "1" ? "0" : "1";
+        tdApply(A, B, d.join("")); return draw(true); }
+      if (e.target.closest("[data-tdundo]")) { const d = [...tdState(A)], j = d.lastIndexOf("1"); if (j >= 0) { d[j] = "0"; tdApply(A, B, d.join("")); toast(`Unticked ${tdName(j)}.`); } return draw(true); }
+      if (e.target.closest("[data-tdstop]")) { if (!confirmSoft()) return; delete A.tandem; save(); render(); close(); toast("Tandem read stopped. Your chapter progress in both books stays."); }
+    };
+  }
+  let tdStopArmed = 0; const confirmSoft = () => { if (Date.now() - tdStopArmed < 4000) return true; tdStopArmed = Date.now(); toast("Tap “Stop the tandem read” again to stop. Your chapter progress stays either way."); return false; };
+  document.addEventListener("click", e => {
+    if (e.target.closest("#modal-root")) return;
+    if (e.target.closest("[data-tdstart]")) { tdStart(); return; }
+    if (e.target.closest("[data-tdopen]")) { openTandem(); return; }
+    const tk = e.target.closest("[data-tdtick]"); if (tk) { tdTick(+tk.dataset.tdtick); return; }
+  });
   let nowMore = null;
   function renderNow(){
     const el = $("#now"), list = books.filter(b => b.shelf === "reading").sort((a, b) => (b.progressLog?.slice(-1)[0]?.d || b.started || "").localeCompare(a.progressLog?.slice(-1)[0]?.d || a.started || ""));
@@ -3144,6 +3282,7 @@
           <h2>${esc(b.title)}</h2><div class="nowauthor"><button type="button" class="authlink" data-author="${esc(b.author)}">${esc(b.author)}</button></div>
           <div class="bigbar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct}%"></span></div>
           <div class="nowline" title="${esc(eta.replace(/<[^>]+>/g, ""))}">${e.total ? `${u} ${e.cur} of ${e.total}` : `${u} ${e.cur}`} · ${short}</div>
+          ${tandemBlock(b)}
           <form class="upd" data-upd="${esc(b.id)}" autocomplete="off">${form2}<button class="btn small primary" type="submit">Update</button><button class="btn small candle${on ? " on" : ""}" type="button" data-readmode="${esc(b.id)}" title="${on ? "Back to your reading session" : "Read by candlelight: timer and sounds"}">🕯 ${on ? "Back" : "Read"}</button><button class="btn small nowmorebtn" type="button" data-nowmore="${esc(b.id)}" aria-expanded="${more}" title="More">⋯</button></form>
           ${more ? `<div class="nowmore"><button class="btn small" type="button" data-finish="${esc(b.id)}">✓ I finished it</button><button class="btn small" type="button" data-abandon="${esc(b.id)}" title="Put it on the Abandoned Shelf">🕸 Not for me</button><div class="seg tracksw" role="group" aria-label="Track progress by"><button type="button" data-track="pages" data-id="${esc(b.id)}" aria-pressed="${!chMode}">Pages</button><button type="button" data-track="chapters" data-id="${esc(b.id)}" aria-pressed="${chMode}">Chapters</button></div><button class="btn small" type="button" data-words="${esc(b.id)}">✎ Look up a word${(b.words || []).length ? ` · ${(b.words || []).length}` : ""}</button><button class="btn small" type="button" data-share="book" data-id="${esc(b.id)}">⤴ Book card</button>${todayMins(b) ? `<button class="btn small" type="button" data-share="session">⤴ Today's reading</button>` : ""}
             <div class="nowfull">${eta}${nowSessionLine(b)}</div></div>` : ""}
@@ -8812,8 +8951,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.13";
+  const APP_VERSION = "4.15";
   const CHANGELOG = [
+    ["4.15", "11 Nov 2026", "Your books, in your language", [
+      "Open any book and tap 🌐 Other languages: see every language it's been published in, with each edition's title and cover",
+      "Pick one to show the book under that title (say “Lie with Me” instead of “Arrête avec tes mensonges”), with that edition's cover and, when there is one, a description in that language",
+      "The book remembers its original title and shows it under the new one",
+      "Not listed? Type the title yourself in one tap"]],
+    ["4.14", "9 Nov 2026", "Empire of Storms & Tower of Dawn, together", [
+      "Reading both Empire of Storms and Tower of Dawn? Your Reading card now offers a ⚔ tandem read: both books chapter by chapter, alternating in story order",
+      "The card always shows what to read next, with a ✓ Read it button; the checklist shows all 145 parts, colour-coded by book",
+      "Ticking chapters moves both books on by themselves: chapter count, page estimate, finish date and your friends' activity",
+      "Already partway through? Chapters you've read are ticked when you start, and “tick everything up to here” catches you up in one tap"]],
     ["4.13", "5 Nov 2026", "Friends, at a glance", [
       "The Friends page is now four short tabs instead of one long page: ♥ Friends, 📰 Activity, 📖 Together and ＋ Find",
       "📰 Activity: one log of everything your friends do, by day: who started, finished (with their stars), moved on in, or wants to read what. Tap a name to see just theirs; a badge shows what's new",
