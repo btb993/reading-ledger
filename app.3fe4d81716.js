@@ -553,13 +553,13 @@
     { name: "The Rainbow Romantic", g: "✿", c: "#E2559B", d: "Queer love stories and found courage are close to your heart.", s: "queer love and courage",
       t: b => rxB(b, /\b(gay|lesbian|queer|lgbt\w*|homosexuality|bisexual|transgender|sapphic|achilles and patroclus)\b/) ? 1 : 0 },
     { name: "The Emotional Explorer", g: "❦", c: "#2563D9", d: "You want books that leave a mark: grief, memory, and the people we lose and find.", s: "stories that leave a mark",
-      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic") ? .9 : hasT(b, "Grief & healing") ? .7 : isFic(b) && rxB(b, /\b(grief|loss|mourning|memory|loneliness)\b/) ? .4 : 0 },
+      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic", "Grieving", "Sorrowful", "Bittersweet", "Touched", "Melancholic") ? .9 : hasT(b, "Grief & healing") ? .7 : isFic(b) && rxB(b, /\b(grief|loss|mourning|memory|loneliness)\b/) ? .4 : 0 },
     { name: "The Coming-of-Age Kindred", g: "☼", c: "#1F8F95", d: "You keep returning to the turning points of youth: first loves, first losses, first freedom.", s: "growing up",
       t: b => hasT(b, "Coming of age") ? 1 : hasG(b, "Young Adult") ? .6 : 0 },
     { name: "The Found-Family Seeker", g: "✶", c: "#C25A7A", d: "Your favourite stories are about the people who choose each other.", s: "chosen families",
       t: b => hasT(b, "Found family") ? .9 : isFic(b) && rxB(b, /\bfound family|\bfellowship\b|\bcrew\b/) ? .4 : 0 },
     { name: "The Cozy Soul", g: "☕", c: "#B87A4B", d: "Warm drinks, kind characters, small towns and low stakes: reading is your safe place.", s: "cosy, comforting stories",
-      t: b => hasF(b, "Cozy", "Comforted") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
+      t: b => hasF(b, "Cozy", "Comforted", "Heartwarmed", "Content", "Peaceful") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
     { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story: quiet, beautifully written books.", s: "beautiful writing",
       t: b => hasG(b, "Literary Fiction") ? 1 : 0 },
     { name: "The Homeland Reader", g: "❖", c: "#8A3B3B", d: "Andrić's bridge, Selimović's dervish, Kiš's encyclopaedia: you keep coming home to Serbian and Yugoslav writers.", s: "Serbian and Yugoslav writers",
@@ -781,8 +781,10 @@
   const harmonize = hex => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, Math.min(.58, Math.max(s < .06 ? .08 : .24, s)), Math.min(.36, Math.max(.2, l * .9))); };
   const REREAD = [["no", "Once was enough"], ["maybe", "Maybe someday"], ["yes", "I'd reread it"], ["comfort", "Comfort reread"]];
   const HYPE = [["lives", "Lived up to the hype", "✓"], ["short", "Didn't live up to the hype", "≈"], ["disappoint", "Biggest disappointment", "✗"]];
-  const FEELINGS = [["Joyful","☀","#E0A526"],["Cozy","☕","#B87A4B"],["Swooning","♥","#C94F7C"],["Thrilled","⚡","#E2643A"],["Obsessed","✺","#B8312F"],["Heartbroken","♡","#8C3B54"],["Devastated","☂","#4A4F7A"],["Moved","❀","#7B5EA7"],["Hopeful","✧","#3E9C8F"],["Comforted","☁","#6E9BC2"],["Nostalgic","⌛","#A07855"],["Inspired","✦","#D8B23A"],["Empowered","♛","#9C4DCC"],["Amused","☺","#E08E2E"],["Thoughtful","☾","#4F6D8C"],["Shocked","!","#D3473B"],["Scared","☠","#3A3346"],["Angry","♨","#A8322D"],["Cathartic","❂","#4C8A6A"],["Bored","…","#8C8577"]];
-  const FEEL = Object.fromEntries(FEELINGS.map(([n, g, c]) => [n, { g, c }]));
+  // feelings in eight families: [name, glyph, colour, family]. Older names all still here, so past picks keep counting.
+  const FEELINGS = [["Joyful", "☀", "#E0A526", 0], ["Cozy", "☕", "#B87A4B", 0], ["Swooning", "♥", "#C94F7C", 0], ["Comforted", "☁", "#6E9BC2", 0], ["Hopeful", "✦", "#3E9C8F", 0], ["Heartwarmed", "✿", "#D9775A", 0], ["Amused", "😊", "#E08E2E", 0], ["Adored", "🥰", "#D45C8A", 0], ["Delighted", "✨", "#D8B23A", 0], ["Thrilled", "⚡", "#E2643A", 1], ["Obsessed", "🔥", "#B8312F", 1], ["On Edge", "🗡️", "#9A4A3A", 1], ["Shocked", "😱", "#D3473B", 1], ["Mind-Blown", "🤯", "#E07A2E", 1], ["Breathless", "😳", "#D2566A", 1], ["Exhilarated", "🎉", "#D89A2A", 1], ["Anxious", "😬", "#9A7A3A", 1], ["Heartbroken", "♡", "#8C3B54", 2], ["Devastated", "☂", "#4A4F7A", 2], ["Melancholic", "💧", "#4A6FA8", 2], ["Touched", "🥹", "#8A6FB0", 2], ["Sorrowful", "😢", "#5A6A8A", 2], ["Grieving", "🕯️", "#5A5A6A", 2], ["Lonely", "🌧️", "#6A7A92", 2], ["Bittersweet", "🥀", "#9A3A4A", 2], ["Enchanted", "🔮", "#8A5CC2", 3], ["Awestruck", "🌌", "#3A4A9A", 3], ["Mesmerized", "🪄", "#7A4AB0", 3], ["Adventurous", "🧭", "#B8782A", 3], ["Dreamy", "🌙", "#9A8AD0", 3], ["Whimsical", "🦋", "#C26AB0", 3], ["Transported", "🪐", "#5A7AC2", 3], ["Thoughtful", "☾", "#4F6D8C", 4], ["Inspired", "✧", "#D8B23A", 4], ["Empowered", "🌱", "#9C4DCC", 4], ["Moved", "🪷", "#7B5EA7", 4], ["Cathartic", "♻️", "#4C8A6A", 4], ["Enlightened", "🧠", "#3E9C8F", 4], ["Curious", "?", "#2E8A9A", 4], ["Introspective", "🪞", "#5A7A8A", 4], ["Scared", "💀", "#3A3346", 5], ["Unsettled", "😰", "#5A5A7A", 5], ["Disturbed", "🕷️", "#4A3A4A", 5], ["Angry", "😡", "#A8322D", 5], ["Frustrated", "😤", "#B85A2A", 5], ["Disgusted", "🤢", "#6A8A3A", 5], ["Dreadful", "😨", "#3A4A6A", 5], ["Vengeful", "😈", "#6A2A7A", 5], ["Nostalgic", "⌛", "#A07855", 6], ["Yearning", "💗", "#C9577E", 6], ["Connected", "🤍", "#8A7A9A", 6], ["Tender", "💞", "#D2668E", 6], ["Content", "😌", "#7A9A5A", 6], ["Seen", "🫶", "#C2784A", 6], ["Peaceful", "🌅", "#D88A4A", 6], ["Bored", "…", "#8C8577", 7], ["Confused", "😕", "#7A8A9A", 7], ["Disappointed", "😞", "#6A6A7A", 7], ["Indifferent", "😐", "#8C8577", 7], ["Conflicted", "🤔", "#9A7A5A", 7], ["Overwhelmed", "😵‍💫", "#8A5A7A", 7], ["Drained", "😮‍💨", "#6A7A8A", 7], ["Annoyed", "🙄", "#A0603A", 7], ["Skeptical", "🤨", "#7A6A5A", 7]];
+  const FEEL_GROUPS = [["Joy, Love & Warmth", "Joy", "#E0A526"], ["Excitement & Intensity", "Excitement", "#E2643A"], ["Sadness & Heartbreak", "Sadness", "#4A6FA8"], ["Wonder & Imagination", "Wonder", "#8A5CC2"], ["Reflection & Growth", "Reflection", "#3E9C8F"], ["Darkness & Unease", "Darkness", "#6E3A4A"], ["Longing & Connection", "Longing", "#C9577E"], ["Disappointment & Complexity", "Complex", "#8C8577"]];
+  const FEEL = Object.fromEntries(FEELINGS.map(([n, g, c, k]) => [n, { g, c, k }]));
   const feelLook = n => FEEL[n] || { g: "✧", c: `hsl(${hashNum(n, 360)} 45% 50%)` };
   const SPINE_SWATCHES = ["#7A2E3A","#B8312F","#C2702B","#B08A1F","#5A6B2E","#2D5A3D","#1F6E73","#1C3A5E","#3B2A63","#6D5A86","#8C3B54","#5A4632","#2A2D33"];
   const customTone = hex => { const [h, sat, l] = hexToHsl(hex); return hslToHex(h, sat, Math.min(.46, Math.max(.14, l))); };
@@ -2315,7 +2317,7 @@
     if (b.reread === "comfort") w += 1; else if (b.reread === "yes") w += .5; else if (b.reread === "no") w -= .3;
     if (b.recommend) w += .4;
     if (b.hype === "disappoint") w -= 1.5; else if (b.hype === "short") w -= .6;
-    if (hasF(b, "Obsessed", "Swooning", "Joyful", "Moved", "Thrilled", "Cozy", "Inspired", "Comforted")) w += .25;
+    if (hasF(b, "Obsessed", "Swooning", "Joyful", "Moved", "Thrilled", "Cozy", "Inspired", "Comforted", "Adored", "Delighted", "Heartwarmed", "Enchanted", "Mind-Blown", "Exhilarated", "Awestruck")) w += .25;
     if (hasF(b, "Bored", "Angry")) w -= .5;
     if (b.finished && Date.now() - new Date(b.finished) < 180 * 864e5) w *= 1.25;
     return w;
@@ -2607,17 +2609,18 @@
     }
     if (b.series && !b.seriesName) { const p = parseSeries(b.series); b.seriesName = p.name; b.seriesNum = p.num; }
     if (!b.seriesName && b.seriesHint) b.seriesName = b.seriesHint;
-    let newCover = null, tropesEdited = false, spinePick = b.spineCustom || null, feelPick = [...(b.feelings || [])], verdict = { reread: b.reread || null, surpriseFav: !!b.surpriseFav, recommend: !!b.recommend, recommendTo: b.recommendTo || "", hype: b.hype || null };
+    let newCover = null, tropesEdited = false, spinePick = b.spineCustom || null, feelPick = [...(b.feelings || [])], feelGrp = Math.max(0, FEEL[(b.feelings || []).find(f => FEEL[f])]?.k ?? 0), verdict = { reread: b.reread || null, surpriseFav: !!b.surpriseFav, recommend: !!b.recommend, recommendTo: b.recommendTo || "", hype: b.hype || null };
     const thoughts = { quotes: [...(b.quotes || [])], pace: b.pace || null, driven: b.driven || null, format: b.format || null };
     const root = $("#modal-root");
     root.onclick = null;
     const quick = isNew && !!b.title && !moveTo;
     root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
-        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
+        <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.title ? `<button type="button" class="linkbtn langbtn" id="m-langbtn">🌐 ${b.origTitle && b.origTitle !== b.title ? `Originally <i>${esc(b.origTitle)}</i> · other languages` : "Other languages"}</button>` : ""}${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
           <div class="summary clamp" id="m-sum" style="margin-top:6px">${esc(b.summary || "")}</div>${b.summary && b.summary.length > 220 ? `<button type="button" class="linkbtn sumtog" id="m-sumtog">Read more</button>` : `<button type="button" class="linkbtn sumtog" id="m-sumtog" hidden>Read more</button>`}
         </div></div>
+      <div id="m-langs" class="langpanel" hidden></div>
       ${famFold(b)}
       ${moveTo ? `<div class="moving">${moveTo === "read" ? "Finished it? Check the dates and give it a rating, then press Move." : moveTo === "reading" ? "Started it? Set the day you began and your current page, then press Move." : "Press Move to put it back on the Want to read shelf."} Cancel leaves it where it was.</div>` : ""}
       <div class="field"><span class="label">Shelf</span><div class="shelfpick" id="m-shelf">${Object.entries(SHELVES).map(([k, l]) => `<button type="button" data-shelf="${k}" aria-pressed="${b.shelf === k}">${l}</button>`).join("")}</div></div>
@@ -2689,7 +2692,13 @@
       <div class="vrow"><span class="vk">Format</span><div class="seg small">${FORMAT.map(([k, l]) => `<button type="button" data-tformat="${k}" aria-pressed="${thoughts.format === k}">${l}</button>`).join("")}</div></div></div>`;
     const addQuote = () => { const t = ($("#m-qtext")?.value || "").trim(); if (!t) { toast("Type or paste the line first."); return; } const pg = ($("#m-qpage")?.value || "").trim(); thoughts.quotes.push({ q: t, p: pg || undefined, d: todayISO() }); $("#m-quotes").innerHTML = quotesHTML(); toast("Quote saved. Press Save to keep it."); };
     const paintVerdict = () => { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim(); $("#m-verdict").innerHTML = verdictHTML(); };
-    const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
+    // your picks on top, then one family open at a time, so 64 feelings never become a wall of chips
+    const chipF = (n, sel) => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${sel}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}${sel === "x" ? `<span class="fx" aria-hidden="true">×</span>` : ""}</button>`; };
+    const feelChips = () => { const g = FEEL_GROUPS[feelGrp], inG = FEELINGS.filter(f => f[3] === feelGrp);
+      return `<div class="feelsel">${feelPick.length ? feelPick.map(n => chipF(n, "x")).join("") : `<span class="muted feelnone">Nothing picked yet. Open a family below and tap what fits.</span>`}</div>
+        <div class="feelfam" role="tablist" aria-label="Families of feelings">${FEEL_GROUPS.map(([full, short, c], i) => { const n = feelPick.filter(f => FEEL[f]?.k === i).length; return `<button type="button" role="tab" data-fgrp="${i}" aria-selected="${i === feelGrp}" title="${esc(full)}" style="--fc:${c}"><i aria-hidden="true"></i>${esc(short)}${n ? `<b>${n}</b>` : ""}</button>`; }).join("")}</div>
+        <div class="feelgrp" style="--fc:${g[2]}"><div class="feelgname">${esc(g[0])}</div><div class="feelpick feelchips">${inG.map(([n]) => chipF(n, feelPick.includes(n))).join("")}</div></div>
+        <span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`; };
     const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
     let mTab = !b.title ? "details" : null;
     const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], dnf: [["dates", "🕸 Where you stopped"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]] };
@@ -2712,7 +2721,7 @@
       const rate = $("#m-rate"), th = $("#m-pane-thoughts"), dt = $("#m-pane-dates");
       if (b.shelf === "read") {
         rate.innerHTML = `<div class="field full"><span class="label">Your rating · tap the left half of a star for a half star</span><div class="starpick halfstars" id="m-stars">${[1,2,3,4,5].map(n => `<span class="sp" data-n="${n}"><span class="glyph">★</span><button type="button" data-star="${n - .5}" aria-label="${n - .5} stars"></button><button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? "s" : ""}"></button></span>`).join("")}<span class="rv" id="m-rv"></span></div></div>`;
-        th.innerHTML = `<div class="fields"><div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelpick" id="m-feel">${feelChips()}</div></div>
+        th.innerHTML = `<div class="fields"><div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelbox" id="m-feel">${feelChips()}</div></div>
         <div class="field full verdicts" id="m-verdict">${verdictHTML()}</div></div>`;
         $("#m-pane-notes").innerHTML = `<div class="fields">${moreHTML(true)}</div>`;
         dt.innerHTML = `<div class="fields">${datePicker("fin", b.finished, "Finished", { ask: "When did you finish it?", allowUnknown: true, unknown: b.finishedUnknown && !b.finished })}
@@ -2739,6 +2748,57 @@
     shelfFields = () => { _sf(); paintStars(b.rating || 0); const box = $("#m-stars"); if (box) { box.addEventListener("mouseover", e => { const s = e.target.closest("[data-star]"); if (s) paintStars(+s.dataset.star); }); box.addEventListener("mouseleave", () => paintStars(b.rating || 0)); } };
     shelfFields();
     const setCover = src => { newCover = src; $("#m-cover").innerHTML = coverHTML({ ...b, cover: src, coverPicked: true }); };
+    // ---- v4.15: the same book in another language: every edition Open Library knows, grouped by language ----
+    let langPick = null, langGroups = [];
+    const LANG3 = { eng: "en", fre: "fr", fra: "fr", ger: "de", deu: "de", spa: "es", ita: "it", por: "pt", dut: "nl", nld: "nl", srp: "sr", scc: "sr", hrv: "hr", scr: "hr", bos: "bs", slv: "sl", mac: "mk", bul: "bg", rus: "ru", ukr: "uk", pol: "pl", cze: "cs", ces: "cs", slo: "sk", slk: "sk", hun: "hu", rum: "ro", ron: "ro", gre: "el", ell: "el", tur: "tr", swe: "sv", nor: "no", nob: "nb", dan: "da", fin: "fi", ice: "is", isl: "is", jpn: "ja", chi: "zh", zho: "zh", kor: "ko", ara: "ar", heb: "he", per: "fa", hin: "hi", cat: "ca", lit: "lt", lav: "lv", est: "et", alb: "sq", vie: "vi", ind: "id", tha: "th", glg: "gl", baq: "eu", eus: "eu", wel: "cy", gle: "ga" };
+    const langName = c => { try { return new Intl.DisplayNames(["en"], { type: "language" }).of(c) || c; } catch { return c.toUpperCase(); } };
+    const LANG_FIRST = ["en", "sr", "hr", "bs"];
+    async function findLangs(){
+      const box = $("#m-langs"); box.hidden = false;
+      const head = `<div class="galhead"><span class="label">🌐 This book in other languages</span><button class="btn small" type="button" data-langclose>Close</button></div>`;
+      box.innerHTML = head + `<div class="progress dots">Looking through every edition</div>`;
+      box.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      const t = ($("#m-t")?.value || b.title || "").trim(), a = ($("#m-a")?.value || b.author || "").trim(), cur = tnorm(t);
+      try {
+        let key = b.olKey; if (!key) { const r = await olSearch({ title: t, author: a }, 3); key = r[0]?.olKey; }
+        if (!key) throw new Error("none");
+        const ed = await olJSON(`${OL}${key}/editions.json?limit=400`), by = new Map();
+        for (const e of ed.entries || []) { const c = LANG3[(e.languages || []).map(l => String(l.key || "").split("/").pop())[0]]; const tt = String(e.title || "").trim(); if (!c || !tt) continue;
+          const g = by.get(c) || { code: c, n: 0, eds: [] }; g.n++; g.eds.push({ t: tt, cover: (e.covers || []).find(x => x > 0) || null, isbn: [...(e.isbn_13 || []), ...(e.isbn_10 || [])][0] || "" }); by.set(c, g); }
+        langGroups = [...by.values()].map(g => { const cnt = new Map(); g.eds.forEach(x => cnt.set(x.t, (cnt.get(x.t) || 0) + 1 + (x.cover ? .5 : 0))); const title = [...cnt.entries()].sort((p, q) => q[1] - p[1])[0][0];
+          const best = g.eds.find(x => x.t === title && x.cover) || g.eds.find(x => x.cover) || g.eds[0], isbn = (g.eds.find(x => x.t === title && x.isbn) || {}).isbn || "";
+          return { code: g.code, n: g.n, title, cover: best.cover, isbn, others: [...new Set(g.eds.map(x => x.t))].filter(x => x !== title).slice(0, 2) }; })
+          .sort((p, q) => (LANG_FIRST.includes(q.code) ? 1 : 0) - (LANG_FIRST.includes(p.code) ? 1 : 0) || LANG_FIRST.indexOf(p.code) - LANG_FIRST.indexOf(q.code) || q.n - p.n);
+        const only = langGroups.length < 2;
+        box.innerHTML = head + (langGroups.length ? `<div class="langopts"><label><input type="checkbox" id="m-langcov" checked> Use that edition's cover</label><label><input type="checkbox" id="m-langsum" checked> Description in that language, when there is one</label></div>
+          <div class="langlist">${langGroups.map((g, i) => { const on = tnorm(g.title) === cur; return `<button type="button" class="langrow${on ? " on" : ""}" data-langi="${i}" aria-pressed="${on}"><span class="langcov">${g.cover ? `<img src="${coverById(g.cover, "S")}" alt="" loading="lazy" referrerpolicy="no-referrer">` : `<i aria-hidden="true">📖</i>`}</span><span class="langtxt"><small>${esc(langName(g.code))} · ${g.n} edition${g.n > 1 ? "s" : ""}${on ? " · showing now" : ""}</small><b>${esc(g.title)}</b>${g.others.length ? `<small class="muted">also ${g.others.map(esc).join(", ")}</small>` : ""}</span></button>`; }).join("")}</div>` : "")
+          + `<p class="note">${only ? "Open Library only knows this book in one language. " : ""}Not listed, or want it your way? <button type="button" class="linkbtn" data-langtype>Type the title yourself</button></p>`;
+      } catch { box.innerHTML = head + `<p class="note">Couldn't find other editions right now. <button type="button" class="linkbtn" data-langtype>Type the title yourself</button></p>`; }
+    }
+    async function gbDescription(g, author){
+      const get = async q => { try { const r = await fetch(`https://www.googleapis.com/books/v1/volumes?${q}&maxResults=5&printType=books&fields=items(volumeInfo(title,description,language))`, { signal: AbortSignal.timeout(9000) }); if (!r.ok) return null; return (await r.json()).items || []; } catch { return null; } };
+      const clean = d => String(d || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 1200);
+      if (g.isbn) { const it = await get(`q=isbn:${encodeURIComponent(g.isbn)}`); const d = (it || []).find(x => x.volumeInfo?.description); if (d) return clean(d.volumeInfo.description); }
+      const last = (author || "").split(/\s+/).pop() || "";
+      const it = await get(`q=${encodeURIComponent(`intitle:"${g.title}"${last ? ` inauthor:${last}` : ""}`)}&langRestrict=${g.code}`);
+      const d = (it || []).find(x => x.volumeInfo?.description && (!x.volumeInfo.language || x.volumeInfo.language.startsWith(g.code)));
+      return d ? clean(d.volumeInfo.description) : "";
+    }
+    async function pickLang(i){
+      const g = langGroups[i]; if (!g) return; const box = $("#m-langs");
+      const prev = ($("#m-t")?.value || b.title || "").trim();
+      if ($("#m-t")) $("#m-t").value = g.title; $("#m-title").textContent = g.title;
+      if ($("#m-langcov")?.checked && g.cover) setCover(coverById(g.cover));
+      langPick = { from: b.origTitle || prev, code: g.code, summary: null };
+      box.querySelectorAll(".langrow").forEach(r => { const on = +r.dataset.langi === i; r.classList.toggle("on", on); r.setAttribute("aria-pressed", on); });
+      if ($("#m-langsum")?.checked) { const sm = $("#m-sum"), was = sm.textContent; sm.textContent = `Looking for a description in ${langName(g.code)}…`;
+        const d = await gbDescription(g, ($("#m-a")?.value || b.author || "").trim());
+        if (langPick?.code !== g.code) return;
+        if (d) { langPick.summary = d; sm.textContent = d; const tg = $("#m-sumtog"); if (tg) tg.hidden = d.length <= 220; }
+        else { sm.textContent = was; toast(`No ${langName(g.code)} description found, so the old one stays.`, 4000); }
+      }
+      toast(`Showing it as “${g.title}”. Press Save to keep it.`, 4500);
+    }
     const takeFile = async file => { if (!file) return toast("That isn't an image. Copy the image itself, not its link."); try { setCover(await downscale(file)); } catch { toast("Couldn't read that image."); } };
     const close = () => { document.removeEventListener("paste", onPaste); root.innerHTML = ""; };
     const onPaste = e => { if (e.target.matches?.("input:not([type=file])")) return; const f = imageFrom(e); if (f) { e.preventDefault(); takeFile(f); } };
@@ -2774,7 +2834,8 @@
     const readFields = () => {
       const v = id => $(id)?.value?.trim();
       const list = s => (s || "").split(",").map(x => x.trim()).filter(Boolean);
-      b.title = v("#m-t"); b.author = v("#m-a"); b.pages = parseInt(v("#m-p")) || null; b.year = parseInt(v("#m-y")) || null;
+      b.title = v("#m-t"); b.author = v("#m-a");
+      if (langPick) { if (!b.origTitle) b.origTitle = langPick.from; if (tnorm(b.origTitle) === tnorm(b.title)) delete b.origTitle; b.titleLang = langPick.code; if (langPick.summary) { b.summary = langPick.summary; b.descChecked = true; } } b.pages = parseInt(v("#m-p")) || null; b.year = parseInt(v("#m-y")) || null;
       const g = parseFloat(v("#m-gr")), oldGr = b.goodreads; b.goodreads = g > 0 && g <= 5 ? Math.round(g * 100) / 100 : null; if (b.grAuto && b.goodreads !== oldGr) delete b.grAuto;
       b.goodreadsCount = parseInt(v("#m-grc")) || null;
       b.category = v("#m-cat") || null;
@@ -2814,9 +2875,14 @@
       if (e.target.closest("#m-coverbtn")) { showMTab("cover"); $("#m-pane-cover").scrollIntoView({ block: "nearest", behavior: "smooth" }); return; }
       if (id === "m-findcov") return findCovers();
       if (e.target.closest("[data-galclose]")) { $("#m-gallery").hidden = true; return; }
+      if (e.target.closest("#m-langbtn")) { const box = $("#m-langs"); if (!box.hidden) { box.hidden = true; return; } findLangs(); return; }
+      if (e.target.closest("[data-langclose]")) { $("#m-langs").hidden = true; return; }
+      const lr = e.target.closest("[data-langi]"); if (lr) { pickLang(+lr.dataset.langi); return; }
+      if (e.target.closest("[data-langtype]")) { showMTab("details"); const x = $("#m-t"); if (x) { x.scrollIntoView({ block: "center", behavior: "smooth" }); setTimeout(() => { x.focus(); x.select(); }, 350); } return; }
       if (id === "m-rmcover") { setCover(""); e.target.remove(); return; }
       if (id === "m-addseries") { readFields(); const seed = { name: b.seriesName, author: b.author }; close(); openSeriesAdder(seed); return; }
-      const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; fe.setAttribute("aria-pressed", feelPick.includes(n)); return; }
+      const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; const box = $("#m-feel"), y = box.getBoundingClientRect().top; box.innerHTML = feelChips(); const dy = box.getBoundingClientRect().top - y; if (dy) box.closest(".modal")?.scrollBy(0, dy); return; }
+      const fg = e.target.closest("[data-fgrp]"); if (fg) { feelGrp = +fg.dataset.fgrp; $("#m-feel").innerHTML = feelChips(); return; }
       if (id === "m-feelgo") return addFeel();
       if (id === "m-qgo") return addQuote();
       const qd = e.target.closest("[data-qdel]"); if (qd) { thoughts.quotes.splice(+qd.dataset.qdel, 1); $("#m-quotes").innerHTML = quotesHTML(); return; }
@@ -7601,7 +7667,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     for (const b of D.read) { const w = W8(b);
       if (gAny(b, "Romance", "Romantasy")) add("heart", w, "romance");
       if (gAny(b, "Young Adult", "Contemporary")) add("heart", w * .5, "stories about feelings");
-      if (feltAny(b, "Heartbroken", "Swooning", "Moved", "Cathartic", "Devastated", "Nostalgic")) add("heart", w, "books that made you feel deeply");
+      if (feltAny(b, "Heartbroken", "Swooning", "Moved", "Cathartic", "Devastated", "Nostalgic", "Grieving", "Touched", "Yearning", "Bittersweet", "Tender")) add("heart", w, "books that made you feel deeply");
       if (trAny(b, "Enemies to lovers", "Slow burn", "Found family", "Grief & healing")) add("heart", w * .6, "emotional tropes");
       if (gAny(b, "Nonfiction", "Classics", "Literary Fiction", "Science Fiction", "Memoir", "Self-help", "Historical Fiction", "Religion", "Business", "Psychology", "Philosophy", "Science", "History")) add("mind", w, "ideas, classics and nonfiction");
       if (feltAny(b, "Thoughtful", "Inspired")) add("mind", w, "books that made you think");
@@ -7661,7 +7727,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const months = []; const now = new Date();
     for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1), key = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
       const list = D.read.filter(b => (b.finished || "").startsWith(key)); months.push({ label: MONTHS[d.getMonth()], n: list.length, g: list.length ? cnt(list, MAINGENRE)[0][0] : null }); }
-    const fl = recent.flatMap(b => b.feelings || []); const W = [["Stormy", "⛈", ["Heartbroken", "Devastated", "Angry", "Scared"], "Your recent reads have been emotionally stormy. Keep a blanket and tissues nearby."], ["Thunder and lightning", "⚡", ["Thrilled", "Shocked", "Obsessed"], "Electric, twisty, can't-put-it-down weather."], ["Rose-pink skies", "🌸", ["Swooning", "Hopeful"], "Swoony, hopeful skies. Love is in the forecast."], ["Cosy fireside", "🔥", ["Cozy", "Comforted", "Nostalgic"], "Warm, cosy, comfort-reading weather."], ["Sunny", "☀", ["Joyful", "Amused", "Empowered", "Inspired"], "Bright, uplifting, sunny reading."], ["Misty", "🌫", ["Thoughtful", "Moved", "Cathartic"], "Quiet, reflective, misty-morning reading."]];
+    const fl = recent.flatMap(b => b.feelings || []); const W = [["Stormy", "⛈", ["Heartbroken", "Devastated", "Angry", "Scared", "Grieving", "Disturbed", "Dreadful", "Vengeful", "Sorrowful"], "Your recent reads have been emotionally stormy. Keep a blanket and tissues nearby."], ["Thunder and lightning", "⚡", ["Thrilled", "Shocked", "Obsessed", "Mind-Blown", "On Edge", "Breathless", "Exhilarated", "Anxious"], "Electric, twisty, can't-put-it-down weather."], ["Rose-pink skies", "🌸", ["Swooning", "Hopeful", "Adored", "Yearning", "Tender"], "Swoony, hopeful skies. Love is in the forecast."], ["Cosy fireside", "🔥", ["Cozy", "Comforted", "Nostalgic", "Heartwarmed", "Content", "Peaceful"], "Warm, cosy, comfort-reading weather."], ["Sunny", "☀", ["Joyful", "Amused", "Empowered", "Inspired", "Delighted", "Enlightened"], "Bright, uplifting, sunny reading."], ["Misty", "🌫", ["Thoughtful", "Moved", "Cathartic", "Introspective", "Melancholic", "Dreamy", "Bittersweet"], "Quiet, reflective, misty-morning reading."]];
     const weather = fl.length ? W.map(w => [w, fl.filter(f => w[2].includes(f)).length]).sort((a, b) => b[1] - a[1])[0][0] : null;
     const byG = new Map(); rated(D.read).forEach(b => { const g = MAINGENRE(b); if (!byG.has(g)) byG.set(g, []); byG.get(g).push(b.rating); });
     const byT = new Map(); rated(D.read).forEach(b => (b.tropes || []).forEach(t => { if (!byT.has(t)) byT.set(t, []); byT.get(t).push(b.rating); }));
@@ -7711,7 +7777,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     ["Romance Lands", "💘", b => hasG(b, "Romance", "Romantasy")], ["Mystery Cities", "🔎", b => hasG(b, "Mystery")], ["Thriller Alleys", "🗝", b => hasG(b, "Thriller")], ["Dark Kingdoms", "🌑", b => hasG(b, "Horror") || hasT(b, "Gothic")],
     ["Future Worlds", "🚀", b => hasG(b, "Science Fiction")], ["Dystopian Wastes", "☢", b => hasG(b, "Dystopian") || hasT(b, "Dystopia")], ["Myth Mountains", "⚡", b => hasT(b, "Myth retelling", "Gods & goddesses")],
     ["Bygone Eras", "⏳", b => hasG(b, "Historical Fiction")], ["The Old Libraries", "📜", b => hasG(b, "Classics")], ["The Quiet Streets", "🖋", b => hasG(b, "Literary Fiction")], ["Present-Day Towns", "☕", b => hasG(b, "Contemporary")],
-    ["Coming-of-Age Coast", "🌟", b => hasG(b, "Young Adult")], ["Cozy Villages", "🌿", b => hasT(b, "Found family", "Small town") || hasF(b, "Cozy", "Comforted")], ["The War Fronts", "🎖", b => hasT(b, "War") || rxB(b, /\b(world war|wwii|battle of)\b/)],
+    ["Coming-of-Age Coast", "🌟", b => hasG(b, "Young Adult")], ["Cozy Villages", "🌿", b => hasT(b, "Found family", "Small town") || hasF(b, "Cozy", "Comforted", "Heartwarmed", "Content", "Peaceful")], ["The War Fronts", "🎖", b => hasT(b, "War") || rxB(b, /\b(world war|wwii|battle of)\b/)],
     ["The Sacred Halls", "🕯", b => ARCHETYPES.find(a => a.name === "The Faithful Pilgrim").t(b) > 0], ["The Market Towers", "🏛", b => hasG(b, "Business")], ["The Mind Palace", "🧠", b => hasG(b, "Psychology")], ["The Thinkers' Garden", "🦉", b => hasG(b, "Philosophy")],
     ["The Observatory", "🔭", b => hasG(b, "Science")], ["The Archive of Ages", "🗺", b => hasG(b, "History") && !hasG(b, "Historical Fiction")], ["Other People's Lives", "🪞", b => hasG(b, "Biography & Memoir", "Memoir")], ["Self-Growth Gardens", "🌱", b => hasG(b, "Self-help")],
     ["The Poets' Corner", "🪶", b => hasG(b, "Poetry")], ["Panel City", "💥", b => hasG(b, "Graphic Novel")], ["The Laughing Tavern", "😂", b => hasG(b, "Humor")], ["Storybook Lane", "🧸", b => hasG(b, "Children's")],
@@ -8894,8 +8960,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.14";
+  const APP_VERSION = "4.16";
   const CHANGELOG = [
+    ["4.16", "11 Nov 2026", "64 ways a book can make you feel", [
+      "Feelings grew from 20 to 64, in eight families: Joy, Excitement, Sadness, Wonder, Reflection, Darkness, Longing and Complex",
+      "Only one family is open at a time, with a count of how many you picked in each, so it never turns into a wall of chips",
+      "What you've picked sits on top; tap one to take it away",
+      "All your earlier feelings are still there and still count in your stats"]],
+    ["4.15", "11 Nov 2026", "Your books, in your language", [
+      "Open any book and tap 🌐 Other languages: see every language it's been published in, with each edition's title and cover",
+      "Pick one to show the book under that title (say “Lie with Me” instead of “Arrête avec tes mensonges”), with that edition's cover and, when there is one, a description in that language",
+      "The book remembers its original title and shows it under the new one",
+      "Not listed? Type the title yourself in one tap"]],
     ["4.14", "9 Nov 2026", "Empire of Storms & Tower of Dawn, together", [
       "Reading both Empire of Storms and Tower of Dawn? Your Reading card now offers a ⚔ tandem read: both books chapter by chapter, alternating in story order",
       "The card always shows what to read next, with a ✓ Read it button; the checklist shows all 145 parts, colour-coded by book",

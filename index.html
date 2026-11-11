@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ver="4.15">
+<html lang="en" data-ver="4.16">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3270,6 +3270,21 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 .langrow:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}.langrow.on{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 9%,var(--paper))}
 .langcov{flex:0 0 32px;width:32px;height:46px;display:grid;place-items:center;border-radius:3px;overflow:hidden;background:color-mix(in srgb,var(--line) 50%,transparent)}.langcov img{width:100%;height:100%;object-fit:cover}.langcov i{font-style:normal;font-size:15px}
 .langtxt{flex:1;min-width:0;display:flex;flex-direction:column}.langtxt b{font-family:var(--f-display);font-style:italic;font-size:16px;line-height:1.2}.langtxt small{font-size:11.5px;letter-spacing:.02em;color:var(--muted)}
+
+/* ===== v4.16: feelings in families ===== */
+.feelbox{display:flex;flex-direction:column;gap:8px}
+.feelsel{display:flex;flex-wrap:wrap;gap:6px;min-height:32px;align-items:center}
+.feelsel button[data-feel]{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--fc);background:color-mix(in srgb,var(--fc) 16%,var(--paper));color:var(--ink);border-radius:999px;padding:5px 8px 5px 11px;font:inherit;font-size:13px;cursor:pointer}
+.feelsel button[data-feel] i{font-style:normal;color:var(--fc);font-size:14px;line-height:1}.feelsel .fx{margin-left:2px;color:var(--muted);font-size:15px;line-height:1}
+.feelnone{font-size:13px}
+.feelfam{display:flex;flex-wrap:wrap;gap:6px;padding:2px 1px 2px}.feelfam::-webkit-scrollbar{display:none}
+.feelfam button{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.feelfam button i{width:8px;height:8px;border-radius:50%;background:var(--fc)}
+.feelfam button b{min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--fc);color:#fff;font-size:10.5px;line-height:17px;text-align:center}
+.feelfam button[aria-selected=true]{color:var(--ink);border-color:var(--fc);background:color-mix(in srgb,var(--fc) 12%,var(--paper));font-weight:600}
+.feelgrp{padding:10px 10px 8px;border-radius:14px;border:1px solid color-mix(in srgb,var(--fc) 30%,var(--line));background:color-mix(in srgb,var(--fc) 5%,var(--paper))}
+.feelgname{font-family:var(--f-cap);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fc);margin:0 0 7px}
+.feelchips button[data-feel][aria-pressed=true]{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 18%,var(--paper));font-weight:600}
 </style>
 </head>
 <body>
@@ -3398,6 +3413,6 @@ body.mnav .rmpill{bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:10
 <div id="modal-root"></div>
 
 <script defer src="art.eef59d257e.js"></script>
-<script defer src="app.1a243427c3.js"></script>
+<script defer src="app.3fe4d81716.js"></script>
 </body>
 </html>
