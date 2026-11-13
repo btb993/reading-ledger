@@ -801,6 +801,9 @@
     winter:      { name: "Winter lodge", trinkets: ["snowglobe","candle","cocoa","pinecone","lantern","stack"], vines: 0 },
     spring:      { name: "Spring greenhouse", trinkets: ["blossom","teacup","plant","jar","candle","stack"], vines: 2 },
     summer:      { name: "Beach house", trinkets: ["cocktail","shells","sandcastle","sunglasses","lemonade","stack"], vines: 0 },
+    gothic:      { name: "Gothic library", trinkets: ["giltframe", "orchid", "filigree", "candle", "orchid", "potion"], vines: 0 },
+    botanical:   { name: "Botanical study", trinkets: ["flowervase", "plant", "teacup", "stack", "flowervase", "candle"], vines: 1 },
+    storybook:   { name: "Storybook nook", trinkets: ["plant", "pencup", "teacup", "stack", "fern", "flowervase"], vines: 1 },
     seasonal:    { name: "Follow the season", trinkets: [], vines: 0 },
   };
   const effCase = () => caseTheme === "seasonal" ? (["autumn", "winter", "spring", "summer"].includes(season()) ? season() : "library") : caseTheme;
@@ -1206,7 +1209,8 @@
     const bc = $("#bookcase"); bc.dataset.case = effCase();
     const vines = CASES[effCase()].vines;
     document.querySelectorAll("#bookcase .tier").forEach((t, i) => {
-      t.querySelectorAll(".vine,.garland").forEach(v => v.remove());
+      t.querySelectorAll(".vine,.garland,.orchids").forEach(v => v.remove());
+      if (effCase() === "gothic") { if (i !== 1) t.insertAdjacentHTML("afterbegin", orchidSVG("l")); if (i !== 2) t.insertAdjacentHTML("afterbegin", orchidSVG("r")); }
       if (vines) {
         const l = [4, 6, 3][i] * vines, r = [3, 5, 6][i] * vines;
         if (i !== 1 || vines > 1) t.insertAdjacentHTML("afterbegin", vineSVG("l", l));
@@ -1239,6 +1243,7 @@
   // split a long title into two balanced lines, so it sits centred on the spine
   function splitTitle(t){ const w = t.split(/\s+/); if (w.length < 2) return null; let best = null; for (let i = 1; i < w.length; i++) { const a = w.slice(0, i).join(" "), b = w.slice(i).join(" "), m = Math.max(a.length, b.length); if (!best || m < best[2]) best = [a, b, m]; } return best; }
   function spine(b, i){
+    if (isStyled()) return styledSpine(b, i);
     const p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
     const w = Math.round(22 + 34 * Math.min(1, p / 1000));
     const h = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
@@ -1258,6 +1263,109 @@
     return `<button class="spine b2 b3${loved ? " loved" : ""}${c2 ? " two" : ""}${rainbow ? " rainbow" : ""}${lite ? " lite" : ""}" type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(b.title)} — ${esc(b.author)}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}${genreNames ? " · " + esc(genreNames) : ""}${rainbow ? " · LGBTQ+" : ""}"
       style="--c:${color};${c2 ? `--c2:${c2};` : ""}--aura:${L.aura};--sfs:${fs.toFixed(1)}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<i class="band"></i><i class="mk">${L.motif}</i><span class="tts${lines.length > 1 ? " two" : ""}">${lines.map(l => `<span class="tt">${esc(l)}</span>`).join("")}</span>${st}<i class="band bot"></i></button>`;
   }
+  // ================= v4.18: three cozy shelf styles, painted spines and books stacked flat =================
+  const SPINE_PAL = {
+    gothic: [["#5A1830", 342], ["#6E1E36", 348], ["#7A2848", 336], ["#3A1A34", 312], ["#24121E", 322], ["#17131A", 230], ["#1E1A22", 260], ["#4A1426", 352]],
+    botanical: [["#1F3A5F", 214], ["#7A1E22", 358], ["#B8742A", 30], ["#1F5A44", 158], ["#C9963A", 42], ["#3A4048", 210], ["#2E4A2E", 120], ["#4A2A4A", 300], ["#2B5C6B", 192]],
+    storybook: [["#5FA8A0", 174], ["#9AB89A", 120], ["#E9A07A", 22], ["#B9A0CF", 272], ["#EFE0BC", 48], ["#DC8FA0", 346], ["#E3B65E", 40], ["#6F9AB0", 202], ["#E07E4A", 16], ["#A7D3C0", 156], ["#C7799A", 330]],
+  };
+  const isStyled = () => !!SPINE_PAL[effCase()];
+  function styledColor(b, st){
+    if (spineMode === "individual" && b.spineCustom) return customTone(b.spineCustom);
+    const base = spineColorOf(b), [hh, ss] = hexToHsl(base), P = SPINE_PAL[st], hue = ss < .1 ? (st === "storybook" ? 48 : 230) : hh * 360;
+    const ranked = P.map(([c, h]) => [c, Math.min(Math.abs(h - hue), 360 - Math.abs(h - hue))]).sort((a, z) => a[1] - z[1]);
+    return ranked[hashNum(b.id || b.title, 3) === 0 && ranked[1][1] - ranked[0][1] < 30 ? 1 : 0][0];
+  }
+  const mixHex = (a, b, t) => "#" + [0, 2, 4].map(i => Math.round(parseInt(a.slice(1 + i, 3 + i), 16) * (1 - t) + parseInt(b.slice(1 + i, 3 + i), 16) * t).toString(16).padStart(2, "0")).join("");
+  const FLOWER_INK = ["#F3E9D2", "#E8A0B4", "#B8A0D8", "#EFC24A", "#D2483A", "#FAF6EC", "#8FB4E0", "#F2B27A"];
+  // a painted flower for the botanical spines, drawn to fit the space below the title
+  function flowerSVG(kind, x, y0, y1, w, ink, leaf){
+    const cx = x, top = y0 + 14, s = Math.min(1.1, w / 34);
+    let o = `<path d="M${cx} ${y1}C${cx - 3 * s} ${(y1 + top) / 2} ${cx + 3 * s} ${(y1 + top) / 2 + 10} ${cx} ${top + 6}" stroke="${leaf}" stroke-width="${1.6 * s}" fill="none"/>`;
+    for (let k = 0; k < 3; k++) { const ly = y1 - (y1 - top) * (.22 + k * .2), d = k % 2 ? 1 : -1; o += `<path d="M${cx} ${ly}q${d * 9 * s} ${-4 * s} ${d * 11 * s} ${-12 * s}q${-d * 7 * s} ${1 * s} ${-d * 11 * s} ${12 * s}Z" fill="${leaf}" opacity=".95"/>`; }
+    const PA = (x, y, n, r, rx, ry, c) => [...Array(n)].map((_, i) => `<ellipse cx="${x}" cy="${y - r}" rx="${rx}" ry="${ry}" fill="${c}" transform="rotate(${i * 360 / n} ${x} ${y})"/>`).join("");
+    const P = (n, r, rx, ry, c) => PA(cx, top, n, r, rx, ry, c);
+    if (kind === 0) o += P(12, 6 * s, 1.9 * s, 5.4 * s, ink) + `<circle cx="${cx}" cy="${top}" r="${3 * s}" fill="#E8B23A"/><circle cx="${cx - .8 * s}" cy="${top - .8 * s}" r="${1 * s}" fill="#FFE08A"/>`;
+    else if (kind === 1) o += `<path d="M${cx - 7 * s} ${top - 2 * s}q0 ${10 * s} ${7 * s} ${10 * s}t${7 * s} ${-10 * s}l${-3 * s} ${-9 * s}l${-2 * s} ${5 * s}l${-2 * s} ${-7 * s}l${-2 * s} ${7 * s}l${-2 * s} ${-5 * s}Z" fill="${ink}"/><path d="M${cx} ${top - 6 * s}v${12 * s}" stroke="rgba(0,0,0,.15)" stroke-width="${s}"/>`;
+    else if (kind === 2) for (let i = 0; i < 9; i++) o += `<ellipse cx="${cx + (i % 2 ? 2.4 : -2.4) * s}" cy="${top + 10 * s - i * 3.4 * s}" rx="${1.8 * s}" ry="${2.6 * s}" fill="${ink}" opacity="${.75 + (i % 3) * .1}"/>`;
+    else if (kind === 3) o += P(4, 4.5 * s, 4.6 * s, 5.4 * s, ink) + `<circle cx="${cx}" cy="${top}" r="${2.6 * s}" fill="#2A1A1A"/><circle cx="${cx}" cy="${top}" r="${1 * s}" fill="#6A8A3A"/>`;
+    else if (kind === 4) { for (const [dx, dy] of [[-7, -2], [6, -6], [0, -13], [-4, 6], [7, 4]]) { const fx = cx + dx * s, fy = top + dy * s; o += `<path d="M${cx} ${top + 12 * s}Q${cx + dx * s * .5} ${top} ${fx} ${fy}" stroke="${leaf}" stroke-width="${s}" fill="none"/>` + PA(fx, fy, 5, 1.8 * s, 1.3 * s, 1.9 * s, ink) + `<circle cx="${fx}" cy="${fy}" r="${.9 * s}" fill="#E8B23A"/>`; } }
+    else o += [7, 5, 3].map((r, i) => `<circle cx="${cx}" cy="${top}" r="${r * s}" fill="${mixHex(ink, i % 2 ? "#ffffff" : "#000000", .12 * i)}"/>`).join("") + `<path d="M${cx - 4 * s} ${top}q${4 * s} ${-5 * s} ${8 * s} 0" stroke="rgba(0,0,0,.18)" fill="none" stroke-width="${s}"/>`;
+    return o;
+  }
+  // the hand-painted art behind each spine's title, sized to the spine in pixels so nothing stretches
+  function spineArt(b, st, w, h, c, ty, th){
+    const k = hashNum(b.id || b.title, 997), gold = "#D6B160", gold2 = "#F2D58A";
+    let o = "";
+    if (st === "gothic") {
+      const rib = y => `<rect x="0" y="${y}" width="${w}" height="5" fill="rgba(0,0,0,.35)"/><rect x="0" y="${y + .6}" width="${w}" height="2" fill="rgba(255,255,255,.14)"/><path d="M2 ${y - 2.5}H${w - 2}M2 ${y + 7.5}H${w - 2}" stroke="${gold}" stroke-width=".9"/>`;
+      o += rib(10) + rib(h - 16);
+      o += `<rect x="3.5" y="${ty - 4}" width="${w - 7}" height="${th + 8}" rx="2" fill="rgba(0,0,0,.28)" stroke="${gold}" stroke-width="1"/><rect x="5.5" y="${ty - 2}" width="${w - 11}" height="${th + 4}" rx="1.5" fill="none" stroke="${gold}" stroke-width=".5" opacity=".7"/>`;
+      const orn = (cy, flip) => { const r = Math.min(w * .3, 11); return `<g transform="translate(${w / 2} ${cy})${flip ? " scale(1 -1)" : ""}"><path d="M0 ${-r}L${r * .62} 0L0 ${r}L${-r * .62} 0Z" fill="none" stroke="${gold}" stroke-width="1"/><path d="M0 ${-r * .5}L${r * .3} 0L0 ${r * .5}L${-r * .3} 0Z" fill="${gold}"/>${k % 2 ? `<circle cy="${-r - 3.5}" r="1.3" fill="${gold}"/><circle cy="${r + 3.5}" r="1.3" fill="${gold}"/>` : `<path d="M${-r * .9} ${-r - 2}q${r * .9} ${-r * .5} ${r * 1.8} 0M${-r * .9} ${r + 2}q${r * .9} ${r * .5} ${r * 1.8} 0" stroke="${gold}" stroke-width=".8" fill="none"/>`}</g>`; };
+      const upper = (22 + ty - 6) / 2, lower = (ty + th + 6 + h - 20) / 2;
+      if (ty - 26 > 18) o += orn(upper);
+      if (h - 20 - (ty + th + 6) > 18) o += orn(lower, 1);
+    } else if (st === "botanical") {
+      const rib = y => `<rect x="0" y="${y}" width="${w}" height="4" fill="${mixHex(c, "#000000", .3)}"/><rect x="0" y="${y}" width="${w}" height="1.2" fill="rgba(255,255,255,.22)"/>`;
+      o += rib(5) + rib(h - 9);
+      o += `<rect x="3" y="${ty - 3}" width="${w - 6}" height="${th + 6}" rx="1.5" fill="#1C1612" fill-opacity=".86" stroke="${gold}" stroke-width="1"/>`;
+      const ink = FLOWER_INK[(k >> 2) % FLOWER_INK.length], leaf = hexToHsl(c)[0] * 360 > 100 && hexToHsl(c)[0] * 360 < 180 ? "#B8D49A" : "#7FA05E";
+      o += flowerSVG(k % 6, w / 2, ty + th + 6, h - 12, w, ink, leaf);
+    } else {
+      const light = mixHex(c, "#FFFFFF", .5), dark = mixHex(c, "#2A1A12", .35), acc = ["#F6E7B8", "#F2A6A0", "#FFFFFF", "#F4C76A"][k % 4];
+      o += `<rect x="2.5" y="4.5" width="${w - 5}" height="${h - 9}" rx="5" fill="none" stroke="${light}" stroke-width="1.1" opacity=".75"/>`;
+      o += `<rect x="4" y="${ty - 3}" width="${w - 8}" height="${th + 6}" rx="${Math.min(10, (w - 8) / 2)}" fill="#FBF3E2" fill-opacity=".9" stroke="${dark}" stroke-width=".7" stroke-opacity=".5"/>`;
+      const y0 = ty + th + 8, y1 = h - 8, mid = w / 2;
+      let d = `M${mid} ${y1}`; for (let y = y1, i = 0; y > y0 + 6; y -= 14, i++) d += ` Q${mid + (i % 2 ? -1 : 1) * (w * .32)} ${y - 7} ${mid} ${y - 14}`;
+      o += `<path d="${d}" stroke="${dark}" stroke-width="1.3" fill="none" opacity=".8"/>`;
+      for (let y = y1 - 8, i = 0; y > y0 + 8; y -= 11, i++) { const dd = i % 2 ? 1 : -1; o += `<path d="M${mid} ${y}q${dd * 8} -3 ${dd * 9} -10q${-dd * 6} 2 ${-dd * 9} 10Z" fill="${i % 3 === 2 ? acc : light}" opacity=".9"/>`; }
+      if (y1 - y0 > 26) o += `<g transform="translate(${mid} ${y0 + 6})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-3.2" rx="2.2" ry="3.4" fill="${acc}" transform="rotate(${a})"/>`).join("")}<circle r="1.8" fill="${dark}"/></g>`;
+    }
+    return `<svg class="spart" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">${o}</svg>`;
+  }
+  function styledSpine(b, i, flat){
+    const st = effCase(), p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
+    const w0 = Math.round(22 + 34 * Math.min(1, p / 1000)), h0 = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
+    const c = styledColor(b, st), lite = lum(c) > .3, loved = b.shelf === "read" && b.rating >= 4.5;
+    const title = String(b.title || "").replace(/\s*[:(].*$/, "") || b.title || "";
+    const tip = `${b.title} — ${b.author}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}`;
+    const stars = b.shelf === "read" && b.rating ? `<i class="st">${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</i>` : "";
+    const common = `type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(tip)}"`;
+    if (flat) {
+      const w = Math.round(h0 * .66), h = Math.max(18, Math.round(w0 * .72)), fs = Math.max(9, Math.min(13, h * .5, (w - 26) / (title.length * .52)));
+      return `<button class="spine sty flat${lite ? " lite" : ""}${loved ? " loved" : ""}" ${common} style="--c:${c};--sfs:${fs.toFixed(1)}px;width:${w}px;height:${h}px;margin-left:${hashNum(b.id, 9) - 4}px"><span class="ftt">${esc(title)}</span></button>`;
+    }
+    const w = w0, h = h0;
+    const ty = st === "gothic" ? Math.round(h * .22) : st === "botanical" ? 16 : 14, th = Math.round(h * (st === "gothic" ? .56 : st === "botanical" ? .5 : .52));
+    const room = th - 8, K = st === "gothic" ? .74 : .6; let fs = Math.min(14, room / (title.length * K)), lines = [title];
+    if (fs < 11 && w >= 30) { const sp = splitTitle(title); if (sp) { const f2 = Math.min(13, room / (sp[2] * K), (w - 10) / 2.4); if (f2 > fs) { fs = f2; lines = [sp[0], sp[1]]; } } }
+    fs = Math.max(7.5, Math.min(w < 30 ? 11.5 : 14, fs));
+    return `<button class="spine sty${lite ? " lite" : ""}${loved ? " loved" : ""}" ${common} style="--c:${c};--sfs:${fs.toFixed(1)}px;--ty:${ty}px;--th:${th}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${spineArt(b, st, w, h, c, ty, th)}${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<span class="tts${lines.length > 1 ? " two" : ""}">${lines.map(l => `<span class="tt">${esc(l)}</span>`).join("")}</span>${stars}</button>`;
+  }
+  // a few books lie flat in little piles, the way real shelves end up
+  function stackPlan(list){
+    const n = list.length, starts = new Map();
+    if (n < 4) return starts;
+    const put = at => { const size = n < 9 ? 2 : 2 + (hashNum(list[at].id, 2)); if (at + size <= n && ![...starts.keys()].some(s => at < s + starts.get(s) + 1 && s < at + size + 1)) starts.set(at, size); };
+    put(Math.max(1, Math.floor(n * .34))); if (n >= 11) put(Math.floor(n * .74));
+    return starts;
+  }
+  function orchidSVG(side){
+    const fl = (x, y, s, c) => `<g transform="translate(${x} ${y}) scale(${s})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-6" rx="${a % 144 ? 4.2 : 5}" ry="7" fill="${c}" transform="rotate(${a})"/>`).join("")}<path d="M-3 1q3 6 6 0q-3 -3 -6 0Z" fill="#7A1050"/><circle r="1.6" fill="#FFE4F0"/></g>`;
+    const C = ["#E23C9A", "#C9257E", "#F06AB4", "#D44FA8"];
+    let o = `<path d="M${side === "l" ? 4 : 56} 0C${side === "l" ? 20 : 40} 40 ${side === "l" ? 10 : 50} 80 ${side === "l" ? 22 : 38} 140" stroke="#4A3A2A" stroke-width="1.6" fill="none"/>`;
+    for (let i = 0; i < 9; i++) { const y = 8 + i * 15, x = (side === "l" ? 10 : 50) + Math.sin(i * 1.3) * 8; o += fl(x, y, .62 + (i % 3) * .14, C[i % 4]); }
+    return `<div class="orchids ${side}" aria-hidden="true"><svg viewBox="0 0 60 150" width="60" height="150">${o}</svg></div>`;
+  }
+  Object.assign(TRINKETS, {
+    orchid: () => `<div class="trinket" style="width:54px;height:92px" aria-hidden="true"><svg viewBox="0 0 54 92" width="54" height="92"><path d="M14 90h26l-3-16H17Z" fill="#1A1418" stroke="#D6B160" stroke-width="1"/><path d="M27 74C26 50 30 34 40 20" stroke="#4A6A3A" stroke-width="1.6" fill="none"/><path d="M27 74q-12 -4 -16 -12q10 0 16 12Z M27 74q12 -6 18 -2q-8 6 -18 2Z" fill="#3A6A3A"/>${[[40, 18, "#E23C9A"], [33, 30, "#F06AB4"], [29, 44, "#C9257E"], [44, 32, "#D44FA8"]].map(([x, y, c]) => `<g transform="translate(${x} ${y})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-4.6" rx="3.4" ry="5.4" fill="${c}" transform="rotate(${a})"/>`).join("")}<circle r="1.4" fill="#FFE4F0"/></g>`).join("")}</svg></div>`,
+    giltframe: () => `<div class="trinket" style="width:70px;height:84px" aria-hidden="true"><svg viewBox="0 0 70 84" width="70" height="84"><rect x="3" y="3" width="64" height="78" rx="4" fill="#B8862E" stroke="#F2D58A" stroke-width="1.2"/><rect x="6" y="6" width="58" height="72" rx="3" fill="none" stroke="#7A5418" stroke-width="2.4" stroke-dasharray="3 2"/><rect x="11" y="11" width="48" height="62" fill="#E4D6C0"/><path d="M35 66v-14" stroke="#4A3428" stroke-width="2"/><circle cx="35" cy="40" r="14" fill="#8A2A5A"/><circle cx="27" cy="44" r="9" fill="#A23A6E"/><circle cx="43" cy="44" r="9" fill="#7A2050"/><ellipse cx="35" cy="66" rx="12" ry="2" fill="#B8A890"/>${[[3, 3], [67, 3], [3, 81], [67, 81]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="#F2D58A" stroke="#7A5418"/>`).join("")}</svg></div>`,
+    filigree: () => `<div class="trinket" style="width:62px;height:66px" aria-hidden="true"><svg viewBox="0 0 62 66" width="62" height="66"><rect x="6" y="50" width="50" height="14" rx="2" fill="#C9963A" stroke="#7A5418"/><path d="M9 54h44M9 60h44" stroke="#7A5418" stroke-width=".7"/><path d="M31 50C31 36 22 34 16 38c-6 4 -2 12 4 10M31 50C31 36 40 34 46 38c6 4 2 12 -4 10M31 40c0 -10 -8 -14 -12 -20M31 40c0 -10 8 -14 12 -20M31 34V8M25 14q6 -10 12 0M22 26q9 -6 18 0" stroke="#D6B160" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="31" cy="6" r="3" fill="#F2D58A"/></svg></div>`,
+    flowervase: () => `<div class="trinket" style="width:50px;height:88px" aria-hidden="true"><svg viewBox="0 0 50 88" width="50" height="88"><path d="M16 86h18l3-22q-12 -6 -24 0Z" fill="#3A6A8A" stroke="#22465E"/><path d="M17 72h16" stroke="#E8D6A8" stroke-width="2"/>${[[25, 64, 14, 30, "#F3E9D2"], [25, 64, 34, 22, "#E8A0B4"], [25, 64, 22, 12, "#EFC24A"], [25, 64, 8, 40, "#B8A0D8"], [25, 64, 40, 38, "#D2483A"]].map(([x1, y1, x2, y2, c]) => `<path d="M${x1} ${y1}Q${(x1 + x2) / 2} ${(y1 + y2) / 2 + 8} ${x2} ${y2}" stroke="#5A8A3A" stroke-width="1.3" fill="none"/>${[0, 72, 144, 216, 288].map(a => `<ellipse cx="${x2}" cy="${y2 - 3}" rx="2.2" ry="3.4" fill="${c}" transform="rotate(${a} ${x2} ${y2})"/>`).join("")}<circle cx="${x2}" cy="${y2}" r="1.5" fill="#E8B23A"/>`).join("")}</svg></div>`,
+    pencup: () => `<div class="trinket" style="width:40px;height:84px" aria-hidden="true"><svg viewBox="0 0 40 84" width="40" height="84"><path d="M10 40L4 4M18 38l4 -36M26 40l10 -30" stroke-linecap="round" stroke-width="3.6" fill="none" stroke="#E07E4A"/><path d="M18 38l4 -36" stroke="#5FA8A0" stroke-width="3.6"/><path d="M26 40l10 -30" stroke="#E3B65E" stroke-width="3.6"/><path d="M4 4l-1 -3M22 2l.5 -2M36 10l1 -3" stroke="#2A1A12" stroke-width="2"/><rect x="6" y="38" width="28" height="44" rx="5" fill="#EFE0BC" stroke="#B8946A"/><path d="M10 52q10 8 20 0M12 64q8 6 16 0" stroke="#9AB89A" stroke-width="1.6" fill="none"/><circle cx="20" cy="58" r="2.6" fill="#DC8FA0"/></svg></div>`,
+  });
+  Object.assign(TRINKET_NAMES, { orchid: "Orchid", giltframe: "Gilded frame", filigree: "Gold filigree", flowervase: "Wildflowers", pencup: "Pencil pot" });
+  TRINKET_DRAWER.push(["Cozy shelves", ["orchid", "giltframe", "filigree", "flowervase", "pencup"]]);
   // read the real cover's colour, so the spine matches the book in your hands
   let spineBusy = false;
   function coverColor(url){
@@ -1372,8 +1480,13 @@
       const tag = t => decorating ? trinketHTML(t, k) : trinketHTML(t, k).replace('<div class="trinket"', `<div class="trinket movable" data-tidx="${mine.indexOf(t)}" draggable="true" title="Drag me (or press and hold) to move me"`);
       const at = a => mine.filter(t => t.after === a).map(tag).join("");
       const items = [slot("^"), at("^")];
-      if (!list.length) items.push(`<div class="emptyshelf">${words[k]}</div>`);
-      list.forEach((b, i) => { items.push(spine(b, i), at(b.id), slot(b.id)); });
+      if (!list.length) items.push(`<div class="emptyshelf">${k === Object.keys(lists).find(q => !lists[q].length) ? famMini("sleepy") : ""}<span>${words[k]}</span></div>`);
+      const plan = isStyled() ? stackPlan(list) : new Map();
+      for (let i = 0; i < list.length; i++) {
+        const n = plan.get(i);
+        if (n) { const grp = list.slice(i, i + n); items.push(`<div class="flatstack">${grp.map((b, j) => styledSpine(b, i + j, true)).join("")}</div>`); grp.forEach(b => items.push(at(b.id), slot(b.id))); i += n - 1; continue; }
+        const b = list[i]; items.push(spine(b, i), at(b.id), slot(b.id));
+      }
       items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(tag).join(""));
       if (decorating && !list.length) items.push(slot("$"));
       if (hiddenOnShelf[k]) items.push(`<button type="button" class="sidestack" data-sideshelf="${k}" title="${hiddenOnShelf[k]} more on the side shelf"><span class="ssp"><i></i><i></i><i></i></span><b>+${hiddenOnShelf[k]}</b></button>`);
@@ -1408,6 +1521,18 @@
     item = item ? { ...item, after } : { id: decorId(), k, after };
     (decor[shelf] = decor[shelf] || []).push(item); saveDecor(); renderShelf();
   }
+  // ---- v4.17: the bookcase's light follows your day, and its planks follow the season ----
+  function paintCaseLight(){
+    const h = new Date().getHours(), tod = h >= 5 && h < 11 ? "morning" : h >= 11 && h < 16 ? "day" : h >= 16 && h < 20 ? "evening" : "night";
+    const bc = $("#bookcase"); if (bc && bc.dataset.tod !== tod) bc.dataset.tod = tod;
+    let se = ""; try { se = season(); } catch {}
+    const mo = new Date().getMonth(), base = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"][mo];
+    const want = "case-" + (["autumn", "winter", "spring", "summer"].includes(se) ? se : base);
+    document.body.classList.forEach(c => { if (c.startsWith("case-") && c !== want) document.body.classList.remove(c); }); document.body.classList.add(want);
+  }
+  function famMini(expr = "happy"){ let w = [], k = "cat"; try { k = familiar; } catch { return ""; } try { w = wornNow(k); } catch {} try { return `<span class="fammini" data-fam="${esc(k)}" data-expr="${expr}" aria-hidden="true">${(() => { try { return A3APP.art(k, w, expr); } catch { return A3APP.art(k, w, "neutral"); } })()}</span>`; } catch { return ""; } }
+  addEventListener("load", () => setTimeout(() => { if (document.querySelector(".emptyshelf:not(:has(.fammini))")) try { renderShelf(); } catch {} }, 300));
+  paintCaseLight(); setInterval(paintCaseLight, 5 * 60e3); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintCaseLight(); });
   function startMotes(){
     const cv = $("#motes"); if (!cv || reduceMotion) return;
     const ctx = cv.getContext("2d"), coarse = matchMedia("(pointer:coarse)").matches || innerWidth < 700; let W = 0, H = 0, visible = true, raf = 0, last = 0, acc = 0, col = "", sprite = null;
@@ -2614,7 +2739,8 @@
     const root = $("#modal-root");
     root.onclick = null;
     const quick = isNew && !!b.title && !moveTo;
-    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
+    const bkTint = (() => { try { const c = b.spineColor || (b.title ? lookOf(b).color : ""); if (!c) return ""; const [hh, ss] = hexToHsl(c); return `--bk:${hslToHex(hh, Math.min(.62, Math.max(.28, ss)), .44)};--bk2:${hslToHex(hh, Math.min(.55, ss), .66)}`; } catch { return ""; } })();
+    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal bookwin${quick ? " quick" : ""}${bkTint ? " tinted" : ""}" style="${bkTint}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
         <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.title ? `<button type="button" class="linkbtn langbtn" id="m-langbtn">🌐 ${b.origTitle && b.origTitle !== b.title ? `Originally <i>${esc(b.origTitle)}</i> · other languages` : "Other languages"}</button>` : ""}${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
@@ -2756,7 +2882,7 @@
     async function findLangs(){
       const box = $("#m-langs"); box.hidden = false;
       const head = `<div class="galhead"><span class="label">🌐 This book in other languages</span><button class="btn small" type="button" data-langclose>Close</button></div>`;
-      box.innerHTML = head + `<div class="progress dots">Looking through every edition</div>`;
+      box.innerHTML = head + `<div class="progress dots famload">${famMini("happy")}<span>Looking through every edition</span><i class="famstack" aria-hidden="true">📚</i></div>`;
       box.scrollIntoView({ block: "nearest", behavior: "smooth" });
       const t = ($("#m-t")?.value || b.title || "").trim(), a = ($("#m-a")?.value || b.author || "").trim(), cur = tnorm(t);
       try {
@@ -2810,7 +2936,7 @@
     drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); takeFile(imageFrom(e)); });
     async function findCovers(){
       const g = $("#m-gallery"); g.hidden = false;
-      g.innerHTML = `<div class="galhead"><span class="label">Covers from different editions</span><button class="btn small" type="button" data-galclose>Close</button></div><div class="progress dots">Gathering covers from every edition</div>`;
+      g.innerHTML = `<div class="galhead"><span class="label">Covers from different editions</span><button class="btn small" type="button" data-galclose>Close</button></div><div class="progress dots famload">${famMini("happy")}<span>Gathering covers from every edition</span><i class="famstack" aria-hidden="true">📚</i></div>`;
       g.scrollIntoView({ block: "nearest", behavior: "smooth" });
       try {
         const t = ($("#m-t")?.value || b.title).trim(), a = ($("#m-a")?.value || b.author || "").trim();
@@ -2921,7 +3047,7 @@
         if (out.shelf === "reading" && out.currentPage !== (book.currentPage || 0)) logProgress(out, out.currentPage);
         close();
         if (isNew && lastResults.length) closeResults();
-        upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
+        upsert(out); if (out.shelf === "read" && book.shelf !== "read" && !isNew) celebrateFinish(out); else toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
         if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb) openPack(bb); }, 1400); }
         if (out.shelf === "read" && book.shelf !== "read") { const id = out.id; setTimeout(() => { try { Social.offerShare(id); } catch {} }, 2600); }
         { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
@@ -2932,6 +3058,34 @@
       if (matchMedia("(hover:hover) and (pointer:fine)").matches) (moveTo === "read" ? $("#fin-d") : moveTo === "reading" ? $("#m-cp") : b.title ? null : $("#m-t"))?.focus({ preventScroll: true }); }, 30);
     $("#m-moredet")?.addEventListener("click", () => { root.querySelector(".modal")?.classList.remove("quick"); $("#m-moredet").remove(); });
   }
+
+  // ================= v4.17: little moments =================
+  const FINISH_LINES = ["Another one for the shelf. I'm so proud of you!", "The End. My favourite two words, after “snack time”.", "Close the cover gently. Let it settle.", "That's a whole world you've walked through.", "One more book that lives in you now.", "Shall we find the next one together?"];
+  function celebrateFinish(b){
+    if (reduceMotion) { toast(`✦ Finished ${b.title}!`); return; }
+    document.getElementById("finfx")?.remove();
+    const el = document.createElement("div"); el.id = "finfx"; el.className = "finfx"; el.setAttribute("role", "status");
+    let fam = ""; try { fam = A3APP.art(familiar, wornNow(familiar), "love"); } catch {}
+    const sp = [...Array(14)].map((_, i) => `<i style="--a:${i * 26}deg;--d:${(60 + (i * 37) % 70)}px;--t:${(i % 5) * .05}s">${i % 3 ? "✦" : "✧"}</i>`).join("");
+    el.innerHTML = `<div class="finbook"><div class="finback">${coverHTML(b)}</div><div class="finpage"></div><div class="finfront">${coverHTML(b)}</div></div><div class="finspark" aria-hidden="true">${sp}</div>
+      <div class="finmsg"><span class="finfam" data-fam="${esc(familiar)}" data-expr="love">${fam}</span><div><b>Finished!</b><span>${esc(FINISH_LINES[hashNum(b.title + todayISO(), FINISH_LINES.length)])}</span></div></div>`;
+    document.body.append(el);
+    const done = () => { el.classList.add("out"); setTimeout(() => el.remove(), 450); };
+    el.addEventListener("click", done); setTimeout(done, 2600);
+  }
+  // a page turns whenever you move on in a book
+  function pageTurn(id){
+    if (reduceMotion) return;
+    const card = (id && ($(`#now [data-finish="${CSS.escape(id)}"]`) || $(`#now [data-open="${CSS.escape(id)}"]`))?.closest(".nowcard")) || $("#now .tdnext");
+    if (!card) return; card.classList.remove("turned"); void card.offsetWidth; card.classList.add("turned");
+    const pg = document.createElement("i"); pg.className = "pagefx"; pg.setAttribute("aria-hidden", "true"); card.append(pg); setTimeout(() => pg.remove(), 900);
+  }
+  // tapping a spine pulls the book off the shelf before it opens
+  document.addEventListener("click", e => {
+    const sp = e.target.closest("#bookcase .spine[data-open]"); if (!sp || reduceMotion || $("#bookcase")?.classList.contains("decorating") || sp.classList.contains("pulled")) return;
+    e.stopImmediatePropagation(); e.preventDefault(); sp.classList.add("pulled");
+    setTimeout(() => { openById(sp.dataset.open); setTimeout(() => sp.classList.remove("pulled"), 500); }, 260);
+  }, true);
 
   // ================= drag along or between shelves =================
   (() => {
@@ -3204,7 +3358,7 @@
   }
   function tdTick(i){
     const T = tandemBooks(); if (!T) return; const [A, B] = T, d = [...tdState(A)]; if (d[i] === "1") return; d[i] = "1";
-    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); bondAdd(2, "progress");
+    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); pageTurn(); bondAdd(2, "progress");
     const nd = tdState(A), nx = nd.indexOf("0"), [sd] = tdLabel(TANDEM.order[i]), now = tdCount(nd, sd);
     if (now >= TANDEM[sd].ch && was[sd === "a" ? 0 : 1] < TANDEM[sd].ch) toast(`That was the last chapter of ${TANDEM[sd].name}! Press “I finished it” to shelve it.`, 6000);
     else toast(nx < 0 ? "⚔ The whole tandem read is done. What a journey!" : `✓ Ticked. Up next: ${tdName(nx)}`, 4000);
@@ -3316,14 +3470,14 @@
       if (!(b.progressLog || []).some(x => x.c != null) && b.currentChapter) logProgress(b, b.currentPage || 0, b.currentChapter);
       b.chapters = tot; b.currentChapter = ch;
       if (b.pages) b.currentPage = Math.round(b.pages * ch / tot);
-      logProgress(b, b.currentPage || 0, ch); save(); render();
+      logProgress(b, b.currentPage || 0, ch); save(); render(); pageTurn(b.id);
       toast(ch >= tot ? "That was the last chapter! Press “I finished it” to shelve it." : `Chapter ${ch} of ${tot} done: ${Math.round(ch / tot * 1000) / 10}% read.`);
       return;
     }
     let page = parseInt(f.querySelector('[data-f="pg"]').value); if (isNaN(page) || page < 0) return toast("Type the page you're on.");
     if (b.pages && page > b.pages) page = b.pages;
     if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage);
-    b.currentPage = page; logProgress(b, page); save(); render(); bondAdd(2, "progress");
+    b.currentPage = page; logProgress(b, page); save(); render(); pageTurn(b.id); bondAdd(2, "progress");
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
@@ -5763,7 +5917,7 @@ alter publication supabase_realtime add table public.library;`;
       const SEGS = [["friends", "♥", "Friends", friends.length || ""], ["activity", "📰", "Activity", nAct ? `<i class="segnew">${nAct > 9 ? "9+" : nAct}</i>` : ""], ["together", "📖", "Together", togetherOff ? "" : (buddies.length + clubs.length) || ""], ["find", "＋", "Find", outgoing.length ? `<i class="segnew soft">${outgoing.length}</i>` : ""]];
       const sorted = friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || String(shelves.get(b.id)?.at || "").localeCompare(String(shelves.get(a.id)?.at || "")) || a.name.localeCompare(b.name));
       const part = {
-        friends: () => `${liveHTML()}<section class="fsec"><h3 class="fsech">Your friends${friends.length ? `<button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}<span class="fsacts">${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</span></h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${sorted.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle under <button type="button" class="linkbtn" data-fseg="find">＋ Find</button>, or send an invitation.</p>`}</section>`,
+        friends: () => `${liveHTML()}<section class="fsec"><h3 class="fsech">Your friends${friends.length ? `<button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}<span class="fsacts">${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</span></h3>${state === "loading" && !friends.length ? `<div class="progress dots famload">${famMini("happy")}<span>Gathering your friends</span><i class="famstack" aria-hidden="true">📚</i></div>` : friends.length ? `<div class="flist">${sorted.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle under <button type="button" class="linkbtn" data-fseg="find">＋ Find</button>, or send an invitation.</p>`}</section>`,
         activity: () => activityHTML(),
         together: () => `${togetherOff || !friends.length ? `<p class="note">${friends.length ? "Buddy reads and book clubs need the step 6 update in Supabase." : "Add a friend first, then read a book together or start a club."}</p>` : ""}${buddyHTML()}${clubsHTML()}
           ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
@@ -6809,7 +6963,7 @@ alter publication supabase_realtime add table public.library;`;
         <div class="authtop">${A?.img ? `<img class="authimg" src="${esc(A.img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="authimg mono">${esc(name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}
           <div><h2 id="au-t">${esc(name)}</h2>${A?.desc ? `<div class="authdesc">${esc(cap(A.desc))}</div>` : ""}
             <dl class="authlife">${A?.born ? `<dt>Born</dt><dd>${esc(A.born)}${A.place ? `, ${esc(A.place)}` : ""}</dd>` : ""}${A?.died ? `<dt>Died</dt><dd>${esc(A.died)}${age ? ` (aged ${esc(age.replace(" years", ""))})` : ""}</dd>` : age ? `<dt>Age</dt><dd>${esc(age)}</dd>` : ""}${A?.country ? `<dt>Country</dt><dd>${esc(A.country)}</dd>` : ""}</dl></div></div>
-        ${loading ? `<div class="progress dots">Looking them up</div>` : A?.extract ? `<p class="authbio">${esc(A.extract)}</p>` : `<p class="note">I couldn't find a biography for ${esc(name)} right now.</p>`}
+        ${loading ? `<div class="progress dots famload">${famMini("happy")}<span>Looking them up</span><i class="famstack" aria-hidden="true">📚</i></div>` : A?.extract ? `<p class="authbio">${esc(A.extract)}</p>` : `<p class="note">I couldn't find a biography for ${esc(name)} right now.</p>`}
         <div class="label">On your shelves · ${st.mine.length} book${st.mine.length === 1 ? "" : "s"}${st.read.length ? ` · ${st.read.length} read` : ""}${st.avg ? ` · you rate them ${st.avg.toFixed(1)}★` : ""}${st.pages ? ` · ${st.pages.toLocaleString()} pages together` : ""}</div>
         <div class="authbooks">${st.mine.map(b => `<button type="button" class="authbook" data-open="${esc(b.id)}">${coverHTML(b)}<span>${esc(b.title)}</span>${b.rating ? `<small>${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</small>` : `<small>${esc(SHELVES[b.shelf] || "")}</small>`}</button>`).join("")}</div>
         ${A?.works?.length ? `<div class="label" style="margin-top:12px">Their best-known books</div><div class="authworks">${A.works.map(w => `<div class="authwork">${w.c ? coverHTML({ title: w.t, author: name, cover: w.c }) : coverHTML({ title: w.t, author: name })}<span>${esc(w.t)}${w.y ? ` <small>${w.y}</small>` : ""}</span>${inLibrary(w.t, name) ? `<small class="onshelf">On your shelf</small>` : `<button type="button" class="linkbtn" data-auwant="${esc(w.t)}" data-auc="${esc(w.c || "")}">+ Want to read</button>`}</div>`).join("")}</div>` : ""}
@@ -8550,7 +8704,13 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     await Promise.all(show.map((b, i) => drawCover(x, b, gx + (i % cols) * (w + 20), 680 + Math.floor(i / cols) * (h + 20), w, h)));
     let y = 680 + rows * (h + 20) + 70;
     if (topG) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("MY GENRE OF THE YEAR", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 50px ${F.d}`; x.fillText(topG[0], SC.W / 2, y + 60); y += 120; }
-    if (fav && y < SC.H - 260) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText("MY FAVOURITE", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; textBlock(x, `${fav.title} · ${fav.rating}★`, SC.W / 2, y + 58, SC.W - 200, 54, 2); }
+    if (fav && y < SC.H - 260) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText("MY FAVOURITE", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; textBlock(x, `${fav.title} · ${fav.rating}★`, SC.W / 2, y + 58, SC.W - 200, 54, 2); y += 150; }
+    // how the year felt, as bands of colour, and who it made you
+    const fe = topN(list.flatMap(b2 => b2.feelings || []), 6);
+    if (fe.length && y < SC.H - 230) { const tot = fe.reduce((t, [, v]) => t + v, 0), bw = SC.W - 240; let fx = 120; x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("HOW IT FELT", SC.W / 2, y); x.save(); x.beginPath(); x.roundRect(120, y + 22, bw, 26, 13); x.clip();
+      fe.forEach(([f, v]) => { const w2 = bw * v / tot; x.fillStyle = feelLook(f).c; x.fillRect(fx, y + 22, w2 + 1, 26); fx += w2; }); x.restore();
+      x.font = `italic 30px ${F.d}`; x.fillStyle = SC.cream; x.fillText(fe.slice(0, 3).map(([f]) => f).join(" · "), SC.W / 2, y + 92); y += 140; }
+    try { const D = dnaFor(list); if (D[0] && D[0].score > 0 && y < SC.H - 200) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("THIS YEAR I WAS", SC.W / 2, y); x.fillStyle = SC.gold; x.font = `italic 50px ${F.d}`; x.fillText(hybridName(D[0], D[1] && D[1].score > .12 ? D[1] : null), SC.W / 2, y + 60); } } catch {}
     scFooter(x, F);
   }
   async function cardSession(x, F){
@@ -8581,7 +8741,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (!CARDS[kind]) return;
     document.getElementById("share-ov")?.remove();
     const ov = document.createElement("div"); ov.id = "share-ov"; ov.className = "shareov";
-    ov.innerHTML = `<div class="sharebox" role="dialog" aria-modal="true" aria-label="Share card"><div class="sharehead"><b>${esc(CARDS[kind][0])}</b><button class="iconbtn" type="button" data-sh="close" aria-label="Close">✕</button></div><div class="sharepre"><div class="progress dots">Painting your card</div></div><div class="sharebtns" hidden><button class="btn primary" type="button" data-sh="share">⤴ Share</button><button class="btn" type="button" data-sh="save">⤓ Save image</button></div><p class="note sharenote">Sized for Instagram and WhatsApp stories.</p></div>`;
+    ov.innerHTML = `<div class="sharebox" role="dialog" aria-modal="true" aria-label="Share card"><div class="sharehead"><b>${esc(CARDS[kind][0])}</b><button class="iconbtn" type="button" data-sh="close" aria-label="Close">✕</button></div><div class="sharepre"><div class="progress dots famload">${famMini("happy")}<span>Painting your card</span><i class="famstack" aria-hidden="true">📚</i></div></div><div class="sharebtns" hidden><button class="btn primary" type="button" data-sh="share">⤴ Share</button><button class="btn" type="button" data-sh="save">⤓ Save image</button></div><p class="note sharenote">Sized for Instagram and WhatsApp stories.</p></div>`;
     document.body.append(ov);
     let canvas, blob, url;
     const close = () => { ov.remove(); if (url) URL.revokeObjectURL(url); };
@@ -8852,7 +9012,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   async function foundISBN(isbn){
     const res = $("#scan-res"), view = $("#scan-view"); if (!res) return;
     if (view) view.hidden = true; res.hidden = false;
-    res.innerHTML = `<div class="progress dots">Looking up ${esc(isbn)}</div>`;
+    res.innerHTML = `<div class="progress dots famload">${famMini("happy")}<span>Looking up ${esc(isbn)}</span><i class="famstack" aria-hidden="true">📚</i></div>`;
     let r = null;
     try { r = (await olSearch({ isbn }, 1))[0] || null; } catch {}
     if (!r) { try { const d = await olJSON(`${OL}/isbn/${isbn}.json`); if (d && d.title) { let author = ""; try { const ak = d.authors?.[0]?.key; if (ak) author = (await olJSON(`${OL}${ak}.json`)).name || ""; } catch {} r = { title: d.title, author, pages: d.number_of_pages || null, olKey: d.works?.[0]?.key || null, coverId: d.covers?.[0] || null, cover: d.covers?.[0] ? coverById(d.covers[0]) : "", year: +(String(d.publish_date || "").match(/\d{4}/) || [0])[0] || null, genres: [], subjects: [] }; } } catch {} }
@@ -8960,8 +9120,24 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.16";
+  const APP_VERSION = "4.18";
   const CHANGELOG = [
+    ["4.18", "13 Nov 2026", "Three cozy new bookcases", [
+      "Gothic library: wine and black leather spines with gold tooling, cascading pink orchids, gilded frames and gold filigree",
+      "Botanical study: jewel-toned spines, each with its own painted flower, on warm walnut shelves",
+      "Storybook nook: soft pastel painted spines with vines and blossoms on honey-coloured wood",
+      "In all three, a few books lie flat in little piles, like real shelves. You can still tap and drag them",
+      "Each style keeps your genres together in matching colours, and books you gave their own colour keep it",
+      "Five new trinkets in the drawer: orchid, gilded frame, gold filigree, wildflowers and a pencil pot",
+      "Pick them under Decorate shelves → Theme"]],
+    ["4.17", "13 Nov 2026", "A nook that feels alive", [
+      "Your bookcase follows your day: soft morning light, golden evenings and a lamp glowing at night. Its planks follow the season, with snow in winter and leaves in autumn",
+      "Every book's window takes its colour from the cover",
+      "Finishing a book is a moment now: it closes, sparkles, and your companion cheers",
+      "A page turns when you update your progress or tick a tandem chapter, and tapping a spine pulls the book off the shelf",
+      "Your companion keeps you company while things load, and naps on an empty shelf",
+      "Your year card now shows how the year felt, in colour, and which reader it made you",
+      "A tidy-up across the app: buttons the same size, matching cards and clearer focus outlines"]],
     ["4.16", "11 Nov 2026", "64 ways a book can make you feel", [
       "Feelings grew from 20 to 64, in eight families: Joy, Excitement, Sadness, Wonder, Reflection, Darkness, Longing and Complex",
       "Only one family is open at a time, with a count of how many you picked in each, so it never turns into a wall of chips",
