@@ -801,6 +801,9 @@
     winter:      { name: "Winter lodge", trinkets: ["snowglobe","candle","cocoa","pinecone","lantern","stack"], vines: 0 },
     spring:      { name: "Spring greenhouse", trinkets: ["blossom","teacup","plant","jar","candle","stack"], vines: 2 },
     summer:      { name: "Beach house", trinkets: ["cocktail","shells","sandcastle","sunglasses","lemonade","stack"], vines: 0 },
+    gothic:      { name: "Gothic library", trinkets: ["giltframe", "orchid", "filigree", "candle", "orchid", "potion"], vines: 0 },
+    botanical:   { name: "Botanical study", trinkets: ["flowervase", "plant", "teacup", "stack", "flowervase", "candle"], vines: 1 },
+    storybook:   { name: "Storybook nook", trinkets: ["plant", "pencup", "teacup", "stack", "fern", "flowervase"], vines: 1 },
     seasonal:    { name: "Follow the season", trinkets: [], vines: 0 },
   };
   const effCase = () => caseTheme === "seasonal" ? (["autumn", "winter", "spring", "summer"].includes(season()) ? season() : "library") : caseTheme;
@@ -1206,7 +1209,8 @@
     const bc = $("#bookcase"); bc.dataset.case = effCase();
     const vines = CASES[effCase()].vines;
     document.querySelectorAll("#bookcase .tier").forEach((t, i) => {
-      t.querySelectorAll(".vine,.garland").forEach(v => v.remove());
+      t.querySelectorAll(".vine,.garland,.orchids").forEach(v => v.remove());
+      if (effCase() === "gothic") { if (i !== 1) t.insertAdjacentHTML("afterbegin", orchidSVG("l")); if (i !== 2) t.insertAdjacentHTML("afterbegin", orchidSVG("r")); }
       if (vines) {
         const l = [4, 6, 3][i] * vines, r = [3, 5, 6][i] * vines;
         if (i !== 1 || vines > 1) t.insertAdjacentHTML("afterbegin", vineSVG("l", l));
@@ -1219,6 +1223,7 @@
     for (let k = 0; k < 2; k++) for (let j = 1; j < 12; j++) { const x = j / 12; dots += `<i style="left:${(k * 50 + x * 50).toFixed(2)}%;top:${(6 + 24 * Math.sin(Math.PI * x)).toFixed(1)}px;animation-delay:${((k * 12 + j) * .37) % 3}s"></i>`; }
     top.insertAdjacentHTML("afterbegin", `<div class="garland" aria-hidden="true"><svg viewBox="0 0 100 34" preserveAspectRatio="none"><path d="M0 6Q25 54 50 6Q75 54 100 6" vector-effect="non-scaling-stroke"/></svg>${dots}</div>`);
     document.querySelectorAll("#case-theme [data-case]").forEach(x => x.setAttribute("aria-pressed", x.dataset.case === caseTheme));
+    try { paintSpineStyle(); } catch {}
   }
   function arrangeList(list, shelf){
     const by = {
@@ -1239,6 +1244,7 @@
   // split a long title into two balanced lines, so it sits centred on the spine
   function splitTitle(t){ const w = t.split(/\s+/); if (w.length < 2) return null; let best = null; for (let i = 1; i < w.length; i++) { const a = w.slice(0, i).join(" "), b = w.slice(i).join(" "), m = Math.max(a.length, b.length); if (!best || m < best[2]) best = [a, b, m]; } return best; }
   function spine(b, i){
+    if (isStyled()) return styledSpine(b, i);
     const p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
     const w = Math.round(22 + 34 * Math.min(1, p / 1000));
     const h = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
@@ -1258,6 +1264,113 @@
     return `<button class="spine b2 b3${loved ? " loved" : ""}${c2 ? " two" : ""}${rainbow ? " rainbow" : ""}${lite ? " lite" : ""}" type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(b.title)} — ${esc(b.author)}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}${genreNames ? " · " + esc(genreNames) : ""}${rainbow ? " · LGBTQ+" : ""}"
       style="--c:${color};${c2 ? `--c2:${c2};` : ""}--aura:${L.aura};--sfs:${fs.toFixed(1)}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<i class="band"></i><i class="mk">${L.motif}</i><span class="tts${lines.length > 1 ? " two" : ""}">${lines.map(l => `<span class="tt">${esc(l)}</span>`).join("")}</span>${st}<i class="band bot"></i></button>`;
   }
+  // ================= v4.18: three cozy shelf styles, painted spines and books stacked flat =================
+  const SPINE_PAL = {
+    gothic: [["#5A1830", 342], ["#6E1E36", 348], ["#7A2848", 336], ["#3A1A34", 312], ["#24121E", 322], ["#17131A", 230], ["#1E1A22", 260], ["#4A1426", 352]],
+    botanical: [["#1F3A5F", 214], ["#7A1E22", 358], ["#B8742A", 30], ["#1F5A44", 158], ["#C9963A", 42], ["#3A4048", 210], ["#2E4A2E", 120], ["#4A2A4A", 300], ["#2B5C6B", 192]],
+    storybook: [["#5FA8A0", 174], ["#9AB89A", 120], ["#E9A07A", 22], ["#B9A0CF", 272], ["#EFE0BC", 48], ["#DC8FA0", 346], ["#E3B65E", 40], ["#6F9AB0", 202], ["#E07E4A", 16], ["#A7D3C0", 156], ["#C7799A", 330]],
+  };
+  const KEY_SPSTY = "reading-ledger-spinestyle", KEY_FLAT = "reading-ledger-flatstacks";
+  let spineStyle = lsGet(KEY_SPSTY, "theme"), flatOn = lsGet(KEY_FLAT, true);
+  const spineStyleNow = () => spineStyle === "theme" ? (SPINE_PAL[effCase()] ? effCase() : "classic") : (SPINE_PAL[spineStyle] || spineStyle === "classic" ? spineStyle : "classic");
+  const isStyled = () => !!SPINE_PAL[spineStyleNow()];
+  function paintSpineStyle(){ document.querySelectorAll("#spinestyle-chips [data-sps]").forEach(x => x.setAttribute("aria-pressed", x.dataset.sps === spineStyle)); const f = $("#flat-toggle"); if (f) f.checked = !!flatOn; const bc = $("#bookcase"); if (bc) bc.dataset.spines = spineStyleNow(); }
+  function styledColor(b, st){
+    if (spineMode === "individual" && b.spineCustom) return customTone(b.spineCustom);
+    const base = spineColorOf(b), [hh, ss] = hexToHsl(base), P = SPINE_PAL[st], hue = ss < .1 ? (st === "storybook" ? 48 : 230) : hh * 360;
+    const ranked = P.map(([c, h]) => [c, Math.min(Math.abs(h - hue), 360 - Math.abs(h - hue))]).sort((a, z) => a[1] - z[1]);
+    return ranked[hashNum(b.id || b.title, 3) === 0 && ranked[1][1] - ranked[0][1] < 30 ? 1 : 0][0];
+  }
+  const mixHex = (a, b, t) => "#" + [0, 2, 4].map(i => Math.round(parseInt(a.slice(1 + i, 3 + i), 16) * (1 - t) + parseInt(b.slice(1 + i, 3 + i), 16) * t).toString(16).padStart(2, "0")).join("");
+  const FLOWER_INK = ["#F3E9D2", "#E8A0B4", "#B8A0D8", "#EFC24A", "#D2483A", "#FAF6EC", "#8FB4E0", "#F2B27A"];
+  // a painted flower for the botanical spines, drawn to fit the space below the title
+  function flowerSVG(kind, x, y0, y1, w, ink, leaf){
+    const cx = x, top = y0 + 14, s = Math.min(1.1, w / 34);
+    let o = `<path d="M${cx} ${y1}C${cx - 3 * s} ${(y1 + top) / 2} ${cx + 3 * s} ${(y1 + top) / 2 + 10} ${cx} ${top + 6}" stroke="${leaf}" stroke-width="${1.6 * s}" fill="none"/>`;
+    for (let k = 0; k < 3; k++) { const ly = y1 - (y1 - top) * (.22 + k * .2), d = k % 2 ? 1 : -1; o += `<path d="M${cx} ${ly}q${d * 9 * s} ${-4 * s} ${d * 11 * s} ${-12 * s}q${-d * 7 * s} ${1 * s} ${-d * 11 * s} ${12 * s}Z" fill="${leaf}" opacity=".95"/>`; }
+    const PA = (x, y, n, r, rx, ry, c) => [...Array(n)].map((_, i) => `<ellipse cx="${x}" cy="${y - r}" rx="${rx}" ry="${ry}" fill="${c}" transform="rotate(${i * 360 / n} ${x} ${y})"/>`).join("");
+    const P = (n, r, rx, ry, c) => PA(cx, top, n, r, rx, ry, c);
+    if (kind === 0) o += P(12, 6 * s, 1.9 * s, 5.4 * s, ink) + `<circle cx="${cx}" cy="${top}" r="${3 * s}" fill="#E8B23A"/><circle cx="${cx - .8 * s}" cy="${top - .8 * s}" r="${1 * s}" fill="#FFE08A"/>`;
+    else if (kind === 1) o += `<path d="M${cx - 7 * s} ${top - 2 * s}q0 ${10 * s} ${7 * s} ${10 * s}t${7 * s} ${-10 * s}l${-3 * s} ${-9 * s}l${-2 * s} ${5 * s}l${-2 * s} ${-7 * s}l${-2 * s} ${7 * s}l${-2 * s} ${-5 * s}Z" fill="${ink}"/><path d="M${cx} ${top - 6 * s}v${12 * s}" stroke="rgba(0,0,0,.15)" stroke-width="${s}"/>`;
+    else if (kind === 2) for (let i = 0; i < 9; i++) o += `<ellipse cx="${cx + (i % 2 ? 2.4 : -2.4) * s}" cy="${top + 10 * s - i * 3.4 * s}" rx="${1.8 * s}" ry="${2.6 * s}" fill="${ink}" opacity="${.75 + (i % 3) * .1}"/>`;
+    else if (kind === 3) o += P(4, 4.5 * s, 4.6 * s, 5.4 * s, ink) + `<circle cx="${cx}" cy="${top}" r="${2.6 * s}" fill="#2A1A1A"/><circle cx="${cx}" cy="${top}" r="${1 * s}" fill="#6A8A3A"/>`;
+    else if (kind === 4) { for (const [dx, dy] of [[-7, -2], [6, -6], [0, -13], [-4, 6], [7, 4]]) { const fx = cx + dx * s, fy = top + dy * s; o += `<path d="M${cx} ${top + 12 * s}Q${cx + dx * s * .5} ${top} ${fx} ${fy}" stroke="${leaf}" stroke-width="${s}" fill="none"/>` + PA(fx, fy, 5, 1.8 * s, 1.3 * s, 1.9 * s, ink) + `<circle cx="${fx}" cy="${fy}" r="${.9 * s}" fill="#E8B23A"/>`; } }
+    else o += [7, 5, 3].map((r, i) => `<circle cx="${cx}" cy="${top}" r="${r * s}" fill="${mixHex(ink, i % 2 ? "#ffffff" : "#000000", .12 * i)}"/>`).join("") + `<path d="M${cx - 4 * s} ${top}q${4 * s} ${-5 * s} ${8 * s} 0" stroke="rgba(0,0,0,.18)" fill="none" stroke-width="${s}"/>`;
+    return o;
+  }
+  // the hand-painted art behind each spine's title, sized to the spine in pixels so nothing stretches
+  function spineArt(b, st, w, h, c, ty, th){
+    const k = hashNum(b.id || b.title, 997), gold = "#D6B160", gold2 = "#F2D58A";
+    let o = "";
+    if (st === "gothic") {
+      const rib = y => `<rect x="0" y="${y}" width="${w}" height="5" fill="rgba(0,0,0,.35)"/><rect x="0" y="${y + .6}" width="${w}" height="2" fill="rgba(255,255,255,.14)"/><path d="M2 ${y - 2.5}H${w - 2}M2 ${y + 7.5}H${w - 2}" stroke="${gold}" stroke-width=".9"/>`;
+      o += rib(10) + rib(h - 16);
+      o += `<rect x="3.5" y="${ty - 4}" width="${w - 7}" height="${th + 8}" rx="2" fill="rgba(0,0,0,.28)" stroke="${gold}" stroke-width="1"/><rect x="5.5" y="${ty - 2}" width="${w - 11}" height="${th + 4}" rx="1.5" fill="none" stroke="${gold}" stroke-width=".5" opacity=".7"/>`;
+      const orn = (cy, flip) => { const r = Math.min(w * .3, 11); return `<g transform="translate(${w / 2} ${cy})${flip ? " scale(1 -1)" : ""}"><path d="M0 ${-r}L${r * .62} 0L0 ${r}L${-r * .62} 0Z" fill="none" stroke="${gold}" stroke-width="1"/><path d="M0 ${-r * .5}L${r * .3} 0L0 ${r * .5}L${-r * .3} 0Z" fill="${gold}"/>${k % 2 ? `<circle cy="${-r - 3.5}" r="1.3" fill="${gold}"/><circle cy="${r + 3.5}" r="1.3" fill="${gold}"/>` : `<path d="M${-r * .9} ${-r - 2}q${r * .9} ${-r * .5} ${r * 1.8} 0M${-r * .9} ${r + 2}q${r * .9} ${r * .5} ${r * 1.8} 0" stroke="${gold}" stroke-width=".8" fill="none"/>`}</g>`; };
+      const upper = (22 + ty - 6) / 2, lower = (ty + th + 6 + h - 20) / 2;
+      if (ty - 26 > 18) o += orn(upper);
+      if (h - 20 - (ty + th + 6) > 18) o += orn(lower, 1);
+    } else if (st === "botanical") {
+      const rib = y => `<rect x="0" y="${y}" width="${w}" height="4" fill="${mixHex(c, "#000000", .3)}"/><rect x="0" y="${y}" width="${w}" height="1.2" fill="rgba(255,255,255,.22)"/>`;
+      o += rib(5) + rib(h - 9);
+      o += `<rect x="3" y="${ty - 3}" width="${w - 6}" height="${th + 6}" rx="1.5" fill="#1C1612" fill-opacity=".86" stroke="${gold}" stroke-width="1"/>`;
+      const ink = FLOWER_INK[(k >> 2) % FLOWER_INK.length], leaf = hexToHsl(c)[0] * 360 > 100 && hexToHsl(c)[0] * 360 < 180 ? "#B8D49A" : "#7FA05E";
+      o += flowerSVG(k % 6, w / 2, ty + th + 6, h - 12, w, ink, leaf);
+    } else {
+      const light = mixHex(c, "#FFFFFF", .5), dark = mixHex(c, "#2A1A12", .35), acc = ["#F6E7B8", "#F2A6A0", "#FFFFFF", "#F4C76A"][k % 4];
+      o += `<rect x="2.5" y="4.5" width="${w - 5}" height="${h - 9}" rx="5" fill="none" stroke="${light}" stroke-width="1.1" opacity=".75"/>`;
+      o += `<rect x="4" y="${ty - 3}" width="${w - 8}" height="${th + 6}" rx="${Math.min(10, (w - 8) / 2)}" fill="#FBF3E2" fill-opacity=".9" stroke="${dark}" stroke-width=".7" stroke-opacity=".5"/>`;
+      const y0 = ty + th + 8, y1 = h - 8, mid = w / 2;
+      let d = `M${mid} ${y1}`; for (let y = y1, i = 0; y > y0 + 6; y -= 14, i++) d += ` Q${mid + (i % 2 ? -1 : 1) * (w * .32)} ${y - 7} ${mid} ${y - 14}`;
+      o += `<path d="${d}" stroke="${dark}" stroke-width="1.3" fill="none" opacity=".8"/>`;
+      for (let y = y1 - 8, i = 0; y > y0 + 8; y -= 11, i++) { const dd = i % 2 ? 1 : -1; o += `<path d="M${mid} ${y}q${dd * 8} -3 ${dd * 9} -10q${-dd * 6} 2 ${-dd * 9} 10Z" fill="${i % 3 === 2 ? acc : light}" opacity=".9"/>`; }
+      if (y1 - y0 > 26) o += `<g transform="translate(${mid} ${y0 + 6})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-3.2" rx="2.2" ry="3.4" fill="${acc}" transform="rotate(${a})"/>`).join("")}<circle r="1.8" fill="${dark}"/></g>`;
+    }
+    return `<svg class="spart" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">${o}</svg>`;
+  }
+  function styledSpine(b, i, flat){
+    const st = spineStyleNow(), p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
+    const w0 = Math.round(22 + 34 * Math.min(1, p / 1000)), h0 = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
+    const c = st === "classic" ? spineColorOf(b) : styledColor(b, st), lite = lum(c) > (st === "classic" ? .19 : .3), loved = b.shelf === "read" && b.rating >= 4.5;
+    const title = String(b.title || "").replace(/\s*[:(].*$/, "") || b.title || "";
+    const tip = `${b.title} — ${b.author}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}`;
+    const stars = b.shelf === "read" && b.rating ? `<i class="st">${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</i>` : "";
+    const common = `type="button" draggable="true" data-id="${esc(b.id)}" data-open="${esc(b.id)}" title="${esc(tip)}"`;
+    if (flat) {
+      const w = Math.round(h0 * .66), h = Math.max(18, Math.round(w0 * .72)), fs = Math.max(9, Math.min(13, h * .5, (w - 26) / (title.length * .52)));
+      return `<button class="spine sty flat${lite ? " lite" : ""}${loved ? " loved" : ""}" ${common} style="--c:${c};--sfs:${fs.toFixed(1)}px;width:${w}px;height:${h}px;margin-left:${hashNum(b.id, 9) - 4}px"><span class="ftt">${esc(title)}</span></button>`;
+    }
+    const w = w0, h = h0;
+    const ty = st === "gothic" ? Math.round(h * .22) : st === "botanical" ? 16 : 14, th = Math.round(h * (st === "gothic" ? .56 : st === "botanical" ? .5 : .52));
+    const room = th - 8, K = st === "gothic" ? .74 : .6; let fs = Math.min(14, room / (title.length * K)), lines = [title];
+    if (fs < 11 && w >= 30) { const sp = splitTitle(title); if (sp) { const f2 = Math.min(13, room / (sp[2] * K), (w - 10) / 2.4); if (f2 > fs) { fs = f2; lines = [sp[0], sp[1]]; } } }
+    fs = Math.max(7.5, Math.min(w < 30 ? 11.5 : 14, fs));
+    return `<button class="spine sty${lite ? " lite" : ""}${loved ? " loved" : ""}" ${common} style="--c:${c};--sfs:${fs.toFixed(1)}px;--ty:${ty}px;--th:${th}px;--dl:${hashNum(b.title, 50) / 10}s;width:${w}px;height:${h}px">${spineArt(b, st, w, h, c, ty, th)}${b.shelf === "reading" ? `<i class="mark"></i>` : ""}<span class="tts${lines.length > 1 ? " two" : ""}">${lines.map(l => `<span class="tt">${esc(l)}</span>`).join("")}</span>${stars}</button>`;
+  }
+  // a few books lie flat in little piles, the way real shelves end up
+  function stackPlan(list){
+    const n = list.length, starts = new Map();
+    if (n < 4) return starts;
+    const put = at => { const size = n < 9 ? 2 : 2 + (hashNum(list[at].id, 2)); if (at + size <= n && ![...starts.keys()].some(s => at < s + starts.get(s) + 1 && s < at + size + 1)) starts.set(at, size); };
+    put(Math.max(1, Math.floor(n * .34))); if (n >= 11) put(Math.floor(n * .74));
+    return starts;
+  }
+  function orchidSVG(side){
+    const fl = (x, y, s, c) => `<g transform="translate(${x} ${y}) scale(${s})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-6" rx="${a % 144 ? 4.2 : 5}" ry="7" fill="${c}" transform="rotate(${a})"/>`).join("")}<path d="M-3 1q3 6 6 0q-3 -3 -6 0Z" fill="#7A1050"/><circle r="1.6" fill="#FFE4F0"/></g>`;
+    const C = ["#E23C9A", "#C9257E", "#F06AB4", "#D44FA8"];
+    let o = `<path d="M${side === "l" ? 4 : 56} 0C${side === "l" ? 20 : 40} 40 ${side === "l" ? 10 : 50} 80 ${side === "l" ? 22 : 38} 140" stroke="#4A3A2A" stroke-width="1.6" fill="none"/>`;
+    for (let i = 0; i < 9; i++) { const y = 8 + i * 15, x = (side === "l" ? 10 : 50) + Math.sin(i * 1.3) * 8; o += fl(x, y, .62 + (i % 3) * .14, C[i % 4]); }
+    return `<div class="orchids ${side}" aria-hidden="true"><svg viewBox="0 0 60 150" width="60" height="150">${o}</svg></div>`;
+  }
+  Object.assign(TRINKETS, {
+    orchid: () => `<div class="trinket" style="width:54px;height:92px" aria-hidden="true"><svg viewBox="0 0 54 92" width="54" height="92"><path d="M14 90h26l-3-16H17Z" fill="#1A1418" stroke="#D6B160" stroke-width="1"/><path d="M27 74C26 50 30 34 40 20" stroke="#4A6A3A" stroke-width="1.6" fill="none"/><path d="M27 74q-12 -4 -16 -12q10 0 16 12Z M27 74q12 -6 18 -2q-8 6 -18 2Z" fill="#3A6A3A"/>${[[40, 18, "#E23C9A"], [33, 30, "#F06AB4"], [29, 44, "#C9257E"], [44, 32, "#D44FA8"]].map(([x, y, c]) => `<g transform="translate(${x} ${y})">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-4.6" rx="3.4" ry="5.4" fill="${c}" transform="rotate(${a})"/>`).join("")}<circle r="1.4" fill="#FFE4F0"/></g>`).join("")}</svg></div>`,
+    giltframe: () => `<div class="trinket" style="width:70px;height:84px" aria-hidden="true"><svg viewBox="0 0 70 84" width="70" height="84"><rect x="3" y="3" width="64" height="78" rx="4" fill="#B8862E" stroke="#F2D58A" stroke-width="1.2"/><rect x="6" y="6" width="58" height="72" rx="3" fill="none" stroke="#7A5418" stroke-width="2.4" stroke-dasharray="3 2"/><rect x="11" y="11" width="48" height="62" fill="#E4D6C0"/><path d="M35 66v-14" stroke="#4A3428" stroke-width="2"/><circle cx="35" cy="40" r="14" fill="#8A2A5A"/><circle cx="27" cy="44" r="9" fill="#A23A6E"/><circle cx="43" cy="44" r="9" fill="#7A2050"/><ellipse cx="35" cy="66" rx="12" ry="2" fill="#B8A890"/>${[[3, 3], [67, 3], [3, 81], [67, 81]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="#F2D58A" stroke="#7A5418"/>`).join("")}</svg></div>`,
+    filigree: () => `<div class="trinket" style="width:62px;height:66px" aria-hidden="true"><svg viewBox="0 0 62 66" width="62" height="66"><rect x="6" y="50" width="50" height="14" rx="2" fill="#C9963A" stroke="#7A5418"/><path d="M9 54h44M9 60h44" stroke="#7A5418" stroke-width=".7"/><path d="M31 50C31 36 22 34 16 38c-6 4 -2 12 4 10M31 50C31 36 40 34 46 38c6 4 2 12 -4 10M31 40c0 -10 -8 -14 -12 -20M31 40c0 -10 8 -14 12 -20M31 34V8M25 14q6 -10 12 0M22 26q9 -6 18 0" stroke="#D6B160" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="31" cy="6" r="3" fill="#F2D58A"/></svg></div>`,
+    flowervase: () => `<div class="trinket" style="width:50px;height:88px" aria-hidden="true"><svg viewBox="0 0 50 88" width="50" height="88"><path d="M16 86h18l3-22q-12 -6 -24 0Z" fill="#3A6A8A" stroke="#22465E"/><path d="M17 72h16" stroke="#E8D6A8" stroke-width="2"/>${[[25, 64, 14, 30, "#F3E9D2"], [25, 64, 34, 22, "#E8A0B4"], [25, 64, 22, 12, "#EFC24A"], [25, 64, 8, 40, "#B8A0D8"], [25, 64, 40, 38, "#D2483A"]].map(([x1, y1, x2, y2, c]) => `<path d="M${x1} ${y1}Q${(x1 + x2) / 2} ${(y1 + y2) / 2 + 8} ${x2} ${y2}" stroke="#5A8A3A" stroke-width="1.3" fill="none"/>${[0, 72, 144, 216, 288].map(a => `<ellipse cx="${x2}" cy="${y2 - 3}" rx="2.2" ry="3.4" fill="${c}" transform="rotate(${a} ${x2} ${y2})"/>`).join("")}<circle cx="${x2}" cy="${y2}" r="1.5" fill="#E8B23A"/>`).join("")}</svg></div>`,
+    pencup: () => `<div class="trinket" style="width:40px;height:84px" aria-hidden="true"><svg viewBox="0 0 40 84" width="40" height="84"><path d="M10 40L4 4M18 38l4 -36M26 40l10 -30" stroke-linecap="round" stroke-width="3.6" fill="none" stroke="#E07E4A"/><path d="M18 38l4 -36" stroke="#5FA8A0" stroke-width="3.6"/><path d="M26 40l10 -30" stroke="#E3B65E" stroke-width="3.6"/><path d="M4 4l-1 -3M22 2l.5 -2M36 10l1 -3" stroke="#2A1A12" stroke-width="2"/><rect x="6" y="38" width="28" height="44" rx="5" fill="#EFE0BC" stroke="#B8946A"/><path d="M10 52q10 8 20 0M12 64q8 6 16 0" stroke="#9AB89A" stroke-width="1.6" fill="none"/><circle cx="20" cy="58" r="2.6" fill="#DC8FA0"/></svg></div>`,
+  });
+  Object.assign(TRINKET_NAMES, { orchid: "Orchid", giltframe: "Gilded frame", filigree: "Gold filigree", flowervase: "Wildflowers", pencup: "Pencil pot" });
+  TRINKET_DRAWER.push(["Cozy shelves", ["orchid", "giltframe", "filigree", "flowervase", "pencup"]]);
   // read the real cover's colour, so the spine matches the book in your hands
   let spineBusy = false;
   function coverColor(url){
@@ -1344,7 +1457,8 @@
   }
   function trinketHTML(t, k){
     const f = TRINKETS[t.k]; if (!f) return "";
-    let h = f().replace('<div class="trinket"', `<div class="trinket" data-tid="${t.id}" data-tshelf="${k}"${decorating ? ` draggable="true" title="${esc(TRINKET_NAMES[t.k] || t.k)}: drag to move"` : ""}`);
+    let h = f().replace('<div class="trinket"', `<div class="trinket" data-tk="${esc(t.k)}" data-tid="${t.id}" data-tshelf="${k}"${decorating ? ` draggable="true" title="${esc(TRINKET_NAMES[t.k] || t.k)}: drag to move"` : ""}`);
+    if (["teacup", "cocoa", "teapot", "lemonade"].includes(t.k) && t.k !== "lemonade") { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<i class="tsteam" aria-hidden="true"><b></b><b></b><b></b></i>` + h.slice(i); }
     if (decorating) { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<button class="tdel" type="button" data-tdel="${t.id}" data-tshelf="${k}" aria-label="Remove ${esc(TRINKET_NAMES[t.k] || "trinket")}">✕</button>` + h.slice(i); }
     return h;
   }
@@ -1364,7 +1478,7 @@
     const { by, lists } = shelfLists();
     const words = { reading: "Drag a book here when you start it.", read: "Finished books rest here.", want: "Books you dream of reading wait here." };
     const lay = decor || autoLayout(lists);
-    $("#bookcase").classList.toggle("decorating", decorating);
+    $("#bookcase").classList.toggle("decorating", decorating); $("#bookcase").dataset.spines = spineStyleNow();
     ["reading", "read", "want"].forEach(k => {
       const el = $("#shelf-" + k), list = lists[k], mine = lay[k] || [], ids = new Set(list.map(b => b.id));
       $("#plaque-" + k).textContent = `${k === "reading" ? "Currently reading" : SHELVES[k]} · ${by[k].length}`;
@@ -1373,7 +1487,12 @@
       const at = a => mine.filter(t => t.after === a).map(tag).join("");
       const items = [slot("^"), at("^")];
       if (!list.length) items.push(`<div class="emptyshelf">${k === Object.keys(lists).find(q => !lists[q].length) ? famMini("sleepy") : ""}<span>${words[k]}</span></div>`);
-      list.forEach((b, i) => { items.push(spine(b, i), at(b.id), slot(b.id)); });
+      const plan = flatOn ? stackPlan(list) : new Map();
+      for (let i = 0; i < list.length; i++) {
+        const n = plan.get(i);
+        if (n) { const grp = list.slice(i, i + n); items.push(`<div class="flatstack">${grp.map((b, j) => styledSpine(b, i + j, true)).join("")}</div>`); grp.forEach(b => items.push(at(b.id), slot(b.id))); i += n - 1; continue; }
+        const b = list[i]; items.push(spine(b, i), at(b.id), slot(b.id));
+      }
       items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(tag).join(""));
       if (decorating && !list.length) items.push(slot("$"));
       if (hiddenOnShelf[k]) items.push(`<button type="button" class="sidestack" data-sideshelf="${k}" title="${hiddenOnShelf[k]} more on the side shelf"><span class="ssp"><i></i><i></i><i></i></span><b>+${hiddenOnShelf[k]}</b></button>`);
@@ -1417,6 +1536,35 @@
     const want = "case-" + (["autumn", "winter", "spring", "summer"].includes(se) ? se : base);
     document.body.classList.forEach(c => { if (c.startsWith("case-") && c !== want) document.body.classList.remove(c); }); document.body.classList.add(want);
   }
+  // trinkets answer a tap, and every so often something small visits the shelf
+  document.addEventListener("click", e => {
+    const tr = e.target.closest("#bookcase .trinket"); if (!tr || $("#bookcase")?.classList.contains("decorating") || e.target.closest(".tdel")) return;
+    tr.classList.remove("poke", "flare"); void tr.offsetWidth; tr.classList.add("poke"); if (tr.querySelector(".flame")) tr.classList.add("flare");
+    if (!reduceMotion) { const r = tr.getBoundingClientRect(), bc = $("#bookcase").getBoundingClientRect();
+      for (let i = 0; i < 6; i++) { const sp = document.createElement("i"); sp.className = "tspark"; sp.textContent = i % 2 ? "✦" : "·"; sp.style.cssText = `left:${r.left - bc.left + r.width / 2}px;top:${r.top - bc.top + r.height * .3}px;--dx:${(Math.cos(i * 1.05) * 26).toFixed(0)}px;--dy:${(-14 - Math.abs(Math.sin(i * 1.05)) * 22).toFixed(0)}px`; $("#bookcase").append(sp); setTimeout(() => sp.remove(), 900); } }
+    setTimeout(() => tr.classList.remove("poke", "flare"), 1600);
+  });
+  let visitorAt = 0;
+  function shelfVisitor(force){
+    const bc = $("#bookcase"); if (!bc || reduceMotion || document.hidden || bc.querySelector(".visitor") || bc.classList.contains("decorating")) return;
+    const r = bc.getBoundingClientRect(); if (r.bottom < 80 || r.top > innerHeight - 80 || !bc.offsetParent) return;
+    if (!force && (Date.now() - visitorAt < 45e3 || Math.random() > .5)) return; visitorAt = Date.now();
+    const tod = bc.dataset.tod, sp = bc.dataset.spines, cs = bc.dataset.case;
+    if (cs === "gothic" || sp === "gothic" && Math.random() < .5) {
+      for (let i = 0; i < 7; i++) { const p = document.createElement("i"); p.className = "visitor petal"; p.style.cssText = `left:${(i % 2 ? 78 + Math.random() * 16 : 2 + Math.random() * 16).toFixed(0)}%;top:${(4 + Math.random() * 30).toFixed(0)}%;animation-delay:${(i * .55).toFixed(2)}s;--sx:${(i % 2 ? -1 : 1) * (20 + Math.random() * 40)}px;--c:${["#E23C9A", "#F06AB4", "#C9257E"][i % 3]}`; bc.append(p); setTimeout(() => p.remove(), 8000 + i * 600); }
+      return;
+    }
+    const night = tod === "night" || cs === "witch" || cs === "observatory", v = document.createElement("button");
+    v.type = "button"; v.className = "visitor " + (night ? "moth" : "butterfly"); v.setAttribute("aria-label", night ? "A little moth" : "A butterfly");
+    const wc = night ? ["#E8DCC4", "#C8B8A0"] : [["#F2A6A0", "#E8763A"], ["#8FC0E8", "#4A7AB8"], ["#F4D06A", "#D89A2A"], ["#C8A0E8", "#8A5CC2"]][Math.floor(Math.random() * 4)];
+    v.innerHTML = `<svg viewBox="0 0 30 24" width="30" height="24" aria-hidden="true"><g class="wl"><path d="M15 12C10 2 2 1 2 8c0 5 6 6 13 4Z" fill="${wc[0]}"/><path d="M15 13C9 15 5 22 9 22c3 0 5-4 6-9Z" fill="${wc[1]}"/></g><g class="wr"><path d="M15 12C20 2 28 1 28 8c0 5-6 6-13 4Z" fill="${wc[0]}"/><path d="M15 13C21 15 25 22 21 22c-3 0-5-4-6-9Z" fill="${wc[1]}"/></g><path d="M15 6v14" stroke="#3A2A1E" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+    v.style.setProperty("--y0", `${(15 + Math.random() * 45).toFixed(0)}%`); v.style.setProperty("--y1", `${(10 + Math.random() * 55).toFixed(0)}%`);
+    if (Math.random() < .5) v.classList.add("rtl");
+    v.addEventListener("click", ev => { ev.stopPropagation(); v.classList.add("shoo"); setTimeout(() => v.remove(), 700); });
+    bc.append(v); setTimeout(() => v.remove(), 16000);
+  }
+  setInterval(() => { try { shelfVisitor(); } catch {} }, 15e3);
+  document.addEventListener("click", e => { if (e.target.closest('#mtabbar [data-mtab="shelf"]')) setTimeout(() => { try { if (Date.now() - visitorAt > 90e3) shelfVisitor(true); } catch {} }, 6000); });
   function famMini(expr = "happy"){ let w = [], k = "cat"; try { k = familiar; } catch { return ""; } try { w = wornNow(k); } catch {} try { return `<span class="fammini" data-fam="${esc(k)}" data-expr="${expr}" aria-hidden="true">${(() => { try { return A3APP.art(k, w, expr); } catch { return A3APP.art(k, w, "neutral"); } })()}</span>`; } catch { return ""; } }
   addEventListener("load", () => setTimeout(() => { if (document.querySelector(".emptyshelf:not(:has(.fammini))")) try { renderShelf(); } catch {} }, 300));
   paintCaseLight(); setInterval(paintCaseLight, 5 * 60e3); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintCaseLight(); });
@@ -3379,6 +3527,9 @@
   });
   $("#now").addEventListener("click", e => { const f = e.target.closest("[data-finish]"); if (f) { const b = books.find(x => x.id === f.dataset.finish); if (b) openEditor(b, false, { moveTo: "read" }); } });
 
+  $("#spinestyle-chips").addEventListener("click", e => { const c = e.target.closest("[data-sps]"); if (!c) return; spineStyle = c.dataset.sps; lsSet(KEY_SPSTY, spineStyle); paintSpineStyle(); renderShelf(); });
+  $("#flat-toggle").addEventListener("change", e => { flatOn = e.target.checked; lsSet(KEY_FLAT, flatOn); renderShelf(); });
+  paintSpineStyle();
   function paintArrange(){ document.querySelectorAll("#arrange-chips [data-arr]").forEach(x => x.setAttribute("aria-pressed", x.dataset.arr === arrangeBy)); }
   paintArrange();
   paintShelfMax();
@@ -9007,8 +9158,23 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.17";
+  const APP_VERSION = "4.19";
   const CHANGELOG = [
+    ["4.19", "13 Nov 2026", "Any spines, any bookcase", [
+      "Pick your spines separately from your bookcase: Classic, Gothic leather, Botanical or Storybook, in any theme. “Match the theme” keeps them paired",
+      "Books lying flat in little piles now work with every spine style, and you can switch them off",
+      "Cozier shelves: wood grain on the back and planks, soft shadows behind every book, spines that look round and worn, and little cloth headbands on the painted ones",
+      "Tap a trinket and it answers: candles flare, plants wiggle, everything sparkles. Tea and cocoa now steam",
+      "Now and then a visitor drops by: a butterfly in the daytime, a moth at night, orchid petals drifting down in the Gothic library. Tap them to shoo them away",
+      "Find it all under Decorate shelves → Spines"]],
+    ["4.18", "13 Nov 2026", "Three cozy new bookcases", [
+      "Gothic library: wine and black leather spines with gold tooling, cascading pink orchids, gilded frames and gold filigree",
+      "Botanical study: jewel-toned spines, each with its own painted flower, on warm walnut shelves",
+      "Storybook nook: soft pastel painted spines with vines and blossoms on honey-coloured wood",
+      "In all three, a few books lie flat in little piles, like real shelves. You can still tap and drag them",
+      "Each style keeps your genres together in matching colours, and books you gave their own colour keep it",
+      "Five new trinkets in the drawer: orchid, gilded frame, gold filigree, wildflowers and a pencil pot",
+      "Pick them under Decorate shelves → Theme"]],
     ["4.17", "13 Nov 2026", "A nook that feels alive", [
       "Your bookcase follows your day: soft morning light, golden evenings and a lamp glowing at night. Its planks follow the season, with snow in winter and leaves in autumn",
       "Every book's window takes its colour from the cover",
@@ -10104,7 +10270,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     try {
       books = JSON.parse(st.books);
       for (const k of UNDO_KEYS) { if (st.keys[k] == null) localStorage.removeItem(k); else localStorage.setItem(k, st.keys[k]); }
-      decor = lsGet(KEY_DECOR, null); arrangeBy = lsGet(KEY_ARR, "date"); caseTheme = lsGet(KEY_CASE, "library"); if (!CASES[caseTheme]) caseTheme = "library";
+      decor = lsGet(KEY_DECOR, null); arrangeBy = lsGet(KEY_ARR, "date"); spineStyle = lsGet(KEY_SPSTY, "theme"); flatOn = lsGet(KEY_FLAT, true); caseTheme = lsGet(KEY_CASE, "library"); if (!CASES[caseTheme]) caseTheme = "library";
       shelfMax = lsGet("reading-ledger-shelfmax", "auto"); spineMode = lsGet(KEY_SPINE, "genre");
       try { caseDesign = lsGet(KEY_DESIGN, "arch"); lightStyle = lsGet(KEY_LIGHTS, "theme"); plank = lsGet(KEY_PLANK, plank); } catch {}
       save(); decorateCase(); paintArrange(); paintShelfMax(); paintSpineMode(); paintSpineNote();
