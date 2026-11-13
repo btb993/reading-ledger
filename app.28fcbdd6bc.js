@@ -553,13 +553,13 @@
     { name: "The Rainbow Romantic", g: "✿", c: "#E2559B", d: "Queer love stories and found courage are close to your heart.", s: "queer love and courage",
       t: b => rxB(b, /\b(gay|lesbian|queer|lgbt\w*|homosexuality|bisexual|transgender|sapphic|achilles and patroclus)\b/) ? 1 : 0 },
     { name: "The Emotional Explorer", g: "❦", c: "#2563D9", d: "You want books that leave a mark: grief, memory, and the people we lose and find.", s: "stories that leave a mark",
-      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic") ? .9 : hasT(b, "Grief & healing") ? .7 : isFic(b) && rxB(b, /\b(grief|loss|mourning|memory|loneliness)\b/) ? .4 : 0 },
+      t: b => hasF(b, "Heartbroken", "Devastated", "Moved", "Nostalgic", "Cathartic", "Grieving", "Sorrowful", "Bittersweet", "Touched", "Melancholic") ? .9 : hasT(b, "Grief & healing") ? .7 : isFic(b) && rxB(b, /\b(grief|loss|mourning|memory|loneliness)\b/) ? .4 : 0 },
     { name: "The Coming-of-Age Kindred", g: "☼", c: "#1F8F95", d: "You keep returning to the turning points of youth: first loves, first losses, first freedom.", s: "growing up",
       t: b => hasT(b, "Coming of age") ? 1 : hasG(b, "Young Adult") ? .6 : 0 },
     { name: "The Found-Family Seeker", g: "✶", c: "#C25A7A", d: "Your favourite stories are about the people who choose each other.", s: "chosen families",
       t: b => hasT(b, "Found family") ? .9 : isFic(b) && rxB(b, /\bfound family|\bfellowship\b|\bcrew\b/) ? .4 : 0 },
     { name: "The Cozy Soul", g: "☕", c: "#B87A4B", d: "Warm drinks, kind characters, small towns and low stakes: reading is your safe place.", s: "cosy, comforting stories",
-      t: b => hasF(b, "Cozy", "Comforted") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
+      t: b => hasF(b, "Cozy", "Comforted", "Heartwarmed", "Content", "Peaceful") ? .9 : rxB(b, /\b(cozy|cosy|small town|bakery|tea shop|cottage|wholesome|heartwarming)\b/) ? .6 : 0 },
     { name: "The Literary Adventurer", g: "✒", c: "#12936B", d: "You read for the sentences as much as the story: quiet, beautifully written books.", s: "beautiful writing",
       t: b => hasG(b, "Literary Fiction") ? 1 : 0 },
     { name: "The Homeland Reader", g: "❖", c: "#8A3B3B", d: "Andrić's bridge, Selimović's dervish, Kiš's encyclopaedia: you keep coming home to Serbian and Yugoslav writers.", s: "Serbian and Yugoslav writers",
@@ -781,8 +781,10 @@
   const harmonize = hex => { const [h, s, l] = hexToHsl(hex); return hslToHex(h, Math.min(.58, Math.max(s < .06 ? .08 : .24, s)), Math.min(.36, Math.max(.2, l * .9))); };
   const REREAD = [["no", "Once was enough"], ["maybe", "Maybe someday"], ["yes", "I'd reread it"], ["comfort", "Comfort reread"]];
   const HYPE = [["lives", "Lived up to the hype", "✓"], ["short", "Didn't live up to the hype", "≈"], ["disappoint", "Biggest disappointment", "✗"]];
-  const FEELINGS = [["Joyful","☀","#E0A526"],["Cozy","☕","#B87A4B"],["Swooning","♥","#C94F7C"],["Thrilled","⚡","#E2643A"],["Obsessed","✺","#B8312F"],["Heartbroken","♡","#8C3B54"],["Devastated","☂","#4A4F7A"],["Moved","❀","#7B5EA7"],["Hopeful","✧","#3E9C8F"],["Comforted","☁","#6E9BC2"],["Nostalgic","⌛","#A07855"],["Inspired","✦","#D8B23A"],["Empowered","♛","#9C4DCC"],["Amused","☺","#E08E2E"],["Thoughtful","☾","#4F6D8C"],["Shocked","!","#D3473B"],["Scared","☠","#3A3346"],["Angry","♨","#A8322D"],["Cathartic","❂","#4C8A6A"],["Bored","…","#8C8577"]];
-  const FEEL = Object.fromEntries(FEELINGS.map(([n, g, c]) => [n, { g, c }]));
+  // feelings in eight families: [name, glyph, colour, family]. Older names all still here, so past picks keep counting.
+  const FEELINGS = [["Joyful", "☀", "#E0A526", 0], ["Cozy", "☕", "#B87A4B", 0], ["Swooning", "♥", "#C94F7C", 0], ["Comforted", "☁", "#6E9BC2", 0], ["Hopeful", "✦", "#3E9C8F", 0], ["Heartwarmed", "✿", "#D9775A", 0], ["Amused", "😊", "#E08E2E", 0], ["Adored", "🥰", "#D45C8A", 0], ["Delighted", "✨", "#D8B23A", 0], ["Thrilled", "⚡", "#E2643A", 1], ["Obsessed", "🔥", "#B8312F", 1], ["On Edge", "🗡️", "#9A4A3A", 1], ["Shocked", "😱", "#D3473B", 1], ["Mind-Blown", "🤯", "#E07A2E", 1], ["Breathless", "😳", "#D2566A", 1], ["Exhilarated", "🎉", "#D89A2A", 1], ["Anxious", "😬", "#9A7A3A", 1], ["Heartbroken", "♡", "#8C3B54", 2], ["Devastated", "☂", "#4A4F7A", 2], ["Melancholic", "💧", "#4A6FA8", 2], ["Touched", "🥹", "#8A6FB0", 2], ["Sorrowful", "😢", "#5A6A8A", 2], ["Grieving", "🕯️", "#5A5A6A", 2], ["Lonely", "🌧️", "#6A7A92", 2], ["Bittersweet", "🥀", "#9A3A4A", 2], ["Enchanted", "🔮", "#8A5CC2", 3], ["Awestruck", "🌌", "#3A4A9A", 3], ["Mesmerized", "🪄", "#7A4AB0", 3], ["Adventurous", "🧭", "#B8782A", 3], ["Dreamy", "🌙", "#9A8AD0", 3], ["Whimsical", "🦋", "#C26AB0", 3], ["Transported", "🪐", "#5A7AC2", 3], ["Thoughtful", "☾", "#4F6D8C", 4], ["Inspired", "✧", "#D8B23A", 4], ["Empowered", "🌱", "#9C4DCC", 4], ["Moved", "🪷", "#7B5EA7", 4], ["Cathartic", "♻️", "#4C8A6A", 4], ["Enlightened", "🧠", "#3E9C8F", 4], ["Curious", "?", "#2E8A9A", 4], ["Introspective", "🪞", "#5A7A8A", 4], ["Scared", "💀", "#3A3346", 5], ["Unsettled", "😰", "#5A5A7A", 5], ["Disturbed", "🕷️", "#4A3A4A", 5], ["Angry", "😡", "#A8322D", 5], ["Frustrated", "😤", "#B85A2A", 5], ["Disgusted", "🤢", "#6A8A3A", 5], ["Dreadful", "😨", "#3A4A6A", 5], ["Vengeful", "😈", "#6A2A7A", 5], ["Nostalgic", "⌛", "#A07855", 6], ["Yearning", "💗", "#C9577E", 6], ["Connected", "🤍", "#8A7A9A", 6], ["Tender", "💞", "#D2668E", 6], ["Content", "😌", "#7A9A5A", 6], ["Seen", "🫶", "#C2784A", 6], ["Peaceful", "🌅", "#D88A4A", 6], ["Bored", "…", "#8C8577", 7], ["Confused", "😕", "#7A8A9A", 7], ["Disappointed", "😞", "#6A6A7A", 7], ["Indifferent", "😐", "#8C8577", 7], ["Conflicted", "🤔", "#9A7A5A", 7], ["Overwhelmed", "😵‍💫", "#8A5A7A", 7], ["Drained", "😮‍💨", "#6A7A8A", 7], ["Annoyed", "🙄", "#A0603A", 7], ["Skeptical", "🤨", "#7A6A5A", 7]];
+  const FEEL_GROUPS = [["Joy, Love & Warmth", "Joy", "#E0A526"], ["Excitement & Intensity", "Excitement", "#E2643A"], ["Sadness & Heartbreak", "Sadness", "#4A6FA8"], ["Wonder & Imagination", "Wonder", "#8A5CC2"], ["Reflection & Growth", "Reflection", "#3E9C8F"], ["Darkness & Unease", "Darkness", "#6E3A4A"], ["Longing & Connection", "Longing", "#C9577E"], ["Disappointment & Complexity", "Complex", "#8C8577"]];
+  const FEEL = Object.fromEntries(FEELINGS.map(([n, g, c, k]) => [n, { g, c, k }]));
   const feelLook = n => FEEL[n] || { g: "✧", c: `hsl(${hashNum(n, 360)} 45% 50%)` };
   const SPINE_SWATCHES = ["#7A2E3A","#B8312F","#C2702B","#B08A1F","#5A6B2E","#2D5A3D","#1F6E73","#1C3A5E","#3B2A63","#6D5A86","#8C3B54","#5A4632","#2A2D33"];
   const customTone = hex => { const [h, sat, l] = hexToHsl(hex); return hslToHex(h, sat, Math.min(.46, Math.max(.14, l))); };
@@ -1370,7 +1372,7 @@
       const tag = t => decorating ? trinketHTML(t, k) : trinketHTML(t, k).replace('<div class="trinket"', `<div class="trinket movable" data-tidx="${mine.indexOf(t)}" draggable="true" title="Drag me (or press and hold) to move me"`);
       const at = a => mine.filter(t => t.after === a).map(tag).join("");
       const items = [slot("^"), at("^")];
-      if (!list.length) items.push(`<div class="emptyshelf">${words[k]}</div>`);
+      if (!list.length) items.push(`<div class="emptyshelf">${k === Object.keys(lists).find(q => !lists[q].length) ? famMini("sleepy") : ""}<span>${words[k]}</span></div>`);
       list.forEach((b, i) => { items.push(spine(b, i), at(b.id), slot(b.id)); });
       items.push(mine.filter(t => t.after === "$" || (t.after !== "^" && !ids.has(t.after))).map(tag).join(""));
       if (decorating && !list.length) items.push(slot("$"));
@@ -1406,6 +1408,18 @@
     item = item ? { ...item, after } : { id: decorId(), k, after };
     (decor[shelf] = decor[shelf] || []).push(item); saveDecor(); renderShelf();
   }
+  // ---- v4.17: the bookcase's light follows your day, and its planks follow the season ----
+  function paintCaseLight(){
+    const h = new Date().getHours(), tod = h >= 5 && h < 11 ? "morning" : h >= 11 && h < 16 ? "day" : h >= 16 && h < 20 ? "evening" : "night";
+    const bc = $("#bookcase"); if (bc && bc.dataset.tod !== tod) bc.dataset.tod = tod;
+    let se = ""; try { se = season(); } catch {}
+    const mo = new Date().getMonth(), base = ["winter", "winter", "spring", "spring", "spring", "summer", "summer", "summer", "autumn", "autumn", "autumn", "winter"][mo];
+    const want = "case-" + (["autumn", "winter", "spring", "summer"].includes(se) ? se : base);
+    document.body.classList.forEach(c => { if (c.startsWith("case-") && c !== want) document.body.classList.remove(c); }); document.body.classList.add(want);
+  }
+  function famMini(expr = "happy"){ let w = [], k = "cat"; try { k = familiar; } catch { return ""; } try { w = wornNow(k); } catch {} try { return `<span class="fammini" data-fam="${esc(k)}" data-expr="${expr}" aria-hidden="true">${(() => { try { return A3APP.art(k, w, expr); } catch { return A3APP.art(k, w, "neutral"); } })()}</span>`; } catch { return ""; } }
+  addEventListener("load", () => setTimeout(() => { if (document.querySelector(".emptyshelf:not(:has(.fammini))")) try { renderShelf(); } catch {} }, 300));
+  paintCaseLight(); setInterval(paintCaseLight, 5 * 60e3); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintCaseLight(); });
   function startMotes(){
     const cv = $("#motes"); if (!cv || reduceMotion) return;
     const ctx = cv.getContext("2d"), coarse = matchMedia("(pointer:coarse)").matches || innerWidth < 700; let W = 0, H = 0, visible = true, raf = 0, last = 0, acc = 0, col = "", sprite = null;
@@ -2315,7 +2329,7 @@
     if (b.reread === "comfort") w += 1; else if (b.reread === "yes") w += .5; else if (b.reread === "no") w -= .3;
     if (b.recommend) w += .4;
     if (b.hype === "disappoint") w -= 1.5; else if (b.hype === "short") w -= .6;
-    if (hasF(b, "Obsessed", "Swooning", "Joyful", "Moved", "Thrilled", "Cozy", "Inspired", "Comforted")) w += .25;
+    if (hasF(b, "Obsessed", "Swooning", "Joyful", "Moved", "Thrilled", "Cozy", "Inspired", "Comforted", "Adored", "Delighted", "Heartwarmed", "Enchanted", "Mind-Blown", "Exhilarated", "Awestruck")) w += .25;
     if (hasF(b, "Bored", "Angry")) w -= .5;
     if (b.finished && Date.now() - new Date(b.finished) < 180 * 864e5) w *= 1.25;
     return w;
@@ -2607,12 +2621,13 @@
     }
     if (b.series && !b.seriesName) { const p = parseSeries(b.series); b.seriesName = p.name; b.seriesNum = p.num; }
     if (!b.seriesName && b.seriesHint) b.seriesName = b.seriesHint;
-    let newCover = null, tropesEdited = false, spinePick = b.spineCustom || null, feelPick = [...(b.feelings || [])], verdict = { reread: b.reread || null, surpriseFav: !!b.surpriseFav, recommend: !!b.recommend, recommendTo: b.recommendTo || "", hype: b.hype || null };
+    let newCover = null, tropesEdited = false, spinePick = b.spineCustom || null, feelPick = [...(b.feelings || [])], feelGrp = Math.max(0, FEEL[(b.feelings || []).find(f => FEEL[f])]?.k ?? 0), verdict = { reread: b.reread || null, surpriseFav: !!b.surpriseFav, recommend: !!b.recommend, recommendTo: b.recommendTo || "", hype: b.hype || null };
     const thoughts = { quotes: [...(b.quotes || [])], pace: b.pace || null, driven: b.driven || null, format: b.format || null };
     const root = $("#modal-root");
     root.onclick = null;
     const quick = isNew && !!b.title && !moveTo;
-    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal${quick ? " quick" : ""}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
+    const bkTint = (() => { try { const c = b.spineColor || (b.title ? lookOf(b).color : ""); if (!c) return ""; const [hh, ss] = hexToHsl(c); return `--bk:${hslToHex(hh, Math.min(.62, Math.max(.28, ss)), .44)};--bk2:${hslToHex(hh, Math.min(.55, ss), .66)}`; } catch { return ""; } })();
+    root.innerHTML = `<div class="scrim" id="scrim"><div class="modal bookwin${quick ? " quick" : ""}${bkTint ? " tinted" : ""}" style="${bkTint}" role="dialog" aria-modal="true" aria-labelledby="m-title"><button type="button" class="iconbtn mx" data-mx aria-label="Close">✕</button>
       <div class="mhead"><div><button class="covpick" type="button" id="m-coverbtn" title="Choose a different cover"><span id="m-cover">${coverHTML(b)}</span><span class="covhint">Change cover</span></button></div>
         <div style="min-width:0"><div class="label">${isNew ? "Add to your shelves" : moveTo ? `Moving to the ${SHELVES[moveTo]} shelf` : "Your copy"}</div><h2 id="m-title">${esc(b.title || "A new book")}</h2>${b.title ? `<button type="button" class="linkbtn langbtn" id="m-langbtn">🌐 ${b.origTitle && b.origTitle !== b.title ? `Originally <i>${esc(b.origTitle)}</i> · other languages` : "Other languages"}</button>` : ""}${b.author ? `<div class="muted" style="font-style:italic"><button type="button" class="authlink" data-author="${esc(b.author)}" title="About ${esc(b.author)}">${esc(b.author)}</button>${b.seriesName ? ` · ${esc(b.seriesName)}${b.seriesNum ? " #" + b.seriesNum : ""}` : ""}</div>` : ""}
           <div style="margin-top:4px">${badges(b)}</div>
@@ -2690,7 +2705,13 @@
       <div class="vrow"><span class="vk">Format</span><div class="seg small">${FORMAT.map(([k, l]) => `<button type="button" data-tformat="${k}" aria-pressed="${thoughts.format === k}">${l}</button>`).join("")}</div></div></div>`;
     const addQuote = () => { const t = ($("#m-qtext")?.value || "").trim(); if (!t) { toast("Type or paste the line first."); return; } const pg = ($("#m-qpage")?.value || "").trim(); thoughts.quotes.push({ q: t, p: pg || undefined, d: todayISO() }); $("#m-quotes").innerHTML = quotesHTML(); toast("Quote saved. Press Save to keep it."); };
     const paintVerdict = () => { const r = $("#m-recto"); if (r) verdict.recommendTo = r.value.trim(); $("#m-verdict").innerHTML = verdictHTML(); };
-    const feelChips = () => [...FEELINGS.map(([n]) => n), ...feelPick.filter(n => !FEEL[n])].map(n => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${feelPick.includes(n)}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}</button>`; }).join("") + `<span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`;
+    // your picks on top, then one family open at a time, so 64 feelings never become a wall of chips
+    const chipF = (n, sel) => { const L = feelLook(n); return `<button type="button" data-feel="${esc(n)}" aria-pressed="${sel}" style="--fc:${L.c}"><i>${L.g}</i>${esc(n)}${sel === "x" ? `<span class="fx" aria-hidden="true">×</span>` : ""}</button>`; };
+    const feelChips = () => { const g = FEEL_GROUPS[feelGrp], inG = FEELINGS.filter(f => f[3] === feelGrp);
+      return `<div class="feelsel">${feelPick.length ? feelPick.map(n => chipF(n, "x")).join("") : `<span class="muted feelnone">Nothing picked yet. Open a family below and tap what fits.</span>`}</div>
+        <div class="feelfam" role="tablist" aria-label="Families of feelings">${FEEL_GROUPS.map(([full, short, c], i) => { const n = feelPick.filter(f => FEEL[f]?.k === i).length; return `<button type="button" role="tab" data-fgrp="${i}" aria-selected="${i === feelGrp}" title="${esc(full)}" style="--fc:${c}"><i aria-hidden="true"></i>${esc(short)}${n ? `<b>${n}</b>` : ""}</button>`; }).join("")}</div>
+        <div class="feelgrp" style="--fc:${g[2]}"><div class="feelgname">${esc(g[0])}</div><div class="feelpick feelchips">${inG.map(([n]) => chipF(n, feelPick.includes(n))).join("")}</div></div>
+        <span class="feeladd"><input id="m-feelx" placeholder="Another feeling…" maxlength="24"><button type="button" class="btn small" id="m-feelgo">Add</button></span>`; };
     const addFeel = () => { const x = $("#m-feelx"); const n = cap((x?.value || "").trim()); if (!n) return; if (!feelPick.includes(n)) feelPick.push(n); $("#m-feel").innerHTML = feelChips(); };
     let mTab = !b.title ? "details" : null;
     const TAB_SETS = { read: [["thoughts", "♥ Thoughts"], ["notes", "❝ Notes"], ["dates", "▦ Dates"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], reading: [["dates", "⌛ Progress"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], want: [["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]], dnf: [["dates", "🕸 Where you stopped"], ["notes", "❝ Notes"], ["genres", "◈ Genres"], ["cover", "❦ Cover"], ["details", "☰ Details"]] };
@@ -2713,7 +2734,7 @@
       const rate = $("#m-rate"), th = $("#m-pane-thoughts"), dt = $("#m-pane-dates");
       if (b.shelf === "read") {
         rate.innerHTML = `<div class="field full"><span class="label">Your rating · tap the left half of a star for a half star</span><div class="starpick halfstars" id="m-stars">${[1,2,3,4,5].map(n => `<span class="sp" data-n="${n}"><span class="glyph">★</span><button type="button" data-star="${n - .5}" aria-label="${n - .5} stars"></button><button type="button" data-star="${n}" aria-label="${n} star${n > 1 ? "s" : ""}"></button></span>`).join("")}<span class="rv" id="m-rv"></span></div></div>`;
-        th.innerHTML = `<div class="fields"><div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelpick" id="m-feel">${feelChips()}</div></div>
+        th.innerHTML = `<div class="fields"><div class="field full"><span class="label">How did it make you feel? · pick as many as fit</span><div class="feelbox" id="m-feel">${feelChips()}</div></div>
         <div class="field full verdicts" id="m-verdict">${verdictHTML()}</div></div>`;
         $("#m-pane-notes").innerHTML = `<div class="fields">${moreHTML(true)}</div>`;
         dt.innerHTML = `<div class="fields">${datePicker("fin", b.finished, "Finished", { ask: "When did you finish it?", allowUnknown: true, unknown: b.finishedUnknown && !b.finished })}
@@ -2748,7 +2769,7 @@
     async function findLangs(){
       const box = $("#m-langs"); box.hidden = false;
       const head = `<div class="galhead"><span class="label">🌐 This book in other languages</span><button class="btn small" type="button" data-langclose>Close</button></div>`;
-      box.innerHTML = head + `<div class="progress dots">Looking through every edition</div>`;
+      box.innerHTML = head + `<div class="progress dots famload">${famMini("happy")}<span>Looking through every edition</span><i class="famstack" aria-hidden="true">📚</i></div>`;
       box.scrollIntoView({ block: "nearest", behavior: "smooth" });
       const t = ($("#m-t")?.value || b.title || "").trim(), a = ($("#m-a")?.value || b.author || "").trim(), cur = tnorm(t);
       try {
@@ -2802,7 +2823,7 @@
     drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); takeFile(imageFrom(e)); });
     async function findCovers(){
       const g = $("#m-gallery"); g.hidden = false;
-      g.innerHTML = `<div class="galhead"><span class="label">Covers from different editions</span><button class="btn small" type="button" data-galclose>Close</button></div><div class="progress dots">Gathering covers from every edition</div>`;
+      g.innerHTML = `<div class="galhead"><span class="label">Covers from different editions</span><button class="btn small" type="button" data-galclose>Close</button></div><div class="progress dots famload">${famMini("happy")}<span>Gathering covers from every edition</span><i class="famstack" aria-hidden="true">📚</i></div>`;
       g.scrollIntoView({ block: "nearest", behavior: "smooth" });
       try {
         const t = ($("#m-t")?.value || b.title).trim(), a = ($("#m-a")?.value || b.author || "").trim();
@@ -2873,7 +2894,8 @@
       if (e.target.closest("[data-langtype]")) { showMTab("details"); const x = $("#m-t"); if (x) { x.scrollIntoView({ block: "center", behavior: "smooth" }); setTimeout(() => { x.focus(); x.select(); }, 350); } return; }
       if (id === "m-rmcover") { setCover(""); e.target.remove(); return; }
       if (id === "m-addseries") { readFields(); const seed = { name: b.seriesName, author: b.author }; close(); openSeriesAdder(seed); return; }
-      const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; fe.setAttribute("aria-pressed", feelPick.includes(n)); return; }
+      const fe = e.target.closest("[data-feel]"); if (fe) { const n = fe.dataset.feel; feelPick = feelPick.includes(n) ? feelPick.filter(x => x !== n) : [...feelPick, n]; const box = $("#m-feel"), y = box.getBoundingClientRect().top; box.innerHTML = feelChips(); const dy = box.getBoundingClientRect().top - y; if (dy) box.closest(".modal")?.scrollBy(0, dy); return; }
+      const fg = e.target.closest("[data-fgrp]"); if (fg) { feelGrp = +fg.dataset.fgrp; $("#m-feel").innerHTML = feelChips(); return; }
       if (id === "m-feelgo") return addFeel();
       if (id === "m-qgo") return addQuote();
       const qd = e.target.closest("[data-qdel]"); if (qd) { thoughts.quotes.splice(+qd.dataset.qdel, 1); $("#m-quotes").innerHTML = quotesHTML(); return; }
@@ -2912,7 +2934,7 @@
         if (out.shelf === "reading" && out.currentPage !== (book.currentPage || 0)) logProgress(out, out.currentPage);
         close();
         if (isNew && lastResults.length) closeResults();
-        upsert(out); toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
+        upsert(out); if (out.shelf === "read" && book.shelf !== "read" && !isNew) celebrateFinish(out); else toast(isNew ? `Added to ${SHELVES[out.shelf]}` : moveTo ? `Moved to ${SHELVES[out.shelf]}` : "Saved");
         if (out.shelf === "read" && book.shelf !== "read" && !out.castTried) { const id = out.id; setTimeout(() => { const bb = books.find(x => x.id === id); if (bb) openPack(bb); }, 1400); }
         if (out.shelf === "read" && book.shelf !== "read") { const id = out.id; setTimeout(() => { try { Social.offerShare(id); } catch {} }, 2600); }
         { let gain = 0; if (out.shelf === "read" && book.shelf !== "read") gain += 15; if (out.rating && !book.rating) gain += 3; if ((out.feelings || []).length && !(book.feelings || []).length) gain += 2; if (gain) bondAdd(gain, "book"); }
@@ -2923,6 +2945,34 @@
       if (matchMedia("(hover:hover) and (pointer:fine)").matches) (moveTo === "read" ? $("#fin-d") : moveTo === "reading" ? $("#m-cp") : b.title ? null : $("#m-t"))?.focus({ preventScroll: true }); }, 30);
     $("#m-moredet")?.addEventListener("click", () => { root.querySelector(".modal")?.classList.remove("quick"); $("#m-moredet").remove(); });
   }
+
+  // ================= v4.17: little moments =================
+  const FINISH_LINES = ["Another one for the shelf. I'm so proud of you!", "The End. My favourite two words, after “snack time”.", "Close the cover gently. Let it settle.", "That's a whole world you've walked through.", "One more book that lives in you now.", "Shall we find the next one together?"];
+  function celebrateFinish(b){
+    if (reduceMotion) { toast(`✦ Finished ${b.title}!`); return; }
+    document.getElementById("finfx")?.remove();
+    const el = document.createElement("div"); el.id = "finfx"; el.className = "finfx"; el.setAttribute("role", "status");
+    let fam = ""; try { fam = A3APP.art(familiar, wornNow(familiar), "love"); } catch {}
+    const sp = [...Array(14)].map((_, i) => `<i style="--a:${i * 26}deg;--d:${(60 + (i * 37) % 70)}px;--t:${(i % 5) * .05}s">${i % 3 ? "✦" : "✧"}</i>`).join("");
+    el.innerHTML = `<div class="finbook"><div class="finback">${coverHTML(b)}</div><div class="finpage"></div><div class="finfront">${coverHTML(b)}</div></div><div class="finspark" aria-hidden="true">${sp}</div>
+      <div class="finmsg"><span class="finfam" data-fam="${esc(familiar)}" data-expr="love">${fam}</span><div><b>Finished!</b><span>${esc(FINISH_LINES[hashNum(b.title + todayISO(), FINISH_LINES.length)])}</span></div></div>`;
+    document.body.append(el);
+    const done = () => { el.classList.add("out"); setTimeout(() => el.remove(), 450); };
+    el.addEventListener("click", done); setTimeout(done, 2600);
+  }
+  // a page turns whenever you move on in a book
+  function pageTurn(id){
+    if (reduceMotion) return;
+    const card = (id && ($(`#now [data-finish="${CSS.escape(id)}"]`) || $(`#now [data-open="${CSS.escape(id)}"]`))?.closest(".nowcard")) || $("#now .tdnext");
+    if (!card) return; card.classList.remove("turned"); void card.offsetWidth; card.classList.add("turned");
+    const pg = document.createElement("i"); pg.className = "pagefx"; pg.setAttribute("aria-hidden", "true"); card.append(pg); setTimeout(() => pg.remove(), 900);
+  }
+  // tapping a spine pulls the book off the shelf before it opens
+  document.addEventListener("click", e => {
+    const sp = e.target.closest("#bookcase .spine[data-open]"); if (!sp || reduceMotion || $("#bookcase")?.classList.contains("decorating") || sp.classList.contains("pulled")) return;
+    e.stopImmediatePropagation(); e.preventDefault(); sp.classList.add("pulled");
+    setTimeout(() => { openById(sp.dataset.open); setTimeout(() => sp.classList.remove("pulled"), 500); }, 260);
+  }, true);
 
   // ================= drag along or between shelves =================
   (() => {
@@ -3195,7 +3245,7 @@
   }
   function tdTick(i){
     const T = tandemBooks(); if (!T) return; const [A, B] = T, d = [...tdState(A)]; if (d[i] === "1") return; d[i] = "1";
-    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); bondAdd(2, "progress");
+    const was = [tdCount(tdState(A), "a"), tdCount(tdState(A), "b")]; tdApply(A, B, d.join("")); pageTurn(); bondAdd(2, "progress");
     const nd = tdState(A), nx = nd.indexOf("0"), [sd] = tdLabel(TANDEM.order[i]), now = tdCount(nd, sd);
     if (now >= TANDEM[sd].ch && was[sd === "a" ? 0 : 1] < TANDEM[sd].ch) toast(`That was the last chapter of ${TANDEM[sd].name}! Press “I finished it” to shelve it.`, 6000);
     else toast(nx < 0 ? "⚔ The whole tandem read is done. What a journey!" : `✓ Ticked. Up next: ${tdName(nx)}`, 4000);
@@ -3307,14 +3357,14 @@
       if (!(b.progressLog || []).some(x => x.c != null) && b.currentChapter) logProgress(b, b.currentPage || 0, b.currentChapter);
       b.chapters = tot; b.currentChapter = ch;
       if (b.pages) b.currentPage = Math.round(b.pages * ch / tot);
-      logProgress(b, b.currentPage || 0, ch); save(); render();
+      logProgress(b, b.currentPage || 0, ch); save(); render(); pageTurn(b.id);
       toast(ch >= tot ? "That was the last chapter! Press “I finished it” to shelve it." : `Chapter ${ch} of ${tot} done: ${Math.round(ch / tot * 1000) / 10}% read.`);
       return;
     }
     let page = parseInt(f.querySelector('[data-f="pg"]').value); if (isNaN(page) || page < 0) return toast("Type the page you're on.");
     if (b.pages && page > b.pages) page = b.pages;
     if (!(b.progressLog || []).length && b.currentPage) logProgress(b, b.currentPage);
-    b.currentPage = page; logProgress(b, page); save(); render(); bondAdd(2, "progress");
+    b.currentPage = page; logProgress(b, page); save(); render(); pageTurn(b.id); bondAdd(2, "progress");
     toast(b.pages && page >= b.pages ? "Last page! Press “I finished it” to shelve it." : `Page ${page} saved.`);
   });
   $("#now").addEventListener("click", e => { const r = e.target.closest("[data-readmode]"); if (r) startReading(r.dataset.readmode);
@@ -5754,7 +5804,7 @@ alter publication supabase_realtime add table public.library;`;
       const SEGS = [["friends", "♥", "Friends", friends.length || ""], ["activity", "📰", "Activity", nAct ? `<i class="segnew">${nAct > 9 ? "9+" : nAct}</i>` : ""], ["together", "📖", "Together", togetherOff ? "" : (buddies.length + clubs.length) || ""], ["find", "＋", "Find", outgoing.length ? `<i class="segnew soft">${outgoing.length}</i>` : ""]];
       const sorted = friends.slice().sort((a, b) => ((shelves.get(b.id)?.reading || []).length ? 1 : 0) - ((shelves.get(a.id)?.reading || []).length ? 1 : 0) || String(shelves.get(b.id)?.at || "").localeCompare(String(shelves.get(a.id)?.at || "")) || a.name.localeCompare(b.name));
       const part = {
-        friends: () => `${liveHTML()}<section class="fsec"><h3 class="fsech">Your friends${friends.length ? `<button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}<span class="fsacts">${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</span></h3>${state === "loading" && !friends.length ? `<div class="progress dots">Gathering your friends</div>` : friends.length ? `<div class="flist">${sorted.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle under <button type="button" class="linkbtn" data-fseg="find">＋ Find</button>, or send an invitation.</p>`}</section>`,
+        friends: () => `${liveHTML()}<section class="fsec"><h3 class="fsech">Your friends${friends.length ? `<button type="button" class="iconbtn frrefresh" data-frefresh title="Refresh friends' progress" aria-label="Refresh friends' progress">↻</button>` : ""}<span class="fsacts">${friends.length && !lettersOff ? `<button class="btn small fwrite" type="button" data-lwrite="">✉ Recommend</button>` : ""}${!visitsOff && s9visits.some(v => vnow() >= vEnd(v)) ? `<button class="btn small fwrite" type="button" data-valbum>📮 Postcards</button>` : ""}</span></h3>${state === "loading" && !friends.length ? `<div class="progress dots famload">${famMini("happy")}<span>Gathering your friends</span><i class="famstack" aria-hidden="true">📚</i></div>` : friends.length ? `<div class="flist">${sorted.map(friendCard).join("")}</div>` : `<p class="note">No friends yet. Find someone by name or @handle under <button type="button" class="linkbtn" data-fseg="find">＋ Find</button>, or send an invitation.</p>`}</section>`,
         activity: () => activityHTML(),
         together: () => `${togetherOff || !friends.length ? `<p class="note">${friends.length ? "Buddy reads and book clubs need the step 6 update in Supabase." : "Add a friend first, then read a book together or start a club."}</p>` : ""}${buddyHTML()}${clubsHTML()}
           ${!lettersOff && letters.some(l => l.read_at || l.sender === U().id) ? `<details class="fsec lbox"><summary><h3>Your letter box <span class="muted fcount">${letters.filter(l => l.recipient === U().id && l.read_at).length} received · ${letters.filter(l => l.sender === U().id).length} sent</span></h3></summary>
@@ -6800,7 +6850,7 @@ alter publication supabase_realtime add table public.library;`;
         <div class="authtop">${A?.img ? `<img class="authimg" src="${esc(A.img)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="authimg mono">${esc(name.split(/\s+/).map(w => w[0]).slice(0, 2).join(""))}</span>`}
           <div><h2 id="au-t">${esc(name)}</h2>${A?.desc ? `<div class="authdesc">${esc(cap(A.desc))}</div>` : ""}
             <dl class="authlife">${A?.born ? `<dt>Born</dt><dd>${esc(A.born)}${A.place ? `, ${esc(A.place)}` : ""}</dd>` : ""}${A?.died ? `<dt>Died</dt><dd>${esc(A.died)}${age ? ` (aged ${esc(age.replace(" years", ""))})` : ""}</dd>` : age ? `<dt>Age</dt><dd>${esc(age)}</dd>` : ""}${A?.country ? `<dt>Country</dt><dd>${esc(A.country)}</dd>` : ""}</dl></div></div>
-        ${loading ? `<div class="progress dots">Looking them up</div>` : A?.extract ? `<p class="authbio">${esc(A.extract)}</p>` : `<p class="note">I couldn't find a biography for ${esc(name)} right now.</p>`}
+        ${loading ? `<div class="progress dots famload">${famMini("happy")}<span>Looking them up</span><i class="famstack" aria-hidden="true">📚</i></div>` : A?.extract ? `<p class="authbio">${esc(A.extract)}</p>` : `<p class="note">I couldn't find a biography for ${esc(name)} right now.</p>`}
         <div class="label">On your shelves · ${st.mine.length} book${st.mine.length === 1 ? "" : "s"}${st.read.length ? ` · ${st.read.length} read` : ""}${st.avg ? ` · you rate them ${st.avg.toFixed(1)}★` : ""}${st.pages ? ` · ${st.pages.toLocaleString()} pages together` : ""}</div>
         <div class="authbooks">${st.mine.map(b => `<button type="button" class="authbook" data-open="${esc(b.id)}">${coverHTML(b)}<span>${esc(b.title)}</span>${b.rating ? `<small>${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</small>` : `<small>${esc(SHELVES[b.shelf] || "")}</small>`}</button>`).join("")}</div>
         ${A?.works?.length ? `<div class="label" style="margin-top:12px">Their best-known books</div><div class="authworks">${A.works.map(w => `<div class="authwork">${w.c ? coverHTML({ title: w.t, author: name, cover: w.c }) : coverHTML({ title: w.t, author: name })}<span>${esc(w.t)}${w.y ? ` <small>${w.y}</small>` : ""}</span>${inLibrary(w.t, name) ? `<small class="onshelf">On your shelf</small>` : `<button type="button" class="linkbtn" data-auwant="${esc(w.t)}" data-auc="${esc(w.c || "")}">+ Want to read</button>`}</div>`).join("")}</div>` : ""}
@@ -7658,7 +7708,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     for (const b of D.read) { const w = W8(b);
       if (gAny(b, "Romance", "Romantasy")) add("heart", w, "romance");
       if (gAny(b, "Young Adult", "Contemporary")) add("heart", w * .5, "stories about feelings");
-      if (feltAny(b, "Heartbroken", "Swooning", "Moved", "Cathartic", "Devastated", "Nostalgic")) add("heart", w, "books that made you feel deeply");
+      if (feltAny(b, "Heartbroken", "Swooning", "Moved", "Cathartic", "Devastated", "Nostalgic", "Grieving", "Touched", "Yearning", "Bittersweet", "Tender")) add("heart", w, "books that made you feel deeply");
       if (trAny(b, "Enemies to lovers", "Slow burn", "Found family", "Grief & healing")) add("heart", w * .6, "emotional tropes");
       if (gAny(b, "Nonfiction", "Classics", "Literary Fiction", "Science Fiction", "Memoir", "Self-help", "Historical Fiction", "Religion", "Business", "Psychology", "Philosophy", "Science", "History")) add("mind", w, "ideas, classics and nonfiction");
       if (feltAny(b, "Thoughtful", "Inspired")) add("mind", w, "books that made you think");
@@ -7718,7 +7768,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     const months = []; const now = new Date();
     for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1), key = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
       const list = D.read.filter(b => (b.finished || "").startsWith(key)); months.push({ label: MONTHS[d.getMonth()], n: list.length, g: list.length ? cnt(list, MAINGENRE)[0][0] : null }); }
-    const fl = recent.flatMap(b => b.feelings || []); const W = [["Stormy", "⛈", ["Heartbroken", "Devastated", "Angry", "Scared"], "Your recent reads have been emotionally stormy. Keep a blanket and tissues nearby."], ["Thunder and lightning", "⚡", ["Thrilled", "Shocked", "Obsessed"], "Electric, twisty, can't-put-it-down weather."], ["Rose-pink skies", "🌸", ["Swooning", "Hopeful"], "Swoony, hopeful skies. Love is in the forecast."], ["Cosy fireside", "🔥", ["Cozy", "Comforted", "Nostalgic"], "Warm, cosy, comfort-reading weather."], ["Sunny", "☀", ["Joyful", "Amused", "Empowered", "Inspired"], "Bright, uplifting, sunny reading."], ["Misty", "🌫", ["Thoughtful", "Moved", "Cathartic"], "Quiet, reflective, misty-morning reading."]];
+    const fl = recent.flatMap(b => b.feelings || []); const W = [["Stormy", "⛈", ["Heartbroken", "Devastated", "Angry", "Scared", "Grieving", "Disturbed", "Dreadful", "Vengeful", "Sorrowful"], "Your recent reads have been emotionally stormy. Keep a blanket and tissues nearby."], ["Thunder and lightning", "⚡", ["Thrilled", "Shocked", "Obsessed", "Mind-Blown", "On Edge", "Breathless", "Exhilarated", "Anxious"], "Electric, twisty, can't-put-it-down weather."], ["Rose-pink skies", "🌸", ["Swooning", "Hopeful", "Adored", "Yearning", "Tender"], "Swoony, hopeful skies. Love is in the forecast."], ["Cosy fireside", "🔥", ["Cozy", "Comforted", "Nostalgic", "Heartwarmed", "Content", "Peaceful"], "Warm, cosy, comfort-reading weather."], ["Sunny", "☀", ["Joyful", "Amused", "Empowered", "Inspired", "Delighted", "Enlightened"], "Bright, uplifting, sunny reading."], ["Misty", "🌫", ["Thoughtful", "Moved", "Cathartic", "Introspective", "Melancholic", "Dreamy", "Bittersweet"], "Quiet, reflective, misty-morning reading."]];
     const weather = fl.length ? W.map(w => [w, fl.filter(f => w[2].includes(f)).length]).sort((a, b) => b[1] - a[1])[0][0] : null;
     const byG = new Map(); rated(D.read).forEach(b => { const g = MAINGENRE(b); if (!byG.has(g)) byG.set(g, []); byG.get(g).push(b.rating); });
     const byT = new Map(); rated(D.read).forEach(b => (b.tropes || []).forEach(t => { if (!byT.has(t)) byT.set(t, []); byT.get(t).push(b.rating); }));
@@ -7768,7 +7818,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     ["Romance Lands", "💘", b => hasG(b, "Romance", "Romantasy")], ["Mystery Cities", "🔎", b => hasG(b, "Mystery")], ["Thriller Alleys", "🗝", b => hasG(b, "Thriller")], ["Dark Kingdoms", "🌑", b => hasG(b, "Horror") || hasT(b, "Gothic")],
     ["Future Worlds", "🚀", b => hasG(b, "Science Fiction")], ["Dystopian Wastes", "☢", b => hasG(b, "Dystopian") || hasT(b, "Dystopia")], ["Myth Mountains", "⚡", b => hasT(b, "Myth retelling", "Gods & goddesses")],
     ["Bygone Eras", "⏳", b => hasG(b, "Historical Fiction")], ["The Old Libraries", "📜", b => hasG(b, "Classics")], ["The Quiet Streets", "🖋", b => hasG(b, "Literary Fiction")], ["Present-Day Towns", "☕", b => hasG(b, "Contemporary")],
-    ["Coming-of-Age Coast", "🌟", b => hasG(b, "Young Adult")], ["Cozy Villages", "🌿", b => hasT(b, "Found family", "Small town") || hasF(b, "Cozy", "Comforted")], ["The War Fronts", "🎖", b => hasT(b, "War") || rxB(b, /\b(world war|wwii|battle of)\b/)],
+    ["Coming-of-Age Coast", "🌟", b => hasG(b, "Young Adult")], ["Cozy Villages", "🌿", b => hasT(b, "Found family", "Small town") || hasF(b, "Cozy", "Comforted", "Heartwarmed", "Content", "Peaceful")], ["The War Fronts", "🎖", b => hasT(b, "War") || rxB(b, /\b(world war|wwii|battle of)\b/)],
     ["The Sacred Halls", "🕯", b => ARCHETYPES.find(a => a.name === "The Faithful Pilgrim").t(b) > 0], ["The Market Towers", "🏛", b => hasG(b, "Business")], ["The Mind Palace", "🧠", b => hasG(b, "Psychology")], ["The Thinkers' Garden", "🦉", b => hasG(b, "Philosophy")],
     ["The Observatory", "🔭", b => hasG(b, "Science")], ["The Archive of Ages", "🗺", b => hasG(b, "History") && !hasG(b, "Historical Fiction")], ["Other People's Lives", "🪞", b => hasG(b, "Biography & Memoir", "Memoir")], ["Self-Growth Gardens", "🌱", b => hasG(b, "Self-help")],
     ["The Poets' Corner", "🪶", b => hasG(b, "Poetry")], ["Panel City", "💥", b => hasG(b, "Graphic Novel")], ["The Laughing Tavern", "😂", b => hasG(b, "Humor")], ["Storybook Lane", "🧸", b => hasG(b, "Children's")],
@@ -8541,7 +8591,13 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     await Promise.all(show.map((b, i) => drawCover(x, b, gx + (i % cols) * (w + 20), 680 + Math.floor(i / cols) * (h + 20), w, h)));
     let y = 680 + rows * (h + 20) + 70;
     if (topG) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("MY GENRE OF THE YEAR", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 50px ${F.d}`; x.fillText(topG[0], SC.W / 2, y + 60); y += 120; }
-    if (fav && y < SC.H - 260) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText("MY FAVOURITE", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; textBlock(x, `${fav.title} · ${fav.rating}★`, SC.W / 2, y + 58, SC.W - 200, 54, 2); }
+    if (fav && y < SC.H - 260) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.fillText("MY FAVOURITE", SC.W / 2, y); x.fillStyle = SC.cream; x.font = `italic 46px ${F.d}`; textBlock(x, `${fav.title} · ${fav.rating}★`, SC.W / 2, y + 58, SC.W - 200, 54, 2); y += 150; }
+    // how the year felt, as bands of colour, and who it made you
+    const fe = topN(list.flatMap(b2 => b2.feelings || []), 6);
+    if (fe.length && y < SC.H - 230) { const tot = fe.reduce((t, [, v]) => t + v, 0), bw = SC.W - 240; let fx = 120; x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("HOW IT FELT", SC.W / 2, y); x.save(); x.beginPath(); x.roundRect(120, y + 22, bw, 26, 13); x.clip();
+      fe.forEach(([f, v]) => { const w2 = bw * v / tot; x.fillStyle = feelLook(f).c; x.fillRect(fx, y + 22, w2 + 1, 26); fx += w2; }); x.restore();
+      x.font = `italic 30px ${F.d}`; x.fillStyle = SC.cream; x.fillText(fe.slice(0, 3).map(([f]) => f).join(" · "), SC.W / 2, y + 92); y += 140; }
+    try { const D = dnaFor(list); if (D[0] && D[0].score > 0 && y < SC.H - 200) { x.fillStyle = SC.muted; x.font = `600 24px ${F.c}`; x.textAlign = "center"; x.fillText("THIS YEAR I WAS", SC.W / 2, y); x.fillStyle = SC.gold; x.font = `italic 50px ${F.d}`; x.fillText(hybridName(D[0], D[1] && D[1].score > .12 ? D[1] : null), SC.W / 2, y + 60); } } catch {}
     scFooter(x, F);
   }
   async function cardSession(x, F){
@@ -8572,7 +8628,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (!CARDS[kind]) return;
     document.getElementById("share-ov")?.remove();
     const ov = document.createElement("div"); ov.id = "share-ov"; ov.className = "shareov";
-    ov.innerHTML = `<div class="sharebox" role="dialog" aria-modal="true" aria-label="Share card"><div class="sharehead"><b>${esc(CARDS[kind][0])}</b><button class="iconbtn" type="button" data-sh="close" aria-label="Close">✕</button></div><div class="sharepre"><div class="progress dots">Painting your card</div></div><div class="sharebtns" hidden><button class="btn primary" type="button" data-sh="share">⤴ Share</button><button class="btn" type="button" data-sh="save">⤓ Save image</button></div><p class="note sharenote">Sized for Instagram and WhatsApp stories.</p></div>`;
+    ov.innerHTML = `<div class="sharebox" role="dialog" aria-modal="true" aria-label="Share card"><div class="sharehead"><b>${esc(CARDS[kind][0])}</b><button class="iconbtn" type="button" data-sh="close" aria-label="Close">✕</button></div><div class="sharepre"><div class="progress dots famload">${famMini("happy")}<span>Painting your card</span><i class="famstack" aria-hidden="true">📚</i></div></div><div class="sharebtns" hidden><button class="btn primary" type="button" data-sh="share">⤴ Share</button><button class="btn" type="button" data-sh="save">⤓ Save image</button></div><p class="note sharenote">Sized for Instagram and WhatsApp stories.</p></div>`;
     document.body.append(ov);
     let canvas, blob, url;
     const close = () => { ov.remove(); if (url) URL.revokeObjectURL(url); };
@@ -8843,7 +8899,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
   async function foundISBN(isbn){
     const res = $("#scan-res"), view = $("#scan-view"); if (!res) return;
     if (view) view.hidden = true; res.hidden = false;
-    res.innerHTML = `<div class="progress dots">Looking up ${esc(isbn)}</div>`;
+    res.innerHTML = `<div class="progress dots famload">${famMini("happy")}<span>Looking up ${esc(isbn)}</span><i class="famstack" aria-hidden="true">📚</i></div>`;
     let r = null;
     try { r = (await olSearch({ isbn }, 1))[0] || null; } catch {}
     if (!r) { try { const d = await olJSON(`${OL}/isbn/${isbn}.json`); if (d && d.title) { let author = ""; try { const ak = d.authors?.[0]?.key; if (ak) author = (await olJSON(`${OL}${ak}.json`)).name || ""; } catch {} r = { title: d.title, author, pages: d.number_of_pages || null, olKey: d.works?.[0]?.key || null, coverId: d.covers?.[0] || null, cover: d.covers?.[0] ? coverById(d.covers[0]) : "", year: +(String(d.publish_date || "").match(/\d{4}/) || [0])[0] || null, genres: [], subjects: [] }; } } catch {} }
@@ -8951,8 +9007,21 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.15";
+  const APP_VERSION = "4.17";
   const CHANGELOG = [
+    ["4.17", "13 Nov 2026", "A nook that feels alive", [
+      "Your bookcase follows your day: soft morning light, golden evenings and a lamp glowing at night. Its planks follow the season, with snow in winter and leaves in autumn",
+      "Every book's window takes its colour from the cover",
+      "Finishing a book is a moment now: it closes, sparkles, and your companion cheers",
+      "A page turns when you update your progress or tick a tandem chapter, and tapping a spine pulls the book off the shelf",
+      "Your companion keeps you company while things load, and naps on an empty shelf",
+      "Your year card now shows how the year felt, in colour, and which reader it made you",
+      "A tidy-up across the app: buttons the same size, matching cards and clearer focus outlines"]],
+    ["4.16", "11 Nov 2026", "64 ways a book can make you feel", [
+      "Feelings grew from 20 to 64, in eight families: Joy, Excitement, Sadness, Wonder, Reflection, Darkness, Longing and Complex",
+      "Only one family is open at a time, with a count of how many you picked in each, so it never turns into a wall of chips",
+      "What you've picked sits on top; tap one to take it away",
+      "All your earlier feelings are still there and still count in your stats"]],
     ["4.15", "11 Nov 2026", "Your books, in your language", [
       "Open any book and tap 🌐 Other languages: see every language it's been published in, with each edition's title and cover",
       "Pick one to show the book under that title (say “Lie with Me” instead of “Arrête avec tes mensonges”), with that edition's cover and, when there is one, a description in that language",
