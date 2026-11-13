@@ -1223,6 +1223,7 @@
     for (let k = 0; k < 2; k++) for (let j = 1; j < 12; j++) { const x = j / 12; dots += `<i style="left:${(k * 50 + x * 50).toFixed(2)}%;top:${(6 + 24 * Math.sin(Math.PI * x)).toFixed(1)}px;animation-delay:${((k * 12 + j) * .37) % 3}s"></i>`; }
     top.insertAdjacentHTML("afterbegin", `<div class="garland" aria-hidden="true"><svg viewBox="0 0 100 34" preserveAspectRatio="none"><path d="M0 6Q25 54 50 6Q75 54 100 6" vector-effect="non-scaling-stroke"/></svg>${dots}</div>`);
     document.querySelectorAll("#case-theme [data-case]").forEach(x => x.setAttribute("aria-pressed", x.dataset.case === caseTheme));
+    try { paintSpineStyle(); } catch {}
   }
   function arrangeList(list, shelf){
     const by = {
@@ -1269,7 +1270,11 @@
     botanical: [["#1F3A5F", 214], ["#7A1E22", 358], ["#B8742A", 30], ["#1F5A44", 158], ["#C9963A", 42], ["#3A4048", 210], ["#2E4A2E", 120], ["#4A2A4A", 300], ["#2B5C6B", 192]],
     storybook: [["#5FA8A0", 174], ["#9AB89A", 120], ["#E9A07A", 22], ["#B9A0CF", 272], ["#EFE0BC", 48], ["#DC8FA0", 346], ["#E3B65E", 40], ["#6F9AB0", 202], ["#E07E4A", 16], ["#A7D3C0", 156], ["#C7799A", 330]],
   };
-  const isStyled = () => !!SPINE_PAL[effCase()];
+  const KEY_SPSTY = "reading-ledger-spinestyle", KEY_FLAT = "reading-ledger-flatstacks";
+  let spineStyle = lsGet(KEY_SPSTY, "theme"), flatOn = lsGet(KEY_FLAT, true);
+  const spineStyleNow = () => spineStyle === "theme" ? (SPINE_PAL[effCase()] ? effCase() : "classic") : (SPINE_PAL[spineStyle] || spineStyle === "classic" ? spineStyle : "classic");
+  const isStyled = () => !!SPINE_PAL[spineStyleNow()];
+  function paintSpineStyle(){ document.querySelectorAll("#spinestyle-chips [data-sps]").forEach(x => x.setAttribute("aria-pressed", x.dataset.sps === spineStyle)); const f = $("#flat-toggle"); if (f) f.checked = !!flatOn; const bc = $("#bookcase"); if (bc) bc.dataset.spines = spineStyleNow(); }
   function styledColor(b, st){
     if (spineMode === "individual" && b.spineCustom) return customTone(b.spineCustom);
     const base = spineColorOf(b), [hh, ss] = hexToHsl(base), P = SPINE_PAL[st], hue = ss < .1 ? (st === "storybook" ? 48 : 230) : hh * 360;
@@ -1324,9 +1329,9 @@
     return `<svg class="spart" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true">${o}</svg>`;
   }
   function styledSpine(b, i, flat){
-    const st = effCase(), p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
+    const st = spineStyleNow(), p = Number(b.pages) || 300, t = Math.min(1, Math.max(0, (p - 120) / 880));
     const w0 = Math.round(22 + 34 * Math.min(1, p / 1000)), h0 = Math.round(150 + 52 * t + (hashNum(b.title, 7) - 3));
-    const c = styledColor(b, st), lite = lum(c) > .3, loved = b.shelf === "read" && b.rating >= 4.5;
+    const c = st === "classic" ? spineColorOf(b) : styledColor(b, st), lite = lum(c) > (st === "classic" ? .19 : .3), loved = b.shelf === "read" && b.rating >= 4.5;
     const title = String(b.title || "").replace(/\s*[:(].*$/, "") || b.title || "";
     const tip = `${b.title} — ${b.author}${b.pages ? " · " + b.pages + " pages" : ""}${b.rating ? " · " + b.rating + "★" : ""}`;
     const stars = b.shelf === "read" && b.rating ? `<i class="st">${"★".repeat(Math.floor(b.rating))}${b.rating % 1 ? "½" : ""}</i>` : "";
@@ -1452,7 +1457,8 @@
   }
   function trinketHTML(t, k){
     const f = TRINKETS[t.k]; if (!f) return "";
-    let h = f().replace('<div class="trinket"', `<div class="trinket" data-tid="${t.id}" data-tshelf="${k}"${decorating ? ` draggable="true" title="${esc(TRINKET_NAMES[t.k] || t.k)}: drag to move"` : ""}`);
+    let h = f().replace('<div class="trinket"', `<div class="trinket" data-tk="${esc(t.k)}" data-tid="${t.id}" data-tshelf="${k}"${decorating ? ` draggable="true" title="${esc(TRINKET_NAMES[t.k] || t.k)}: drag to move"` : ""}`);
+    if (["teacup", "cocoa", "teapot", "lemonade"].includes(t.k) && t.k !== "lemonade") { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<i class="tsteam" aria-hidden="true"><b></b><b></b><b></b></i>` + h.slice(i); }
     if (decorating) { const i = h.lastIndexOf("</div>"); h = h.slice(0, i) + `<button class="tdel" type="button" data-tdel="${t.id}" data-tshelf="${k}" aria-label="Remove ${esc(TRINKET_NAMES[t.k] || "trinket")}">✕</button>` + h.slice(i); }
     return h;
   }
@@ -1472,7 +1478,7 @@
     const { by, lists } = shelfLists();
     const words = { reading: "Drag a book here when you start it.", read: "Finished books rest here.", want: "Books you dream of reading wait here." };
     const lay = decor || autoLayout(lists);
-    $("#bookcase").classList.toggle("decorating", decorating);
+    $("#bookcase").classList.toggle("decorating", decorating); $("#bookcase").dataset.spines = spineStyleNow();
     ["reading", "read", "want"].forEach(k => {
       const el = $("#shelf-" + k), list = lists[k], mine = lay[k] || [], ids = new Set(list.map(b => b.id));
       $("#plaque-" + k).textContent = `${k === "reading" ? "Currently reading" : SHELVES[k]} · ${by[k].length}`;
@@ -1481,7 +1487,7 @@
       const at = a => mine.filter(t => t.after === a).map(tag).join("");
       const items = [slot("^"), at("^")];
       if (!list.length) items.push(`<div class="emptyshelf">${k === Object.keys(lists).find(q => !lists[q].length) ? famMini("sleepy") : ""}<span>${words[k]}</span></div>`);
-      const plan = isStyled() ? stackPlan(list) : new Map();
+      const plan = flatOn ? stackPlan(list) : new Map();
       for (let i = 0; i < list.length; i++) {
         const n = plan.get(i);
         if (n) { const grp = list.slice(i, i + n); items.push(`<div class="flatstack">${grp.map((b, j) => styledSpine(b, i + j, true)).join("")}</div>`); grp.forEach(b => items.push(at(b.id), slot(b.id))); i += n - 1; continue; }
@@ -1530,6 +1536,35 @@
     const want = "case-" + (["autumn", "winter", "spring", "summer"].includes(se) ? se : base);
     document.body.classList.forEach(c => { if (c.startsWith("case-") && c !== want) document.body.classList.remove(c); }); document.body.classList.add(want);
   }
+  // trinkets answer a tap, and every so often something small visits the shelf
+  document.addEventListener("click", e => {
+    const tr = e.target.closest("#bookcase .trinket"); if (!tr || $("#bookcase")?.classList.contains("decorating") || e.target.closest(".tdel")) return;
+    tr.classList.remove("poke", "flare"); void tr.offsetWidth; tr.classList.add("poke"); if (tr.querySelector(".flame")) tr.classList.add("flare");
+    if (!reduceMotion) { const r = tr.getBoundingClientRect(), bc = $("#bookcase").getBoundingClientRect();
+      for (let i = 0; i < 6; i++) { const sp = document.createElement("i"); sp.className = "tspark"; sp.textContent = i % 2 ? "✦" : "·"; sp.style.cssText = `left:${r.left - bc.left + r.width / 2}px;top:${r.top - bc.top + r.height * .3}px;--dx:${(Math.cos(i * 1.05) * 26).toFixed(0)}px;--dy:${(-14 - Math.abs(Math.sin(i * 1.05)) * 22).toFixed(0)}px`; $("#bookcase").append(sp); setTimeout(() => sp.remove(), 900); } }
+    setTimeout(() => tr.classList.remove("poke", "flare"), 1600);
+  });
+  let visitorAt = 0;
+  function shelfVisitor(force){
+    const bc = $("#bookcase"); if (!bc || reduceMotion || document.hidden || bc.querySelector(".visitor") || bc.classList.contains("decorating")) return;
+    const r = bc.getBoundingClientRect(); if (r.bottom < 80 || r.top > innerHeight - 80 || !bc.offsetParent) return;
+    if (!force && (Date.now() - visitorAt < 45e3 || Math.random() > .5)) return; visitorAt = Date.now();
+    const tod = bc.dataset.tod, sp = bc.dataset.spines, cs = bc.dataset.case;
+    if (cs === "gothic" || sp === "gothic" && Math.random() < .5) {
+      for (let i = 0; i < 7; i++) { const p = document.createElement("i"); p.className = "visitor petal"; p.style.cssText = `left:${(i % 2 ? 78 + Math.random() * 16 : 2 + Math.random() * 16).toFixed(0)}%;top:${(4 + Math.random() * 30).toFixed(0)}%;animation-delay:${(i * .55).toFixed(2)}s;--sx:${(i % 2 ? -1 : 1) * (20 + Math.random() * 40)}px;--c:${["#E23C9A", "#F06AB4", "#C9257E"][i % 3]}`; bc.append(p); setTimeout(() => p.remove(), 8000 + i * 600); }
+      return;
+    }
+    const night = tod === "night" || cs === "witch" || cs === "observatory", v = document.createElement("button");
+    v.type = "button"; v.className = "visitor " + (night ? "moth" : "butterfly"); v.setAttribute("aria-label", night ? "A little moth" : "A butterfly");
+    const wc = night ? ["#E8DCC4", "#C8B8A0"] : [["#F2A6A0", "#E8763A"], ["#8FC0E8", "#4A7AB8"], ["#F4D06A", "#D89A2A"], ["#C8A0E8", "#8A5CC2"]][Math.floor(Math.random() * 4)];
+    v.innerHTML = `<svg viewBox="0 0 30 24" width="30" height="24" aria-hidden="true"><g class="wl"><path d="M15 12C10 2 2 1 2 8c0 5 6 6 13 4Z" fill="${wc[0]}"/><path d="M15 13C9 15 5 22 9 22c3 0 5-4 6-9Z" fill="${wc[1]}"/></g><g class="wr"><path d="M15 12C20 2 28 1 28 8c0 5-6 6-13 4Z" fill="${wc[0]}"/><path d="M15 13C21 15 25 22 21 22c-3 0-5-4-6-9Z" fill="${wc[1]}"/></g><path d="M15 6v14" stroke="#3A2A1E" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+    v.style.setProperty("--y0", `${(15 + Math.random() * 45).toFixed(0)}%`); v.style.setProperty("--y1", `${(10 + Math.random() * 55).toFixed(0)}%`);
+    if (Math.random() < .5) v.classList.add("rtl");
+    v.addEventListener("click", ev => { ev.stopPropagation(); v.classList.add("shoo"); setTimeout(() => v.remove(), 700); });
+    bc.append(v); setTimeout(() => v.remove(), 16000);
+  }
+  setInterval(() => { try { shelfVisitor(); } catch {} }, 15e3);
+  document.addEventListener("click", e => { if (e.target.closest('#mtabbar [data-mtab="shelf"]')) setTimeout(() => { try { if (Date.now() - visitorAt > 90e3) shelfVisitor(true); } catch {} }, 6000); });
   function famMini(expr = "happy"){ let w = [], k = "cat"; try { k = familiar; } catch { return ""; } try { w = wornNow(k); } catch {} try { return `<span class="fammini" data-fam="${esc(k)}" data-expr="${expr}" aria-hidden="true">${(() => { try { return A3APP.art(k, w, expr); } catch { return A3APP.art(k, w, "neutral"); } })()}</span>`; } catch { return ""; } }
   addEventListener("load", () => setTimeout(() => { if (document.querySelector(".emptyshelf:not(:has(.fammini))")) try { renderShelf(); } catch {} }, 300));
   paintCaseLight(); setInterval(paintCaseLight, 5 * 60e3); document.addEventListener("visibilitychange", () => { if (!document.hidden) paintCaseLight(); });
@@ -3492,6 +3527,9 @@
   });
   $("#now").addEventListener("click", e => { const f = e.target.closest("[data-finish]"); if (f) { const b = books.find(x => x.id === f.dataset.finish); if (b) openEditor(b, false, { moveTo: "read" }); } });
 
+  $("#spinestyle-chips").addEventListener("click", e => { const c = e.target.closest("[data-sps]"); if (!c) return; spineStyle = c.dataset.sps; lsSet(KEY_SPSTY, spineStyle); paintSpineStyle(); renderShelf(); });
+  $("#flat-toggle").addEventListener("change", e => { flatOn = e.target.checked; lsSet(KEY_FLAT, flatOn); renderShelf(); });
+  paintSpineStyle();
   function paintArrange(){ document.querySelectorAll("#arrange-chips [data-arr]").forEach(x => x.setAttribute("aria-pressed", x.dataset.arr === arrangeBy)); }
   paintArrange();
   paintShelfMax();
@@ -9120,8 +9158,18 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     if (k === "start") { const b = books.find(x => x.id === a.dataset.id); if (!b) return; b.shelf = "reading"; b.started = todayISO(); b.currentPage = 0; save(); render(); this.remove(); toast(`${b.title} is on your Currently reading shelf. Enjoy!`); setTimeout(() => $("#now")?.scrollIntoView({ behavior: "smooth", block: "center" }), 200); }
   }
   // ================= version & what's new =================
-  const APP_VERSION = "4.18";
+  const APP_VERSION = "4.19.1";
   const CHANGELOG = [
+    ["4.19.1", "13 Nov 2026", "Spine styles, where you'd look for them", [
+      "The spine style choices now sit in the Spines tab, above Spine colours, instead of hiding under Order",
+      "Changing the spine style or the flat piles can be undone like any other shelf change"]],
+    ["4.19", "13 Nov 2026", "Any spines, any bookcase", [
+      "Pick your spines separately from your bookcase: Classic, Gothic leather, Botanical or Storybook, in any theme. “Match the theme” keeps them paired",
+      "Books lying flat in little piles now work with every spine style, and you can switch them off",
+      "Cozier shelves: wood grain on the back and planks, soft shadows behind every book, spines that look round and worn, and little cloth headbands on the painted ones",
+      "Tap a trinket and it answers: candles flare, plants wiggle, everything sparkles. Tea and cocoa now steam",
+      "Now and then a visitor drops by: a butterfly in the daytime, a moth at night, orchid petals drifting down in the Gothic library. Tap them to shoo them away",
+      "Find it all under Decorate shelves → Spines"]],
     ["4.18", "13 Nov 2026", "Three cozy new bookcases", [
       "Gothic library: wine and black leather spines with gold tooling, cascading pink orchids, gilded frames and gold filigree",
       "Botanical study: jewel-toned spines, each with its own painted flower, on warm walnut shelves",
@@ -10191,7 +10239,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     panel.classList.add("tabbed"); show(cur);
   })();
   // ================= undo for the bookcase: step back through shelf changes =================
-  const UNDO_KEYS = ["reading-ledger-decor", "reading-ledger-arrange", "reading-ledger-case", "reading-ledger-casedesign", "reading-ledger-lights", "reading-ledger-plank", "reading-ledger-shelfmax", "reading-ledger-spines"];
+  const UNDO_KEYS = ["reading-ledger-spinestyle", "reading-ledger-flatstacks", "reading-ledger-decor", "reading-ledger-arrange", "reading-ledger-case", "reading-ledger-casedesign", "reading-ledger-lights", "reading-ledger-plank", "reading-ledger-shelfmax", "reading-ledger-spines"];
   const undoStack = []; let undoCur = null, undoBusy = false, undoT = null;
   const shelfSig = () => books.map(b => `${b.id}:${b.shelf}:${b.order ?? ""}:${b.onShelf ? 1 : 0}:${b.spineCustom || ""}`).join("|") + "#" + UNDO_KEYS.map(k => localStorage.getItem(k) || "").join("#");
   const takeShelf = () => ({ sig: shelfSig(), books: JSON.stringify(books), keys: Object.fromEntries(UNDO_KEYS.map(k => [k, localStorage.getItem(k)])) });
@@ -10225,7 +10273,7 @@ el.innerHTML = head + packHTML + cardsHeader() + `<div class="panel charadd"><h2
     try {
       books = JSON.parse(st.books);
       for (const k of UNDO_KEYS) { if (st.keys[k] == null) localStorage.removeItem(k); else localStorage.setItem(k, st.keys[k]); }
-      decor = lsGet(KEY_DECOR, null); arrangeBy = lsGet(KEY_ARR, "date"); caseTheme = lsGet(KEY_CASE, "library"); if (!CASES[caseTheme]) caseTheme = "library";
+      decor = lsGet(KEY_DECOR, null); arrangeBy = lsGet(KEY_ARR, "date"); spineStyle = lsGet(KEY_SPSTY, "theme"); flatOn = lsGet(KEY_FLAT, true); caseTheme = lsGet(KEY_CASE, "library"); if (!CASES[caseTheme]) caseTheme = "library";
       shelfMax = lsGet("reading-ledger-shelfmax", "auto"); spineMode = lsGet(KEY_SPINE, "genre");
       try { caseDesign = lsGet(KEY_DESIGN, "arch"); lightStyle = lsGet(KEY_LIGHTS, "theme"); plank = lsGet(KEY_PLANK, plank); } catch {}
       save(); decorateCase(); paintArrange(); paintShelfMax(); paintSpineMode(); paintSpineNote();
